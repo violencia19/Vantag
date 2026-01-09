@@ -41,7 +41,9 @@
       "Bash(timeout:*)",
       "Bash(ping:*)",
       "Bash(powershell -Command:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: complete global localization and premium splash architecture\n\n- Add full i18n support with 480+ translation keys \\(EN/TR\\)\n- Implement LaserSplashScreen with animated V logo\n- Fix all localization type mismatches and missing keys\n- Update widget files with AppLocalizations integration\n- Add missing ARB keys: nameRequired, amountHint, updateDecision, etc.\n- Fix EmptyState.reports\\(\\) message parameter\n- Update test file with localeProvider requirement\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)"
     ]
   }
 }
