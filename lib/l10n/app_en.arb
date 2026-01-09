@@ -1,0 +1,941 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Vantag",
+  "appSlogan": "Your Financial Edge",
+
+  "navExpenses": "Expenses",
+  "navReports": "Reports",
+  "navAchievements": "Achievements",
+  "navProfile": "Profile",
+
+  "dashboard": "Dashboard",
+  "totalBalance": "Total Balance",
+  "monthlyIncome": "Monthly Income",
+  "totalIncome": "Total Income",
+  "totalSpent": "Total Spent",
+  "totalSaved": "Total Saved",
+  "workHours": "Work Hours",
+  "workDays": "Work Days",
+
+  "expenses": "Expenses",
+  "addExpense": "Add Expense",
+  "amount": "Amount",
+  "amountTL": "Amount (₺)",
+  "category": "Category",
+  "description": "Description",
+  "descriptionHint": "e.g: Migros, Spotify, Shell...",
+  "descriptionLabel": "Description (Store/Product)",
+  "date": "Date",
+  "today": "Today",
+
+  "weekdayMon": "Mon",
+  "weekdayTue": "Tue",
+  "weekdayWed": "Wed",
+  "weekdayThu": "Thu",
+  "weekdayFri": "Fri",
+  "weekdaySat": "Sat",
+  "weekdaySun": "Sun",
+
+  "monthJan": "January",
+  "monthFeb": "February",
+  "monthMar": "March",
+  "monthApr": "April",
+  "monthMay": "May",
+  "monthJun": "June",
+  "monthJul": "July",
+  "monthAug": "August",
+  "monthSep": "September",
+  "monthOct": "October",
+  "monthNov": "November",
+  "monthDec": "December",
+  "yesterday": "Yesterday",
+  "twoDaysAgo": "2 Days Ago",
+  "daysAgo": "{count} Days Ago",
+  "@daysAgo": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "bought": "Bought",
+  "thinking": "Thinking",
+  "passed": "Passed",
+  "cancel": "Cancel",
+  "save": "Save",
+  "delete": "Delete",
+  "edit": "Edit",
+  "close": "Close",
+  "update": "Update",
+  "calculate": "Calculate",
+  "giveUp": "Give Up",
+  "select": "Select",
+
+  "hoursRequired": "{hours} hours",
+  "@hoursRequired": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "daysRequired": "{days} days",
+  "@daysRequired": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "minutesRequired": "{minutes} minutes",
+  "@minutesRequired": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "hoursEquivalent": "{hours} hours equivalent",
+  "@hoursEquivalent": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+
+  "profile": "Profile",
+  "editProfile": "Edit Profile",
+  "settings": "Settings",
+  "language": "Language",
+  "selectLanguage": "Select Language",
+  "turkish": "Turkish",
+  "english": "English",
+
+  "incomeInfo": "Income Information",
+  "dailyWorkHours": "Daily Work Hours",
+  "weeklyWorkDays": "Weekly Work Days",
+  "workingDaysPerWeek": "Working {count} days per week",
+  "@workingDaysPerWeek": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "hours": "hours",
+  "incomeSources": "{count} sources",
+  "@incomeSources": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "detailedEntry": "Detailed Entry",
+
+  "googleAccount": "Google Account",
+  "googleLinked": "Google Linked",
+  "linkWithGoogle": "Link with Google",
+  "linking": "Linking...",
+  "backupAndSecure": "Backup and secure your data",
+  "googleLinkedSuccess": "Google account linked successfully!",
+
+  "welcome": "Welcome",
+  "welcomeSubtitle": "Enter your information to measure expenses in time",
+  "getStarted": "Get Started",
+
+  "offlineMode": "Offline mode - Data will be synced",
+
+  "reports": "Reports",
+  "monthlyReport": "Monthly Report",
+  "categoryReport": "Category Report",
+  "thisMonth": "This Month",
+  "lastMonth": "Last Month",
+  "thisWeek": "This Week",
+  "allTime": "All Time",
+
+  "achievements": "Achievements",
+  "badges": "Badges",
+  "progress": "Progress",
+  "unlocked": "Unlocked",
+  "locked": "Locked",
+
+  "streak": "Streak",
+  "currentStreak": "Current Streak",
+  "bestStreak": "Best Streak",
+  "streakDays": "{count} days",
+  "@streakDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "subscriptions": "Subscriptions",
+  "subscriptionsDescription": "Track your recurring subscriptions like Netflix, Spotify here.",
+  "addSubscription": "Add Subscription",
+  "monthlyTotal": "Monthly Total",
+  "yearlyTotal": "Yearly Total",
+  "nextPayment": "Next Payment",
+  "renewalWarning": "Renewal in {days} days",
+  "@renewalWarning": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "activeSubscriptions": "{count} active subscriptions",
+  "@activeSubscriptions": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "monthlySubscriptions": "Monthly Subscriptions",
+
+  "habitCalculator": "Habit Calculator",
+  "selectHabit": "Select a Habit",
+  "enterAmount": "Enter Amount",
+  "dailyAmount": "Daily Amount",
+  "yearlyCost": "Yearly Cost",
+  "workDaysEquivalent": "Work Days Equivalent",
+  "shareResult": "Share Result",
+  "habitQuestion": "How many days does your habit cost?",
+  "calculateAndShock": "Calculate and be shocked →",
+
+  "appTour": "App Tour",
+  "repeatTour": "Repeat App Tour",
+  "tourCompleted": "Tour Completed",
+
+  "notifications": "Notifications",
+  "notificationSettings": "Notification Settings",
+  "streakReminder": "Streak Reminder",
+  "weeklyInsights": "Weekly Insights",
+
+  "error": "Error",
+  "success": "Success",
+  "warning": "Warning",
+  "info": "Info",
+  "retry": "Retry",
+  "loading": "Loading...",
+
+  "noData": "No data available",
+  "noExpenses": "No expenses yet",
+  "noExpensesHint": "Enter an amount above to start",
+  "noAchievements": "No achievements yet",
+  "recordToEarnBadge": "Record expenses to earn badges",
+  "notEnoughDataForReports": "Not enough data for reports",
+
+  "confirmDelete": "Are you sure you want to delete?",
+  "deleteConfirmation": "This action cannot be undone.",
+
+  "categoryFood": "Food",
+  "categoryTransport": "Transport",
+  "categoryEntertainment": "Entertainment",
+  "categoryShopping": "Shopping",
+  "categoryBills": "Bills",
+  "categoryHealth": "Health",
+  "categoryEducation": "Education",
+  "categoryDigital": "Digital",
+  "categoryOther": "Other",
+
+  "shareTitle": "Check out my savings with Vantag!",
+  "shareMessage": "I saved {amount} TL this month with Vantag!",
+  "@shareMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "currencyRates": "Currency Rates",
+  "currencyRatesDescription": "Current USD, EUR and gold prices. Tap for details.",
+  "gold": "Gold",
+  "dollar": "Dollar",
+  "euro": "Euro",
+
+  "moneySavedInPocket": "Money stayed in your pocket!",
+  "greatDecision": "Great decision!",
+  "freedomCloser": "Money stayed in pocket, you're {hours} closer to freedom!",
+  "@freedomCloser": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+
+  "version": "Version",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service",
+  "about": "About",
+  "signOut": "Sign Out",
+  "deleteAccount": "Delete Account",
+
+  "greetingMorning": "Good morning",
+  "greetingAfternoon": "Good afternoon",
+  "greetingEvening": "Good evening",
+
+  "financialStatus": "Financial Status",
+  "financialSummary": "Financial Summary",
+  "financialSummaryDescription": "Your monthly income, expenses and saved money here. All data updates in real-time.",
+
+  "newExpense": "New Expense",
+  "expenseHistory": "History",
+  "recordCount": "{count} records",
+  "@recordCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "streakTracking": "Streak Tracking",
+  "streakTrackingDescription": "Your streak increases with daily entries. Regular tracking is key to mindful spending!",
+
+  "pastDateSelection": "Past Date Selection",
+  "pastDateSelectionDescription": "You can also enter expenses from yesterday or previous days. Tap the calendar icon to select any date.",
+
+  "amountEntry": "Amount Entry",
+  "amountEntryDescription": "Enter the expense amount here. Use the receipt scan button to read from receipt automatically.",
+
+  "smartMatching": "Smart Matching",
+  "smartMatchingDescription": "Type the store or product name. Migros, A101, Starbucks... The app will automatically suggest a category!",
+
+  "categorySelection": "Category Selection",
+  "categorySelectionDescription": "If smart matching doesn't find it or you want to change, you can manually select here.",
+
+  "selectCategory": "Select category",
+  "autoSelected": "Auto-selected: {category}",
+  "@autoSelected": {
+    "placeholders": {
+      "category": {"type": "String"}
+    }
+  },
+  "pleaseSelectCategory": "Please select a category for this expense",
+
+  "subCategoryOptional": "Sub-category (optional)",
+  "recentlyUsed": "Recently used",
+  "suggestions": "Suggestions",
+
+  "scanReceipt": "Scan receipt",
+  "cameraCapture": "Capture with camera",
+  "selectFromGallery": "Select from gallery",
+  "amountFound": "Amount found: {amount} ₺",
+  "@amountFound": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "amountNotFound": "Amount not found. Enter manually.",
+  "scanError": "Scan error. Try again.",
+
+  "selectExpenseDate": "Select Expense Date",
+
+  "decisionUpdatedBought": "Decision updated: Bought",
+  "decisionSaved": "You passed, saved {amount} TL!",
+  "@decisionSaved": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "keepThinking": "Keep thinking",
+
+  "expenseUpdated": "Expense updated",
+
+  "validationEnterAmount": "Please enter a valid amount",
+  "validationAmountPositive": "Amount must be greater than 0",
+  "validationAmountTooHigh": "Amount seems too high",
+
+  "simulationSaved": "Saved as Simulation",
+  "simulationDescription": "This amount was saved as simulation because it's large.",
+  "simulationInfo": "Does not affect your statistics, just for reference.",
+  "understood": "Got it",
+
+  "monthJanuary": "January",
+  "monthFebruary": "February",
+  "monthMarch": "March",
+  "monthApril": "April",
+  "monthMay": "May",
+  "monthJune": "June",
+  "monthJuly": "July",
+  "monthAugust": "August",
+  "monthSeptember": "September",
+  "monthOctober": "October",
+  "monthNovember": "November",
+  "monthDecember": "December",
+
+  "categoryDistribution": "Category Distribution",
+  "moreCategories": "+{count} more categories",
+  "@moreCategories": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "expenseCount": "Expense Count",
+  "boughtPassed": "{bought} bought, {passed} passed",
+  "@boughtPassed": {
+    "placeholders": {
+      "bought": {"type": "int"},
+      "passed": {"type": "int"}
+    }
+  },
+
+  "passRate": "Pass Rate",
+  "doingGreat": "You're doing great!",
+  "canDoBetter": "You can do better",
+
+  "statistics": "Statistics",
+  "avgDailyExpense": "Average Daily Expense",
+  "highestSingleExpense": "Highest Single Expense",
+  "mostDeclinedCategory": "Most Declined Category",
+  "times": "{count} times",
+  "@times": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "trend": "Trend",
+  "trendSpentThisPeriod": "You spent {amount} TL this {period}",
+  "@trendSpentThisPeriod": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "period": {"type": "String"}
+    }
+  },
+  "trendSameAsPrevious": "Same spending as last {period}",
+  "@trendSameAsPrevious": {
+    "placeholders": {
+      "period": {"type": "String"}
+    }
+  },
+  "trendSpentLess": "You spent {percent}% less than last {period}",
+  "@trendSpentLess": {
+    "placeholders": {
+      "percent": {"type": "String"},
+      "period": {"type": "String"}
+    }
+  },
+  "trendSpentMore": "You spent {percent}% more than last {period}",
+  "@trendSpentMore": {
+    "placeholders": {
+      "percent": {"type": "String"},
+      "period": {"type": "String"}
+    }
+  },
+  "periodWeek": "week",
+  "periodMonth": "month",
+
+  "subCategoryDetail": "Sub-Category Detail",
+  "comparedToPrevious": "Compared to previous period",
+  "increased": "increased",
+  "decreased": "decreased",
+  "subCategoryChange": "This {period} your {subCategory} spending {changeText} by {percent}% compared to last {previousPeriod}.",
+  "@subCategoryChange": {
+    "placeholders": {
+      "period": {"type": "String"},
+      "subCategory": {"type": "String"},
+      "changeText": {"type": "String"},
+      "percent": {"type": "String"},
+      "previousPeriod": {"type": "String"}
+    }
+  },
+
+  "listView": "List View",
+  "calendarView": "Calendar View",
+  "subscription": "subscription",
+  "workDaysPerMonth": "work days/month",
+  "everyMonthDay": "Every {day}th of month",
+  "@everyMonthDay": {
+    "placeholders": {
+      "day": {"type": "int"}
+    }
+  },
+  "noSubscriptionsYet": "No subscriptions yet",
+  "addSubscriptionsLikeNetflix": "Add your subscriptions like Netflix, Spotify",
+  "monthlyTotalAmount": "Monthly total: {amount} TL",
+  "@monthlyTotalAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "dayOfMonth": "Every {day}th",
+  "@dayOfMonth": {
+    "placeholders": {
+      "day": {"type": "int"}
+    }
+  },
+  "addSubscriptionHint": "Press + button to add a new subscription",
+  "tomorrow": "Tomorrow",
+  "daysLater": "in {days} days",
+  "@daysLater": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "perMonth": "/month",
+  "enterSubscriptionName": "Enter subscription name",
+  "enterValidAmount": "Enter a valid amount",
+  "editSubscription": "Edit Subscription",
+  "newSubscription": "New Subscription",
+  "subscriptionName": "Subscription Name",
+  "subscriptionNameHint": "Netflix, Spotify...",
+  "monthlyAmount": "Monthly Amount",
+  "renewalDay": "Renewal Day",
+  "active": "Active",
+  "passivesNotIncluded": "Passive subscriptions not included in notifications",
+  "autoRecord": "Auto Record",
+  "autoRecordDescription": "Create expense record on renewal",
+  "add": "Add",
+  "subscriptionCount": "{count} subscriptions, {amount} ₺/month",
+  "@subscriptionCount": {
+    "placeholders": {
+      "count": {"type": "int"},
+      "amount": {"type": "String"}
+    }
+  },
+  "viewSubscriptionsInCalendar": "View your subscriptions in calendar",
+
+  "urgentRenewalWarning": "Urgent Renewal Warning!",
+  "upcomingRenewals": "Upcoming Renewals",
+  "renewsWithinOneHour": "{name} - renews within 1 hour",
+  "@renewsWithinOneHour": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "renewsWithinHours": "{name} - in {hours} hours",
+  "@renewsWithinHours": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "hours": {"type": "int"}
+    }
+  },
+  "renewsToday": "{name} - renews today",
+  "@renewsToday": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "renewsTomorrow": "{name} - renews tomorrow",
+  "@renewsTomorrow": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "subscriptionsRenewingSoon": "{count} subscriptions renewing soon",
+  "@subscriptionsRenewingSoon": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "amountPerMonth": "{amount} ₺/month",
+  "@amountPerMonth": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "hiddenBadges": "Hidden Badges",
+  "badgesEarned": "{unlocked} / {total} badges earned",
+  "@badgesEarned": {
+    "placeholders": {
+      "unlocked": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "percentComplete": "{percent}% complete",
+  "@percentComplete": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "completed": "Completed!",
+  "startRecordingForFirstBadge": "Record an expense to earn your first badge!",
+  "greatStartKeepGoing": "Great start, keep going!",
+  "halfwayThere": "Halfway there, keep it up!",
+  "doingVeryWell": "You're doing very well!",
+  "almostDone": "Almost there!",
+  "allBadgesEarned": "All badges earned, congratulations!",
+  "hiddenBadge": "Hidden Badge",
+  "discoverHowToUnlock": "Discover how to unlock!",
+  "difficultyEasy": "Easy",
+  "difficultyMedium": "Medium",
+  "difficultyHard": "Hard",
+  "difficultyLegendary": "Legendary",
+  "earnedToday": "Earned today!",
+  "earnedYesterday": "Earned yesterday",
+  "daysAgoEarned": "{count} days ago",
+  "@daysAgoEarned": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "weeksAgoEarned": "{count} weeks ago",
+  "@weeksAgoEarned": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "tapToAddPhoto": "Tap to add photo",
+  "dailyWork": "Daily Work",
+  "weeklyWorkingDays": "Weekly Working Days",
+  "hourlyEarnings": "Hourly Earnings",
+  "days": "days",
+  "resetData": "Reset Data",
+  "resetDataDebug": "Reset Data (DEBUG)",
+  "resetDataTitle": "Reset Data",
+  "resetDataMessage": "All app data will be deleted. This action cannot be undone.",
+
+  "notificationTypes": "Notification Types",
+  "awarenessReminder": "Awareness Reminder",
+  "awarenessReminderDesc": "6-12 hours after high-value purchases",
+  "giveUpCongrats": "Pass Congratulation",
+  "giveUpCongratsDesc": "Same day motivation when you pass",
+  "streakReminderDesc": "Evening, before streak breaks",
+  "weeklySummary": "Weekly Summary",
+  "weeklySummaryDesc": "Sunday weekly insight",
+  "nightModeNotice": "No notifications during night hours (22:00-08:00). We won't disturb your sleep.",
+  "on": "On",
+  "off": "Off",
+
+  "lastUpdate": "Last Update",
+  "rates": "Rates",
+  "usDollar": "US Dollar",
+  "gramGold": "Gram Gold",
+  "tcmbNotice": "Rates are from TCMB (Central Bank of the Republic of Turkey). Gold prices reflect real-time market data.",
+  "buy": "Buy",
+  "sell": "Sell",
+
+  "createOwnCategory": "Create Your Own Category",
+  "selectEmoji": "Select Emoji",
+  "categoryName": "Category Name",
+  "categoryNameHint": "e.g: Starbucks",
+  "continueButton": "Continue",
+  "howManyDaysForHabit": "How many days do you work for what?",
+  "selectHabitShock": "Select a habit, be shocked",
+  "addMyOwnCategory": "Add my own category",
+  "whatIsYourSalary": "What's Your Monthly Salary?",
+  "enterNetAmount": "Enter net take-home amount",
+  "howMuchPerTime": "How much TL do you spend per time?",
+  "tl": "TL",
+  "howOften": "How often?",
+  "whatIsYourIncome": "What's your monthly income?",
+  "exampleAmount": "e.g: 50000",
+  "dontWantToSay": "I don't want to say",
+  "resultDays": "{value} DAYS",
+  "@resultDays": {
+    "placeholders": {
+      "value": {"type": "String"}
+    }
+  },
+  "yearlyHabitCost": "You work this many days\njust for {habit} yearly",
+  "@yearlyHabitCost": {
+    "placeholders": {
+      "habit": {"type": "String"}
+    }
+  },
+  "monthlyYearlyCost": "Monthly: {monthly} • Yearly: {yearly}",
+  "@monthlyYearlyCost": {
+    "placeholders": {
+      "monthly": {"type": "String"},
+      "yearly": {"type": "String"}
+    }
+  },
+  "shareOnStory": "Share on Story",
+  "tryAnotherHabit": "Try another habit",
+  "trackAllExpenses": "Track all my expenses",
+
+  "editIncomes": "Edit Incomes",
+  "addIncome": "Add Income",
+  "daysPerWeek": "days/week",
+  "doYouHaveOtherIncome": "Do You Have\nOther Income?",
+  "otherIncomeDescription": "You can add additional incomes like\nfreelance, rental, investment income",
+  "yesAddIncome": "Yes, I Want to Add",
+  "noOnlySalary": "No, Only My Salary",
+  "addAdditionalIncome": "Add Additional Income",
+  "incomeType": "Income Type",
+  "descriptionOptional": "Description (Optional)",
+  "descriptionOptionalHint": "e.g: Upwork Project",
+  "addedIncomes": "Added Incomes",
+  "incomeSummary": "Income Summary",
+  "totalMonthlyIncome": "Total Monthly Income",
+  "incomeSource": "income source",
+  "complete": "Complete",
+  "editMyIncomes": "Edit My Incomes",
+  "goBack": "Go Back",
+
+  "notBudgetApp": "This is not a budget app",
+  "showRealCost": "Show the real cost of expenses: your time.",
+  "everyExpenseDecision": "Every expense is a decision",
+  "youDecide": "Bought, thinking, or passed. You decide.",
+  "oneExpenseEnough": "One expense today is enough",
+  "startSmall": "Start small, awareness grows.",
+  "skip": "Skip",
+  "start": "Start",
+
+  "whatIsYourDecision": "What's your decision?",
+
+  "netBalance": "NET BALANCE",
+  "sources": "{count} sources",
+  "@sources": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "income": "INCOME",
+  "expense": "EXPENSE",
+  "saved": "SAVED",
+  "budgetUsage": "BUDGET USAGE",
+
+  "startToday": "Start today!",
+  "dayStreak": "{count} Day Streak!",
+  "@dayStreak": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "startStreak": "Start Your Streak!",
+  "keepStreakMessage": "Keep your streak by recording expenses daily!",
+  "startStreakMessage": "Record at least 1 expense daily and build a streak!",
+  "longestStreak": "Longest streak: {count} days",
+  "@longestStreak": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "newRecord": "New Record!",
+
+  "withThisAmount": "With this {amount} TL you could have bought:",
+  "@withThisAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "goldGrams": "{grams}g gold",
+  "@goldGrams": {
+    "placeholders": {
+      "grams": {"type": "String"}
+    }
+  },
+
+  "ratesLoading": "Loading rates...",
+  "ratesLoadFailed": "Failed to load rates",
+  "goldPriceNotUpdated": "Gold price could not be updated",
+
+  "monthAbbreviations": "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec",
+  "updateYourDecision": "Update your decision",
+  "simulation": "Simulation",
+  "tapToUpdate": "Tap to update",
+  "swipeToEditOrDelete": "Swipe to edit or delete",
+
+  "pleaseEnterValidAmount": "Please enter a valid amount",
+  "amountTooHigh": "Amount seems too high",
+  "pleaseSelectExpenseGroup": "Please select expense group first",
+  "categorySelectionRequired": "Category selection is required",
+  "expenseGroup": "Expense Group",
+  "required": "Required",
+  "detail": "Detail",
+  "optional": "Optional",
+
+  "editYourCard": "Edit Your Card",
+  "share": "Share",
+
+  "youSaved": "saved!",
+  "noSavingsYet": "No savings yet",
+
+  "categorySports": "Sports",
+  "categoryCommunication": "Communication",
+  "subscriptionNameExample": "e.g: Netflix, Spotify",
+  "monthlyAmountExample": "e.g: 99.99",
+  "color": "Color",
+  "autoRecordOnRenewal": "Record as expense on renewal day",
+
+  "deleteSubscription": "Delete Subscription",
+  "deleteSubscriptionConfirm": "Are you sure you want to delete {name} subscription?",
+  "@deleteSubscriptionConfirm": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "subscriptionDuration": "Subscription Duration",
+  "subscriptionDurationDays": "{days} days",
+  "@subscriptionDurationDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "totalPaid": "Total Paid",
+  "workHoursAmount": "{hours} hours",
+  "@workHoursAmount": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "workDaysAmount": "{days} days",
+  "@workDaysAmount": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "autoRecordEnabled": "Auto expense recording enabled",
+  "autoRecordDisabled": "Auto expense recording disabled",
+  "saveChanges": "Save Changes",
+
+  "weekdayAbbreviations": "Mon,Tue,Wed,Thu,Fri,Sat,Sun",
+
+  "homePage": "Home",
+  "analysis": "Analysis",
+  "reportsDescription": "View monthly and category-based expense analysis here.",
+  "quickAdd": "Quick Add",
+  "quickAddDescription": "Use this button to quickly add expenses from anywhere. Practical and fast!",
+  "badgesDescription": "Earn badges as you reach your savings goals. Keep your motivation high!",
+  "profileAndSettings": "Profile & Settings",
+  "profileAndSettingsDescription": "Edit income info, manage notification preferences and access app settings.",
+
+  "addSubscriptionButton": "Add subscriptions like Netflix, Spotify",
+  "shareError": "An error occurred while sharing",
+
+  "pleaseEnterValidSalary": "Please enter a valid salary",
+  "pleaseEnterValidIncomeAmount": "Please enter a valid amount",
+  "pleaseSelectCategory": "Please select a category",
+  "atLeastOneIncomeRequired": "You must add at least one income source",
+  "incomesUpdated": "Incomes updated",
+  "incomesSaved": "Incomes saved",
+  "saveError": "An error occurred while saving",
+  "incomeSourceCount": "{count} income sources",
+  "@incomeSourceCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "freedTime": "Freed",
+  "savedAmountLabel": "Saved",
+  "dayLabel": "Day",
+  "zeroMinutes": "0 Minutes",
+  "zeroAmount": "0 ₺",
+
+  "shareCardDays": "{days} DAYS",
+  "@shareCardDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "shareCardDescription": "I work this many days yearly\njust for {category}",
+  "@shareCardDescription": {
+    "placeholders": {
+      "category": {"type": "String"}
+    }
+  },
+  "shareCardQuestion": "How many days for you?",
+
+  "shareCardDuration": "Duration ({days} days)",
+  "@shareCardDuration": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "shareCardAmountLabel": "Amount (₺{amount})",
+  "@shareCardAmountLabel": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "shareCardFrequency": "Frequency ({frequency})",
+  "@shareCardFrequency": {
+    "placeholders": {
+      "frequency": {"type": "String"}
+    }
+  },
+
+  "unsavedChanges": "Unsaved Changes",
+  "unsavedChangesConfirm": "Are you sure you want to exit without saving?",
+  "discardChanges": "Discard",
+
+  "thinkingTime": "Thinking time...",
+  "confirm": "Confirm",
+  "riskLevelNone": "Safe",
+  "riskLevelLow": "Low Risk",
+  "riskLevelMedium": "Medium Risk",
+  "riskLevelHigh": "High Risk",
+  "riskLevelExtreme": "Critical Risk",
+
+  "savedTimeHoursDays": "{hours} hours = {days} days saved",
+  "@savedTimeHoursDays": {
+    "placeholders": {
+      "hours": {"type": "String"},
+      "days": {"type": "String"}
+    }
+  },
+  "savedTimeHours": "{hours} hours saved",
+  "@savedTimeHours": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "savedTimeMinutes": "{minutes} minutes saved",
+  "@savedTimeMinutes": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "couldBuyGoldGrams": "With this money you could buy {grams} grams of gold",
+  "@couldBuyGoldGrams": {
+    "placeholders": {
+      "grams": {"type": "String"}
+    }
+  },
+  "equivalentWorkDays": "This equals {days} days of work",
+  "@equivalentWorkDays": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "equivalentWorkHours": "This equals {hours} hours of work",
+  "@equivalentWorkHours": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "savedDollars": "You saved exactly {amount} dollars",
+  "@savedDollars": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "or": "OR",
+  "goldGramsShort": "{grams}g gold",
+  "@goldGramsShort": {
+    "placeholders": {
+      "grams": {"type": "String"}
+    }
+  },
+
+  "amountRequired": "Amount is required",
+  "everyMonth": "Every month",
+  "daysCount": "{count} days",
+  "@daysCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "hoursCount": "{count} hours",
+  "@hoursCount": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "daysCountDecimal": "{count} days",
+  "@daysCountDecimal": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "autoRecordOn": "Auto record enabled",
+  "autoRecordOff": "Auto record disabled",
+  "monthlyAmountTl": "{amount} TL/month",
+  "@monthlyAmountTl": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "shareError": "An error occurred while sharing",
+
+  "nameRequired": "Name is required",
+  "amountHint": "e.g: 99.99",
+  "updateDecision": "Update your decision",
+  "categoryRequired": "Category is required",
+  "monthlyAmountLabel": "Monthly Amount (TL)",
+  "withThisAmountYouCouldBuy": "With {amount} TL you could buy:",
+  "@withThisAmountYouCouldBuy": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  }
+}

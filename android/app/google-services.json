@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "240571866446",
+    "project_id": "flutter-ai-playground-b188b",
+    "storage_bucket": "flutter-ai-playground-b188b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:240571866446:android:dda6b905f909c210f4121f",
+        "android_client_info": {
+          "package_name": "com.vantag.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsYnOnzX0JYGVsWY9zAiBU9bNsL2fA9T4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

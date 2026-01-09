@@ -1,0 +1,70 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+
+/// Paylaşım servisi - Widget'ları screenshot alıp paylaşır
+class ShareService {
+  /// Widget'ı image'a çevirip paylaş
+  /// [key] - RepaintBoundary'nin GlobalKey'i
+  /// [shareText] - Paylaşım metni (opsiyonel)
+  static Future<bool> shareWidget(
+    GlobalKey key, {
+    String? shareText,
+  }) async {
+    try {
+      // Widget'ı image'a çevir
+      final boundary = key.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+      if (boundary == null) {
+        return false;
+      }
+
+      // 3x scale ile yüksek kaliteli görüntü
+      final ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+
+      // PNG'ye çevir
+      final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      if (byteData == null) {
+        return false;
+      }
+
+      final Uint8List pngBytes = byteData.buffer.asUint8List();
+
+      // Temp dosyaya kaydet
+      final directory = await getTemporaryDirectory();
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final filePath = '${directory.path}/vantag_share_$timestamp.png';
+      final file = File(filePath);
+      await file.writeAsBytes(pngBytes);
+
+      // Paylaş
+      await Share.shareXFiles(
+        [XFile(filePath)],
+        text: shareText ?? 'Sen kaç gün çalışıyorsun? 👀 vantag.app',
+      );
+
+      // Temp dosyayı 5 dakika sonra sil
+      Future.delayed(const Duration(minutes: 5), () {
+        if (file.existsSync()) {
+          try {
+            file.deleteSync();
+          } catch (_) {
+            // Silme hatası görmezden gelinir
+          }
+        }
+      });
+
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Sadece metin paylaş
+  static Future<void> shareText(String text) async {
+    await Share.share(text);
+  }
+}
