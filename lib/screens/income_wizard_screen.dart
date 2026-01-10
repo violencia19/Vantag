@@ -14,12 +14,15 @@ class IncomeWizardScreen extends StatefulWidget {
   final UserProfile? existingProfile;
   final List<IncomeSource>? existingSources;
   final bool isEditing;
+  /// If true, skips salary step and goes directly to additional income form
+  final bool skipToAdditional;
 
   const IncomeWizardScreen({
     super.key,
     this.existingProfile,
     this.existingSources,
     this.isEditing = false,
+    this.skipToAdditional = false,
   });
 
   @override
@@ -61,6 +64,16 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
     if (!_isDataLoaded) {
       _isDataLoaded = true;
       _loadExistingData();
+
+      // skipToAdditional true ise, direkt ek gelir adımına atla
+      if (widget.skipToAdditional) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            setState(() => _currentStep = 2);
+            _pageController.jumpToPage(2);
+          }
+        });
+      }
     }
   }
 

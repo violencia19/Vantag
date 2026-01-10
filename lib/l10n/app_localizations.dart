@@ -2243,8 +2243,32 @@ abstract class AppLocalizations {
   /// No description provided for @addAdditionalIncome.
   ///
   /// In en, this message translates to:
-  /// **'Add Additional Income'**
+  /// **'+ Add Additional Income'**
   String get addAdditionalIncome;
+
+  /// No description provided for @additionalIncomeQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you have additional income?'**
+  String get additionalIncomeQuestion;
+
+  /// No description provided for @linkWithGoogleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Link with Google'**
+  String get linkWithGoogleTitle;
+
+  /// No description provided for @linkWithGoogleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Securely access your data from all devices'**
+  String get linkWithGoogleDescription;
+
+  /// No description provided for @skipForNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip for now'**
+  String get skipForNow;
 
   /// No description provided for @incomeType.
   ///

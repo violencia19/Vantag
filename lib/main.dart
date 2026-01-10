@@ -10,6 +10,7 @@ import 'screens/screens.dart';
 import 'theme/theme.dart';
 import 'providers/providers.dart';
 import 'services/auth_service.dart';
+import 'services/expense_history_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +39,11 @@ void main() async {
   if (result.success) {
     print("✅ ADIM 3: Auth Başarılı - UID: ${result.user?.uid}");
     authService.debugAuthStatus();
+
+    // Cloud'dan mevcut expense verilerini çek (multi-device sync)
+    final expenseService = ExpenseHistoryService();
+    await expenseService.syncFromFirestore();
+    print("✅ ADIM 4: Cloud veriler senkronize edildi");
   } else {
     print("❌ HATA: Auth Başarısız: ${result.errorMessage}");
   }

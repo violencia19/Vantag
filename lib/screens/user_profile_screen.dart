@@ -170,6 +170,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       return;
     }
 
+    // Yeni kullanıcı için Google bağlantı popup'ı göster
+    if (!_isEditMode && !_authService.isLinkedWithGoogle) {
+      final shouldLink = await _showGoogleLinkDialog(l10n);
+      if (shouldLink == true) {
+        await _linkWithGoogle();
+      }
+    }
+
+    if (!mounted) return;
+
     setState(() => _isSaving = true);
 
     final profile = UserProfile(
@@ -198,6 +208,102 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         ),
       );
     }
+  }
+
+  /// Google bağlantı dialog'unu göster
+  Future<bool?> _showGoogleLinkDialog(AppLocalizations l10n) {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppColors.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const Icon(
+                LucideIcons.link,
+                color: AppColors.primary,
+                size: 32,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              l10n.linkWithGoogleTitle,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textPrimary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              l10n.linkWithGoogleDescription,
+              style: const TextStyle(
+                fontSize: 14,
+                color: AppColors.textSecondary,
+                height: 1.4,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () => Navigator.pop(context, true),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black87,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: BorderSide(color: Colors.grey.shade300),
+                  ),
+                  elevation: 0,
+                ),
+                icon: Image.network(
+                  'https://www.google.com/favicon.ico',
+                  width: 20,
+                  height: 20,
+                  errorBuilder: (context, error, stackTrace) => const Icon(
+                    LucideIcons.globe,
+                    size: 20,
+                    color: Colors.blue,
+                  ),
+                ),
+                label: Text(
+                  l10n.linkWithGoogle,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(
+                l10n.skipForNow,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -351,13 +457,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
                 const SizedBox(height: 32),
 
-                // Dil Seçimi
-                _buildLanguageSection(l10n),
-
-                const SizedBox(height: 24),
-
-                // Google Hesabı Bağlama Bölümü
-                _buildGoogleLinkSection(l10n),
+                // Ek Gelir Bölümü
+                _buildAdditionalIncomeSection(l10n),
 
                 const SizedBox(height: 32),
 
@@ -403,272 +504,87 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  /// Dil seçimi bölümü
-  Widget _buildLanguageSection(AppLocalizations l10n) {
-    final localeProvider = context.watch<LocaleProvider>();
-    final currentLocale = localeProvider.locale?.languageCode ??
-        Localizations.localeOf(context).languageCode;
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(
-                  LucideIcons.globe,
-                  color: AppColors.primary,
-                  size: 22,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.language,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      l10n.selectLanguage,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-
-          // Dil seçenekleri
-          Row(
-            children: [
-              Expanded(
-                child: _buildLanguageOption(
-                  code: 'tr',
-                  name: l10n.turkish,
-                  flag: '🇹🇷',
-                  isSelected: currentLocale == 'tr',
-                  onTap: () {
-                    localeProvider.setLocale(const Locale('tr'));
-                    HapticFeedback.selectionClick();
-                  },
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildLanguageOption(
-                  code: 'en',
-                  name: l10n.english,
-                  flag: '🇬🇧',
-                  isSelected: currentLocale == 'en',
-                  onTap: () {
-                    localeProvider.setLocale(const Locale('en'));
-                    HapticFeedback.selectionClick();
-                  },
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Dil seçeneği widget'ı
-  Widget _buildLanguageOption({
-    required String code,
-    required String name,
-    required String flag,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primary.withValues(alpha: 0.1)
-              : AppColors.background,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.cardBorder,
-            width: isSelected ? 2 : 1,
+  /// Ek Gelir bölümü
+  Widget _buildAdditionalIncomeSection(AppLocalizations l10n) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.additionalIncomeQuestion,
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textSecondary,
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              flag,
-              style: const TextStyle(fontSize: 20),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              name,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected ? AppColors.primary : AppColors.textSecondary,
-              ),
-            ),
-            if (isSelected) ...[
-              const SizedBox(width: 8),
-              const Icon(
-                LucideIcons.check,
-                size: 16,
-                color: AppColors.primary,
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
+        const SizedBox(height: 12),
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: () async {
+              // 1. Önce mevcut maaş değerini al
+              final currentSalary = parseAmount(_incomeController.text);
 
-  /// Google hesabı bağlama bölümü
-  Widget _buildGoogleLinkSection(AppLocalizations l10n) {
-    final isLinked = _authService.isLinkedWithGoogle;
-    final user = _authService.currentUser;
+              // 2. Eğer maaş girilmişse ve henüz _incomeSources'ta yoksa, ekle
+              if (currentSalary != null && currentSalary > 0) {
+                final hasPrimary = _incomeSources.any((s) => s.isPrimary);
+                if (!hasPrimary) {
+                  // Yeni maaş ekle
+                  _incomeSources.insert(0, IncomeSource.salary(amount: currentSalary));
+                } else {
+                  // Mevcut primary income'u güncelle
+                  final primaryIndex = _incomeSources.indexWhere((s) => s.isPrimary);
+                  if (primaryIndex >= 0) {
+                    _incomeSources[primaryIndex] = _incomeSources[primaryIndex].copyWith(
+                      amount: currentSalary,
+                    );
+                  }
+                }
+              }
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isLinked
-              ? AppColors.success.withValues(alpha: 0.3)
-              : AppColors.cardBorder,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: isLinked
-                      ? AppColors.success.withValues(alpha: 0.1)
-                      : AppColors.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  isLinked ? LucideIcons.checkCircle : LucideIcons.link,
-                  color: isLinked ? AppColors.success : AppColors.primary,
-                  size: 22,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      isLinked ? l10n.googleLinked : l10n.googleAccount,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      isLinked
-                          ? (user?.email ?? l10n.googleLinked)
-                          : l10n.backupAndSecure,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: AppColors.textSecondary,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-
-          // Bağlı değilse buton göster
-          if (!isLinked) ...[
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: _isLinkingGoogle ? null : _linkWithGoogle,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black87,
-                  disabledBackgroundColor: Colors.white.withValues(alpha: 0.7),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    side: BorderSide(
-                      color: Colors.grey.shade300,
-                      width: 1,
-                    ),
-                  ),
-                  elevation: 0,
-                ),
-                icon: _isLinkingGoogle
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.black54),
-                        ),
-                      )
-                    : Image.network(
-                        'https://www.google.com/favicon.ico',
-                        width: 20,
-                        height: 20,
-                        errorBuilder: (context, error, stackTrace) => const Icon(
-                          LucideIcons.globe,
-                          size: 20,
-                          color: Colors.blue,
-                        ),
-                      ),
-                label: Text(
-                  _isLinkingGoogle ? l10n.linking : l10n.linkWithGoogle,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
+              // 3. Sonra IncomeWizardScreen'e git
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => IncomeWizardScreen(
+                    existingSources: _incomeSources,
+                    skipToAdditional: true,
                   ),
                 ),
+              );
+
+              // Wizard kapandıktan sonra Provider'dan güncel veriyi al
+              if (mounted) {
+                final provider = context.read<FinanceProvider>();
+                final profile = provider.userProfile;
+                if (profile != null) {
+                  setState(() {
+                    _incomeSources = profile.incomeSources;
+                    _incomeController.text = formatTurkishCurrency(
+                      _totalIncome,
+                      decimalDigits: 0,
+                      showDecimals: false,
+                    );
+                  });
+                  HapticFeedback.lightImpact();
+                }
+              }
+            },
+            icon: const Icon(LucideIcons.plusCircle, size: 20),
+            label: Text(l10n.addAdditionalIncome),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: AppColors.primary,
+              side: BorderSide(
+                color: AppColors.primary.withValues(alpha: 0.5),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
-          ],
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -677,40 +593,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              l10n.incomeInfo,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: AppColors.textSecondary,
-              ),
-            ),
-            // Detaylı yönetim butonu
-            TextButton.icon(
-              onPressed: _openIncomeWizard,
-              icon: Icon(
-                _hasIncomeSources ? LucideIcons.pencil : LucideIcons.plusCircle,
-                size: 18,
-                color: AppColors.primary,
-              ),
-              label: Text(
-                _hasIncomeSources ? l10n.edit : l10n.detailedEntry,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.primary,
-                ),
-              ),
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                minimumSize: Size.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-            ),
-          ],
+        Text(
+          l10n.incomeInfo,
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textSecondary,
+          ),
         ),
         const SizedBox(height: 12),
 

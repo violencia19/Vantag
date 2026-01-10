@@ -1186,7 +1186,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noOnlySalary => 'No, Only My Salary';
 
   @override
-  String get addAdditionalIncome => 'Add Additional Income';
+  String get addAdditionalIncome => '+ Add Additional Income';
+
+  @override
+  String get additionalIncomeQuestion => 'Do you have additional income?';
+
+  @override
+  String get linkWithGoogleTitle => 'Link with Google';
+
+  @override
+  String get linkWithGoogleDescription =>
+      'Securely access your data from all devices';
+
+  @override
+  String get skipForNow => 'Skip for now';
 
   @override
   String get incomeType => 'Income Type';

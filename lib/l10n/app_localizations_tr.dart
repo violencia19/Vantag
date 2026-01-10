@@ -1186,7 +1186,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get noOnlySalary => 'Hayır, Sadece Maaşım Var';
 
   @override
-  String get addAdditionalIncome => 'Ek Gelir Ekle';
+  String get addAdditionalIncome => '+ Ek Gelir Ekle';
+
+  @override
+  String get additionalIncomeQuestion => 'Ek Geliriniz Var mı?';
+
+  @override
+  String get linkWithGoogleTitle => 'Google ile Bağla';
+
+  @override
+  String get linkWithGoogleDescription =>
+      'Verilerinize tüm cihazlardan güvenle erişin';
+
+  @override
+  String get skipForNow => 'Şimdilik geç';
 
   @override
   String get incomeType => 'Gelir Türü';

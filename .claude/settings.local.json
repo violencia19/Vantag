@@ -43,7 +43,15 @@
       "Bash(powershell -Command:*)",
       "Bash(git add:*)",
       "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: complete global localization and premium splash architecture\n\n- Add full i18n support with 480+ translation keys \\(EN/TR\\)\n- Implement LaserSplashScreen with animated V logo\n- Fix all localization type mismatches and missing keys\n- Update widget files with AppLocalizations integration\n- Add missing ARB keys: nameRequired, amountHint, updateDecision, etc.\n- Fix EmptyState.reports\\(\\) message parameter\n- Update test file with localeProvider requirement\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(wmic:*)",
+      "Bash(powershell \"Get-WmiObject -Class Win32_LogicalDisk -Filter \"\"DeviceID=''C:''\"\" | Select-Object FreeSpace\")",
+      "Bash(powershell \"Get-Process | Where-Object {$_ProcessName -like ''*mmr*'' -or $_ProcessName -like ''*devenv*'' -or $_ProcessName -like ''*msbuild*''} | Select-Object ProcessName, Id\")",
+      "Bash(gradlew --stop:*)",
+      "Bash(c:flutter_projectsmmr_appandroidgradlew.bat --stop)"
     ]
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/models.dart';
 import '../providers/finance_provider.dart';
 import '../services/tour_service.dart';
@@ -265,6 +266,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
                 icon: const Icon(LucideIcons.compass, size: 20),
                 label: Text(l10n.repeatTour),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.surface,
+                  foregroundColor: AppColors.textPrimary,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: const BorderSide(color: AppColors.cardBorder),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            // Privacy Policy button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () => launchUrl(Uri.parse('https://violencia19.github.io/Vantag/privacy-tr')),
+                icon: const Icon(LucideIcons.shield, size: 20),
+                label: const Text('Gizlilik Politikası'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.surface,
+                  foregroundColor: AppColors.textPrimary,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: const BorderSide(color: AppColors.cardBorder),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            // Terms of Service button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () => launchUrl(Uri.parse('https://violencia19.github.io/Vantag/terms-tr')),
+                icon: const Icon(LucideIcons.fileText, size: 20),
+                label: const Text('Kullanım Şartları'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.surface,
                   foregroundColor: AppColors.textPrimary,
