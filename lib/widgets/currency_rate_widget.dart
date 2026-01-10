@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
@@ -89,7 +89,7 @@ class CurrencyRateWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(
-            LucideIcons.alertCircle,
+            PhosphorIconsDuotone.warningCircle,
             size: 14,
             color: AppColors.textTertiary,
           ),
@@ -130,7 +130,7 @@ class CurrencyRateWidget extends StatelessWidget {
         _buildGoldRateItem(l10n),
         const SizedBox(width: 8),
         Icon(
-          LucideIcons.chevronRight,
+          PhosphorIconsDuotone.caretRight,
           size: 16,
           color: AppColors.textTertiary.withValues(alpha: 0.7),
         ),
@@ -166,7 +166,7 @@ class CurrencyRateWidget extends StatelessWidget {
           Tooltip(
             message: l10n.goldPriceNotUpdated,
             child: Icon(
-              LucideIcons.info,
+              PhosphorIconsDuotone.info,
               size: 12,
               color: AppColors.warning.withValues(alpha: 0.8),
             ),

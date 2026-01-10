@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -249,7 +249,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
             // Edit button
             IconButton(
               onPressed: _toggleEdit,
-              icon: const Icon(LucideIcons.pencil),
+              icon: const Icon(PhosphorIconsDuotone.pencilSimple),
               color: AppColors.textSecondary,
             ),
           ],
@@ -329,13 +329,13 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
             Expanded(child: _buildStatCard(
               l10n.subscriptionDuration,
               l10n.daysCount(sub.daysSinceSubscription),
-              LucideIcons.calendar,
+              PhosphorIconsDuotone.calendar,
             )),
             const SizedBox(width: 12),
             Expanded(child: _buildStatCard(
               l10n.totalPaid,
               '${formatTurkishCurrency(sub.totalPaid, decimalDigits: 0)} ₺',
-              LucideIcons.creditCard,
+              PhosphorIconsDuotone.creditCard,
             )),
           ],
         ),
@@ -345,13 +345,13 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
             Expanded(child: _buildStatCard(
               l10n.workHours,
               _workHours != null ? l10n.hoursCount(_workHours!.toStringAsFixed(1)) : '-',
-              LucideIcons.clock,
+              PhosphorIconsDuotone.clock,
             )),
             const SizedBox(width: 12),
             Expanded(child: _buildStatCard(
               l10n.workDays,
               _workDays != null ? l10n.daysCountDecimal(_workDays!.toStringAsFixed(2)) : '-',
-              LucideIcons.briefcase,
+              PhosphorIconsDuotone.briefcase,
             )),
           ],
         ),
@@ -367,7 +367,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           child: Row(
             children: [
               Icon(
-                sub.autoRecord ? LucideIcons.checkCircle : LucideIcons.xCircle,
+                sub.autoRecord ? PhosphorIconsDuotone.checkCircle : PhosphorIconsDuotone.xCircle,
                 size: 20,
                 color: sub.autoRecord ? const Color(0xFF2ECC71) : AppColors.textTertiary,
               ),
@@ -393,7 +393,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           width: double.infinity,
           child: OutlinedButton.icon(
             onPressed: _confirmDelete,
-            icon: const Icon(LucideIcons.trash2, size: 18),
+            icon: const Icon(PhosphorIconsDuotone.trash, size: 18),
             label: Text(l10n.deleteSubscription),
             style: OutlinedButton.styleFrom(
               foregroundColor: const Color(0xFFE74C3C),
@@ -558,7 +558,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           child: Row(
             children: [
               Icon(
-                LucideIcons.sparkles,
+                PhosphorIconsDuotone.sparkle,
                 size: 20,
                 color: _autoRecord ? AppColors.primary : AppColors.textTertiary,
               ),

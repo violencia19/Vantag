@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 
@@ -173,7 +173,7 @@ class _WealthModalState extends State<WealthModal>
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Icon(
-                              LucideIcons.x,
+                              PhosphorIconsDuotone.x,
                               size: 20,
                               color: AppColors.textSecondary,
                             ),
@@ -254,7 +254,7 @@ class _UnsavedChangesDialog extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Icon(
-                    LucideIcons.alertTriangle,
+                    PhosphorIconsDuotone.warningCircle,
                     color: Color(0xFFFFD700),
                     size: 28,
                   ),

@@ -652,11 +652,13 @@ class AIFinanceTheme {
 }
 
 // Legacy AIGradientButton - use PremiumButton instead
+// Now with pulse glow animation for premium feel
 class AIGradientButton extends StatefulWidget {
   final String text;
   final VoidCallback? onPressed;
   final IconData? icon;
   final bool isLoading;
+  final bool enablePulse;
 
   const AIGradientButton({
     super.key,
@@ -664,14 +666,40 @@ class AIGradientButton extends StatefulWidget {
     this.onPressed,
     this.icon,
     this.isLoading = false,
+    this.enablePulse = true,
   });
 
   @override
   State<AIGradientButton> createState() => _AIGradientButtonState();
 }
 
-class _AIGradientButtonState extends State<AIGradientButton> {
+class _AIGradientButtonState extends State<AIGradientButton>
+    with SingleTickerProviderStateMixin {
   bool _isPressed = false;
+  late AnimationController _pulseController;
+  late Animation<double> _pulseAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulseController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    );
+    _pulseAnimation = Tween<double>(begin: 0.3, end: 0.6).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
+
+    if (widget.enablePulse) {
+      _pulseController.repeat(reverse: true);
+    }
+  }
+
+  @override
+  void dispose() {
+    _pulseController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -680,43 +708,70 @@ class _AIGradientButtonState extends State<AIGradientButton> {
       onTapUp: (_) => setState(() => _isPressed = false),
       onTapCancel: () => setState(() => _isPressed = false),
       onTap: widget.isLoading ? null : widget.onPressed,
-      child: AnimatedScale(
-        scale: _isPressed ? 0.98 : 1.0,
-        duration: const Duration(milliseconds: 100),
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          decoration: AIFinanceTheme.gradientButtonDecoration,
-          child: widget.isLoading
-              ? const Center(
-                  child: SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+      child: AnimatedBuilder(
+        animation: _pulseAnimation,
+        builder: (context, child) {
+          return AnimatedScale(
+            scale: _isPressed ? 0.98 : 1.0,
+            duration: const Duration(milliseconds: 100),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              decoration: BoxDecoration(
+                gradient: AppGradients.primaryButton,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  // Primary glow - pulsing
+                  BoxShadow(
+                    color: AppColors.primary.withOpacity(
+                      widget.enablePulse ? _pulseAnimation.value : 0.4,
                     ),
+                    blurRadius: 20,
+                    offset: const Offset(0, 8),
                   ),
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (widget.icon != null) ...[
-                      Icon(widget.icon, color: Colors.white, size: 20),
-                      const SizedBox(width: 8),
-                    ],
-                    Text(
-                      widget.text,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        letterSpacing: 0.5,
-                      ),
+                  // Secondary glow for depth
+                  BoxShadow(
+                    color: AppColors.secondary.withOpacity(
+                      widget.enablePulse ? _pulseAnimation.value * 0.5 : 0.2,
                     ),
-                  ],
-                ),
-        ),
+                    blurRadius: 30,
+                    spreadRadius: -5,
+                    offset: const Offset(0, 12),
+                  ),
+                ],
+              ),
+              child: widget.isLoading
+                  ? const Center(
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      ),
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (widget.icon != null) ...[
+                          Icon(widget.icon, color: Colors.white, size: 20),
+                          const SizedBox(width: 8),
+                        ],
+                        Text(
+                          widget.text,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+          );
+        },
       ),
     );
   }

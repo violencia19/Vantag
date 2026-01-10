@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 import '../utils/habit_calculator.dart';
 import '../widgets/share_card_widget.dart';
@@ -328,8 +328,8 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     color: AppColors.surfaceLight,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(
-                    LucideIcons.x,
+                  child: Icon(
+                    PhosphorIconsDuotone.x,
                     color: AppColors.textSecondary,
                     size: 20,
                   ),
@@ -389,7 +389,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
           padding: const EdgeInsets.all(24),
           child: TextButton.icon(
             onPressed: _showCustomCategoryDialog,
-            icon: const Icon(LucideIcons.pencil, size: 18),
+            icon: Icon(PhosphorIconsDuotone.pencilSimple, size: 18),
             label: Text(l10n.addMyOwnCategory),
             style: TextButton.styleFrom(
               foregroundColor: AppColors.textSecondary,
@@ -460,8 +460,8 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     color: AppColors.surfaceLight,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(
-                    LucideIcons.chevronLeft,
+                  child: Icon(
+                    PhosphorIconsDuotone.caretLeft,
                     color: AppColors.textSecondary,
                     size: 20,
                   ),
@@ -778,7 +778,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           ),
                           const SizedBox(width: 8),
                           Icon(
-                            LucideIcons.arrowRight,
+                            PhosphorIconsDuotone.arrowRight,
                             size: 20,
                             color: _isValid
                                 ? Colors.white

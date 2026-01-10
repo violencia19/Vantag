@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 import 'share_card_widget.dart';
@@ -199,7 +199,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
             ),
             if (locked)
               const Icon(
-                LucideIcons.lock,
+                PhosphorIconsDuotone.lock,
                 color: Color(0x60FFFFFF),
                 size: 20,
               )

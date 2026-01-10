@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
@@ -348,8 +348,8 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                   color: AppColors.primary.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Icon(
-                  LucideIcons.trophy,
+                child: Icon(
+                  PhosphorIconsDuotone.trophy,
                   size: 28,
                   color: AppColors.primary,
                 ),
@@ -413,7 +413,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(LucideIcons.star, size: 12, color: AppColors.warning),
+                      Icon(PhosphorIconsDuotone.star, size: 12, color: AppColors.warning),
                       const SizedBox(width: 4),
                       Text(
                         AppLocalizations.of(context)!.completed,
@@ -541,8 +541,8 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                           achievement.category.emoji,
                           style: const TextStyle(fontSize: 24),
                         )
-                      : const Icon(
-                          LucideIcons.lock,
+                      : Icon(
+                          PhosphorIconsDuotone.lock,
                           size: 24,
                           color: AppColors.textTertiary,
                         ),

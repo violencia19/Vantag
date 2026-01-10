@@ -58,6 +58,10 @@ dependencies:
 
   # Icons
   lucide_icons: ^0.257.0
+  phosphor_flutter: ^2.1.0
+
+  # Premium Effects
+  shimmer: ^3.0.0
 
   # SVG Path Parsing
   path_drawing: ^1.0.1

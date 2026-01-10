@@ -1,7 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -345,9 +346,28 @@ class _ExpenseScreenState extends State<ExpenseScreen>
           ),
           child: Row(
             children: [
-              const Text(
-                '⚡',
-                style: TextStyle(fontSize: 32),
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      blurRadius: 8,
+                      spreadRadius: -2,
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: PhosphorIcon(
+                    PhosphorIconsDuotone.lightning,
+                    size: 28,
+                    color: Colors.white,
+                    duotoneSecondaryColor: Colors.white.withValues(alpha: 0.5),
+                  ),
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -379,7 +399,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                 ),
               ),
               Icon(
-                LucideIcons.chevronRight,
+                PhosphorIconsDuotone.caretRight,
                 color: Colors.white.withValues(alpha: 0.8),
                 size: 24,
               ),
@@ -566,7 +586,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                   return Column(
                     children: [
                       _buildScanOption(
-                        icon: LucideIcons.camera,
+                        icon: PhosphorIconsDuotone.camera,
                         label: l10n.cameraCapture,
                         onTap: () {
                           Navigator.pop(context);
@@ -575,7 +595,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                       ),
                       const SizedBox(height: 12),
                       _buildScanOption(
-                        icon: LucideIcons.image,
+                        icon: PhosphorIconsDuotone.image,
                         label: l10n.selectFromGallery,
                         onTap: () {
                           Navigator.pop(context);
@@ -1132,7 +1152,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Icon(
-                    LucideIcons.brain,
+                    PhosphorIconsDuotone.brain,
                     size: 32,
                     color: AppColors.info,
                   ),
@@ -1166,7 +1186,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(
-                        LucideIcons.info,
+                        PhosphorIconsDuotone.info,
                         size: 16,
                         color: AppColors.textTertiary,
                       ),
@@ -1242,30 +1262,54 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Başlık
+                    // Premium Başlık with gradient underline
                     Flexible(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            _getGreeting(l10n),
+                            _getGreeting(l10n).toUpperCase(),
                             style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
                               color: AppColors.textSecondary,
+                              letterSpacing: 2.5,
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            l10n.financialStatus,
-                            style: const TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.textPrimary,
-                              letterSpacing: -0.5,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+                          const SizedBox(height: 6),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                l10n.financialStatus,
+                                style: const TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.textPrimary,
+                                  letterSpacing: 1.5,
+                                  height: 1.1,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 6),
+                              // Gradient underline
+                              Container(
+                                height: 3,
+                                width: 60,
+                                decoration: BoxDecoration(
+                                  gradient: AppGradients.primaryButton,
+                                  borderRadius: BorderRadius.circular(2),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.primary.withOpacity(0.4),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -1290,7 +1334,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                           tooltipBackgroundColor: AppColors.surface,
                           targetBorderRadius: BorderRadius.circular(14),
                           child: _buildHeaderAction(
-                            icon: LucideIcons.calendar,
+                            icon: PhosphorIconsDuotone.calendar,
                             badge: _upcomingSubscriptionCount > 0 ? _upcomingSubscriptionCount : null,
                             onTap: _showSubscriptionSheet,
                           ),
@@ -1440,7 +1484,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
-                                LucideIcons.calendar,
+                                PhosphorIconsDuotone.calendar,
                                 size: 14,
                                 color: AppColors.textSecondary,
                               ),
@@ -1500,7 +1544,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                       const SizedBox(width: 8),
                       // Takvim chip
                       _DateChip(
-                        icon: LucideIcons.calendar,
+                        icon: PhosphorIconsDuotone.calendar,
                         label: _selectedDateChip == 'custom'
                             ? '${_selectedDate.day}/${_selectedDate.month}'
                             : null,
@@ -1594,7 +1638,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                               ),
                               child: IconButton(
                                 onPressed: _showScanOptions,
-                                icon: const Icon(LucideIcons.receipt, size: 22),
+                                icon: const Icon(PhosphorIconsDuotone.receipt, size: 22),
                                 color: AppColors.textSecondary,
                                 tooltip: l10n.scanReceipt,
                               ),
@@ -1684,7 +1728,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                           ? const Padding(
                               padding: EdgeInsets.only(right: 8),
                               child: Icon(
-                                LucideIcons.sparkles,
+                                PhosphorIconsDuotone.sparkle,
                                 size: 18,
                                 color: AppColors.success,
                               ),
@@ -1834,7 +1878,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                           child: Row(
                             children: [
                               Icon(
-                                LucideIcons.sparkles,
+                                PhosphorIconsDuotone.sparkle,
                                 size: 14,
                                 color: AppColors.success,
                               ),
@@ -1896,7 +1940,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                         ),
                         suffixIcon: _subCategoryController.text.isNotEmpty
                             ? IconButton(
-                                icon: const Icon(LucideIcons.x, size: 18),
+                                icon: const Icon(PhosphorIconsDuotone.x, size: 18),
                                 color: AppColors.textTertiary,
                                 onPressed: () {
                                   _subCategoryController.clear();
@@ -2086,7 +2130,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                                   border: Border.all(color: AIFinanceTheme.cardBorder),
                                 ),
                                 child: Icon(
-                                  LucideIcons.receipt,
+                                  PhosphorIconsDuotone.receipt,
                                   size: 32,
                                   color: AIFinanceTheme.iconColor,
                                 ),
@@ -2187,7 +2231,7 @@ class _SubCategoryChip extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 4),
                 child: Icon(
-                  LucideIcons.history,
+                  PhosphorIconsDuotone.clockCounterClockwise,
                   size: 12,
                   color: AppColors.primary,
                 ),

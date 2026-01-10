@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -151,7 +151,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
         SnackBar(
           content: Row(
             children: [
-              Icon(LucideIcons.alertTriangle, color: AppColors.background, size: 20),
+              Icon(PhosphorIconsDuotone.warningCircle, color: AppColors.background, size: 20),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -260,7 +260,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
-                      LucideIcons.x,
+                      PhosphorIconsDuotone.x,
                       size: 20,
                       color: AppColors.textSecondary,
                     ),
@@ -572,7 +572,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                         color: AppColors.textTertiary.withValues(alpha: 0.6),
                       ),
                       prefixIcon: Icon(
-                        LucideIcons.fileEdit,
+                        PhosphorIconsDuotone.notepad,
                         size: 22,
                         color: AppColors.textTertiary,
                       ),
@@ -629,7 +629,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
               Padding(
                 padding: const EdgeInsets.only(right: 6),
                 child: Icon(
-                  LucideIcons.history,
+                  PhosphorIconsDuotone.clockCounterClockwise,
                   size: 14,
                   color: isSelected ? AppColors.secondary : AppColors.textTertiary,
                 ),
@@ -667,7 +667,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              _canSubmit ? LucideIcons.calculator : LucideIcons.touchpadOff,
+              _canSubmit ? PhosphorIconsDuotone.calculator : PhosphorIconsDuotone.handTap,
               size: 22,
             ),
             const SizedBox(width: 10),
@@ -945,7 +945,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Icon(
-                            LucideIcons.x,
+                            PhosphorIconsDuotone.x,
                             size: 20,
                             color: AppColors.textSecondary,
                           ),
@@ -1163,7 +1163,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(LucideIcons.check, size: 22),
+                Icon(PhosphorIconsDuotone.check, size: 22),
                 SizedBox(width: 10),
                 Text(
                   'Hesapla',
@@ -1209,7 +1209,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
               Padding(
                 padding: const EdgeInsets.only(right: 6),
                 child: Icon(
-                  LucideIcons.history,
+                  PhosphorIconsDuotone.clockCounterClockwise,
                   size: 14,
                   color: AppColors.primary,
                 ),

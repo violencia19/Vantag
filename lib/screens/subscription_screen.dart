@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../models/models.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
@@ -109,7 +109,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             pinned: true,
             expandedHeight: 0,
             leading: IconButton(
-              icon: const Icon(LucideIcons.arrowLeft),
+              icon: Icon(PhosphorIconsDuotone.arrowLeft),
               onPressed: () => Navigator.pop(context),
             ),
             title: Text(
@@ -124,8 +124,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               IconButton(
                 icon: Icon(
                   _isCalendarView
-                      ? LucideIcons.list
-                      : LucideIcons.calendar,
+                      ? PhosphorIconsDuotone.list
+                      : PhosphorIconsDuotone.calendar,
                 ),
                 onPressed: _toggleView,
                 tooltip: _isCalendarView
@@ -188,7 +188,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddSheet,
         backgroundColor: AppColors.primary,
-        child: const Icon(LucideIcons.plus, color: Colors.white),
+        child: Icon(PhosphorIconsDuotone.plus, color: Colors.white),
       ),
     );
   }
@@ -367,7 +367,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             const SizedBox(width: 8),
             // Arrow
             Icon(
-              LucideIcons.chevronRight,
+              PhosphorIconsDuotone.caretRight,
               size: 20,
               color: AppColors.textTertiary,
             ),
@@ -390,7 +390,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Icon(
-              LucideIcons.repeat,
+              PhosphorIconsDuotone.repeat,
               size: 40,
               color: AppColors.textTertiary,
             ),

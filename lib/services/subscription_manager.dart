@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../models/models.dart';
 import 'subscription_service.dart';
 import 'profile_service.dart';
@@ -225,9 +225,9 @@ class SubscriptionStats {
 
   /// Durum ikonu
   IconData get statusIcon {
-    if (renewingTodayCount > 0) return LucideIcons.bellRing;
-    if (renewingTomorrowCount > 0) return LucideIcons.clock;
-    return LucideIcons.checkCircle;
+    if (renewingTodayCount > 0) return PhosphorIconsDuotone.bellRinging;
+    if (renewingTomorrowCount > 0) return PhosphorIconsDuotone.clock;
+    return PhosphorIconsDuotone.checkCircle;
   }
 }
 

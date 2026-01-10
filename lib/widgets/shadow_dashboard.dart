@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../services/streak_manager.dart';
 import '../theme/theme.dart';
@@ -136,7 +136,7 @@ class _StreakChip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            LucideIcons.flame,
+            PhosphorIconsDuotone.flame,
             size: 12,
             color: _chipColor,
           ),
@@ -193,7 +193,7 @@ class StreakChip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            LucideIcons.flame,
+            PhosphorIconsDuotone.flame,
             size: 14,
             color: _chipColor,
           ),

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -251,7 +251,7 @@ class _MainScreenState extends State<MainScreen> {
       SnackBar(
         content: Row(
           children: [
-            Icon(LucideIcons.clock, size: 18, color: AppColors.warning),
+            Icon(PhosphorIconsDuotone.clock, size: 18, color: AppColors.warning),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -384,7 +384,7 @@ class _OfflineBanner extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
-                      LucideIcons.wifiOff,
+                      PhosphorIconsDuotone.wifiSlash,
                       size: 16,
                       color: AppColors.background,
                     ),

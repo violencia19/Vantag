@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:flutter/services.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
@@ -16,14 +17,30 @@ class StreakWidget extends StatefulWidget {
   State<StreakWidget> createState() => StreakWidgetState();
 }
 
-class StreakWidgetState extends State<StreakWidget> {
+class StreakWidgetState extends State<StreakWidget>
+    with SingleTickerProviderStateMixin {
   final _streakService = StreakService();
   StreakData? _streakData;
+  late AnimationController _glowController;
+  late Animation<double> _glowAnimation;
 
   @override
   void initState() {
     super.initState();
     _loadStreak();
+    _glowController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat(reverse: true);
+    _glowAnimation = Tween<double>(begin: 0.3, end: 0.6).animate(
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _glowController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadStreak() async {
@@ -49,41 +66,63 @@ class StreakWidgetState extends State<StreakWidget> {
     final hasStreak = streak.displayStreak > 0;
 
     return GestureDetector(
-      onTap: widget.onTap ?? () => _showStreakDetails(context),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: hasStreak
-              ? AppColors.warning.withValues(alpha: 0.15)
-              : AppColors.surface,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: hasStreak
-                ? AppColors.warning.withValues(alpha: 0.3)
-                : AppColors.cardBorder,
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '🔥',
-              style: TextStyle(
-                fontSize: 16,
-                color: hasStreak ? null : AppColors.textTertiary,
+      onTap: () {
+        HapticFeedback.lightImpact();
+        (widget.onTap ?? () => _showStreakDetails(context))();
+      },
+      child: AnimatedBuilder(
+        animation: _glowAnimation,
+        builder: (context, child) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: hasStreak
+                  ? AppColors.warning.withValues(alpha: 0.15)
+                  : AppColors.surface,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: hasStreak
+                    ? AppColors.warning.withValues(alpha: 0.3)
+                    : AppColors.cardBorder,
               ),
+              boxShadow: hasStreak
+                  ? [
+                      BoxShadow(
+                        color: AppColors.warning
+                            .withValues(alpha: _glowAnimation.value),
+                        blurRadius: 12,
+                        spreadRadius: -2,
+                      ),
+                    ]
+                  : null,
             ),
-            const SizedBox(width: 6),
-            Text(
-              hasStreak ? l10n.streakDays(streak.displayStreak) : l10n.startToday,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: hasStreak ? AppColors.warning : AppColors.textSecondary,
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                PhosphorIcon(
+                  PhosphorIconsDuotone.flame,
+                  size: 18,
+                  color: hasStreak ? AppColors.warning : AppColors.textTertiary,
+                  duotoneSecondaryColor: hasStreak
+                      ? AppColors.warning.withValues(alpha: 0.5)
+                      : AppColors.textTertiary.withValues(alpha: 0.3),
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  hasStreak
+                      ? l10n.streakDays(streak.displayStreak)
+                      : l10n.startToday,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: hasStreak ? AppColors.warning : AppColors.textSecondary,
+                    letterSpacing: 0.3,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -116,10 +155,41 @@ class StreakWidgetState extends State<StreakWidget> {
               ),
               const SizedBox(height: 24),
 
-              // Big emoji
-              Text(
-                streak.hasStreak ? '🔥' : '💪',
-                style: const TextStyle(fontSize: 48),
+              // Big icon with glow
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: streak.hasStreak
+                      ? AppColors.warning.withValues(alpha: 0.15)
+                      : AppColors.primary.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: (streak.hasStreak
+                              ? AppColors.warning
+                              : AppColors.primary)
+                          .withValues(alpha: 0.3),
+                      blurRadius: 20,
+                      spreadRadius: -5,
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: PhosphorIcon(
+                    streak.hasStreak
+                        ? PhosphorIconsDuotone.flame
+                        : PhosphorIconsDuotone.barbell,
+                    size: 40,
+                    color: streak.hasStreak
+                        ? AppColors.warning
+                        : AppColors.primary,
+                    duotoneSecondaryColor: (streak.hasStreak
+                            ? AppColors.warning
+                            : AppColors.primary)
+                        .withValues(alpha: 0.4),
+                  ),
+                ),
               ),
               const SizedBox(height: 16),
 
@@ -160,10 +230,12 @@ class StreakWidgetState extends State<StreakWidget> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(
-                        LucideIcons.trophy,
+                      PhosphorIcon(
+                        PhosphorIconsDuotone.trophy,
                         size: 20,
                         color: AppColors.warning,
+                        duotoneSecondaryColor:
+                            AppColors.warning.withValues(alpha: 0.4),
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -196,10 +268,12 @@ class StreakWidgetState extends State<StreakWidget> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
-                        LucideIcons.partyPopper,
+                      PhosphorIcon(
+                        PhosphorIconsDuotone.confetti,
                         size: 16,
                         color: AppColors.success,
+                        duotoneSecondaryColor:
+                            AppColors.success.withValues(alpha: 0.4),
                       ),
                       const SizedBox(width: 6),
                       Text(

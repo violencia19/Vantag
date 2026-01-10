@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 import '../services/services.dart';
@@ -31,7 +31,7 @@ List<OnboardingPageData> _buildOnboardingPages(AppLocalizations l10n) {
     OnboardingPageData(
       title: l10n.notBudgetApp,
       subtitle: l10n.showRealCost,
-      icon: LucideIcons.clock,
+      icon: PhosphorIconsDuotone.clock,
       iconColor: AppColors.primary,
     ),
     OnboardingPageData(
@@ -42,7 +42,7 @@ List<OnboardingPageData> _buildOnboardingPages(AppLocalizations l10n) {
     OnboardingPageData(
       title: l10n.oneExpenseEnough,
       subtitle: l10n.startSmall,
-      icon: LucideIcons.rocket,
+      icon: PhosphorIconsDuotone.rocketLaunch,
       iconColor: AppColors.primary,
       showStartButton: true,
     ),
@@ -369,19 +369,19 @@ class _DecisionButtonsVisual extends StatelessWidget {
       children: [
         _DecisionButton(
           color: AppColors.decisionNo,
-          icon: LucideIcons.x,
+          icon: PhosphorIconsDuotone.x,
           label: l10n.passed,
         ),
         const SizedBox(width: 12),
         _DecisionButton(
           color: AppColors.decisionThinking,
-          icon: LucideIcons.hourglass,
+          icon: PhosphorIconsDuotone.hourglass,
           label: l10n.thinking,
         ),
         const SizedBox(width: 12),
         _DecisionButton(
           color: AppColors.decisionYes,
-          icon: LucideIcons.check,
+          icon: PhosphorIconsDuotone.check,
           label: l10n.bought,
         ),
       ],

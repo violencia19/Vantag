@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
@@ -96,7 +96,7 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
             children: [
               IconButton(
                 onPressed: _previousMonth,
-                icon: const Icon(LucideIcons.chevronLeft),
+                icon: const Icon(PhosphorIconsDuotone.caretLeft),
                 color: AppColors.textSecondary,
               ),
               Text(
@@ -109,7 +109,7 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
               ),
               IconButton(
                 onPressed: _nextMonth,
-                icon: const Icon(LucideIcons.chevronRight),
+                icon: const Icon(PhosphorIconsDuotone.caretRight),
                 color: AppColors.textSecondary,
               ),
             ],

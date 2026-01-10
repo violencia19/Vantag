@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -308,7 +308,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                           child: Row(
                             children: [
                               Icon(
-                                LucideIcons.sparkles,
+                                PhosphorIconsDuotone.sparkle,
                                 size: 20,
                                 color: _autoRecord ? AppColors.primary : AppColors.textTertiary,
                               ),

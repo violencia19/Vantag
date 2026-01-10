@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
 import '../providers/providers.dart';
@@ -274,7 +274,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
         SnackBar(
           content: Row(
             children: [
-              const Icon(LucideIcons.checkCircle, color: Colors.white),
+              Icon(PhosphorIconsDuotone.checkCircle, color: Colors.white),
               const SizedBox(width: 12),
               Text(
                 widget.isEditing
@@ -321,7 +321,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(LucideIcons.x),
+          icon: Icon(PhosphorIconsDuotone.x),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -663,7 +663,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(LucideIcons.plusCircle, size: 24),
+                  Icon(PhosphorIconsDuotone.plusCircle, size: 24),
                   const SizedBox(width: 12),
                   Text(
                     l10n.yesAddIncome,
@@ -853,7 +853,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             width: double.infinity,
             child: ElevatedButton.icon(
               onPressed: _addAdditionalIncome,
-              icon: const Icon(LucideIcons.plus),
+              icon: Icon(PhosphorIconsDuotone.plus),
               label: Text(l10n.addIncome),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.success,
@@ -926,7 +926,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                     ),
                     const SizedBox(width: 8),
                     IconButton(
-                      icon: const Icon(LucideIcons.x, size: 20),
+                      icon: Icon(PhosphorIconsDuotone.x, size: 20),
                       color: AppColors.error,
                       onPressed: () => _removeIncome(source.id),
                     ),
@@ -1010,8 +1010,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               color: AppColors.success.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              LucideIcons.checkCircle,
+            child: Icon(
+              PhosphorIconsDuotone.checkCircle,
               size: 48,
               color: AppColors.success,
             ),

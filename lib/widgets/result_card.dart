@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -54,8 +54,8 @@ class ResultCard extends StatelessWidget {
                     value: timeDisplay.value1,
                     unit: timeDisplay.unit1,
                     icon: timeDisplay.isYearMode
-                        ? LucideIcons.calendar
-                        : LucideIcons.clock,
+                        ? PhosphorIconsDuotone.calendar
+                        : PhosphorIconsDuotone.clock,
                   ),
                   Container(
                     width: 1,
@@ -67,7 +67,7 @@ class ResultCard extends StatelessWidget {
                   _buildTimeBlock(
                     value: timeDisplay.value2,
                     unit: timeDisplay.unit2,
-                    icon: LucideIcons.sun,
+                    icon: PhosphorIconsDuotone.sun,
                   ),
                 ],
               );
@@ -126,7 +126,7 @@ class ResultCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Icon(
-                    LucideIcons.lightbulb,
+                    PhosphorIconsDuotone.lightbulb,
                     size: 18,
                     color: AppColors.warning,
                   ),
@@ -160,7 +160,7 @@ class ResultCard extends StatelessWidget {
               child: Row(
                 children: [
                   const Icon(
-                    LucideIcons.barChart3,
+                    PhosphorIconsDuotone.chartBar,
                     size: 16,
                     color: AppColors.info,
                   ),
@@ -213,7 +213,7 @@ class ResultCard extends StatelessWidget {
           Row(
             children: [
               Icon(
-                LucideIcons.arrowLeftRight,
+                PhosphorIconsDuotone.arrowsLeftRight,
                 size: 14,
                 color: AppColors.textTertiary.withValues(alpha: 0.8),
               ),

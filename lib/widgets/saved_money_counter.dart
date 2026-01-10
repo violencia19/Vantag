@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -114,7 +114,7 @@ class SavedMoneyCounter extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(
-              LucideIcons.shieldCheck,
+              PhosphorIconsDuotone.shieldCheck,
               size: 22,
               color: AppColors.primary,
             ),
@@ -194,7 +194,7 @@ class SavedMoneyCounter extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(
-                  LucideIcons.clock,
+                  PhosphorIconsDuotone.clock,
                   size: 14,
                   color: AppColors.textSecondary,
                 ),

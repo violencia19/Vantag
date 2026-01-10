@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../services/sensory_feedback_service.dart';
 import '../theme/theme.dart';
@@ -223,15 +223,15 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
   IconData _getWarningIcon() {
     switch (widget.riskLevel) {
       case RiskLevel.none:
-        return LucideIcons.checkCircle;
+        return PhosphorIconsDuotone.checkCircle;
       case RiskLevel.low:
-        return LucideIcons.info;
+        return PhosphorIconsDuotone.info;
       case RiskLevel.medium:
-        return LucideIcons.alertTriangle;
+        return PhosphorIconsDuotone.warningCircle;
       case RiskLevel.high:
-        return LucideIcons.alertOctagon;
+        return PhosphorIconsDuotone.warningOctagon;
       case RiskLevel.extreme:
-        return LucideIcons.skull;
+        return PhosphorIconsDuotone.skull;
     }
   }
 
@@ -308,8 +308,8 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
           children: [
             Icon(
               widget.riskLevel == RiskLevel.none
-                  ? LucideIcons.check
-                  : LucideIcons.alertTriangle,
+                  ? PhosphorIconsDuotone.check
+                  : PhosphorIconsDuotone.warningCircle,
               size: 22,
             ),
             const SizedBox(width: 10),

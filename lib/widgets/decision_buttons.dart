@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
@@ -35,7 +35,7 @@ class DecisionButtons extends StatelessWidget {
             Expanded(
               child: _AnimatedDecisionButton(
                 label: l10n.bought,
-                icon: LucideIcons.check,
+                icon: PhosphorIconsDuotone.check,
                 color: AppColors.decisionYes,
                 decision: ExpenseDecision.yes,
                 onTap: enabled ? () => onDecision(ExpenseDecision.yes) : null,
@@ -45,7 +45,7 @@ class DecisionButtons extends StatelessWidget {
             Expanded(
               child: _AnimatedDecisionButton(
                 label: l10n.thinking,
-                icon: LucideIcons.clock,
+                icon: PhosphorIconsDuotone.clock,
                 color: AppColors.decisionThinking,
                 decision: ExpenseDecision.thinking,
                 onTap: enabled ? () => onDecision(ExpenseDecision.thinking) : null,
@@ -55,7 +55,7 @@ class DecisionButtons extends StatelessWidget {
             Expanded(
               child: _AnimatedDecisionButton(
                 label: l10n.passed,
-                icon: LucideIcons.x,
+                icon: PhosphorIconsDuotone.x,
                 color: AppColors.decisionNo,
                 decision: ExpenseDecision.no,
                 onTap: enabled ? () => onDecision(ExpenseDecision.no) : null,

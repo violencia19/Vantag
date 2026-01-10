@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
@@ -55,14 +55,14 @@ class PremiumNavBar extends StatelessWidget {
               children: [
                 // Home
                 _NavItem(
-                  icon: LucideIcons.home,
+                  icon: PhosphorIconsDuotone.house,
                   label: l10n.homePage,
                   isActive: currentIndex == 0,
                   onTap: () => onTap(0),
                 ),
                 // Reports
                 _NavItem(
-                  icon: LucideIcons.barChart3,
+                  icon: PhosphorIconsDuotone.chartBar,
                   label: l10n.analysis,
                   isActive: currentIndex == 1,
                   onTap: () => onTap(1),
@@ -71,7 +71,7 @@ class PremiumNavBar extends StatelessWidget {
                 _CenterAddButton(onTap: onAddTap),
                 // Achievements
                 _NavItem(
-                  icon: LucideIcons.award,
+                  icon: PhosphorIconsDuotone.trophy,
                   label: l10n.badges,
                   isActive: currentIndex == 2,
                   onTap: () => onTap(2),
@@ -121,14 +121,26 @@ class _NavItem extends StatelessWidget {
               ? AppColors.primary.withValues(alpha: 0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
+          boxShadow: isActive
+              ? [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.3),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                ]
+              : null,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            PhosphorIcon(
               icon,
               size: 24,
               color: isActive ? AppColors.primary : AppColors.textTertiary,
+              duotoneSecondaryColor: isActive
+                  ? AppColors.primary.withValues(alpha: 0.4)
+                  : AppColors.textTertiary.withValues(alpha: 0.3),
             ),
             const SizedBox(height: 4),
             AnimatedDefaultTextStyle(
@@ -137,6 +149,7 @@ class _NavItem extends StatelessWidget {
                 fontSize: 11,
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
                 color: isActive ? AppColors.primary : AppColors.textTertiary,
+                letterSpacing: 0.3,
               ),
               child: Text(label),
             ),
@@ -222,10 +235,11 @@ class _CenterAddButtonState extends State<_CenterAddButton>
                   ),
                 ],
               ),
-              child: const Icon(
-                LucideIcons.plus,
+              child: PhosphorIcon(
+                PhosphorIconsDuotone.plus,
                 size: 28,
                 color: Colors.white,
+                duotoneSecondaryColor: Colors.white.withValues(alpha: 0.6),
               ),
             ),
           );
@@ -316,8 +330,8 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                         width: 24,
                         height: 24,
                         errorBuilder: (context, error, stackTrace) {
-                          return Icon(
-                            LucideIcons.user,
+                          return PhosphorIcon(
+                            PhosphorIconsDuotone.user,
                             size: 16,
                             color: widget.isActive
                                 ? AppColors.primary
@@ -327,12 +341,15 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                       ),
                     ),
                   )
-                : Icon(
-                    LucideIcons.user,
+                : PhosphorIcon(
+                    PhosphorIconsDuotone.user,
                     size: 24,
                     color: widget.isActive
                         ? AppColors.primary
                         : AppColors.textTertiary,
+                    duotoneSecondaryColor: widget.isActive
+                        ? AppColors.primary.withValues(alpha: 0.4)
+                        : AppColors.textTertiary.withValues(alpha: 0.3),
                   ),
             const SizedBox(height: 4),
             AnimatedDefaultTextStyle(
@@ -398,7 +415,7 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
               children: [
                 // Home
                 _NavItem(
-                  icon: LucideIcons.home,
+                  icon: PhosphorIconsDuotone.house,
                   label: l10n.homePage,
                   isActive: currentIndex == 0,
                   onTap: () => onTap(0),
@@ -420,7 +437,7 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   tooltipBackgroundColor: AppColors.gradientMid,
                   targetBorderRadius: BorderRadius.circular(12),
                   child: _NavItem(
-                    icon: LucideIcons.barChart3,
+                    icon: PhosphorIconsDuotone.chartBar,
                     label: l10n.analysis,
                     isActive: currentIndex == 1,
                     onTap: () => onTap(1),
@@ -461,7 +478,7 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   tooltipBackgroundColor: AppColors.gradientMid,
                   targetBorderRadius: BorderRadius.circular(12),
                   child: _NavItem(
-                    icon: LucideIcons.award,
+                    icon: PhosphorIconsDuotone.trophy,
                     label: l10n.badges,
                     isActive: currentIndex == 2,
                     onTap: () => onTap(2),

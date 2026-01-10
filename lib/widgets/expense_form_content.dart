@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -337,7 +337,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                 ? const Padding(
                     padding: EdgeInsets.only(right: 8),
                     child: Icon(
-                      LucideIcons.sparkles,
+                      PhosphorIconsDuotone.sparkle,
                       size: 18,
                       color: AppColors.success,
                     ),
@@ -455,7 +455,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
             child: Row(
               children: [
                 const Icon(
-                  LucideIcons.sparkles,
+                  PhosphorIconsDuotone.sparkle,
                   size: 14,
                   color: AppColors.success,
                 ),
@@ -528,7 +528,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
             child: Row(
               children: [
                 const Icon(
-                  LucideIcons.calendar,
+                  PhosphorIconsDuotone.calendar,
                   size: 20,
                   color: AppColors.textSecondary,
                 ),
@@ -557,7 +557,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                   ),
                 ),
                 Icon(
-                  LucideIcons.chevronRight,
+                  PhosphorIconsDuotone.caretRight,
                   color: AppColors.textTertiary,
                 ),
               ],
@@ -668,7 +668,7 @@ class _SubCatChip extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 4),
                 child: Icon(
-                  LucideIcons.history,
+                  PhosphorIconsDuotone.clockCounterClockwise,
                   size: 12,
                   color: AppColors.primary.withValues(alpha: 0.7),
                 ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
 
@@ -58,7 +58,7 @@ class IncomeSummaryWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
-                LucideIcons.wallet,
+                PhosphorIconsDuotone.wallet,
                 size: iconSize,
                 color: AppColors.success,
               ),
@@ -119,7 +119,7 @@ class IncomeSummaryWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      isPositive ? LucideIcons.trendingUp : LucideIcons.trendingDown,
+                      isPositive ? PhosphorIconsDuotone.trendUp : PhosphorIconsDuotone.trendDown,
                       size: subFontSize + 2,
                       color: isPositive ? AppColors.success : AppColors.error,
                     ),
@@ -141,7 +141,7 @@ class IncomeSummaryWidget extends StatelessWidget {
             if (expandRatio > 0.5 && onTap != null) ...[
               SizedBox(width: 8 + (4 * expandRatio)),
               Icon(
-                LucideIcons.chevronRight,
+                PhosphorIconsDuotone.caretRight,
                 size: iconSize,
                 color: AppColors.textTertiary,
               ),
@@ -268,7 +268,7 @@ class IncomeProgressBar extends StatelessWidget {
                       borderRadius: BorderRadius.circular(height / 2),
                     ),
                     child: Icon(
-                      LucideIcons.alertTriangle,
+                      PhosphorIconsDuotone.warningCircle,
                       size: height - 2,
                       color: Colors.white,
                     ),

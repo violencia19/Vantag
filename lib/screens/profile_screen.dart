@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/models.dart';
@@ -76,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            const Icon(LucideIcons.alertTriangle, color: AppColors.error, size: 28),
+            Icon(PhosphorIconsDuotone.warningCircle, color: AppColors.error, size: 28),
             const SizedBox(width: 12),
             Text(
               l10n.resetDataTitle,
@@ -155,7 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: IconButton(
-              icon: const Icon(LucideIcons.pencil, size: 22),
+              icon: Icon(PhosphorIconsDuotone.pencilSimple, size: 22),
               color: AppColors.textSecondary,
               tooltip: l10n.edit,
               onPressed: _editProfile,
@@ -181,25 +181,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             // Info cards
             _buildInfoCard(
-              icon: LucideIcons.creditCard,
+              icon: PhosphorIconsDuotone.creditCard,
               title: l10n.monthlyIncome,
               value: '${formatTurkishCurrency(_userProfile.monthlyIncome, decimalDigits: 2)} TL',
             ),
             const SizedBox(height: 12),
             _buildInfoCard(
-              icon: LucideIcons.clock,
+              icon: PhosphorIconsDuotone.clock,
               title: l10n.dailyWork,
               value: '${_userProfile.dailyHours.toStringAsFixed(0)} ${l10n.hours}',
             ),
             const SizedBox(height: 12),
             _buildInfoCard(
-              icon: LucideIcons.calendar,
+              icon: PhosphorIconsDuotone.calendar,
               title: l10n.weeklyWorkingDays,
               value: '${_userProfile.workDaysPerWeek} ${l10n.days}',
             ),
             const SizedBox(height: 12),
             _buildInfoCard(
-              icon: LucideIcons.trendingUp,
+              icon: PhosphorIconsDuotone.trendUp,
               title: l10n.hourlyEarnings,
               value: '${formatTurkishCurrency(_calculateHourlyWage(), decimalDigits: 2)} TL/${l10n.hours}',
               highlight: true,
@@ -212,7 +212,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: _editProfile,
-                icon: const Icon(LucideIcons.pencil, size: 20),
+                icon: Icon(PhosphorIconsDuotone.pencilSimple, size: 20),
                 label: Text(l10n.editProfile),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.surface,
@@ -239,7 +239,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   );
                 },
-                icon: const Icon(LucideIcons.bell, size: 20),
+                icon: Icon(PhosphorIconsDuotone.bell, size: 20),
                 label: Text(l10n.notificationSettings),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.surface,
@@ -264,7 +264,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     widget.onStartTour!();
                   }
                 },
-                icon: const Icon(LucideIcons.compass, size: 20),
+                icon: Icon(PhosphorIconsDuotone.compass, size: 20),
                 label: Text(l10n.repeatTour),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.surface,
@@ -284,7 +284,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () => launchUrl(Uri.parse('https://violencia19.github.io/Vantag/privacy-tr')),
-                icon: const Icon(LucideIcons.shield, size: 20),
+                icon: Icon(PhosphorIconsDuotone.shield, size: 20),
                 label: const Text('Gizlilik Politikası'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.surface,
@@ -304,7 +304,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () => launchUrl(Uri.parse('https://violencia19.github.io/Vantag/terms-tr')),
-                icon: const Icon(LucideIcons.fileText, size: 20),
+                icon: Icon(PhosphorIconsDuotone.fileText, size: 20),
                 label: const Text('Kullanım Şartları'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.surface,
@@ -325,7 +325,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: _resetAllData,
-                icon: const Icon(LucideIcons.trash2, size: 20),
+                icon: Icon(PhosphorIconsDuotone.trash, size: 20),
                 label: Text(l10n.resetDataDebug),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.error.withValues(alpha: 0.1),

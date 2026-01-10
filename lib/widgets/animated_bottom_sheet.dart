@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 
 /// Animasyonlu bottom sheet
@@ -274,7 +274,7 @@ class _AnimatedModalState extends State<AnimatedModal> {
             Align(
               alignment: Alignment.topRight,
               child: IconButton(
-                icon: const Icon(LucideIcons.x, color: AppColors.textSecondary),
+                icon: Icon(PhosphorIconsDuotone.x, color: AppColors.textSecondary),
                 onPressed: widget.onClose ?? () => Navigator.of(context).pop(),
               ),
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -117,7 +117,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                       ),
                     ),
                     child: Icon(
-                      LucideIcons.calendar,
+                      PhosphorIconsDuotone.calendar,
                       color: QuietLuxury.textSecondary,
                       size: 20,
                     ),
@@ -154,7 +154,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                         ),
                       ),
                       child: Icon(
-                        LucideIcons.plus,
+                        PhosphorIconsDuotone.plus,
                         color: QuietLuxury.positive,
                         size: 22,
                       ),
@@ -229,7 +229,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
               ),
             ),
             child: Icon(
-              LucideIcons.repeat,
+              PhosphorIconsDuotone.repeat,
               size: 26,
               color: QuietLuxury.textTertiary,
             ),
@@ -261,7 +261,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    LucideIcons.plus,
+                    PhosphorIconsDuotone.plus,
                     size: 18,
                     color: QuietLuxury.positive,
                   ),
@@ -328,7 +328,7 @@ class _SubscriptionCard extends StatelessWidget {
         ),
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 24),
-        child: Icon(LucideIcons.trash2, color: QuietLuxury.negative),
+        child: Icon(PhosphorIconsDuotone.trash, color: QuietLuxury.negative),
       ),
       child: Pressable(
         onTap: onEdit,
@@ -403,7 +403,7 @@ class _SubscriptionCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Icon(
-                          LucideIcons.clock,
+                          PhosphorIconsDuotone.clock,
                           size: 11,
                           color: _getRenewalColor(),
                         ),
@@ -489,7 +489,7 @@ class _SubscriptionCard extends StatelessWidget {
               const SizedBox(height: 24),
               _buildMenuTile(
                 context: context,
-                icon: LucideIcons.pencil,
+                icon: PhosphorIconsDuotone.pencilSimple,
                 label: l10n.edit,
                 color: const Color(0xB33498DB), // Subtle blue
                 onTap: () {
@@ -500,7 +500,7 @@ class _SubscriptionCard extends StatelessWidget {
               const SizedBox(height: 12),
               _buildMenuTile(
                 context: context,
-                icon: LucideIcons.trash2,
+                icon: PhosphorIconsDuotone.trash,
                 label: l10n.delete,
                 color: QuietLuxury.negative,
                 onTap: () {
@@ -1001,7 +1001,7 @@ class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
           children: [
             // Icon
             Icon(
-              LucideIcons.calendar,
+              PhosphorIconsDuotone.calendar,
               size: 20,
               color: accentColor,
             ),
@@ -1036,7 +1036,7 @@ class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
 
             // Arrow
             Icon(
-              LucideIcons.chevronRight,
+              PhosphorIconsDuotone.caretRight,
               size: 12,
               color: accentColor.withValues(alpha: 0.5),
             ),

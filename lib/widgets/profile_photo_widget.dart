@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 
@@ -119,7 +119,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
               ),
               const SizedBox(height: 20),
               _buildOption(
-                icon: LucideIcons.camera,
+                icon: PhosphorIconsDuotone.camera,
                 label: 'Kameradan çek',
                 onTap: () {
                   Navigator.pop(context);
@@ -128,7 +128,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
               ),
               const SizedBox(height: 12),
               _buildOption(
-                icon: LucideIcons.image,
+                icon: PhosphorIconsDuotone.image,
                 label: 'Galeriden seç',
                 onTap: () {
                   Navigator.pop(context);
@@ -138,7 +138,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
               if (_photoPath != null) ...[
                 const SizedBox(height: 12),
                 _buildOption(
-                  icon: LucideIcons.trash2,
+                  icon: PhosphorIconsDuotone.trash,
                   label: 'Fotoğrafı kaldır',
                   isDestructive: true,
                   onTap: () {
@@ -231,14 +231,14 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                           height: widget.size,
                           errorBuilder: (context, error, stackTrace) {
                             return Icon(
-                              LucideIcons.user,
+                              PhosphorIconsDuotone.user,
                               size: widget.size * 0.48,
                               color: AppColors.primary,
                             );
                           },
                         )
                       : Icon(
-                          LucideIcons.user,
+                          PhosphorIconsDuotone.user,
                           size: widget.size * 0.48,
                           color: AppColors.primary,
                         ),
@@ -261,7 +261,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                   ),
                 ),
                 child: Icon(
-                  LucideIcons.camera,
+                  PhosphorIconsDuotone.camera,
                   size: widget.size * 0.16,
                   color: AppColors.background,
                 ),

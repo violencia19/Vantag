@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
@@ -42,10 +42,10 @@ class ExpenseHistoryCard extends StatelessWidget {
 
   IconData _getDecisionIcon(ExpenseDecision? decision) {
     return switch (decision) {
-      ExpenseDecision.yes => LucideIcons.checkCircle,
-      ExpenseDecision.thinking => LucideIcons.clock,
-      ExpenseDecision.no => LucideIcons.xCircle,
-      null => LucideIcons.helpCircle,
+      ExpenseDecision.yes => PhosphorIconsDuotone.checkCircle,
+      ExpenseDecision.thinking => PhosphorIconsDuotone.clock,
+      ExpenseDecision.no => PhosphorIconsDuotone.xCircle,
+      null => PhosphorIconsDuotone.question,
     };
   }
 
@@ -83,7 +83,7 @@ class ExpenseHistoryCard extends StatelessWidget {
               const SizedBox(height: 24),
               _buildOptionTile(
                 context: context,
-                icon: LucideIcons.checkCircle,
+                icon: PhosphorIconsDuotone.checkCircle,
                 label: l10n.bought,
                 color: AppColors.decisionYes,
                 onTap: () {
@@ -94,7 +94,7 @@ class ExpenseHistoryCard extends StatelessWidget {
               const SizedBox(height: 12),
               _buildOptionTile(
                 context: context,
-                icon: LucideIcons.xCircle,
+                icon: PhosphorIconsDuotone.xCircle,
                 label: l10n.passed,
                 color: AppColors.decisionNo,
                 onTap: () {
@@ -172,7 +172,7 @@ class ExpenseHistoryCard extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               _buildMenuTile(
-                icon: LucideIcons.pencil,
+                icon: PhosphorIconsDuotone.pencilSimple,
                 label: l10n.edit,
                 color: AppColors.info,
                 onTap: () {
@@ -182,7 +182,7 @@ class ExpenseHistoryCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               _buildMenuTile(
-                icon: LucideIcons.trash2,
+                icon: PhosphorIconsDuotone.trash,
                 label: l10n.delete,
                 color: AppColors.error,
                 onTap: () {
@@ -346,8 +346,8 @@ class ExpenseHistoryCard extends StatelessWidget {
                       const SizedBox(height: 6),
                       Row(
                         children: [
-                          const Icon(
-                            LucideIcons.clock,
+                          Icon(
+                            PhosphorIconsDuotone.clock,
                             size: 14,
                             color: AppColors.textTertiary,
                           ),
@@ -397,7 +397,7 @@ class ExpenseHistoryCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: const Icon(
-                          LucideIcons.moreHorizontal,
+                          PhosphorIconsDuotone.dotsThree,
                           size: 18,
                           color: AppColors.textSecondary,
                         ),
@@ -421,8 +421,8 @@ class ExpenseHistoryCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  LucideIcons.moveLeft,
+                Icon(
+                  PhosphorIconsDuotone.arrowLeft,
                   size: 16,
                   color: AppColors.textTertiary,
                 ),
@@ -456,9 +456,9 @@ class ExpenseHistoryCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Icon(LucideIcons.pencil, color: AppColors.info, size: 22),
+                Icon(PhosphorIconsDuotone.pencilSimple, color: AppColors.info, size: 22),
                 const SizedBox(width: 20),
-                Icon(LucideIcons.trash2, color: AppColors.error, size: 22),
+                Icon(PhosphorIconsDuotone.trash, color: AppColors.error, size: 22),
               ],
             ),
           ),
@@ -527,7 +527,7 @@ class ExpenseHistoryCard extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _buildMenuTile(
-                icon: LucideIcons.pencil,
+                icon: PhosphorIconsDuotone.pencilSimple,
                 label: l10n.edit,
                 color: AppColors.info,
                 onTap: () {
@@ -537,7 +537,7 @@ class ExpenseHistoryCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               _buildMenuTile(
-                icon: LucideIcons.trash2,
+                icon: PhosphorIconsDuotone.trash,
                 label: l10n.delete,
                 color: AppColors.error,
                 onTap: () {

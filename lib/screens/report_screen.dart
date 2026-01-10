@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -373,7 +373,7 @@ class _ReportScreenState extends State<ReportScreen>
                 suffix: ' TL',
                 subtitle: l10n.hoursEquivalent(spentHours.toStringAsFixed(1)),
                 color: AppColors.decisionYes,
-                icon: LucideIcons.shoppingCart,
+                icon: PhosphorIconsDuotone.shoppingCart,
               ),
             ),
             const SizedBox(width: 12),
@@ -385,7 +385,7 @@ class _ReportScreenState extends State<ReportScreen>
                 suffix: ' TL',
                 subtitle: l10n.hoursRequired(stats.savedHours.toStringAsFixed(1)),
                 color: AppColors.decisionNo,
-                icon: LucideIcons.shieldCheck,
+                icon: PhosphorIconsDuotone.shieldCheck,
               ),
             ),
           ],
@@ -401,7 +401,7 @@ class _ReportScreenState extends State<ReportScreen>
                 isInteger: true,
                 subtitle: l10n.boughtPassed(stats.yesCount, stats.noCount),
                 color: AppColors.info,
-                icon: LucideIcons.receipt,
+                icon: PhosphorIconsDuotone.receipt,
               ),
             ),
             const SizedBox(width: 12),
@@ -414,7 +414,7 @@ class _ReportScreenState extends State<ReportScreen>
                 isInteger: true,
                 subtitle: savingsRate >= 50 ? l10n.doingGreat : l10n.canDoBetter,
                 color: savingsRate >= 50 ? AppColors.success : AppColors.warning,
-                icon: LucideIcons.trendingUp,
+                icon: PhosphorIconsDuotone.trendUp,
               ),
             ),
           ],
@@ -428,7 +428,7 @@ class _ReportScreenState extends State<ReportScreen>
             suffix: ' TL',
             subtitle: l10n.activeSubscriptions(_subscriptionCount),
             color: AppColors.primary,
-            icon: LucideIcons.calendar,
+            icon: PhosphorIconsDuotone.calendar,
             isFullWidth: true,
           ),
         ],
@@ -764,8 +764,8 @@ class _ReportScreenState extends State<ReportScreen>
             ),
             child: Icon(
               insight.isIncrease
-                  ? LucideIcons.trendingUp
-                  : LucideIcons.trendingDown,
+                  ? PhosphorIconsDuotone.trendUp
+                  : PhosphorIconsDuotone.trendDown,
               size: 20,
               color: accentColor,
             ),
@@ -875,8 +875,8 @@ class _ReportScreenState extends State<ReportScreen>
                   color: AppColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Icon(
-                  LucideIcons.layoutGrid,
+                child: Icon(
+                  PhosphorIconsDuotone.squaresFour,
                   size: 18,
                   color: AppColors.primary,
                 ),
@@ -1075,13 +1075,13 @@ class _ReportScreenState extends State<ReportScreen>
           ),
           const SizedBox(height: 16),
           _buildStatRow(
-            icon: LucideIcons.calendar,
+            icon: PhosphorIconsDuotone.calendar,
             label: l10n.avgDailyExpense,
             value: '${formatTurkishCurrency(dailyAverage, decimalDigits: 2)} TL',
           ),
           const SizedBox(height: 12),
           _buildStatRow(
-            icon: LucideIcons.arrowUp,
+            icon: PhosphorIconsDuotone.arrowUp,
             label: l10n.highestSingleExpense,
             value: highestExpense != null
                 ? '${formatTurkishCurrency(highestExpense.amount, decimalDigits: 2)} TL (${highestExpense.category})'
@@ -1089,7 +1089,7 @@ class _ReportScreenState extends State<ReportScreen>
           ),
           const SizedBox(height: 12),
           _buildStatRow(
-            icon: LucideIcons.ban,
+            icon: PhosphorIconsDuotone.prohibit,
             label: l10n.mostDeclinedCategory,
             value: mostDeclinedCategory != null
                 ? '$mostDeclinedCategory (${l10n.times(mostDeclinedCount)})'
@@ -1191,7 +1191,7 @@ class _ReportScreenState extends State<ReportScreen>
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(
-              isPositive ? LucideIcons.trendingDown : LucideIcons.trendingUp,
+              isPositive ? PhosphorIconsDuotone.trendDown : PhosphorIconsDuotone.trendUp,
               color: isPositive ? AppColors.success : AppColors.warning,
               size: 22,
             ),

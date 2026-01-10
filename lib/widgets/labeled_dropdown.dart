@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 
 class LabeledDropdown<T> extends StatelessWidget {
@@ -48,7 +48,7 @@ class LabeledDropdown<T> extends StatelessWidget {
               value: value,
               isExpanded: true,
               icon: const Icon(
-                LucideIcons.chevronDown,
+                PhosphorIconsDuotone.caretDown,
                 color: AppColors.textSecondary,
               ),
               dropdownColor: AppColors.surfaceLight,

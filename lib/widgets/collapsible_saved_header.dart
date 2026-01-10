@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
 import 'animated_counter.dart';
@@ -162,7 +162,7 @@ class CollapsibleSavedHeader extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            LucideIcons.shieldCheck,
+            PhosphorIconsDuotone.shieldCheck,
             size: 20 + (12 * expandRatio),
             color: AppColors.textTertiary,
           ),
@@ -245,7 +245,7 @@ class _AnimatedSavingsIconState extends State<_AnimatedSavingsIcon>
               borderRadius: BorderRadius.circular(12 + (8 * widget.expandRatio)),
             ),
             child: Icon(
-              LucideIcons.shieldCheck,
+              PhosphorIconsDuotone.shieldCheck,
               size: widget.iconSize,
               color: AppColors.primary,
             ),

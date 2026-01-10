@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 
@@ -45,7 +45,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
       appBar: AppBar(
         backgroundColor: AppColors.background,
         leading: IconButton(
-          icon: const Icon(LucideIcons.arrowLeft, color: AppColors.textPrimary),
+          icon: Icon(PhosphorIconsDuotone.arrowLeft, color: AppColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -85,7 +85,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                       title: l10n.awarenessReminder,
                       subtitle: l10n.awarenessReminderDesc,
                       key: 'delayedAwareness',
-                      icon: LucideIcons.brain,
+                      icon: PhosphorIconsDuotone.brain,
                     ),
                     const SizedBox(height: 12),
 
@@ -93,7 +93,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                       title: l10n.giveUpCongrats,
                       subtitle: l10n.giveUpCongratsDesc,
                       key: 'reinforce',
-                      icon: LucideIcons.partyPopper,
+                      icon: PhosphorIconsDuotone.confetti,
                     ),
                     const SizedBox(height: 12),
 
@@ -101,7 +101,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                       title: l10n.streakReminder,
                       subtitle: l10n.streakReminderDesc,
                       key: 'streakReminder',
-                      icon: LucideIcons.flame,
+                      icon: PhosphorIconsDuotone.flame,
                     ),
                     const SizedBox(height: 12),
 
@@ -109,7 +109,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                       title: l10n.weeklySummary,
                       subtitle: l10n.weeklySummaryDesc,
                       key: 'weeklyInsight',
-                      icon: LucideIcons.barChart3,
+                      icon: PhosphorIconsDuotone.chartBar,
                     ),
 
                     const SizedBox(height: 32),
@@ -126,7 +126,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Icon(
-                            LucideIcons.info,
+                            PhosphorIconsDuotone.info,
                             size: 18,
                             color: AppColors.textTertiary,
                           ),
@@ -180,7 +180,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
-              isEnabled ? LucideIcons.bellRing : LucideIcons.bellOff,
+              isEnabled ? PhosphorIconsDuotone.bellRinging : PhosphorIconsDuotone.bellSlash,
               size: 24,
               color: isEnabled ? AppColors.primary : AppColors.textTertiary,
             ),

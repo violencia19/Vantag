@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -229,8 +229,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const Icon(
-                LucideIcons.link,
+              child: Icon(
+                PhosphorIconsDuotone.link,
                 color: AppColors.primary,
                 size: 32,
               ),
@@ -274,8 +274,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   'https://www.google.com/favicon.ico',
                   width: 20,
                   height: 20,
-                  errorBuilder: (context, error, stackTrace) => const Icon(
-                    LucideIcons.globe,
+                  errorBuilder: (context, error, stackTrace) => Icon(
+                    PhosphorIconsDuotone.globe,
                     size: 20,
                     color: Colors.blue,
                   ),
@@ -316,7 +316,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ? AppBar(
               backgroundColor: AppColors.background,
               leading: IconButton(
-                icon: const Icon(LucideIcons.arrowLeft, color: AppColors.textPrimary),
+                icon: Icon(PhosphorIconsDuotone.arrowLeft, color: AppColors.textPrimary),
                 onPressed: () => Navigator.pop(context),
               ),
               title: Text(
@@ -346,8 +346,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       color: AppColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(18),
                     ),
-                    child: const Icon(
-                      LucideIcons.user,
+                    child: Icon(
+                      PhosphorIconsDuotone.user,
                       size: 32,
                       color: AppColors.primary,
                     ),
@@ -570,7 +570,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 }
               }
             },
-            icon: const Icon(LucideIcons.plusCircle, size: 20),
+            icon: Icon(PhosphorIconsDuotone.plusCircle, size: 20),
             label: Text(l10n.addAdditionalIncome),
             style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.primary,
@@ -640,8 +640,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ),
           prefixIcon: Container(
             margin: const EdgeInsets.only(left: 16, right: 12),
-            child: const Icon(
-              LucideIcons.wallet,
+            child: Icon(
+              PhosphorIconsDuotone.wallet,
               color: AppColors.primary,
               size: 24,
             ),
@@ -686,8 +686,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         color: AppColors.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(
-                        LucideIcons.wallet,
+                      child: Icon(
+                        PhosphorIconsDuotone.wallet,
                         color: AppColors.primary,
                         size: 20,
                       ),

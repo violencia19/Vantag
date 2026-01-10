@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 
@@ -49,7 +49,7 @@ class CurrencyDetailScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         leading: IconButton(
-          icon: const Icon(LucideIcons.arrowLeft, color: AppColors.textPrimary),
+          icon: Icon(PhosphorIconsDuotone.arrowLeft, color: AppColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -84,8 +84,8 @@ class CurrencyDetailScreen extends StatelessWidget {
                       color: AppColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(
-                      LucideIcons.refreshCw,
+                    child: Icon(
+                      PhosphorIconsDuotone.arrowsClockwise,
                       size: 20,
                       color: AppColors.primary,
                     ),
@@ -201,7 +201,7 @@ class CurrencyDetailScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(
-                    LucideIcons.info,
+                    PhosphorIconsDuotone.info,
                     size: 18,
                     color: AppColors.textTertiary.withValues(alpha: 0.8),
                   ),

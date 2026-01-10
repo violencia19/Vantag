@@ -51,7 +51,8 @@
       "Bash(powershell \"Get-WmiObject -Class Win32_LogicalDisk -Filter \"\"DeviceID=''C:''\"\" | Select-Object FreeSpace\")",
       "Bash(powershell \"Get-Process | Where-Object {$_ProcessName -like ''*mmr*'' -or $_ProcessName -like ''*devenv*'' -or $_ProcessName -like ''*msbuild*''} | Select-Object ProcessName, Id\")",
       "Bash(gradlew --stop:*)",
-      "Bash(c:flutter_projectsmmr_appandroidgradlew.bat --stop)"
+      "Bash(c:flutter_projectsmmr_appandroidgradlew.bat --stop)",
+      "Bash(ls:*)"
     ]
   }
 }

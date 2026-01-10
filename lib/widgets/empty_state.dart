@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 
 /// Empty state widget
@@ -12,7 +12,7 @@ class EmptyState extends StatefulWidget {
 
   const EmptyState({
     super.key,
-    this.icon = LucideIcons.inbox,
+    this.icon = PhosphorIconsDuotone.tray,
     this.title,
     required this.message,
     this.action,
@@ -21,7 +21,7 @@ class EmptyState extends StatefulWidget {
   /// Empty state for expense list
   factory EmptyState.expenses({required String message}) {
     return EmptyState(
-      icon: LucideIcons.receipt,
+      icon: PhosphorIconsDuotone.receipt,
       message: message,
     );
   }
@@ -29,7 +29,7 @@ class EmptyState extends StatefulWidget {
   /// Empty state for achievements list
   factory EmptyState.achievements({required String message}) {
     return EmptyState(
-      icon: LucideIcons.trophy,
+      icon: PhosphorIconsDuotone.trophy,
       message: message,
     );
   }
@@ -37,7 +37,7 @@ class EmptyState extends StatefulWidget {
   /// Empty state for reports
   factory EmptyState.reports({required String message}) {
     return EmptyState(
-      icon: LucideIcons.barChart3,
+      icon: PhosphorIconsDuotone.chartBar,
       message: message,
     );
   }
@@ -45,7 +45,7 @@ class EmptyState extends StatefulWidget {
   /// Empty state for subscription list
   factory EmptyState.subscriptions({required String message}) {
     return EmptyState(
-      icon: LucideIcons.calendar,
+      icon: PhosphorIconsDuotone.calendar,
       message: message,
     );
   }

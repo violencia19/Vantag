@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/subscription_manager.dart';
@@ -147,8 +147,8 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                             ),
                             child: Icon(
                               isUrgent
-                                  ? LucideIcons.alertTriangle
-                                  : LucideIcons.bellRing,
+                                  ? PhosphorIconsDuotone.warningCircle
+                                  : PhosphorIconsDuotone.bellRinging,
                               color: Colors.white,
                               size: 22,
                             ),
@@ -221,7 +221,7 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                                 widget.onDismiss?.call();
                               },
                               child: Icon(
-                                LucideIcons.x,
+                                PhosphorIconsDuotone.x,
                                 size: 18,
                                 color: AppColors.textTertiary,
                               ),
@@ -301,7 +301,7 @@ class CompactRenewalBadge extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(
-              LucideIcons.bellRing,
+              PhosphorIconsDuotone.bellRinging,
               color: Colors.white,
               size: 14,
             ),
@@ -480,7 +480,7 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
                       ),
                       const SizedBox(width: 8),
                       Icon(
-                        LucideIcons.chevronRight,
+                        PhosphorIconsDuotone.caretRight,
                         size: 14,
                         color: AppColors.textTertiary,
                       ),

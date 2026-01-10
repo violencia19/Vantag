@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 import '../models/models.dart';
 import 'turkish_currency_input.dart';
@@ -188,8 +188,8 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                               ),
                               child: Icon(
                                 _isExpanded
-                                    ? LucideIcons.trendingDown
-                                    : LucideIcons.lightbulb,
+                                    ? PhosphorIconsDuotone.trendDown
+                                    : PhosphorIconsDuotone.lightbulb,
                                 color: _isExpanded
                                     ? const Color(0xFFFFD700)
                                     : AppColors.textSecondary,
@@ -230,7 +230,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                               turns: _isExpanded ? 0.5 : 0,
                               duration: const Duration(milliseconds: 200),
                               child: Icon(
-                                LucideIcons.chevronDown,
+                                PhosphorIconsDuotone.caretDown,
                                 color: _isExpanded
                                     ? const Color(0xFFFFD700)
                                     : AppColors.textTertiary,
@@ -285,7 +285,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                   borderSide: BorderSide.none,
                                 ),
                                 prefixIcon: Icon(
-                                  LucideIcons.shoppingBag,
+                                  PhosphorIconsDuotone.shoppingBag,
                                   color: AppColors.textTertiary,
                                   size: 20,
                                 ),
@@ -341,7 +341,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
               borderRadius: BorderRadius.circular(10),
             ),
             child: const Icon(
-              LucideIcons.shieldCheck,
+              PhosphorIconsDuotone.shieldCheck,
               color: Color(0xFFFFD700),
               size: 20,
             ),
