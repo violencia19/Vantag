@@ -102,7 +102,7 @@ Export: You can export your data (Pro feature)
 To request deletion of all your data:
 
 Use the "Delete Account" option in app settings, or
-Contact us at [YOUR EMAIL]
+Contact us at vantagfinance@gmail.com
 
 We will process deletion requests within 30 days.
 
