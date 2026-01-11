@@ -116,6 +116,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
     HapticFeedback.lightImpact();
     showDialog(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.gradientMid,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

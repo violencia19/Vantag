@@ -481,6 +481,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get categoryOther => 'Other';
 
   @override
+  String get categoryClothing => 'Clothing';
+
+  @override
+  String get categoryElectronics => 'Electronics';
+
+  @override
+  String get categorySubscription => 'Subscription';
+
+  @override
+  String get weekdayMonday => 'Monday';
+
+  @override
+  String get weekdayTuesday => 'Tuesday';
+
+  @override
+  String get weekdayWednesday => 'Wednesday';
+
+  @override
+  String get weekdayThursday => 'Thursday';
+
+  @override
+  String get weekdayFriday => 'Friday';
+
+  @override
+  String get weekdaySaturday => 'Saturday';
+
+  @override
+  String get weekdaySunday => 'Sunday';
+
+  @override
   String get shareTitle => 'Check out my savings with Vantag!';
 
   @override
@@ -526,6 +556,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get about => 'About';
+
+  @override
+  String get dangerZone => 'Danger Zone';
+
+  @override
+  String get appVersion => 'App Version';
 
   @override
   String get signOut => 'Sign Out';
@@ -1661,4 +1697,563 @@ class AppLocalizationsEn extends AppLocalizations {
   String withThisAmountYouCouldBuy(String amount) {
     return 'With $amount TL you could buy:';
   }
+
+  @override
+  String get workHoursDistribution => 'Work Hours Distribution';
+
+  @override
+  String get workHoursDistributionDesc =>
+      'See how many hours you work for each category';
+
+  @override
+  String hoursShort(String hours) {
+    return '${hours}h';
+  }
+
+  @override
+  String categoryHoursBar(String hours, String percent) {
+    return '$hours hours ($percent%)';
+  }
+
+  @override
+  String get monthComparison => 'Month Comparison';
+
+  @override
+  String get vsLastMonth => 'vs Last Month';
+
+  @override
+  String get noLastMonthData => 'No last month data';
+
+  @override
+  String decreasedBy(String percent) {
+    return '↓ $percent% decreased';
+  }
+
+  @override
+  String increasedBy(String percent) {
+    return '↑ $percent% increased';
+  }
+
+  @override
+  String get noChange => 'No change';
+
+  @override
+  String get greatProgress => 'Great progress!';
+
+  @override
+  String get watchOut => 'Watch out!';
+
+  @override
+  String get smartInsights => 'Smart Insights';
+
+  @override
+  String get mostExpensiveDay => 'Most Expensive Day';
+
+  @override
+  String mostExpensiveDayValue(String day, String amount) {
+    return '$day (avg. $amount TL)';
+  }
+
+  @override
+  String get mostPassedCategory => 'Most Passed Category';
+
+  @override
+  String mostPassedCategoryValue(String category, int count) {
+    return '$category ($count times)';
+  }
+
+  @override
+  String get savingsOpportunity => 'Savings Opportunity';
+
+  @override
+  String savingsOpportunityValue(String category, String hours) {
+    return 'Cut $category by 20% = ${hours}h saved/month';
+  }
+
+  @override
+  String get weeklyTrend => 'Weekly Trend';
+
+  @override
+  String weeklyTrendValue(String trend) {
+    return 'Last 4 weeks: $trend';
+  }
+
+  @override
+  String get overallDecreasing => 'Overall decreasing';
+
+  @override
+  String get overallIncreasing => 'Overall increasing';
+
+  @override
+  String get stableTrend => 'Stable';
+
+  @override
+  String get noTrendData => 'Not enough data';
+
+  @override
+  String get yearlyView => 'Yearly View';
+
+  @override
+  String get yearlyHeatmap => 'Expense Heatmap';
+
+  @override
+  String get yearlyHeatmapDesc => 'Your spending intensity throughout the year';
+
+  @override
+  String get lowSpending => 'Low';
+
+  @override
+  String get highSpending => 'High';
+
+  @override
+  String get noSpending => 'No spending';
+
+  @override
+  String get tapDayForDetails => 'Tap a day for details';
+
+  @override
+  String selectedDayExpenses(String date, String amount, int count) {
+    return '$date: $amount TL ($count expenses)';
+  }
+
+  @override
+  String get proBadge => 'PRO';
+
+  @override
+  String get proFeature => 'Pro Feature';
+
+  @override
+  String get comingSoon => 'Coming Soon';
+
+  @override
+  String get mindfulChoice => 'Mindful Choice';
+
+  @override
+  String get mindfulChoiceExpandedDesc =>
+      'What were you originally planning to buy?';
+
+  @override
+  String get mindfulChoiceCollapsedDesc =>
+      'Were you going to buy something more expensive?';
+
+  @override
+  String get mindfulChoiceAmountLabel => 'Amount in Mind (₺)';
+
+  @override
+  String mindfulChoiceAmountHint(String amount) {
+    return 'e.g: $amount';
+  }
+
+  @override
+  String mindfulChoiceSavings(String amount) {
+    return '$amount TL savings';
+  }
+
+  @override
+  String get mindfulChoiceSavingsDesc =>
+      'Stays in your pocket with mindful choice';
+
+  @override
+  String get tierBronze => 'Bronze';
+
+  @override
+  String get tierSilver => 'Silver';
+
+  @override
+  String get tierGold => 'Gold';
+
+  @override
+  String get tierPlatinum => 'Platinum';
+
+  @override
+  String get achievementCategoryStreak => 'Streak';
+
+  @override
+  String get achievementCategorySavings => 'Savings';
+
+  @override
+  String get achievementCategoryDecision => 'Decision';
+
+  @override
+  String get achievementCategoryRecord => 'Record';
+
+  @override
+  String get achievementCategoryHidden => 'Hidden';
+
+  @override
+  String get achievementStreakB1Title => 'Getting Started';
+
+  @override
+  String get achievementStreakB1Desc => 'Record for 3 days in a row';
+
+  @override
+  String get achievementStreakB2Title => 'Keeping Going';
+
+  @override
+  String get achievementStreakB2Desc => 'Record for 7 days in a row';
+
+  @override
+  String get achievementStreakB3Title => 'Building Routine';
+
+  @override
+  String get achievementStreakB3Desc => 'Record for 14 days in a row';
+
+  @override
+  String get achievementStreakS1Title => 'Determination';
+
+  @override
+  String get achievementStreakS1Desc => 'Record for 30 days in a row';
+
+  @override
+  String get achievementStreakS2Title => 'Habit';
+
+  @override
+  String get achievementStreakS2Desc => 'Record for 60 days in a row';
+
+  @override
+  String get achievementStreakS3Title => 'Discipline';
+
+  @override
+  String get achievementStreakS3Desc => 'Record for 90 days in a row';
+
+  @override
+  String get achievementStreakG1Title => 'Strong Will';
+
+  @override
+  String get achievementStreakG1Desc => 'Record for 150 days in a row';
+
+  @override
+  String get achievementStreakG2Title => 'Unshakeable';
+
+  @override
+  String get achievementStreakG2Desc => 'Record for 250 days in a row';
+
+  @override
+  String get achievementStreakG3Title => 'Consistency';
+
+  @override
+  String get achievementStreakG3Desc => 'Record for 365 days in a row';
+
+  @override
+  String get achievementStreakPTitle => 'Persistence';
+
+  @override
+  String get achievementStreakPDesc => 'Record for 730 days in a row';
+
+  @override
+  String get achievementSavingsB1Title => 'First Savings';
+
+  @override
+  String get achievementSavingsB1Desc => 'Saved 250 TL';
+
+  @override
+  String get achievementSavingsB2Title => 'Starting to Save';
+
+  @override
+  String get achievementSavingsB2Desc => 'Saved 500 TL';
+
+  @override
+  String get achievementSavingsB3Title => 'On the Right Path';
+
+  @override
+  String get achievementSavingsB3Desc => 'Saved 1,000 TL';
+
+  @override
+  String get achievementSavingsS1Title => 'Mindful Spending';
+
+  @override
+  String get achievementSavingsS1Desc => 'Saved 2,500 TL';
+
+  @override
+  String get achievementSavingsS2Title => 'In Control';
+
+  @override
+  String get achievementSavingsS2Desc => 'Saved 5,000 TL';
+
+  @override
+  String get achievementSavingsS3Title => 'Consistent';
+
+  @override
+  String get achievementSavingsS3Desc => 'Saved 10,000 TL';
+
+  @override
+  String get achievementSavingsG1Title => 'Strong Savings';
+
+  @override
+  String get achievementSavingsG1Desc => 'Saved 25,000 TL';
+
+  @override
+  String get achievementSavingsG2Title => 'Financial Awareness';
+
+  @override
+  String get achievementSavingsG2Desc => 'Saved 50,000 TL';
+
+  @override
+  String get achievementSavingsG3Title => 'Solid Foundation';
+
+  @override
+  String get achievementSavingsG3Desc => 'Saved 100,000 TL';
+
+  @override
+  String get achievementSavingsP1Title => 'Long-term Thinking';
+
+  @override
+  String get achievementSavingsP1Desc => 'Saved 250,000 TL';
+
+  @override
+  String get achievementSavingsP2Title => 'Financial Clarity';
+
+  @override
+  String get achievementSavingsP2Desc => 'Saved 500,000 TL';
+
+  @override
+  String get achievementSavingsP3Title => 'Big Picture';
+
+  @override
+  String get achievementSavingsP3Desc => 'Saved 1,000,000 TL';
+
+  @override
+  String get achievementDecisionB1Title => 'First Decision';
+
+  @override
+  String get achievementDecisionB1Desc => 'Passed 3 times';
+
+  @override
+  String get achievementDecisionB2Title => 'Resistance';
+
+  @override
+  String get achievementDecisionB2Desc => 'Passed 7 times';
+
+  @override
+  String get achievementDecisionB3Title => 'Control';
+
+  @override
+  String get achievementDecisionB3Desc => 'Passed 15 times';
+
+  @override
+  String get achievementDecisionS1Title => 'Determination';
+
+  @override
+  String get achievementDecisionS1Desc => 'Passed 30 times';
+
+  @override
+  String get achievementDecisionS2Title => 'Clarity';
+
+  @override
+  String get achievementDecisionS2Desc => 'Passed 60 times';
+
+  @override
+  String get achievementDecisionS3Title => 'Strong Choices';
+
+  @override
+  String get achievementDecisionS3Desc => 'Passed 100 times';
+
+  @override
+  String get achievementDecisionG1Title => 'Willpower';
+
+  @override
+  String get achievementDecisionG1Desc => 'Passed 200 times';
+
+  @override
+  String get achievementDecisionG2Title => 'Composure';
+
+  @override
+  String get achievementDecisionG2Desc => 'Passed 400 times';
+
+  @override
+  String get achievementDecisionG3Title => 'Top Level Control';
+
+  @override
+  String get achievementDecisionG3Desc => 'Passed 700 times';
+
+  @override
+  String get achievementDecisionPTitle => 'Total Mastery';
+
+  @override
+  String get achievementDecisionPDesc => 'Passed 1,000 times';
+
+  @override
+  String get achievementRecordB1Title => 'Started';
+
+  @override
+  String get achievementRecordB1Desc => '5 expense records';
+
+  @override
+  String get achievementRecordB2Title => 'Tracking';
+
+  @override
+  String get achievementRecordB2Desc => '15 expense records';
+
+  @override
+  String get achievementRecordB3Title => 'Organized';
+
+  @override
+  String get achievementRecordB3Desc => '30 expense records';
+
+  @override
+  String get achievementRecordS1Title => 'Detailed Tracking';
+
+  @override
+  String get achievementRecordS1Desc => '60 expense records';
+
+  @override
+  String get achievementRecordS2Title => 'Analytical';
+
+  @override
+  String get achievementRecordS2Desc => '120 expense records';
+
+  @override
+  String get achievementRecordS3Title => 'Systematic';
+
+  @override
+  String get achievementRecordS3Desc => '200 expense records';
+
+  @override
+  String get achievementRecordG1Title => 'Depth';
+
+  @override
+  String get achievementRecordG1Desc => '350 expense records';
+
+  @override
+  String get achievementRecordG2Title => 'Mastery';
+
+  @override
+  String get achievementRecordG2Desc => '600 expense records';
+
+  @override
+  String get achievementRecordG3Title => 'Archive';
+
+  @override
+  String get achievementRecordG3Desc => '1,000 expense records';
+
+  @override
+  String get achievementRecordPTitle => 'Long-term Record';
+
+  @override
+  String get achievementRecordPDesc => '2,000 expense records';
+
+  @override
+  String get achievementHiddenNightTitle => 'Night Record';
+
+  @override
+  String get achievementHiddenNightDesc => 'Record between 00:00-05:00';
+
+  @override
+  String get achievementHiddenEarlyTitle => 'Early Bird';
+
+  @override
+  String get achievementHiddenEarlyDesc => 'Record between 05:00-07:00';
+
+  @override
+  String get achievementHiddenWeekendTitle => 'Weekend Routine';
+
+  @override
+  String get achievementHiddenWeekendDesc => '5 records on Saturday-Sunday';
+
+  @override
+  String get achievementHiddenOcrTitle => 'First Scan';
+
+  @override
+  String get achievementHiddenOcrDesc => 'First receipt OCR usage';
+
+  @override
+  String get achievementHiddenBalancedTitle => 'Balanced Week';
+
+  @override
+  String get achievementHiddenBalancedDesc =>
+      '7 days in a row with 0 \"Bought\"';
+
+  @override
+  String get achievementHiddenCategoriesTitle => 'Category Completion';
+
+  @override
+  String get achievementHiddenCategoriesDesc => 'Record in all 6 categories';
+
+  @override
+  String get achievementHiddenGoldTitle => 'Gold Equivalent';
+
+  @override
+  String get achievementHiddenGoldDesc => 'Saved money equals 1 gram of gold';
+
+  @override
+  String get achievementHiddenUsdTitle => 'Currency Equivalent';
+
+  @override
+  String get achievementHiddenUsdDesc => 'Saved money equals \$100';
+
+  @override
+  String get achievementHiddenSubsTitle => 'Subscription Control';
+
+  @override
+  String get achievementHiddenSubsDesc => 'Track 5 subscriptions';
+
+  @override
+  String get achievementHiddenNoSpendTitle => 'No-Spend Month';
+
+  @override
+  String get achievementHiddenNoSpendDesc => '0 \"Bought\" for 1 month';
+
+  @override
+  String get achievementHiddenGoldKgTitle => 'High Value Savings';
+
+  @override
+  String get achievementHiddenGoldKgDesc => 'Saved money equals 1 kg of gold';
+
+  @override
+  String get achievementHiddenUsd10kTitle => 'Major Currency Equivalent';
+
+  @override
+  String get achievementHiddenUsd10kDesc => 'Saved money equals \$10,000';
+
+  @override
+  String get achievementHiddenAnniversaryTitle => 'Usage Anniversary';
+
+  @override
+  String get achievementHiddenAnniversaryDesc => '365 days of usage';
+
+  @override
+  String get achievementHiddenEarlyAdopterTitle => 'Early Adopter';
+
+  @override
+  String get achievementHiddenEarlyAdopterDesc =>
+      'Installed the app 2 years ago';
+
+  @override
+  String get achievementHiddenUltimateTitle => 'Long-term Discipline';
+
+  @override
+  String get achievementHiddenUltimateDesc =>
+      '1,000,000 TL + 365 day streak at once';
+
+  @override
+  String get achievementHiddenCollectorTitle => 'Collector';
+
+  @override
+  String get achievementHiddenCollectorDesc =>
+      'Collected all badges except Platinum';
+
+  @override
+  String get easterEgg5Left => '5 more...';
+
+  @override
+  String get easterEggAlmost => 'Almost...';
+
+  @override
+  String get achievementUnlocked => 'Achievement Unlocked!';
+
+  @override
+  String get curiousCatTitle => 'Too Curious';
+
+  @override
+  String get curiousCatDescription => 'You found the hidden Easter Egg!';
+
+  @override
+  String get great => 'Great!';
+
+  @override
+  String get achievementHiddenCuriousCatTitle => 'Too Curious';
+
+  @override
+  String get achievementHiddenCuriousCatDesc =>
+      'You found the hidden Easter Egg!';
 }

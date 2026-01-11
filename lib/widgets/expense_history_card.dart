@@ -53,6 +53,7 @@ class ExpenseHistoryCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -152,6 +153,7 @@ class ExpenseHistoryCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -472,6 +474,7 @@ class ExpenseHistoryCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),

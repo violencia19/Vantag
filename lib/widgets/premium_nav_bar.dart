@@ -435,6 +435,8 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                     fontSize: 14,
                   ),
                   tooltipBackgroundColor: AppColors.gradientMid,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(12),
                   child: _NavItem(
                     icon: PhosphorIconsDuotone.chartBar,
@@ -458,6 +460,8 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                     fontSize: 14,
                   ),
                   tooltipBackgroundColor: AppColors.gradientMid,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.95,
                   targetShapeBorder: const CircleBorder(),
                   child: _CenterAddButton(onTap: onAddTap),
                 ),
@@ -476,6 +480,8 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                     fontSize: 14,
                   ),
                   tooltipBackgroundColor: AppColors.gradientMid,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(12),
                   child: _NavItem(
                     icon: PhosphorIconsDuotone.trophy,
@@ -499,6 +505,8 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                     fontSize: 14,
                   ),
                   tooltipBackgroundColor: AppColors.gradientMid,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(12),
                   child: _ProfileNavItem(
                     isActive: currentIndex == 3,

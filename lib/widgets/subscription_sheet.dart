@@ -53,6 +53,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
   void _showAddEditDialog({Subscription? existing}) {
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       isScrollControlled: true,
       backgroundColor: QuietLuxury.background,
       shape: const RoundedRectangleBorder(
@@ -468,6 +469,7 @@ class _SubscriptionCard extends StatelessWidget {
   void _showOptionsMenu(BuildContext context, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       backgroundColor: QuietLuxury.background,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),

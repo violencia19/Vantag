@@ -62,6 +62,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
 
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => StatefulBuilder(
@@ -975,6 +976,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
     HapticFeedback.mediumImpact();
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => ShareEditSheet(

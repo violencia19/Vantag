@@ -456,6 +456,13 @@ class AchievementsService {
       difficulty: HiddenDifficulty.easy,
       checkType: HiddenCheckType.firstOcrScan,
     ),
+    _HiddenAchievementDef(
+      id: 'curious_cat',
+      title: 'Çok Meraklı',
+      description: 'Gizli Easter Egg\'i buldun!',
+      difficulty: HiddenDifficulty.easy,
+      checkType: HiddenCheckType.manualUnlock,
+    ),
     // ORTA (5 adet)
     _HiddenAchievementDef(
       id: 'hidden_balanced_week',
@@ -894,6 +901,15 @@ class AchievementsService {
           currentValue: unlockedCount,
           progress: totalCount > 0 ? (unlockedCount / totalCount).clamp(0.0, 1.0) : 0.0,
         );
+
+      case HiddenCheckType.manualUnlock:
+        // Manuel olarak unlock edilen rozetler için SharedPreferences kontrol et
+        final isUnlocked = prefs.getString('$_keyPrefix${def.id}') != null;
+        return _HiddenCheckResult(
+          isComplete: isUnlocked,
+          currentValue: isUnlocked ? 1 : 0,
+          progress: isUnlocked ? 1.0 : 0.0,
+        );
     }
   }
 
@@ -969,6 +985,27 @@ class AchievementsService {
     await prefs.setBool('ocr_used', true);
   }
 
+  /// Manuel olarak bir rozeti unlock et (Easter Egg gibi durumlar için)
+  Future<bool> unlockManualAchievement(String achievementId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = '$_keyPrefix$achievementId';
+
+    // Zaten unlock edilmiş mi kontrol et
+    if (prefs.getString(key) != null) {
+      return false; // Zaten unlock edilmiş
+    }
+
+    // Unlock et
+    await prefs.setString(key, DateTime.now().toIso8601String());
+    return true;
+  }
+
+  /// Bir rozetin unlock durumunu kontrol et
+  Future<bool> isAchievementUnlocked(String achievementId) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('$_keyPrefix$achievementId') != null;
+  }
+
   /// Tüm rozet verilerini sıfırla (test için)
   Future<void> resetAllAchievements() async {
     final prefs = await SharedPreferences.getInstance();
@@ -1027,6 +1064,7 @@ enum HiddenCheckType {
   earlyAdopter,
   ultimateCombo,
   collector,
+  manualUnlock,
 }
 
 class _HiddenAchievementDef {

@@ -7,7 +7,7 @@ import '../services/services.dart';
 import '../theme/theme.dart';
 import '../widgets/widgets.dart';
 import '../providers/providers.dart';
-import '../utils/currency_utils.dart';
+import '../utils/category_utils.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 
 enum TimeFilter { week, month, all }
@@ -35,6 +35,9 @@ class _ReportScreenState extends State<ReportScreen>
   late AnimationController _contentAnimController;
   late Animation<double> _contentAnimation;
   bool _showCharts = false;
+
+  // Heatmap selected day
+  DateTime? _selectedHeatmapDay;
 
   @override
   void initState() {
@@ -126,6 +129,42 @@ class _ReportScreenState extends State<ReportScreen>
         case TimeFilter.all:
           return false;
       }
+    }).toList();
+  }
+
+  /// Calculate hourly rate from user profile
+  double _calculateHourlyRate() {
+    final profile = widget.userProfile;
+    final monthlyIncome = profile.monthlyIncome;
+    final dailyHours = profile.dailyHours;
+    final workDaysPerWeek = profile.workDaysPerWeek;
+
+    // Monthly work hours = daily hours × work days per week × 4 weeks
+    final monthlyHours = dailyHours * workDaysPerWeek * 4;
+    if (monthlyHours <= 0) return 1;
+
+    return monthlyIncome / monthlyHours;
+  }
+
+  /// Get last month's expenses for comparison
+  List<Expense> _getLastMonthExpenses(List<Expense> allExpenses) {
+    final now = DateTime.now();
+    final firstDayThisMonth = DateTime(now.year, now.month, 1);
+    final firstDayLastMonth = DateTime(now.year, now.month - 1, 1);
+
+    return allExpenses.where((expense) {
+      return expense.date.isAfter(firstDayLastMonth.subtract(const Duration(days: 1))) &&
+          expense.date.isBefore(firstDayThisMonth);
+    }).toList();
+  }
+
+  /// Get this month's expenses for comparison
+  List<Expense> _getThisMonthExpenses(List<Expense> allExpenses) {
+    final now = DateTime.now();
+    final firstDayThisMonth = DateTime(now.year, now.month, 1);
+
+    return allExpenses.where((expense) {
+      return expense.date.isAfter(firstDayThisMonth.subtract(const Duration(days: 1)));
     }).toList();
   }
 
@@ -221,6 +260,21 @@ class _ReportScreenState extends State<ReportScreen>
 
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
+              // NEW: Month Comparison Card (This Month vs Last Month)
+              if (_selectedFilter == TimeFilter.month)
+                SliverToBoxAdapter(
+                  child: _AnimatedSlideIn(
+                    delay: const Duration(milliseconds: 50),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: _buildMonthComparisonCard(allExpenses, l10n),
+                    ),
+                  ),
+                ),
+
+              if (_selectedFilter == TimeFilter.month)
+                const SliverToBoxAdapter(child: SizedBox(height: 24)),
+
               // Sub-category comparison insight (if any)
               if (_hasComparisonInsight(expenses, allExpenses))
                 SliverToBoxAdapter(
@@ -241,6 +295,19 @@ class _ReportScreenState extends State<ReportScreen>
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: _buildAnimatedCategoryChart(expenses, l10n),
+                ),
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 24)),
+
+              // NEW: Category-based Work Hours Bar Chart
+              SliverToBoxAdapter(
+                child: _AnimatedSlideIn(
+                  delay: const Duration(milliseconds: 200),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: _buildWorkHoursBarChart(expenses, l10n),
+                  ),
                 ),
               ),
 
@@ -274,6 +341,19 @@ class _ReportScreenState extends State<ReportScreen>
 
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
+              // NEW: Smart Insight Cards
+              SliverToBoxAdapter(
+                child: _AnimatedSlideIn(
+                  delay: const Duration(milliseconds: 350),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: _buildSmartInsightCards(expenses, allExpenses, l10n),
+                  ),
+                ),
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 24)),
+
               // Trend with animation
               if (_selectedFilter != TimeFilter.all)
                 SliverToBoxAdapter(
@@ -285,6 +365,20 @@ class _ReportScreenState extends State<ReportScreen>
                     ),
                   ),
                 ),
+
+              if (_selectedFilter != TimeFilter.all)
+                const SliverToBoxAdapter(child: SizedBox(height: 24)),
+
+              // NEW: Yearly Heatmap (GitHub style)
+              SliverToBoxAdapter(
+                child: _AnimatedSlideIn(
+                  delay: const Duration(milliseconds: 450),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: _buildYearlyHeatmap(allExpenses, l10n),
+                  ),
+                ),
+              ),
 
               const SliverToBoxAdapter(child: SizedBox(height: 100)),
             ],
@@ -436,6 +530,878 @@ class _ReportScreenState extends State<ReportScreen>
     );
   }
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW: MONTH COMPARISON CARD (This Month vs Last Month)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  Widget _buildMonthComparisonCard(List<Expense> allExpenses, AppLocalizations l10n) {
+    final thisMonthExpenses = _getThisMonthExpenses(allExpenses);
+    final lastMonthExpenses = _getLastMonthExpenses(allExpenses);
+
+    final thisMonthTotal = thisMonthExpenses
+        .where((e) => e.decision == ExpenseDecision.yes)
+        .fold<double>(0, (sum, e) => sum + e.amount);
+
+    final lastMonthTotal = lastMonthExpenses
+        .where((e) => e.decision == ExpenseDecision.yes)
+        .fold<double>(0, (sum, e) => sum + e.amount);
+
+    final hasLastMonthData = lastMonthExpenses.isNotEmpty;
+    final percentChange = hasLastMonthData && lastMonthTotal > 0
+        ? ((thisMonthTotal - lastMonthTotal) / lastMonthTotal * 100)
+        : 0.0;
+
+    final isDecrease = percentChange < 0;
+    final isNoChange = percentChange.abs() < 1;
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.cardBorder),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.05),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  PhosphorIconsDuotone.chartLineUp,
+                  size: 18,
+                  color: AppColors.primary,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                l10n.monthComparison,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              // This Month
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.thisMonth,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    TweenAnimationBuilder<double>(
+                      tween: Tween(begin: 0, end: thisMonthTotal),
+                      duration: AppAnimations.counter,
+                      builder: (context, value, child) {
+                        return Text(
+                          '${formatTurkishCurrency(value, decimalDigits: 0)} TL',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textPrimary,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              // VS Arrow and Percentage
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: isNoChange
+                      ? AppColors.surfaceLight
+                      : (isDecrease
+                          ? AppColors.success.withValues(alpha: 0.15)
+                          : AppColors.warning.withValues(alpha: 0.15)),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  children: [
+                    if (!hasLastMonthData)
+                      Text(
+                        l10n.noLastMonthData,
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: AppColors.textTertiary,
+                        ),
+                        textAlign: TextAlign.center,
+                      )
+                    else ...[
+                      Text(
+                        isNoChange
+                            ? l10n.noChange
+                            : (isDecrease
+                                ? l10n.decreasedBy(percentChange.abs().toStringAsFixed(0))
+                                : l10n.increasedBy(percentChange.abs().toStringAsFixed(0))),
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: isNoChange
+                              ? AppColors.textSecondary
+                              : (isDecrease ? AppColors.success : AppColors.warning),
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        isNoChange
+                            ? ''
+                            : (isDecrease ? l10n.greatProgress : l10n.watchOut),
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: isDecrease ? AppColors.success : AppColors.warning,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              // Last Month
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      l10n.lastMonth,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      hasLastMonthData
+                          ? '${formatTurkishCurrency(lastMonthTotal, decimalDigits: 0)} TL'
+                          : '-',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: hasLastMonthData
+                            ? AppColors.textSecondary
+                            : AppColors.textTertiary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW: WORK HOURS BAR CHART
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  Widget _buildWorkHoursBarChart(List<Expense> expenses, AppLocalizations l10n) {
+    final hourlyRate = _calculateHourlyRate();
+
+    // Calculate work hours per category
+    final categoryHours = <String, double>{};
+    for (final expense in expenses) {
+      if (expense.decision == ExpenseDecision.yes) {
+        final hours = expense.amount / hourlyRate;
+        categoryHours[expense.category] =
+            (categoryHours[expense.category] ?? 0) + hours;
+      }
+    }
+
+    if (categoryHours.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    // Sort by hours descending
+    final sortedCategories = categoryHours.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+
+    final totalHours = categoryHours.values.fold<double>(0, (a, b) => a + b);
+    final maxHours = sortedCategories.first.value;
+
+    final colors = [
+      AppColors.primary,
+      AppColors.warning,
+      AppColors.info,
+      AppColors.error,
+      const Color(0xFF9B59B6),
+      const Color(0xFF1ABC9C),
+      const Color(0xFFE91E63),
+      const Color(0xFF3F51B5),
+      const Color(0xFF795548),
+    ];
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.cardBorder),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: AppColors.warning.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  PhosphorIconsDuotone.clock,
+                  size: 18,
+                  color: AppColors.warning,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.workHoursDistribution,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    Text(
+                      l10n.workHoursDistributionDesc,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: AppColors.textTertiary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          ...sortedCategories.take(6).toList().asMap().entries.map((entry) {
+            final index = entry.key;
+            final category = entry.value.key;
+            final hours = entry.value.value;
+            final percent = (hours / totalHours * 100);
+            final barWidth = hours / maxHours;
+            final color = colors[index % colors.length];
+            final categoryIcon = ExpenseCategory.getIcon(category);
+
+            return Padding(
+              padding: EdgeInsets.only(
+                bottom: index < sortedCategories.length - 1 ? 12 : 0,
+              ),
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0, end: _showCharts ? 1.0 : 0),
+                duration: Duration(milliseconds: 400 + (index * 80)),
+                curve: Curves.easeOutCubic,
+                builder: (context, animValue, child) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            categoryIcon,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              CategoryUtils.getLocalizedName(context, category),
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            '${hours.toStringAsFixed(1)}h',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: color,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: color.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              '%${percent.toStringAsFixed(0)}',
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                                color: color,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Container(
+                        height: 8,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColors.surfaceLight,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: FractionallySizedBox(
+                          alignment: Alignment.centerLeft,
+                          widthFactor: barWidth * animValue,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  color,
+                                  color.withValues(alpha: 0.7),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(4),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: color.withValues(alpha: 0.3),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            );
+          }),
+          if (sortedCategories.length > 6) ...[
+            const SizedBox(height: 8),
+            Text(
+              l10n.moreCategories(sortedCategories.length - 6),
+              style: const TextStyle(
+                fontSize: 11,
+                color: AppColors.textTertiary,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW: SMART INSIGHT CARDS
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  Widget _buildSmartInsightCards(List<Expense> expenses, List<Expense> allExpenses, AppLocalizations l10n) {
+    final hourlyRate = _calculateHourlyRate();
+
+    // 1. Most Expensive Day
+    final dayTotals = <int, List<double>>{};
+    for (final expense in expenses) {
+      if (expense.decision == ExpenseDecision.yes) {
+        final weekday = expense.date.weekday;
+        dayTotals[weekday] ??= [];
+        dayTotals[weekday]!.add(expense.amount);
+      }
+    }
+
+    String? mostExpensiveDay;
+    double mostExpensiveDayAvg = 0;
+    if (dayTotals.isNotEmpty) {
+      final dayAverages = dayTotals.map((day, amounts) {
+        return MapEntry(day, amounts.reduce((a, b) => a + b) / amounts.length);
+      });
+      final maxEntry = dayAverages.entries.reduce((a, b) => a.value > b.value ? a : b);
+      mostExpensiveDay = _getDayName(maxEntry.key, l10n);
+      mostExpensiveDayAvg = maxEntry.value;
+    }
+
+    // 2. Most Passed Category
+    final passedCounts = <String, int>{};
+    for (final expense in expenses) {
+      if (expense.decision == ExpenseDecision.no) {
+        passedCounts[expense.category] = (passedCounts[expense.category] ?? 0) + 1;
+      }
+    }
+    String? mostPassedCategory;
+    int mostPassedCount = 0;
+    if (passedCounts.isNotEmpty) {
+      final maxEntry = passedCounts.entries.reduce((a, b) => a.value > b.value ? a : b);
+      mostPassedCategory = maxEntry.key;
+      mostPassedCount = maxEntry.value;
+    }
+
+    // 3. Savings Opportunity (highest category)
+    final categoryTotals = <String, double>{};
+    for (final expense in expenses) {
+      if (expense.decision == ExpenseDecision.yes) {
+        categoryTotals[expense.category] =
+            (categoryTotals[expense.category] ?? 0) + expense.amount;
+      }
+    }
+    String? highestCategory;
+    double savingsHours = 0;
+    if (categoryTotals.isNotEmpty) {
+      final maxEntry = categoryTotals.entries.reduce((a, b) => a.value > b.value ? a : b);
+      highestCategory = maxEntry.key;
+      // 20% savings in hours
+      savingsHours = (maxEntry.value * 0.2) / hourlyRate;
+    }
+
+    // 4. Weekly Trend (last 4 weeks)
+    final weeklyTotals = <int, double>{};
+    final now = DateTime.now();
+    for (int i = 0; i < 4; i++) {
+      final weekStart = now.subtract(Duration(days: 7 * (i + 1)));
+      final weekEnd = now.subtract(Duration(days: 7 * i));
+      final weekTotal = allExpenses
+          .where((e) =>
+              e.decision == ExpenseDecision.yes &&
+              e.date.isAfter(weekStart) &&
+              e.date.isBefore(weekEnd))
+          .fold<double>(0, (sum, e) => sum + e.amount);
+      weeklyTotals[i] = weekTotal;
+    }
+
+    String trendArrows = '';
+    String trendDescription = l10n.noTrendData;
+    if (weeklyTotals.length >= 2) {
+      int upCount = 0;
+      int downCount = 0;
+      for (int i = 0; i < 3; i++) {
+        final current = weeklyTotals[i] ?? 0;
+        final previous = weeklyTotals[i + 1] ?? 0;
+        if (current > previous) {
+          trendArrows = '↑$trendArrows';
+          upCount++;
+        } else if (current < previous) {
+          trendArrows = '↓$trendArrows';
+          downCount++;
+        } else {
+          trendArrows = '→$trendArrows';
+        }
+      }
+      if (downCount >= 2) {
+        trendDescription = l10n.overallDecreasing;
+      } else if (upCount >= 2) {
+        trendDescription = l10n.overallIncreasing;
+      } else {
+        trendDescription = l10n.stableTrend;
+      }
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.cardBorder),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: AppColors.secondary.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  PhosphorIconsDuotone.lightbulb,
+                  size: 18,
+                  color: AppColors.secondary,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                l10n.smartInsights,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          // 2x2 Grid of insight cards
+          Row(
+            children: [
+              Expanded(
+                child: _InsightMiniCard(
+                  icon: PhosphorIconsDuotone.calendarBlank,
+                  iconColor: AppColors.warning,
+                  title: l10n.mostExpensiveDay,
+                  value: mostExpensiveDay != null
+                      ? l10n.mostExpensiveDayValue(
+                          mostExpensiveDay,
+                          formatTurkishCurrency(mostExpensiveDayAvg, decimalDigits: 0),
+                        )
+                      : '-',
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _InsightMiniCard(
+                  icon: PhosphorIconsDuotone.prohibit,
+                  iconColor: AppColors.success,
+                  title: l10n.mostPassedCategory,
+                  value: mostPassedCategory != null
+                      ? l10n.mostPassedCategoryValue(CategoryUtils.getLocalizedName(context, mostPassedCategory), mostPassedCount)
+                      : '-',
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: _InsightMiniCard(
+                  icon: PhosphorIconsDuotone.piggyBank,
+                  iconColor: AppColors.primary,
+                  title: l10n.savingsOpportunity,
+                  value: highestCategory != null
+                      ? l10n.savingsOpportunityValue(
+                          CategoryUtils.getLocalizedName(context, highestCategory),
+                          savingsHours.toStringAsFixed(1),
+                        )
+                      : '-',
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _InsightMiniCard(
+                  icon: PhosphorIconsDuotone.chartLine,
+                  iconColor: AppColors.info,
+                  title: l10n.weeklyTrend,
+                  value: trendArrows.isNotEmpty
+                      ? l10n.weeklyTrendValue('$trendArrows $trendDescription')
+                      : l10n.noTrendData,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getDayName(int weekday, AppLocalizations l10n) {
+    switch (weekday) {
+      case 1:
+        return l10n.weekdayMonday;
+      case 2:
+        return l10n.weekdayTuesday;
+      case 3:
+        return l10n.weekdayWednesday;
+      case 4:
+        return l10n.weekdayThursday;
+      case 5:
+        return l10n.weekdayFriday;
+      case 6:
+        return l10n.weekdaySaturday;
+      case 7:
+        return l10n.weekdaySunday;
+      default:
+        return '';
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW: YEARLY HEATMAP (GitHub Style)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  Widget _buildYearlyHeatmap(List<Expense> allExpenses, AppLocalizations l10n) {
+    // Group expenses by day
+    final dailyTotals = <DateTime, double>{};
+    for (final expense in allExpenses) {
+      if (expense.decision == ExpenseDecision.yes) {
+        final day = DateTime(expense.date.year, expense.date.month, expense.date.day);
+        dailyTotals[day] = (dailyTotals[day] ?? 0) + expense.amount;
+      }
+    }
+
+    // Find max for color scaling
+    final maxAmount = dailyTotals.values.isNotEmpty
+        ? dailyTotals.values.reduce((a, b) => a > b ? a : b)
+        : 1.0;
+
+    // Get last 365 days
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final startDate = today.subtract(const Duration(days: 364));
+
+    // Generate weeks
+    final weeks = <List<DateTime?>>[];
+    var currentDate = startDate;
+
+    // Adjust to start on Monday
+    while (currentDate.weekday != 1) {
+      currentDate = currentDate.subtract(const Duration(days: 1));
+    }
+
+    while (currentDate.isBefore(today) || currentDate.isAtSameMomentAs(today)) {
+      final week = <DateTime?>[];
+      for (int i = 0; i < 7; i++) {
+        if (currentDate.isAfter(startDate.subtract(const Duration(days: 1))) &&
+            (currentDate.isBefore(today) || currentDate.isAtSameMomentAs(today))) {
+          week.add(currentDate);
+        } else {
+          week.add(null);
+        }
+        currentDate = currentDate.add(const Duration(days: 1));
+      }
+      weeks.add(week);
+    }
+
+    // Selected day info
+    String? selectedDayInfo;
+    if (_selectedHeatmapDay != null) {
+      final amount = dailyTotals[_selectedHeatmapDay] ?? 0;
+      final count = allExpenses
+          .where((e) =>
+              e.decision == ExpenseDecision.yes &&
+              e.date.year == _selectedHeatmapDay!.year &&
+              e.date.month == _selectedHeatmapDay!.month &&
+              e.date.day == _selectedHeatmapDay!.day)
+          .length;
+      final dateStr = '${_selectedHeatmapDay!.day}/${_selectedHeatmapDay!.month}';
+      selectedDayInfo = l10n.selectedDayExpenses(
+        dateStr,
+        formatTurkishCurrency(amount, decimalDigits: 0),
+        count,
+      );
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.cardBorder),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: AppColors.success.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  PhosphorIconsDuotone.calendarDots,
+                  size: 18,
+                  color: AppColors.success,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          l10n.yearlyHeatmap,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        _ProBadge(),
+                      ],
+                    ),
+                    Text(
+                      l10n.yearlyHeatmapDesc,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: AppColors.textTertiary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          // Heatmap grid
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: weeks.map((week) {
+                return Column(
+                  children: week.map((day) {
+                    if (day == null) {
+                      return const SizedBox(width: 12, height: 12);
+                    }
+
+                    final amount = dailyTotals[day] ?? 0;
+                    final intensity = maxAmount > 0 ? (amount / maxAmount) : 0.0;
+                    final isSelected = _selectedHeatmapDay != null &&
+                        day.year == _selectedHeatmapDay!.year &&
+                        day.month == _selectedHeatmapDay!.month &&
+                        day.day == _selectedHeatmapDay!.day;
+
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedHeatmapDay = day;
+                        });
+                      },
+                      child: Container(
+                        width: 10,
+                        height: 10,
+                        margin: const EdgeInsets.all(1),
+                        decoration: BoxDecoration(
+                          color: amount == 0
+                              ? AppColors.surfaceLight
+                              : _getHeatmapColor(intensity),
+                          borderRadius: BorderRadius.circular(2),
+                          border: isSelected
+                              ? Border.all(color: AppColors.textPrimary, width: 1)
+                              : null,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                );
+              }).toList(),
+            ),
+          ),
+          const SizedBox(height: 12),
+          // Legend
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                l10n.lowSpending,
+                style: const TextStyle(
+                  fontSize: 10,
+                  color: AppColors.textTertiary,
+                ),
+              ),
+              const SizedBox(width: 8),
+              ...[0.0, 0.25, 0.5, 0.75, 1.0].map((intensity) {
+                return Container(
+                  width: 10,
+                  height: 10,
+                  margin: const EdgeInsets.symmetric(horizontal: 2),
+                  decoration: BoxDecoration(
+                    color: intensity == 0
+                        ? AppColors.surfaceLight
+                        : _getHeatmapColor(intensity),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                );
+              }),
+              const SizedBox(width: 8),
+              Text(
+                l10n.highSpending,
+                style: const TextStyle(
+                  fontSize: 10,
+                  color: AppColors.textTertiary,
+                ),
+              ),
+            ],
+          ),
+          if (selectedDayInfo != null) ...[
+            const SizedBox(height: 12),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                selectedDayInfo,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.textPrimary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+          if (selectedDayInfo == null) ...[
+            const SizedBox(height: 8),
+            Text(
+              l10n.tapDayForDetails,
+              style: const TextStyle(
+                fontSize: 10,
+                color: AppColors.textTertiary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Color _getHeatmapColor(double intensity) {
+    // Green gradient from light to dark
+    if (intensity < 0.25) {
+      return const Color(0xFF2D5016).withValues(alpha: 0.4);
+    } else if (intensity < 0.5) {
+      return const Color(0xFF2D5016).withValues(alpha: 0.6);
+    } else if (intensity < 0.75) {
+      return const Color(0xFF3D7017);
+    } else {
+      return const Color(0xFF4CAF50);
+    }
+  }
+
   Widget _buildAnimatedCategoryChart(List<Expense> expenses, AppLocalizations l10n) {
     final categoryTotals = <String, double>{};
     for (final expense in expenses) {
@@ -533,10 +1499,6 @@ class _ReportScreenState extends State<ReportScreen>
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
-                                    // En büyük kategori için glow efekti
-                                    badgeWidget: isTop
-                                        ? null
-                                        : null,
                                   );
                                 }).toList()
                               : [
@@ -548,9 +1510,6 @@ class _ReportScreenState extends State<ReportScreen>
                                   ),
                                 ],
                         ),
-                        // Clockwise animasyon süresi (fl_chart v0.69+)
-                        // duration: AppAnimations.counter,
-                        // curve: AppAnimations.standardCurve,
                       ),
                     ),
                   ),
@@ -603,7 +1562,7 @@ class _ReportScreenState extends State<ReportScreen>
                                       const SizedBox(width: 8),
                                       Expanded(
                                         child: Text(
-                                          category,
+                                          CategoryUtils.getLocalizedName(context, category),
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: isTop ? FontWeight.w600 : FontWeight.w400,
@@ -654,20 +1613,11 @@ class _ReportScreenState extends State<ReportScreen>
   }
 
   /// Alt kategori karşılaştırmalı insight
-  /// Returns: (subCategory, changePercent, isIncrease) or null
-  /// Gösterim kuralları:
-  /// - Önceki dönem yoksa null
-  /// - Değişim ±%5'ten küçükse null
-  /// - subCategory null ise null
   ({String subCategory, double changePercent, bool isIncrease})? _getSubCategoryComparisonInsight(
       List<Expense> currentExpenses, List<Expense> previousExpenses) {
-    // "Tüm Zamanlar" filtresi için karşılaştırma yapma
     if (_selectedFilter == TimeFilter.all) return null;
-
-    // Önceki dönem boşsa gösterme
     if (previousExpenses.isEmpty) return null;
 
-    // Alt kategori toplamlarını hesapla
     Map<String, double> calculateSubCategoryTotals(List<Expense> expenses) {
       final totals = <String, double>{};
       for (final expense in expenses) {
@@ -682,15 +1632,12 @@ class _ReportScreenState extends State<ReportScreen>
     final currentTotals = calculateSubCategoryTotals(currentExpenses);
     final previousTotals = calculateSubCategoryTotals(previousExpenses);
 
-    // Hiç alt kategori yoksa gösterme
     if (currentTotals.isEmpty && previousTotals.isEmpty) return null;
 
-    // En anlamlı değişimi bul
     String? bestSubCategory;
     double bestChangePercent = 0;
     bool bestIsIncrease = false;
 
-    // Mevcut dönemdeki alt kategorileri kontrol et
     for (final entry in currentTotals.entries) {
       final subCat = entry.key;
       final currentAmount = entry.value;
@@ -706,7 +1653,6 @@ class _ReportScreenState extends State<ReportScreen>
       }
     }
 
-    // Değişim ±%5'ten küçükse gösterme
     if (bestSubCategory == null || bestChangePercent.abs() < 5) return null;
 
     return (
@@ -716,7 +1662,6 @@ class _ReportScreenState extends State<ReportScreen>
     );
   }
 
-  /// Alt kategori karşılaştırmalı mini insight kartı
   Widget _buildSubCategoryInsightCard(List<Expense> expenses, List<Expense> allExpenses, AppLocalizations l10n) {
     final previousExpenses = _getPreviousPeriodExpenses(allExpenses);
     final insight = _getSubCategoryComparisonInsight(expenses, previousExpenses);
@@ -725,7 +1670,7 @@ class _ReportScreenState extends State<ReportScreen>
     final periodLabel = switch (_selectedFilter) {
       TimeFilter.week => l10n.thisWeek,
       TimeFilter.month => l10n.thisMonth,
-      TimeFilter.all => '', // Bu durumda kart gösterilmez
+      TimeFilter.all => '',
     };
 
     final previousLabel = switch (_selectedFilter) {
@@ -800,14 +1745,12 @@ class _ReportScreenState extends State<ReportScreen>
     );
   }
 
-  /// Karşılaştırmalı insight gösterilecek mi kontrol et
   bool _hasComparisonInsight(List<Expense> expenses, List<Expense> allExpenses) {
     if (_selectedFilter == TimeFilter.all) return false;
     final previousExpenses = _getPreviousPeriodExpenses(allExpenses);
     return _getSubCategoryComparisonInsight(expenses, previousExpenses) != null;
   }
 
-  /// Alt kategori olan harcama var mı kontrol et
   bool _hasSubCategories(List<Expense> expenses) {
     return expenses.any((e) =>
         e.subCategory != null &&
@@ -815,9 +1758,7 @@ class _ReportScreenState extends State<ReportScreen>
         e.decision == ExpenseDecision.yes);
   }
 
-  /// Alt kategori breakdown widget'ı
   Widget _buildSubCategoryBreakdown(List<Expense> expenses, AppLocalizations l10n) {
-    // Ana kategori -> Alt kategori -> Toplam tutar
     final Map<String, Map<String, double>> categoryBreakdown = {};
 
     for (final expense in expenses) {
@@ -836,7 +1777,6 @@ class _ReportScreenState extends State<ReportScreen>
       return const SizedBox.shrink();
     }
 
-    // Ana kategorileri toplam harcamaya göre sırala
     final sortedMainCategories = categoryBreakdown.entries.toList()
       ..sort((a, b) {
         final totalA = a.value.values.fold<double>(0, (sum, v) => sum + v);
@@ -899,7 +1839,6 @@ class _ReportScreenState extends State<ReportScreen>
             final subCategories = mainEntry.value.value;
             final mainColor = colors[mainIndex % colors.length];
 
-            // Alt kategorileri sırala
             final sortedSubs = subCategories.entries.toList()
               ..sort((a, b) => b.value.compareTo(a.value));
 
@@ -912,7 +1851,6 @@ class _ReportScreenState extends State<ReportScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Ana kategori başlığı
                   Row(
                     children: [
                       Container(
@@ -926,7 +1864,7 @@ class _ReportScreenState extends State<ReportScreen>
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          mainCategory,
+                          CategoryUtils.getLocalizedName(context, mainCategory),
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -945,7 +1883,6 @@ class _ReportScreenState extends State<ReportScreen>
                     ],
                   ),
                   const SizedBox(height: 8),
-                  // Alt kategoriler
                   ...sortedSubs.map((subEntry) {
                     final subName = subEntry.key;
                     final subAmount = subEntry.value;
@@ -1084,7 +2021,7 @@ class _ReportScreenState extends State<ReportScreen>
             icon: PhosphorIconsDuotone.arrowUp,
             label: l10n.highestSingleExpense,
             value: highestExpense != null
-                ? '${formatTurkishCurrency(highestExpense.amount, decimalDigits: 2)} TL (${highestExpense.category})'
+                ? '${formatTurkishCurrency(highestExpense.amount, decimalDigits: 2)} TL (${CategoryUtils.getLocalizedName(context, highestExpense.category)})'
                 : '-',
           ),
           const SizedBox(height: 12),
@@ -1092,7 +2029,7 @@ class _ReportScreenState extends State<ReportScreen>
             icon: PhosphorIconsDuotone.prohibit,
             label: l10n.mostDeclinedCategory,
             value: mostDeclinedCategory != null
-                ? '$mostDeclinedCategory (${l10n.times(mostDeclinedCount)})'
+                ? '${CategoryUtils.getLocalizedName(context, mostDeclinedCategory)} (${l10n.times(mostDeclinedCount)})'
                 : '-',
             valueColor: AppColors.decisionNo,
           ),
@@ -1120,12 +2057,16 @@ class _ReportScreenState extends State<ReportScreen>
             ),
           ),
         ),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: valueColor ?? AppColors.textPrimary,
+        Flexible(
+          child: Text(
+            value,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: valueColor ?? AppColors.textPrimary,
+            ),
+            textAlign: TextAlign.end,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],
@@ -1226,7 +2167,117 @@ class _ReportScreenState extends State<ReportScreen>
   }
 }
 
-// ========== YARDIMCI ANİMASYON WİDGET'LARI ==========
+// ═══════════════════════════════════════════════════════════════════════════
+// HELPER WIDGETS
+// ═══════════════════════════════════════════════════════════════════════════
+
+/// PRO Badge Widget
+class _ProBadge extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            AppColors.gold.withValues(alpha: 0.9),
+            AppColors.gold.withValues(alpha: 0.7),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(4),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.gold.withValues(alpha: 0.3),
+            blurRadius: 4,
+            offset: const Offset(0, 1),
+          ),
+        ],
+      ),
+      child: const Text(
+        'PRO',
+        style: TextStyle(
+          fontSize: 8,
+          fontWeight: FontWeight.w800,
+          color: AppColors.background,
+          letterSpacing: 0.5,
+        ),
+      ),
+    );
+  }
+}
+
+/// Insight Mini Card Widget
+class _InsightMiniCard extends StatelessWidget {
+  final IconData icon;
+  final Color iconColor;
+  final String title;
+  final String value;
+
+  const _InsightMiniCard({
+    required this.icon,
+    required this.iconColor,
+    required this.title,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceLight,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.cardBorder),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: iconColor.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Icon(
+                  icon,
+                  size: 14,
+                  color: iconColor,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textSecondary,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textPrimary,
+              height: 1.3,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 /// Gecikmeli slide-in animasyonu
 class _AnimatedSlideIn extends StatefulWidget {

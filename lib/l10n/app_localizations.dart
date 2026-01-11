@@ -998,6 +998,66 @@ abstract class AppLocalizations {
   /// **'Other'**
   String get categoryOther;
 
+  /// No description provided for @categoryClothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Clothing'**
+  String get categoryClothing;
+
+  /// No description provided for @categoryElectronics.
+  ///
+  /// In en, this message translates to:
+  /// **'Electronics'**
+  String get categoryElectronics;
+
+  /// No description provided for @categorySubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription'**
+  String get categorySubscription;
+
+  /// No description provided for @weekdayMonday.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get weekdayMonday;
+
+  /// No description provided for @weekdayTuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get weekdayTuesday;
+
+  /// No description provided for @weekdayWednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get weekdayWednesday;
+
+  /// No description provided for @weekdayThursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get weekdayThursday;
+
+  /// No description provided for @weekdayFriday.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get weekdayFriday;
+
+  /// No description provided for @weekdaySaturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get weekdaySaturday;
+
+  /// No description provided for @weekdaySunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get weekdaySunday;
+
   /// No description provided for @shareTitle.
   ///
   /// In en, this message translates to:
@@ -1081,6 +1141,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About'**
   String get about;
+
+  /// No description provided for @dangerZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Danger Zone'**
+  String get dangerZone;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App Version'**
+  String get appVersion;
 
   /// No description provided for @signOut.
   ///
@@ -3061,6 +3133,1062 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'With {amount} TL you could buy:'**
   String withThisAmountYouCouldBuy(String amount);
+
+  /// No description provided for @workHoursDistribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Work Hours Distribution'**
+  String get workHoursDistribution;
+
+  /// No description provided for @workHoursDistributionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'See how many hours you work for each category'**
+  String get workHoursDistributionDesc;
+
+  /// No description provided for @hoursShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours}h'**
+  String hoursShort(String hours);
+
+  /// No description provided for @categoryHoursBar.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours ({percent}%)'**
+  String categoryHoursBar(String hours, String percent);
+
+  /// No description provided for @monthComparison.
+  ///
+  /// In en, this message translates to:
+  /// **'Month Comparison'**
+  String get monthComparison;
+
+  /// No description provided for @vsLastMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'vs Last Month'**
+  String get vsLastMonth;
+
+  /// No description provided for @noLastMonthData.
+  ///
+  /// In en, this message translates to:
+  /// **'No last month data'**
+  String get noLastMonthData;
+
+  /// No description provided for @decreasedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'↓ {percent}% decreased'**
+  String decreasedBy(String percent);
+
+  /// No description provided for @increasedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'↑ {percent}% increased'**
+  String increasedBy(String percent);
+
+  /// No description provided for @noChange.
+  ///
+  /// In en, this message translates to:
+  /// **'No change'**
+  String get noChange;
+
+  /// No description provided for @greatProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Great progress!'**
+  String get greatProgress;
+
+  /// No description provided for @watchOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch out!'**
+  String get watchOut;
+
+  /// No description provided for @smartInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Insights'**
+  String get smartInsights;
+
+  /// No description provided for @mostExpensiveDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Most Expensive Day'**
+  String get mostExpensiveDay;
+
+  /// No description provided for @mostExpensiveDayValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{day} (avg. {amount} TL)'**
+  String mostExpensiveDayValue(String day, String amount);
+
+  /// No description provided for @mostPassedCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Most Passed Category'**
+  String get mostPassedCategory;
+
+  /// No description provided for @mostPassedCategoryValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{category} ({count} times)'**
+  String mostPassedCategoryValue(String category, int count);
+
+  /// No description provided for @savingsOpportunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings Opportunity'**
+  String get savingsOpportunity;
+
+  /// No description provided for @savingsOpportunityValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut {category} by 20% = {hours}h saved/month'**
+  String savingsOpportunityValue(String category, String hours);
+
+  /// No description provided for @weeklyTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Trend'**
+  String get weeklyTrend;
+
+  /// No description provided for @weeklyTrendValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 4 weeks: {trend}'**
+  String weeklyTrendValue(String trend);
+
+  /// No description provided for @overallDecreasing.
+  ///
+  /// In en, this message translates to:
+  /// **'Overall decreasing'**
+  String get overallDecreasing;
+
+  /// No description provided for @overallIncreasing.
+  ///
+  /// In en, this message translates to:
+  /// **'Overall increasing'**
+  String get overallIncreasing;
+
+  /// No description provided for @stableTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Stable'**
+  String get stableTrend;
+
+  /// No description provided for @noTrendData.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data'**
+  String get noTrendData;
+
+  /// No description provided for @yearlyView.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly View'**
+  String get yearlyView;
+
+  /// No description provided for @yearlyHeatmap.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Heatmap'**
+  String get yearlyHeatmap;
+
+  /// No description provided for @yearlyHeatmapDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your spending intensity throughout the year'**
+  String get yearlyHeatmapDesc;
+
+  /// No description provided for @lowSpending.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get lowSpending;
+
+  /// No description provided for @highSpending.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get highSpending;
+
+  /// No description provided for @noSpending.
+  ///
+  /// In en, this message translates to:
+  /// **'No spending'**
+  String get noSpending;
+
+  /// No description provided for @tapDayForDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a day for details'**
+  String get tapDayForDetails;
+
+  /// No description provided for @selectedDayExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}: {amount} TL ({count} expenses)'**
+  String selectedDayExpenses(String date, String amount, int count);
+
+  /// No description provided for @proBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'PRO'**
+  String get proBadge;
+
+  /// No description provided for @proFeature.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro Feature'**
+  String get proFeature;
+
+  /// No description provided for @comingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming Soon'**
+  String get comingSoon;
+
+  /// No description provided for @mindfulChoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Mindful Choice'**
+  String get mindfulChoice;
+
+  /// No description provided for @mindfulChoiceExpandedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'What were you originally planning to buy?'**
+  String get mindfulChoiceExpandedDesc;
+
+  /// No description provided for @mindfulChoiceCollapsedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Were you going to buy something more expensive?'**
+  String get mindfulChoiceCollapsedDesc;
+
+  /// No description provided for @mindfulChoiceAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount in Mind (₺)'**
+  String get mindfulChoiceAmountLabel;
+
+  /// No description provided for @mindfulChoiceAmountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g: {amount}'**
+  String mindfulChoiceAmountHint(String amount);
+
+  /// No description provided for @mindfulChoiceSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} TL savings'**
+  String mindfulChoiceSavings(String amount);
+
+  /// No description provided for @mindfulChoiceSavingsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Stays in your pocket with mindful choice'**
+  String get mindfulChoiceSavingsDesc;
+
+  /// No description provided for @tierBronze.
+  ///
+  /// In en, this message translates to:
+  /// **'Bronze'**
+  String get tierBronze;
+
+  /// No description provided for @tierSilver.
+  ///
+  /// In en, this message translates to:
+  /// **'Silver'**
+  String get tierSilver;
+
+  /// No description provided for @tierGold.
+  ///
+  /// In en, this message translates to:
+  /// **'Gold'**
+  String get tierGold;
+
+  /// No description provided for @tierPlatinum.
+  ///
+  /// In en, this message translates to:
+  /// **'Platinum'**
+  String get tierPlatinum;
+
+  /// No description provided for @achievementCategoryStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak'**
+  String get achievementCategoryStreak;
+
+  /// No description provided for @achievementCategorySavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings'**
+  String get achievementCategorySavings;
+
+  /// No description provided for @achievementCategoryDecision.
+  ///
+  /// In en, this message translates to:
+  /// **'Decision'**
+  String get achievementCategoryDecision;
+
+  /// No description provided for @achievementCategoryRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Record'**
+  String get achievementCategoryRecord;
+
+  /// No description provided for @achievementCategoryHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden'**
+  String get achievementCategoryHidden;
+
+  /// No description provided for @achievementStreakB1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Getting Started'**
+  String get achievementStreakB1Title;
+
+  /// No description provided for @achievementStreakB1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record for 3 days in a row'**
+  String get achievementStreakB1Desc;
+
+  /// No description provided for @achievementStreakB2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Keeping Going'**
+  String get achievementStreakB2Title;
+
+  /// No description provided for @achievementStreakB2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record for 7 days in a row'**
+  String get achievementStreakB2Desc;
+
+  /// No description provided for @achievementStreakB3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Building Routine'**
+  String get achievementStreakB3Title;
+
+  /// No description provided for @achievementStreakB3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record for 14 days in a row'**
+  String get achievementStreakB3Desc;
+
+  /// No description provided for @achievementStreakS1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Determination'**
+  String get achievementStreakS1Title;
+
+  /// No description provided for @achievementStreakS1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record for 30 days in a row'**
+  String get achievementStreakS1Desc;
+
+  /// No description provided for @achievementStreakS2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit'**
+  String get achievementStreakS2Title;
+
+  /// No description provided for @achievementStreakS2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record for 60 days in a row'**
+  String get achievementStreakS2Desc;
+
+  /// No description provided for @achievementStreakS3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Discipline'**
+  String get achievementStreakS3Title;
+
+  /// No description provided for @achievementStreakS3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record for 90 days in a row'**
+  String get achievementStreakS3Desc;
+
+  /// No description provided for @achievementStreakG1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong Will'**
+  String get achievementStreakG1Title;
+
+  /// No description provided for @achievementStreakG1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record for 150 days in a row'**
+  String get achievementStreakG1Desc;
+
+  /// No description provided for @achievementStreakG2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Unshakeable'**
+  String get achievementStreakG2Title;
+
+  /// No description provided for @achievementStreakG2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record for 250 days in a row'**
+  String get achievementStreakG2Desc;
+
+  /// No description provided for @achievementStreakG3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Consistency'**
+  String get achievementStreakG3Title;
+
+  /// No description provided for @achievementStreakG3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record for 365 days in a row'**
+  String get achievementStreakG3Desc;
+
+  /// No description provided for @achievementStreakPTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Persistence'**
+  String get achievementStreakPTitle;
+
+  /// No description provided for @achievementStreakPDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record for 730 days in a row'**
+  String get achievementStreakPDesc;
+
+  /// No description provided for @achievementSavingsB1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'First Savings'**
+  String get achievementSavingsB1Title;
+
+  /// No description provided for @achievementSavingsB1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved 250 TL'**
+  String get achievementSavingsB1Desc;
+
+  /// No description provided for @achievementSavingsB2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting to Save'**
+  String get achievementSavingsB2Title;
+
+  /// No description provided for @achievementSavingsB2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved 500 TL'**
+  String get achievementSavingsB2Desc;
+
+  /// No description provided for @achievementSavingsB3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'On the Right Path'**
+  String get achievementSavingsB3Title;
+
+  /// No description provided for @achievementSavingsB3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved 1,000 TL'**
+  String get achievementSavingsB3Desc;
+
+  /// No description provided for @achievementSavingsS1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Mindful Spending'**
+  String get achievementSavingsS1Title;
+
+  /// No description provided for @achievementSavingsS1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved 2,500 TL'**
+  String get achievementSavingsS1Desc;
+
+  /// No description provided for @achievementSavingsS2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'In Control'**
+  String get achievementSavingsS2Title;
+
+  /// No description provided for @achievementSavingsS2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved 5,000 TL'**
+  String get achievementSavingsS2Desc;
+
+  /// No description provided for @achievementSavingsS3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Consistent'**
+  String get achievementSavingsS3Title;
+
+  /// No description provided for @achievementSavingsS3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved 10,000 TL'**
+  String get achievementSavingsS3Desc;
+
+  /// No description provided for @achievementSavingsG1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong Savings'**
+  String get achievementSavingsG1Title;
+
+  /// No description provided for @achievementSavingsG1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved 25,000 TL'**
+  String get achievementSavingsG1Desc;
+
+  /// No description provided for @achievementSavingsG2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial Awareness'**
+  String get achievementSavingsG2Title;
+
+  /// No description provided for @achievementSavingsG2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved 50,000 TL'**
+  String get achievementSavingsG2Desc;
+
+  /// No description provided for @achievementSavingsG3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Solid Foundation'**
+  String get achievementSavingsG3Title;
+
+  /// No description provided for @achievementSavingsG3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved 100,000 TL'**
+  String get achievementSavingsG3Desc;
+
+  /// No description provided for @achievementSavingsP1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Long-term Thinking'**
+  String get achievementSavingsP1Title;
+
+  /// No description provided for @achievementSavingsP1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved 250,000 TL'**
+  String get achievementSavingsP1Desc;
+
+  /// No description provided for @achievementSavingsP2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial Clarity'**
+  String get achievementSavingsP2Title;
+
+  /// No description provided for @achievementSavingsP2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved 500,000 TL'**
+  String get achievementSavingsP2Desc;
+
+  /// No description provided for @achievementSavingsP3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Big Picture'**
+  String get achievementSavingsP3Title;
+
+  /// No description provided for @achievementSavingsP3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved 1,000,000 TL'**
+  String get achievementSavingsP3Desc;
+
+  /// No description provided for @achievementDecisionB1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'First Decision'**
+  String get achievementDecisionB1Title;
+
+  /// No description provided for @achievementDecisionB1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed 3 times'**
+  String get achievementDecisionB1Desc;
+
+  /// No description provided for @achievementDecisionB2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Resistance'**
+  String get achievementDecisionB2Title;
+
+  /// No description provided for @achievementDecisionB2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed 7 times'**
+  String get achievementDecisionB2Desc;
+
+  /// No description provided for @achievementDecisionB3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Control'**
+  String get achievementDecisionB3Title;
+
+  /// No description provided for @achievementDecisionB3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed 15 times'**
+  String get achievementDecisionB3Desc;
+
+  /// No description provided for @achievementDecisionS1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Determination'**
+  String get achievementDecisionS1Title;
+
+  /// No description provided for @achievementDecisionS1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed 30 times'**
+  String get achievementDecisionS1Desc;
+
+  /// No description provided for @achievementDecisionS2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Clarity'**
+  String get achievementDecisionS2Title;
+
+  /// No description provided for @achievementDecisionS2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed 60 times'**
+  String get achievementDecisionS2Desc;
+
+  /// No description provided for @achievementDecisionS3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong Choices'**
+  String get achievementDecisionS3Title;
+
+  /// No description provided for @achievementDecisionS3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed 100 times'**
+  String get achievementDecisionS3Desc;
+
+  /// No description provided for @achievementDecisionG1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Willpower'**
+  String get achievementDecisionG1Title;
+
+  /// No description provided for @achievementDecisionG1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed 200 times'**
+  String get achievementDecisionG1Desc;
+
+  /// No description provided for @achievementDecisionG2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Composure'**
+  String get achievementDecisionG2Title;
+
+  /// No description provided for @achievementDecisionG2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed 400 times'**
+  String get achievementDecisionG2Desc;
+
+  /// No description provided for @achievementDecisionG3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Level Control'**
+  String get achievementDecisionG3Title;
+
+  /// No description provided for @achievementDecisionG3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed 700 times'**
+  String get achievementDecisionG3Desc;
+
+  /// No description provided for @achievementDecisionPTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Mastery'**
+  String get achievementDecisionPTitle;
+
+  /// No description provided for @achievementDecisionPDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed 1,000 times'**
+  String get achievementDecisionPDesc;
+
+  /// No description provided for @achievementRecordB1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Started'**
+  String get achievementRecordB1Title;
+
+  /// No description provided for @achievementRecordB1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'5 expense records'**
+  String get achievementRecordB1Desc;
+
+  /// No description provided for @achievementRecordB2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking'**
+  String get achievementRecordB2Title;
+
+  /// No description provided for @achievementRecordB2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'15 expense records'**
+  String get achievementRecordB2Desc;
+
+  /// No description provided for @achievementRecordB3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Organized'**
+  String get achievementRecordB3Title;
+
+  /// No description provided for @achievementRecordB3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'30 expense records'**
+  String get achievementRecordB3Desc;
+
+  /// No description provided for @achievementRecordS1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed Tracking'**
+  String get achievementRecordS1Title;
+
+  /// No description provided for @achievementRecordS1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'60 expense records'**
+  String get achievementRecordS1Desc;
+
+  /// No description provided for @achievementRecordS2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytical'**
+  String get achievementRecordS2Title;
+
+  /// No description provided for @achievementRecordS2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'120 expense records'**
+  String get achievementRecordS2Desc;
+
+  /// No description provided for @achievementRecordS3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Systematic'**
+  String get achievementRecordS3Title;
+
+  /// No description provided for @achievementRecordS3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'200 expense records'**
+  String get achievementRecordS3Desc;
+
+  /// No description provided for @achievementRecordG1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Depth'**
+  String get achievementRecordG1Title;
+
+  /// No description provided for @achievementRecordG1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'350 expense records'**
+  String get achievementRecordG1Desc;
+
+  /// No description provided for @achievementRecordG2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Mastery'**
+  String get achievementRecordG2Title;
+
+  /// No description provided for @achievementRecordG2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'600 expense records'**
+  String get achievementRecordG2Desc;
+
+  /// No description provided for @achievementRecordG3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get achievementRecordG3Title;
+
+  /// No description provided for @achievementRecordG3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'1,000 expense records'**
+  String get achievementRecordG3Desc;
+
+  /// No description provided for @achievementRecordPTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Long-term Record'**
+  String get achievementRecordPTitle;
+
+  /// No description provided for @achievementRecordPDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'2,000 expense records'**
+  String get achievementRecordPDesc;
+
+  /// No description provided for @achievementHiddenNightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Night Record'**
+  String get achievementHiddenNightTitle;
+
+  /// No description provided for @achievementHiddenNightDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record between 00:00-05:00'**
+  String get achievementHiddenNightDesc;
+
+  /// No description provided for @achievementHiddenEarlyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Early Bird'**
+  String get achievementHiddenEarlyTitle;
+
+  /// No description provided for @achievementHiddenEarlyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record between 05:00-07:00'**
+  String get achievementHiddenEarlyDesc;
+
+  /// No description provided for @achievementHiddenWeekendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekend Routine'**
+  String get achievementHiddenWeekendTitle;
+
+  /// No description provided for @achievementHiddenWeekendDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'5 records on Saturday-Sunday'**
+  String get achievementHiddenWeekendDesc;
+
+  /// No description provided for @achievementHiddenOcrTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'First Scan'**
+  String get achievementHiddenOcrTitle;
+
+  /// No description provided for @achievementHiddenOcrDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'First receipt OCR usage'**
+  String get achievementHiddenOcrDesc;
+
+  /// No description provided for @achievementHiddenBalancedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Balanced Week'**
+  String get achievementHiddenBalancedTitle;
+
+  /// No description provided for @achievementHiddenBalancedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'7 days in a row with 0 \"Bought\"'**
+  String get achievementHiddenBalancedDesc;
+
+  /// No description provided for @achievementHiddenCategoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Category Completion'**
+  String get achievementHiddenCategoriesTitle;
+
+  /// No description provided for @achievementHiddenCategoriesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record in all 6 categories'**
+  String get achievementHiddenCategoriesDesc;
+
+  /// No description provided for @achievementHiddenGoldTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gold Equivalent'**
+  String get achievementHiddenGoldTitle;
+
+  /// No description provided for @achievementHiddenGoldDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved money equals 1 gram of gold'**
+  String get achievementHiddenGoldDesc;
+
+  /// No description provided for @achievementHiddenUsdTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency Equivalent'**
+  String get achievementHiddenUsdTitle;
+
+  /// No description provided for @achievementHiddenUsdDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved money equals \$100'**
+  String get achievementHiddenUsdDesc;
+
+  /// No description provided for @achievementHiddenSubsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription Control'**
+  String get achievementHiddenSubsTitle;
+
+  /// No description provided for @achievementHiddenSubsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Track 5 subscriptions'**
+  String get achievementHiddenSubsDesc;
+
+  /// No description provided for @achievementHiddenNoSpendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No-Spend Month'**
+  String get achievementHiddenNoSpendTitle;
+
+  /// No description provided for @achievementHiddenNoSpendDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'0 \"Bought\" for 1 month'**
+  String get achievementHiddenNoSpendDesc;
+
+  /// No description provided for @achievementHiddenGoldKgTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'High Value Savings'**
+  String get achievementHiddenGoldKgTitle;
+
+  /// No description provided for @achievementHiddenGoldKgDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved money equals 1 kg of gold'**
+  String get achievementHiddenGoldKgDesc;
+
+  /// No description provided for @achievementHiddenUsd10kTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Major Currency Equivalent'**
+  String get achievementHiddenUsd10kTitle;
+
+  /// No description provided for @achievementHiddenUsd10kDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved money equals \$10,000'**
+  String get achievementHiddenUsd10kDesc;
+
+  /// No description provided for @achievementHiddenAnniversaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage Anniversary'**
+  String get achievementHiddenAnniversaryTitle;
+
+  /// No description provided for @achievementHiddenAnniversaryDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'365 days of usage'**
+  String get achievementHiddenAnniversaryDesc;
+
+  /// No description provided for @achievementHiddenEarlyAdopterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Early Adopter'**
+  String get achievementHiddenEarlyAdopterTitle;
+
+  /// No description provided for @achievementHiddenEarlyAdopterDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Installed the app 2 years ago'**
+  String get achievementHiddenEarlyAdopterDesc;
+
+  /// No description provided for @achievementHiddenUltimateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Long-term Discipline'**
+  String get achievementHiddenUltimateTitle;
+
+  /// No description provided for @achievementHiddenUltimateDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'1,000,000 TL + 365 day streak at once'**
+  String get achievementHiddenUltimateDesc;
+
+  /// No description provided for @achievementHiddenCollectorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Collector'**
+  String get achievementHiddenCollectorTitle;
+
+  /// No description provided for @achievementHiddenCollectorDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Collected all badges except Platinum'**
+  String get achievementHiddenCollectorDesc;
+
+  /// No description provided for @easterEgg5Left.
+  ///
+  /// In en, this message translates to:
+  /// **'5 more...'**
+  String get easterEgg5Left;
+
+  /// No description provided for @easterEggAlmost.
+  ///
+  /// In en, this message translates to:
+  /// **'Almost...'**
+  String get easterEggAlmost;
+
+  /// No description provided for @achievementUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievement Unlocked!'**
+  String get achievementUnlocked;
+
+  /// No description provided for @curiousCatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Too Curious'**
+  String get curiousCatTitle;
+
+  /// No description provided for @curiousCatDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'You found the hidden Easter Egg!'**
+  String get curiousCatDescription;
+
+  /// No description provided for @great.
+  ///
+  /// In en, this message translates to:
+  /// **'Great!'**
+  String get great;
+
+  /// No description provided for @achievementHiddenCuriousCatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Too Curious'**
+  String get achievementHiddenCuriousCatTitle;
+
+  /// No description provided for @achievementHiddenCuriousCatDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You found the hidden Easter Egg!'**
+  String get achievementHiddenCuriousCatDesc;
 }
 
 class _AppLocalizationsDelegate

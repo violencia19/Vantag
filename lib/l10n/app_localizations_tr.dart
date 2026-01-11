@@ -481,6 +481,36 @@ class AppLocalizationsTr extends AppLocalizations {
   String get categoryOther => 'Diğer';
 
   @override
+  String get categoryClothing => 'Giyim';
+
+  @override
+  String get categoryElectronics => 'Elektronik';
+
+  @override
+  String get categorySubscription => 'Abonelik';
+
+  @override
+  String get weekdayMonday => 'Pazartesi';
+
+  @override
+  String get weekdayTuesday => 'Salı';
+
+  @override
+  String get weekdayWednesday => 'Çarşamba';
+
+  @override
+  String get weekdayThursday => 'Perşembe';
+
+  @override
+  String get weekdayFriday => 'Cuma';
+
+  @override
+  String get weekdaySaturday => 'Cumartesi';
+
+  @override
+  String get weekdaySunday => 'Pazar';
+
+  @override
   String get shareTitle => 'Vantag ile tasarruflarıma göz at!';
 
   @override
@@ -526,6 +556,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get about => 'Hakkında';
+
+  @override
+  String get dangerZone => 'Tehlikeli Bölge';
+
+  @override
+  String get appVersion => 'Uygulama Sürümü';
 
   @override
   String get signOut => 'Çıkış Yap';
@@ -1470,27 +1506,27 @@ class AppLocalizationsTr extends AppLocalizations {
   String get shareError => 'Paylaşım sırasında bir hata oluştu';
 
   @override
-  String get pleaseEnterValidSalary => 'Please enter a valid salary';
+  String get pleaseEnterValidSalary => 'Lütfen geçerli bir maaş girin';
 
   @override
-  String get pleaseEnterValidIncomeAmount => 'Please enter a valid amount';
+  String get pleaseEnterValidIncomeAmount => 'Lütfen geçerli bir tutar girin';
 
   @override
   String get atLeastOneIncomeRequired =>
-      'You must add at least one income source';
+      'En az bir gelir kaynağı eklemelisiniz';
 
   @override
-  String get incomesUpdated => 'Incomes updated';
+  String get incomesUpdated => 'Gelirler güncellendi';
 
   @override
-  String get incomesSaved => 'Incomes saved';
+  String get incomesSaved => 'Gelirler kaydedildi';
 
   @override
-  String get saveError => 'An error occurred while saving';
+  String get saveError => 'Kaydetme sırasında bir hata oluştu';
 
   @override
   String incomeSourceCount(int count) {
-    return '$count income sources';
+    return '$count gelir kaynağı';
   }
 
   @override
@@ -1661,4 +1697,562 @@ class AppLocalizationsTr extends AppLocalizations {
   String withThisAmountYouCouldBuy(String amount) {
     return '$amount TL ile şunları alabilirdin:';
   }
+
+  @override
+  String get workHoursDistribution => 'Çalışma Saati Dağılımı';
+
+  @override
+  String get workHoursDistributionDesc =>
+      'Her kategori için kaç saat çalıştığını gör';
+
+  @override
+  String hoursShort(String hours) {
+    return '${hours}s';
+  }
+
+  @override
+  String categoryHoursBar(String hours, String percent) {
+    return '$hours saat (%$percent)';
+  }
+
+  @override
+  String get monthComparison => 'Ay Karşılaştırması';
+
+  @override
+  String get vsLastMonth => 'Geçen Aya Göre';
+
+  @override
+  String get noLastMonthData => 'Geçen ay verisi yok';
+
+  @override
+  String decreasedBy(String percent) {
+    return '↓ %$percent azaldı';
+  }
+
+  @override
+  String increasedBy(String percent) {
+    return '↑ %$percent arttı';
+  }
+
+  @override
+  String get noChange => 'Değişim yok';
+
+  @override
+  String get greatProgress => 'Harika ilerleme!';
+
+  @override
+  String get watchOut => 'Dikkat!';
+
+  @override
+  String get smartInsights => 'Akıllı Bilgiler';
+
+  @override
+  String get mostExpensiveDay => 'En Pahalı Gün';
+
+  @override
+  String mostExpensiveDayValue(String day, String amount) {
+    return '$day (ort. $amount TL)';
+  }
+
+  @override
+  String get mostPassedCategory => 'En Çok Vazgeçilen';
+
+  @override
+  String mostPassedCategoryValue(String category, int count) {
+    return '$category ($count kez)';
+  }
+
+  @override
+  String get savingsOpportunity => 'Tasarruf Fırsatı';
+
+  @override
+  String savingsOpportunityValue(String category, String hours) {
+    return '$category\'i %20 azalt = ayda ${hours}s kazan';
+  }
+
+  @override
+  String get weeklyTrend => 'Haftalık Trend';
+
+  @override
+  String weeklyTrendValue(String trend) {
+    return 'Son 4 hafta: $trend';
+  }
+
+  @override
+  String get overallDecreasing => 'Genel düşüş';
+
+  @override
+  String get overallIncreasing => 'Genel artış';
+
+  @override
+  String get stableTrend => 'Stabil';
+
+  @override
+  String get noTrendData => 'Yeterli veri yok';
+
+  @override
+  String get yearlyView => 'Yıllık Görünüm';
+
+  @override
+  String get yearlyHeatmap => 'Harcama Haritası';
+
+  @override
+  String get yearlyHeatmapDesc => 'Yıl boyunca harcama yoğunluğun';
+
+  @override
+  String get lowSpending => 'Az';
+
+  @override
+  String get highSpending => 'Çok';
+
+  @override
+  String get noSpending => 'Harcama yok';
+
+  @override
+  String get tapDayForDetails => 'Detay için güne dokun';
+
+  @override
+  String selectedDayExpenses(String date, String amount, int count) {
+    return '$date: $amount TL ($count harcama)';
+  }
+
+  @override
+  String get proBadge => 'PRO';
+
+  @override
+  String get proFeature => 'Pro Özellik';
+
+  @override
+  String get comingSoon => 'Yakında';
+
+  @override
+  String get mindfulChoice => 'Bilinçli Tercih';
+
+  @override
+  String get mindfulChoiceExpandedDesc => 'Aslında ne almayı planlamıştın?';
+
+  @override
+  String get mindfulChoiceCollapsedDesc =>
+      'Aslında daha pahalısını mı alacaktın?';
+
+  @override
+  String get mindfulChoiceAmountLabel => 'Aklındaki Tutar (₺)';
+
+  @override
+  String mindfulChoiceAmountHint(String amount) {
+    return 'Örn: $amount';
+  }
+
+  @override
+  String mindfulChoiceSavings(String amount) {
+    return '$amount TL tasarruf';
+  }
+
+  @override
+  String get mindfulChoiceSavingsDesc => 'Bilinçli tercih ile cebinde kalıyor';
+
+  @override
+  String get tierBronze => 'Bronz';
+
+  @override
+  String get tierSilver => 'Gümüş';
+
+  @override
+  String get tierGold => 'Altın';
+
+  @override
+  String get tierPlatinum => 'Platin';
+
+  @override
+  String get achievementCategoryStreak => 'Seri';
+
+  @override
+  String get achievementCategorySavings => 'Tasarruf';
+
+  @override
+  String get achievementCategoryDecision => 'Karar';
+
+  @override
+  String get achievementCategoryRecord => 'Kayıt';
+
+  @override
+  String get achievementCategoryHidden => 'Gizli';
+
+  @override
+  String get achievementStreakB1Title => 'Başlangıç';
+
+  @override
+  String get achievementStreakB1Desc => '3 gün üst üste kayıt yap';
+
+  @override
+  String get achievementStreakB2Title => 'Devam Ediyorum';
+
+  @override
+  String get achievementStreakB2Desc => '7 gün üst üste kayıt yap';
+
+  @override
+  String get achievementStreakB3Title => 'Rutin Oluşuyor';
+
+  @override
+  String get achievementStreakB3Desc => '14 gün üst üste kayıt yap';
+
+  @override
+  String get achievementStreakS1Title => 'Kararlılık';
+
+  @override
+  String get achievementStreakS1Desc => '30 gün üst üste kayıt yap';
+
+  @override
+  String get achievementStreakS2Title => 'Alışkanlık';
+
+  @override
+  String get achievementStreakS2Desc => '60 gün üst üste kayıt yap';
+
+  @override
+  String get achievementStreakS3Title => 'Disiplin';
+
+  @override
+  String get achievementStreakS3Desc => '90 gün üst üste kayıt yap';
+
+  @override
+  String get achievementStreakG1Title => 'Güçlü İrade';
+
+  @override
+  String get achievementStreakG1Desc => '150 gün üst üste kayıt yap';
+
+  @override
+  String get achievementStreakG2Title => 'Sarsılmaz';
+
+  @override
+  String get achievementStreakG2Desc => '250 gün üst üste kayıt yap';
+
+  @override
+  String get achievementStreakG3Title => 'İstikrar';
+
+  @override
+  String get achievementStreakG3Desc => '365 gün üst üste kayıt yap';
+
+  @override
+  String get achievementStreakPTitle => 'Süreklilik';
+
+  @override
+  String get achievementStreakPDesc => '730 gün üst üste kayıt yap';
+
+  @override
+  String get achievementSavingsB1Title => 'İlk Tasarruf';
+
+  @override
+  String get achievementSavingsB1Desc => '250 TL kurtardın';
+
+  @override
+  String get achievementSavingsB2Title => 'Birikime Başladım';
+
+  @override
+  String get achievementSavingsB2Desc => '500 TL kurtardın';
+
+  @override
+  String get achievementSavingsB3Title => 'Yolun Başında';
+
+  @override
+  String get achievementSavingsB3Desc => '1.000 TL kurtardın';
+
+  @override
+  String get achievementSavingsS1Title => 'Bilinçli Harcama';
+
+  @override
+  String get achievementSavingsS1Desc => '2.500 TL kurtardın';
+
+  @override
+  String get achievementSavingsS2Title => 'Kontrollü';
+
+  @override
+  String get achievementSavingsS2Desc => '5.000 TL kurtardın';
+
+  @override
+  String get achievementSavingsS3Title => 'Tutarlı';
+
+  @override
+  String get achievementSavingsS3Desc => '10.000 TL kurtardın';
+
+  @override
+  String get achievementSavingsG1Title => 'Güçlü Birikim';
+
+  @override
+  String get achievementSavingsG1Desc => '25.000 TL kurtardın';
+
+  @override
+  String get achievementSavingsG2Title => 'Finansal Farkındalık';
+
+  @override
+  String get achievementSavingsG2Desc => '50.000 TL kurtardın';
+
+  @override
+  String get achievementSavingsG3Title => 'Sağlam Zemin';
+
+  @override
+  String get achievementSavingsG3Desc => '100.000 TL kurtardın';
+
+  @override
+  String get achievementSavingsP1Title => 'Uzun Vadeli Düşünce';
+
+  @override
+  String get achievementSavingsP1Desc => '250.000 TL kurtardın';
+
+  @override
+  String get achievementSavingsP2Title => 'Finansal Netlik';
+
+  @override
+  String get achievementSavingsP2Desc => '500.000 TL kurtardın';
+
+  @override
+  String get achievementSavingsP3Title => 'Büyük Resim';
+
+  @override
+  String get achievementSavingsP3Desc => '1.000.000 TL kurtardın';
+
+  @override
+  String get achievementDecisionB1Title => 'İlk Karar';
+
+  @override
+  String get achievementDecisionB1Desc => '3 kez vazgeçtin';
+
+  @override
+  String get achievementDecisionB2Title => 'Direnç';
+
+  @override
+  String get achievementDecisionB2Desc => '7 kez vazgeçtin';
+
+  @override
+  String get achievementDecisionB3Title => 'Kontrol';
+
+  @override
+  String get achievementDecisionB3Desc => '15 kez vazgeçtin';
+
+  @override
+  String get achievementDecisionS1Title => 'Kararlılık';
+
+  @override
+  String get achievementDecisionS1Desc => '30 kez vazgeçtin';
+
+  @override
+  String get achievementDecisionS2Title => 'Netlik';
+
+  @override
+  String get achievementDecisionS2Desc => '60 kez vazgeçtin';
+
+  @override
+  String get achievementDecisionS3Title => 'Güçlü Seçimler';
+
+  @override
+  String get achievementDecisionS3Desc => '100 kez vazgeçtin';
+
+  @override
+  String get achievementDecisionG1Title => 'İrade';
+
+  @override
+  String get achievementDecisionG1Desc => '200 kez vazgeçtin';
+
+  @override
+  String get achievementDecisionG2Title => 'Soğukkanlılık';
+
+  @override
+  String get achievementDecisionG2Desc => '400 kez vazgeçtin';
+
+  @override
+  String get achievementDecisionG3Title => 'Üst Seviye Kontrol';
+
+  @override
+  String get achievementDecisionG3Desc => '700 kez vazgeçtin';
+
+  @override
+  String get achievementDecisionPTitle => 'Tam Hakimiyet';
+
+  @override
+  String get achievementDecisionPDesc => '1.000 kez vazgeçtin';
+
+  @override
+  String get achievementRecordB1Title => 'Başladım';
+
+  @override
+  String get achievementRecordB1Desc => '5 harcama kaydı';
+
+  @override
+  String get achievementRecordB2Title => 'Takip Ediyorum';
+
+  @override
+  String get achievementRecordB2Desc => '15 harcama kaydı';
+
+  @override
+  String get achievementRecordB3Title => 'Düzen Oluştu';
+
+  @override
+  String get achievementRecordB3Desc => '30 harcama kaydı';
+
+  @override
+  String get achievementRecordS1Title => 'Detaylı Takip';
+
+  @override
+  String get achievementRecordS1Desc => '60 harcama kaydı';
+
+  @override
+  String get achievementRecordS2Title => 'Analitik';
+
+  @override
+  String get achievementRecordS2Desc => '120 harcama kaydı';
+
+  @override
+  String get achievementRecordS3Title => 'Sistemli';
+
+  @override
+  String get achievementRecordS3Desc => '200 harcama kaydı';
+
+  @override
+  String get achievementRecordG1Title => 'Derinlik';
+
+  @override
+  String get achievementRecordG1Desc => '350 harcama kaydı';
+
+  @override
+  String get achievementRecordG2Title => 'Uzmanlaşma';
+
+  @override
+  String get achievementRecordG2Desc => '600 harcama kaydı';
+
+  @override
+  String get achievementRecordG3Title => 'Arşiv';
+
+  @override
+  String get achievementRecordG3Desc => '1.000 harcama kaydı';
+
+  @override
+  String get achievementRecordPTitle => 'Uzun Süreli Kayıt';
+
+  @override
+  String get achievementRecordPDesc => '2.000 harcama kaydı';
+
+  @override
+  String get achievementHiddenNightTitle => 'Gece Kaydı';
+
+  @override
+  String get achievementHiddenNightDesc => '00:00-05:00 arası kayıt yap';
+
+  @override
+  String get achievementHiddenEarlyTitle => 'Erken Saat';
+
+  @override
+  String get achievementHiddenEarlyDesc => '05:00-07:00 arası kayıt yap';
+
+  @override
+  String get achievementHiddenWeekendTitle => 'Hafta Sonu Rutini';
+
+  @override
+  String get achievementHiddenWeekendDesc => 'Cumartesi-Pazar 5 kayıt';
+
+  @override
+  String get achievementHiddenOcrTitle => 'İlk Tarama';
+
+  @override
+  String get achievementHiddenOcrDesc => 'İlk fiş OCR kullanımı';
+
+  @override
+  String get achievementHiddenBalancedTitle => 'Dengeli Hafta';
+
+  @override
+  String get achievementHiddenBalancedDesc => '7 gün üst üste 0 \"Aldım\"';
+
+  @override
+  String get achievementHiddenCategoriesTitle => 'Kategori Tamamlama';
+
+  @override
+  String get achievementHiddenCategoriesDesc => 'Tüm 6 kategoride kayıt';
+
+  @override
+  String get achievementHiddenGoldTitle => 'Altın Denkliği';
+
+  @override
+  String get achievementHiddenGoldDesc =>
+      'Kurtarılan para 1 gram altın değerinde';
+
+  @override
+  String get achievementHiddenUsdTitle => 'Döviz Denkliği';
+
+  @override
+  String get achievementHiddenUsdDesc => 'Kurtarılan para 100\$ değerinde';
+
+  @override
+  String get achievementHiddenSubsTitle => 'Abonelik Kontrolü';
+
+  @override
+  String get achievementHiddenSubsDesc => '5 abonelik takibi';
+
+  @override
+  String get achievementHiddenNoSpendTitle => 'Harcamasız Ay';
+
+  @override
+  String get achievementHiddenNoSpendDesc => '1 ay boyunca 0 \"Aldım\"';
+
+  @override
+  String get achievementHiddenGoldKgTitle => 'Yüksek Değer Birikim';
+
+  @override
+  String get achievementHiddenGoldKgDesc =>
+      'Kurtarılan para 1 kg altın değerinde';
+
+  @override
+  String get achievementHiddenUsd10kTitle => 'Büyük Döviz Denkliği';
+
+  @override
+  String get achievementHiddenUsd10kDesc =>
+      'Kurtarılan para 10.000\$ değerinde';
+
+  @override
+  String get achievementHiddenAnniversaryTitle => 'Kullanım Yıldönümü';
+
+  @override
+  String get achievementHiddenAnniversaryDesc => '365 gün kullanım';
+
+  @override
+  String get achievementHiddenEarlyAdopterTitle => 'İlk Nesil Kullanıcı';
+
+  @override
+  String get achievementHiddenEarlyAdopterDesc =>
+      'Uygulamayı 2 yıl önce indirdi';
+
+  @override
+  String get achievementHiddenUltimateTitle => 'Uzun Vadeli Disiplin';
+
+  @override
+  String get achievementHiddenUltimateDesc =>
+      '1.000.000 TL + 365 gün streak aynı anda';
+
+  @override
+  String get achievementHiddenCollectorTitle => 'Koleksiyoncu';
+
+  @override
+  String get achievementHiddenCollectorDesc =>
+      'Platinum hariç tüm rozetleri topladı';
+
+  @override
+  String get easterEgg5Left => '5 kaldı...';
+
+  @override
+  String get easterEggAlmost => 'Neredeyse...';
+
+  @override
+  String get achievementUnlocked => 'Rozet Açıldı!';
+
+  @override
+  String get curiousCatTitle => 'Çok Meraklı';
+
+  @override
+  String get curiousCatDescription => 'Gizli Easter Egg\'i buldun!';
+
+  @override
+  String get great => 'Harika!';
+
+  @override
+  String get achievementHiddenCuriousCatTitle => 'Çok Meraklı';
+
+  @override
+  String get achievementHiddenCuriousCatDesc => 'Gizli Easter Egg\'i buldun!';
 }

@@ -49,6 +49,12 @@ class _ExpenseScreenState extends State<ExpenseScreen>
   final _subscriptionService = SubscriptionService();
   final _subCategoryService = SubCategoryService();
 
+  // Scroll controller for tour scrolling
+  final ScrollController _scrollController = ScrollController();
+
+  /// Scroll controller'a erişim için getter
+  ScrollController get scrollController => _scrollController;
+
   late UserProfile _userProfile;
   DateTime _selectedDate = DateTime.now(); // Time-Travel için tam tarih
   String? _selectedCategory; // Default null - kullanıcı seçmeli
@@ -198,6 +204,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
     final l10n = AppLocalizations.of(context)!;
     final picked = await showDatePicker(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       initialDate: _selectedDate,
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now(),
@@ -428,6 +435,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
     _receiptScanner.dispose();
     _smartMatchAnimController.dispose();
     _attentionAnimController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -561,6 +569,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
   void _showScanOptions() {
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -1123,6 +1132,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
   void _showSimulationMessage() {
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -1254,6 +1264,7 @@ class _ExpenseScreenState extends State<ExpenseScreen>
         child: SafeArea(
         bottom: false, // Nav bar için
         child: CustomScrollView(
+          controller: _scrollController,
           slivers: [
             // Premium Header
             SliverToBoxAdapter(
@@ -1332,6 +1343,8 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                             fontSize: 14,
                           ),
                           tooltipBackgroundColor: AppColors.surface,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.95,
                           targetBorderRadius: BorderRadius.circular(14),
                           child: _buildHeaderAction(
                             icon: PhosphorIconsDuotone.calendar,
@@ -1355,6 +1368,8 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                             fontSize: 14,
                           ),
                           tooltipBackgroundColor: AppColors.surface,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.95,
                           targetBorderRadius: BorderRadius.circular(14),
                           child: StreakWidget(key: _streakWidgetKey),
                         ),
@@ -1400,6 +1415,8 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                   fontSize: 14,
                 ),
                 tooltipBackgroundColor: AppColors.surface,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.95,
                 targetBorderRadius: BorderRadius.circular(20),
                 child: FinancialSnapshotCard(
                   totalIncome: financeProvider.totalMonthlyIncome,
@@ -1431,6 +1448,8 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                     fontSize: 14,
                   ),
                   tooltipBackgroundColor: AppColors.surface,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(16),
                   child: CurrencyRateWidget(
                     rates: widget.exchangeRates,
@@ -1525,6 +1544,8 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                     fontSize: 14,
                   ),
                   tooltipBackgroundColor: AppColors.surface,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(20),
                   child: Row(
                     children: [
@@ -1593,6 +1614,8 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                     fontSize: 14,
                   ),
                   tooltipBackgroundColor: AppColors.surface,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(12),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -1688,6 +1711,8 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                     fontSize: 14,
                   ),
                   tooltipBackgroundColor: AppColors.surface,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(12),
                   child: TextField(
                     controller: _descriptionController,
@@ -1761,6 +1786,8 @@ class _ExpenseScreenState extends State<ExpenseScreen>
                     fontSize: 14,
                   ),
                   tooltipBackgroundColor: AppColors.surface,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

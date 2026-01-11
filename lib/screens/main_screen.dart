@@ -38,6 +38,9 @@ class _MainScreenState extends State<MainScreen> {
   final _currencyService = CurrencyService();
   final _calculationService = CalculationService();
 
+  // ExpenseScreen'e erişim için GlobalKey
+  final GlobalKey<State<ExpenseScreen>> _expenseScreenKey = GlobalKey();
+
   bool _isConnected = true;
   ExchangeRates? _exchangeRates;
   bool _isLoadingRates = true;
@@ -111,6 +114,87 @@ class _MainScreenState extends State<MainScreen> {
     if (mounted) {
       setState(() => _shouldStartTour = false);
     }
+  }
+
+  /// ShowCase hedef widget'ına scroll et
+  void _scrollToShowcaseTarget(GlobalKey key) {
+    // Küçük bir gecikme ile pozisyon hesapla
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final targetContext = key.currentContext;
+      if (targetContext == null) return;
+
+      // Hedef widget'ın pozisyonunu bul
+      final renderBox = targetContext.findRenderObject() as RenderBox?;
+      if (renderBox == null) return;
+
+      // Ekrana göre pozisyon
+      final position = renderBox.localToGlobal(Offset.zero);
+      final widgetHeight = renderBox.size.height;
+      final screenHeight = MediaQuery.of(context).size.height;
+      final safeAreaTop = MediaQuery.of(context).padding.top;
+
+      // Nav bar öğeleri için scroll yapma (ekranın altında)
+      if (position.dy > screenHeight - 150) {
+        return;
+      }
+
+      // ExpenseScreen'in ScrollController'ını al
+      final expenseState = _expenseScreenKey.currentState;
+      ScrollController? scrollController;
+
+      if (expenseState != null && expenseState is dynamic) {
+        try {
+          scrollController = (expenseState as dynamic).scrollController as ScrollController?;
+        } catch (_) {
+          // ScrollController bulunamazsa Scrollable.maybeOf kullan
+        }
+      }
+
+      // Alternatif: Scrollable.maybeOf kullan
+      if (scrollController == null || !scrollController.hasClients) {
+        final scrollable = Scrollable.maybeOf(targetContext);
+        if (scrollable != null) {
+          final scrollPosition = scrollable.position;
+          _animateScrollToTarget(scrollPosition, position.dy, widgetHeight, screenHeight, safeAreaTop);
+        }
+        return;
+      }
+
+      // ScrollController ile scroll yap
+      _animateScrollToTarget(scrollController.position, position.dy, widgetHeight, screenHeight, safeAreaTop);
+    });
+  }
+
+  /// Hedef widget'a animasyonlu scroll
+  void _animateScrollToTarget(
+    ScrollPosition scrollPosition,
+    double targetY,
+    double widgetHeight,
+    double screenHeight,
+    double safeAreaTop,
+  ) {
+    // Hedef pozisyonu hesapla - widget ekranın üst 1/3'ünde olsun
+    final targetPosition = screenHeight * 0.25;
+    final scrollOffset = targetY - targetPosition;
+
+    // Widget zaten görünür alanda mı?
+    final visibleTop = safeAreaTop + 50; // Header için boşluk
+    final visibleBottom = screenHeight - 200; // Nav bar + tooltip için boşluk
+
+    if (targetY >= visibleTop && (targetY + widgetHeight) <= visibleBottom) {
+      // Widget zaten görünür - scroll gerekmez
+      return;
+    }
+
+    // Hedef scroll pozisyonunu hesapla
+    final newScrollPosition = scrollPosition.pixels + scrollOffset;
+
+    // Scroll animasyonu
+    scrollPosition.animateTo(
+      newScrollPosition.clamp(0.0, scrollPosition.maxScrollExtent),
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   // _activeProfile kaldırıldı - build() içinde Provider'dan direkt okunuyor
@@ -280,6 +364,9 @@ class _MainScreenState extends State<MainScreen> {
         UserProfile(incomeSources: [], dailyHours: 8, workDaysPerWeek: 5);
 
     return ShowCaseWidget(
+      // Otomatik scroll (ShowCaseWidget'ın kendi mekanizması)
+      enableAutoScroll: true,
+      scrollDuration: const Duration(milliseconds: 400),
       onComplete: (index, key) {
         // Son adım tamamlandığında
         if (index == 11) {
@@ -287,7 +374,8 @@ class _MainScreenState extends State<MainScreen> {
         }
       },
       onStart: (index, key) {
-        // Tur başladığında
+        // Hedef widget'a scroll et (yedek mekanizma)
+        _scrollToShowcaseTarget(key);
       },
       builder: (context) => Builder(
         builder: (context) {
@@ -318,6 +406,7 @@ class _MainScreenState extends State<MainScreen> {
                         index: _currentIndex,
                         children: [
                           ExpenseScreen(
+                            key: _expenseScreenKey,
                             userProfile: currentProfile,
                             exchangeRates: _exchangeRates,
                             isLoadingRates: _isLoadingRates,

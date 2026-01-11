@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// Premium Color Palette - Wealth Coach
 /// Hobi projesi değil, 1000 kişilik ekip arkasında varmış gibi
@@ -146,6 +147,7 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
+      fontFamily: GoogleFonts.inter().fontFamily,
       scaffoldBackgroundColor: AppColors.background,
       colorScheme: const ColorScheme.dark(
         surface: AppColors.background,

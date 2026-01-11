@@ -5,6 +5,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 import '../models/models.dart';
 import 'turkish_currency_input.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 
 /// Wealth Coach: Smart Choice Toggle Widget
 /// Glassmorphism tasarım ile "Aslında şunu alacaktım" seçeneği
@@ -199,30 +200,35 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                             const SizedBox(width: 12),
                             // Text
                             Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Bilinçli Tercih',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: _isExpanded
-                                          ? const Color(0xFFFFD700)
-                                          : AppColors.textPrimary,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    _isExpanded
-                                        ? 'Aslında ne almayı planlamıştın?'
-                                        : 'Aslında daha pahalısını mı alacaktın?',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.textSecondary,
-                                    ),
-                                  ),
-                                ],
+                              child: Builder(
+                                builder: (context) {
+                                  final l10n = AppLocalizations.of(context)!;
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        l10n.mindfulChoice,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: _isExpanded
+                                              ? const Color(0xFFFFD700)
+                                              : AppColors.textPrimary,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        _isExpanded
+                                            ? l10n.mindfulChoiceExpandedDesc
+                                            : l10n.mindfulChoiceCollapsedDesc,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: AppColors.textSecondary,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
                             ),
                             // Toggle indicator
@@ -255,50 +261,55 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                             ),
                             const SizedBox(height: 16),
                             // Alternative amount input
-                            TextField(
-                              controller: _alternativeController,
-                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                              style: const TextStyle(
-                                color: AppColors.textPrimary,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: 'Aklındaki Tutar (₺)',
-                                labelStyle: TextStyle(
-                                  color: AppColors.textSecondary,
-                                  fontSize: 13,
-                                ),
-                                hintText: 'Örn: ${formatTurkishCurrency(CategoryThresholds.getDefault(widget.selectedCategory ?? 'Diğer'))}',
-                                hintStyle: TextStyle(
-                                  color: AppColors.textTertiary,
-                                  fontSize: 14,
-                                ),
-                                filled: true,
-                                fillColor: AppColors.background.withValues(alpha: 0.5),
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide.none,
-                                ),
-                                prefixIcon: Icon(
-                                  PhosphorIconsDuotone.shoppingBag,
-                                  color: AppColors.textTertiary,
-                                  size: 20,
-                                ),
-                              ),
-                              inputFormatters: [
-                                TurkishCurrencyInputFormatter(),
-                              ],
-                              onChanged: _onAlternativeAmountChanged,
+                            Builder(
+                              builder: (context) {
+                                final l10n = AppLocalizations.of(context)!;
+                                return TextField(
+                                  controller: _alternativeController,
+                                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                  style: const TextStyle(
+                                    color: AppColors.textPrimary,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  decoration: InputDecoration(
+                                    labelText: l10n.mindfulChoiceAmountLabel,
+                                    labelStyle: TextStyle(
+                                      color: AppColors.textSecondary,
+                                      fontSize: 13,
+                                    ),
+                                    hintText: l10n.mindfulChoiceAmountHint(formatTurkishCurrency(CategoryThresholds.getDefault(widget.selectedCategory ?? 'Diğer'))),
+                                    hintStyle: TextStyle(
+                                      color: AppColors.textTertiary,
+                                      fontSize: 14,
+                                    ),
+                                    filled: true,
+                                    fillColor: AppColors.background.withValues(alpha: 0.5),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 14,
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    prefixIcon: Icon(
+                                      PhosphorIconsDuotone.shoppingBag,
+                                      color: AppColors.textTertiary,
+                                      size: 20,
+                                    ),
+                                  ),
+                                  inputFormatters: [
+                                    TurkishCurrencyInputFormatter(),
+                                  ],
+                                  onChanged: _onAlternativeAmountChanged,
+                                );
+                              },
                             ),
                             const SizedBox(height: 16),
                             // Freedom Preview
                             if (_savedAmount != null && _savedAmount! > 0)
-                              _buildFreedomPreview(),
+                              _buildFreedomPreview(context),
                           ],
                         ),
                       ),
@@ -313,8 +324,9 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
     );
   }
 
-  Widget _buildFreedomPreview() {
+  Widget _buildFreedomPreview(BuildContext context) {
     final saved = _savedAmount!;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -353,7 +365,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${formatTurkishCurrency(saved, decimalDigits: 0)} TL tasarruf',
+                  l10n.mindfulChoiceSavings(formatTurkishCurrency(saved, decimalDigits: 0)),
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -362,7 +374,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Bilinçli tercih ile cebinde kalıyor',
+                  l10n.mindfulChoiceSavingsDesc,
                   style: TextStyle(
                     fontSize: 11,
                     color: AppColors.textSecondary,

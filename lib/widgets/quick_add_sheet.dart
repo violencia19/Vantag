@@ -719,7 +719,7 @@ void showQuickAddSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withValues(alpha: 0.7),
+    barrierColor: Colors.black.withOpacity(0.95),
     builder: (context) => QuickAddSheet(onAdd: onAdd),
   );
 }
@@ -736,7 +736,7 @@ void showPremiumExpenseModal(
     isDismissible: true,
     enableDrag: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withValues(alpha: 0.7),
+    barrierColor: Colors.black.withOpacity(0.95),
     transitionAnimationController: AnimationController(
       vsync: Navigator.of(context),
       duration: const Duration(milliseconds: 350),

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
 import '../providers/providers.dart';
+import '../utils/achievement_utils.dart';
 
 class AchievementsScreen extends StatefulWidget {
   const AchievementsScreen({super.key});
@@ -201,13 +202,14 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
                         child: Row(
                           children: [
-                            Text(
-                              category.emoji,
-                              style: const TextStyle(fontSize: 20),
+                            Icon(
+                              category.icon,
+                              size: 22,
+                              color: category.iconColor,
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              category.label,
+                              AchievementUtils.getCategoryLabel(context, category),
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
@@ -254,9 +256,10 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
                       child: Row(
                         children: [
-                          Text(
-                            AchievementCategory.hidden.emoji,
-                            style: const TextStyle(fontSize: 20),
+                          Icon(
+                            AchievementCategory.hidden.icon,
+                            size: 22,
+                            color: AchievementCategory.hidden.iconColor,
                           ),
                           const SizedBox(width: 8),
                           Text(
@@ -537,9 +540,10 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 ),
                 child: Center(
                   child: isUnlocked
-                      ? Text(
-                          achievement.category.emoji,
-                          style: const TextStyle(fontSize: 24),
+                      ? Icon(
+                          achievement.category.icon,
+                          size: 26,
+                          color: achievement.category.iconColor,
                         )
                       : Icon(
                           PhosphorIconsDuotone.lock,
@@ -562,7 +566,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                         : null,
                   ),
                   child: Text(
-                    achievement.tierLabel,
+                    AchievementUtils.getFullTierLabel(context, achievement.tier, achievement.subTier),
                     style: TextStyle(
                       fontSize: 9,
                       fontWeight: FontWeight.bold,
@@ -578,7 +582,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           const SizedBox(height: 10),
           // Title
           Text(
-            achievement.title,
+            AchievementUtils.getTitle(context, achievement.id),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 13,
@@ -593,7 +597,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           const SizedBox(height: 2),
           // Description
           Text(
-            achievement.description,
+            AchievementUtils.getDescription(context, achievement.id),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 10,
@@ -753,14 +757,15 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 ),
                 child: Center(
                   child: isUnlocked
-                      ? const Text('🔮', style: TextStyle(fontSize: 24))
-                      : const Text(
-                          '???',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textTertiary,
-                          ),
+                      ? Icon(
+                          PhosphorIconsDuotone.sparkle,
+                          size: 26,
+                          color: difficultyColor,
+                        )
+                      : Icon(
+                          PhosphorIconsDuotone.question,
+                          size: 24,
+                          color: AppColors.textTertiary,
                         ),
                 ),
               ),
@@ -789,7 +794,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           const SizedBox(height: 10),
           // Title
           Text(
-            isUnlocked ? achievement.title : l10n.hiddenBadge,
+            isUnlocked ? AchievementUtils.getTitle(context, achievement.id) : l10n.hiddenBadge,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 13,
@@ -804,7 +809,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           const SizedBox(height: 2),
           // Description
           Text(
-            isUnlocked ? achievement.description : l10n.discoverHowToUnlock,
+            isUnlocked ? AchievementUtils.getDescription(context, achievement.id) : l10n.discoverHowToUnlock,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 10,

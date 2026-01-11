@@ -174,6 +174,17 @@
   "categoryEducation": "Eğitim",
   "categoryDigital": "Dijital",
   "categoryOther": "Diğer",
+  "categoryClothing": "Giyim",
+  "categoryElectronics": "Elektronik",
+  "categorySubscription": "Abonelik",
+
+  "weekdayMonday": "Pazartesi",
+  "weekdayTuesday": "Salı",
+  "weekdayWednesday": "Çarşamba",
+  "weekdayThursday": "Perşembe",
+  "weekdayFriday": "Cuma",
+  "weekdaySaturday": "Cumartesi",
+  "weekdaySunday": "Pazar",
 
   "shareTitle": "Vantag ile tasarruflarıma göz at!",
   "shareMessage": "Bu ay Vantag ile {amount} TL tasarruf ettim!",
@@ -192,6 +203,8 @@
   "privacyPolicy": "Gizlilik Politikası",
   "termsOfService": "Kullanım Şartları",
   "about": "Hakkında",
+  "dangerZone": "Tehlikeli Bölge",
+  "appVersion": "Uygulama Sürümü",
   "signOut": "Çıkış Yap",
   "deleteAccount": "Hesabı Sil",
 
@@ -432,6 +445,19 @@
   "editMyIncomes": "Gelirlerimi Düzenle",
   "goBack": "Geri Dön",
 
+  "pleaseEnterValidSalary": "Lütfen geçerli bir maaş girin",
+  "pleaseEnterValidIncomeAmount": "Lütfen geçerli bir tutar girin",
+  "atLeastOneIncomeRequired": "En az bir gelir kaynağı eklemelisiniz",
+  "incomesUpdated": "Gelirler güncellendi",
+  "incomesSaved": "Gelirler kaydedildi",
+  "saveError": "Kaydetme sırasında bir hata oluştu",
+  "incomeSourceCount": "{count} gelir kaynağı",
+  "@incomeSourceCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
   "notBudgetApp": "Bu bir bütçe uygulaması değil",
   "showRealCost": "Harcamalarının gerçek bedelini göster: zamanın.",
   "everyExpenseDecision": "Her harcama bir karar",
@@ -573,5 +599,257 @@
     "placeholders": {
       "amount": {"type": "String"}
     }
-  }
+  },
+
+  "workHoursDistribution": "Çalışma Saati Dağılımı",
+  "workHoursDistributionDesc": "Her kategori için kaç saat çalıştığını gör",
+  "hoursShort": "{hours}s",
+  "@hoursShort": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "categoryHoursBar": "{hours} saat (%{percent})",
+  "@categoryHoursBar": {
+    "placeholders": {
+      "hours": {"type": "String"},
+      "percent": {"type": "String"}
+    }
+  },
+
+  "monthComparison": "Ay Karşılaştırması",
+  "vsLastMonth": "Geçen Aya Göre",
+  "noLastMonthData": "Geçen ay verisi yok",
+  "decreasedBy": "↓ %{percent} azaldı",
+  "@decreasedBy": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "increasedBy": "↑ %{percent} arttı",
+  "@increasedBy": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "noChange": "Değişim yok",
+  "greatProgress": "Harika ilerleme!",
+  "watchOut": "Dikkat!",
+
+  "smartInsights": "Akıllı Bilgiler",
+  "mostExpensiveDay": "En Pahalı Gün",
+  "mostExpensiveDayValue": "{day} (ort. {amount} TL)",
+  "@mostExpensiveDayValue": {
+    "placeholders": {
+      "day": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "mostPassedCategory": "En Çok Vazgeçilen",
+  "mostPassedCategoryValue": "{category} ({count} kez)",
+  "@mostPassedCategoryValue": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "savingsOpportunity": "Tasarruf Fırsatı",
+  "savingsOpportunityValue": "{category}'i %20 azalt = ayda {hours}s kazan",
+  "@savingsOpportunityValue": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "weeklyTrend": "Haftalık Trend",
+  "weeklyTrendValue": "Son 4 hafta: {trend}",
+  "@weeklyTrendValue": {
+    "placeholders": {
+      "trend": {"type": "String"}
+    }
+  },
+  "overallDecreasing": "Genel düşüş",
+  "overallIncreasing": "Genel artış",
+  "stableTrend": "Stabil",
+  "noTrendData": "Yeterli veri yok",
+
+  "yearlyView": "Yıllık Görünüm",
+  "yearlyHeatmap": "Harcama Haritası",
+  "yearlyHeatmapDesc": "Yıl boyunca harcama yoğunluğun",
+  "lowSpending": "Az",
+  "highSpending": "Çok",
+  "noSpending": "Harcama yok",
+  "tapDayForDetails": "Detay için güne dokun",
+  "selectedDayExpenses": "{date}: {amount} TL ({count} harcama)",
+  "@selectedDayExpenses": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "amount": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+
+  "proBadge": "PRO",
+  "proFeature": "Pro Özellik",
+  "comingSoon": "Yakında",
+
+  "mindfulChoice": "Bilinçli Tercih",
+  "mindfulChoiceExpandedDesc": "Aslında ne almayı planlamıştın?",
+  "mindfulChoiceCollapsedDesc": "Aslında daha pahalısını mı alacaktın?",
+  "mindfulChoiceAmountLabel": "Aklındaki Tutar (₺)",
+  "mindfulChoiceAmountHint": "Örn: {amount}",
+  "@mindfulChoiceAmountHint": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "mindfulChoiceSavings": "{amount} TL tasarruf",
+  "@mindfulChoiceSavings": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "mindfulChoiceSavingsDesc": "Bilinçli tercih ile cebinde kalıyor",
+
+  "tierBronze": "Bronz",
+  "tierSilver": "Gümüş",
+  "tierGold": "Altın",
+  "tierPlatinum": "Platin",
+
+  "achievementCategoryStreak": "Seri",
+  "achievementCategorySavings": "Tasarruf",
+  "achievementCategoryDecision": "Karar",
+  "achievementCategoryRecord": "Kayıt",
+  "achievementCategoryHidden": "Gizli",
+
+  "achievementStreakB1Title": "Başlangıç",
+  "achievementStreakB1Desc": "3 gün üst üste kayıt yap",
+  "achievementStreakB2Title": "Devam Ediyorum",
+  "achievementStreakB2Desc": "7 gün üst üste kayıt yap",
+  "achievementStreakB3Title": "Rutin Oluşuyor",
+  "achievementStreakB3Desc": "14 gün üst üste kayıt yap",
+  "achievementStreakS1Title": "Kararlılık",
+  "achievementStreakS1Desc": "30 gün üst üste kayıt yap",
+  "achievementStreakS2Title": "Alışkanlık",
+  "achievementStreakS2Desc": "60 gün üst üste kayıt yap",
+  "achievementStreakS3Title": "Disiplin",
+  "achievementStreakS3Desc": "90 gün üst üste kayıt yap",
+  "achievementStreakG1Title": "Güçlü İrade",
+  "achievementStreakG1Desc": "150 gün üst üste kayıt yap",
+  "achievementStreakG2Title": "Sarsılmaz",
+  "achievementStreakG2Desc": "250 gün üst üste kayıt yap",
+  "achievementStreakG3Title": "İstikrar",
+  "achievementStreakG3Desc": "365 gün üst üste kayıt yap",
+  "achievementStreakPTitle": "Süreklilik",
+  "achievementStreakPDesc": "730 gün üst üste kayıt yap",
+
+  "achievementSavingsB1Title": "İlk Tasarruf",
+  "achievementSavingsB1Desc": "250 TL kurtardın",
+  "achievementSavingsB2Title": "Birikime Başladım",
+  "achievementSavingsB2Desc": "500 TL kurtardın",
+  "achievementSavingsB3Title": "Yolun Başında",
+  "achievementSavingsB3Desc": "1.000 TL kurtardın",
+  "achievementSavingsS1Title": "Bilinçli Harcama",
+  "achievementSavingsS1Desc": "2.500 TL kurtardın",
+  "achievementSavingsS2Title": "Kontrollü",
+  "achievementSavingsS2Desc": "5.000 TL kurtardın",
+  "achievementSavingsS3Title": "Tutarlı",
+  "achievementSavingsS3Desc": "10.000 TL kurtardın",
+  "achievementSavingsG1Title": "Güçlü Birikim",
+  "achievementSavingsG1Desc": "25.000 TL kurtardın",
+  "achievementSavingsG2Title": "Finansal Farkındalık",
+  "achievementSavingsG2Desc": "50.000 TL kurtardın",
+  "achievementSavingsG3Title": "Sağlam Zemin",
+  "achievementSavingsG3Desc": "100.000 TL kurtardın",
+  "achievementSavingsP1Title": "Uzun Vadeli Düşünce",
+  "achievementSavingsP1Desc": "250.000 TL kurtardın",
+  "achievementSavingsP2Title": "Finansal Netlik",
+  "achievementSavingsP2Desc": "500.000 TL kurtardın",
+  "achievementSavingsP3Title": "Büyük Resim",
+  "achievementSavingsP3Desc": "1.000.000 TL kurtardın",
+
+  "achievementDecisionB1Title": "İlk Karar",
+  "achievementDecisionB1Desc": "3 kez vazgeçtin",
+  "achievementDecisionB2Title": "Direnç",
+  "achievementDecisionB2Desc": "7 kez vazgeçtin",
+  "achievementDecisionB3Title": "Kontrol",
+  "achievementDecisionB3Desc": "15 kez vazgeçtin",
+  "achievementDecisionS1Title": "Kararlılık",
+  "achievementDecisionS1Desc": "30 kez vazgeçtin",
+  "achievementDecisionS2Title": "Netlik",
+  "achievementDecisionS2Desc": "60 kez vazgeçtin",
+  "achievementDecisionS3Title": "Güçlü Seçimler",
+  "achievementDecisionS3Desc": "100 kez vazgeçtin",
+  "achievementDecisionG1Title": "İrade",
+  "achievementDecisionG1Desc": "200 kez vazgeçtin",
+  "achievementDecisionG2Title": "Soğukkanlılık",
+  "achievementDecisionG2Desc": "400 kez vazgeçtin",
+  "achievementDecisionG3Title": "Üst Seviye Kontrol",
+  "achievementDecisionG3Desc": "700 kez vazgeçtin",
+  "achievementDecisionPTitle": "Tam Hakimiyet",
+  "achievementDecisionPDesc": "1.000 kez vazgeçtin",
+
+  "achievementRecordB1Title": "Başladım",
+  "achievementRecordB1Desc": "5 harcama kaydı",
+  "achievementRecordB2Title": "Takip Ediyorum",
+  "achievementRecordB2Desc": "15 harcama kaydı",
+  "achievementRecordB3Title": "Düzen Oluştu",
+  "achievementRecordB3Desc": "30 harcama kaydı",
+  "achievementRecordS1Title": "Detaylı Takip",
+  "achievementRecordS1Desc": "60 harcama kaydı",
+  "achievementRecordS2Title": "Analitik",
+  "achievementRecordS2Desc": "120 harcama kaydı",
+  "achievementRecordS3Title": "Sistemli",
+  "achievementRecordS3Desc": "200 harcama kaydı",
+  "achievementRecordG1Title": "Derinlik",
+  "achievementRecordG1Desc": "350 harcama kaydı",
+  "achievementRecordG2Title": "Uzmanlaşma",
+  "achievementRecordG2Desc": "600 harcama kaydı",
+  "achievementRecordG3Title": "Arşiv",
+  "achievementRecordG3Desc": "1.000 harcama kaydı",
+  "achievementRecordPTitle": "Uzun Süreli Kayıt",
+  "achievementRecordPDesc": "2.000 harcama kaydı",
+
+  "achievementHiddenNightTitle": "Gece Kaydı",
+  "achievementHiddenNightDesc": "00:00-05:00 arası kayıt yap",
+  "achievementHiddenEarlyTitle": "Erken Saat",
+  "achievementHiddenEarlyDesc": "05:00-07:00 arası kayıt yap",
+  "achievementHiddenWeekendTitle": "Hafta Sonu Rutini",
+  "achievementHiddenWeekendDesc": "Cumartesi-Pazar 5 kayıt",
+  "achievementHiddenOcrTitle": "İlk Tarama",
+  "achievementHiddenOcrDesc": "İlk fiş OCR kullanımı",
+  "achievementHiddenBalancedTitle": "Dengeli Hafta",
+  "achievementHiddenBalancedDesc": "7 gün üst üste 0 \"Aldım\"",
+  "achievementHiddenCategoriesTitle": "Kategori Tamamlama",
+  "achievementHiddenCategoriesDesc": "Tüm 6 kategoride kayıt",
+  "achievementHiddenGoldTitle": "Altın Denkliği",
+  "achievementHiddenGoldDesc": "Kurtarılan para 1 gram altın değerinde",
+  "achievementHiddenUsdTitle": "Döviz Denkliği",
+  "achievementHiddenUsdDesc": "Kurtarılan para 100$ değerinde",
+  "achievementHiddenSubsTitle": "Abonelik Kontrolü",
+  "achievementHiddenSubsDesc": "5 abonelik takibi",
+  "achievementHiddenNoSpendTitle": "Harcamasız Ay",
+  "achievementHiddenNoSpendDesc": "1 ay boyunca 0 \"Aldım\"",
+  "achievementHiddenGoldKgTitle": "Yüksek Değer Birikim",
+  "achievementHiddenGoldKgDesc": "Kurtarılan para 1 kg altın değerinde",
+  "achievementHiddenUsd10kTitle": "Büyük Döviz Denkliği",
+  "achievementHiddenUsd10kDesc": "Kurtarılan para 10.000$ değerinde",
+  "achievementHiddenAnniversaryTitle": "Kullanım Yıldönümü",
+  "achievementHiddenAnniversaryDesc": "365 gün kullanım",
+  "achievementHiddenEarlyAdopterTitle": "İlk Nesil Kullanıcı",
+  "achievementHiddenEarlyAdopterDesc": "Uygulamayı 2 yıl önce indirdi",
+  "achievementHiddenUltimateTitle": "Uzun Vadeli Disiplin",
+  "achievementHiddenUltimateDesc": "1.000.000 TL + 365 gün streak aynı anda",
+  "achievementHiddenCollectorTitle": "Koleksiyoncu",
+  "achievementHiddenCollectorDesc": "Platinum hariç tüm rozetleri topladı",
+
+  "easterEgg5Left": "5 kaldı...",
+  "easterEggAlmost": "Neredeyse...",
+  "achievementUnlocked": "Rozet Açıldı!",
+  "curiousCatTitle": "Çok Meraklı",
+  "curiousCatDescription": "Gizli Easter Egg'i buldun!",
+  "great": "Harika!",
+
+  "achievementHiddenCuriousCatTitle": "Çok Meraklı",
+  "achievementHiddenCuriousCatDesc": "Gizli Easter Egg'i buldun!"
 }

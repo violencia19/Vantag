@@ -177,6 +177,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
     final l10n = AppLocalizations.of(context)!;
     final picked = await showDatePicker(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       initialDate: _selectedDate,
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now(),

@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+
 enum AchievementTier {
   bronze,
   silver,
@@ -53,18 +56,33 @@ enum AchievementCategory {
     }
   }
 
-  String get emoji {
+  IconData get icon {
     switch (this) {
       case AchievementCategory.streak:
-        return '🔥';
+        return PhosphorIconsDuotone.flame;
       case AchievementCategory.savings:
-        return '💰';
+        return PhosphorIconsDuotone.currencyCircleDollar;
       case AchievementCategory.decision:
-        return '🎯';
+        return PhosphorIconsDuotone.target;
       case AchievementCategory.record:
-        return '📝';
+        return PhosphorIconsDuotone.notepad;
       case AchievementCategory.hidden:
-        return '🔮';
+        return PhosphorIconsDuotone.eyeSlash;
+    }
+  }
+
+  Color get iconColor {
+    switch (this) {
+      case AchievementCategory.streak:
+        return const Color(0xFFFF6B35); // Orange flame
+      case AchievementCategory.savings:
+        return const Color(0xFF2ECC71); // Green money
+      case AchievementCategory.decision:
+        return const Color(0xFF9B59B6); // Purple target
+      case AchievementCategory.record:
+        return const Color(0xFF3498DB); // Blue notepad
+      case AchievementCategory.hidden:
+        return const Color(0xFFE91E63); // Pink mystery
     }
   }
 }

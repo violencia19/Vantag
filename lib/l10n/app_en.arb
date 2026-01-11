@@ -224,6 +224,17 @@
   "categoryEducation": "Education",
   "categoryDigital": "Digital",
   "categoryOther": "Other",
+  "categoryClothing": "Clothing",
+  "categoryElectronics": "Electronics",
+  "categorySubscription": "Subscription",
+
+  "weekdayMonday": "Monday",
+  "weekdayTuesday": "Tuesday",
+  "weekdayWednesday": "Wednesday",
+  "weekdayThursday": "Thursday",
+  "weekdayFriday": "Friday",
+  "weekdaySaturday": "Saturday",
+  "weekdaySunday": "Sunday",
 
   "shareTitle": "Check out my savings with Vantag!",
   "shareMessage": "I saved {amount} TL this month with Vantag!",
@@ -252,6 +263,8 @@
   "privacyPolicy": "Privacy Policy",
   "termsOfService": "Terms of Service",
   "about": "About",
+  "dangerZone": "Danger Zone",
+  "appVersion": "App Version",
   "signOut": "Sign Out",
   "deleteAccount": "Delete Account",
 
@@ -941,5 +954,257 @@
     "placeholders": {
       "amount": {"type": "String"}
     }
-  }
+  },
+
+  "workHoursDistribution": "Work Hours Distribution",
+  "workHoursDistributionDesc": "See how many hours you work for each category",
+  "hoursShort": "{hours}h",
+  "@hoursShort": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "categoryHoursBar": "{hours} hours ({percent}%)",
+  "@categoryHoursBar": {
+    "placeholders": {
+      "hours": {"type": "String"},
+      "percent": {"type": "String"}
+    }
+  },
+
+  "monthComparison": "Month Comparison",
+  "vsLastMonth": "vs Last Month",
+  "noLastMonthData": "No last month data",
+  "decreasedBy": "↓ {percent}% decreased",
+  "@decreasedBy": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "increasedBy": "↑ {percent}% increased",
+  "@increasedBy": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "noChange": "No change",
+  "greatProgress": "Great progress!",
+  "watchOut": "Watch out!",
+
+  "smartInsights": "Smart Insights",
+  "mostExpensiveDay": "Most Expensive Day",
+  "mostExpensiveDayValue": "{day} (avg. {amount} TL)",
+  "@mostExpensiveDayValue": {
+    "placeholders": {
+      "day": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "mostPassedCategory": "Most Passed Category",
+  "mostPassedCategoryValue": "{category} ({count} times)",
+  "@mostPassedCategoryValue": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "savingsOpportunity": "Savings Opportunity",
+  "savingsOpportunityValue": "Cut {category} by 20% = {hours}h saved/month",
+  "@savingsOpportunityValue": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "weeklyTrend": "Weekly Trend",
+  "weeklyTrendValue": "Last 4 weeks: {trend}",
+  "@weeklyTrendValue": {
+    "placeholders": {
+      "trend": {"type": "String"}
+    }
+  },
+  "overallDecreasing": "Overall decreasing",
+  "overallIncreasing": "Overall increasing",
+  "stableTrend": "Stable",
+  "noTrendData": "Not enough data",
+
+  "yearlyView": "Yearly View",
+  "yearlyHeatmap": "Expense Heatmap",
+  "yearlyHeatmapDesc": "Your spending intensity throughout the year",
+  "lowSpending": "Low",
+  "highSpending": "High",
+  "noSpending": "No spending",
+  "tapDayForDetails": "Tap a day for details",
+  "selectedDayExpenses": "{date}: {amount} TL ({count} expenses)",
+  "@selectedDayExpenses": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "amount": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+
+  "proBadge": "PRO",
+  "proFeature": "Pro Feature",
+  "comingSoon": "Coming Soon",
+
+  "mindfulChoice": "Mindful Choice",
+  "mindfulChoiceExpandedDesc": "What were you originally planning to buy?",
+  "mindfulChoiceCollapsedDesc": "Were you going to buy something more expensive?",
+  "mindfulChoiceAmountLabel": "Amount in Mind (₺)",
+  "mindfulChoiceAmountHint": "e.g: {amount}",
+  "@mindfulChoiceAmountHint": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "mindfulChoiceSavings": "{amount} TL savings",
+  "@mindfulChoiceSavings": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "mindfulChoiceSavingsDesc": "Stays in your pocket with mindful choice",
+
+  "tierBronze": "Bronze",
+  "tierSilver": "Silver",
+  "tierGold": "Gold",
+  "tierPlatinum": "Platinum",
+
+  "achievementCategoryStreak": "Streak",
+  "achievementCategorySavings": "Savings",
+  "achievementCategoryDecision": "Decision",
+  "achievementCategoryRecord": "Record",
+  "achievementCategoryHidden": "Hidden",
+
+  "achievementStreakB1Title": "Getting Started",
+  "achievementStreakB1Desc": "Record for 3 days in a row",
+  "achievementStreakB2Title": "Keeping Going",
+  "achievementStreakB2Desc": "Record for 7 days in a row",
+  "achievementStreakB3Title": "Building Routine",
+  "achievementStreakB3Desc": "Record for 14 days in a row",
+  "achievementStreakS1Title": "Determination",
+  "achievementStreakS1Desc": "Record for 30 days in a row",
+  "achievementStreakS2Title": "Habit",
+  "achievementStreakS2Desc": "Record for 60 days in a row",
+  "achievementStreakS3Title": "Discipline",
+  "achievementStreakS3Desc": "Record for 90 days in a row",
+  "achievementStreakG1Title": "Strong Will",
+  "achievementStreakG1Desc": "Record for 150 days in a row",
+  "achievementStreakG2Title": "Unshakeable",
+  "achievementStreakG2Desc": "Record for 250 days in a row",
+  "achievementStreakG3Title": "Consistency",
+  "achievementStreakG3Desc": "Record for 365 days in a row",
+  "achievementStreakPTitle": "Persistence",
+  "achievementStreakPDesc": "Record for 730 days in a row",
+
+  "achievementSavingsB1Title": "First Savings",
+  "achievementSavingsB1Desc": "Saved 250 TL",
+  "achievementSavingsB2Title": "Starting to Save",
+  "achievementSavingsB2Desc": "Saved 500 TL",
+  "achievementSavingsB3Title": "On the Right Path",
+  "achievementSavingsB3Desc": "Saved 1,000 TL",
+  "achievementSavingsS1Title": "Mindful Spending",
+  "achievementSavingsS1Desc": "Saved 2,500 TL",
+  "achievementSavingsS2Title": "In Control",
+  "achievementSavingsS2Desc": "Saved 5,000 TL",
+  "achievementSavingsS3Title": "Consistent",
+  "achievementSavingsS3Desc": "Saved 10,000 TL",
+  "achievementSavingsG1Title": "Strong Savings",
+  "achievementSavingsG1Desc": "Saved 25,000 TL",
+  "achievementSavingsG2Title": "Financial Awareness",
+  "achievementSavingsG2Desc": "Saved 50,000 TL",
+  "achievementSavingsG3Title": "Solid Foundation",
+  "achievementSavingsG3Desc": "Saved 100,000 TL",
+  "achievementSavingsP1Title": "Long-term Thinking",
+  "achievementSavingsP1Desc": "Saved 250,000 TL",
+  "achievementSavingsP2Title": "Financial Clarity",
+  "achievementSavingsP2Desc": "Saved 500,000 TL",
+  "achievementSavingsP3Title": "Big Picture",
+  "achievementSavingsP3Desc": "Saved 1,000,000 TL",
+
+  "achievementDecisionB1Title": "First Decision",
+  "achievementDecisionB1Desc": "Passed 3 times",
+  "achievementDecisionB2Title": "Resistance",
+  "achievementDecisionB2Desc": "Passed 7 times",
+  "achievementDecisionB3Title": "Control",
+  "achievementDecisionB3Desc": "Passed 15 times",
+  "achievementDecisionS1Title": "Determination",
+  "achievementDecisionS1Desc": "Passed 30 times",
+  "achievementDecisionS2Title": "Clarity",
+  "achievementDecisionS2Desc": "Passed 60 times",
+  "achievementDecisionS3Title": "Strong Choices",
+  "achievementDecisionS3Desc": "Passed 100 times",
+  "achievementDecisionG1Title": "Willpower",
+  "achievementDecisionG1Desc": "Passed 200 times",
+  "achievementDecisionG2Title": "Composure",
+  "achievementDecisionG2Desc": "Passed 400 times",
+  "achievementDecisionG3Title": "Top Level Control",
+  "achievementDecisionG3Desc": "Passed 700 times",
+  "achievementDecisionPTitle": "Total Mastery",
+  "achievementDecisionPDesc": "Passed 1,000 times",
+
+  "achievementRecordB1Title": "Started",
+  "achievementRecordB1Desc": "5 expense records",
+  "achievementRecordB2Title": "Tracking",
+  "achievementRecordB2Desc": "15 expense records",
+  "achievementRecordB3Title": "Organized",
+  "achievementRecordB3Desc": "30 expense records",
+  "achievementRecordS1Title": "Detailed Tracking",
+  "achievementRecordS1Desc": "60 expense records",
+  "achievementRecordS2Title": "Analytical",
+  "achievementRecordS2Desc": "120 expense records",
+  "achievementRecordS3Title": "Systematic",
+  "achievementRecordS3Desc": "200 expense records",
+  "achievementRecordG1Title": "Depth",
+  "achievementRecordG1Desc": "350 expense records",
+  "achievementRecordG2Title": "Mastery",
+  "achievementRecordG2Desc": "600 expense records",
+  "achievementRecordG3Title": "Archive",
+  "achievementRecordG3Desc": "1,000 expense records",
+  "achievementRecordPTitle": "Long-term Record",
+  "achievementRecordPDesc": "2,000 expense records",
+
+  "achievementHiddenNightTitle": "Night Record",
+  "achievementHiddenNightDesc": "Record between 00:00-05:00",
+  "achievementHiddenEarlyTitle": "Early Bird",
+  "achievementHiddenEarlyDesc": "Record between 05:00-07:00",
+  "achievementHiddenWeekendTitle": "Weekend Routine",
+  "achievementHiddenWeekendDesc": "5 records on Saturday-Sunday",
+  "achievementHiddenOcrTitle": "First Scan",
+  "achievementHiddenOcrDesc": "First receipt OCR usage",
+  "achievementHiddenBalancedTitle": "Balanced Week",
+  "achievementHiddenBalancedDesc": "7 days in a row with 0 \"Bought\"",
+  "achievementHiddenCategoriesTitle": "Category Completion",
+  "achievementHiddenCategoriesDesc": "Record in all 6 categories",
+  "achievementHiddenGoldTitle": "Gold Equivalent",
+  "achievementHiddenGoldDesc": "Saved money equals 1 gram of gold",
+  "achievementHiddenUsdTitle": "Currency Equivalent",
+  "achievementHiddenUsdDesc": "Saved money equals $100",
+  "achievementHiddenSubsTitle": "Subscription Control",
+  "achievementHiddenSubsDesc": "Track 5 subscriptions",
+  "achievementHiddenNoSpendTitle": "No-Spend Month",
+  "achievementHiddenNoSpendDesc": "0 \"Bought\" for 1 month",
+  "achievementHiddenGoldKgTitle": "High Value Savings",
+  "achievementHiddenGoldKgDesc": "Saved money equals 1 kg of gold",
+  "achievementHiddenUsd10kTitle": "Major Currency Equivalent",
+  "achievementHiddenUsd10kDesc": "Saved money equals $10,000",
+  "achievementHiddenAnniversaryTitle": "Usage Anniversary",
+  "achievementHiddenAnniversaryDesc": "365 days of usage",
+  "achievementHiddenEarlyAdopterTitle": "Early Adopter",
+  "achievementHiddenEarlyAdopterDesc": "Installed the app 2 years ago",
+  "achievementHiddenUltimateTitle": "Long-term Discipline",
+  "achievementHiddenUltimateDesc": "1,000,000 TL + 365 day streak at once",
+  "achievementHiddenCollectorTitle": "Collector",
+  "achievementHiddenCollectorDesc": "Collected all badges except Platinum",
+
+  "easterEgg5Left": "5 more...",
+  "easterEggAlmost": "Almost...",
+  "achievementUnlocked": "Achievement Unlocked!",
+  "curiousCatTitle": "Too Curious",
+  "curiousCatDescription": "You found the hidden Easter Egg!",
+  "great": "Great!",
+
+  "achievementHiddenCuriousCatTitle": "Too Curious",
+  "achievementHiddenCuriousCatDesc": "You found the hidden Easter Egg!"
 }

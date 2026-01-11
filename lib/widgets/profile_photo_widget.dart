@@ -90,6 +90,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
   void _showOptions() {
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),

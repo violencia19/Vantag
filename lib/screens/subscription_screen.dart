@@ -63,6 +63,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => AddSubscriptionSheet(
@@ -79,6 +80,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => SubscriptionDetailSheet(
@@ -423,6 +425,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.95),
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         margin: const EdgeInsets.all(16),
