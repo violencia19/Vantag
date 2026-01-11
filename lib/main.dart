@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:vantag/l10n/app_localizations.dart';
+import 'package:fvp/fvp.dart' as fvp;
 import 'firebase_options.dart';
 
 import 'screens/screens.dart';
@@ -15,12 +16,20 @@ import 'services/expense_history_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Register fvp for Windows/Linux video support
+  fvp.registerWith();
+
   print("🚀 ADIM 1: Flutter Hazır");
 
   // LocaleProvider başlat
   final localeProvider = LocaleProvider();
   await localeProvider.initialize();
   print("✅ ADIM 1.5: Locale Provider Hazır");
+
+  // CurrencyProvider başlat
+  final currencyProvider = CurrencyProvider();
+  await currencyProvider.loadCurrency();
+  print("✅ ADIM 1.6: Currency Provider Hazır");
 
   // Firebase başlat
   try {
@@ -57,13 +66,21 @@ void main() async {
     ),
   );
 
-  runApp(VantagApp(localeProvider: localeProvider));
+  runApp(VantagApp(
+    localeProvider: localeProvider,
+    currencyProvider: currencyProvider,
+  ));
 }
 
 class VantagApp extends StatelessWidget {
   final LocaleProvider localeProvider;
+  final CurrencyProvider currencyProvider;
 
-  const VantagApp({super.key, required this.localeProvider});
+  const VantagApp({
+    super.key,
+    required this.localeProvider,
+    required this.currencyProvider,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +88,7 @@ class VantagApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => FinanceProvider()),
         ChangeNotifierProvider.value(value: localeProvider),
+        ChangeNotifierProvider.value(value: currencyProvider),
       ],
       child: Consumer<LocaleProvider>(
         builder: (context, localeProvider, child) {
@@ -107,7 +125,7 @@ class VantagApp extends StatelessWidget {
               return const Locale('tr');
             },
 
-            home: const LaserSplashScreen(),
+            home: const VantagSplashScreen(),
           );
         },
       ),

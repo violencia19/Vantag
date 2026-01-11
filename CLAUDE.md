@@ -948,11 +948,54 @@ dependencies:
   intl: ^0.20.2
   path_drawing: ^1.0.1
   lucide_icons: ^0.257.0
+  phosphor_flutter: ^2.1.0
   confetti: ^0.7.0
   flutter_animate: ^4.5.0
   showcaseview: ^3.0.0
   share_plus: ^7.2.1
   screenshot: ^2.1.0
+  video_player: ^2.8.2
+  fvp: ^0.35.2  # Windows/Linux video support
 ```
+
+---
+
+## Son Güncelleme: 12 Ocak 2026
+
+### Session: Video Splash Screen Fix
+
+#### Problem
+- `video_player` paketi Windows'ta asset videoları oynatamıyordu
+- Flutter'ın resmi video_player eklentisi Windows/Linux için sınırlı destek sunuyor
+
+#### Çözüm
+1. **fvp paketi eklendi** (`pubspec.yaml`):
+   ```yaml
+   fvp: ^0.35.2
+   ```
+
+2. **fvp registration eklendi** (`main.dart`):
+   ```dart
+   import 'package:fvp/fvp.dart' as fvp;
+
+   void main() async {
+     WidgetsFlutterBinding.ensureInitialized();
+     fvp.registerWith();  // Windows/Linux video support
+     // ...
+   }
+   ```
+
+#### Test Sonuçları
+- Windows: ✅ Video oynatma başarılı (8s, 24fps)
+- Android: ✅ Video oynatma başarılı
+
+#### Teknik Detaylar
+- fvp paketi tüm platformları destekliyor (Windows, Linux, macOS, iOS, Android)
+- video_player API'si ile uyumlu çalışıyor
+- MDK (Multimedia Development Kit) tabanlı
+
+#### Kaynaklar
+- [fvp package](https://pub.dev/packages/fvp)
+- [Flutter video_player Windows issue](https://github.com/flutter/flutter/issues/37673)
 
 ---
