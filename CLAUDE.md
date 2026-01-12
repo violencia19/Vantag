@@ -999,3 +999,79 @@ dependencies:
 - [Flutter video_player Windows issue](https://github.com/flutter/flutter/issues/37673)
 
 ---
+
+## Son Güncelleme: 13 Ocak 2026
+
+### Session: Currency System Overhaul
+
+#### Para Birimi Sistemi
+- **Desteklenen:** TRY, USD, EUR, GBP, SAR
+- Profile'dan seçilebilir (`currency_selector.dart`)
+- Tüm app'te seçilen para biriminde gösterim
+- Currency ticker: Seçilen para birimine göre diğerlerini gösterir
+- Altın: TRY seçiliyse gram (₺/gr), diğerlerinde oz ($/oz)
+
+#### Harcama Girişi Currency Toggle
+- Gelir currency ≠ Display currency ise toggle gösterilir
+- Örnek: Gelir TRY, Display USD → `₺ TRY / $ USD` toggle
+- Varsayılan: Gelir para birimi
+- Otomatik çeviri yapılır (`_convertToIncomeCurrency`)
+- Orijinal tutar/currency expense'te saklanır
+
+#### Expense Model Güncellemeleri
+```dart
+// lib/models/expense.dart
+final double? originalAmount;   // Girilen tutar (farklı para biriminde)
+final String? originalCurrency; // Girilen para birimi kodu (USD, EUR, vb.)
+```
+
+#### Currency Provider
+```dart
+// lib/providers/currency_provider.dart
+- currency: Currency object (code, symbol, flag, goldUnit)
+- setCode(String code): Para birimini değiştir
+- Persist: SharedPreferences ile kalıcı
+```
+
+#### Dynamic Currency Ticker
+```dart
+// lib/widgets/currency_rate_widget.dart
+- _mainCurrencyCodes = ['USD', 'EUR', 'GBP']
+- Seçilen currency listeden çıkarılır
+- Gold: TRY için gram, diğerleri için oz
+- Cross-rate hesaplama: TCMB TRY bazlı verilerden türetilir
+```
+
+#### API'ler
+- **TCMB:** TRY bazlı döviz kurları (USD/TRY, EUR/TRY)
+- **Gold API:** Altın oz fiyatı (USD)
+- Cross-rate: `EUR/USD = EUR/TRY ÷ USD/TRY`
+
+#### Splash Screen Simplification
+- Logo kaldırıldı
+- Video fade out animasyonu eklendi
+- SingleTickerProviderStateMixin ile basitleştirildi
+
+#### Localization
+- Saat kısaltması: `hourAbbreviation` key (en: "h", tr: "sa")
+- AnimatedTimeCounter lokalize edildi
+
+#### Yeni Dosyalar
+```
+lib/widgets/
+├── add_expense_sheet.dart    # Full expense entry bottom sheet
+├── currency_selector.dart    # Para birimi seçici widget
+└── currency_ticker.dart      # Döviz ticker widget
+
+lib/models/
+└── currency.dart             # Currency model + supportedCurrencies
+```
+
+#### Yapılacaklar
+- [ ] Ana sayfa refactoring (New Expense → Bottom Sheet)
+- [ ] Recent Expenses (5 tane) ana sayfada
+- [ ] See More → 30 expense (Free), Full history (Pro)
+- [ ] Too Curious hidden achievement
+- [ ] Cache mekanizması (100 expense local)
+
+---
