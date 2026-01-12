@@ -416,6 +416,12 @@ abstract class AppLocalizations {
   /// **'Edit'**
   String get edit;
 
+  /// No description provided for @change.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get change;
+
   /// No description provided for @close.
   ///
   /// In en, this message translates to:
@@ -499,6 +505,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select Language'**
   String get selectLanguage;
+
+  /// No description provided for @selectCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Currency'**
+  String get selectCurrency;
+
+  /// No description provided for @currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get currency;
 
   /// No description provided for @turkish.
   ///
@@ -1999,6 +2017,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hourly Earnings'**
   String get hourlyEarnings;
+
+  /// No description provided for @hourAbbreviation.
+  ///
+  /// In en, this message translates to:
+  /// **'h'**
+  String get hourAbbreviation;
 
   /// No description provided for @days.
   ///
@@ -4189,6 +4213,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You found the hidden Easter Egg!'**
   String get achievementHiddenCuriousCatDesc;
+
+  /// No description provided for @recentExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Expenses'**
+  String get recentExpenses;
+
+  /// No description provided for @seeMore.
+  ///
+  /// In en, this message translates to:
+  /// **'See More'**
+  String get seeMore;
+
+  /// No description provided for @tapPlusToAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + to add your first expense'**
+  String get tapPlusToAdd;
+
+  /// No description provided for @unlockFullHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Full History'**
+  String get unlockFullHistory;
+
+  /// No description provided for @proHistoryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Free users can view last 30 days. Upgrade to Pro for unlimited history.'**
+  String get proHistoryDescription;
+
+  /// No description provided for @upgradeToPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro'**
+  String get upgradeToPro;
+
+  /// No description provided for @expenseAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense added successfully'**
+  String get expenseAdded;
 }
 
 class _AppLocalizationsDelegate

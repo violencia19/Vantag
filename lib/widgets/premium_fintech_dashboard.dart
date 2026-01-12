@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
+import '../providers/currency_provider.dart';
 import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -89,6 +91,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final currencyProvider = context.watch<CurrencyProvider>();
 
     return GestureDetector(
       onTap: widget.onTap,
@@ -186,7 +189,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
                 Padding(
                   padding: const EdgeInsets.only(bottom: 6, left: 4),
                   child: Text(
-                    "TL",
+                    currencyProvider.symbol,
                     style: GoogleFonts.inter(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,

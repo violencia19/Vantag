@@ -2,8 +2,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
+import '../providers/currency_provider.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
@@ -989,6 +991,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
   }
 
   Widget _buildForm() {
+    final currencyProvider = context.watch<CurrencyProvider>();
     final riskLevel = sensoryFeedback.getRiskLevel(_currentAmount);
     final borderColor = sensoryFeedback.getAmountBorderColor(_currentAmount);
 
@@ -1055,9 +1058,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                   onChanged: (_) => _validateAmount(),
                 ),
               ),
-              const Text(
-                'TL',
-                style: TextStyle(
+              Text(
+                currencyProvider.code,
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: AppColors.textSecondary,

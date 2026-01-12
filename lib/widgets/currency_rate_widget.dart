@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
+import '../models/currency.dart';
+import '../providers/currency_provider.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 import '../screens/currency_detail_screen.dart';
+
+/// Rate item data model
+class _RateItem {
+  final String symbol;
+  final String value;
+  final bool showWarning;
+
+  const _RateItem({
+    required this.symbol,
+    required this.value,
+    this.showWarning = false,
+  });
+}
 
 class CurrencyRateWidget extends StatelessWidget {
   final ExchangeRates? rates;
@@ -19,19 +35,124 @@ class CurrencyRateWidget extends StatelessWidget {
     this.onRetry,
   });
 
-  String _formatRate(double rate) {
+  /// Main currencies to show in ticker (excluding selected one)
+  static const _mainCurrencyCodes = ['USD', 'EUR', 'GBP'];
+
+  String _formatRate(double rate, int decimals) {
     if (rate >= 1000) {
       return rate.toStringAsFixed(0).replaceAllMapped(
             RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
             (Match m) => '${m[1]},',
           );
     }
-    return rate.toStringAsFixed(2);
+    return rate.toStringAsFixed(decimals);
+  }
+
+  /// Get TRY value of a currency (how many TRY per 1 unit)
+  double _getTryValue(String code, ExchangeRates rates) {
+    switch (code) {
+      case 'TRY':
+        return 1.0;
+      case 'USD':
+        return rates.usdRate;
+      case 'EUR':
+        return rates.eurRate;
+      case 'GBP':
+        // GBP not from TCMB, approximate via USD
+        return rates.usdRate * 1.27;
+      case 'SAR':
+        // SAR pegged to USD at 3.75
+        return rates.usdRate / 3.75;
+      default:
+        return 1.0;
+    }
+  }
+
+  /// Calculate exchange rate: how many units of [base] per 1 unit of [target]
+  double _calculateRate(String targetCode, Currency base, ExchangeRates rates) {
+    final targetInTry = _getTryValue(targetCode, rates);
+    final baseInTry = _getTryValue(base.code, rates);
+
+    if (baseInTry <= 0) return 0;
+    return targetInTry / baseInTry;
+  }
+
+  /// Build currency item for ticker
+  _RateItem _buildCurrencyItem(String targetCode, Currency base, ExchangeRates rates) {
+    final target = getCurrencyByCode(targetCode);
+    final rate = _calculateRate(targetCode, base, rates);
+
+    // Use 2 decimals for TRY (large numbers), 4 for others
+    final decimals = base.code == 'TRY' ? 2 : 4;
+
+    return _RateItem(
+      symbol: target.symbol,
+      value: '${_formatRate(rate, decimals)} ${base.symbol}',
+    );
+  }
+
+  /// Build gold item for ticker
+  _RateItem _buildGoldItem(Currency base, ExchangeRates rates, AppLocalizations l10n) {
+    final goldOzUsd = rates.goldOzUsd;
+    final usdTry = rates.usdRate;
+    final showWarning = !rates.goldFromApi;
+
+    if (base.code == 'TRY') {
+      // TRY: Show gold per gram
+      final goldGramTry = (goldOzUsd ?? 0) * usdTry / 31.1035;
+      return _RateItem(
+        symbol: l10n.gold,
+        value: '${_formatRate(goldGramTry, 0)} ₺/${base.goldUnit}',
+        showWarning: showWarning,
+      );
+    } else {
+      // Other currencies: Show gold per ounce in selected currency
+      if (goldOzUsd == null) {
+        return _RateItem(
+          symbol: l10n.gold,
+          value: '-',
+          showWarning: showWarning,
+        );
+      }
+
+      final baseInTry = _getTryValue(base.code, rates);
+      final goldInBase = (goldOzUsd * usdTry) / baseInTry;
+
+      return _RateItem(
+        symbol: l10n.gold,
+        value: '${_formatRate(goldInBase, 0)} ${base.symbol}/${base.goldUnit}',
+        showWarning: showWarning,
+      );
+    }
+  }
+
+  /// Get rate items based on selected currency - DYNAMIC!
+  /// Removes selected currency from list, shows remaining + gold
+  List<_RateItem> _getRateItems(Currency selected, ExchangeRates rates, AppLocalizations l10n) {
+    final items = <_RateItem>[];
+
+    // Filter out selected currency from main list
+    final currenciesToShow = _mainCurrencyCodes
+        .where((code) => code != selected.code)
+        .toList();
+
+    // Build currency items
+    for (final code in currenciesToShow) {
+      items.add(_buildCurrencyItem(code, selected, rates));
+    }
+
+    // Gold always at the end
+    items.add(_buildGoldItem(selected, rates, l10n));
+
+    return items;
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final currencyProvider = context.watch<CurrencyProvider>();
+    final selectedCurrency = currencyProvider.currency;
+
     return GestureDetector(
       onTap: () {
         if (rates != null) {
@@ -50,12 +171,12 @@ class CurrencyRateWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: AppColors.cardBorder),
         ),
-        child: _buildContent(l10n),
+        child: _buildContent(l10n, selectedCurrency),
       ),
     );
   }
 
-  Widget _buildContent(AppLocalizations l10n) {
+  Widget _buildContent(AppLocalizations l10n, Currency selectedCurrency) {
     // Loading state
     if (isLoading) {
       return Row(
@@ -119,15 +240,17 @@ class CurrencyRateWidget extends StatelessWidget {
       );
     }
 
-    // Normal view
+    // Get currency-aware rate items
+    final rateItems = _getRateItems(selectedCurrency, rates!, l10n);
+
+    // Normal view with currency-aware rates
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildRateItem('\$', _formatRate(rates!.usdRate)),
-        _buildDivider(),
-        _buildRateItem('\u20AC', _formatRate(rates!.eurRate)),
-        _buildDivider(),
-        _buildGoldRateItem(l10n),
+        for (int i = 0; i < rateItems.length; i++) ...[
+          if (i > 0) _buildDivider(),
+          _buildRateItem(rateItems[i], l10n),
+        ],
         const SizedBox(width: 8),
         Icon(
           PhosphorIconsDuotone.caretRight,
@@ -138,14 +261,12 @@ class CurrencyRateWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildGoldRateItem(AppLocalizations l10n) {
-    final showWarning = rates != null && !rates!.goldFromApi;
-
+  Widget _buildRateItem(_RateItem item, AppLocalizations l10n) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          l10n.gold,
+          item.symbol,
           style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
@@ -154,14 +275,14 @@ class CurrencyRateWidget extends StatelessWidget {
         ),
         const SizedBox(width: 4),
         Text(
-          '${_formatRate(rates!.goldRate)} \u20BA',
+          item.value,
           style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
             color: AppColors.textPrimary,
           ),
         ),
-        if (showWarning) ...[
+        if (item.showWarning) ...[
           const SizedBox(width: 4),
           Tooltip(
             message: l10n.goldPriceNotUpdated,
@@ -172,31 +293,6 @@ class CurrencyRateWidget extends StatelessWidget {
             ),
           ),
         ],
-      ],
-    );
-  }
-
-  Widget _buildRateItem(String symbol, String value) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          symbol,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textSecondary,
-          ),
-        ),
-        const SizedBox(width: 4),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
-          ),
-        ),
       ],
     );
   }

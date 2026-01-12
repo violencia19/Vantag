@@ -616,6 +616,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   /// Basit gelir girişi (wizard kullanılmadıysa)
   Widget _buildSimpleIncomeInput() {
+    final currencyProvider = context.watch<CurrencyProvider>();
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -647,7 +648,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
           ),
           prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-          suffixText: 'TL',
+          suffixText: currencyProvider.code,
           suffixStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,

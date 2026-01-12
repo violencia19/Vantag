@@ -1,8 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
+import '../providers/currency_provider.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
@@ -89,6 +91,7 @@ class SavedMoneyCounter extends StatelessWidget {
     }
 
     final l10n = AppLocalizations.of(context)!;
+    final currencyProvider = context.watch<CurrencyProvider>();
     final emotionalMessage = _getEmotionalMessage(l10n);
 
     return Container(
@@ -136,11 +139,11 @@ class SavedMoneyCounter extends StatelessWidget {
                   height: 1,
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 6, left: 4),
+              Padding(
+                padding: const EdgeInsets.only(top: 6, left: 4),
                 child: Text(
-                  'TL',
-                  style: TextStyle(
+                  currencyProvider.symbol,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: AppColors.primary,

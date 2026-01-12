@@ -8,7 +8,7 @@ import '../providers/providers.dart';
 import 'screens.dart';
 
 /// Vantag Video Splash Screen
-/// Akış: Video (4s) → Background fade → Logo heartbeat (1s) → Navigate
+/// Video plays full screen, fades out, then navigates to main screen
 class VantagSplashScreen extends StatefulWidget {
   const VantagSplashScreen({super.key});
 
@@ -17,8 +17,8 @@ class VantagSplashScreen extends StatefulWidget {
 }
 
 class _VantagSplashScreenState extends State<VantagSplashScreen>
-    with TickerProviderStateMixin {
-  // Renkler
+    with SingleTickerProviderStateMixin {
+  // Background color
   static const _bgColor = Color(0xFF1A1A2E);
 
   // Video player
@@ -26,13 +26,9 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
   bool _videoInitialized = false;
   bool _videoEnded = false;
 
-  // Heartbeat animation
-  late AnimationController _heartbeatController;
-  late Animation<double> _heartbeatScale;
-
-  // Background fade animation
-  late AnimationController _bgFadeController;
-  late Animation<double> _bgFadeOpacity;
+  // Fade animation for video
+  late AnimationController _fadeController;
+  late Animation<double> _fadeAnimation;
 
   // App initialization
   UserProfile? _profile;
@@ -43,8 +39,8 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
   void initState() {
     super.initState();
     _setSystemUI();
-    _initAnimations(); // Önce animasyonlar
-    _initVideo(); // Sonra video
+    _initFadeAnimation();
+    _initVideo();
     _initializeApp();
   }
 
@@ -57,15 +53,25 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
     );
   }
 
+  void _initFadeAnimation() {
+    _fadeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
+    );
+  }
+
   void _initVideo() {
-    debugPrint('🎬 [Splash] Video init başlıyor...');
+    debugPrint('[Splash] Video init starting...');
     try {
       _videoController = VideoPlayerController.asset('lib/assets/videos/splash_video.mp4')
         ..setVolume(0) // Muted
         ..setLooping(false);
 
       _videoController!.initialize().then((_) {
-        debugPrint('🎬 [Splash] Video initialized!');
+        debugPrint('[Splash] Video initialized!');
         if (mounted) {
           setState(() {
             _videoInitialized = true;
@@ -74,15 +80,15 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
           _startVideoEndListener();
         }
       }).catchError((error) {
-        debugPrint('🎬 [Splash] Video init error: $error');
-        // Video yüklenemezse direkt logo göster
+        debugPrint('[Splash] Video init error: $error');
+        // Video couldn't load, navigate directly
         if (mounted) {
           _onVideoEnded();
         }
       });
     } catch (e) {
-      debugPrint('🎬 [Splash] Video catch error: $e');
-      // Video oluşturulamadıysa direkt logo göster
+      debugPrint('[Splash] Video catch error: $e');
+      // Video couldn't create, navigate directly
       if (mounted) {
         _onVideoEnded();
       }
@@ -101,7 +107,7 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
       }
     });
 
-    // Fallback: 4 saniye sonra video bitmiş say
+    // Fallback: After 4 seconds consider video ended
     Future.delayed(const Duration(seconds: 4), () {
       if (mounted && !_videoEnded) {
         _onVideoEnded();
@@ -111,74 +117,18 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
 
   void _onVideoEnded() {
     if (_videoEnded) return;
-    setState(() {
-      _videoEnded = true;
+    _videoEnded = true;
+
+    // Start fade out animation
+    _fadeController.forward().then((_) async {
+      // Wait for app init if not complete
+      while (!_initComplete) {
+        await Future.delayed(const Duration(milliseconds: 50));
+      }
+
+      // Navigate to next screen
+      _navigateToNextScreen();
     });
-    _startPostVideoAnimations();
-  }
-
-  void _initAnimations() {
-    // Background fade animation (video bitince arkaplan görünür)
-    _bgFadeController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _bgFadeOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _bgFadeController, curve: Curves.easeOut),
-    );
-
-    // Heartbeat animation: 1.0 → 1.2 → 1.0 → 1.1 → 1.0
-    _heartbeatController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 800),
-    );
-    _heartbeatScale = TweenSequence<double>([
-      // 1.0 → 1.2 (büyük nabız)
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.0, end: 1.2)
-            .chain(CurveTween(curve: Curves.easeOut)),
-        weight: 25,
-      ),
-      // 1.2 → 1.0 (geri çekilme)
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.2, end: 1.0)
-            .chain(CurveTween(curve: Curves.easeIn)),
-        weight: 20,
-      ),
-      // 1.0 → 1.1 (küçük nabız)
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.0, end: 1.1)
-            .chain(CurveTween(curve: Curves.easeOut)),
-        weight: 25,
-      ),
-      // 1.1 → 1.0 (son geri çekilme)
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.1, end: 1.0)
-            .chain(CurveTween(curve: Curves.easeIn)),
-        weight: 30,
-      ),
-    ]).animate(_heartbeatController);
-  }
-
-  Future<void> _startPostVideoAnimations() async {
-    // Background fade
-    await _bgFadeController.forward();
-
-    // Kısa bekleme
-    await Future.delayed(const Duration(milliseconds: 100));
-
-    // Heartbeat animasyonu
-    await _heartbeatController.forward();
-
-    // Init tamamlanmasını bekle
-    while (!_initComplete) {
-      await Future.delayed(const Duration(milliseconds: 50));
-    }
-
-    // Kısa bekleme sonra navigate
-    await Future.delayed(const Duration(milliseconds: 200));
-
-    _navigateToNextScreen();
   }
 
   Future<void> _initializeApp() async {
@@ -186,18 +136,18 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
     final notificationService = NotificationService();
     final subscriptionService = SubscriptionService();
 
-    // FinanceProvider'ı initialize et
+    // Initialize FinanceProvider
     final financeProvider = context.read<FinanceProvider>();
 
-    // Bildirimleri başlat
+    // Initialize notifications
     await notificationService.initialize();
     await notificationService.initializeDefaultSettings();
     await notificationService.requestPermission();
 
-    // Yarın yenilenecek aboneliklerin bildirimlerini planla
+    // Schedule subscription renewal notifications
     _scheduleSubscriptionNotifications(subscriptionService, notificationService);
 
-    // Profil ve onboarding kontrolü
+    // Profile and onboarding check
     final results = await Future.wait([
       profileService.getProfile(),
       profileService.isOnboardingCompleted(),
@@ -252,8 +202,7 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
   @override
   void dispose() {
     _videoController?.dispose();
-    _heartbeatController.dispose();
-    _bgFadeController.dispose();
+    _fadeController.dispose();
     super.dispose();
   }
 
@@ -261,57 +210,26 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _bgColor,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Layer 1: Video (en altta)
-          if (_videoInitialized && !_videoEnded && _videoController != null)
-            SizedBox.expand(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: _videoController!.value.size.width,
-                  height: _videoController!.value.size.height,
-                  child: VideoPlayer(_videoController!),
+      body: AnimatedBuilder(
+        animation: _fadeController,
+        builder: (context, child) {
+          return Opacity(
+            opacity: _fadeAnimation.value,
+            child: child,
+          );
+        },
+        child: _videoInitialized && _videoController != null
+            ? SizedBox.expand(
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: SizedBox(
+                    width: _videoController!.value.size.width,
+                    height: _videoController!.value.size.height,
+                    child: VideoPlayer(_videoController!),
+                  ),
                 ),
-              ),
-            ),
-
-          // Layer 2: Background color (video bitince fade in)
-          if (_videoEnded)
-            AnimatedBuilder(
-              animation: _bgFadeController,
-              builder: (context, _) {
-                return Opacity(
-                  opacity: _bgFadeOpacity.value,
-                  child: Container(color: _bgColor),
-                );
-              },
-            ),
-
-          // Layer 3: Logo (video bitince heartbeat ile görünür)
-          if (_videoEnded)
-            Center(
-              child: AnimatedBuilder(
-                animation: _heartbeatController,
-                builder: (context, child) {
-                  // Animasyon başlamadan scale 1.0 olsun
-                  final scale = _heartbeatController.isAnimating || _heartbeatController.isCompleted
-                      ? _heartbeatScale.value
-                      : 1.0;
-                  return Transform.scale(
-                    scale: scale,
-                    child: child,
-                  );
-                },
-                child: Image.asset(
-                  'assets/icon/app_icon.png',
-                  width: 120,
-                  height: 120,
-                ),
-              ),
-            ),
-        ],
+              )
+            : const SizedBox.expand(), // Empty while loading
       ),
     );
   }

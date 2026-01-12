@@ -1,9 +1,11 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
+import '../models/currency.dart';
 import '../providers/providers.dart';
 import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
@@ -46,6 +48,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   int _workDaysPerWeek = 5;
   bool _isLoading = false;
 
+  // Currency selection - primary and additional
+  String _primaryCurrencyCode = 'TRY';
+  String _additionalCurrencyCode = 'TRY';
+
   // Animation
   late AnimationController _fadeController;
 
@@ -86,6 +92,12 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   }
 
   void _loadExistingData() {
+    // Auto-detect currency from device locale
+    final systemLocale = PlatformDispatcher.instance.locale;
+    final defaultCurrency = getDefaultCurrencyForLocale(systemLocale.languageCode);
+    _primaryCurrencyCode = defaultCurrency.code;
+    _additionalCurrencyCode = defaultCurrency.code;
+
     // Provider'dan güncel veriyi al (en güvenilir kaynak)
     final provider = context.read<FinanceProvider>();
     final providerProfile = provider.userProfile;
@@ -105,6 +117,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
           decimalDigits: 0,
           showDecimals: false,
         );
+        // Load existing currency from primary income
+        _primaryCurrencyCode = primary.currencyCode;
+        _additionalCurrencyCode = primary.currencyCode;
       }
     }
     // Fallback: widget parametrelerini kontrol et
@@ -119,6 +134,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
           decimalDigits: 0,
           showDecimals: false,
         );
+        _primaryCurrencyCode = primary.currencyCode;
+        _additionalCurrencyCode = primary.currencyCode;
       }
     }
     else if (widget.existingProfile != null) {
@@ -136,6 +153,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
           decimalDigits: 0,
           showDecimals: false,
         );
+        _primaryCurrencyCode = primary.currencyCode;
+        _additionalCurrencyCode = primary.currencyCode;
       }
     } else {
       _hoursController.text = '8';
@@ -187,10 +206,17 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
     if (existingPrimaryIndex >= 0) {
       _incomeSources[existingPrimaryIndex] = _incomeSources[existingPrimaryIndex].copyWith(
         amount: amount,
+        currencyCode: _primaryCurrencyCode,
       );
     } else {
-      _incomeSources.insert(0, IncomeSource.salary(amount: amount));
+      _incomeSources.insert(0, IncomeSource.salary(
+        amount: amount,
+        currencyCode: _primaryCurrencyCode,
+      ));
     }
+
+    // Set additional income default currency to primary currency
+    _additionalCurrencyCode = _primaryCurrencyCode;
 
     HapticFeedback.lightImpact();
     _nextStep();
@@ -215,6 +241,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
       title: title.isEmpty ? _selectedCategory!.label : title,
       amount: amount,
       category: _selectedCategory!,
+      currencyCode: _additionalCurrencyCode,
     );
 
     setState(() {
@@ -222,6 +249,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
       _additionalAmountController.clear();
       _additionalTitleController.clear();
       _selectedCategory = null;
+      // Reset additional currency to primary for next entry
+      _additionalCurrencyCode = _primaryCurrencyCode;
     });
 
     HapticFeedback.mediumImpact();
@@ -308,6 +337,180 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
         content: Text(message),
         backgroundColor: AppColors.error,
         behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
+  /// Currency selector widget - reusable for primary and additional income
+  Widget _buildCurrencySelector({
+    required String currencyCode,
+    required Function(String) onChanged,
+  }) {
+    final currency = getCurrencyByCode(currencyCode);
+    final l10n = AppLocalizations.of(context)!;
+
+    return GestureDetector(
+      onTap: () => _showCurrencyPicker(currencyCode, onChanged),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.cardBorder),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              currency.flag,
+              style: const TextStyle(fontSize: 24),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              '${currency.code} - ${currency.name}',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+            const Spacer(),
+            Text(
+              l10n.change,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppColors.primary,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Icon(
+              PhosphorIconsDuotone.caretRight,
+              size: 18,
+              color: AppColors.primary,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Show currency picker bottom sheet
+  void _showCurrencyPicker(String currentCode, Function(String) onChanged) {
+    final l10n = AppLocalizations.of(context)!;
+
+    showModalBottomSheet(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.95),
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Handle
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.textTertiary,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Title
+              Text(
+                l10n.selectCurrency,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Currency list
+              ...supportedCurrencies.map((currency) {
+                final isSelected = currency.code == currentCode;
+                return GestureDetector(
+                  onTap: () {
+                    onChanged(currency.code);
+                    Navigator.pop(context);
+                    HapticFeedback.selectionClick();
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.primary.withValues(alpha: 0.1)
+                          : AppColors.surfaceLight,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: isSelected ? AppColors.primary : AppColors.cardBorder,
+                        width: isSelected ? 2 : 1,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          currency.flag,
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                currency.code,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                                ),
+                              ),
+                              Text(
+                                currency.name,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          currency.symbol,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: isSelected ? AppColors.primary : AppColors.textSecondary,
+                          ),
+                        ),
+                        if (isSelected) ...[
+                          const SizedBox(width: 8),
+                          Icon(
+                            PhosphorIconsDuotone.checkCircle,
+                            size: 22,
+                            color: AppColors.primary,
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                );
+              }),
+
+              const SizedBox(height: 12),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -462,7 +665,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 fontWeight: FontWeight.w700,
                 color: AppColors.textTertiary.withValues(alpha: 0.5),
               ),
-              suffixText: 'TL',
+              suffixText: getCurrencyByCode(_primaryCurrencyCode).code,
               suffixStyle: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
@@ -479,6 +682,16 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 vertical: 20,
               ),
             ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Currency selector
+          _buildCurrencySelector(
+            currencyCode: _primaryCurrencyCode,
+            onChanged: (code) {
+              setState(() => _primaryCurrencyCode = code);
+            },
           ),
 
           const SizedBox(height: 24),
@@ -835,7 +1048,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             decoration: InputDecoration(
               labelText: l10n.monthlyAmount,
               hintText: '0',
-              suffixText: l10n.tl,
+              suffixText: getCurrencyByCode(_additionalCurrencyCode).code,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -844,6 +1057,16 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 vertical: 14,
               ),
             ),
+          ),
+
+          const SizedBox(height: 12),
+
+          // Currency selector for additional income
+          _buildCurrencySelector(
+            currencyCode: _additionalCurrencyCode,
+            onChanged: (code) {
+              setState(() => _additionalCurrencyCode = code);
+            },
           ),
 
           const SizedBox(height: 16),
@@ -917,7 +1140,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                       ),
                     ),
                     Text(
-                      '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} TL',
+                      '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} ${getCurrencyByCode(source.currencyCode).symbol}',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -1063,7 +1286,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '${formatTurkishCurrency(total, decimalDigits: 0, showDecimals: false)} ${l10n.tl}',
+                  '${formatTurkishCurrency(total, decimalDigits: 0, showDecimals: false)} ${getCurrencyByCode(_primaryCurrencyCode).symbol}',
                   style: const TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.w800,
@@ -1142,7 +1365,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} TL',
+                        '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} ${getCurrencyByCode(source.currencyCode).symbol}',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,

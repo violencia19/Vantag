@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
+import '../providers/currency_provider.dart';
 import '../theme/theme.dart';
 import 'animated_counter.dart';
 
@@ -18,6 +21,9 @@ class CollapsibleSavedHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final currencyProvider = context.watch<CurrencyProvider>();
+
     // Animasyon değerleri
     final opacity = AppAnimations.headerMinOpacity +
         ((1.0 - AppAnimations.headerMinOpacity) * expandRatio);
@@ -44,7 +50,7 @@ class CollapsibleSavedHeader extends StatelessWidget {
               opacity: opacity,
               child: FittedBox(
                 fit: BoxFit.scaleDown,
-                child: _buildEmptyState(expandRatio),
+                child: _buildEmptyState(expandRatio, l10n),
               ),
             ),
           ),
@@ -115,7 +121,7 @@ class CollapsibleSavedHeader extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(left: 2 + (2 * expandRatio)),
                           child: Text(
-                            'TL',
+                            currencyProvider.symbol,
                             style: TextStyle(
                               fontSize: 10 + (4 * expandRatio),
                               fontWeight: FontWeight.w600,
@@ -125,7 +131,7 @@ class CollapsibleSavedHeader extends StatelessWidget {
                         ),
                         SizedBox(width: 6 + (4 * expandRatio)),
                         Text(
-                          'kurtardın!',
+                          l10n.youSaved,
                           style: TextStyle(
                             fontSize: labelFontSize,
                             fontWeight: FontWeight.w500,
@@ -144,7 +150,7 @@ class CollapsibleSavedHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState(double expandRatio) {
+  Widget _buildEmptyState(double expandRatio, AppLocalizations l10n) {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 12 + (8 * expandRatio),
@@ -168,7 +174,7 @@ class CollapsibleSavedHeader extends StatelessWidget {
           ),
           SizedBox(width: 6 + (4 * expandRatio)),
           Text(
-            'Henüz kurtarılan yok',
+            l10n.noSavingsYet,
             style: TextStyle(
               fontSize: 12 + (2 * expandRatio),
               fontWeight: FontWeight.w500,

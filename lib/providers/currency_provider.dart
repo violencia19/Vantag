@@ -146,4 +146,19 @@ class CurrencyProvider extends ChangeNotifier {
   bool isCurrencySupported(String code) {
     return supportedCurrencies.any((c) => c.code == code);
   }
+
+  /// Convert TRY amount to current currency
+  /// If current currency is TRY, returns the same amount
+  /// If rates not available, returns the original amount
+  double convertFromTRY(double amountTRY) {
+    if (_currency.code == 'TRY') return amountTRY;
+    final converted = _exchangeService.convert(amountTRY, 'TRY', _currency.code);
+    return converted ?? amountTRY;
+  }
+
+  /// Format amount converting from TRY if needed
+  String formatFromTRY(double amountTRY, {int decimalDigits = 0}) {
+    final converted = convertFromTRY(amountTRY);
+    return CurrencyPreferenceService.format(_currency, converted, decimalDigits: decimalDigits);
+  }
 }

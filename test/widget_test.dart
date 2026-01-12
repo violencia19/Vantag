@@ -8,7 +8,12 @@ void main() {
     final localeProvider = LocaleProvider();
     await localeProvider.initialize();
 
-    await tester.pumpWidget(VantagApp(localeProvider: localeProvider));
+    final currencyProvider = CurrencyProvider();
+
+    await tester.pumpWidget(VantagApp(
+      localeProvider: localeProvider,
+      currencyProvider: currencyProvider,
+    ));
 
     expect(find.byType(VantagSplashScreen), findsOneWidget);
   });

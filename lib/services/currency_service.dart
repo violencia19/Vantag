@@ -49,7 +49,17 @@ class ExchangeRates {
   // Ortalama kurlar
   double get usdRate => (usdBuying + usdSelling) / 2;
   double get eurRate => (eurBuying + eurSelling) / 2;
-  double get goldRate => (goldBuying + goldSelling) / 2;
+  double get goldRate => (goldBuying + goldSelling) / 2; // TRY per gram
+
+  // Gold in USD per troy ounce (1 oz = 31.1035 grams)
+  // Convert from TRY/gram to USD/oz: (TRY/gram * 31.1035) / (TRY/USD)
+  double? get goldOzUsd {
+    if (usdRate <= 0) return null;
+    return (goldRate * 31.1035) / usdRate;
+  }
+
+  // Alias for goldRate - TRY per gram
+  double get goldGramTry => goldRate;
 }
 
 class CurrencyService {

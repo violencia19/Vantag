@@ -113,6 +113,10 @@ class Expense {
   final DateTime? archivedAt;     // Arşivlenme tarihi
   final String? archiveReason;    // Arşivlenme nedeni
 
+  // Multi-currency: Orijinal para birimi bilgisi
+  final double? originalAmount;   // Girilen tutar (farklı para biriminde)
+  final String? originalCurrency; // Girilen para birimi kodu (USD, EUR, vb.)
+
   const Expense({
     required this.amount,
     required this.category,
@@ -129,6 +133,9 @@ class Expense {
     this.isSmartChoice = false,
     this.archivedAt,
     this.archiveReason,
+    // Multi-currency
+    this.originalAmount,
+    this.originalCurrency,
   });
 
   bool get isSimulation => recordType == RecordType.simulation;
@@ -186,6 +193,9 @@ class Expense {
     bool? isSmartChoice,
     DateTime? archivedAt,
     String? archiveReason,
+    // Multi-currency
+    double? originalAmount,
+    String? originalCurrency,
   }) {
     return Expense(
       amount: amount ?? this.amount,
@@ -203,6 +213,9 @@ class Expense {
       isSmartChoice: isSmartChoice ?? this.isSmartChoice,
       archivedAt: archivedAt ?? this.archivedAt,
       archiveReason: archiveReason ?? this.archiveReason,
+      // Multi-currency
+      originalAmount: originalAmount ?? this.originalAmount,
+      originalCurrency: originalCurrency ?? this.originalCurrency,
     );
   }
 
@@ -222,6 +235,9 @@ class Expense {
         'isSmartChoice': isSmartChoice,
         if (archivedAt != null) 'archivedAt': archivedAt!.toIso8601String(),
         if (archiveReason != null) 'archiveReason': archiveReason,
+        // Multi-currency
+        if (originalAmount != null) 'originalAmount': originalAmount,
+        if (originalCurrency != null) 'originalCurrency': originalCurrency,
       };
 
   factory Expense.fromJson(Map<String, dynamic> json) => Expense(
@@ -254,6 +270,11 @@ class Expense {
             ? DateTime.parse(json['archivedAt'] as String)
             : null,
         archiveReason: json['archiveReason'] as String?,
+        // Multi-currency (backward compatible)
+        originalAmount: json['originalAmount'] != null
+            ? (json['originalAmount'] as num).toDouble()
+            : null,
+        originalCurrency: json['originalCurrency'] as String?,
       );
 
   static String encodeList(List<Expense> expenses) =>

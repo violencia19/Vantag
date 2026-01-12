@@ -4,3 +4,4 @@ export 'expense_result.dart';
 export 'expense.dart';
 export 'achievement.dart';
 export 'subscription.dart';
+export 'currency.dart';

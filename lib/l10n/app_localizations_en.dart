@@ -170,6 +170,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get edit => 'Edit';
 
   @override
+  String get change => 'Change';
+
+  @override
   String get close => 'Close';
 
   @override
@@ -218,6 +221,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectLanguage => 'Select Language';
+
+  @override
+  String get selectCurrency => 'Select Currency';
+
+  @override
+  String get currency => 'Currency';
 
   @override
   String get turkish => 'Turkish';
@@ -1054,6 +1063,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hourlyEarnings => 'Hourly Earnings';
+
+  @override
+  String get hourAbbreviation => 'h';
 
   @override
   String get days => 'days';
@@ -2256,4 +2268,26 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get achievementHiddenCuriousCatDesc =>
       'You found the hidden Easter Egg!';
+
+  @override
+  String get recentExpenses => 'Recent Expenses';
+
+  @override
+  String get seeMore => 'See More';
+
+  @override
+  String get tapPlusToAdd => 'Tap + to add your first expense';
+
+  @override
+  String get unlockFullHistory => 'Unlock Full History';
+
+  @override
+  String get proHistoryDescription =>
+      'Free users can view last 30 days. Upgrade to Pro for unlimited history.';
+
+  @override
+  String get upgradeToPro => 'Upgrade to Pro';
+
+  @override
+  String get expenseAdded => 'Expense added successfully';
 }

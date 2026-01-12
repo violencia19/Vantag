@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -7,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../models/models.dart';
 import '../providers/finance_provider.dart';
 import '../providers/locale_provider.dart';
+import '../providers/currency_provider.dart';
 import '../services/achievements_service.dart';
 import '../services/tour_service.dart';
 import '../theme/theme.dart';
@@ -34,6 +36,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   late UserProfile _userProfile;
   int _easterEggTaps = 0;
+  Timer? _easterEggTimer;
 
   @override
   void initState() {
@@ -47,6 +50,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (oldWidget.userProfile != widget.userProfile) {
       _userProfile = widget.userProfile;
     }
+  }
+
+  @override
+  void dispose() {
+    _easterEggTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> _editProfile() async {
@@ -211,27 +220,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _onVersionTap() {
-    final l10n = AppLocalizations.of(context)!;
-    setState(() => _easterEggTaps++);
     HapticFeedback.lightImpact();
 
-    if (_easterEggTaps == 5) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.easterEgg5Left),
-          backgroundColor: AppColors.primary,
-          duration: const Duration(seconds: 2),
-        ),
-      );
-    } else if (_easterEggTaps == 8) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.easterEggAlmost),
-          backgroundColor: AppColors.warning,
-          duration: const Duration(seconds: 2),
-        ),
-      );
-    } else if (_easterEggTaps >= 10) {
+    // Cancel existing timer and start a new one
+    _easterEggTimer?.cancel();
+    _easterEggTimer = Timer(const Duration(seconds: 2), () {
+      setState(() => _easterEggTaps = 0);
+    });
+
+    setState(() => _easterEggTaps++);
+
+    // Unlock achievement at 5 taps
+    if (_easterEggTaps >= 5) {
+      _easterEggTimer?.cancel();
       _unlockCuriousCatAchievement();
     }
   }
@@ -445,7 +446,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: _buildCompactInfoCard(
                 icon: PhosphorIconsDuotone.trendUp,
                 title: l10n.hourlyEarnings,
-                value: '${formatTurkishCurrency(_calculateHourlyWage(), decimalDigits: 2)}/sa',
+                value: '${formatTurkishCurrency(_calculateHourlyWage(), decimalDigits: 2)}/${l10n.hourAbbreviation}',
                 highlight: true,
               ),
             ),
@@ -542,8 +543,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
             showArrow: false,
             onTap: _showLanguageSelector,
           ),
+          _buildDivider(),
+          _buildCurrencyTile(l10n),
         ],
       ),
+    );
+  }
+
+  Widget _buildCurrencyTile(AppLocalizations l10n) {
+    final currencyProvider = context.watch<CurrencyProvider>();
+    final currency = currencyProvider.currency;
+
+    return _buildListTile(
+      icon: PhosphorIconsDuotone.currencyCircleDollar,
+      iconColor: const Color(0xFFE67E22),
+      title: l10n.currency,
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            currency.flag,
+            style: const TextStyle(fontSize: 16),
+          ),
+          const SizedBox(width: 6),
+          Text(
+            currency.code,
+            style: TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Icon(
+            PhosphorIconsDuotone.caretRight,
+            size: 18,
+            color: AppColors.textTertiary,
+          ),
+        ],
+      ),
+      showArrow: false,
+      onTap: () => showCurrencySelector(context),
     );
   }
 

@@ -65,6 +65,7 @@
   "save": "Save",
   "delete": "Delete",
   "edit": "Edit",
+  "change": "Change",
   "close": "Close",
   "update": "Update",
   "calculate": "Calculate",
@@ -101,6 +102,8 @@
   "settings": "Settings",
   "language": "Language",
   "selectLanguage": "Select Language",
+  "selectCurrency": "Select Currency",
+  "currency": "Currency",
   "turkish": "Turkish",
   "english": "English",
 
@@ -579,6 +582,7 @@
   "dailyWork": "Daily Work",
   "weeklyWorkingDays": "Weekly Working Days",
   "hourlyEarnings": "Hourly Earnings",
+  "hourAbbreviation": "h",
   "days": "days",
   "resetData": "Reset Data",
   "resetDataDebug": "Reset Data (DEBUG)",
@@ -1206,5 +1210,13 @@
   "great": "Great!",
 
   "achievementHiddenCuriousCatTitle": "Too Curious",
-  "achievementHiddenCuriousCatDesc": "You found the hidden Easter Egg!"
+  "achievementHiddenCuriousCatDesc": "You found the hidden Easter Egg!",
+
+  "recentExpenses": "Recent Expenses",
+  "seeMore": "See More",
+  "tapPlusToAdd": "Tap + to add your first expense",
+  "unlockFullHistory": "Unlock Full History",
+  "proHistoryDescription": "Free users can view last 30 days. Upgrade to Pro for unlimited history.",
+  "upgradeToPro": "Upgrade to Pro",
+  "expenseAdded": "Expense added successfully"
 }

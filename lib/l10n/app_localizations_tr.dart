@@ -170,6 +170,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get edit => 'Düzenle';
 
   @override
+  String get change => 'Değiştir';
+
+  @override
   String get close => 'Kapat';
 
   @override
@@ -218,6 +221,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get selectLanguage => 'Dil Seçin';
+
+  @override
+  String get selectCurrency => 'Para Birimi Seçin';
+
+  @override
+  String get currency => 'Para Birimi';
 
   @override
   String get turkish => 'Türkçe';
@@ -1053,6 +1062,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get hourlyEarnings => 'Saatlik Kazanç';
+
+  @override
+  String get hourAbbreviation => 'sa';
 
   @override
   String get days => 'gün';
@@ -2255,4 +2267,26 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get achievementHiddenCuriousCatDesc => 'Gizli Easter Egg\'i buldun!';
+
+  @override
+  String get recentExpenses => 'Son Harcamalar';
+
+  @override
+  String get seeMore => 'Tümünü Gör';
+
+  @override
+  String get tapPlusToAdd => 'İlk harcamanı eklemek için + butonuna dokun';
+
+  @override
+  String get unlockFullHistory => 'Tam Geçmişi Aç';
+
+  @override
+  String get proHistoryDescription =>
+      'Ücretsiz kullanıcılar son 30 günü görebilir. Sınırsız geçmiş için Pro\'ya yükseltin.';
+
+  @override
+  String get upgradeToPro => 'Pro\'ya Yükselt';
+
+  @override
+  String get expenseAdded => 'Harcama başarıyla eklendi';
 }

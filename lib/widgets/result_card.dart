@@ -218,12 +218,16 @@ class ResultCard extends StatelessWidget {
                 color: AppColors.textTertiary.withValues(alpha: 0.8),
               ),
               const SizedBox(width: 6),
-              Text(
-                l10n.withThisAmountYouCouldBuy(_formatCurrency(amount!, decimals: 2)),
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textTertiary,
+              Expanded(
+                child: Text(
+                  l10n.withThisAmountYouCouldBuy(_formatCurrency(amount!, decimals: 2)),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.textTertiary,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

@@ -60,6 +60,7 @@
   "save": "Kaydet",
   "delete": "Sil",
   "edit": "Düzenle",
+  "change": "Değiştir",
   "close": "Kapat",
   "update": "Güncelle",
   "calculate": "Hesapla",
@@ -76,6 +77,8 @@
   "settings": "Ayarlar",
   "language": "Dil",
   "selectLanguage": "Dil Seçin",
+  "selectCurrency": "Para Birimi Seçin",
+  "currency": "Para Birimi",
   "turkish": "Türkçe",
   "english": "İngilizce",
 
@@ -373,6 +376,7 @@
   "dailyWork": "Günlük Çalışma",
   "weeklyWorkingDays": "Haftalık Çalışma Günleri",
   "hourlyEarnings": "Saatlik Kazanç",
+  "hourAbbreviation": "sa",
   "days": "gün",
   "resetData": "Verileri Sıfırla",
   "resetDataDebug": "Verileri Sıfırla (DEBUG)",
@@ -851,5 +855,13 @@
   "great": "Harika!",
 
   "achievementHiddenCuriousCatTitle": "Çok Meraklı",
-  "achievementHiddenCuriousCatDesc": "Gizli Easter Egg'i buldun!"
+  "achievementHiddenCuriousCatDesc": "Gizli Easter Egg'i buldun!",
+
+  "recentExpenses": "Son Harcamalar",
+  "seeMore": "Tümünü Gör",
+  "tapPlusToAdd": "İlk harcamanı eklemek için + butonuna dokun",
+  "unlockFullHistory": "Tam Geçmişi Aç",
+  "proHistoryDescription": "Ücretsiz kullanıcılar son 30 günü görebilir. Sınırsız geçmiş için Pro'ya yükseltin.",
+  "upgradeToPro": "Pro'ya Yükselt",
+  "expenseAdded": "Harcama başarıyla eklendi"
 }

@@ -66,6 +66,7 @@ class IncomeSource {
   final String id;
   final String title;
   final double amount;
+  final String currencyCode; // Para birimi kodu (TRY, USD, EUR, etc.)
   final IncomeCategory category;
   final DateTime createdAt;
   final bool isPrimary; // Ana gelir mi?
@@ -74,6 +75,7 @@ class IncomeSource {
     required this.id,
     required this.title,
     required this.amount,
+    this.currencyCode = 'TRY',
     required this.category,
     required this.createdAt,
     this.isPrimary = false,
@@ -88,11 +90,13 @@ class IncomeSource {
   factory IncomeSource.salary({
     required double amount,
     String? title,
+    String currencyCode = 'TRY',
   }) {
     return IncomeSource(
       id: generateId(),
       title: title ?? 'Ana Maaş',
       amount: amount,
+      currencyCode: currencyCode,
       category: IncomeCategory.salary,
       createdAt: DateTime.now(),
       isPrimary: true,
@@ -104,11 +108,13 @@ class IncomeSource {
     required String title,
     required double amount,
     required IncomeCategory category,
+    String currencyCode = 'TRY',
   }) {
     return IncomeSource(
       id: generateId(),
       title: title,
       amount: amount,
+      currencyCode: currencyCode,
       category: category,
       createdAt: DateTime.now(),
       isPrimary: false,
@@ -119,6 +125,7 @@ class IncomeSource {
     String? id,
     String? title,
     double? amount,
+    String? currencyCode,
     IncomeCategory? category,
     DateTime? createdAt,
     bool? isPrimary,
@@ -127,6 +134,7 @@ class IncomeSource {
       id: id ?? this.id,
       title: title ?? this.title,
       amount: amount ?? this.amount,
+      currencyCode: currencyCode ?? this.currencyCode,
       category: category ?? this.category,
       createdAt: createdAt ?? this.createdAt,
       isPrimary: isPrimary ?? this.isPrimary,
@@ -138,6 +146,7 @@ class IncomeSource {
       'id': id,
       'title': title,
       'amount': amount,
+      'currencyCode': currencyCode,
       'category': category.name,
       'createdAt': createdAt.toIso8601String(),
       'isPrimary': isPrimary,
@@ -149,6 +158,7 @@ class IncomeSource {
       id: json['id'] as String,
       title: json['title'] as String,
       amount: (json['amount'] as num).toDouble(),
+      currencyCode: json['currencyCode'] as String? ?? 'TRY',
       category: IncomeCategory.fromString(json['category'] as String),
       createdAt: DateTime.parse(json['createdAt'] as String),
       isPrimary: json['isPrimary'] as bool? ?? false,

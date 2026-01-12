@@ -5,6 +5,8 @@ export 'expense_history_card.dart';
 export 'decision_buttons.dart';
 export 'saved_money_counter.dart';
 export 'currency_rate_widget.dart';
+export 'currency_ticker.dart';
+export 'currency_selector.dart';
 export 'profile_photo_widget.dart';
 export 'streak_widget.dart';
 export 'subscription_sheet.dart';
@@ -33,3 +35,6 @@ export 'subscription_calendar_view.dart';
 // Sharing
 export 'share_card_widget.dart';
 export 'share_edit_sheet.dart';
+
+// Expense Entry
+export 'add_expense_sheet.dart';

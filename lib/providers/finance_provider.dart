@@ -12,6 +12,7 @@ class FinanceProvider extends ChangeNotifier {
   final CalculationService _calculationService = CalculationService();
 
   static const _keyAutoRecordedDate = 'auto_recorded_subscriptions_date';
+  static const int _maxCachedExpenses = 100;
 
   // State
   List<Expense> _expenses = [];
@@ -132,6 +133,12 @@ class FinanceProvider extends ChangeNotifier {
 
   Future<void> addExpense(Expense expense) async {
     _expenses.insert(0, expense);
+
+    // Enforce cache limit - keep only the most recent expenses in memory
+    if (_expenses.length > _maxCachedExpenses) {
+      _expenses = _expenses.take(_maxCachedExpenses).toList();
+    }
+
     _calculateStats();
     notifyListeners();
     await _expenseService.addExpense(expense);
@@ -158,6 +165,11 @@ class FinanceProvider extends ChangeNotifier {
     if (index < 0 || index >= _expenses.length) return;
     final updated = _expenses[index].copyWith(decision: decision, decisionDate: DateTime.now());
     await updateExpense(index, updated);
+  }
+
+  /// Alias for updateDecision - for backwards compatibility
+  Future<void> updateExpenseDecision(int index, ExpenseDecision decision) async {
+    await updateDecision(index, decision);
   }
 
   // ============================================

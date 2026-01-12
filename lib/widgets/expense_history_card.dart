@@ -3,6 +3,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
+import '../utils/category_utils.dart';
 import '../utils/currency_utils.dart';
 
 class ExpenseHistoryCard extends StatelessWidget {
@@ -281,65 +282,57 @@ class ExpenseHistoryCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            '${formatTurkishCurrency(expense.amount, decimalDigits: 2)} TL',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.surfaceLight,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+                          Flexible(
                             child: Text(
-                              expense.category,
+                              '${formatTurkishCurrency(expense.amount, decimalDigits: 2)} TL',
                               style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textSecondary,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.textPrimary,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          // Simulation badge
-                          if (expense.isSimulation) ...[
-                            const SizedBox(width: 8),
-                            Container(
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColors.info.withValues(alpha: 0.15),
+                                color: AppColors.surfaceLight,
                                 borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                CategoryUtils.getLocalizedName(context, expense.category),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.textSecondary,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                          // Simulation badge - compact icon only
+                          if (expense.isSimulation) ...[
+                            const SizedBox(width: 6),
+                            Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: AppColors.info.withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(6),
                                 border: Border.all(
                                   color: AppColors.info.withValues(alpha: 0.3),
                                 ),
                               ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Text(
-                                    '💭',
-                                    style: TextStyle(fontSize: 10),
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    l10n.simulation,
-                                    style: const TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.info,
-                                    ),
-                                  ),
-                                ],
+                              child: Icon(
+                                PhosphorIconsDuotone.lightning,
+                                size: 14,
+                                color: AppColors.info,
                               ),
                             ),
                           ],
@@ -502,26 +495,34 @@ class ExpenseHistoryCard extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Text(
-                      '${expense.amount.toStringAsFixed(0)} ${l10n.tl}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                        color: AppColors.textPrimary,
+                    Flexible(
+                      child: Text(
+                        '${expense.amount.toStringAsFixed(0)} ${l10n.tl}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                          color: AppColors.textPrimary,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     const SizedBox(width: 12),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: AppColors.surface,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        expense.category,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: AppColors.textSecondary,
+                    Flexible(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          CategoryUtils.getLocalizedName(context, expense.category),
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: AppColors.textSecondary,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),

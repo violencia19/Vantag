@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
+import '../providers/currency_provider.dart';
 
 /// Premium Fintech Design System
 /// Inspired by Revolut, N26, Nubank
@@ -532,6 +534,7 @@ class PremiumStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencyProvider = context.watch<CurrencyProvider>();
     return PremiumGlassCard(
       glowColor: color,
       glowIntensity: 0.2,
@@ -576,7 +579,7 @@ class PremiumStatCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 4),
                 child: Text(
-                  'TL',
+                  currencyProvider.code,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,

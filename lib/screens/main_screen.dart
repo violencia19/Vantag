@@ -284,11 +284,17 @@ class _MainScreenState extends State<MainScreen> {
     setState(() => _currentIndex = index);
   }
 
-  void _showQuickAddSheet() {
-    showQuickAddSheet(
+  void _showAddExpenseSheet() {
+    showAddExpenseSheet(
       context,
-      onAdd: (amount, category, subCategory) {
-        _processQuickAdd(amount, category, subCategory);
+      exchangeRates: _exchangeRates,
+      onExpenseAdded: () {
+        // Refresh streak if needed
+        HapticFeedback.mediumImpact();
+        // Navigate to home tab to show the new expense
+        if (_currentIndex != 0) {
+          setState(() => _currentIndex = 0);
+        }
       },
     );
   }
@@ -431,7 +437,7 @@ class _MainScreenState extends State<MainScreen> {
             bottomNavigationBar: PremiumNavBarWithShowcase(
               currentIndex: _currentIndex,
               onTap: _onNavTap,
-              onAddTap: _showQuickAddSheet,
+              onAddTap: _showAddExpenseSheet,
             ),
           );
         },

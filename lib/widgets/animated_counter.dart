@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 
 /// Animasyonlu sayaç widget'ı
@@ -220,10 +221,12 @@ class AnimatedTimeCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     // 8 saatten fazlaysa gün olarak göster
     final bool displayAsDays = showDays && hours >= 8;
     final double displayValue = displayAsDays ? hours / 8 : hours;
-    final String unit = displayAsDays ? ' gün' : ' saat';
+    final String unit = ' ${displayAsDays ? l10n.days : l10n.hours}';
 
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(begin: 0, end: displayValue),

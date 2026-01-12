@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
+import '../providers/currency_provider.dart';
 import '../services/services.dart';
 import '../screens/subscription_screen.dart';
 import '../theme/theme.dart';
@@ -654,6 +656,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final currencyProvider = context.watch<CurrencyProvider>();
     return Padding(
       padding: EdgeInsets.only(
         left: 24,
@@ -736,7 +739,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: '0',
-                          suffixText: 'TL',
+                          suffixText: currencyProvider.code,
                           filled: true,
                           fillColor: AppColors.surfaceLight,
                           border: OutlineInputBorder(

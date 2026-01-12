@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/currency_provider.dart';
 import '../utils/currency_utils.dart';
 
 // Re-export currency utils for backward compatibility
@@ -78,7 +80,7 @@ class PremiumAmountInput extends StatefulWidget {
     required this.label,
     this.hint,
     this.prefix,
-    this.suffix = 'TL',
+    this.suffix, // Will use CurrencyProvider if null
     this.showCurrency = true,
     this.onChanged,
     this.validator,
@@ -126,6 +128,8 @@ class _PremiumAmountInputState extends State<PremiumAmountInput> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final accentColor = widget.accentColor ?? theme.colorScheme.primary;
+    final currencyProvider = context.watch<CurrencyProvider>();
+    final suffixText = widget.suffix ?? currencyProvider.code;
 
     return TextFormField(
       controller: _controller,
@@ -148,7 +152,7 @@ class _PremiumAmountInputState extends State<PremiumAmountInput> {
         labelText: widget.label,
         hintText: widget.hint ?? '0',
         prefixText: widget.prefix,
-        suffixText: widget.showCurrency ? widget.suffix : null,
+        suffixText: widget.showCurrency ? suffixText : null,
         suffixStyle: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w500,

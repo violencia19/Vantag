@@ -1,8 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import '../providers/currency_provider.dart';
 import '../theme/theme.dart';
 import '../utils/habit_calculator.dart';
 import '../widgets/share_card_widget.dart';
@@ -445,6 +447,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
   // ═══════════════════════════════════════════════════════════════
   Widget _buildStep2Details() {
     final l10n = AppLocalizations.of(context)!;
+    final currencyProvider = context.watch<CurrencyProvider>();
     return Column(
       children: [
         // Header with back button
@@ -569,9 +572,9 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Text(
-                      'TL',
-                      style: TextStyle(
+                    Text(
+                      currencyProvider.code,
+                      style: const TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 16,
                       ),
@@ -672,9 +675,9 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Text(
-                      'TL',
-                      style: TextStyle(
+                    Text(
+                      currencyProvider.code,
+                      style: const TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 16,
                       ),
