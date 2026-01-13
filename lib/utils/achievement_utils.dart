@@ -180,6 +180,8 @@ class AchievementUtils {
         return l10n.achievementHiddenUltimateTitle;
       case 'hidden_collector':
         return l10n.achievementHiddenCollectorTitle;
+      case 'curious_cat':
+        return l10n.curiousCatTitle;
       default:
         return id;
     }
@@ -311,6 +313,8 @@ class AchievementUtils {
         return l10n.achievementHiddenUltimateDesc;
       case 'hidden_collector':
         return l10n.achievementHiddenCollectorDesc;
+      case 'curious_cat':
+        return l10n.curiousCatDescription;
       default:
         return id;
     }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -545,6 +546,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           _buildDivider(),
           _buildCurrencyTile(l10n),
+          // Debug section (only in debug mode)
+          if (kDebugMode) ...[
+            _buildDivider(),
+            _buildListTile(
+              icon: PhosphorIconsDuotone.bug,
+              iconColor: const Color(0xFFE74C3C),
+              title: 'Add 50 Test Expenses',
+              onTap: () async {
+                final financeProvider = context.read<FinanceProvider>();
+                await financeProvider.addTestExpenses(50);
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('50 test expenses added!'),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
         ],
       ),
     );

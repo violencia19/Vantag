@@ -317,22 +317,33 @@ class ExpenseHistoryCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          // Simulation badge - compact icon only
+                          // Simulation badge - icon + text
                           if (expense.isSimulation) ...[
                             const SizedBox(width: 6),
                             Container(
-                              padding: const EdgeInsets.all(4),
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: AppColors.info.withValues(alpha: 0.15),
+                                color: AppColors.warning.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(6),
-                                border: Border.all(
-                                  color: AppColors.info.withValues(alpha: 0.3),
-                                ),
                               ),
-                              child: Icon(
-                                PhosphorIconsDuotone.lightning,
-                                size: 14,
-                                color: AppColors.info,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    PhosphorIconsDuotone.lightning,
+                                    size: 12,
+                                    color: AppColors.warning,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    'Sim',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.warning,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],

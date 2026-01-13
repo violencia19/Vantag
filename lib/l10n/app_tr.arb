@@ -222,6 +222,10 @@
   "newExpense": "Yeni Harcama",
   "expenseHistory": "Geçmiş",
   "recordCount": "{count} kayıt",
+  "recordCountLimited": "{total} kayıttan {shown} tanesi",
+  "unlockFullHistory": "Tüm Geçmişi Aç",
+  "proHistoryDescription": "Pro ile {count} harcamanın tamamına eriş. Filtrele, ara ve finansal geçmişini dışa aktar.",
+  "upgradeToPro": "Pro'ya Yükselt",
 
   "streakTracking": "Seri Takibi",
   "streakTrackingDescription": "Her gün harcama girdiğinde serin artar. Düzenli takip bilinçli harcamanın anahtarı!",

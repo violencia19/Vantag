@@ -287,6 +287,21 @@
       "count": {"type": "int"}
     }
   },
+  "recordCountLimited": "{shown} of {total} records",
+  "@recordCountLimited": {
+    "placeholders": {
+      "shown": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "unlockFullHistory": "Unlock Full History",
+  "proHistoryDescription": "Access all {count} expenses with Pro. Filter, search, and export your complete financial history.",
+  "@proHistoryDescription": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "upgradeToPro": "Upgrade to Pro",
 
   "streakTracking": "Streak Tracking",
   "streakTrackingDescription": "Your streak increases with daily entries. Regular tracking is key to mindful spending!",

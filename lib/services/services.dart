@@ -23,3 +23,6 @@ export 'streak_manager.dart';
 export 'subscription_manager.dart';
 // Sharing
 export 'share_service.dart';
+// AI
+export 'ai_service.dart';
+export 'ai_memory_service.dart';

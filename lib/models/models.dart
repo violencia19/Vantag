@@ -5,3 +5,4 @@ export 'expense.dart';
 export 'achievement.dart';
 export 'subscription.dart';
 export 'currency.dart';
+export 'personality_mode.dart';

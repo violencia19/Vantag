@@ -12,7 +12,6 @@ class FinanceProvider extends ChangeNotifier {
   final CalculationService _calculationService = CalculationService();
 
   static const _keyAutoRecordedDate = 'auto_recorded_subscriptions_date';
-  static const int _maxCachedExpenses = 100;
 
   // State
   List<Expense> _expenses = [];
@@ -37,6 +36,15 @@ class FinanceProvider extends ChangeNotifier {
   List<IncomeSource> get incomeSources => _userProfile?.incomeSources ?? [];
   double get totalMonthlyIncome => _userProfile?.monthlyIncome ?? 0;
   int get incomeSourceCount => _userProfile?.incomeSourceCount ?? 0;
+
+  // Getters - Abonelikler (AI Context için)
+  Future<List<Subscription>> getSubscriptions() async {
+    return await _subscriptionService.getSubscriptions();
+  }
+
+  Future<List<Subscription>> getActiveSubscriptions() async {
+    return await _subscriptionService.getActiveSubscriptions();
+  }
 
   // Başlatma
   Future<void> initialize() async {
@@ -135,8 +143,8 @@ class FinanceProvider extends ChangeNotifier {
     _expenses.insert(0, expense);
 
     // Enforce cache limit - keep only the most recent expenses in memory
-    if (_expenses.length > _maxCachedExpenses) {
-      _expenses = _expenses.take(_maxCachedExpenses).toList();
+    if (_expenses.length > ExpenseHistoryService.maxLocalExpenses) {
+      _expenses = _expenses.take(ExpenseHistoryService.maxLocalExpenses).toList();
     }
 
     _calculateStats();
@@ -230,5 +238,64 @@ class FinanceProvider extends ChangeNotifier {
     _isInitialized = false;
 
     notifyListeners();
+  }
+
+  // ============================================
+  // PRO FEATURES: ARŞİVLENMİŞ VERİLER
+  // ============================================
+
+  /// Firestore'daki toplam expense sayısını getir
+  Future<int> getTotalExpenseCount() async {
+    return await _expenseService.getTotalExpenseCount();
+  }
+
+  /// Firestore'dan arşivlenmiş expense'leri getir (Pro kullanıcılar için)
+  Future<List<Expense>> fetchArchivedExpenses({int offset = 0, int limit = 50}) async {
+    return await _expenseService.fetchArchivedExpenses(offset: offset, limit: limit);
+  }
+
+  /// Firestore'dan TÜM expense'leri getir (Pro export için)
+  Future<List<Expense>> fetchAllExpensesFromFirestore() async {
+    return await _expenseService.fetchAllExpensesFromFirestore();
+  }
+
+  // ============================================
+  // DEBUG: TEST METODLARI
+  // ============================================
+
+  /// Debug: Toplu test expense'leri ekle
+  Future<void> addTestExpenses(int count) async {
+    final categories = ['Yiyecek', 'Dijital', 'Ulaşım', 'Giyim', 'Eğlence', 'Sağlık'];
+    final random = DateTime.now().millisecondsSinceEpoch;
+
+    for (int i = 0; i < count; i++) {
+      final amount = ((random + i * 137) % 900) + 100.0; // 100-1000 arası
+      final categoryIndex = (random + i) % categories.length;
+      final daysAgo = i;
+
+      final result = _calculationService.calculateExpense(
+        userProfile: _userProfile ?? UserProfile(
+          incomeSources: [],
+          dailyHours: 8,
+          workDaysPerWeek: 5,
+        ),
+        expenseAmount: amount,
+        month: DateTime.now().month,
+        year: DateTime.now().year,
+      );
+
+      final expense = Expense(
+        amount: amount,
+        category: categories[categoryIndex],
+        date: DateTime.now().subtract(Duration(days: daysAgo)),
+        hoursRequired: result.hoursRequired,
+        daysRequired: result.daysRequired,
+        decision: ExpenseDecision.yes,
+        decisionDate: DateTime.now(),
+        recordType: RecordType.simulation,
+      );
+
+      await addExpense(expense);
+    }
   }
 }

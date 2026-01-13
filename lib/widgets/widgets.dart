@@ -38,3 +38,7 @@ export 'share_edit_sheet.dart';
 
 // Expense Entry
 export 'add_expense_sheet.dart';
+
+// AI Chat
+export 'ai_fab.dart';
+export 'ai_chat_sheet.dart';

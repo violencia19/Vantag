@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:fvp/fvp.dart' as fvp;
 import 'firebase_options.dart';
@@ -12,12 +13,29 @@ import 'theme/theme.dart';
 import 'providers/providers.dart';
 import 'services/auth_service.dart';
 import 'services/expense_history_service.dart';
+import 'services/ai_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Register fvp for Windows/Linux video support
   fvp.registerWith();
+
+  // Load environment variables
+  try {
+    await dotenv.load(fileName: ".env");
+    print("✅ .env dosyası yüklendi");
+  } catch (e) {
+    print("❌ .env dosyası yüklenemedi: $e");
+  }
+
+  // Initialize AI Service (Memory + Models)
+  try {
+    await AIService().initialize();
+    print("✅ AI Service başlatıldı");
+  } catch (e) {
+    print("❌ AI Service hatası: $e");
+  }
 
   print("🚀 ADIM 1: Flutter Hazır");
 
@@ -30,6 +48,11 @@ void main() async {
   final currencyProvider = CurrencyProvider();
   await currencyProvider.loadCurrency();
   print("✅ ADIM 1.6: Currency Provider Hazır");
+
+  // ProProvider başlat
+  final proProvider = ProProvider();
+  await proProvider.initialize();
+  print("✅ ADIM 1.7: Pro Provider Hazır");
 
   // Firebase başlat
   try {
@@ -69,17 +92,20 @@ void main() async {
   runApp(VantagApp(
     localeProvider: localeProvider,
     currencyProvider: currencyProvider,
+    proProvider: proProvider,
   ));
 }
 
 class VantagApp extends StatelessWidget {
   final LocaleProvider localeProvider;
   final CurrencyProvider currencyProvider;
+  final ProProvider proProvider;
 
   const VantagApp({
     super.key,
     required this.localeProvider,
     required this.currencyProvider,
+    required this.proProvider,
   });
 
   @override
@@ -89,6 +115,7 @@ class VantagApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FinanceProvider()),
         ChangeNotifierProvider.value(value: localeProvider),
         ChangeNotifierProvider.value(value: currencyProvider),
+        ChangeNotifierProvider.value(value: proProvider),
       ],
       child: Consumer<LocaleProvider>(
         builder: (context, localeProvider, child) {

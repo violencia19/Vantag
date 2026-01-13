@@ -82,6 +82,11 @@ dependencies:
   cloud_firestore: ^6.1.1
   google_sign_in: 6.2.1
 
+  # AI
+  flutter_dotenv: ^5.1.0
+  google_generative_ai: ^0.4.3
+  hive_flutter: ^1.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -119,6 +124,7 @@ flutter:
 
   # Assets
   assets:
+    - .env
     - assets/icon/
     - lib/assets/videos/
 

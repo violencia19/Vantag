@@ -283,6 +283,12 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
 
   void _showFullHistory(List<Expense> allExpenses) {
     final l10n = AppLocalizations.of(context)!;
+    final isPro = context.read<ProProvider>().isPro;
+
+    // Free: 30, Pro: all
+    final visibleExpenses = isPro ? allExpenses : allExpenses.take(30).toList();
+    final hasMoreLocked = !isPro && allExpenses.length > 30;
+    final totalCount = allExpenses.length;
 
     showModalBottomSheet(
       context: context,
@@ -342,7 +348,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                l10n.recordCount(allExpenses.length),
+                                isPro
+                                    ? l10n.recordCount(totalCount)
+                                    : l10n.recordCountLimited(visibleExpenses.length, totalCount),
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
@@ -378,12 +386,17 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                       child: ListView.builder(
                         controller: scrollController,
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        itemCount: allExpenses.length,
+                        itemCount: visibleExpenses.length + (hasMoreLocked ? 1 : 0),
                         itemBuilder: (context, index) {
+                          // Pro upsell at end
+                          if (hasMoreLocked && index == visibleExpenses.length) {
+                            return _buildProUpsell(l10n, totalCount - visibleExpenses.length);
+                          }
+
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12),
                             child: ExpenseHistoryCard(
-                              expense: allExpenses[index],
+                              expense: visibleExpenses[index],
                               onDelete: () async {
                                 await _deleteExpense(index);
                                 if (context.mounted) Navigator.pop(context);
@@ -408,6 +421,98 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildProUpsell(AppLocalizations l10n, int lockedCount) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 24, top: 8),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            AppColors.primary.withOpacity(0.2),
+            AppColors.primary.withOpacity(0.1),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: AppColors.primary.withOpacity(0.15),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              PhosphorIconsDuotone.crownSimple,
+              size: 28,
+              color: AppColors.primary,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            l10n.unlockFullHistory,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l10n.proHistoryDescription(lockedCount),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 14,
+              color: AppColors.textSecondary,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 20),
+          GestureDetector(
+            onTap: () => _showPaywall(),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+              decoration: BoxDecoration(
+                gradient: AppGradients.primaryButton,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withOpacity(0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Text(
+                l10n.upgradeToPro,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showPaywall() {
+    final l10n = AppLocalizations.of(context)!;
+    // TODO: Implement paywall screen
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(l10n.comingSoon),
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }

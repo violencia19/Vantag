@@ -299,6 +299,17 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  void _showAIChat() {
+    HapticFeedback.mediumImpact();
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.black.withValues(alpha: 0.7),
+      builder: (context) => const AIChatSheet(),
+    );
+  }
+
   void _processQuickAdd(double amount, String category, String? subCategory) {
     final now = DateTime.now();
 
@@ -439,6 +450,11 @@ class _MainScreenState extends State<MainScreen> {
               onTap: _onNavTap,
               onAddTap: _showAddExpenseSheet,
             ),
+            // AI Chat FAB
+            floatingActionButton: AIFloatingButton(
+              onTap: _showAIChat,
+            ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           );
         },
       ),

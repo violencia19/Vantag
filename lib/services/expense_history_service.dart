@@ -6,6 +6,7 @@ import '../models/models.dart';
 
 class ExpenseHistoryService {
   static const _keyExpenses = 'expense_history';
+  static const int maxLocalExpenses = 100;
 
   // Firestore referansı
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -84,15 +85,21 @@ class ExpenseHistoryService {
   }
 
   /// Harcama ekle - hem local hem Firestore'a kaydeder
+  /// Local'de max 100 tutulur, Firestore'da hepsi saklanır (Pro için)
   Future<void> addExpense(Expense expense) async {
     await _withLock(() async {
-      // 1. Local'e kaydet
+      // 1. Local'e kaydet (max 100 limit)
       final expenses = await getExpenses();
       expenses.insert(0, expense);
-      await _saveExpenses(expenses);
-      print("✅ [Local] Harcama kaydedildi: ${expense.amount} TL - ${expense.category}");
 
-      // 2. Firestore'a kaydet
+      // Local cache limit - en eski kayıtları sil
+      if (expenses.length > maxLocalExpenses) {
+        expenses.removeRange(maxLocalExpenses, expenses.length);
+      }
+
+      await _saveExpenses(expenses);
+
+      // 2. Firestore'a kaydet (hepsi saklanır - Pro için archive)
       await _syncToFirestore(expense);
     });
   }
@@ -410,5 +417,81 @@ class ExpenseHistoryService {
       print("   ❌ Beklenmeyen Hata: $e");
     }
     print("═══════════════════════════════════════");
+  }
+
+  // ============================================
+  // PRO USERS: ARŞİVLENMİŞ VERİLERE ERİŞİM
+  // ============================================
+
+  /// Firestore'dan tüm expense sayısını getir
+  Future<int> getTotalExpenseCount() async {
+    final collection = _expensesCollection;
+    if (collection == null) return 0;
+
+    try {
+      final snapshot = await collection.count().get();
+      return snapshot.count ?? 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  /// Firestore'dan arşivlenmiş expense'leri getir (Pro kullanıcılar için)
+  /// [offset]: Atlanacak kayıt sayısı (pagination için)
+  /// [limit]: Getirilecek kayıt sayısı
+  Future<List<Expense>> fetchArchivedExpenses({
+    int offset = 0,
+    int limit = 50,
+  }) async {
+    final collection = _expensesCollection;
+    if (collection == null) {
+      return [];
+    }
+
+    try {
+      Query<Map<String, dynamic>> query = collection
+          .orderBy('date', descending: true);
+
+      // Offset için: önce offset kadar kayıt atla
+      if (offset > 0) {
+        final skipDocs = await query.limit(offset).get();
+        if (skipDocs.docs.isNotEmpty) {
+          final lastDoc = skipDocs.docs.last;
+          query = query.startAfterDocument(lastDoc);
+        }
+      }
+
+      final snapshots = await query.limit(limit).get();
+
+      return snapshots.docs
+          .map((doc) => Expense.fromJson(doc.data()))
+          .toList();
+    } on FirebaseException catch (e) {
+      print("❌ [Firestore] Archive Fetch Hatası: ${e.code} - ${e.message}");
+      return [];
+    } catch (e) {
+      print("❌ [Firestore] Beklenmeyen Archive Fetch Hatası: $e");
+      return [];
+    }
+  }
+
+  /// Firestore'dan TÜM expense'leri getir (Pro export için)
+  Future<List<Expense>> fetchAllExpensesFromFirestore() async {
+    final collection = _expensesCollection;
+    if (collection == null) {
+      return [];
+    }
+
+    try {
+      final snapshots = await collection
+          .orderBy('date', descending: true)
+          .get();
+
+      return snapshots.docs
+          .map((doc) => Expense.fromJson(doc.data()))
+          .toList();
+    } catch (e) {
+      return [];
+    }
   }
 }
