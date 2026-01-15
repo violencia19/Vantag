@@ -994,9 +994,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      Icon(
                         category.icon,
-                        style: const TextStyle(fontSize: 20),
+                        size: 22,
+                        color: isSelected ? category.color : AppColors.textSecondary,
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -1112,9 +1113,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 ),
                 child: Row(
                   children: [
-                    Text(
+                    Icon(
                       source.category.icon,
-                      style: const TextStyle(fontSize: 24),
+                      size: 26,
+                      color: source.category.color,
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -1332,9 +1334,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(
-                      child: Text(
+                      child: Icon(
                         source.category.icon,
-                        style: const TextStyle(fontSize: 22),
+                        size: 24,
+                        color: source.category.color,
                       ),
                     ),
                   ),

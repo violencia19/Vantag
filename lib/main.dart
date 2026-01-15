@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,11 @@ import 'providers/providers.dart';
 import 'services/auth_service.dart';
 import 'services/expense_history_service.dart';
 import 'services/ai_service.dart';
+import 'services/deep_link_service.dart';
+import 'services/siri_service.dart';
+
+/// Global navigator key for deep link dialogs
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -96,7 +102,7 @@ void main() async {
   ));
 }
 
-class VantagApp extends StatelessWidget {
+class VantagApp extends StatefulWidget {
   final LocaleProvider localeProvider;
   final CurrencyProvider currencyProvider;
   final ProProvider proProvider;
@@ -109,18 +115,40 @@ class VantagApp extends StatelessWidget {
   });
 
   @override
+  State<VantagApp> createState() => _VantagAppState();
+}
+
+class _VantagAppState extends State<VantagApp> {
+  @override
+  void initState() {
+    super.initState();
+    _initializeServices();
+  }
+
+  Future<void> _initializeServices() async {
+    // Initialize Deep Link Service
+    DeepLinkService().init(navigatorKey);
+
+    // Initialize Siri shortcuts (iOS only)
+    if (Platform.isIOS) {
+      SiriService().setupShortcuts();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => FinanceProvider()),
-        ChangeNotifierProvider.value(value: localeProvider),
-        ChangeNotifierProvider.value(value: currencyProvider),
-        ChangeNotifierProvider.value(value: proProvider),
+        ChangeNotifierProvider.value(value: widget.localeProvider),
+        ChangeNotifierProvider.value(value: widget.currencyProvider),
+        ChangeNotifierProvider.value(value: widget.proProvider),
       ],
       child: Consumer<LocaleProvider>(
         builder: (context, localeProvider, child) {
           return MaterialApp(
             title: 'Vantag',
+            navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
             theme: AppTheme.darkTheme,
 

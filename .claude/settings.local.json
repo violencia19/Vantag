@@ -61,7 +61,9 @@
       "Bash(git -C c:/flutter_projects/mmr_app add CLAUDE.md)",
       "Bash(git -C c:/flutter_projects/mmr_app commit -m \"$\\(cat <<''EOF''\ndocs: update CLAUDE.md with currency system documentation\n\n- Currency selection and provider details\n- Expense input currency toggle logic\n- Dynamic currency ticker behavior\n- API cross-rate calculations\n- New files and todo list\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(findstr:*)",
-      "Bash(flutter emulators:*)"
+      "Bash(flutter emulators:*)",
+      "Bash(find:*)",
+      "Bash(wc:*)"
     ]
   }
 }

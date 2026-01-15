@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 
 /// Utility class for category localization
@@ -87,38 +88,73 @@ class CategoryUtils {
     }
   }
 
-  /// Get category icon (emoji)
-  static String getIcon(String internalKey) {
+  /// Get category icon (Phosphor icon)
+  static IconData getIcon(String internalKey) {
     switch (internalKey) {
       case 'Yiyecek':
-        return '🍕';
+        return PhosphorIconsFill.forkKnife;
       case 'Ulaşım':
-        return '🚗';
+        return PhosphorIconsFill.car;
       case 'Giyim':
-        return '👕';
+        return PhosphorIconsFill.tShirt;
       case 'Elektronik':
-        return '📱';
+        return PhosphorIconsFill.deviceMobile;
       case 'Eğlence':
-        return '🎮';
+        return PhosphorIconsFill.gameController;
       case 'Sağlık':
-        return '💊';
+        return PhosphorIconsFill.pill;
       case 'Eğitim':
-        return '📚';
+        return PhosphorIconsFill.graduationCap;
       case 'Faturalar':
-        return '📄';
+        return PhosphorIconsFill.fileText;
       case 'Abonelik':
-        return '🔔';
+        return PhosphorIconsFill.bellRinging;
       case 'Alışveriş':
-        return '🛒';
+        return PhosphorIconsFill.shoppingCart;
       case 'Dijital':
-        return '💻';
+        return PhosphorIconsFill.laptop;
       case 'Spor':
-        return '⚽';
+        return PhosphorIconsFill.barbell;
       case 'Haberleşme':
-        return '📞';
+        return PhosphorIconsFill.phone;
       case 'Diğer':
       default:
-        return '📦';
+        return PhosphorIconsFill.package;
+    }
+  }
+
+  /// Get category color
+  static Color getColor(String internalKey) {
+    switch (internalKey) {
+      case 'Yiyecek':
+        return const Color(0xFFFF6B6B);
+      case 'Ulaşım':
+        return const Color(0xFF4ECDC4);
+      case 'Giyim':
+        return const Color(0xFF9B59B6);
+      case 'Elektronik':
+        return const Color(0xFF3498DB);
+      case 'Eğlence':
+        return const Color(0xFFE74C3C);
+      case 'Sağlık':
+        return const Color(0xFF2ECC71);
+      case 'Eğitim':
+        return const Color(0xFFF39C12);
+      case 'Faturalar':
+        return const Color(0xFF95A5A6);
+      case 'Abonelik':
+        return const Color(0xFF6C63FF);
+      case 'Alışveriş':
+        return const Color(0xFFE91E63);
+      case 'Dijital':
+        return const Color(0xFF00BCD4);
+      case 'Spor':
+        return const Color(0xFF8BC34A);
+      case 'Haberleşme':
+        return const Color(0xFF607D8B);
+      case 'Diğer':
+      default:
+        return const Color(0xFF78909C);
     }
   }
 }

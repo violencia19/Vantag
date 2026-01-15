@@ -89,6 +89,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Future<void> _completeOnboarding() async {
     final profileService = ProfileService();
     await profileService.setOnboardingCompleted();
+    debugPrint('[Onboarding] ✓ Onboarding completed flag saved');
 
     if (!mounted) return;
 
@@ -175,6 +176,7 @@ class _SkipButton extends StatelessWidget {
       onPressed: () async {
         final profileService = ProfileService();
         await profileService.setOnboardingCompleted();
+        debugPrint('[Onboarding] ✓ Onboarding skipped, flag saved');
 
         if (!context.mounted) return;
 

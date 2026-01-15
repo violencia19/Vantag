@@ -1,20 +1,24 @@
 // Viral Alışkanlık Hesaplayıcı
 // Kullanıcının alışkanlıkları için yılda kaç gün çalıştığını hesaplar
 
+import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+
 class HabitCategory {
   final String name;
-  final String emoji;
+  final IconData icon;
+  final Color color;
 
-  const HabitCategory(this.name, this.emoji);
+  const HabitCategory(this.name, this.icon, this.color);
 }
 
 const List<HabitCategory> defaultHabitCategories = [
-  HabitCategory('Kahve', '☕'),
-  HabitCategory('Sigara', '🚬'),
-  HabitCategory('Dışarıda Yemek', '🍔'),
-  HabitCategory('Oyun/Eğlence', '🎮'),
-  HabitCategory('Kıyafet', '👕'),
-  HabitCategory('Taksi/Uber', '🚗'),
+  HabitCategory('Kahve', PhosphorIconsFill.coffee, Color(0xFF8B4513)),
+  HabitCategory('Sigara', PhosphorIconsFill.cigarette, Color(0xFF607D8B)),
+  HabitCategory('Dışarıda Yemek', PhosphorIconsFill.hamburger, Color(0xFFFF6B6B)),
+  HabitCategory('Oyun/Eğlence', PhosphorIconsFill.gameController, Color(0xFFE74C3C)),
+  HabitCategory('Kıyafet', PhosphorIconsFill.tShirt, Color(0xFF9B59B6)),
+  HabitCategory('Taksi/Uber', PhosphorIconsFill.car, Color(0xFF4ECDC4)),
 ];
 
 class HabitResult {

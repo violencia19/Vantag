@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum ExpenseDecision {
   yes,
@@ -298,30 +300,57 @@ class ExpenseCategory {
     'Diğer',
   ];
 
-  /// Kategori ikonu (emoji)
-  static String getIcon(String category) {
+  /// Kategori ikonu (Phosphor icon)
+  static IconData getIcon(String category) {
     switch (category) {
       case 'Yiyecek':
-        return '🍕';
+        return PhosphorIconsFill.forkKnife;
       case 'Ulaşım':
-        return '🚗';
+        return PhosphorIconsFill.car;
       case 'Giyim':
-        return '👕';
+        return PhosphorIconsFill.tShirt;
       case 'Elektronik':
-        return '📱';
+        return PhosphorIconsFill.deviceMobile;
       case 'Eğlence':
-        return '🎮';
+        return PhosphorIconsFill.gameController;
       case 'Sağlık':
-        return '💊';
+        return PhosphorIconsFill.pill;
       case 'Eğitim':
-        return '📚';
+        return PhosphorIconsFill.graduationCap;
       case 'Faturalar':
-        return '📄';
+        return PhosphorIconsFill.fileText;
       case 'Abonelik':
-        return '🔔';
+        return PhosphorIconsFill.bellRinging;
       case 'Diğer':
       default:
-        return '📦';
+        return PhosphorIconsFill.package;
+    }
+  }
+
+  /// Kategori rengi
+  static Color getColor(String category) {
+    switch (category) {
+      case 'Yiyecek':
+        return const Color(0xFFFF6B6B);
+      case 'Ulaşım':
+        return const Color(0xFF4ECDC4);
+      case 'Giyim':
+        return const Color(0xFF9B59B6);
+      case 'Elektronik':
+        return const Color(0xFF3498DB);
+      case 'Eğlence':
+        return const Color(0xFFE74C3C);
+      case 'Sağlık':
+        return const Color(0xFF2ECC71);
+      case 'Eğitim':
+        return const Color(0xFFF39C12);
+      case 'Faturalar':
+        return const Color(0xFF95A5A6);
+      case 'Abonelik':
+        return const Color(0xFF6C63FF);
+      case 'Diğer':
+      default:
+        return const Color(0xFF78909C);
     }
   }
 }

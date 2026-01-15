@@ -26,3 +26,12 @@ export 'share_service.dart';
 // AI
 export 'ai_service.dart';
 export 'ai_memory_service.dart';
+// Export
+export 'export_service.dart';
+// Merchant Learning
+export 'merchant_learning_service.dart';
+export 'import_service.dart';
+// Voice Assistant
+export 'voice_parser_service.dart';
+export 'deep_link_service.dart';
+export 'siri_service.dart';

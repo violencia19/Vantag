@@ -14,3 +14,6 @@ export 'laser_splash_screen.dart';
 export 'subscription_screen.dart';
 // Viral Özellikler
 export 'habit_calculator_screen.dart';
+// Voice Input
+export 'voice_input_screen.dart';
+export 'assistant_setup_screen.dart';

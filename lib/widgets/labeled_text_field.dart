@@ -42,10 +42,13 @@ class LabeledTextField extends StatelessWidget {
         const SizedBox(height: 8),
         TextField(
           controller: controller,
-          keyboardType: keyboardType,
+          keyboardType: keyboardType ?? TextInputType.text,
           autofocus: autofocus,
           inputFormatters: inputFormatters,
           onChanged: onChanged,
+          enableSuggestions: true,
+          autocorrect: false,
+          enableIMEPersonalizedLearning: true,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,

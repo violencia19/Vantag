@@ -452,6 +452,12 @@ abstract class AppLocalizations {
   /// **'Select'**
   String get select;
 
+  /// No description provided for @decision.
+  ///
+  /// In en, this message translates to:
+  /// **'Decision'**
+  String get decision;
+
   /// No description provided for @hoursRequired.
   ///
   /// In en, this message translates to:
@@ -1325,7 +1331,7 @@ abstract class AppLocalizations {
   /// No description provided for @selectCategory.
   ///
   /// In en, this message translates to:
-  /// **'Select category'**
+  /// **'Select Category'**
   String get selectCategory;
 
   /// No description provided for @autoSelected.
@@ -4261,6 +4267,630 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expense added successfully'**
   String get expenseAdded;
+
+  /// No description provided for @duplicateExpenseWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This expense already seems to exist'**
+  String get duplicateExpenseWarning;
+
+  /// No description provided for @duplicateExpenseDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} {category}'**
+  String duplicateExpenseDetails(String amount, String category);
+
+  /// No description provided for @addAnyway.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you still want to add it?'**
+  String get addAnyway;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// No description provided for @timeAgoNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get timeAgoNow;
+
+  /// No description provided for @timeAgoMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} minutes ago'**
+  String timeAgoMinutes(int count);
+
+  /// No description provided for @timeAgoHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} hours ago'**
+  String timeAgoHours(int count);
+
+  /// No description provided for @timeAgoDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days ago'**
+  String timeAgoDays(int count);
+
+  /// No description provided for @exportToExcel.
+  ///
+  /// In en, this message translates to:
+  /// **'Export to Excel'**
+  String get exportToExcel;
+
+  /// No description provided for @exportReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Report'**
+  String get exportReport;
+
+  /// No description provided for @exporting.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting...'**
+  String get exporting;
+
+  /// No description provided for @exportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Report exported successfully'**
+  String get exportSuccess;
+
+  /// No description provided for @exportError.
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed'**
+  String get exportError;
+
+  /// No description provided for @financialReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial Summary Report'**
+  String get financialReport;
+
+  /// No description provided for @createdAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get createdAt;
+
+  /// No description provided for @savingsRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings Rate'**
+  String get savingsRate;
+
+  /// No description provided for @hourlyRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Hourly Rate'**
+  String get hourlyRate;
+
+  /// No description provided for @workHoursEquivalent.
+  ///
+  /// In en, this message translates to:
+  /// **'Work Hours Equivalent'**
+  String get workHoursEquivalent;
+
+  /// No description provided for @transactionCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Count'**
+  String get transactionCount;
+
+  /// No description provided for @average.
+  ///
+  /// In en, this message translates to:
+  /// **'Average'**
+  String get average;
+
+  /// No description provided for @percentage.
+  ///
+  /// In en, this message translates to:
+  /// **'Percentage'**
+  String get percentage;
+
+  /// No description provided for @total.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// No description provided for @monthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get monthly;
+
+  /// No description provided for @yearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get yearly;
+
+  /// No description provided for @changePercent.
+  ///
+  /// In en, this message translates to:
+  /// **'Change %'**
+  String get changePercent;
+
+  /// No description provided for @month.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get month;
+
+  /// No description provided for @originalAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Original Amount'**
+  String get originalAmount;
+
+  /// No description provided for @nextRenewal.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Renewal'**
+  String get nextRenewal;
+
+  /// No description provided for @yearlyAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly Amount'**
+  String get yearlyAmount;
+
+  /// No description provided for @badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Badge'**
+  String get badge;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @earnedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned Date'**
+  String get earnedDate;
+
+  /// No description provided for @totalBadges.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Badges'**
+  String get totalBadges;
+
+  /// No description provided for @proFeatureExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Excel Export is a Pro feature'**
+  String get proFeatureExport;
+
+  /// No description provided for @upgradeForExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro to export your financial data'**
+  String get upgradeForExport;
+
+  /// No description provided for @pendingCategorization.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} expenses pending categorization'**
+  String pendingCategorization(int count);
+
+  /// No description provided for @suggestionsAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} suggestions available'**
+  String suggestionsAvailable(int count);
+
+  /// No description provided for @reviewExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Expenses'**
+  String get reviewExpenses;
+
+  /// No description provided for @swipeToCategorizeTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a category to categorize'**
+  String get swipeToCategorizeTip;
+
+  /// No description provided for @rememberMerchant.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember this merchant'**
+  String get rememberMerchant;
+
+  /// No description provided for @suggestionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestion: {name}'**
+  String suggestionLabel(String name);
+
+  /// No description provided for @suggested.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested'**
+  String get suggested;
+
+  /// No description provided for @allCategorized.
+  ///
+  /// In en, this message translates to:
+  /// **'All Done!'**
+  String get allCategorized;
+
+  /// No description provided for @categorizedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{processed} categorized, {skipped} skipped'**
+  String categorizedCount(int processed, int skipped);
+
+  /// No description provided for @importStatement.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Statement'**
+  String get importStatement;
+
+  /// No description provided for @importCSV.
+  ///
+  /// In en, this message translates to:
+  /// **'Import CSV'**
+  String get importCSV;
+
+  /// No description provided for @importFromBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Import from Bank'**
+  String get importFromBank;
+
+  /// No description provided for @selectCSVFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Select CSV file'**
+  String get selectCSVFile;
+
+  /// No description provided for @importingExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Importing expenses...'**
+  String get importingExpenses;
+
+  /// No description provided for @importSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Import completed successfully'**
+  String get importSuccess;
+
+  /// No description provided for @importError.
+  ///
+  /// In en, this message translates to:
+  /// **'Import failed'**
+  String get importError;
+
+  /// No description provided for @recognizedExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} recognized'**
+  String recognizedExpenses(int count);
+
+  /// No description provided for @pendingExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} pending review'**
+  String pendingExpenses(int count);
+
+  /// No description provided for @importSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Summary'**
+  String get importSummary;
+
+  /// No description provided for @autoMatched.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-matched'**
+  String get autoMatched;
+
+  /// No description provided for @needsReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs Review'**
+  String get needsReview;
+
+  /// No description provided for @startReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Review'**
+  String get startReview;
+
+  /// No description provided for @learnedMerchants.
+  ///
+  /// In en, this message translates to:
+  /// **'Learned Merchants'**
+  String get learnedMerchants;
+
+  /// No description provided for @noLearnedMerchants.
+  ///
+  /// In en, this message translates to:
+  /// **'No learned merchants yet'**
+  String get noLearnedMerchants;
+
+  /// No description provided for @learnedMerchantsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Merchants you categorize will appear here'**
+  String get learnedMerchantsDescription;
+
+  /// No description provided for @merchantCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} merchants learned'**
+  String merchantCount(int count);
+
+  /// No description provided for @deleteMerchant.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Merchant'**
+  String get deleteMerchant;
+
+  /// No description provided for @deleteMerchantConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this merchant?'**
+  String get deleteMerchantConfirm;
+
+  /// No description provided for @voiceInput.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice Input'**
+  String get voiceInput;
+
+  /// No description provided for @listening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening...'**
+  String get listening;
+
+  /// No description provided for @voiceNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice input is not available on this device'**
+  String get voiceNotAvailable;
+
+  /// No description provided for @microphonePermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone permission denied'**
+  String get microphonePermissionDenied;
+
+  /// No description provided for @voiceExpenseAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount}₺ {description} added'**
+  String voiceExpenseAdded(String amount, String description);
+
+  /// No description provided for @voiceConfirmExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Expense'**
+  String get voiceConfirmExpense;
+
+  /// No description provided for @voiceDetectedAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Detected: {amount}₺'**
+  String voiceDetectedAmount(String amount);
+
+  /// No description provided for @tapToSpeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to speak'**
+  String get tapToSpeak;
+
+  /// No description provided for @speakExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Say your expense (e.g. \"50 lira coffee\")'**
+  String get speakExpense;
+
+  /// No description provided for @voiceParsingFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not understand. Please try again.'**
+  String get voiceParsingFailed;
+
+  /// No description provided for @voiceHighConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-saved'**
+  String get voiceHighConfidence;
+
+  /// No description provided for @voiceMediumConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to edit'**
+  String get voiceMediumConfidence;
+
+  /// No description provided for @voiceLowConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm'**
+  String get voiceLowConfidence;
+
+  /// No description provided for @undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undo;
+
+  /// No description provided for @assistantSetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Assistant Setup'**
+  String get assistantSetupTitle;
+
+  /// No description provided for @assistantSetupHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Add expenses without saying \"Vantag\"'**
+  String get assistantSetupHeadline;
+
+  /// No description provided for @assistantSetupSubheadline.
+  ///
+  /// In en, this message translates to:
+  /// **'After this setup, just say\n\"Hey Google, add expense\"'**
+  String get assistantSetupSubheadline;
+
+  /// No description provided for @assistantSetupComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Great! Now you can say \"Hey Google, add expense\"'**
+  String get assistantSetupComplete;
+
+  /// No description provided for @assistantSetupStep1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Google Assistant'**
+  String get assistantSetupStep1Title;
+
+  /// No description provided for @assistantSetupStep1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Say \"Hey Google, settings\" or open the Google Assistant app.'**
+  String get assistantSetupStep1Desc;
+
+  /// No description provided for @assistantSetupStep1Tip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the profile icon in the bottom right corner.'**
+  String get assistantSetupStep1Tip;
+
+  /// No description provided for @assistantSetupStep2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Routines'**
+  String get assistantSetupStep2Title;
+
+  /// No description provided for @assistantSetupStep2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Find and tap \"Routines\" in the settings.'**
+  String get assistantSetupStep2Desc;
+
+  /// No description provided for @assistantSetupStep2Tip.
+  ///
+  /// In en, this message translates to:
+  /// **'May also appear as \"Shortcuts\" on some devices.'**
+  String get assistantSetupStep2Tip;
+
+  /// No description provided for @assistantSetupStep3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Routine'**
+  String get assistantSetupStep3Title;
+
+  /// No description provided for @assistantSetupStep3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the \"+\" or \"New routine\" button.'**
+  String get assistantSetupStep3Desc;
+
+  /// No description provided for @assistantSetupStep3Tip.
+  ///
+  /// In en, this message translates to:
+  /// **'Usually in the bottom right corner.'**
+  String get assistantSetupStep3Tip;
+
+  /// No description provided for @assistantSetupStep4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Voice Command'**
+  String get assistantSetupStep4Title;
+
+  /// No description provided for @assistantSetupStep4Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap \"When I say\" and add a voice command.\n\nType \"add expense\".'**
+  String get assistantSetupStep4Desc;
+
+  /// No description provided for @assistantSetupStep4Tip.
+  ///
+  /// In en, this message translates to:
+  /// **'You can also use \"log expense\" or \"record spending\".'**
+  String get assistantSetupStep4Tip;
+
+  /// No description provided for @assistantSetupStep5Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Action'**
+  String get assistantSetupStep5Title;
+
+  /// No description provided for @assistantSetupStep5Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'\"Add action\" → \"Open app\" → Select \"Vantag\".'**
+  String get assistantSetupStep5Desc;
+
+  /// No description provided for @assistantSetupStep5Tip.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for Vantag if not visible in the list.'**
+  String get assistantSetupStep5Tip;
+
+  /// No description provided for @assistantSetupStep6Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get assistantSetupStep6Title;
+
+  /// No description provided for @assistantSetupStep6Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap \"Save\" in the top right corner.'**
+  String get assistantSetupStep6Desc;
+
+  /// No description provided for @assistantSetupStep6Tip.
+  ///
+  /// In en, this message translates to:
+  /// **'You may be asked to name the routine.'**
+  String get assistantSetupStep6Tip;
+
+  /// No description provided for @step.
+  ///
+  /// In en, this message translates to:
+  /// **'Step'**
+  String get step;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @laterButton.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ll do it later'**
+  String get laterButton;
 }
 
 class _AppLocalizationsDelegate

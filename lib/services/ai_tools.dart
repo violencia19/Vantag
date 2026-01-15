@@ -117,13 +117,13 @@ class AITools {
     'type': 'function',
     'function': {
       'name': 'add_expense',
-      'description': 'Yeni harcama kaydı ekler. Kullanıcı bir harcama yaptığını söylediğinde bu tool kullanılır.',
+      'description': 'Yeni harcama kaydı ekler. Kullanıcı bir harcama yaptığını söylediğinde bu tool kullanılır. Eğer duplicate_found: true dönerse, kullanıcıya sor ve onaylarsa force: true ile tekrar çağır.',
       'parameters': {
         'type': 'object',
         'properties': {
           'amount': {
             'type': 'number',
-            'description': 'Harcama tutarı (TL)',
+            'description': 'Harcama tutarı',
           },
           'category': {
             'type': 'string',
@@ -136,6 +136,14 @@ class AITools {
           'decision': {
             'type': 'string',
             'description': 'Karar: yes (aldım), thinking (düşünüyorum), no (vazgeçtim)',
+          },
+          'currency': {
+            'type': 'string',
+            'description': 'Para birimi kodu: TRY, USD, EUR, GBP. Belirtilmezse varsayılan kullanıcı para birimi kullanılır.',
+          },
+          'force': {
+            'type': 'boolean',
+            'description': 'Duplicate uyarısını görmezden gel ve ekle (kullanıcı onayladıysa true yap)',
           },
         },
         'required': ['amount', 'category', 'decision'],

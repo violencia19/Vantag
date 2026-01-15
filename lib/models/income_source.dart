@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 /// Gelir kategorileri
 enum IncomeCategory {
@@ -23,18 +25,33 @@ enum IncomeCategory {
     }
   }
 
-  String get icon {
+  IconData get icon {
     switch (this) {
       case IncomeCategory.salary:
-        return '💼';
+        return PhosphorIconsFill.briefcase;
       case IncomeCategory.freelance:
-        return '💻';
+        return PhosphorIconsFill.laptop;
       case IncomeCategory.rental:
-        return '🏠';
+        return PhosphorIconsFill.house;
       case IncomeCategory.passive:
-        return '📈';
+        return PhosphorIconsFill.chartLineUp;
       case IncomeCategory.other:
-        return '💰';
+        return PhosphorIconsFill.coins;
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case IncomeCategory.salary:
+        return const Color(0xFF6C63FF);
+      case IncomeCategory.freelance:
+        return const Color(0xFF4ECDC4);
+      case IncomeCategory.rental:
+        return const Color(0xFFF39C12);
+      case IncomeCategory.passive:
+        return const Color(0xFF2ECC71);
+      case IncomeCategory.other:
+        return const Color(0xFF95A5A6);
     }
   }
 

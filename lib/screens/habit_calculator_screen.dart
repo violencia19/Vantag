@@ -28,17 +28,43 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
   // State
   HabitCategory? _selectedCategory;
   String _customCategoryName = '';
-  String _customCategoryEmoji = '✨';
+  IconData _customCategoryIcon = PhosphorIconsFill.sparkle;
+  Color _customCategoryColor = const Color(0xFF6C63FF);
   double _price = 0;
   String? _selectedFrequency;
   double _monthlyIncome = 0;
   bool _dontWantToSay = false;
   HabitResult? _result;
 
-  // Emoji options for custom category
-  static const List<String> _emojiOptions = [
-    '✨', '🎯', '💰', '🎁', '🍺', '🍷', '🍕', '🍿',
-    '🎬', '📱', '💻', '🎧', '👟', '💄', '💅', '🏋️',
+  // Icon options for custom category
+  static final List<IconData> _iconOptions = [
+    PhosphorIconsFill.sparkle,
+    PhosphorIconsFill.target,
+    PhosphorIconsFill.coins,
+    PhosphorIconsFill.gift,
+    PhosphorIconsFill.beerStein,
+    PhosphorIconsFill.wine,
+    PhosphorIconsFill.pizza,
+    PhosphorIconsFill.popcorn,
+    PhosphorIconsFill.filmSlate,
+    PhosphorIconsFill.deviceMobile,
+    PhosphorIconsFill.laptop,
+    PhosphorIconsFill.headphones,
+    PhosphorIconsFill.sneaker,
+    PhosphorIconsFill.heart,
+    PhosphorIconsFill.paintBrush,
+    PhosphorIconsFill.barbell,
+  ];
+
+  static const List<Color> _colorOptions = [
+    Color(0xFF6C63FF),
+    Color(0xFF4ECDC4),
+    Color(0xFFFF6B6B),
+    Color(0xFFF39C12),
+    Color(0xFF2ECC71),
+    Color(0xFF9B59B6),
+    Color(0xFFE91E63),
+    Color(0xFF3498DB),
   ];
 
   @override
@@ -60,7 +86,8 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
   void _showCustomCategoryDialog() {
     HapticFeedback.lightImpact();
     String tempName = _customCategoryName;
-    String tempEmoji = _customCategoryEmoji;
+    IconData tempIcon = _customCategoryIcon;
+    Color tempColor = _customCategoryColor;
 
     showModalBottomSheet(
       context: context,
@@ -104,7 +131,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                // Emoji picker
+                // Icon picker
                 Text(
                   AppLocalizations.of(context)!.selectEmoji,
                   style: const TextStyle(
@@ -116,34 +143,68 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: _emojiOptions.map((emoji) {
-                    final isSelected = emoji == tempEmoji;
+                  children: _iconOptions.map((iconData) {
+                    final isSelected = iconData == tempIcon;
                     return GestureDetector(
                       onTap: () {
                         HapticFeedback.selectionClick();
-                        setModalState(() => tempEmoji = emoji);
+                        setModalState(() => tempIcon = iconData);
                       },
                       child: Container(
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? AppColors.primary.withValues(alpha: 0.2)
+                              ? tempColor.withValues(alpha: 0.2)
                               : AppColors.surfaceLight,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: isSelected
-                                ? AppColors.primary
+                                ? tempColor
                                 : Colors.transparent,
                             width: 2,
                           ),
                         ),
                         child: Center(
-                          child: Text(
-                            emoji,
-                            style: const TextStyle(fontSize: 24),
+                          child: Icon(
+                            iconData,
+                            size: 24,
+                            color: isSelected ? tempColor : AppColors.textSecondary,
                           ),
                         ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 16),
+                // Color picker
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: _colorOptions.map((color) {
+                    final isSelected = color == tempColor;
+                    return GestureDetector(
+                      onTap: () {
+                        HapticFeedback.selectionClick();
+                        setModalState(() => tempColor = color);
+                      },
+                      child: Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: color,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: isSelected ? Colors.white : Colors.transparent,
+                            width: 2,
+                          ),
+                          boxShadow: isSelected
+                              ? [BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 8)]
+                              : null,
+                        ),
+                        child: isSelected
+                            ? const Icon(PhosphorIconsBold.check, color: Colors.white, size: 18)
+                            : null,
                       ),
                     );
                   }).toList(),
@@ -186,10 +247,12 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                             HapticFeedback.mediumImpact();
                             setState(() {
                               _customCategoryName = tempName.trim();
-                              _customCategoryEmoji = tempEmoji;
+                              _customCategoryIcon = tempIcon;
+                              _customCategoryColor = tempColor;
                               _selectedCategory = HabitCategory(
                                 _customCategoryName,
-                                _customCategoryEmoji,
+                                _customCategoryIcon,
+                                _customCategoryColor,
                               );
                             });
                             Navigator.pop(context);
@@ -421,9 +484,18 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  category.emoji,
-                  style: const TextStyle(fontSize: 56),
+                Container(
+                  width: 72,
+                  height: 72,
+                  decoration: BoxDecoration(
+                    color: category.color.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    category.icon,
+                    size: 40,
+                    color: category.color,
+                  ),
                 ),
                 const SizedBox(height: 12),
                 Text(
@@ -485,9 +557,18 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                 Center(
                   child: Column(
                     children: [
-                      Text(
-                        _selectedCategory?.emoji ?? '',
-                        style: const TextStyle(fontSize: 60),
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          color: (_selectedCategory?.color ?? AppColors.primary).withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          _selectedCategory?.icon ?? PhosphorIconsFill.sparkle,
+                          size: 44,
+                          color: _selectedCategory?.color ?? AppColors.primary,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -840,10 +921,19 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
         child: Column(
           children: [
             const SizedBox(height: 40),
-            // Emoji
-            Text(
-              _selectedCategory?.emoji ?? '',
-              style: const TextStyle(fontSize: 100),
+            // Icon
+            Container(
+              width: 120,
+              height: 120,
+              decoration: BoxDecoration(
+                color: (_selectedCategory?.color ?? AppColors.primary).withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                _selectedCategory?.icon ?? PhosphorIconsFill.sparkle,
+                size: 64,
+                color: _selectedCategory?.color ?? AppColors.primary,
+              ),
             ),
             const SizedBox(height: 24),
             // Animated counter
@@ -892,14 +982,14 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
             const SizedBox(height: 48),
             // Buttons
             _buildGradientButton(
-              icon: '📤',
+              icon: PhosphorIconsFill.shareFat,
               text: l10n.shareOnStory,
               onTap: _shareResult,
             ),
             const SizedBox(height: 12),
             OutlinedButton.icon(
               onPressed: _resetAndRestart,
-              icon: const Text('🔄', style: TextStyle(fontSize: 18)),
+              icon: Icon(PhosphorIconsDuotone.arrowCounterClockwise, size: 20),
               label: Text(l10n.tryAnotherHabit),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.textPrimary,
@@ -917,7 +1007,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
             const SizedBox(height: 12),
             TextButton.icon(
               onPressed: () => Navigator.pop(context),
-              icon: const Text('📱', style: TextStyle(fontSize: 18)),
+              icon: Icon(PhosphorIconsDuotone.listChecks, size: 20),
               label: Text(l10n.trackAllExpenses),
               style: TextButton.styleFrom(
                 foregroundColor: AppColors.textSecondary,
@@ -931,7 +1021,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
   }
 
   Widget _buildGradientButton({
-    required String icon,
+    required IconData icon,
     required String text,
     required VoidCallback onTap,
   }) {
@@ -959,7 +1049,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(icon, style: const TextStyle(fontSize: 20)),
+            Icon(icon, size: 22, color: Colors.white),
             const SizedBox(width: 8),
             Text(
               text,
@@ -983,7 +1073,8 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => ShareEditSheet(
-        emoji: _selectedCategory!.emoji,
+        icon: _selectedCategory!.icon,
+        iconColor: _selectedCategory!.color,
         categoryName: _selectedCategory!.name,
         yearlyDays: _result!.yearlyDays,
         yearlyAmount: _result!.yearlyAmount,
@@ -1002,7 +1093,8 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
       barrierColor: Colors.black,
       barrierDismissible: false,
       builder: (context) => _ShareCardDialog(
-        emoji: _selectedCategory!.emoji,
+        icon: _selectedCategory!.icon,
+        iconColor: _selectedCategory!.color,
         categoryName: _selectedCategory!.name,
         yearlyDays: _result!.yearlyDays,
         yearlyAmount: showAmount ? _result!.yearlyAmount : null,
@@ -1023,14 +1115,16 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
 
 /// Share card dialog - takes screenshot and shares
 class _ShareCardDialog extends StatefulWidget {
-  final String emoji;
+  final IconData icon;
+  final Color iconColor;
   final String categoryName;
   final int yearlyDays;
   final double? yearlyAmount;
   final String? frequency;
 
   const _ShareCardDialog({
-    required this.emoji,
+    required this.icon,
+    required this.iconColor,
     required this.categoryName,
     required this.yearlyDays,
     this.yearlyAmount,
@@ -1088,7 +1182,8 @@ class _ShareCardDialogState extends State<_ShareCardDialog> {
           RepaintBoundary(
             key: _cardKey,
             child: ShareCardWidget(
-              emoji: widget.emoji,
+              icon: widget.icon,
+              iconColor: widget.iconColor,
               categoryName: widget.categoryName,
               yearlyDays: widget.yearlyDays,
               yearlyAmount: widget.yearlyAmount,

@@ -1,12 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
-import '../theme/theme.dart';
+import '../theme/theme.dart' hide GlassCard;
 import '../providers/providers.dart';
 import '../utils/achievement_utils.dart';
+import '../core/theme/premium_effects.dart';
 
 class AchievementsScreen extends StatefulWidget {
   const AchievementsScreen({super.key});
@@ -324,116 +326,226 @@ class _AchievementsScreenState extends State<AchievementsScreen>
   }
 
   Widget _buildSummaryCard(int unlockedCount, int totalCount, double progress) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            AppColors.primary.withValues(alpha: 0.15),
-            AppColors.secondary.withValues(alpha: 0.1),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.3),
-        ),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Icon(
-                  PhosphorIconsDuotone.trophy,
-                  size: 28,
-                  color: AppColors.primary,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.badgesEarned(unlockedCount, totalCount),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      _getMotivationalMessage(context, unlockedCount, totalCount),
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: LinearProgressIndicator(
-              value: progress,
-              minHeight: 10,
-              backgroundColor: AppColors.surface,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                progress >= 1.0 ? AppColors.warning : AppColors.primary,
+    // Calculate XP and Level
+    final totalXP = unlockedCount * 100; // Each badge = 100 XP
+    final level = _calculateLevel(totalXP);
+    final levelInfo = _getLevelInfo(level);
+    final currentLevelXP = totalXP - _getXPForLevel(level);
+    final nextLevelXP = _getXPForLevel(level + 1) - _getXPForLevel(level);
+    final levelProgress = nextLevelXP > 0 ? currentLevelXP / nextLevelXP : 1.0;
+
+    // Get streak from provider
+    final financeProvider = context.read<FinanceProvider>();
+    final streak = financeProvider.streakData.currentStreak;
+
+    return Column(
+      children: [
+        // Stats Grid (3 cards)
+        Row(
+          children: [
+            Expanded(
+              child: _buildStatCard(
+                icon: PhosphorIconsBold.star,
+                iconColor: const Color(0xFFFBBF24),
+                value: '$totalXP',
+                label: 'Total XP',
               ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.percentComplete((progress * 100).toStringAsFixed(0)),
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.textTertiary,
-                ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: _buildStatCard(
+                icon: PhosphorIconsBold.trophy,
+                iconColor: PremiumColors.purple,
+                value: '$unlockedCount/$totalCount',
+                label: 'Rozetler',
               ),
-              if (unlockedCount == totalCount)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: AppColors.warning.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: _buildStatCard(
+                icon: PhosphorIconsBold.flame,
+                iconColor: const Color(0xFFF97316),
+                value: '$streak',
+                label: 'Gün Seri',
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+
+        // Level Progress Card
+        BreatheGlow(
+          glowColor: PremiumColors.purple,
+          blurRadius: 20,
+          minOpacity: 0.2,
+          maxOpacity: 0.4,
+          child: GradientBorder(
+            borderRadius: 20,
+            borderWidth: 1.5,
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: PremiumColors.cardBackground,
+                borderRadius: BorderRadius.circular(18.5),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                      Icon(PhosphorIconsDuotone.star, size: 12, color: AppColors.warning),
-                      const SizedBox(width: 4),
-                      Text(
-                        AppLocalizations.of(context)!.completed,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.warning,
+                      // Level badge
+                      Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [PremiumColors.purple, PremiumColors.gradientEnd],
+                          ),
+                          borderRadius: BorderRadius.circular(14),
+                          boxShadow: PremiumShadows.glowPurpleSoft,
+                        ),
+                        child: Center(
+                          child: Text(
+                            '$level',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Level $level',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
+                            Text(
+                              levelInfo['title']!,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: PremiumColors.purple,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-            ],
+                  const SizedBox(height: 16),
+                  // XP Progress
+                  Text(
+                    '$currentLevelXP / $nextLevelXP XP',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  LevelProgressBar(
+                    progress: levelProgress.clamp(0.0, 1.0),
+                    height: 10,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Level ${level + 1} için ${nextLevelXP - currentLevelXP} XP daha',
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: AppColors.textTertiary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatCard({
+    required IconData icon,
+    required Color iconColor,
+    required String value,
+    required String label,
+  }) {
+    return GlassCard(
+      borderRadius: 16,
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      boxShadow: PremiumShadows.coloredGlow(iconColor, intensity: 0.3),
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            size: 24,
+            color: iconColor,
+            shadows: PremiumShadows.iconHalo(iconColor),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 11,
+              color: AppColors.textSecondary,
+            ),
           ),
         ],
       ),
     );
+  }
+
+  int _calculateLevel(int xp) {
+    // Level thresholds: 0, 200, 500, 1000, 2000, 3500, 5000...
+    if (xp < 200) return 1;
+    if (xp < 500) return 2;
+    if (xp < 1000) return 3;
+    if (xp < 2000) return 4;
+    if (xp < 3500) return 5;
+    if (xp < 5000) return 6;
+    if (xp < 7000) return 7;
+    if (xp < 10000) return 8;
+    if (xp < 15000) return 9;
+    return 10;
+  }
+
+  int _getXPForLevel(int level) {
+    const thresholds = [0, 0, 200, 500, 1000, 2000, 3500, 5000, 7000, 10000, 15000];
+    if (level < thresholds.length) return thresholds[level];
+    return 15000;
+  }
+
+  Map<String, String> _getLevelInfo(int level) {
+    const levels = {
+      1: {'title': 'Novice Saver', 'emoji': '🌱'},
+      2: {'title': 'Budget Beginner', 'emoji': '📊'},
+      3: {'title': 'Money Tracker', 'emoji': '💰'},
+      4: {'title': 'Savings Star', 'emoji': '⭐'},
+      5: {'title': 'Finance Fighter', 'emoji': '🥊'},
+      6: {'title': 'Budget Master', 'emoji': '🎯'},
+      7: {'title': 'Wealth Builder', 'emoji': '🏗️'},
+      8: {'title': 'Money Guru', 'emoji': '🧘'},
+      9: {'title': 'Finance Legend', 'emoji': '🏆'},
+      10: {'title': 'Ultimate Saver', 'emoji': '👑'},
+    };
+    return levels[level] ?? {'title': 'Unknown', 'emoji': '❓'};
   }
 
   String _getMotivationalMessage(BuildContext context, int unlocked, int total) {

@@ -45,5 +45,44 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<!-- Voice & Speech Recognition -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Vantag uses the microphone for voice input to quickly add expenses</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Vantag uses speech recognition to convert your voice to text for expense entry</string>
+
+	<!-- Siri Integration -->
+	<key>NSSiriUsageDescription</key>
+	<string>Vantag uses Siri to allow voice commands for adding expenses</string>
+
+	<!-- Deep Links / URL Scheme -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.vantag.app</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>vantag</string>
+			</array>
+		</dict>
+	</array>
+
+	<!-- Universal Links -->
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:vantag.app</string>
+	</array>
+
+	<!-- User Activity Types (Siri Shortcuts) -->
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>com.vantag.app.addExpense</string>
+		<string>com.vantag.app.viewSummary</string>
+		<string>com.vantag.app.quickAdd</string>
+	</array>
 </dict>
 </plist>

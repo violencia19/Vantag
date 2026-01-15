@@ -9,6 +9,7 @@ import '../providers/finance_provider.dart';
 import '../providers/currency_provider.dart';
 import '../services/ai_service.dart';
 import '../theme/theme.dart';
+import '../core/theme/premium_effects.dart';
 
 class AIChatSheet extends StatefulWidget {
   const AIChatSheet({super.key});
@@ -372,67 +373,97 @@ SADECE karşılama cümlesini yaz:
 
   Widget _buildMessageList() {
     if (_messages.isEmpty) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(20),
+      return SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            // AI Avatar with rotating glow ring
+            RotatingGradientBorder(
+              size: 80,
+              borderWidth: 3,
+              duration: const Duration(seconds: 4),
+              child: Container(
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
+                  color: PremiumColors.cardBackground,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(PhosphorIconsDuotone.chatsCircle,
-                    size: 48, color: AppColors.primary),
+                child: Icon(
+                  PhosphorIconsDuotone.sparkle,
+                  size: 32,
+                  color: PremiumColors.purple,
+                  shadows: PremiumShadows.iconHalo(PremiumColors.purple),
+                ),
               ),
-              const SizedBox(height: 20),
+            ),
+            const SizedBox(height: 20),
 
-              // Dinamik greeting
-              if (_greetingLoading)
-                SizedBox(
-                  height: 60,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                            strokeWidth: 2, color: AppColors.primary),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Düşünüyor...',
-                        style: TextStyle(
-                            fontSize: 13, color: AppColors.textTertiary),
-                      ),
-                    ],
-                  ),
-                )
-              else
-                Text(
-                  _greeting,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 15,
-                      color: AppColors.textSecondary,
-                      height: 1.5),
-                ).animate().fadeIn(duration: 300.ms),
+            // Dinamik greeting
+            if (_greetingLoading)
+              SizedBox(
+                height: 60,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                          strokeWidth: 2, color: PremiumColors.purple),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Düşünüyor...',
+                      style: TextStyle(
+                          fontSize: 13, color: AppColors.textTertiary),
+                    ),
+                  ],
+                ),
+              )
+            else
+              Text(
+                _greeting,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 15,
+                    color: AppColors.textSecondary,
+                    height: 1.5),
+              ).animate().fadeIn(duration: 300.ms),
 
-              const SizedBox(height: 24),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                alignment: WrapAlignment.center,
-                children: [
-                  _buildSuggestionChip('Bu ay ne kadar harcadım?'),
-                  _buildSuggestionChip('Tasarruf önerisi ver'),
-                  _buildSuggestionChip('Bütçemi analiz et'),
-                ],
-              ),
-            ],
-          ),
+            const SizedBox(height: 32),
+
+            // Quick Actions 2x2 Grid
+            GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              childAspectRatio: 1.3,
+              children: [
+                _buildQuickActionCard(
+                  icon: PhosphorIconsBold.chartLine,
+                  iconColor: const Color(0xFF8B5CF6),
+                  text: 'Harcama trendlerimi göster',
+                ),
+                _buildQuickActionCard(
+                  icon: PhosphorIconsBold.wallet,
+                  iconColor: const Color(0xFF06B6D4),
+                  text: 'En çok nereye harcadım?',
+                ),
+                _buildQuickActionCard(
+                  icon: PhosphorIconsBold.target,
+                  iconColor: const Color(0xFF10B981),
+                  text: 'Tasarruf hedefi koy',
+                ),
+                _buildQuickActionCard(
+                  icon: PhosphorIconsBold.calendarCheck,
+                  iconColor: const Color(0xFFF59E0B),
+                  text: 'Geçen ayı analiz et',
+                ),
+              ],
+            ),
+          ],
         ),
       );
     }
@@ -472,6 +503,22 @@ SADECE karşılama cümlesini yaz:
           style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
         ),
       ),
+    );
+  }
+
+  Widget _buildQuickActionCard({
+    required IconData icon,
+    required Color iconColor,
+    required String text,
+  }) {
+    return _QuickActionCard(
+      icon: icon,
+      iconColor: iconColor,
+      text: text,
+      onTap: () {
+        _controller.text = text;
+        _sendMessage();
+      },
     );
   }
 
@@ -577,7 +624,9 @@ SADECE karşılama cümlesini yaz:
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.symmetric(vertical: 12),
                 ),
+                keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.send,
+                enableIMEPersonalizedLearning: true,
                 onSubmitted: (_) => _sendMessage(),
               ),
             ),
@@ -669,4 +718,130 @@ class ChatMessage {
   final String role;
   final String content;
   ChatMessage({required this.role, required this.content});
+}
+
+/// Premium Quick Action Card with glow effects
+class _QuickActionCard extends StatefulWidget {
+  final IconData icon;
+  final Color iconColor;
+  final String text;
+  final VoidCallback onTap;
+
+  const _QuickActionCard({
+    required this.icon,
+    required this.iconColor,
+    required this.text,
+    required this.onTap,
+  });
+
+  @override
+  State<_QuickActionCard> createState() => _QuickActionCardState();
+}
+
+class _QuickActionCardState extends State<_QuickActionCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+  bool _isPressed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) {
+        setState(() => _isPressed = true);
+        _controller.forward();
+        HapticFeedback.lightImpact();
+      },
+      onTapUp: (_) {
+        setState(() => _isPressed = false);
+        _controller.reverse();
+        widget.onTap();
+      },
+      onTapCancel: () {
+        setState(() => _isPressed = false);
+        _controller.reverse();
+      },
+      child: AnimatedBuilder(
+        animation: _scaleAnimation,
+        builder: (context, child) {
+          return Transform.scale(
+            scale: _scaleAnimation.value,
+            child: GradientBorder(
+              borderRadius: 16,
+              borderWidth: 1.5,
+              child: Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: PremiumColors.cardBackground,
+                  borderRadius: BorderRadius.circular(14.5),
+                  boxShadow: _isPressed
+                      ? PremiumShadows.glowPurple
+                      : PremiumShadows.shadowPremium,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Icon with glow
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: widget.iconColor.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: widget.iconColor.withOpacity(0.3),
+                            blurRadius: 12,
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        widget.icon,
+                        color: widget.iconColor,
+                        size: 20,
+                        shadows: PremiumShadows.iconHalo(widget.iconColor),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    // Text
+                    Text(
+                      widget.text,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textPrimary,
+                        height: 1.3,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
 }

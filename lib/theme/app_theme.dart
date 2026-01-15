@@ -8,20 +8,28 @@ class AppColors {
   AppColors._();
 
   // ═══════════════════════════════════════════════════════
-  // ARKA PLAN GRADİENT
+  // ARKA PLAN - PREMIUM DARK MOR
   // ═══════════════════════════════════════════════════════
 
-  /// Gradient başlangıç - Çok koyu lacivert
-  static const Color gradientStart = Color(0xFF0D0D1A);
+  /// Ana arka plan - koyu mor (siyah değil!)
+  static const Color background = Color(0xFF0D0B14);
 
-  /// Gradient orta - Koyu mor-lacivert
-  static const Color gradientMid = Color(0xFF1A1A2E);
+  /// Kart arka planı
+  static const Color cardBackground = Color(0xFF1A1625);
 
-  /// Gradient bitiş - Derin mavi
-  static const Color gradientEnd = Color(0xFF16213E);
+  /// Yükseltilmiş yüzey
+  static const Color surfaceElevated = Color(0xFF2D2440);
 
-  // Background colors (legacy - gradient kullan)
-  static const Color background = Color(0xFF0D0D1A);
+  /// Gradient başlangıç - Koyu mor
+  static const Color gradientStart = Color(0xFF0D0B14);
+
+  /// Gradient orta - Orta mor
+  static const Color gradientMid = Color(0xFF1A1625);
+
+  /// Gradient bitiş - Açık mor
+  static const Color gradientEnd = Color(0xFF2D2440);
+
+  // Surface colors (glass effect)
   static const Color surface = Color(0x08FFFFFF); // rgba(255,255,255,0.03)
   static const Color surfaceLight = Color(0x0DFFFFFF); // rgba(255,255,255,0.05)
   static const Color surfaceLighter = Color(0x14FFFFFF); // rgba(255,255,255,0.08)
@@ -90,8 +98,8 @@ class AppColors {
   // KART RENKLERİ
   // ═══════════════════════════════════════════════════════
 
-  /// Kart arka plan - rgba(255,255,255,0.03)
-  static const Color cardBackground = Color(0x08FFFFFF);
+  /// Kart arka plan (glass effect) - rgba(255,255,255,0.03)
+  static const Color cardBackgroundGlass = Color(0x08FFFFFF);
 
   /// Kart border - rgba(255,255,255,0.08)
   static const Color cardBorder = Color(0x14FFFFFF);

@@ -830,9 +830,10 @@ class _ReportScreenState extends State<ReportScreen>
                     children: [
                       Row(
                         children: [
-                          Text(
+                          Icon(
                             categoryIcon,
-                            style: const TextStyle(fontSize: 16),
+                            size: 18,
+                            color: color,
                           ),
                           const SizedBox(width: 8),
                           Expanded(

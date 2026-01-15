@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 
 /// Share card widget
 /// Instagram story size: 1080x1920 (3:1 scale = 360x640)
 class ShareCardWidget extends StatelessWidget {
-  final String emoji;
+  final IconData icon;
+  final Color iconColor;
   final String categoryName;
   final int yearlyDays;
   final double? yearlyAmount;
@@ -12,7 +14,8 @@ class ShareCardWidget extends StatelessWidget {
 
   const ShareCardWidget({
     super.key,
-    required this.emoji,
+    required this.icon,
+    required this.iconColor,
     required this.categoryName,
     required this.yearlyDays,
     this.yearlyAmount,
@@ -40,10 +43,19 @@ class ShareCardWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Emoji
-          Text(
-            emoji,
-            style: const TextStyle(fontSize: 100),
+          // Icon
+          Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              color: iconColor.withValues(alpha: 0.2),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              icon,
+              size: 64,
+              color: iconColor,
+            ),
           ),
           const SizedBox(height: 24),
 
@@ -72,7 +84,7 @@ class ShareCardWidget extends StatelessWidget {
           if (yearlyAmount != null) ...[
             const SizedBox(height: 12),
             Text(
-              '₺${_formatCurrency(yearlyAmount!)}',
+              '\$${_formatCurrency(yearlyAmount!)}',
               style: const TextStyle(
                 fontSize: 16,
                 color: Color(0x88FFFFFF),

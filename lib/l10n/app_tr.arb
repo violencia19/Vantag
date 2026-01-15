@@ -66,6 +66,7 @@
   "calculate": "Hesapla",
   "giveUp": "Vazgeç",
   "select": "Seç",
+  "decision": "Karar",
 
   "hoursRequired": "{hours} saat",
   "daysRequired": "{days} gün",
@@ -867,5 +868,191 @@
   "unlockFullHistory": "Tam Geçmişi Aç",
   "proHistoryDescription": "Ücretsiz kullanıcılar son 30 günü görebilir. Sınırsız geçmiş için Pro'ya yükseltin.",
   "upgradeToPro": "Pro'ya Yükselt",
-  "expenseAdded": "Harcama başarıyla eklendi"
+  "expenseAdded": "Harcama başarıyla eklendi",
+
+  "duplicateExpenseWarning": "Bu harcama zaten var gibi görünüyor",
+  "duplicateExpenseDetails": "{amount} TL {category}",
+  "@duplicateExpenseDetails": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "category": {"type": "String"}
+    }
+  },
+  "addAnyway": "Yine de eklemek istiyor musun?",
+  "yes": "Evet",
+  "no": "Hayır",
+  "timeAgoNow": "şimdi",
+  "timeAgoMinutes": "{count} dakika önce",
+  "@timeAgoMinutes": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "timeAgoHours": "{count} saat önce",
+  "@timeAgoHours": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "timeAgoDays": "{count} gün önce",
+  "@timeAgoDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "exportToExcel": "Excel'e Aktar",
+  "exportReport": "Rapor Dışa Aktar",
+  "exporting": "Dışa aktarılıyor...",
+  "exportSuccess": "Rapor başarıyla dışa aktarıldı",
+  "exportError": "Dışa aktarma başarısız",
+  "financialReport": "Finansal Özet Raporu",
+  "createdAt": "Oluşturulma",
+  "savingsRate": "Tasarruf Oranı",
+  "hourlyRate": "Saatlik Ücret",
+  "workHoursEquivalent": "Çalışma Saati Karşılığı",
+  "transactionCount": "İşlem Sayısı",
+  "average": "Ortalama",
+  "percentage": "Yüzde",
+  "total": "Toplam",
+  "monthly": "Aylık",
+  "yearly": "Yıllık",
+  "changePercent": "Değişim %",
+  "month": "Ay",
+  "originalAmount": "Orijinal Tutar",
+  "nextRenewal": "Sonraki Yenileme",
+  "yearlyAmount": "Yıllık Tutar",
+  "badge": "Rozet",
+  "status": "Durum",
+  "earnedDate": "Kazanılan Tarih",
+  "totalBadges": "Toplam Rozet",
+  "proFeatureExport": "Excel Dışa Aktarma Pro özelliğidir",
+  "upgradeForExport": "Finansal verilerinizi dışa aktarmak için Pro'ya yükseltin",
+
+  "pendingCategorization": "{count} harcama kategorize bekliyor",
+  "@pendingCategorization": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "suggestionsAvailable": "{count} öneri mevcut",
+  "@suggestionsAvailable": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "reviewExpenses": "Harcamaları İncele",
+  "swipeToCategorizeTip": "Kategorize etmek için bir kategori seçin",
+  "selectCategory": "Kategori Seçin",
+  "rememberMerchant": "Bu satıcıyı hatırla",
+  "suggestionLabel": "Öneri: {name}",
+  "@suggestionLabel": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "suggested": "Önerilen",
+  "allCategorized": "Tamamlandı!",
+  "categorizedCount": "{processed} kategorize edildi, {skipped} atlandı",
+  "@categorizedCount": {
+    "placeholders": {
+      "processed": {"type": "int"},
+      "skipped": {"type": "int"}
+    }
+  },
+  "importStatement": "Ekstre Yükle",
+  "importCSV": "CSV Yükle",
+  "importFromBank": "Bankadan İçe Aktar",
+  "selectCSVFile": "CSV dosyası seçin",
+  "importingExpenses": "Harcamalar içe aktarılıyor...",
+  "importSuccess": "İçe aktarma tamamlandı",
+  "importError": "İçe aktarma başarısız",
+  "recognizedExpenses": "{count} tanındı",
+  "@recognizedExpenses": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pendingExpenses": "{count} inceleme bekliyor",
+  "@pendingExpenses": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importSummary": "İçe Aktarma Özeti",
+  "autoMatched": "Otomatik Eşleşti",
+  "needsReview": "İnceleme Gerekli",
+  "startReview": "İncelemeye Başla",
+  "learnedMerchants": "Öğrenilen Satıcılar",
+  "noLearnedMerchants": "Henüz öğrenilen satıcı yok",
+  "learnedMerchantsDescription": "Kategorize ettiğiniz satıcılar burada görünecek",
+  "merchantCount": "{count} satıcı öğrenildi",
+  "@merchantCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "deleteMerchant": "Satıcıyı Sil",
+  "deleteMerchantConfirm": "Bu satıcıyı silmek istediğinizden emin misiniz?",
+
+  "voiceInput": "Sesli Giriş",
+  "listening": "Dinleniyor...",
+  "voiceNotAvailable": "Bu cihazda sesli giriş kullanılamıyor",
+  "microphonePermissionDenied": "Mikrofon izni reddedildi",
+  "voiceExpenseAdded": "{amount}₺ {description} eklendi",
+  "@voiceExpenseAdded": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "description": {"type": "String"}
+    }
+  },
+  "voiceConfirmExpense": "Harcamayı Onayla",
+  "voiceDetectedAmount": "Algılanan: {amount}₺",
+  "@voiceDetectedAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "tapToSpeak": "Konuşmak için dokun",
+  "speakExpense": "Harcamanı söyle (örn: \"50 lira kahve\")",
+  "voiceParsingFailed": "Anlaşılamadı. Lütfen tekrar dene.",
+  "voiceHighConfidence": "Otomatik kaydedildi",
+  "voiceMediumConfidence": "Düzenlemek için dokun",
+  "voiceLowConfidence": "Lütfen onayla",
+  "undo": "Geri Al",
+
+  "assistantSetupTitle": "Google Assistant Kurulumu",
+  "assistantSetupHeadline": "\"Vantag\" demeden harcama ekle",
+  "assistantSetupSubheadline": "Bu kurulumdan sonra sadece\n\"Hey Google, harcama ekle\" demen yeterli",
+  "assistantSetupComplete": "Harika! Artık \"Hey Google, harcama ekle\" diyebilirsin",
+
+  "assistantSetupStep1Title": "Google Assistant'ı Aç",
+  "assistantSetupStep1Desc": "\"Hey Google, ayarlar\" de veya Google Assistant uygulamasını aç.",
+  "assistantSetupStep1Tip": "Ana sayfada sağ alt köşedeki profil ikonuna tıkla.",
+
+  "assistantSetupStep2Title": "Rutinler'e Git",
+  "assistantSetupStep2Desc": "Ayarlar içinde \"Rutinler\" seçeneğini bul ve tıkla.",
+  "assistantSetupStep2Tip": "Bazı cihazlarda \"Kısayollar\" olarak da geçebilir.",
+
+  "assistantSetupStep3Title": "Yeni Rutin Oluştur",
+  "assistantSetupStep3Desc": "\"+\" veya \"Yeni rutin\" butonuna tıkla.",
+  "assistantSetupStep3Tip": "Sağ alt köşede olabilir.",
+
+  "assistantSetupStep4Title": "Sesli Komut Ekle",
+  "assistantSetupStep4Desc": "\"Başladığında\" kısmına tıkla ve \"Sesli komut ekle\" seç.\n\n\"Harcama ekle\" yaz.",
+  "assistantSetupStep4Tip": "İstersen \"Para ekle\" veya \"Masraf kaydet\" de yazabilirsin.",
+
+  "assistantSetupStep5Title": "Eylemi Ekle",
+  "assistantSetupStep5Desc": "\"Eylem ekle\" → \"Uygulama aç\" → \"Vantag\" seç.",
+  "assistantSetupStep5Tip": "Vantag listede yoksa arama kutusuna yaz.",
+
+  "assistantSetupStep6Title": "Kaydet",
+  "assistantSetupStep6Desc": "Sağ üstteki \"Kaydet\" butonuna tıkla.",
+  "assistantSetupStep6Tip": "Rutine bir isim vermeni isteyebilir.",
+
+  "step": "Adım",
+  "next": "Sonraki",
+  "back": "Geri",
+  "completed": "Tamamlandı!",
+  "laterButton": "Daha sonra yaparım"
 }

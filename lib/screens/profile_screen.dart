@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,12 +7,17 @@ import 'package:vantag/l10n/app_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/models.dart';
 import '../providers/finance_provider.dart';
 import '../providers/locale_provider.dart';
 import '../providers/currency_provider.dart';
+import '../providers/pro_provider.dart';
 import '../services/achievements_service.dart';
 import '../services/tour_service.dart';
+import '../services/export_service.dart';
+import '../services/import_service.dart';
 import '../theme/theme.dart';
 import '../widgets/widgets.dart';
 import 'user_profile_screen.dart';
@@ -38,6 +44,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late UserProfile _userProfile;
   int _easterEggTaps = 0;
   Timer? _easterEggTimer;
+  bool _isExporting = false;
+  bool _isImporting = false;
 
   @override
   void initState() {
@@ -77,6 +85,355 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final monthlyHours = _userProfile.dailyHours * _userProfile.workDaysPerWeek * 4;
     if (monthlyHours <= 0) return 0;
     return _userProfile.monthlyIncome / monthlyHours;
+  }
+
+  Future<void> _exportToExcel() async {
+    final l10n = AppLocalizations.of(context)!;
+    final proProvider = context.read<ProProvider>();
+
+    // Pro kontrolü
+    if (!proProvider.isPro) {
+      _showProPaywall(l10n);
+      return;
+    }
+
+    setState(() => _isExporting = true);
+
+    try {
+      final exportService = ExportService();
+      final file = await exportService.exportToExcel(context);
+
+      if (file != null && mounted) {
+        await exportService.shareExcel(file);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.exportSuccess),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: AppColors.success,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${l10n.exportError}: $e'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isExporting = false);
+      }
+    }
+  }
+
+  void _showProPaywall(AppLocalizations l10n) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.cardBackground,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.primary.withOpacity(0.2),
+                      AppColors.secondary.withOpacity(0.2),
+                    ],
+                  ),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  PhosphorIconsDuotone.crown,
+                  size: 48,
+                  color: AppColors.warning,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                l10n.proFeatureExport,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                l10n.upgradeForExport,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: AppColors.textSecondary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    // TODO: Navigate to Pro subscription page
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(l10n.upgradeToPro),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  l10n.cancel,
+                  style: TextStyle(color: AppColors.textSecondary),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _importFromCSV() async {
+    final l10n = AppLocalizations.of(context)!;
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.importError),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
+
+    try {
+      // Pick CSV file
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['csv'],
+        allowMultiple: false,
+      );
+
+      if (result == null || result.files.isEmpty) return;
+
+      setState(() => _isImporting = true);
+
+      final file = File(result.files.single.path!);
+      final importService = ImportService();
+      final importResult = await importService.importCSV(file, user.uid);
+
+      if (!mounted) return;
+
+      // Show import summary
+      _showImportSummary(l10n, importResult, user.uid);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${l10n.importError}: $e'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isImporting = false);
+      }
+    }
+  }
+
+  void _showImportSummary(AppLocalizations l10n, ImportResult result, String userId) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Handle
+              Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 20),
+                decoration: BoxDecoration(
+                  color: AppColors.textTertiary,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+
+              // Title
+              Text(
+                l10n.importSummary,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Stats
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildImportStat(
+                    icon: PhosphorIconsDuotone.checkCircle,
+                    color: AppColors.success,
+                    count: result.recognized.length,
+                    label: l10n.autoMatched,
+                  ),
+                  _buildImportStat(
+                    icon: PhosphorIconsDuotone.warningCircle,
+                    color: AppColors.warning,
+                    count: result.needsReviewCount,
+                    label: l10n.needsReview,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+
+              // Errors (if any)
+              if (result.errors.isNotEmpty) ...[
+                Text(
+                  '${result.errors.length} errors during import',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.error,
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
+
+              // Action buttons
+              Row(
+                children: [
+                  // Close button
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        side: BorderSide(color: AppColors.cardBorder),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        l10n.close,
+                        style: TextStyle(color: AppColors.textSecondary),
+                      ),
+                    ),
+                  ),
+
+                  // Review button (if there are pending items)
+                  if (result.needsReviewCount > 0) ...[
+                    const SizedBox(width: 12),
+                    Expanded(
+                      flex: 2,
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          // Open review sheet
+                          final allPending = [
+                            ...result.suggestions,
+                            ...result.pending,
+                          ];
+                          PendingReviewSheet.show(
+                            context,
+                            expenses: allPending,
+                            userId: userId,
+                          );
+                        },
+                        icon: PhosphorIcon(
+                          PhosphorIconsRegular.magnifyingGlass,
+                          size: 18,
+                        ),
+                        label: Text(l10n.startReview),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImportStat({
+    required IconData icon,
+    required Color color,
+    required int count,
+    required String label,
+  }) {
+    return Column(
+      children: [
+        Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: 0.1),
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: PhosphorIcon(icon, size: 28, color: color),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          count.toString(),
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: color,
+          ),
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            color: AppColors.textSecondary,
+          ),
+        ),
+      ],
+    );
   }
 
   void _showLanguageSelector() {
@@ -546,6 +903,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           _buildDivider(),
           _buildCurrencyTile(l10n),
+          _buildDivider(),
+          _buildExportTile(l10n),
+          _buildDivider(),
+          _buildImportTile(l10n),
           // Debug section (only in debug mode)
           if (kDebugMode) ...[
             _buildDivider(),
@@ -606,6 +967,84 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       showArrow: false,
       onTap: () => showCurrencySelector(context),
+    );
+  }
+
+  Widget _buildExportTile(AppLocalizations l10n) {
+    final proProvider = context.watch<ProProvider>();
+    final isPro = proProvider.isPro;
+
+    return _buildListTile(
+      icon: PhosphorIconsDuotone.fileXls,
+      iconColor: const Color(0xFF27AE60),
+      title: l10n.exportToExcel,
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (_isExporting)
+            const SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: AppColors.primary,
+              ),
+            )
+          else if (!isPro)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.primary.withOpacity(0.2),
+                    AppColors.secondary.withOpacity(0.2),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                'PRO',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primary,
+                ),
+              ),
+            )
+          else
+            Icon(
+              PhosphorIconsDuotone.caretRight,
+              size: 18,
+              color: AppColors.textTertiary,
+            ),
+        ],
+      ),
+      showArrow: false,
+      onTap: _isExporting ? null : _exportToExcel,
+    );
+  }
+
+  Widget _buildImportTile(AppLocalizations l10n) {
+    return _buildListTile(
+      icon: PhosphorIconsDuotone.downloadSimple,
+      iconColor: const Color(0xFF3498DB),
+      title: l10n.importStatement,
+      trailing: _isImporting
+          ? const SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: AppColors.primary,
+              ),
+            )
+          : Icon(
+              PhosphorIconsDuotone.caretRight,
+              size: 18,
+              color: AppColors.textTertiary,
+            ),
+      showArrow: false,
+      onTap: _isImporting ? null : _importFromCSV,
     );
   }
 

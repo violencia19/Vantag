@@ -42,3 +42,14 @@ export 'add_expense_sheet.dart';
 // AI Chat
 export 'ai_fab.dart';
 export 'ai_chat_sheet.dart';
+
+// Premium UI
+export 'ai_insights_card.dart';
+export 'vertical_budget_indicator.dart';
+
+// Merchant Learning
+export 'pending_review_banner.dart';
+export 'pending_review_sheet.dart';
+
+// Voice Assistant
+export 'voice_input_button.dart';

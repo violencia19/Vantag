@@ -147,15 +147,14 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
     // Schedule subscription renewal notifications
     _scheduleSubscriptionNotifications(subscriptionService, notificationService);
 
-    // Profile and onboarding check
-    final results = await Future.wait([
-      profileService.getProfile(),
-      profileService.isOnboardingCompleted(),
-      financeProvider.initialize(),
-    ]);
+    // Profile and onboarding check - sıralı çalıştır, race condition önle
+    _onboardingCompleted = await profileService.isOnboardingCompleted();
+    _profile = await profileService.getProfile();
+    await financeProvider.initialize();
 
-    _profile = results[0] as UserProfile?;
-    _onboardingCompleted = results[1] as bool;
+    debugPrint('[Splash] Onboarding completed: $_onboardingCompleted');
+    debugPrint('[Splash] Profile exists: ${_profile != null}');
+
     _initComplete = true;
   }
 
@@ -180,10 +179,13 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
     Widget nextScreen;
 
     if (!_onboardingCompleted) {
+      debugPrint('[Splash] → OnboardingScreen (onboarding not completed)');
       nextScreen = const OnboardingScreen();
     } else if (_profile != null) {
+      debugPrint('[Splash] → MainScreen (profile exists)');
       nextScreen = MainScreen(userProfile: _profile!);
     } else {
+      debugPrint('[Splash] → UserProfileScreen (no profile yet)');
       nextScreen = const UserProfileScreen();
     }
 

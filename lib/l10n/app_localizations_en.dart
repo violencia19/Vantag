@@ -188,6 +188,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get select => 'Select';
 
   @override
+  String get decision => 'Decision';
+
+  @override
   String hoursRequired(String hours) {
     return '$hours hours';
   }
@@ -660,7 +663,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'If smart matching doesn\'t find it or you want to change, you can manually select here.';
 
   @override
-  String get selectCategory => 'Select category';
+  String get selectCategory => 'Select Category';
 
   @override
   String autoSelected(String category) {
@@ -2296,4 +2299,355 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expenseAdded => 'Expense added successfully';
+
+  @override
+  String get duplicateExpenseWarning => 'This expense already seems to exist';
+
+  @override
+  String duplicateExpenseDetails(String amount, String category) {
+    return '$amount $category';
+  }
+
+  @override
+  String get addAnyway => 'Do you still want to add it?';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get timeAgoNow => 'just now';
+
+  @override
+  String timeAgoMinutes(int count) {
+    return '$count minutes ago';
+  }
+
+  @override
+  String timeAgoHours(int count) {
+    return '$count hours ago';
+  }
+
+  @override
+  String timeAgoDays(int count) {
+    return '$count days ago';
+  }
+
+  @override
+  String get exportToExcel => 'Export to Excel';
+
+  @override
+  String get exportReport => 'Export Report';
+
+  @override
+  String get exporting => 'Exporting...';
+
+  @override
+  String get exportSuccess => 'Report exported successfully';
+
+  @override
+  String get exportError => 'Export failed';
+
+  @override
+  String get financialReport => 'Financial Summary Report';
+
+  @override
+  String get createdAt => 'Created';
+
+  @override
+  String get savingsRate => 'Savings Rate';
+
+  @override
+  String get hourlyRate => 'Hourly Rate';
+
+  @override
+  String get workHoursEquivalent => 'Work Hours Equivalent';
+
+  @override
+  String get transactionCount => 'Transaction Count';
+
+  @override
+  String get average => 'Average';
+
+  @override
+  String get percentage => 'Percentage';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get monthly => 'Monthly';
+
+  @override
+  String get yearly => 'Yearly';
+
+  @override
+  String get changePercent => 'Change %';
+
+  @override
+  String get month => 'Month';
+
+  @override
+  String get originalAmount => 'Original Amount';
+
+  @override
+  String get nextRenewal => 'Next Renewal';
+
+  @override
+  String get yearlyAmount => 'Yearly Amount';
+
+  @override
+  String get badge => 'Badge';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get earnedDate => 'Earned Date';
+
+  @override
+  String get totalBadges => 'Total Badges';
+
+  @override
+  String get proFeatureExport => 'Excel Export is a Pro feature';
+
+  @override
+  String get upgradeForExport => 'Upgrade to Pro to export your financial data';
+
+  @override
+  String pendingCategorization(int count) {
+    return '$count expenses pending categorization';
+  }
+
+  @override
+  String suggestionsAvailable(int count) {
+    return '$count suggestions available';
+  }
+
+  @override
+  String get reviewExpenses => 'Review Expenses';
+
+  @override
+  String get swipeToCategorizeTip => 'Tap a category to categorize';
+
+  @override
+  String get rememberMerchant => 'Remember this merchant';
+
+  @override
+  String suggestionLabel(String name) {
+    return 'Suggestion: $name';
+  }
+
+  @override
+  String get suggested => 'Suggested';
+
+  @override
+  String get allCategorized => 'All Done!';
+
+  @override
+  String categorizedCount(int processed, int skipped) {
+    return '$processed categorized, $skipped skipped';
+  }
+
+  @override
+  String get importStatement => 'Import Statement';
+
+  @override
+  String get importCSV => 'Import CSV';
+
+  @override
+  String get importFromBank => 'Import from Bank';
+
+  @override
+  String get selectCSVFile => 'Select CSV file';
+
+  @override
+  String get importingExpenses => 'Importing expenses...';
+
+  @override
+  String get importSuccess => 'Import completed successfully';
+
+  @override
+  String get importError => 'Import failed';
+
+  @override
+  String recognizedExpenses(int count) {
+    return '$count recognized';
+  }
+
+  @override
+  String pendingExpenses(int count) {
+    return '$count pending review';
+  }
+
+  @override
+  String get importSummary => 'Import Summary';
+
+  @override
+  String get autoMatched => 'Auto-matched';
+
+  @override
+  String get needsReview => 'Needs Review';
+
+  @override
+  String get startReview => 'Start Review';
+
+  @override
+  String get learnedMerchants => 'Learned Merchants';
+
+  @override
+  String get noLearnedMerchants => 'No learned merchants yet';
+
+  @override
+  String get learnedMerchantsDescription =>
+      'Merchants you categorize will appear here';
+
+  @override
+  String merchantCount(int count) {
+    return '$count merchants learned';
+  }
+
+  @override
+  String get deleteMerchant => 'Delete Merchant';
+
+  @override
+  String get deleteMerchantConfirm =>
+      'Are you sure you want to delete this merchant?';
+
+  @override
+  String get voiceInput => 'Voice Input';
+
+  @override
+  String get listening => 'Listening...';
+
+  @override
+  String get voiceNotAvailable => 'Voice input is not available on this device';
+
+  @override
+  String get microphonePermissionDenied => 'Microphone permission denied';
+
+  @override
+  String voiceExpenseAdded(String amount, String description) {
+    return '$amount₺ $description added';
+  }
+
+  @override
+  String get voiceConfirmExpense => 'Confirm Expense';
+
+  @override
+  String voiceDetectedAmount(String amount) {
+    return 'Detected: $amount₺';
+  }
+
+  @override
+  String get tapToSpeak => 'Tap to speak';
+
+  @override
+  String get speakExpense => 'Say your expense (e.g. \"50 lira coffee\")';
+
+  @override
+  String get voiceParsingFailed => 'Could not understand. Please try again.';
+
+  @override
+  String get voiceHighConfidence => 'Auto-saved';
+
+  @override
+  String get voiceMediumConfidence => 'Tap to edit';
+
+  @override
+  String get voiceLowConfidence => 'Please confirm';
+
+  @override
+  String get undo => 'Undo';
+
+  @override
+  String get assistantSetupTitle => 'Google Assistant Setup';
+
+  @override
+  String get assistantSetupHeadline => 'Add expenses without saying \"Vantag\"';
+
+  @override
+  String get assistantSetupSubheadline =>
+      'After this setup, just say\n\"Hey Google, add expense\"';
+
+  @override
+  String get assistantSetupComplete =>
+      'Great! Now you can say \"Hey Google, add expense\"';
+
+  @override
+  String get assistantSetupStep1Title => 'Open Google Assistant';
+
+  @override
+  String get assistantSetupStep1Desc =>
+      'Say \"Hey Google, settings\" or open the Google Assistant app.';
+
+  @override
+  String get assistantSetupStep1Tip =>
+      'Tap the profile icon in the bottom right corner.';
+
+  @override
+  String get assistantSetupStep2Title => 'Go to Routines';
+
+  @override
+  String get assistantSetupStep2Desc =>
+      'Find and tap \"Routines\" in the settings.';
+
+  @override
+  String get assistantSetupStep2Tip =>
+      'May also appear as \"Shortcuts\" on some devices.';
+
+  @override
+  String get assistantSetupStep3Title => 'Create New Routine';
+
+  @override
+  String get assistantSetupStep3Desc =>
+      'Tap the \"+\" or \"New routine\" button.';
+
+  @override
+  String get assistantSetupStep3Tip => 'Usually in the bottom right corner.';
+
+  @override
+  String get assistantSetupStep4Title => 'Add Voice Command';
+
+  @override
+  String get assistantSetupStep4Desc =>
+      'Tap \"When I say\" and add a voice command.\n\nType \"add expense\".';
+
+  @override
+  String get assistantSetupStep4Tip =>
+      'You can also use \"log expense\" or \"record spending\".';
+
+  @override
+  String get assistantSetupStep5Title => 'Add Action';
+
+  @override
+  String get assistantSetupStep5Desc =>
+      '\"Add action\" → \"Open app\" → Select \"Vantag\".';
+
+  @override
+  String get assistantSetupStep5Tip =>
+      'Search for Vantag if not visible in the list.';
+
+  @override
+  String get assistantSetupStep6Title => 'Save';
+
+  @override
+  String get assistantSetupStep6Desc => 'Tap \"Save\" in the top right corner.';
+
+  @override
+  String get assistantSetupStep6Tip => 'You may be asked to name the routine.';
+
+  @override
+  String get step => 'Step';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get laterButton => 'I\'ll do it later';
 }

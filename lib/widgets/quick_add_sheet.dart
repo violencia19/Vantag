@@ -10,6 +10,7 @@ import '../services/services.dart';
 import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
 import 'decision_stress_timer.dart';
+import 'voice_input_button.dart';
 
 /// Quick add expense bottom sheet
 /// Article 11: Category selection required, subcategories open with animation
@@ -249,24 +250,32 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                     ),
                   ],
                 ),
-                IconButton(
-                  onPressed: () {
-                    widget.onCancel?.call();
-                    Navigator.pop(context);
-                  },
-                  icon: Container(
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      color: AppColors.surfaceLight,
-                      shape: BoxShape.circle,
+                Row(
+                  children: [
+                    // Voice input button - opens full VoiceInputScreen
+                    const CompactVoiceButton(),
+                    const SizedBox(width: 8),
+                    // Close button
+                    IconButton(
+                      onPressed: () {
+                        widget.onCancel?.call();
+                        Navigator.pop(context);
+                      },
+                      icon: Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: AppColors.surfaceLight,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          PhosphorIconsDuotone.x,
+                          size: 20,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
                     ),
-                    child: const Icon(
-                      PhosphorIconsDuotone.x,
-                      size: 20,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
+                  ],
                 ),
               ],
             ),
@@ -448,9 +457,10 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      Icon(
                         ExpenseCategory.getIcon(category),
-                        style: const TextStyle(fontSize: 18),
+                        size: 20,
+                        color: isSelected ? AppColors.background : ExpenseCategory.getColor(category),
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -1309,21 +1319,21 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Emoji icon - daha parlak
-            Text(
+            // Category icon
+            Icon(
               ExpenseCategory.getIcon(widget.category),
-              style: TextStyle(
-                fontSize: 18,
-                // Emoji'ler için shadows ile parlaklık efekti
-                shadows: widget.isSelected || _isPressed
-                    ? [
-                        Shadow(
-                          color: Colors.white.withValues(alpha: 0.5),
-                          blurRadius: 8,
-                        ),
-                      ]
-                    : null,
-              ),
+              size: 20,
+              color: widget.isSelected
+                  ? AppColors.background
+                  : ExpenseCategory.getColor(widget.category),
+              shadows: widget.isSelected || _isPressed
+                  ? [
+                      Shadow(
+                        color: Colors.white.withValues(alpha: 0.5),
+                        blurRadius: 8,
+                      ),
+                    ]
+                  : null,
             ),
             const SizedBox(width: 8),
             // Kategori adı - beyaz, opacity yok

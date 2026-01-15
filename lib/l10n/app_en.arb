@@ -71,6 +71,7 @@
   "calculate": "Calculate",
   "giveUp": "Give Up",
   "select": "Select",
+  "decision": "Decision",
 
   "hoursRequired": "{hours} hours",
   "@hoursRequired": {
@@ -1233,5 +1234,191 @@
   "unlockFullHistory": "Unlock Full History",
   "proHistoryDescription": "Free users can view last 30 days. Upgrade to Pro for unlimited history.",
   "upgradeToPro": "Upgrade to Pro",
-  "expenseAdded": "Expense added successfully"
+  "expenseAdded": "Expense added successfully",
+
+  "duplicateExpenseWarning": "This expense already seems to exist",
+  "duplicateExpenseDetails": "{amount} {category}",
+  "@duplicateExpenseDetails": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "category": {"type": "String"}
+    }
+  },
+  "addAnyway": "Do you still want to add it?",
+  "yes": "Yes",
+  "no": "No",
+  "timeAgoNow": "just now",
+  "timeAgoMinutes": "{count} minutes ago",
+  "@timeAgoMinutes": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "timeAgoHours": "{count} hours ago",
+  "@timeAgoHours": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "timeAgoDays": "{count} days ago",
+  "@timeAgoDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "exportToExcel": "Export to Excel",
+  "exportReport": "Export Report",
+  "exporting": "Exporting...",
+  "exportSuccess": "Report exported successfully",
+  "exportError": "Export failed",
+  "financialReport": "Financial Summary Report",
+  "createdAt": "Created",
+  "savingsRate": "Savings Rate",
+  "hourlyRate": "Hourly Rate",
+  "workHoursEquivalent": "Work Hours Equivalent",
+  "transactionCount": "Transaction Count",
+  "average": "Average",
+  "percentage": "Percentage",
+  "total": "Total",
+  "monthly": "Monthly",
+  "yearly": "Yearly",
+  "changePercent": "Change %",
+  "month": "Month",
+  "originalAmount": "Original Amount",
+  "nextRenewal": "Next Renewal",
+  "yearlyAmount": "Yearly Amount",
+  "badge": "Badge",
+  "status": "Status",
+  "earnedDate": "Earned Date",
+  "totalBadges": "Total Badges",
+  "proFeatureExport": "Excel Export is a Pro feature",
+  "upgradeForExport": "Upgrade to Pro to export your financial data",
+
+  "pendingCategorization": "{count} expenses pending categorization",
+  "@pendingCategorization": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "suggestionsAvailable": "{count} suggestions available",
+  "@suggestionsAvailable": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "reviewExpenses": "Review Expenses",
+  "swipeToCategorizeTip": "Tap a category to categorize",
+  "selectCategory": "Select Category",
+  "rememberMerchant": "Remember this merchant",
+  "suggestionLabel": "Suggestion: {name}",
+  "@suggestionLabel": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "suggested": "Suggested",
+  "allCategorized": "All Done!",
+  "categorizedCount": "{processed} categorized, {skipped} skipped",
+  "@categorizedCount": {
+    "placeholders": {
+      "processed": {"type": "int"},
+      "skipped": {"type": "int"}
+    }
+  },
+  "importStatement": "Import Statement",
+  "importCSV": "Import CSV",
+  "importFromBank": "Import from Bank",
+  "selectCSVFile": "Select CSV file",
+  "importingExpenses": "Importing expenses...",
+  "importSuccess": "Import completed successfully",
+  "importError": "Import failed",
+  "recognizedExpenses": "{count} recognized",
+  "@recognizedExpenses": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pendingExpenses": "{count} pending review",
+  "@pendingExpenses": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importSummary": "Import Summary",
+  "autoMatched": "Auto-matched",
+  "needsReview": "Needs Review",
+  "startReview": "Start Review",
+  "learnedMerchants": "Learned Merchants",
+  "noLearnedMerchants": "No learned merchants yet",
+  "learnedMerchantsDescription": "Merchants you categorize will appear here",
+  "merchantCount": "{count} merchants learned",
+  "@merchantCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "deleteMerchant": "Delete Merchant",
+  "deleteMerchantConfirm": "Are you sure you want to delete this merchant?",
+
+  "voiceInput": "Voice Input",
+  "listening": "Listening...",
+  "voiceNotAvailable": "Voice input is not available on this device",
+  "microphonePermissionDenied": "Microphone permission denied",
+  "voiceExpenseAdded": "{amount}₺ {description} added",
+  "@voiceExpenseAdded": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "description": {"type": "String"}
+    }
+  },
+  "voiceConfirmExpense": "Confirm Expense",
+  "voiceDetectedAmount": "Detected: {amount}₺",
+  "@voiceDetectedAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "tapToSpeak": "Tap to speak",
+  "speakExpense": "Say your expense (e.g. \"50 lira coffee\")",
+  "voiceParsingFailed": "Could not understand. Please try again.",
+  "voiceHighConfidence": "Auto-saved",
+  "voiceMediumConfidence": "Tap to edit",
+  "voiceLowConfidence": "Please confirm",
+  "undo": "Undo",
+
+  "assistantSetupTitle": "Google Assistant Setup",
+  "assistantSetupHeadline": "Add expenses without saying \"Vantag\"",
+  "assistantSetupSubheadline": "After this setup, just say\n\"Hey Google, add expense\"",
+  "assistantSetupComplete": "Great! Now you can say \"Hey Google, add expense\"",
+
+  "assistantSetupStep1Title": "Open Google Assistant",
+  "assistantSetupStep1Desc": "Say \"Hey Google, settings\" or open the Google Assistant app.",
+  "assistantSetupStep1Tip": "Tap the profile icon in the bottom right corner.",
+
+  "assistantSetupStep2Title": "Go to Routines",
+  "assistantSetupStep2Desc": "Find and tap \"Routines\" in the settings.",
+  "assistantSetupStep2Tip": "May also appear as \"Shortcuts\" on some devices.",
+
+  "assistantSetupStep3Title": "Create New Routine",
+  "assistantSetupStep3Desc": "Tap the \"+\" or \"New routine\" button.",
+  "assistantSetupStep3Tip": "Usually in the bottom right corner.",
+
+  "assistantSetupStep4Title": "Add Voice Command",
+  "assistantSetupStep4Desc": "Tap \"When I say\" and add a voice command.\n\nType \"add expense\".",
+  "assistantSetupStep4Tip": "You can also use \"log expense\" or \"record spending\".",
+
+  "assistantSetupStep5Title": "Add Action",
+  "assistantSetupStep5Desc": "\"Add action\" → \"Open app\" → Select \"Vantag\".",
+  "assistantSetupStep5Tip": "Search for Vantag if not visible in the list.",
+
+  "assistantSetupStep6Title": "Save",
+  "assistantSetupStep6Desc": "Tap \"Save\" in the top right corner.",
+  "assistantSetupStep6Tip": "You may be asked to name the routine.",
+
+  "step": "Step",
+  "next": "Next",
+  "back": "Back",
+  "completed": "Completed!",
+  "laterButton": "I'll do it later"
 }

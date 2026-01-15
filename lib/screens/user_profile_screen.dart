@@ -744,9 +744,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Row(
                   children: [
-                    Text(
+                    Icon(
                       source.category.icon,
-                      style: const TextStyle(fontSize: 16),
+                      size: 18,
+                      color: source.category.color,
                     ),
                     const SizedBox(width: 8),
                     Expanded(

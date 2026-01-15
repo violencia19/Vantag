@@ -188,6 +188,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get select => 'Seç';
 
   @override
+  String get decision => 'Karar';
+
+  @override
   String hoursRequired(String hours) {
     return '$hours saat';
   }
@@ -660,7 +663,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Akıllı eşleştirme bulamazsa veya düzeltmek istersen buradan manuel seçim yapabilirsin.';
 
   @override
-  String get selectCategory => 'Kategori seçin';
+  String get selectCategory => 'Kategori Seçin';
 
   @override
   String autoSelected(String category) {
@@ -2295,4 +2298,357 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get expenseAdded => 'Harcama başarıyla eklendi';
+
+  @override
+  String get duplicateExpenseWarning => 'Bu harcama zaten var gibi görünüyor';
+
+  @override
+  String duplicateExpenseDetails(String amount, String category) {
+    return '$amount TL $category';
+  }
+
+  @override
+  String get addAnyway => 'Yine de eklemek istiyor musun?';
+
+  @override
+  String get yes => 'Evet';
+
+  @override
+  String get no => 'Hayır';
+
+  @override
+  String get timeAgoNow => 'şimdi';
+
+  @override
+  String timeAgoMinutes(int count) {
+    return '$count dakika önce';
+  }
+
+  @override
+  String timeAgoHours(int count) {
+    return '$count saat önce';
+  }
+
+  @override
+  String timeAgoDays(int count) {
+    return '$count gün önce';
+  }
+
+  @override
+  String get exportToExcel => 'Excel\'e Aktar';
+
+  @override
+  String get exportReport => 'Rapor Dışa Aktar';
+
+  @override
+  String get exporting => 'Dışa aktarılıyor...';
+
+  @override
+  String get exportSuccess => 'Rapor başarıyla dışa aktarıldı';
+
+  @override
+  String get exportError => 'Dışa aktarma başarısız';
+
+  @override
+  String get financialReport => 'Finansal Özet Raporu';
+
+  @override
+  String get createdAt => 'Oluşturulma';
+
+  @override
+  String get savingsRate => 'Tasarruf Oranı';
+
+  @override
+  String get hourlyRate => 'Saatlik Ücret';
+
+  @override
+  String get workHoursEquivalent => 'Çalışma Saati Karşılığı';
+
+  @override
+  String get transactionCount => 'İşlem Sayısı';
+
+  @override
+  String get average => 'Ortalama';
+
+  @override
+  String get percentage => 'Yüzde';
+
+  @override
+  String get total => 'Toplam';
+
+  @override
+  String get monthly => 'Aylık';
+
+  @override
+  String get yearly => 'Yıllık';
+
+  @override
+  String get changePercent => 'Değişim %';
+
+  @override
+  String get month => 'Ay';
+
+  @override
+  String get originalAmount => 'Orijinal Tutar';
+
+  @override
+  String get nextRenewal => 'Sonraki Yenileme';
+
+  @override
+  String get yearlyAmount => 'Yıllık Tutar';
+
+  @override
+  String get badge => 'Rozet';
+
+  @override
+  String get status => 'Durum';
+
+  @override
+  String get earnedDate => 'Kazanılan Tarih';
+
+  @override
+  String get totalBadges => 'Toplam Rozet';
+
+  @override
+  String get proFeatureExport => 'Excel Dışa Aktarma Pro özelliğidir';
+
+  @override
+  String get upgradeForExport =>
+      'Finansal verilerinizi dışa aktarmak için Pro\'ya yükseltin';
+
+  @override
+  String pendingCategorization(int count) {
+    return '$count harcama kategorize bekliyor';
+  }
+
+  @override
+  String suggestionsAvailable(int count) {
+    return '$count öneri mevcut';
+  }
+
+  @override
+  String get reviewExpenses => 'Harcamaları İncele';
+
+  @override
+  String get swipeToCategorizeTip => 'Kategorize etmek için bir kategori seçin';
+
+  @override
+  String get rememberMerchant => 'Bu satıcıyı hatırla';
+
+  @override
+  String suggestionLabel(String name) {
+    return 'Öneri: $name';
+  }
+
+  @override
+  String get suggested => 'Önerilen';
+
+  @override
+  String get allCategorized => 'Tamamlandı!';
+
+  @override
+  String categorizedCount(int processed, int skipped) {
+    return '$processed kategorize edildi, $skipped atlandı';
+  }
+
+  @override
+  String get importStatement => 'Ekstre Yükle';
+
+  @override
+  String get importCSV => 'CSV Yükle';
+
+  @override
+  String get importFromBank => 'Bankadan İçe Aktar';
+
+  @override
+  String get selectCSVFile => 'CSV dosyası seçin';
+
+  @override
+  String get importingExpenses => 'Harcamalar içe aktarılıyor...';
+
+  @override
+  String get importSuccess => 'İçe aktarma tamamlandı';
+
+  @override
+  String get importError => 'İçe aktarma başarısız';
+
+  @override
+  String recognizedExpenses(int count) {
+    return '$count tanındı';
+  }
+
+  @override
+  String pendingExpenses(int count) {
+    return '$count inceleme bekliyor';
+  }
+
+  @override
+  String get importSummary => 'İçe Aktarma Özeti';
+
+  @override
+  String get autoMatched => 'Otomatik Eşleşti';
+
+  @override
+  String get needsReview => 'İnceleme Gerekli';
+
+  @override
+  String get startReview => 'İncelemeye Başla';
+
+  @override
+  String get learnedMerchants => 'Öğrenilen Satıcılar';
+
+  @override
+  String get noLearnedMerchants => 'Henüz öğrenilen satıcı yok';
+
+  @override
+  String get learnedMerchantsDescription =>
+      'Kategorize ettiğiniz satıcılar burada görünecek';
+
+  @override
+  String merchantCount(int count) {
+    return '$count satıcı öğrenildi';
+  }
+
+  @override
+  String get deleteMerchant => 'Satıcıyı Sil';
+
+  @override
+  String get deleteMerchantConfirm =>
+      'Bu satıcıyı silmek istediğinizden emin misiniz?';
+
+  @override
+  String get voiceInput => 'Sesli Giriş';
+
+  @override
+  String get listening => 'Dinleniyor...';
+
+  @override
+  String get voiceNotAvailable => 'Bu cihazda sesli giriş kullanılamıyor';
+
+  @override
+  String get microphonePermissionDenied => 'Mikrofon izni reddedildi';
+
+  @override
+  String voiceExpenseAdded(String amount, String description) {
+    return '$amount₺ $description eklendi';
+  }
+
+  @override
+  String get voiceConfirmExpense => 'Harcamayı Onayla';
+
+  @override
+  String voiceDetectedAmount(String amount) {
+    return 'Algılanan: $amount₺';
+  }
+
+  @override
+  String get tapToSpeak => 'Konuşmak için dokun';
+
+  @override
+  String get speakExpense => 'Harcamanı söyle (örn: \"50 lira kahve\")';
+
+  @override
+  String get voiceParsingFailed => 'Anlaşılamadı. Lütfen tekrar dene.';
+
+  @override
+  String get voiceHighConfidence => 'Otomatik kaydedildi';
+
+  @override
+  String get voiceMediumConfidence => 'Düzenlemek için dokun';
+
+  @override
+  String get voiceLowConfidence => 'Lütfen onayla';
+
+  @override
+  String get undo => 'Geri Al';
+
+  @override
+  String get assistantSetupTitle => 'Google Assistant Kurulumu';
+
+  @override
+  String get assistantSetupHeadline => '\"Vantag\" demeden harcama ekle';
+
+  @override
+  String get assistantSetupSubheadline =>
+      'Bu kurulumdan sonra sadece\n\"Hey Google, harcama ekle\" demen yeterli';
+
+  @override
+  String get assistantSetupComplete =>
+      'Harika! Artık \"Hey Google, harcama ekle\" diyebilirsin';
+
+  @override
+  String get assistantSetupStep1Title => 'Google Assistant\'ı Aç';
+
+  @override
+  String get assistantSetupStep1Desc =>
+      '\"Hey Google, ayarlar\" de veya Google Assistant uygulamasını aç.';
+
+  @override
+  String get assistantSetupStep1Tip =>
+      'Ana sayfada sağ alt köşedeki profil ikonuna tıkla.';
+
+  @override
+  String get assistantSetupStep2Title => 'Rutinler\'e Git';
+
+  @override
+  String get assistantSetupStep2Desc =>
+      'Ayarlar içinde \"Rutinler\" seçeneğini bul ve tıkla.';
+
+  @override
+  String get assistantSetupStep2Tip =>
+      'Bazı cihazlarda \"Kısayollar\" olarak da geçebilir.';
+
+  @override
+  String get assistantSetupStep3Title => 'Yeni Rutin Oluştur';
+
+  @override
+  String get assistantSetupStep3Desc =>
+      '\"+\" veya \"Yeni rutin\" butonuna tıkla.';
+
+  @override
+  String get assistantSetupStep3Tip => 'Sağ alt köşede olabilir.';
+
+  @override
+  String get assistantSetupStep4Title => 'Sesli Komut Ekle';
+
+  @override
+  String get assistantSetupStep4Desc =>
+      '\"Başladığında\" kısmına tıkla ve \"Sesli komut ekle\" seç.\n\n\"Harcama ekle\" yaz.';
+
+  @override
+  String get assistantSetupStep4Tip =>
+      'İstersen \"Para ekle\" veya \"Masraf kaydet\" de yazabilirsin.';
+
+  @override
+  String get assistantSetupStep5Title => 'Eylemi Ekle';
+
+  @override
+  String get assistantSetupStep5Desc =>
+      '\"Eylem ekle\" → \"Uygulama aç\" → \"Vantag\" seç.';
+
+  @override
+  String get assistantSetupStep5Tip =>
+      'Vantag listede yoksa arama kutusuna yaz.';
+
+  @override
+  String get assistantSetupStep6Title => 'Kaydet';
+
+  @override
+  String get assistantSetupStep6Desc =>
+      'Sağ üstteki \"Kaydet\" butonuna tıkla.';
+
+  @override
+  String get assistantSetupStep6Tip => 'Rutine bir isim vermeni isteyebilir.';
+
+  @override
+  String get step => 'Adım';
+
+  @override
+  String get next => 'Sonraki';
+
+  @override
+  String get back => 'Geri';
+
+  @override
+  String get laterButton => 'Daha sonra yaparım';
 }

@@ -9,6 +9,8 @@ import '../services/services.dart';
 import '../theme/theme.dart';
 import '../providers/providers.dart';
 import '../utils/currency_utils.dart';
+import '../utils/currency_helper.dart';
+import '../utils/duplicate_checker.dart';
 import 'turkish_currency_input.dart';
 import 'result_card.dart';
 import 'decision_buttons.dart';
@@ -86,8 +88,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     return 'custom';
   }
 
-  // Show toggle only if income currency differs from display currency
-  bool get _showCurrencyToggle => _incomeCurrency != _displayCurrency;
+  // Available currencies for expense entry
+  static const List<String> _availableCurrencies = ['TRY', 'USD', 'EUR', 'GBP'];
 
   @override
   void initState() {
@@ -433,19 +435,37 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     return message;
   }
 
-  Future<void> _onDecision(ExpenseDecision decision) async {
+  Future<void> _onDecision(ExpenseDecision decision, {bool force = false}) async {
     if (_pendingExpense == null) return;
 
     final amount = _pendingExpense!.amount;
     final isSimulation = _pendingExpense!.isSimulation;
     final category = _pendingExpense!.category;
     final subCategory = _pendingExpense!.subCategory;
+
+    final financeProvider = context.read<FinanceProvider>();
+
+    // Duplicate kontrolü (force değilse ve simülasyon değilse)
+    if (!force && !isSimulation) {
+      final duplicates = DuplicateChecker.findDuplicates(
+        expenses: financeProvider.expenses,
+        amount: amount,
+        category: category,
+        date: _selectedDate,
+      );
+
+      if (duplicates.isNotEmpty) {
+        final match = duplicates.first;
+        final shouldContinue = await _showDuplicateWarningDialog(match);
+        if (!shouldContinue) return;
+      }
+    }
+
     final expenseWithDecision = _pendingExpense!.copyWith(
       decision: decision,
       decisionDate: DateTime.now(),
     );
 
-    final financeProvider = context.read<FinanceProvider>();
     await financeProvider.addExpense(expenseWithDecision);
 
     if (!isSimulation && subCategory != null && subCategory.isNotEmpty) {
@@ -478,6 +498,80 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
     widget.onExpenseAdded?.call();
     if (mounted) Navigator.pop(context);
+  }
+
+  String _formatTimeAgo(Duration diff, AppLocalizations l10n) {
+    if (diff.inMinutes < 1) {
+      return l10n.timeAgoNow;
+    } else if (diff.inMinutes < 60) {
+      return l10n.timeAgoMinutes(diff.inMinutes);
+    } else if (diff.inHours < 24) {
+      return l10n.timeAgoHours(diff.inHours);
+    } else {
+      return l10n.timeAgoDays(diff.inDays);
+    }
+  }
+
+  Future<bool> _showDuplicateWarningDialog(DuplicateMatch match) async {
+    final l10n = AppLocalizations.of(context)!;
+    final timeAgoText = _formatTimeAgo(match.timeSinceEntry, l10n);
+    final amountStr = match.expense.amount.toStringAsFixed(0);
+
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppColors.cardBackground,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(
+          children: [
+            Icon(
+              PhosphorIconsFill.warning,
+              color: Colors.amber,
+              size: 24,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                l10n.warning,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          '${l10n.duplicateExpenseWarning}:\n\n'
+          '${l10n.duplicateExpenseDetails(amountStr, match.expense.category)}\n'
+          '($timeAgoText)\n\n'
+          '${l10n.addAnyway}',
+          style: TextStyle(
+            color: AppColors.textSecondary,
+            fontSize: 14,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(
+              l10n.no,
+              style: TextStyle(color: AppColors.textSecondary),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              foregroundColor: Colors.white,
+            ),
+            child: Text(l10n.yes),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
   }
 
   void _cancelDecision() {
@@ -710,20 +804,13 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       ),
       child: Column(
         children: [
-          // Amount row with currency symbol
+          // Amount row with currency dropdown
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Currency symbol prefix
-              Text(
-                _expenseCurrency.symbol,
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w300,
-                  color: AppColors.textTertiary,
-                ),
-              ),
+              // Currency dropdown
+              _buildCurrencyDropdown(),
               const SizedBox(width: 8),
               // Amount input
               Expanded(
@@ -754,77 +841,60 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               ),
             ],
           ),
-          // Currency toggle (only if income != display currency)
-          if (_showCurrencyToggle) ...[
-            const SizedBox(height: 12),
-            _buildCurrencyToggle(),
-          ],
         ],
       ),
     );
   }
 
-  Widget _buildCurrencyToggle() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // Income currency button
-        _buildCurrencyButton(_incomeCurrency),
-
-        // Separator
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Text(
-            '/',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w300,
-              color: AppColors.textTertiary.withValues(alpha: 0.5),
-            ),
-          ),
+  Widget _buildCurrencyDropdown() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: AppColors.primary.withValues(alpha: 0.3),
+          width: 1,
         ),
-
-        // Display currency button
-        _buildCurrencyButton(_displayCurrency),
-      ],
-    );
-  }
-
-  Widget _buildCurrencyButton(Currency currency) {
-    final isSelected = _expenseCurrency == currency;
-
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.selectionClick();
-        setState(() => _expenseCurrency = currency);
-      },
-      child: AnimatedScale(
-        scale: isSelected ? 1.0 : 0.9,
-        duration: const Duration(milliseconds: 150),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            color: isSelected
-                ? AppColors.primary.withValues(alpha: 0.15)
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: isSelected
-                  ? AppColors.primary.withValues(alpha: 0.5)
-                  : Colors.transparent,
-              width: 1,
-            ),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: _expenseCurrency.code,
+          icon: Icon(
+            PhosphorIconsFill.caretDown,
+            size: 16,
+            color: AppColors.primary,
           ),
-          child: Text(
-            '${currency.symbol} ${currency.code}',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-              color: isSelected ? AppColors.primary : AppColors.textTertiary,
-            ),
+          dropdownColor: AppColors.cardBackground,
+          borderRadius: BorderRadius.circular(12),
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: AppColors.primary,
           ),
+          items: _availableCurrencies.map((code) {
+            return DropdownMenuItem<String>(
+              value: code,
+              child: Text(
+                CurrencyHelper.getDisplay(code),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: _expenseCurrency.code == code
+                      ? FontWeight.w600
+                      : FontWeight.w400,
+                  color: _expenseCurrency.code == code
+                      ? AppColors.primary
+                      : AppColors.textPrimary,
+                ),
+              ),
+            );
+          }).toList(),
+          onChanged: (code) {
+            if (code != null) {
+              HapticFeedback.selectionClick();
+              setState(() => _expenseCurrency = getCurrencyByCode(code));
+            }
+          },
         ),
       ),
     );
@@ -833,6 +903,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
   Widget _buildDescriptionInput(AppLocalizations l10n) {
     return TextField(
       controller: _descriptionController,
+      keyboardType: TextInputType.text,
+      enableSuggestions: true,
+      autocorrect: false,
+      enableIMEPersonalizedLearning: true,
       style: const TextStyle(
         color: AppColors.textPrimary,
         fontSize: 14,

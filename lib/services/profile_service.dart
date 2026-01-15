@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/models.dart';
@@ -192,12 +193,15 @@ class ProfileService {
   /// Onboarding tamamlandı mı kontrol eder
   Future<bool> isOnboardingCompleted() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(_keyOnboardingCompleted) ?? false;
+    final completed = prefs.getBool(_keyOnboardingCompleted) ?? false;
+    debugPrint('[ProfileService] isOnboardingCompleted: $completed');
+    return completed;
   }
 
   /// Onboarding'i tamamlandı olarak işaretler
   Future<void> setOnboardingCompleted() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_keyOnboardingCompleted, true);
+    debugPrint('[ProfileService] setOnboardingCompleted: true (saved)');
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:confetti/confetti.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 
 /// Wealth Coach: Victory Manager
@@ -247,10 +248,19 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Trophy emoji
-                      const Text(
-                        '🏆',
-                        style: TextStyle(fontSize: 56),
+                      // Trophy icon
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          PhosphorIconsFill.trophy,
+                          size: 48,
+                          color: Color(0xFFFFD700),
+                        ),
                       ),
                       const SizedBox(height: 12),
                       // Özgürlük süresi
@@ -292,13 +302,24 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                           color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: const Text(
-                          'Para cebinde kaldı! 💪',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text(
+                              'Para cebinde kaldı!',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Icon(
+                              PhosphorIconsFill.handFist,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                          ],
                         ),
                       ),
                     ],

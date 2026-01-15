@@ -3,12 +3,14 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  app_links
   cloud_firestore
   connectivity_plus
   file_selector_windows
   firebase_auth
   firebase_core
   fvp
+  permission_handler_windows
   share_plus
   url_launcher_windows
 )

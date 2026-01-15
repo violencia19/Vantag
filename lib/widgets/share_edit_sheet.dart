@@ -7,7 +7,8 @@ import 'share_card_widget.dart';
 
 /// Share card edit bottom sheet
 class ShareEditSheet extends StatefulWidget {
-  final String emoji;
+  final IconData icon;
+  final Color iconColor;
   final String categoryName;
   final int yearlyDays;
   final double yearlyAmount;
@@ -16,7 +17,8 @@ class ShareEditSheet extends StatefulWidget {
 
   const ShareEditSheet({
     super.key,
-    required this.emoji,
+    required this.icon,
+    required this.iconColor,
     required this.categoryName,
     required this.yearlyDays,
     required this.yearlyAmount,
@@ -74,7 +76,8 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
               child: Transform.scale(
                 scale: 0.5,
                 child: ShareCardWidget(
-                  emoji: widget.emoji,
+                  icon: widget.icon,
+                  iconColor: widget.iconColor,
                   categoryName: widget.categoryName,
                   yearlyDays: widget.yearlyDays,
                   yearlyAmount: showAmount ? widget.yearlyAmount : null,
@@ -91,7 +94,8 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
               children: [
                 // Duration - always on, cannot be changed
                 _buildToggleRow(
-                  '⏱️ ${l10n.shareCardDuration(widget.yearlyDays)}',
+                  PhosphorIconsDuotone.timer,
+                  l10n.shareCardDuration(widget.yearlyDays),
                   true,
                   null,
                   locked: true,
@@ -99,7 +103,8 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
 
                 // Amount
                 _buildToggleRow(
-                  '💰 ${l10n.shareCardAmountLabel(_formatCurrency(widget.yearlyAmount))}',
+                  PhosphorIconsDuotone.coins,
+                  l10n.shareCardAmountLabel(_formatCurrency(widget.yearlyAmount)),
                   showAmount,
                   (val) {
                     HapticFeedback.selectionClick();
@@ -109,7 +114,8 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
 
                 // Frequency
                 _buildToggleRow(
-                  '📅 ${l10n.shareCardFrequency(widget.frequency)}',
+                  PhosphorIconsDuotone.calendarBlank,
+                  l10n.shareCardFrequency(widget.frequency),
                   showFrequency,
                   (val) {
                     HapticFeedback.selectionClick();
@@ -154,7 +160,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('📤', style: TextStyle(fontSize: 20)),
+                    const Icon(PhosphorIconsFill.shareFat, size: 22),
                     const SizedBox(width: 8),
                     Text(
                       l10n.share,
@@ -174,6 +180,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
   }
 
   Widget _buildToggleRow(
+    IconData icon,
     String label,
     bool value,
     void Function(bool)? onChanged, {
@@ -188,13 +195,16 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
+            Icon(icon, size: 20, color: AppColors.primary),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
               ),
             ),
             if (locked)

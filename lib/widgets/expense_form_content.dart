@@ -5,6 +5,7 @@ import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
+import '../utils/currency_helper.dart';
 import 'labeled_text_field.dart';
 import 'turkish_currency_input.dart';
 import 'smart_choice_toggle.dart';
@@ -43,6 +44,10 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
   bool _showSubCategorySuggestions = false;
   SubCategorySuggestions? _subCategorySuggestions;
 
+  // Currency
+  static const List<String> _availableCurrencies = ['TRY', 'USD', 'EUR', 'GBP'];
+  String _selectedCurrencyCode = 'TRY';
+
   // Smart Match
   late AnimationController _smartMatchAnimController;
   late Animation<double> _smartMatchScale;
@@ -72,7 +77,13 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
     // Editing mode
     if (widget.editingExpense != null) {
       final expense = widget.editingExpense!;
-      _amountController.text = formatTurkishCurrency(expense.amount);
+      // Use original amount and currency if available, otherwise use converted amount
+      if (expense.originalAmount != null && expense.originalCurrency != null) {
+        _amountController.text = formatTurkishCurrency(expense.originalAmount!);
+        _selectedCurrencyCode = expense.originalCurrency!;
+      } else {
+        _amountController.text = formatTurkishCurrency(expense.amount);
+      }
       _selectedCategory = expense.category;
       _selectedDate = expense.date;
       if (expense.subCategory != null) {
@@ -230,6 +241,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
     widget.onSubmit(ExpenseFormData(
       amount: amount,
       category: _selectedCategory!,
+      currencyCode: _selectedCurrencyCode,
       subCategory: _subCategoryController.text.trim().isEmpty
           ? null
           : SubCategoryService.normalize(_subCategoryController.text.trim()),
@@ -269,19 +281,79 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
 
+  Widget _buildCurrencyDropdown() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceLight,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.cardBorder),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: _selectedCurrencyCode,
+          icon: Icon(
+            PhosphorIconsFill.caretDown,
+            size: 14,
+            color: AppColors.textSecondary,
+          ),
+          dropdownColor: AppColors.cardBackground,
+          borderRadius: BorderRadius.circular(12),
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textPrimary,
+          ),
+          items: _availableCurrencies.map((code) {
+            return DropdownMenuItem<String>(
+              value: code,
+              child: Text(
+                CurrencyHelper.getDisplay(code),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: _selectedCurrencyCode == code
+                      ? FontWeight.w600
+                      : FontWeight.w400,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            );
+          }).toList(),
+          onChanged: (code) {
+            if (code != null) {
+              HapticFeedback.selectionClick();
+              setState(() => _selectedCurrencyCode = code);
+            }
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 1. Amount
-        LabeledTextField(
-          controller: _amountController,
-          label: l10n.amountTL,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          hint: '0,00',
-          inputFormatters: [TurkishCurrencyInputFormatter()],
+        // 1. Amount with Currency
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            // Currency dropdown
+            _buildCurrencyDropdown(),
+            const SizedBox(width: 12),
+            // Amount field
+            Expanded(
+              child: LabeledTextField(
+                controller: _amountController,
+                label: l10n.amount,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                hint: '0,00',
+                inputFormatters: [TurkishCurrencyInputFormatter()],
+              ),
+            ),
+          ],
         ),
 
         const SizedBox(height: 16),
@@ -301,6 +373,10 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
         // 2. Description
         TextField(
           controller: _descriptionController,
+          keyboardType: TextInputType.text,
+          enableSuggestions: true,
+          autocorrect: false,
+          enableIMEPersonalizedLearning: true,
           style: const TextStyle(
             color: AppColors.textPrimary,
             fontSize: 14,
@@ -388,9 +464,10 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                       value: category,
                       child: Row(
                         children: [
-                          Text(
+                          Icon(
                             ExpenseCategory.getIcon(category),
-                            style: const TextStyle(fontSize: 16),
+                            size: 18,
+                            color: ExpenseCategory.getColor(category),
                           ),
                           const SizedBox(width: 8),
                           Text(category),
@@ -478,6 +555,10 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
         TextField(
           controller: _subCategoryController,
           focusNode: _subCategoryFocusNode,
+          keyboardType: TextInputType.text,
+          enableSuggestions: true,
+          autocorrect: false,
+          enableIMEPersonalizedLearning: true,
           style: const TextStyle(
             color: AppColors.textPrimary,
             fontSize: 14,
@@ -692,6 +773,7 @@ class _SubCatChip extends StatelessWidget {
 class ExpenseFormData {
   final double amount;
   final String category;
+  final String currencyCode;
   final String? subCategory;
   final String? description;
   final DateTime date;
@@ -701,6 +783,7 @@ class ExpenseFormData {
   const ExpenseFormData({
     required this.amount,
     required this.category,
+    this.currencyCode = 'TRY',
     this.subCategory,
     this.description,
     required this.date,

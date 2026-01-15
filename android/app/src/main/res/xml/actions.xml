@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<actions>
+    <!-- Google Assistant App Action: Add Expense -->
+    <action intentName="actions.intent.CREATE_THING">
+        <fulfillment urlTemplate="vantag://quick-add?text={thing.name}">
+            <parameter-mapping
+                intentParameter="thing.name"
+                urlParameter="text"/>
+        </fulfillment>
+    </action>
+
+    <!-- Google Assistant App Action: Get Summary -->
+    <action intentName="actions.intent.GET_THING">
+        <fulfillment urlTemplate="vantag://summary"/>
+    </action>
+
+    <!-- Custom Action: Add Expense with Amount -->
+    <action intentName="custom.actions.intent.ADD_EXPENSE">
+        <fulfillment urlTemplate="vantag://add-expense?amount={amount}&amp;category={category}&amp;description={description}">
+            <parameter-mapping
+                intentParameter="amount"
+                urlParameter="amount"/>
+            <parameter-mapping
+                intentParameter="category"
+                urlParameter="category"/>
+            <parameter-mapping
+                intentParameter="description"
+                urlParameter="description"/>
+        </fulfillment>
+
+        <parameter name="amount">
+            <entity-set-reference entitySetId="amountEntitySet"/>
+        </parameter>
+
+        <parameter name="category">
+            <entity-set-reference entitySetId="categoryEntitySet"/>
+        </parameter>
+    </action>
+
+    <!-- Entity Sets -->
+    <entity-set entitySetId="categoryEntitySet">
+        <entity name="yemek" alternateName="@array/food_synonyms"/>
+        <entity name="ulasim" alternateName="@array/transport_synonyms"/>
+        <entity name="eglence" alternateName="@array/entertainment_synonyms"/>
+        <entity name="alisveris" alternateName="@array/shopping_synonyms"/>
+        <entity name="saglik" alternateName="@array/health_synonyms"/>
+        <entity name="fatura" alternateName="@array/bills_synonyms"/>
+    </entity-set>
+</actions>

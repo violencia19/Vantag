@@ -144,6 +144,10 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                         // Subscription name
                         TextFormField(
                           controller: _nameController,
+                          keyboardType: TextInputType.text,
+                          enableSuggestions: true,
+                          autocorrect: false,
+                          enableIMEPersonalizedLearning: true,
                           style: const TextStyle(color: AppColors.textPrimary),
                           decoration: _inputDecoration(l10n.subscriptionName, l10n.subscriptionNameHint),
                           validator: (v) => v?.trim().isEmpty == true ? l10n.nameRequired : null,

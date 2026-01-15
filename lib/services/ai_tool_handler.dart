@@ -1,11 +1,15 @@
 import '../models/models.dart';
+import '../models/currency.dart';
 import '../providers/finance_provider.dart';
+import '../utils/duplicate_checker.dart';
 import 'calculation_service.dart';
+import 'currency_service.dart';
 
 /// AI tool çağrılarını işleyen handler
 class AIToolHandler {
   final FinanceProvider _financeProvider;
   final CalculationService _calculationService = CalculationService();
+  final CurrencyService _currencyService = CurrencyService();
 
   AIToolHandler(this._financeProvider);
 
@@ -230,10 +234,68 @@ class AIToolHandler {
       return {'error': 'Kullanıcı profili bulunamadı'};
     }
 
-    final amount = (args['amount'] as num).toDouble();
+    final enteredAmount = (args['amount'] as num).toDouble();
     final category = args['category'] as String;
     final description = args['description'] as String?;
     final decisionStr = args['decision'] as String;
+    final currencyCode = args['currency'] as String?;
+    final force = args['force'] as bool? ?? false;
+
+    // Get user's income currency
+    final incomeCurrencyCode = user.incomeSources.isNotEmpty
+        ? user.incomeSources.first.currencyCode
+        : 'TRY';
+    final expenseCurrencyCode = currencyCode ?? incomeCurrencyCode;
+    final isDifferentCurrency = expenseCurrencyCode != incomeCurrencyCode;
+
+    // Convert to income currency if needed
+    double amountInIncomeCurrency = enteredAmount;
+    if (isDifferentCurrency) {
+      final rates = await _currencyService.getRates();
+      if (rates != null) {
+        amountInIncomeCurrency = _convertCurrency(
+          enteredAmount,
+          expenseCurrencyCode,
+          incomeCurrencyCode,
+          rates,
+        );
+      }
+    }
+
+    // Duplicate kontrolü (force değilse)
+    if (!force) {
+      final duplicates = DuplicateChecker.findDuplicates(
+        expenses: _financeProvider.expenses,
+        amount: amountInIncomeCurrency,
+        category: category,
+      );
+
+      if (duplicates.isNotEmpty) {
+        final match = duplicates.first;
+        final timeDiff = match.timeSinceEntry;
+        String timeAgo;
+        if (timeDiff.inMinutes < 1) {
+          timeAgo = 'just now';
+        } else if (timeDiff.inMinutes < 60) {
+          timeAgo = '${timeDiff.inMinutes} minutes ago';
+        } else if (timeDiff.inHours < 24) {
+          timeAgo = '${timeDiff.inHours} hours ago';
+        } else {
+          timeAgo = '${timeDiff.inDays} days ago';
+        }
+
+        return {
+          'duplicate_found': true,
+          'amount': enteredAmount,
+          'currency': expenseCurrencyCode,
+          'category': category,
+          'existing_amount': match.expense.amount,
+          'existing_category': match.expense.category,
+          'time_ago': timeAgo,
+          'message': 'Similar expense found: ${match.expense.amount.toStringAsFixed(0)} $category ($timeAgo). Add anyway?',
+        };
+      }
+    }
 
     ExpenseDecision decision;
     switch (decisionStr) {
@@ -250,16 +312,16 @@ class AIToolHandler {
         decision = ExpenseDecision.yes;
     }
 
-    // Hesaplama
+    // Hesaplama (income currency üzerinden)
     final result = _calculationService.calculateExpense(
       userProfile: user,
-      expenseAmount: amount,
+      expenseAmount: amountInIncomeCurrency,
       month: DateTime.now().month,
       year: DateTime.now().year,
     );
 
     final expense = Expense(
-      amount: amount,
+      amount: amountInIncomeCurrency,
       category: category,
       subCategory: description,
       date: DateTime.now(),
@@ -268,19 +330,55 @@ class AIToolHandler {
       decision: decision,
       decisionDate: DateTime.now(),
       recordType: RecordType.real,
+      originalAmount: isDifferentCurrency ? enteredAmount : null,
+      originalCurrency: isDifferentCurrency ? expenseCurrencyCode : null,
     );
 
     await _financeProvider.addExpense(expense);
 
+    final currency = getCurrencyByCode(expenseCurrencyCode);
     return {
       'success': true,
-      'amount': amount,
+      'amount': enteredAmount,
+      'currency': expenseCurrencyCode,
+      'currency_symbol': currency.symbol,
+      'converted_amount': isDifferentCurrency ? amountInIncomeCurrency : null,
       'category': category,
       'description': description,
       'decision': decisionStr,
       'hours_required': result.hoursRequired.roundToDouble(),
-      'message': 'Harcama kaydedildi',
+      'message': isDifferentCurrency
+          ? 'Harcama kaydedildi (${currency.symbol}$enteredAmount → ₺${amountInIncomeCurrency.toStringAsFixed(0)})'
+          : 'Harcama kaydedildi',
     };
+  }
+
+  /// Convert amount between currencies using exchange rates
+  double _convertCurrency(double amount, String from, String to, ExchangeRates rates) {
+    // Get TRY values for each currency
+    double getTryValue(String code) {
+      switch (code) {
+        case 'TRY':
+          return 1.0;
+        case 'USD':
+          return rates.usdRate;
+        case 'EUR':
+          return rates.eurRate;
+        case 'GBP':
+          return rates.usdRate * 1.27; // Approximate GBP/USD
+        case 'SAR':
+          return rates.usdRate / 3.75; // SAR pegged to USD
+        default:
+          return 1.0;
+      }
+    }
+
+    final fromTry = getTryValue(from);
+    final toTry = getTryValue(to);
+
+    // Convert: from -> TRY -> to
+    final amountInTry = amount * fromTry;
+    return amountInTry / toTry;
   }
 
   Future<Map<String, dynamic>> _updateExpenseDecision(Map<String, dynamic> args) async {

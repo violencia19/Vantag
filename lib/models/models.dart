@@ -6,3 +6,4 @@ export 'achievement.dart';
 export 'subscription.dart';
 export 'currency.dart';
 export 'personality_mode.dart';
+export 'voice_parse_result.dart';
