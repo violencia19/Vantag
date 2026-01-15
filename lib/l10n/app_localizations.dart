@@ -1238,6 +1238,30 @@ abstract class AppLocalizations {
   /// **'{count} records'**
   String recordCount(int count);
 
+  /// No description provided for @recordCountLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'{shown} of {total} records'**
+  String recordCountLimited(int shown, int total);
+
+  /// No description provided for @unlockFullHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Full History'**
+  String get unlockFullHistory;
+
+  /// No description provided for @proHistoryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Free users can view last 30 days. Upgrade to Pro for unlimited history.'**
+  String proHistoryDescription(int count);
+
+  /// No description provided for @upgradeToPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro'**
+  String get upgradeToPro;
+
   /// No description provided for @streakTracking.
   ///
   /// In en, this message translates to:
@@ -4231,24 +4255,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap + to add your first expense'**
   String get tapPlusToAdd;
-
-  /// No description provided for @unlockFullHistory.
-  ///
-  /// In en, this message translates to:
-  /// **'Unlock Full History'**
-  String get unlockFullHistory;
-
-  /// No description provided for @proHistoryDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Free users can view last 30 days. Upgrade to Pro for unlimited history.'**
-  String get proHistoryDescription;
-
-  /// No description provided for @upgradeToPro.
-  ///
-  /// In en, this message translates to:
-  /// **'Upgrade to Pro'**
-  String get upgradeToPro;
 
   /// No description provided for @expenseAdded.
   ///

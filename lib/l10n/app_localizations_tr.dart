@@ -609,6 +609,22 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String recordCountLimited(int shown, int total) {
+    return '$total kayıttan $shown tanesi';
+  }
+
+  @override
+  String get unlockFullHistory => 'Tam Geçmişi Aç';
+
+  @override
+  String proHistoryDescription(int count) {
+    return 'Ücretsiz kullanıcılar son 30 günü görebilir. Sınırsız geçmiş için Pro\'ya yükseltin.';
+  }
+
+  @override
+  String get upgradeToPro => 'Pro\'ya Yükselt';
+
+  @override
   String get streakTracking => 'Seri Takibi';
 
   @override
@@ -2276,16 +2292,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get tapPlusToAdd => 'İlk harcamanı eklemek için + butonuna dokun';
-
-  @override
-  String get unlockFullHistory => 'Tam Geçmişi Aç';
-
-  @override
-  String get proHistoryDescription =>
-      'Ücretsiz kullanıcılar son 30 günü görebilir. Sınırsız geçmiş için Pro\'ya yükseltin.';
-
-  @override
-  String get upgradeToPro => 'Pro\'ya Yükselt';
 
   @override
   String get expenseAdded => 'Harcama başarıyla eklendi';

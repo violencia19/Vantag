@@ -609,6 +609,22 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String recordCountLimited(int shown, int total) {
+    return '$shown of $total records';
+  }
+
+  @override
+  String get unlockFullHistory => 'Unlock Full History';
+
+  @override
+  String proHistoryDescription(int count) {
+    return 'Free users can view last 30 days. Upgrade to Pro for unlimited history.';
+  }
+
+  @override
+  String get upgradeToPro => 'Upgrade to Pro';
+
+  @override
   String get streakTracking => 'Streak Tracking';
 
   @override
@@ -2277,16 +2293,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tapPlusToAdd => 'Tap + to add your first expense';
-
-  @override
-  String get unlockFullHistory => 'Unlock Full History';
-
-  @override
-  String get proHistoryDescription =>
-      'Free users can view last 30 days. Upgrade to Pro for unlimited history.';
-
-  @override
-  String get upgradeToPro => 'Upgrade to Pro';
 
   @override
   String get expenseAdded => 'Expense added successfully';

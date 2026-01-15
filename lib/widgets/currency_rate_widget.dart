@@ -243,21 +243,25 @@ class CurrencyRateWidget extends StatelessWidget {
     // Get currency-aware rate items
     final rateItems = _getRateItems(selectedCurrency, rates!, l10n);
 
-    // Normal view with currency-aware rates
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        for (int i = 0; i < rateItems.length; i++) ...[
-          if (i > 0) _buildDivider(),
-          _buildRateItem(rateItems[i], l10n),
+    // Normal view with currency-aware rates - FittedBox prevents overflow
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (int i = 0; i < rateItems.length; i++) ...[
+            if (i > 0) _buildDivider(),
+            _buildRateItem(rateItems[i], l10n),
+          ],
+          const SizedBox(width: 8),
+          Icon(
+            PhosphorIconsDuotone.caretRight,
+            size: 16,
+            color: AppColors.textTertiary.withValues(alpha: 0.7),
+          ),
         ],
-        const SizedBox(width: 8),
-        Icon(
-          PhosphorIconsDuotone.caretRight,
-          size: 16,
-          color: AppColors.textTertiary.withValues(alpha: 0.7),
-        ),
-      ],
+      ),
     );
   }
 
