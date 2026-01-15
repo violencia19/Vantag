@@ -52,7 +52,16 @@
       "Bash(powershell \"Get-Process | Where-Object {$_ProcessName -like ''*mmr*'' -or $_ProcessName -like ''*devenv*'' -or $_ProcessName -like ''*msbuild*''} | Select-Object ProcessName, Id\")",
       "Bash(gradlew --stop:*)",
       "Bash(c:flutter_projectsmmr_appandroidgradlew.bat --stop)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(git -C c:/flutter_projects/mmr_app status)",
+      "Bash(git -C c:/flutter_projects/mmr_app add lib/ test/)",
+      "Bash(git -C c:/flutter_projects/mmr_app status --short)",
+      "Bash(git -C c:/flutter_projects/mmr_app commit -m \"$\\(cat <<''EOF''\nfeat: currency system overhaul\n\n- Currency selection \\(TRY, USD, EUR, GBP, SAR\\)\n- Dynamic currency ticker based on selected currency\n- Smart expense input toggle \\(income vs display currency\\)\n- Cross-rate calculations from TCMB API\n- Gold: gram for TRY, oz for others\n- Localized hour abbreviation \\(h/sa\\)\n- Splash screen: removed logo, video fade out\n- Expense model: originalAmount/originalCurrency fields\n- Currency exports from models barrel\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C c:/flutter_projects/mmr_app push origin main)",
+      "Bash(git -C c:/flutter_projects/mmr_app add CLAUDE.md)",
+      "Bash(git -C c:/flutter_projects/mmr_app commit -m \"$\\(cat <<''EOF''\ndocs: update CLAUDE.md with currency system documentation\n\n- Currency selection and provider details\n- Expense input currency toggle logic\n- Dynamic currency ticker behavior\n- API cross-rate calculations\n- New files and todo list\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(findstr:*)",
+      "Bash(flutter emulators:*)"
     ]
   }
 }
