@@ -79,16 +79,16 @@ class PremiumDecorations {
 class PremiumShadows {
   PremiumShadows._();
 
-  /// Purple glow - intense
+  /// Purple glow - intense (Design System: opacity 0.4, blur 24px)
   static List<BoxShadow> glowPurple = [
     BoxShadow(
-      color: PremiumColors.purple.withOpacity(0.3),
-      blurRadius: 20,
-      spreadRadius: 0,
+      color: PremiumColors.purple.withOpacity(0.4),
+      blurRadius: 24,
+      spreadRadius: 2,
     ),
     BoxShadow(
-      color: PremiumColors.purple.withOpacity(0.15),
-      blurRadius: 40,
+      color: PremiumColors.purple.withOpacity(0.2),
+      blurRadius: 48,
       spreadRadius: 0,
     ),
   ];
@@ -96,8 +96,8 @@ class PremiumShadows {
   /// Purple glow - soft
   static List<BoxShadow> glowPurpleSoft = [
     BoxShadow(
-      color: PremiumColors.purple.withOpacity(0.2),
-      blurRadius: 30,
+      color: PremiumColors.purple.withOpacity(0.3),
+      blurRadius: 32,
       spreadRadius: 0,
     ),
   ];
@@ -105,61 +105,61 @@ class PremiumShadows {
   /// Premium shadow - subtle
   static List<BoxShadow> shadowPremium = [
     BoxShadow(
-      color: Colors.black.withOpacity(0.4),
-      blurRadius: 8,
-      offset: const Offset(0, 2),
-    ),
-    BoxShadow(
-      color: Colors.black.withOpacity(0.25),
-      blurRadius: 32,
-      offset: const Offset(0, 8),
-    ),
-  ];
-
-  /// Premium shadow - floating effect
-  static List<BoxShadow> shadowPremiumFloat = [
-    BoxShadow(
-      color: Colors.black.withOpacity(0.3),
+      color: Colors.black.withOpacity(0.5),
       blurRadius: 12,
       offset: const Offset(0, 4),
     ),
     BoxShadow(
-      color: Colors.black.withOpacity(0.2),
+      color: Colors.black.withOpacity(0.3),
       blurRadius: 40,
       offset: const Offset(0, 12),
     ),
+  ];
+
+  /// Premium shadow - floating effect (Design System: enhanced)
+  static List<BoxShadow> shadowPremiumFloat = [
     BoxShadow(
-      color: PremiumColors.purple.withOpacity(0.15),
-      blurRadius: 20,
+      color: Colors.black.withOpacity(0.4),
+      blurRadius: 16,
+      offset: const Offset(0, 6),
+    ),
+    BoxShadow(
+      color: Colors.black.withOpacity(0.25),
+      blurRadius: 48,
+      offset: const Offset(0, 16),
+    ),
+    BoxShadow(
+      color: PremiumColors.purple.withOpacity(0.3),
+      blurRadius: 24,
       spreadRadius: 0,
     ),
   ];
 
-  /// Icon halo - drop shadow for icons
+  /// Icon halo - drop shadow for icons (Design System: enhanced)
   static List<Shadow> iconHalo(Color color) {
     return [
       Shadow(
-        color: color.withOpacity(0.5),
-        blurRadius: 12,
+        color: color.withOpacity(0.6),
+        blurRadius: 16,
       ),
       Shadow(
-        color: color.withOpacity(0.3),
-        blurRadius: 24,
+        color: color.withOpacity(0.4),
+        blurRadius: 32,
       ),
     ];
   }
 
-  /// Colored glow
+  /// Colored glow (Design System: intensity boosted)
   static List<BoxShadow> coloredGlow(Color color, {double intensity = 1.0}) {
     return [
       BoxShadow(
-        color: color.withOpacity(0.4 * intensity),
-        blurRadius: 20,
-        spreadRadius: 0,
+        color: color.withOpacity(0.5 * intensity),
+        blurRadius: 24,
+        spreadRadius: 2,
       ),
       BoxShadow(
-        color: color.withOpacity(0.2 * intensity),
-        blurRadius: 40,
+        color: color.withOpacity(0.3 * intensity),
+        blurRadius: 48,
         spreadRadius: 0,
       ),
     ];
@@ -218,22 +218,26 @@ class GradientBorder extends StatelessWidget {
 // GLASS CARD WIDGET
 // ===========================================
 
+/// Glass Card Widget - Design System Compliant
+/// blur: 25px, border: 0.2 opacity, background: koyu mor 0.6 opacity
 class GlassCard extends StatelessWidget {
   final Widget child;
   final double borderRadius;
   final EdgeInsets? padding;
   final double blur;
   final Color? backgroundColor;
+  final Gradient? backgroundGradient;
   final bool showBorder;
   final List<BoxShadow>? boxShadow;
 
   const GlassCard({
     super.key,
     required this.child,
-    this.borderRadius = 16,
+    this.borderRadius = 20,
     this.padding,
-    this.blur = 20,
+    this.blur = 25,
     this.backgroundColor,
+    this.backgroundGradient,
     this.showBorder = true,
     this.boxShadow,
   });
@@ -245,14 +249,17 @@ class GlassCard extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(
-          padding: padding ?? const EdgeInsets.all(16),
+          padding: padding ?? const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: backgroundColor ?? Colors.white.withOpacity(0.08),
+            color: backgroundGradient == null
+                ? (backgroundColor ?? const Color(0xFF2D1B4E).withOpacity(0.6))
+                : null,
+            gradient: backgroundGradient,
             borderRadius: BorderRadius.circular(borderRadius),
             border: showBorder
                 ? Border.all(
-                    color: Colors.white.withOpacity(0.12),
-                    width: 1,
+                    color: Colors.white.withOpacity(0.2),
+                    width: 1.5,
                   )
                 : null,
             boxShadow: boxShadow,
@@ -341,6 +348,7 @@ class _ShimmerEffectState extends State<ShimmerEffect>
 // BREATHE GLOW - Pulse Animation
 // ===========================================
 
+/// Breathe Glow - Design System: Enhanced pulse animation
 class BreatheGlow extends StatefulWidget {
   final Widget child;
   final Color glowColor;
@@ -353,10 +361,10 @@ class BreatheGlow extends StatefulWidget {
     super.key,
     required this.child,
     this.glowColor = PremiumColors.purple,
-    this.minOpacity = 0.4,
-    this.maxOpacity = 0.7,
-    this.duration = const Duration(seconds: 3),
-    this.blurRadius = 30,
+    this.minOpacity = 0.3,
+    this.maxOpacity = 0.6,
+    this.duration = const Duration(milliseconds: 2500),
+    this.blurRadius = 40,
   });
 
   @override
@@ -813,6 +821,466 @@ class RadialGradientOverlay extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+// ===========================================
+// ANIMATED COUNT-UP
+// ===========================================
+
+/// Count-up animation for numbers
+/// Duration: 800ms, Curve: easeOutCubic
+class AnimatedCountUp extends StatelessWidget {
+  final double value;
+  final double? previousValue;
+  final Duration duration;
+  final Curve curve;
+  final TextStyle? style;
+  final String Function(double value)? formatter;
+
+  const AnimatedCountUp({
+    super.key,
+    required this.value,
+    this.previousValue,
+    this.duration = const Duration(milliseconds: 800),
+    this.curve = Curves.easeOutCubic,
+    this.style,
+    this.formatter,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(
+        begin: previousValue ?? 0,
+        end: value,
+      ),
+      duration: duration,
+      curve: curve,
+      builder: (context, animatedValue, child) {
+        final displayValue = formatter != null
+            ? formatter!(animatedValue)
+            : animatedValue.toStringAsFixed(0);
+        return Text(displayValue, style: style);
+      },
+    );
+  }
+}
+
+// ===========================================
+// ANIMATED PROGRESS BAR
+// ===========================================
+
+/// Animated progress bar with delay support
+/// Duration: 600ms, Delay: customizable
+class AnimatedProgressBar extends StatefulWidget {
+  final double progress;
+  final double height;
+  final Color? backgroundColor;
+  final Color? progressColor;
+  final Gradient? progressGradient;
+  final Duration duration;
+  final Duration delay;
+  final Curve curve;
+  final BorderRadius? borderRadius;
+  final List<BoxShadow>? boxShadow;
+
+  const AnimatedProgressBar({
+    super.key,
+    required this.progress,
+    this.height = 8,
+    this.backgroundColor,
+    this.progressColor,
+    this.progressGradient,
+    this.duration = const Duration(milliseconds: 600),
+    this.delay = Duration.zero,
+    this.curve = Curves.easeOutCubic,
+    this.borderRadius,
+    this.boxShadow,
+  });
+
+  @override
+  State<AnimatedProgressBar> createState() => _AnimatedProgressBarState();
+}
+
+class _AnimatedProgressBarState extends State<AnimatedProgressBar>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  bool _started = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: widget.duration,
+      vsync: this,
+    );
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: widget.curve,
+    );
+
+    // Start after delay
+    Future.delayed(widget.delay, () {
+      if (mounted) {
+        _started = true;
+        _controller.forward();
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(AnimatedProgressBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.progress != widget.progress && _started) {
+      _controller.forward(from: 0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final radius = widget.borderRadius ?? BorderRadius.circular(widget.height / 2);
+
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        final animatedProgress = widget.progress * _animation.value;
+
+        return Container(
+          height: widget.height,
+          decoration: BoxDecoration(
+            color: widget.backgroundColor ?? Colors.white.withOpacity(0.1),
+            borderRadius: radius,
+          ),
+          child: Stack(
+            children: [
+              FractionallySizedBox(
+                widthFactor: animatedProgress.clamp(0.0, 1.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: widget.progressGradient == null
+                        ? (widget.progressColor ?? PremiumColors.purple)
+                        : null,
+                    gradient: widget.progressGradient,
+                    borderRadius: radius,
+                    boxShadow: widget.boxShadow,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+// ===========================================
+// STAGGERED SLIDE-UP ANIMATION
+// ===========================================
+
+/// Slide-up + fade-in animation for cards
+/// Duration: 400ms, Stagger: 100ms per item
+class StaggeredSlideUp extends StatefulWidget {
+  final Widget child;
+  final int index;
+  final Duration duration;
+  final Duration staggerDelay;
+  final double slideOffset;
+  final Curve curve;
+  final bool animate;
+
+  const StaggeredSlideUp({
+    super.key,
+    required this.child,
+    required this.index,
+    this.duration = const Duration(milliseconds: 400),
+    this.staggerDelay = const Duration(milliseconds: 100),
+    this.slideOffset = 30,
+    this.curve = Curves.easeOutCubic,
+    this.animate = true,
+  });
+
+  @override
+  State<StaggeredSlideUp> createState() => _StaggeredSlideUpState();
+}
+
+class _StaggeredSlideUpState extends State<StaggeredSlideUp>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _slideAnimation;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: widget.duration,
+      vsync: this,
+    );
+
+    _slideAnimation = Tween<double>(
+      begin: widget.slideOffset,
+      end: 0,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: widget.curve,
+    ));
+
+    _fadeAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: widget.curve,
+    ));
+
+    if (widget.animate) {
+      final delay = widget.staggerDelay * widget.index;
+      Future.delayed(delay, () {
+        if (mounted) _controller.forward();
+      });
+    } else {
+      _controller.value = 1.0;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, _slideAnimation.value),
+          child: Opacity(
+            opacity: _fadeAnimation.value,
+            child: widget.child,
+          ),
+        );
+      },
+    );
+  }
+}
+
+// ===========================================
+// SCALE FADE ANIMATION
+// ===========================================
+
+/// Scale + fade animation for badges/achievements
+class ScaleFadeIn extends StatefulWidget {
+  final Widget child;
+  final int index;
+  final Duration duration;
+  final Duration staggerDelay;
+  final double startScale;
+  final Curve curve;
+  final bool animate;
+
+  const ScaleFadeIn({
+    super.key,
+    required this.child,
+    this.index = 0,
+    this.duration = const Duration(milliseconds: 400),
+    this.staggerDelay = const Duration(milliseconds: 80),
+    this.startScale = 0.8,
+    this.curve = Curves.easeOutBack,
+    this.animate = true,
+  });
+
+  @override
+  State<ScaleFadeIn> createState() => _ScaleFadeInState();
+}
+
+class _ScaleFadeInState extends State<ScaleFadeIn>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: widget.duration,
+      vsync: this,
+    );
+
+    _scaleAnimation = Tween<double>(
+      begin: widget.startScale,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: widget.curve,
+    ));
+
+    _fadeAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    ));
+
+    if (widget.animate) {
+      final delay = widget.staggerDelay * widget.index;
+      Future.delayed(delay, () {
+        if (mounted) _controller.forward();
+      });
+    } else {
+      _controller.value = 1.0;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Transform.scale(
+          scale: _scaleAnimation.value,
+          child: Opacity(
+            opacity: _fadeAnimation.value,
+            child: widget.child,
+          ),
+        );
+      },
+    );
+  }
+}
+
+// ===========================================
+// PULSE GLOW ANIMATION
+// ===========================================
+
+/// Pulse glow effect for unlocked items
+class PulseGlow extends StatefulWidget {
+  final Widget child;
+  final Color glowColor;
+  final double maxBlurRadius;
+  final Duration duration;
+  final bool animate;
+
+  const PulseGlow({
+    super.key,
+    required this.child,
+    this.glowColor = PremiumColors.purple,
+    this.maxBlurRadius = 20,
+    this.duration = const Duration(milliseconds: 1500),
+    this.animate = true,
+  });
+
+  @override
+  State<PulseGlow> createState() => _PulseGlowState();
+}
+
+class _PulseGlowState extends State<PulseGlow>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: widget.duration,
+      vsync: this,
+    );
+
+    _animation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+
+    if (widget.animate) {
+      _controller.repeat(reverse: true);
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!widget.animate) return widget.child;
+
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: widget.glowColor.withOpacity(0.3 * _animation.value),
+                blurRadius: widget.maxBlurRadius * _animation.value,
+                spreadRadius: 2 * _animation.value,
+              ),
+            ],
+          ),
+          child: widget.child,
+        );
+      },
+    );
+  }
+}
+
+// ===========================================
+// PAGE TRANSITION WRAPPER
+// ===========================================
+
+/// Wrapper to trigger animations on page change
+class AnimatedPageContent extends StatefulWidget {
+  final Widget child;
+  final bool shouldAnimate;
+  final VoidCallback? onAnimationComplete;
+
+  const AnimatedPageContent({
+    super.key,
+    required this.child,
+    this.shouldAnimate = true,
+    this.onAnimationComplete,
+  });
+
+  @override
+  State<AnimatedPageContent> createState() => AnimatedPageContentState();
+}
+
+class AnimatedPageContentState extends State<AnimatedPageContent> {
+  Key _contentKey = UniqueKey();
+
+  /// Call this to replay animations (e.g., on pull-to-refresh)
+  void replayAnimations() {
+    setState(() {
+      _contentKey = UniqueKey();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return KeyedSubtree(
+      key: _contentKey,
+      child: widget.child,
     );
   }
 }

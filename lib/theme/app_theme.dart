@@ -150,12 +150,26 @@ class AppGradients {
   );
 }
 
+/// Premium Font Families
+/// Headings/Numbers: Space Grotesk (modern fintech feel)
+/// Body: DM Sans (clean, readable)
+class AppFonts {
+  AppFonts._();
+
+  static String get heading => GoogleFonts.spaceGrotesk().fontFamily!;
+  static String get body => GoogleFonts.dmSans().fontFamily!;
+  static String get mono => GoogleFonts.jetBrainsMono().fontFamily!;
+}
+
 class AppTheme {
   static ThemeData get darkTheme {
+    final headingFont = AppFonts.heading;
+    final bodyFont = AppFonts.body;
+
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      fontFamily: GoogleFonts.inter().fontFamily,
+      fontFamily: bodyFont, // DM Sans as default
       scaffoldBackgroundColor: AppColors.background,
       colorScheme: const ColorScheme.dark(
         surface: AppColors.background,
@@ -273,78 +287,105 @@ class AppTheme {
         color: AppColors.cardBorder,
         thickness: 1,
       ),
-      textTheme: const TextTheme(
+      // Premium TextTheme with Space Grotesk for numbers/headings, DM Sans for body
+      textTheme: TextTheme(
+        // Display styles - Space Grotesk (for large numbers)
         displayLarge: TextStyle(
+          fontFamily: headingFont,
           fontSize: 56,
-          fontWeight: FontWeight.w300,
+          fontWeight: FontWeight.w700,
           color: AppColors.textPrimary,
           letterSpacing: -2,
         ),
         displayMedium: TextStyle(
+          fontFamily: headingFont,
           fontSize: 48,
           fontWeight: FontWeight.w700,
           color: AppColors.textPrimary,
           letterSpacing: -1,
         ),
         displaySmall: TextStyle(
+          fontFamily: headingFont,
           fontSize: 32,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
           letterSpacing: -0.5,
         ),
+        // Headline styles - Space Grotesk
+        headlineLarge: TextStyle(
+          fontFamily: headingFont,
+          fontSize: 32,
+          fontWeight: FontWeight.w700,
+          color: AppColors.textPrimary,
+          letterSpacing: -1,
+        ),
         headlineMedium: TextStyle(
+          fontFamily: headingFont,
           fontSize: 28,
           fontWeight: FontWeight.w700,
           color: AppColors.textPrimary,
           letterSpacing: -0.5,
         ),
         headlineSmall: TextStyle(
+          fontFamily: headingFont,
           fontSize: 24,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
+        // Title styles - Space Grotesk (for section headers)
         titleLarge: TextStyle(
+          fontFamily: headingFont,
           fontSize: 18,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
         titleMedium: TextStyle(
+          fontFamily: headingFont,
           fontSize: 16,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
         titleSmall: TextStyle(
+          fontFamily: headingFont,
           fontSize: 14,
           fontWeight: FontWeight.w500,
           color: AppColors.textSecondary,
         ),
+        // Body styles - DM Sans (for readable text)
         bodyLarge: TextStyle(
+          fontFamily: bodyFont,
           fontSize: 16,
           fontWeight: FontWeight.w400,
           color: AppColors.textPrimary,
         ),
         bodyMedium: TextStyle(
+          fontFamily: bodyFont,
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: AppColors.textSecondary,
         ),
         bodySmall: TextStyle(
+          fontFamily: bodyFont,
           fontSize: 13,
           fontWeight: FontWeight.w400,
           color: AppColors.textSecondary,
         ),
+        // Label styles - DM Sans
         labelLarge: TextStyle(
+          fontFamily: bodyFont,
           fontSize: 14,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
         labelMedium: TextStyle(
+          fontFamily: bodyFont,
           fontSize: 12,
           fontWeight: FontWeight.w500,
           color: AppColors.textSecondary,
           letterSpacing: 1.5,
         ),
         labelSmall: TextStyle(
+          fontFamily: bodyFont,
           fontSize: 11,
           fontWeight: FontWeight.w500,
           color: AppColors.textSecondary,

@@ -241,7 +241,18 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                             final achievement = groupedAchievements[category]![index];
                             return Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 4),
-                              child: _buildAchievementCard(achievement),
+                              child: ScaleFadeIn(
+                                index: index,
+                                duration: const Duration(milliseconds: 400),
+                                staggerDelay: const Duration(milliseconds: 80),
+                                child: achievement.isUnlocked
+                                    ? PulseGlow(
+                                        glowColor: _getTierColor(achievement.tier),
+                                        animate: achievement.isNewlyUnlocked,
+                                        child: _buildAchievementCard(achievement),
+                                      )
+                                    : _buildAchievementCard(achievement),
+                              ),
                             );
                           },
                         ),
@@ -295,7 +306,18 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                           final achievement = hiddenAchievements[index];
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: _buildHiddenAchievementCard(achievement),
+                            child: ScaleFadeIn(
+                              index: index,
+                              duration: const Duration(milliseconds: 400),
+                              staggerDelay: const Duration(milliseconds: 80),
+                              child: achievement.isUnlocked
+                                  ? PulseGlow(
+                                      glowColor: AppColors.gold,
+                                      animate: achievement.isNewlyUnlocked,
+                                      child: _buildHiddenAchievementCard(achievement),
+                                    )
+                                  : _buildHiddenAchievementCard(achievement),
+                            ),
                           );
                         },
                       ),

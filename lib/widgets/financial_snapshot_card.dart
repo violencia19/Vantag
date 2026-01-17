@@ -4,7 +4,9 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/currency_provider.dart';
-import '../theme/theme.dart';
+import '../theme/theme.dart' hide GlassCard;
+import '../theme/app_theme.dart' show AppFonts;
+import '../core/theme/premium_effects.dart';
 import '../utils/currency_utils.dart';
 
 /// Premium Financial Snapshot Card
@@ -74,8 +76,9 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
   @override
   void initState() {
     super.initState();
+    // Design System: 800ms count-up animation with easeOutCubic
     _countController = AnimationController(
-      duration: const Duration(milliseconds: 1200),
+      duration: const Duration(milliseconds: 800),
       vsync: this,
     );
     _countAnimation = CurvedAnimation(
@@ -124,168 +127,220 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
 
         return GestureDetector(
           onTap: widget.onTap,
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  const Color(0xFF1A1428),
-                  const Color(0xFF0D0A1A),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF7C3AED),  // Parlak mor - SOL ÜST
+                    Color(0xFF5B21B6),  // Orta mor
+                    Color(0xFF1E1B4B),  // Koyu mor - SAĞ ALT
+                  ],
+                ),
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.15),
+                  width: 1.5,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF8B5CF6).withOpacity(0.4),
+                    blurRadius: 32,
+                    spreadRadius: 0,
+                    offset: const Offset(0, 8),
+                  ),
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    blurRadius: 20,
+                    offset: const Offset(0, 10),
+                  ),
                 ],
               ),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(
-                color: Colors.white.withOpacity(0.08),
-                width: 1,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.4),
-                  blurRadius: 30,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header: Label + Badge
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Header: Label + Badge
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 8,
-                                height: 8,
-                                decoration: BoxDecoration(
-                                  color: isHealthy ? AppColors.success : AppColors.error,
-                                  shape: BoxShape.circle,
+                          Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: isHealthy ? AppColors.success : AppColors.error,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: (isHealthy ? AppColors.success : AppColors.error).withOpacity(0.5),
+                                  blurRadius: 8,
+                                  spreadRadius: 1,
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                l10n.netBalance.toUpperCase(),
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 1.5,
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                            ],
-                          ),
-                          if (widget.incomeSourceCount > 0)
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: AppColors.primary.withOpacity(0.15),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    PhosphorIconsDuotone.wallet,
-                                    size: 12,
-                                    color: AppColors.primary,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    l10n.sources(widget.incomeSourceCount),
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.primary,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              ],
                             ),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            l10n.netBalance.toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1.2,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
                         ],
                       ),
-
-                      const SizedBox(height: 16),
-
-                      // Big Balance Number
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            formatTurkishCurrency(
-                                currencyProvider.convertFromTRY(animatedNetBalance.abs()),
-                                decimalDigits: 0, showDecimals: false),
-                            style: TextStyle(
-                              fontSize: 48,
-                              fontWeight: FontWeight.w300,
-                              letterSpacing: -2,
-                              color: isHealthy ? Colors.white : AppColors.error,
-                              height: 1,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Text(
-                              currencyProvider.symbol,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                          ),
-                          const Spacer(),
-                          // Percentage badge
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      if (widget.incomeSourceCount > 0)
+                        ShimmerEffect(
+                          duration: const Duration(milliseconds: 3000),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: (isHealthy ? AppColors.success : AppColors.error).withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(8),
+                              color: AppColors.primary.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: AppColors.primary.withOpacity(0.3),
+                                width: 1,
+                              ),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(
-                                  isHealthy ? PhosphorIconsBold.trendUp : PhosphorIconsBold.trendDown,
+                                  PhosphorIconsDuotone.wallet,
                                   size: 14,
-                                  color: isHealthy ? AppColors.success : AppColors.error,
+                                  color: AppColors.primary,
                                 ),
-                                const SizedBox(width: 4),
+                                const SizedBox(width: 6),
                                 Text(
-                                  '${animatedRemaining.toStringAsFixed(0)}%',
-                                  style: TextStyle(
-                                    fontSize: 13,
+                                  l10n.sources(widget.incomeSourceCount),
+                                  style: const TextStyle(
+                                    fontSize: 12,
                                     fontWeight: FontWeight.w600,
-                                    color: isHealthy ? AppColors.success : AppColors.error,
+                                    color: AppColors.primary,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      // Progress Bar
-                      _buildProgressBar(l10n, currencyProvider),
-
-                      const SizedBox(height: 24),
-
-                      // Income / Expense - Mirror Layout
-                      _buildIncomeExpenseRow(l10n, animatedIncome, animatedSpent, currencyProvider),
+                        ),
                     ],
                   ),
-                ),
+
+                  const SizedBox(height: 24), // Design System: section spacing
+
+                  // Big Balance Number with BreatheGlow - HERO ELEMENT
+                  BreatheGlow(
+                    glowColor: PremiumColors.purple,
+                    blurRadius: 48, // Enhanced glow
+                    minOpacity: 0.3,
+                    maxOpacity: 0.6,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        // Design System: fontSize 52, w700, letterSpacing -1, Space Grotesk
+                        Text(
+                          formatTurkishCurrency(
+                            currencyProvider.convertFromTRY(animatedNetBalance.abs()),
+                            decimalDigits: 0,
+                            showDecimals: false,
+                          ),
+                          style: TextStyle(
+                            fontFamily: AppFonts.heading, // Space Grotesk
+                            fontSize: 52,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: -1,
+                            color: isHealthy ? Colors.white : AppColors.error,
+                            height: 1,
+                            shadows: [
+                              Shadow(
+                                color: (isHealthy ? PremiumColors.purple : AppColors.error).withOpacity(0.4),
+                                blurRadius: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Text(
+                            currencyProvider.symbol,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.textSecondary.withOpacity(0.8),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Percentage badge - with glow effect
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: (isHealthy ? AppColors.success : AppColors.error).withOpacity(0.12),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: (isHealthy ? AppColors.success : AppColors.error).withOpacity(0.25),
+                            width: 1,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: (isHealthy ? AppColors.success : AppColors.error).withOpacity(0.2),
+                              blurRadius: 16,
+                              spreadRadius: 0,
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              isHealthy ? PhosphorIconsBold.trendUp : PhosphorIconsBold.trendDown,
+                              size: 18,
+                              color: isHealthy ? AppColors.success : AppColors.error,
+                              shadows: PremiumShadows.iconHalo(
+                                isHealthy ? AppColors.success : AppColors.error,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              '${animatedRemaining.toStringAsFixed(0)}%',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.5,
+                                color: isHealthy ? AppColors.success : AppColors.error,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 24), // Design System: section spacing
+
+                  // Progress Bar with LevelProgressBar
+                  _buildProgressBar(l10n, currencyProvider),
+
+                  const SizedBox(height: 24), // Design System: section spacing
+
+                  // Income / Expense - Mirror Layout with GradientBorder
+                  _buildIncomeExpenseRow(l10n, animatedIncome, animatedSpent, currencyProvider),
+                ],
               ),
             ),
           ),
@@ -307,9 +362,6 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
       displayBudget = currencyProvider.convertFromTRY(widget.totalIncome);
     }
 
-    // Progress bar color based on percentage
-    final progressColor = spentPercent >= 70 ? AppColors.error : AppColors.primary;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -318,59 +370,72 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
           children: [
             Text(
               l10n.budgetUsage.toUpperCase(),
-              style: TextStyle(
-                fontSize: 10,
+              style: const TextStyle(
+                fontSize: 11,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 1.2,
                 color: AppColors.textTertiary,
               ),
             ),
-            Text(
-              '${formatTurkishCurrency(displaySpent, decimalDigits: 0, showDecimals: false)} / ${formatTurkishCurrency(displayBudget, decimalDigits: 0, showDecimals: false)}',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: AppColors.textSecondary,
+            // Percentage badge with shimmer
+            ShimmerEffect(
+              duration: const Duration(milliseconds: 2500),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      PremiumColors.purple.withOpacity(0.3),
+                      PremiumColors.gradientEnd.withOpacity(0.2),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: PremiumColors.purple.withOpacity(0.4),
+                    width: 1,
+                  ),
+                ),
+                child: Text(
+                  '${spentPercent.toStringAsFixed(0)}%',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 8),
-        Container(
-          height: 6,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(3),
-          ),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return Stack(
-                children: [
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 800),
-                    curve: Curves.easeOutCubic,
-                    width: constraints.maxWidth * (spentPercent / 100).clamp(0.0, 1.0),
-                    height: 6,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: spentPercent >= 70
-                            ? [AppColors.error, AppColors.error.withOpacity(0.8)]
-                            : [AppColors.primary, AppColors.primaryLight],
-                      ),
-                      borderRadius: BorderRadius.circular(3),
-                      boxShadow: [
-                        BoxShadow(
-                          color: progressColor.withOpacity(0.5),
-                          blurRadius: 8,
-                          offset: const Offset(0, 0),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
+        const SizedBox(height: 12),
+        // Premium Level Progress Bar
+        LevelProgressBar(
+          progress: (spentPercent / 100).clamp(0.0, 1.0),
+          height: 10,
+          showShimmer: true,
+        ),
+        const SizedBox(height: 10),
+        // Budget numbers
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              formatTurkishCurrency(displaySpent, decimalDigits: 0, showDecimals: false),
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textSecondary,
+              ),
+            ),
+            Text(
+              formatTurkishCurrency(displayBudget, decimalDigits: 0, showDecimals: false),
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: AppColors.textTertiary,
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -380,109 +445,156 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
     final incomeConverted = currencyProvider.convertFromTRY(income);
     final spentConverted = currencyProvider.convertFromTRY(spent);
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.03),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          // Income - Sol taraf
-          Expanded(
-            child: Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.success.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    PhosphorIconsDuotone.arrowDown,
-                    size: 20,
-                    color: AppColors.success,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.income,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      formatTurkishCurrency(incomeConverted, decimalDigits: 0, showDecimals: false),
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-
-          // Dikey Divider
-          Container(
-            width: 1,
-            height: 44,
-            margin: const EdgeInsets.symmetric(horizontal: 8),
-            color: Colors.white.withOpacity(0.1),
-          ),
-
-          // Expense - Sağ taraf (MIRROR)
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      l10n.expense,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      formatTurkishCurrency(spentConverted, decimalDigits: 0, showDecimals: false),
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 12),
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.error.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    PhosphorIconsDuotone.arrowUp,
-                    size: 20,
-                    color: AppColors.error,
-                  ),
-                ),
-              ],
-            ),
-          ),
+    return GradientBorder(
+      borderWidth: 1.5,
+      borderRadius: 20, // Design System: consistent border radius
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Colors.white.withOpacity(0.2),
+          PremiumColors.purple.withOpacity(0.5),
+          Colors.white.withOpacity(0.15),
         ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20), // Design System: 20px padding
+        child: Row(
+          children: [
+            // Income - Sol taraf
+            Expanded(
+              child: Row(
+                children: [
+                  // Icon with glow halo - enhanced
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: AppColors.success.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: PremiumShadows.coloredGlow(AppColors.success, intensity: 0.6),
+                    ),
+                    child: Icon(
+                      PhosphorIconsDuotone.arrowDown,
+                      size: 24,
+                      color: AppColors.success,
+                      shadows: PremiumShadows.iconHalo(AppColors.success),
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Design System: uppercase label, letterSpacing 1.2
+                      Text(
+                        l10n.income.toUpperCase(),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.2,
+                          color: AppColors.textTertiary,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      // Design System: fontSize 28, bold
+                      Text(
+                        formatTurkishCurrency(incomeConverted, decimalDigits: 0, showDecimals: false),
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -0.5,
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              color: AppColors.success.withOpacity(0.4),
+                              blurRadius: 16,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            // Dikey Divider - subtle gradient
+            Container(
+              width: 1,
+              height: 56,
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white.withOpacity(0.0),
+                    Colors.white.withOpacity(0.15),
+                    Colors.white.withOpacity(0.0),
+                  ],
+                ),
+              ),
+            ),
+
+            // Expense - Sağ taraf (MIRROR)
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      // Design System: uppercase label, letterSpacing 1.2
+                      Text(
+                        l10n.expense.toUpperCase(),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.2,
+                          color: AppColors.textTertiary,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      // Design System: fontSize 28, bold
+                      Text(
+                        formatTurkishCurrency(spentConverted, decimalDigits: 0, showDecimals: false),
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -0.5,
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              color: AppColors.error.withOpacity(0.4),
+                              blurRadius: 16,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 14),
+                  // Icon with glow halo - enhanced
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: AppColors.error.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: PremiumShadows.coloredGlow(AppColors.error, intensity: 0.6),
+                    ),
+                    child: Icon(
+                      PhosphorIconsDuotone.arrowUp,
+                      size: 24,
+                      color: AppColors.error,
+                      shadows: PremiumShadows.iconHalo(AppColors.error),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
