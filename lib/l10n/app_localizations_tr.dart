@@ -1259,6 +1259,31 @@ class AppLocalizationsTr extends AppLocalizations {
   String get additionalIncomeQuestion => 'Ek Geliriniz Var mı?';
 
   @override
+  String get budgetSettings => 'Bütçe Ayarları';
+
+  @override
+  String get budgetSettingsHint =>
+      'İsteğe bağlı. Belirlemezseniz gelirinize göre hesaplanır.';
+
+  @override
+  String get monthlySpendingLimit => 'Aylık Harcama Limiti';
+
+  @override
+  String get monthlySpendingLimitHint =>
+      'Bu ay maksimum ne kadar harcamak istiyorsunuz?';
+
+  @override
+  String get monthlySavingsGoal => 'Aylık Tasarruf Hedefi';
+
+  @override
+  String get monthlySavingsGoalHint =>
+      'Her ay ne kadar biriktirmek istiyorsunuz?';
+
+  @override
+  String get budgetInfoMessage =>
+      'Progress bar, zorunlu giderler düşüldükten sonra kalan bütçenize göre hesaplanır.';
+
+  @override
   String get linkWithGoogleTitle => 'Google ile Bağla';
 
   @override
@@ -2651,4 +2676,50 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get laterButton => 'Daha sonra yaparım';
+
+  @override
+  String get monthlySpendingBreakdown => 'Bu Ay Harcama Dağılımı';
+
+  @override
+  String get mandatoryExpenses => 'Zorunlu';
+
+  @override
+  String get discretionaryExpenses => 'İsteğe Bağlı';
+
+  @override
+  String remainingHoursToSpend(String hours) {
+    return '$hours saat daha harcayabilirsin';
+  }
+
+  @override
+  String budgetExceeded(String amount) {
+    return 'Bütçeni $amount aştın!';
+  }
+
+  @override
+  String get activeInstallments => 'Aktif Taksitler';
+
+  @override
+  String installmentCount(int count) {
+    return '$count taksit';
+  }
+
+  @override
+  String moreInstallments(int count) {
+    return '+$count taksit daha';
+  }
+
+  @override
+  String get monthlyBurden => 'Aylık Yük';
+
+  @override
+  String get remainingDebt => 'Kalan Borç';
+
+  @override
+  String totalInterestCost(String amount, String hours) {
+    return 'Toplam vade farkı: $amount ($hours saat)';
+  }
+
+  @override
+  String get monthAbbreviation => 'ay';
 }

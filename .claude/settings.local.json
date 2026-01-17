@@ -63,7 +63,9 @@
       "Bash(findstr:*)",
       "Bash(flutter emulators:*)",
       "Bash(find:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(git rm:*)",
+      "Bash(more:*)"
     ]
   }
 }

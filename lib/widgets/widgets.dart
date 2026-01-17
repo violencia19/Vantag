@@ -46,6 +46,8 @@ export 'ai_chat_sheet.dart';
 // Premium UI
 export 'ai_insights_card.dart';
 export 'vertical_budget_indicator.dart';
+export 'budget_breakdown_card.dart';
+export 'installment_summary_card.dart';
 
 // Merchant Learning
 export 'pending_review_banner.dart';

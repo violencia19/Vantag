@@ -17,6 +17,11 @@ class FinancialSnapshotCard extends StatefulWidget {
   final int incomeSourceCount;
   final VoidCallback? onTap;
 
+  // Budget-based parameters (optional)
+  final double? availableBudget; // Discretionary budget after mandatory
+  final double? discretionarySpent; // Only discretionary expenses
+  final double? mandatorySpent; // Mandatory expenses total
+
   const FinancialSnapshotCard({
     super.key,
     required this.totalIncome,
@@ -25,6 +30,9 @@ class FinancialSnapshotCard extends StatefulWidget {
     this.savedCount = 0,
     this.incomeSourceCount = 1,
     this.onTap,
+    this.availableBudget,
+    this.discretionarySpent,
+    this.mandatorySpent,
   });
 
   @override
@@ -41,10 +49,26 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
   double _previousSpent = 0;
 
   double get netBalance => widget.totalIncome - widget.totalSpent;
-  double get remainingPercent =>
-      widget.totalIncome > 0 ? ((widget.totalIncome - widget.totalSpent) / widget.totalIncome * 100).clamp(0, 100) : 100;
-  double get spentPercent =>
-      widget.totalIncome > 0 ? (widget.totalSpent / widget.totalIncome * 100).clamp(0, 100) : 0;
+
+  // Budget-based progress calculation
+  bool get _hasBudgetData =>
+      widget.availableBudget != null && widget.discretionarySpent != null;
+
+  /// Progress bar için harcama yüzdesi
+  /// Budget varsa: discretionarySpent / availableBudget
+  /// Yoksa: totalSpent / totalIncome
+  double get spentPercent {
+    if (_hasBudgetData && widget.availableBudget! > 0) {
+      return (widget.discretionarySpent! / widget.availableBudget! * 100)
+          .clamp(0, 150);
+    }
+    return widget.totalIncome > 0
+        ? (widget.totalSpent / widget.totalIncome * 100).clamp(0, 100)
+        : 0;
+  }
+
+  double get remainingPercent => (100 - spentPercent).clamp(0, 100);
+
   bool get isHealthy => netBalance >= 0;
 
   @override
@@ -271,8 +295,20 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
   }
 
   Widget _buildProgressBar(AppLocalizations l10n, CurrencyProvider currencyProvider) {
-    final spentConverted = currencyProvider.convertFromTRY(widget.totalSpent);
-    final incomeConverted = currencyProvider.convertFromTRY(widget.totalIncome);
+    // Budget-based values when available
+    final double displaySpent;
+    final double displayBudget;
+
+    if (_hasBudgetData) {
+      displaySpent = currencyProvider.convertFromTRY(widget.discretionarySpent!);
+      displayBudget = currencyProvider.convertFromTRY(widget.availableBudget!);
+    } else {
+      displaySpent = currencyProvider.convertFromTRY(widget.totalSpent);
+      displayBudget = currencyProvider.convertFromTRY(widget.totalIncome);
+    }
+
+    // Progress bar color based on percentage
+    final progressColor = spentPercent >= 70 ? AppColors.error : AppColors.primary;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,7 +326,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
               ),
             ),
             Text(
-              '${formatTurkishCurrency(spentConverted, decimalDigits: 0, showDecimals: false)} / ${formatTurkishCurrency(incomeConverted, decimalDigits: 0, showDecimals: false)}',
+              '${formatTurkishCurrency(displaySpent, decimalDigits: 0, showDecimals: false)} / ${formatTurkishCurrency(displayBudget, decimalDigits: 0, showDecimals: false)}',
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -317,15 +353,14 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                     height: 6,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [
-                          AppColors.primary,
-                          AppColors.primaryLight,
-                        ],
+                        colors: spentPercent >= 70
+                            ? [AppColors.error, AppColors.error.withOpacity(0.8)]
+                            : [AppColors.primary, AppColors.primaryLight],
                       ),
                       borderRadius: BorderRadius.circular(3),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withOpacity(0.5),
+                          color: progressColor.withOpacity(0.5),
                           blurRadius: 8,
                           offset: const Offset(0, 0),
                         ),

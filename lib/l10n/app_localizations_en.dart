@@ -1259,6 +1259,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get additionalIncomeQuestion => 'Do you have additional income?';
 
   @override
+  String get budgetSettings => 'Budget Settings';
+
+  @override
+  String get budgetSettingsHint =>
+      'Optional. If not set, it will be calculated based on your income.';
+
+  @override
+  String get monthlySpendingLimit => 'Monthly Spending Limit';
+
+  @override
+  String get monthlySpendingLimitHint =>
+      'How much do you want to spend this month?';
+
+  @override
+  String get monthlySavingsGoal => 'Monthly Savings Goal';
+
+  @override
+  String get monthlySavingsGoalHint =>
+      'How much do you want to save each month?';
+
+  @override
+  String get budgetInfoMessage =>
+      'The progress bar is calculated based on your remaining budget after mandatory expenses.';
+
+  @override
   String get linkWithGoogleTitle => 'Link with Google';
 
   @override
@@ -2650,4 +2675,50 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get laterButton => 'I\'ll do it later';
+
+  @override
+  String get monthlySpendingBreakdown => 'Monthly Spending Breakdown';
+
+  @override
+  String get mandatoryExpenses => 'Mandatory';
+
+  @override
+  String get discretionaryExpenses => 'Discretionary';
+
+  @override
+  String remainingHoursToSpend(String hours) {
+    return '$hours hours left to spend';
+  }
+
+  @override
+  String budgetExceeded(String amount) {
+    return 'You exceeded your budget by $amount!';
+  }
+
+  @override
+  String get activeInstallments => 'Active Installments';
+
+  @override
+  String installmentCount(int count) {
+    return '$count installments';
+  }
+
+  @override
+  String moreInstallments(int count) {
+    return '+$count more installments';
+  }
+
+  @override
+  String get monthlyBurden => 'Monthly Burden';
+
+  @override
+  String get remainingDebt => 'Remaining Debt';
+
+  @override
+  String totalInterestCost(String amount, String hours) {
+    return 'Total interest: $amount ($hours hours)';
+  }
+
+  @override
+  String get monthAbbreviation => 'mo';
 }

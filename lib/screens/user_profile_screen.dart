@@ -26,6 +26,8 @@ class UserProfileScreen extends StatefulWidget {
 class _UserProfileScreenState extends State<UserProfileScreen> {
   final _incomeController = TextEditingController();
   final _dailyHoursController = TextEditingController();
+  final _budgetController = TextEditingController();
+  final _savingsGoalController = TextEditingController();
   final _profileService = ProfileService();
   final _authService = AuthService();
   int _workDaysPerWeek = 6;
@@ -99,6 +101,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           showDecimals: false,
         );
       }
+
+      // Bütçe değerlerini doldur
+      if (widget.existingProfile!.monthlyBudget != null) {
+        _budgetController.text = formatTurkishCurrency(
+          widget.existingProfile!.monthlyBudget!,
+          decimalDigits: 0,
+          showDecimals: false,
+        );
+      }
+      if (widget.existingProfile!.monthlySavingsGoal != null) {
+        _savingsGoalController.text = formatTurkishCurrency(
+          widget.existingProfile!.monthlySavingsGoal!,
+          decimalDigits: 0,
+          showDecimals: false,
+        );
+      }
     }
   }
 
@@ -106,6 +124,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   void dispose() {
     _incomeController.dispose();
     _dailyHoursController.dispose();
+    _budgetController.dispose();
+    _savingsGoalController.dispose();
     super.dispose();
   }
 
@@ -182,10 +202,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     setState(() => _isSaving = true);
 
+    // Bütçe değerlerini parse et
+    final budget = parseTurkishCurrency(_budgetController.text);
+    final savingsGoal = parseTurkishCurrency(_savingsGoalController.text);
+
     final profile = UserProfile(
       incomeSources: _incomeSources,
       dailyHours: dailyHours,
       workDaysPerWeek: _workDaysPerWeek,
+      monthlyBudget: budget,
+      monthlySavingsGoal: savingsGoal,
     );
 
     await _profileService.saveProfile(profile);
@@ -462,6 +488,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
                 const SizedBox(height: 32),
 
+                // Bütçe Ayarları Bölümü
+                _buildBudgetSection(l10n),
+
+                const SizedBox(height: 32),
+
                 // Save button
                 SizedBox(
                   width: double.infinity,
@@ -582,6 +613,167 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Bütçe Ayarları bölümü
+  Widget _buildBudgetSection(AppLocalizations l10n) {
+    final currencyProvider = context.watch<CurrencyProvider>();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Bölüm başlığı
+        Row(
+          children: [
+            Icon(PhosphorIconsDuotone.chartPieSlice, color: AppColors.secondary, size: 20),
+            const SizedBox(width: 8),
+            Text(
+              l10n.budgetSettings,
+              style: const TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Text(
+          l10n.budgetSettingsHint,
+          style: TextStyle(
+            color: AppColors.textTertiary,
+            fontSize: 13,
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        // Aylık bütçe
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.cardBorder),
+          ),
+          child: TextField(
+            controller: _budgetController,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [TurkishCurrencyInputFormatter()],
+            style: const TextStyle(
+              fontSize: 16,
+              color: AppColors.textPrimary,
+            ),
+            decoration: InputDecoration(
+              labelText: l10n.monthlySpendingLimit,
+              labelStyle: TextStyle(color: AppColors.textSecondary),
+              hintText: '30.000',
+              hintStyle: TextStyle(color: AppColors.textTertiary.withValues(alpha: 0.5)),
+              prefixIcon: Container(
+                margin: const EdgeInsets.only(left: 16, right: 12),
+                child: Icon(
+                  PhosphorIconsDuotone.wallet,
+                  color: AppColors.secondary,
+                  size: 22,
+                ),
+              ),
+              prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+              suffixText: currencyProvider.code,
+              suffixStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppColors.textSecondary,
+              ),
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            ),
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          l10n.monthlySpendingLimitHint,
+          style: TextStyle(
+            color: AppColors.textTertiary,
+            fontSize: 12,
+          ),
+        ),
+
+        const SizedBox(height: 16),
+
+        // Tasarruf hedefi
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.cardBorder),
+          ),
+          child: TextField(
+            controller: _savingsGoalController,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [TurkishCurrencyInputFormatter()],
+            style: const TextStyle(
+              fontSize: 16,
+              color: AppColors.textPrimary,
+            ),
+            decoration: InputDecoration(
+              labelText: l10n.monthlySavingsGoal,
+              labelStyle: TextStyle(color: AppColors.textSecondary),
+              hintText: '5.000',
+              hintStyle: TextStyle(color: AppColors.textTertiary.withValues(alpha: 0.5)),
+              prefixIcon: Container(
+                margin: const EdgeInsets.only(left: 16, right: 12),
+                child: Icon(
+                  PhosphorIconsDuotone.piggyBank,
+                  color: AppColors.success,
+                  size: 22,
+                ),
+              ),
+              prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+              suffixText: currencyProvider.code,
+              suffixStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppColors.textSecondary,
+              ),
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            ),
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          l10n.monthlySavingsGoalHint,
+          style: TextStyle(
+            color: AppColors.textTertiary,
+            fontSize: 12,
+          ),
+        ),
+
+        // Bilgi kartı
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: AppColors.info.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: AppColors.info.withValues(alpha: 0.3)),
+          ),
+          child: Row(
+            children: [
+              Icon(PhosphorIconsDuotone.lightbulb, color: AppColors.info, size: 20),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  l10n.budgetInfoMessage,
+                  style: TextStyle(
+                    color: AppColors.info,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

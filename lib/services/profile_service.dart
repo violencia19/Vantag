@@ -15,6 +15,10 @@ class ProfileService {
   // Yeni format keys
   static const _keyIncomeSources = 'income_sources';
 
+  // Bütçe ayarları
+  static const _keyMonthlyBudget = 'monthly_budget';
+  static const _keySavingsGoal = 'savings_goal';
+
   Future<UserProfile?> getProfile() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -25,6 +29,10 @@ class ProfileService {
       return null;
     }
 
+    // Bütçe ayarlarını oku
+    final monthlyBudget = prefs.getDouble(_keyMonthlyBudget);
+    final savingsGoal = prefs.getDouble(_keySavingsGoal);
+
     // Önce yeni format'ı kontrol et
     final incomeSourcesJson = prefs.getString(_keyIncomeSources);
     if (incomeSourcesJson != null && incomeSourcesJson.isNotEmpty) {
@@ -34,6 +42,8 @@ class ProfileService {
           incomeSources: incomeSources,
           dailyHours: hours,
           workDaysPerWeek: days,
+          monthlyBudget: monthlyBudget,
+          monthlySavingsGoal: savingsGoal,
         );
       } catch (e) {
         // Decode hatası - eski formattan devam et
@@ -49,6 +59,8 @@ class ProfileService {
         incomeSources: [salarySource],
         dailyHours: hours,
         workDaysPerWeek: days,
+        monthlyBudget: monthlyBudget,
+        monthlySavingsGoal: savingsGoal,
       );
 
       // Yeni format'ta kaydet
@@ -61,6 +73,8 @@ class ProfileService {
       incomeSources: [],
       dailyHours: hours,
       workDaysPerWeek: days,
+      monthlyBudget: monthlyBudget,
+      monthlySavingsGoal: savingsGoal,
     );
   }
 
@@ -79,6 +93,19 @@ class ProfileService {
     await prefs.setDouble(_keyMonthlyIncome, profile.monthlyIncome);
     await prefs.setDouble(_keyDailyHours, profile.dailyHours);
     await prefs.setInt(_keyWorkDaysPerWeek, profile.workDaysPerWeek);
+
+    // Bütçe ayarları
+    if (profile.monthlyBudget != null) {
+      await prefs.setDouble(_keyMonthlyBudget, profile.monthlyBudget!);
+    } else {
+      await prefs.remove(_keyMonthlyBudget);
+    }
+
+    if (profile.monthlySavingsGoal != null) {
+      await prefs.setDouble(_keySavingsGoal, profile.monthlySavingsGoal!);
+    } else {
+      await prefs.remove(_keySavingsGoal);
+    }
   }
 
   /// Gelir kaynağı ekle

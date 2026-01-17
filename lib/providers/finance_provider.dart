@@ -208,6 +208,72 @@ class FinanceProvider extends ChangeNotifier {
   }
 
   // ============================================
+  // BÜTÇE VE TASARRUF HEDEFLERI
+  // ============================================
+
+  /// Aylık bütçe güncelle
+  Future<void> updateMonthlyBudget(double? budget) async {
+    if (_userProfile == null) return;
+    _userProfile = _userProfile!.copyWith(monthlyBudget: budget);
+    notifyListeners();
+    await _profileService.saveProfile(_userProfile!);
+  }
+
+  /// Tasarruf hedefi güncelle
+  Future<void> updateSavingsGoal(double? goal) async {
+    if (_userProfile == null) return;
+    _userProfile = _userProfile!.copyWith(monthlySavingsGoal: goal);
+    notifyListeners();
+    await _profileService.saveProfile(_userProfile!);
+  }
+
+  /// Saatlik ücret (fallback ile)
+  double get hourlyRate {
+    if (_userProfile == null) return 0;
+    final rate = _userProfile!.hourlyRate;
+    if (rate <= 0) {
+      // Fallback: aylık gelir / 160 saat
+      return _userProfile!.monthlyIncome / 160;
+    }
+    return rate;
+  }
+
+  // ============================================
+  // HARCAMA FİLTRELERİ VE HESAPLAMALAR
+  // ============================================
+
+  /// Bu ayki harcamalar
+  List<Expense> get currentMonthExpenses {
+    final now = DateTime.now();
+    return _expenses.where((e) =>
+      e.date.year == now.year &&
+      e.date.month == now.month
+    ).toList();
+  }
+
+  /// Aktif taksitler listesi
+  List<Expense> get activeInstallments {
+    return _expenses.where((e) =>
+      e.type == ExpenseType.installment &&
+      !e.isInstallmentCompleted
+    ).toList();
+  }
+
+  /// Bu ayki zorunlu giderler toplamı
+  double get mandatoryExpensesTotal {
+    return currentMonthExpenses
+      .where((e) => e.isMandatory)
+      .fold(0.0, (sum, e) => sum + e.amount);
+  }
+
+  /// Bu ayki isteğe bağlı giderler toplamı
+  double get discretionaryExpensesTotal {
+    return currentMonthExpenses
+      .where((e) => !e.isMandatory)
+      .fold(0.0, (sum, e) => sum + e.amount);
+  }
+
+  // ============================================
   // DİĞER SERVİSLER
   // ============================================
   Future<void> _updateStreakAfterEntry() async {

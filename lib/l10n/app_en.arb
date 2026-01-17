@@ -673,6 +673,15 @@
   "noOnlySalary": "No, Only My Salary",
   "addAdditionalIncome": "+ Add Additional Income",
   "additionalIncomeQuestion": "Do you have additional income?",
+
+  "budgetSettings": "Budget Settings",
+  "budgetSettingsHint": "Optional. If not set, it will be calculated based on your income.",
+  "monthlySpendingLimit": "Monthly Spending Limit",
+  "monthlySpendingLimitHint": "How much do you want to spend this month?",
+  "monthlySavingsGoal": "Monthly Savings Goal",
+  "monthlySavingsGoalHint": "How much do you want to save each month?",
+  "budgetInfoMessage": "The progress bar is calculated based on your remaining budget after mandatory expenses.",
+
   "linkWithGoogleTitle": "Link with Google",
   "linkWithGoogleDescription": "Securely access your data from all devices",
   "skipForNow": "Skip for now",
@@ -1420,5 +1429,44 @@
   "next": "Next",
   "back": "Back",
   "completed": "Completed!",
-  "laterButton": "I'll do it later"
+  "laterButton": "I'll do it later",
+
+  "monthlySpendingBreakdown": "Monthly Spending Breakdown",
+  "mandatoryExpenses": "Mandatory",
+  "discretionaryExpenses": "Discretionary",
+  "remainingHoursToSpend": "{hours} hours left to spend",
+  "@remainingHoursToSpend": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "budgetExceeded": "You exceeded your budget by {amount}!",
+  "@budgetExceeded": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "activeInstallments": "Active Installments",
+  "installmentCount": "{count} installments",
+  "@installmentCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "moreInstallments": "+{count} more installments",
+  "@moreInstallments": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "monthlyBurden": "Monthly Burden",
+  "remainingDebt": "Remaining Debt",
+  "totalInterestCost": "Total interest: {amount} ({hours} hours)",
+  "@totalInterestCost": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "monthAbbreviation": "mo"
 }

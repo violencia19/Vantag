@@ -520,6 +520,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   @override
   Widget build(BuildContext context) {
     final financeProvider = context.watch<FinanceProvider>();
+    final budgetService = context.watch<BudgetService>();
     final expenses = financeProvider.expenses;
     final stats = financeProvider.stats;
     final l10n = AppLocalizations.of(context)!;
@@ -692,7 +693,29 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     savedAmount: stats.totalSaved,
                     savedCount: stats.noCount + stats.smartChoiceCount,
                     incomeSourceCount: financeProvider.incomeSourceCount,
+                    // Budget-based parameters
+                    availableBudget: budgetService.availableBudget,
+                    discretionarySpent: budgetService.discretionaryExpenses,
+                    mandatorySpent: budgetService.mandatoryExpenses,
                   ),
+                ),
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
+              // Budget Breakdown Card
+              SliverToBoxAdapter(
+                child: BudgetBreakdownCard(
+                  budgetService: budgetService,
+                ),
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
+              // Installment Summary Card
+              SliverToBoxAdapter(
+                child: InstallmentSummaryCard(
+                  budgetService: budgetService,
                 ),
               ),
 

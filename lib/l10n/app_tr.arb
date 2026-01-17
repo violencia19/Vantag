@@ -440,6 +440,15 @@
   "noOnlySalary": "Hayır, Sadece Maaşım Var",
   "addAdditionalIncome": "+ Ek Gelir Ekle",
   "additionalIncomeQuestion": "Ek Geliriniz Var mı?",
+
+  "budgetSettings": "Bütçe Ayarları",
+  "budgetSettingsHint": "İsteğe bağlı. Belirlemezseniz gelirinize göre hesaplanır.",
+  "monthlySpendingLimit": "Aylık Harcama Limiti",
+  "monthlySpendingLimitHint": "Bu ay maksimum ne kadar harcamak istiyorsunuz?",
+  "monthlySavingsGoal": "Aylık Tasarruf Hedefi",
+  "monthlySavingsGoalHint": "Her ay ne kadar biriktirmek istiyorsunuz?",
+  "budgetInfoMessage": "Progress bar, zorunlu giderler düşüldükten sonra kalan bütçenize göre hesaplanır.",
+
   "linkWithGoogleTitle": "Google ile Bağla",
   "linkWithGoogleDescription": "Verilerinize tüm cihazlardan güvenle erişin",
   "skipForNow": "Şimdilik geç",
@@ -1054,5 +1063,44 @@
   "next": "Sonraki",
   "back": "Geri",
   "completed": "Tamamlandı!",
-  "laterButton": "Daha sonra yaparım"
+  "laterButton": "Daha sonra yaparım",
+
+  "monthlySpendingBreakdown": "Bu Ay Harcama Dağılımı",
+  "mandatoryExpenses": "Zorunlu",
+  "discretionaryExpenses": "İsteğe Bağlı",
+  "remainingHoursToSpend": "{hours} saat daha harcayabilirsin",
+  "@remainingHoursToSpend": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "budgetExceeded": "Bütçeni {amount} aştın!",
+  "@budgetExceeded": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "activeInstallments": "Aktif Taksitler",
+  "installmentCount": "{count} taksit",
+  "@installmentCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "moreInstallments": "+{count} taksit daha",
+  "@moreInstallments": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "monthlyBurden": "Aylık Yük",
+  "remainingDebt": "Kalan Borç",
+  "totalInterestCost": "Toplam vade farkı: {amount} ({hours} saat)",
+  "@totalInterestCost": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "monthAbbreviation": "ay"
 }

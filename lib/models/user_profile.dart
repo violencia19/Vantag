@@ -5,10 +5,16 @@ class UserProfile {
   final double dailyHours;
   final int workDaysPerWeek;
 
+  // Bütçe ayarları
+  final double? monthlyBudget;        // Kullanıcının belirlediği harcama limiti
+  final double? monthlySavingsGoal;   // Aylık tasarruf hedefi
+
   const UserProfile({
     this.incomeSources = const [],
-    required this.dailyHours,
-    required this.workDaysPerWeek,
+    this.dailyHours = 8,
+    this.workDaysPerWeek = 5,
+    this.monthlyBudget,
+    this.monthlySavingsGoal,
   });
 
   /// Toplam aylık gelir (tüm kaynakların toplamı)
@@ -51,15 +57,37 @@ class UserProfile {
   /// Birden fazla gelir kaynağı var mı?
   bool get hasMultipleIncomeSources => incomeSources.length > 1;
 
+  /// Aylık toplam çalışma saati (ortalama 4 hafta)
+  double get monthlyWorkHours {
+    return dailyHours * workDaysPerWeek * 4;
+  }
+
+  /// Saatlik ücret
+  double get hourlyRate {
+    if (monthlyWorkHours <= 0) return 0;
+    return monthlyIncome / monthlyWorkHours;
+  }
+
+  /// Harcanabilir bütçe (bütçe - tasarruf hedefi)
+  double get availableBudget {
+    final budget = monthlyBudget ?? monthlyIncome;
+    final savings = monthlySavingsGoal ?? 0;
+    return budget - savings;
+  }
+
   UserProfile copyWith({
     List<IncomeSource>? incomeSources,
     double? dailyHours,
     int? workDaysPerWeek,
+    double? monthlyBudget,
+    double? monthlySavingsGoal,
   }) {
     return UserProfile(
       incomeSources: incomeSources ?? this.incomeSources,
       dailyHours: dailyHours ?? this.dailyHours,
       workDaysPerWeek: workDaysPerWeek ?? this.workDaysPerWeek,
+      monthlyBudget: monthlyBudget ?? this.monthlyBudget,
+      monthlySavingsGoal: monthlySavingsGoal ?? this.monthlySavingsGoal,
     );
   }
 

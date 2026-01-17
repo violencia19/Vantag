@@ -17,6 +17,7 @@ import 'services/expense_history_service.dart';
 import 'services/ai_service.dart';
 import 'services/deep_link_service.dart';
 import 'services/siri_service.dart';
+import 'services/budget_service.dart';
 
 /// Global navigator key for deep link dialogs
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -140,6 +141,11 @@ class _VantagAppState extends State<VantagApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => FinanceProvider()),
+        ChangeNotifierProxyProvider<FinanceProvider, BudgetService>(
+          create: (context) => BudgetService(context.read<FinanceProvider>()),
+          update: (context, financeProvider, previous) =>
+              previous ?? BudgetService(financeProvider),
+        ),
         ChangeNotifierProvider.value(value: widget.localeProvider),
         ChangeNotifierProvider.value(value: widget.currencyProvider),
         ChangeNotifierProvider.value(value: widget.proProvider),

@@ -72,6 +72,16 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
   // Wealth Coach: Smart Choice
   double? _smartChoiceSavedFrom;
 
+  // Gider tipi ve taksit bilgileri
+  ExpenseType _expenseType = ExpenseType.single;
+  bool _isMandatory = false;
+  bool _showInstallmentDetails = false;
+
+  // Taksit inputları için controller'lar
+  final _installmentCountController = TextEditingController();
+  final _cashPriceController = TextEditingController();
+  final _installmentTotalController = TextEditingController();
+
   // Date helpers
   DateTime get _today => DateTime.now();
   DateTime get _yesterday => _today.subtract(const Duration(days: 1));
@@ -148,6 +158,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     _subCategoryFocusNode.dispose();
     _smartMatchAnimController.dispose();
     _attentionAnimController.dispose();
+    // Taksit controller'ları
+    _installmentCountController.dispose();
+    _cashPriceController.dispose();
+    _installmentTotalController.dispose();
     super.dispose();
   }
 
@@ -355,9 +369,49 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       return;
     }
 
+    // Taksit bilgilerini parse et
+    int? installmentCount;
+    double? cashPrice;
+    double? installmentTotal;
+
+    // Taksit validasyonu
+    if (_expenseType == ExpenseType.installment) {
+      installmentCount = int.tryParse(_installmentCountController.text);
+      cashPrice = parseTurkishCurrency(_cashPriceController.text);
+      installmentTotal = parseTurkishCurrency(_installmentTotalController.text);
+
+      if (installmentCount == null || installmentCount <= 0) {
+        _showError('Lütfen taksit sayısını seçin');
+        return;
+      }
+
+      if (installmentTotal == null || installmentTotal <= 0) {
+        _showError('Lütfen taksitli toplam fiyatı girin');
+        return;
+      }
+    }
+
+    // Hesaplama için kullanılacak tutar
+    // Taksitli ise aylık taksit tutarını kullan (bu ayki harcama olarak)
+    double amountForCalculation = enteredAmount;
+    if (_expenseType == ExpenseType.installment &&
+        installmentCount != null &&
+        installmentCount > 0 &&
+        installmentTotal != null) {
+      amountForCalculation = installmentTotal / installmentCount;
+    }
+
     // Convert to income currency if different
-    final amountInIncomeCurrency = _convertToIncomeCurrency(enteredAmount, _expenseCurrency);
+    final amountInIncomeCurrency = _convertToIncomeCurrency(amountForCalculation, _expenseCurrency);
     final isDifferentCurrency = _expenseCurrency != _incomeCurrency;
+
+    // Taksit bilgilerini de currency'e çevir
+    final cashPriceConverted = cashPrice != null
+        ? _convertToIncomeCurrency(cashPrice, _expenseCurrency)
+        : null;
+    final installmentTotalConverted = installmentTotal != null
+        ? _convertToIncomeCurrency(installmentTotal, _expenseCurrency)
+        : null;
 
     final financeProvider = context.read<FinanceProvider>();
     final userProfile = financeProvider.userProfile ??
@@ -391,6 +445,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       isSmartChoice: isSmartChoice,
       originalAmount: isDifferentCurrency ? enteredAmount : null,
       originalCurrency: isDifferentCurrency ? _expenseCurrency.code : null,
+      // Yeni fieldlar
+      type: _expenseType,
+      isMandatory: _isMandatory,
+      installmentCount: installmentCount,
+      currentInstallment: installmentCount != null ? 1 : null,
+      cashPrice: cashPriceConverted,
+      installmentTotal: installmentTotalConverted,
+      installmentStartDate: _expenseType == ExpenseType.installment ? _selectedDate : null,
     );
 
     final categoryInsight = _insightService.getCategoryInsight(
@@ -400,10 +462,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       _selectedDate.year,
     );
 
-    final emotionalMessage = _messagesService.getCalculationMessage(
-      result.hoursRequired,
-      enteredAmount,
-    );
+    // Duygusal mesaj (zorunlu gider değilse)
+    String? emotionalMessage;
+    if (!_isMandatory) {
+      emotionalMessage = _messagesService.getCalculationMessage(
+        result.hoursRequired,
+        enteredAmount,
+      );
+    }
 
     setState(() {
       _result = result;
@@ -583,6 +649,30 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     });
   }
 
+  /// Formu sıfırla (kayıt sonrası veya iptal)
+  void _resetForm() {
+    _amountController.clear();
+    _descriptionController.clear();
+    _subCategoryController.clear();
+    _installmentCountController.clear();
+    _cashPriceController.clear();
+    _installmentTotalController.clear();
+    setState(() {
+      _selectedCategory = null;
+      _selectedDate = DateTime.now();
+      _expenseType = ExpenseType.single;
+      _isMandatory = false;
+      _showInstallmentDetails = false;
+      _smartChoiceSavedFrom = null;
+      _smartMatchActive = false;
+      _userManuallySelectedCategory = false;
+      _result = null;
+      _pendingExpense = null;
+      _categoryInsight = null;
+      _emotionalMessage = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -727,6 +817,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           },
           isEnabled: _pendingExpense == null,
         ),
+
+        const SizedBox(height: 8),
+
+        // Zorunlu gider toggle
+        _buildMandatoryToggle(),
+
+        // Taksit bölümü
+        _buildInstallmentSection(),
 
         const SizedBox(height: 16),
 
@@ -1219,13 +1317,486 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     );
   }
 
+  /// Zorunlu gider toggle widget'ı
+  Widget _buildMandatoryToggle() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.05),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: _isMandatory
+                ? AppColors.info.withOpacity(0.5)
+                : Colors.white.withOpacity(0.1),
+          ),
+        ),
+        child: SwitchListTile(
+          title: Text(
+            'Zorunlu Gider',
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontWeight: _isMandatory ? FontWeight.w600 : FontWeight.normal,
+            ),
+          ),
+          subtitle: Text(
+            'Kira, fatura, kredi ödemesi gibi sabit giderler',
+            style: TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 12,
+            ),
+          ),
+          secondary: Icon(
+            _isMandatory
+                ? PhosphorIconsFill.lockKey
+                : PhosphorIconsDuotone.lockKeyOpen,
+            color: _isMandatory ? AppColors.info : AppColors.textTertiary,
+          ),
+          value: _isMandatory,
+          onChanged: (value) => setState(() => _isMandatory = value),
+          activeColor: AppColors.info,
+        ),
+      ),
+    );
+  }
+
+  /// Taksit bölümü widget'ı
+  Widget _buildInstallmentSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Taksitli mi toggle
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: _expenseType == ExpenseType.installment
+                    ? AppColors.warning.withOpacity(0.5)
+                    : Colors.white.withOpacity(0.1),
+              ),
+            ),
+            child: SwitchListTile(
+              title: Text(
+                'Taksitli Alım',
+                style: TextStyle(
+                  color: AppColors.textPrimary,
+                  fontWeight: _expenseType == ExpenseType.installment
+                      ? FontWeight.w600
+                      : FontWeight.normal,
+                ),
+              ),
+              subtitle: Text(
+                'Kredi kartı veya mağaza taksiti',
+                style: TextStyle(
+                  color: AppColors.textSecondary,
+                  fontSize: 12,
+                ),
+              ),
+              secondary: Icon(
+                PhosphorIconsDuotone.creditCard,
+                color: _expenseType == ExpenseType.installment
+                    ? AppColors.warning
+                    : AppColors.textTertiary,
+              ),
+              value: _expenseType == ExpenseType.installment,
+              onChanged: (value) {
+                setState(() {
+                  _expenseType =
+                      value ? ExpenseType.installment : ExpenseType.single;
+                  _showInstallmentDetails = value;
+                });
+              },
+              activeColor: AppColors.warning,
+            ),
+          ),
+        ),
+
+        // Taksit detayları (animasyonlu açılır)
+        AnimatedCrossFade(
+          firstChild: const SizedBox.shrink(),
+          secondChild: _buildInstallmentDetails(),
+          crossFadeState: _showInstallmentDetails
+              ? CrossFadeState.showSecond
+              : CrossFadeState.showFirst,
+          duration: const Duration(milliseconds: 300),
+        ),
+      ],
+    );
+  }
+
+  /// Taksit detayları formu
+  Widget _buildInstallmentDetails() {
+    return Container(
+      margin: const EdgeInsets.only(top: 8, bottom: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.warning.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.warning.withOpacity(0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Başlık
+          Row(
+            children: [
+              Icon(PhosphorIconsDuotone.info, color: AppColors.warning, size: 18),
+              const SizedBox(width: 8),
+              Text(
+                'Taksit Bilgileri',
+                style: TextStyle(
+                  color: AppColors.warning,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+
+          // Peşin fiyat
+          TextField(
+            controller: _cashPriceController,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [TurkishCurrencyInputFormatter()],
+            style: const TextStyle(color: AppColors.textPrimary),
+            decoration: InputDecoration(
+              labelText: 'Peşin Fiyat',
+              labelStyle: TextStyle(color: AppColors.textSecondary),
+              hintText: 'Ürünün peşin fiyatı',
+              hintStyle: TextStyle(color: AppColors.textTertiary),
+              prefixText: '${_expenseCurrency.symbol} ',
+              prefixStyle: const TextStyle(color: AppColors.textPrimary),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: AppColors.cardBorder),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(color: AppColors.warning),
+              ),
+              filled: true,
+              fillColor: AppColors.surface,
+            ),
+            onChanged: (_) => _updateInstallmentSummary(),
+          ),
+          const SizedBox(height: 12),
+
+          // Taksit sayısı
+          DropdownButtonFormField<int>(
+            value: int.tryParse(_installmentCountController.text),
+            dropdownColor: AppColors.cardBackground,
+            style: const TextStyle(color: AppColors.textPrimary),
+            decoration: InputDecoration(
+              labelText: 'Taksit Sayısı',
+              labelStyle: TextStyle(color: AppColors.textSecondary),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: AppColors.cardBorder),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(color: AppColors.warning),
+              ),
+              filled: true,
+              fillColor: AppColors.surface,
+            ),
+            items: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 18, 24, 36]
+                .map((n) => DropdownMenuItem(
+                      value: n,
+                      child: Text('$n taksit'),
+                    ))
+                .toList(),
+            onChanged: (value) {
+              _installmentCountController.text = value?.toString() ?? '';
+              _updateInstallmentSummary();
+            },
+          ),
+          const SizedBox(height: 12),
+
+          // Taksitli toplam fiyat
+          TextField(
+            controller: _installmentTotalController,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [TurkishCurrencyInputFormatter()],
+            style: const TextStyle(color: AppColors.textPrimary),
+            decoration: InputDecoration(
+              labelText: 'Taksitli Toplam Fiyat',
+              labelStyle: TextStyle(color: AppColors.textSecondary),
+              hintText: 'Vade farkı dahil toplam',
+              hintStyle: TextStyle(color: AppColors.textTertiary),
+              prefixText: '${_expenseCurrency.symbol} ',
+              prefixStyle: const TextStyle(color: AppColors.textPrimary),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: AppColors.cardBorder),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(color: AppColors.warning),
+              ),
+              filled: true,
+              fillColor: AppColors.surface,
+            ),
+            onChanged: (_) => _updateInstallmentSummary(),
+          ),
+
+          // Özet kartı
+          _buildInstallmentSummary(),
+        ],
+      ),
+    );
+  }
+
+  /// Taksit özet kartı
+  Widget _buildInstallmentSummary() {
+    final cashPrice = parseTurkishCurrency(_cashPriceController.text);
+    final installmentTotal = parseTurkishCurrency(_installmentTotalController.text);
+    final installmentCount = int.tryParse(_installmentCountController.text);
+
+    // Hesaplama yapılamıyorsa boş döndür
+    if (cashPrice == null || installmentTotal == null || installmentCount == null) {
+      return const SizedBox.shrink();
+    }
+    if (cashPrice <= 0 || installmentTotal <= 0 || installmentCount <= 0) {
+      return const SizedBox.shrink();
+    }
+
+    final interestAmount = installmentTotal - cashPrice;
+    final interestRate = (interestAmount / cashPrice) * 100;
+    final monthlyPayment = installmentTotal / installmentCount;
+
+    // Saatlik ücret hesabı
+    final financeProvider = context.read<FinanceProvider>();
+    final hourlyRate = financeProvider.hourlyRate;
+    final interestHours = hourlyRate > 0 ? interestAmount / hourlyRate : 0.0;
+
+    return Container(
+      margin: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.05),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'TAKSİT ÖZETİ',
+            style: TextStyle(
+              color: AppColors.warning,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 1,
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          _summaryRow(
+              'Aylık taksit:',
+              '${_expenseCurrency.symbol}${formatTurkishCurrency(monthlyPayment, decimalDigits: 0)}'),
+          _summaryRow('Taksit sayısı:', '$installmentCount ay'),
+          Divider(color: AppColors.cardBorder, height: 16),
+          _summaryRow(
+            'Vade farkı:',
+            '${_expenseCurrency.symbol}${formatTurkishCurrency(interestAmount, decimalDigits: 0)} (%${interestRate.toStringAsFixed(1)})',
+            isHighlight: true,
+          ),
+          if (hourlyRate > 0)
+            _summaryRow(
+              'Vade farkı saat olarak:',
+              '${interestHours.toStringAsFixed(1)} saat',
+              isHighlight: true,
+            ),
+
+          // Uyarı mesajı
+          if (interestAmount > 0) ...[
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.error.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Row(
+                children: [
+                  Icon(PhosphorIconsFill.warning, color: AppColors.error, size: 18),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Peşin alsaydın ${interestHours.toStringAsFixed(0)} saat kazanırdın!',
+                      style: TextStyle(
+                        color: AppColors.error,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _summaryRow(String label, String value, {bool isHighlight = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 13,
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              color: isHighlight ? AppColors.warning : AppColors.textPrimary,
+              fontSize: 13,
+              fontWeight: isHighlight ? FontWeight.w600 : FontWeight.normal,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _updateInstallmentSummary() {
+    setState(() {});
+  }
+
+  /// Zorunlu gider için sadece Kaydet butonu
+  Widget _buildMandatorySaveButton(AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Column(
+        children: [
+          // Bilgi mesajı
+          Container(
+            padding: const EdgeInsets.all(12),
+            margin: const EdgeInsets.only(bottom: 16),
+            decoration: BoxDecoration(
+              color: AppColors.info.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppColors.info.withOpacity(0.3)),
+            ),
+            child: Row(
+              children: [
+                Icon(PhosphorIconsDuotone.info, color: AppColors.info, size: 20),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Zorunlu gider olarak kaydedilecek',
+                    style: TextStyle(
+                      color: AppColors.info,
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Kaydet butonu
+          SizedBox(
+            width: double.infinity,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [AppColors.info, AppColors.info.withOpacity(0.8)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.info.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: ElevatedButton.icon(
+                onPressed: _saveMandatoryExpense,
+                icon: Icon(PhosphorIconsDuotone.check, size: 20),
+                label: const Text('Kaydet'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          // İptal butonu
+          TextButton(
+            onPressed: _cancelDecision,
+            child: Text(
+              l10n.cancel,
+              style: TextStyle(color: AppColors.textSecondary),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Zorunlu gideri kaydet (otomatik "yes" kararı ile)
+  Future<void> _saveMandatoryExpense() async {
+    if (_pendingExpense == null) return;
+
+    // Zorunlu gider için otomatik olarak "yes" kararı ile kaydet
+    final expense = _pendingExpense!.copyWith(
+      decision: ExpenseDecision.yes,
+      decisionDate: DateTime.now(),
+    );
+
+    final financeProvider = context.read<FinanceProvider>();
+    await financeProvider.addExpense(expense);
+
+    // Alt kategori kaydet (varsa)
+    final subCategory = _subCategoryController.text.trim();
+    if (subCategory.isNotEmpty && _selectedCategory != null) {
+      await _subCategoryService.addRecentSubCategory(_selectedCategory!, subCategory);
+    }
+
+    // Callback ve kapat
+    widget.onExpenseAdded?.call();
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Zorunlu gider kaydedildi'),
+          backgroundColor: AppColors.info,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      Navigator.pop(context);
+    }
+  }
+
   Widget _buildResultSection(AppLocalizations l10n) {
     return Column(
       children: [
         // Result Card
         ResultCard(
           result: _result!,
-          categoryInsight: _categoryInsight,
+          categoryInsight: _isMandatory ? null : _categoryInsight,
           emotionalMessage: _emotionalMessage,
           amount: _pendingExpense?.amount,
           exchangeRates: widget.exchangeRates,
@@ -1233,28 +1804,33 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
         const SizedBox(height: 20),
 
-        // Decision Buttons
-        DecisionButtons(onDecision: _onDecision),
+        // Zorunlu gider ise sadece Kaydet butonu, değilse karar butonları
+        if (_isMandatory)
+          _buildMandatorySaveButton(l10n)
+        else ...[
+          // Decision Buttons
+          DecisionButtons(onDecision: _onDecision),
 
-        const SizedBox(height: 16),
+          const SizedBox(height: 16),
 
-        // Cancel Button
-        Center(
-          child: TextButton(
-            onPressed: _cancelDecision,
-            style: TextButton.styleFrom(
-              foregroundColor: AppColors.textSecondary,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-            child: Text(
-              l10n.cancel,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+          // Cancel Button
+          Center(
+            child: TextButton(
+              onPressed: _cancelDecision,
+              style: TextButton.styleFrom(
+                foregroundColor: AppColors.textSecondary,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              ),
+              child: Text(
+                l10n.cancel,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ),
-        ),
+        ],
 
         const SizedBox(height: 24),
       ],

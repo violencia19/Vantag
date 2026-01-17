@@ -33,6 +33,24 @@ enum RecordType {
   }
 }
 
+/// Gider tipi: tek seferlik, tekrarlayan veya taksitli
+enum ExpenseType {
+  single,
+  recurring,
+  installment;
+
+  String get label {
+    switch (this) {
+      case ExpenseType.single:
+        return 'Tek Seferlik';
+      case ExpenseType.recurring:
+        return 'Tekrarlayan';
+      case ExpenseType.installment:
+        return 'Taksitli';
+    }
+  }
+}
+
 /// Wealth Coach: Expense Status - aktif, düşünüyor veya arşivlenmiş
 enum ExpenseStatus {
   active,
@@ -119,6 +137,17 @@ class Expense {
   final double? originalAmount;   // Girilen tutar (farklı para biriminde)
   final String? originalCurrency; // Girilen para birimi kodu (USD, EUR, vb.)
 
+  // Gider tipi ve zorunluluk
+  final ExpenseType type;
+  final bool isMandatory; // Zorunlu gider mi? (kira, fatura, kredi)
+
+  // Taksit bilgileri
+  final int? installmentCount;        // Toplam taksit sayısı
+  final int? currentInstallment;      // Şu anki taksit (1, 2, 3...)
+  final double? cashPrice;            // Peşin fiyat
+  final double? installmentTotal;     // Taksitli toplam (vade farkı dahil)
+  final DateTime? installmentStartDate; // Taksit başlangıç tarihi
+
   const Expense({
     required this.amount,
     required this.category,
@@ -138,10 +167,56 @@ class Expense {
     // Multi-currency
     this.originalAmount,
     this.originalCurrency,
+    // Gider tipi ve taksit
+    this.type = ExpenseType.single,
+    this.isMandatory = false,
+    this.installmentCount,
+    this.currentInstallment,
+    this.cashPrice,
+    this.installmentTotal,
+    this.installmentStartDate,
   });
 
   bool get isSimulation => recordType == RecordType.simulation;
   bool get isReal => recordType == RecordType.real;
+
+  // Taksit getter'ları
+  /// Aylık taksit tutarı
+  double get installmentAmount {
+    if (installmentTotal != null && installmentCount != null && installmentCount! > 0) {
+      return installmentTotal! / installmentCount!;
+    }
+    return amount;
+  }
+
+  /// Vade farkı tutarı
+  double get interestAmount {
+    if (installmentTotal != null && cashPrice != null) {
+      return installmentTotal! - cashPrice!;
+    }
+    return 0;
+  }
+
+  /// Vade farkı yüzdesi
+  double get interestRate {
+    if (cashPrice != null && cashPrice! > 0 && interestAmount > 0) {
+      return (interestAmount / cashPrice!) * 100;
+    }
+    return 0;
+  }
+
+  /// Kalan taksit sayısı
+  int get remainingInstallments {
+    if (installmentCount != null && currentInstallment != null) {
+      return installmentCount! - currentInstallment!;
+    }
+    return 0;
+  }
+
+  /// Taksit bitti mi?
+  bool get isInstallmentCompleted {
+    return type == ExpenseType.installment && remainingInstallments <= 0;
+  }
 
   // Wealth Coach: Smart Choice tasarruf tutarı
   double get savedAmount => isSmartChoice && savedFrom != null
@@ -198,6 +273,14 @@ class Expense {
     // Multi-currency
     double? originalAmount,
     String? originalCurrency,
+    // Gider tipi ve taksit
+    ExpenseType? type,
+    bool? isMandatory,
+    int? installmentCount,
+    int? currentInstallment,
+    double? cashPrice,
+    double? installmentTotal,
+    DateTime? installmentStartDate,
   }) {
     return Expense(
       amount: amount ?? this.amount,
@@ -218,6 +301,14 @@ class Expense {
       // Multi-currency
       originalAmount: originalAmount ?? this.originalAmount,
       originalCurrency: originalCurrency ?? this.originalCurrency,
+      // Gider tipi ve taksit
+      type: type ?? this.type,
+      isMandatory: isMandatory ?? this.isMandatory,
+      installmentCount: installmentCount ?? this.installmentCount,
+      currentInstallment: currentInstallment ?? this.currentInstallment,
+      cashPrice: cashPrice ?? this.cashPrice,
+      installmentTotal: installmentTotal ?? this.installmentTotal,
+      installmentStartDate: installmentStartDate ?? this.installmentStartDate,
     );
   }
 
@@ -240,6 +331,15 @@ class Expense {
         // Multi-currency
         if (originalAmount != null) 'originalAmount': originalAmount,
         if (originalCurrency != null) 'originalCurrency': originalCurrency,
+        // Gider tipi ve taksit
+        'type': type.name,
+        'isMandatory': isMandatory,
+        if (installmentCount != null) 'installmentCount': installmentCount,
+        if (currentInstallment != null) 'currentInstallment': currentInstallment,
+        if (cashPrice != null) 'cashPrice': cashPrice,
+        if (installmentTotal != null) 'installmentTotal': installmentTotal,
+        if (installmentStartDate != null)
+          'installmentStartDate': installmentStartDate!.toIso8601String(),
       };
 
   factory Expense.fromJson(Map<String, dynamic> json) => Expense(
@@ -277,6 +377,25 @@ class Expense {
             ? (json['originalAmount'] as num).toDouble()
             : null,
         originalCurrency: json['originalCurrency'] as String?,
+        // Gider tipi ve taksit (backward compatible)
+        type: json['type'] != null
+            ? ExpenseType.values.firstWhere(
+                (e) => e.name == json['type'],
+                orElse: () => ExpenseType.single,
+              )
+            : ExpenseType.single,
+        isMandatory: json['isMandatory'] as bool? ?? false,
+        installmentCount: json['installmentCount'] as int?,
+        currentInstallment: json['currentInstallment'] as int?,
+        cashPrice: json['cashPrice'] != null
+            ? (json['cashPrice'] as num).toDouble()
+            : null,
+        installmentTotal: json['installmentTotal'] != null
+            ? (json['installmentTotal'] as num).toDouble()
+            : null,
+        installmentStartDate: json['installmentStartDate'] != null
+            ? DateTime.parse(json['installmentStartDate'] as String)
+            : null,
       );
 
   static String encodeList(List<Expense> expenses) =>

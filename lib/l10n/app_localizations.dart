@@ -2378,6 +2378,48 @@ abstract class AppLocalizations {
   /// **'Do you have additional income?'**
   String get additionalIncomeQuestion;
 
+  /// No description provided for @budgetSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget Settings'**
+  String get budgetSettings;
+
+  /// No description provided for @budgetSettingsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. If not set, it will be calculated based on your income.'**
+  String get budgetSettingsHint;
+
+  /// No description provided for @monthlySpendingLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Spending Limit'**
+  String get monthlySpendingLimit;
+
+  /// No description provided for @monthlySpendingLimitHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How much do you want to spend this month?'**
+  String get monthlySpendingLimitHint;
+
+  /// No description provided for @monthlySavingsGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Savings Goal'**
+  String get monthlySavingsGoal;
+
+  /// No description provided for @monthlySavingsGoalHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How much do you want to save each month?'**
+  String get monthlySavingsGoalHint;
+
+  /// No description provided for @budgetInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'The progress bar is calculated based on your remaining budget after mandatory expenses.'**
+  String get budgetInfoMessage;
+
   /// No description provided for @linkWithGoogleTitle.
   ///
   /// In en, this message translates to:
@@ -4891,6 +4933,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'I\'ll do it later'**
   String get laterButton;
+
+  /// No description provided for @monthlySpendingBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Spending Breakdown'**
+  String get monthlySpendingBreakdown;
+
+  /// No description provided for @mandatoryExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Mandatory'**
+  String get mandatoryExpenses;
+
+  /// No description provided for @discretionaryExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Discretionary'**
+  String get discretionaryExpenses;
+
+  /// No description provided for @remainingHoursToSpend.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours left to spend'**
+  String remainingHoursToSpend(String hours);
+
+  /// No description provided for @budgetExceeded.
+  ///
+  /// In en, this message translates to:
+  /// **'You exceeded your budget by {amount}!'**
+  String budgetExceeded(String amount);
+
+  /// No description provided for @activeInstallments.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Installments'**
+  String get activeInstallments;
+
+  /// No description provided for @installmentCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} installments'**
+  String installmentCount(int count);
+
+  /// No description provided for @moreInstallments.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} more installments'**
+  String moreInstallments(int count);
+
+  /// No description provided for @monthlyBurden.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Burden'**
+  String get monthlyBurden;
+
+  /// No description provided for @remainingDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining Debt'**
+  String get remainingDebt;
+
+  /// No description provided for @totalInterestCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Total interest: {amount} ({hours} hours)'**
+  String totalInterestCost(String amount, String hours);
+
+  /// No description provided for @monthAbbreviation.
+  ///
+  /// In en, this message translates to:
+  /// **'mo'**
+  String get monthAbbreviation;
 }
 
 class _AppLocalizationsDelegate
