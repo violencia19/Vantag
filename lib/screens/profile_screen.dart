@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -18,6 +17,8 @@ import '../services/achievements_service.dart';
 import '../services/tour_service.dart';
 import '../services/export_service.dart';
 import '../services/import_service.dart';
+import '../services/auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../theme/theme.dart';
 import '../widgets/widgets.dart';
 import 'user_profile_screen.dart';
@@ -513,67 +514,89 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Future<void> _resetAllData() async {
+  Future<void> _deleteAccount() async {
     final l10n = AppLocalizations.of(context)!;
+    final confirmWord = l10n.deleteAccountConfirmWord;
+
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Row(
-          children: [
-            Icon(PhosphorIconsDuotone.warningCircle, color: AppColors.error, size: 28),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                l10n.resetDataTitle,
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
-        ),
-        content: Text(
-          l10n.resetDataMessage,
-          style: const TextStyle(
-            color: AppColors.textSecondary,
-            height: 1.5,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(
-              l10n.cancel,
-              style: const TextStyle(color: AppColors.textSecondary),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
-              foregroundColor: Colors.white,
-            ),
-            child: Text(l10n.delete),
-          ),
-        ],
+      barrierColor: Colors.black.withValues(alpha: 0.9),
+      barrierDismissible: false,
+      builder: (context) => _DeleteAccountDialog(
+        confirmWord: confirmWord,
+        l10n: l10n,
       ),
     );
 
     if (confirmed == true && mounted) {
       HapticFeedback.heavyImpact();
-      final provider = context.read<FinanceProvider>();
-      await provider.resetAllData();
 
-      if (!mounted) return;
-
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
-        (route) => false,
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        barrierColor: Colors.black.withValues(alpha: 0.9),
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(color: AppColors.primary),
+        ),
       );
+
+      try {
+        // 1. Delete Firebase account (also deletes Firestore data)
+        final authService = AuthService();
+        final result = await authService.deleteAccount();
+
+        if (!result.success) {
+          if (mounted) {
+            Navigator.pop(context); // Close loading
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(result.errorMessage ?? l10n.deleteAccountError),
+                backgroundColor: AppColors.error,
+              ),
+            );
+          }
+          return;
+        }
+
+        // 2. Clear SharedPreferences
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.clear();
+
+        // 3. Reset local provider data
+        if (mounted) {
+          final provider = context.read<FinanceProvider>();
+          await provider.resetAllData();
+        }
+
+        if (!mounted) return;
+
+        // Close loading dialog and navigate
+        Navigator.pop(context);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.deleteAccountSuccess),
+            backgroundColor: AppColors.success,
+          ),
+        );
+
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+          (route) => false,
+        );
+      } catch (e) {
+        if (mounted) {
+          Navigator.pop(context); // Close loading
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(l10n.deleteAccountError),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        }
+      }
     }
   }
 
@@ -907,27 +930,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _buildExportTile(l10n),
           _buildDivider(),
           _buildImportTile(l10n),
-          // Debug section (only in debug mode)
-          if (kDebugMode) ...[
-            _buildDivider(),
-            _buildListTile(
-              icon: PhosphorIconsDuotone.bug,
-              iconColor: const Color(0xFFE74C3C),
-              title: 'Add 50 Test Expenses',
-              onTap: () async {
-                final financeProvider = context.read<FinanceProvider>();
-                await financeProvider.addTestExpenses(50);
-                if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('50 test expenses added!'),
-                      behavior: SnackBarBehavior.floating,
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
         ],
       ),
     );
@@ -1113,12 +1115,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
       ),
       child: _buildListTile(
-        icon: PhosphorIconsDuotone.trash,
+        icon: PhosphorIconsDuotone.userMinus,
         iconColor: AppColors.error,
-        title: l10n.resetDataDebug,
+        title: l10n.deleteAccount,
         titleColor: AppColors.error,
         showArrow: false,
-        onTap: _resetAllData,
+        onTap: _deleteAccount,
       ),
     );
   }
@@ -1253,6 +1255,197 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Divider(
         height: 1,
         color: AppColors.cardBorder,
+      ),
+    );
+  }
+}
+
+/// Delete Account Confirmation Dialog
+class _DeleteAccountDialog extends StatefulWidget {
+  final String confirmWord;
+  final AppLocalizations l10n;
+
+  const _DeleteAccountDialog({
+    required this.confirmWord,
+    required this.l10n,
+  });
+
+  @override
+  State<_DeleteAccountDialog> createState() => _DeleteAccountDialogState();
+}
+
+class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
+  final _textController = TextEditingController();
+  bool _isConfirmed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _textController.addListener(_checkConfirmation);
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
+  void _checkConfirmation() {
+    final isConfirmed = _textController.text.trim() == widget.confirmWord;
+    if (isConfirmed != _isConfirmed) {
+      setState(() => _isConfirmed = isConfirmed);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = widget.l10n;
+
+    return AlertDialog(
+      backgroundColor: AppColors.surface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Warning Icon
+          Container(
+            width: 64,
+            height: 64,
+            decoration: BoxDecoration(
+              color: AppColors.error.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Icon(
+              PhosphorIconsDuotone.warning,
+              color: AppColors.error,
+              size: 32,
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          // Title
+          Text(
+            l10n.deleteAccountWarningTitle,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textPrimary,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+
+          // Warning Message
+          Text(
+            l10n.deleteAccountWarningMessage,
+            style: const TextStyle(
+              fontSize: 14,
+              color: AppColors.textSecondary,
+              height: 1.5,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+
+          // Confirmation TextField
+          TextField(
+            controller: _textController,
+            decoration: InputDecoration(
+              hintText: l10n.deleteAccountConfirmPlaceholder,
+              hintStyle: TextStyle(
+                color: AppColors.textTertiary,
+                fontSize: 14,
+              ),
+              filled: true,
+              fillColor: AppColors.background,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: AppColors.cardBorder),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: AppColors.cardBorder),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: AppColors.error, width: 2),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 14,
+              ),
+            ),
+            style: const TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 14,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+
+          // Hint text
+          Text(
+            '"${widget.confirmWord}"',
+            style: TextStyle(
+              fontSize: 12,
+              color: AppColors.textTertiary,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+          const SizedBox(height: 24),
+
+          // Buttons
+          Row(
+            children: [
+              Expanded(
+                child: TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    l10n.cancel,
+                    style: const TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: _isConfirmed
+                      ? () => Navigator.pop(context, true)
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.error,
+                    foregroundColor: Colors.white,
+                    disabledBackgroundColor: AppColors.error.withValues(alpha: 0.3),
+                    disabledForegroundColor: Colors.white.withValues(alpha: 0.5),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    l10n.deleteAccountButton,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

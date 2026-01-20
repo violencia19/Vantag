@@ -82,11 +82,15 @@ enum IncomeCategory {
 class IncomeSource {
   final String id;
   final String title;
-  final double amount;
-  final String currencyCode; // Para birimi kodu (TRY, USD, EUR, etc.)
+  final double amount;             // Gösterilen tutar (display currency'de)
+  final String currencyCode;       // Gösterilen para birimi kodu (TRY, USD, EUR, etc.)
   final IncomeCategory category;
   final DateTime createdAt;
-  final bool isPrimary; // Ana gelir mi?
+  final bool isPrimary;            // Ana gelir mi?
+
+  // Orijinal değerler (para birimi değişse bile bunlar sabit kalır)
+  final double originalAmount;           // İlk girilen tutar
+  final String originalCurrencyCode;     // İlk girilen para birimi
 
   const IncomeSource({
     required this.id,
@@ -96,7 +100,10 @@ class IncomeSource {
     required this.category,
     required this.createdAt,
     this.isPrimary = false,
-  });
+    double? originalAmount,
+    String? originalCurrencyCode,
+  }) : originalAmount = originalAmount ?? amount,
+       originalCurrencyCode = originalCurrencyCode ?? currencyCode;
 
   /// Benzersiz ID oluştur
   static String generateId() {
@@ -117,6 +124,8 @@ class IncomeSource {
       category: IncomeCategory.salary,
       createdAt: DateTime.now(),
       isPrimary: true,
+      originalAmount: amount,           // İlk girişte orijinal = mevcut
+      originalCurrencyCode: currencyCode,
     );
   }
 
@@ -135,6 +144,8 @@ class IncomeSource {
       category: category,
       createdAt: DateTime.now(),
       isPrimary: false,
+      originalAmount: amount,
+      originalCurrencyCode: currencyCode,
     );
   }
 
@@ -146,6 +157,8 @@ class IncomeSource {
     IncomeCategory? category,
     DateTime? createdAt,
     bool? isPrimary,
+    double? originalAmount,
+    String? originalCurrencyCode,
   }) {
     return IncomeSource(
       id: id ?? this.id,
@@ -155,6 +168,27 @@ class IncomeSource {
       category: category ?? this.category,
       createdAt: createdAt ?? this.createdAt,
       isPrimary: isPrimary ?? this.isPrimary,
+      originalAmount: originalAmount ?? this.originalAmount,
+      originalCurrencyCode: originalCurrencyCode ?? this.originalCurrencyCode,
+    );
+  }
+
+  /// Para birimi değiştirildiğinde convert edilmiş kopya oluştur
+  /// Orijinal değerler korunur, sadece amount ve currencyCode değişir
+  IncomeSource convertedTo({
+    required double newAmount,
+    required String newCurrencyCode,
+  }) {
+    return IncomeSource(
+      id: id,
+      title: title,
+      amount: newAmount,
+      currencyCode: newCurrencyCode,
+      category: category,
+      createdAt: createdAt,
+      isPrimary: isPrimary,
+      originalAmount: originalAmount,           // Orijinal değişmez!
+      originalCurrencyCode: originalCurrencyCode, // Orijinal değişmez!
     );
   }
 
@@ -167,18 +201,26 @@ class IncomeSource {
       'category': category.name,
       'createdAt': createdAt.toIso8601String(),
       'isPrimary': isPrimary,
+      'originalAmount': originalAmount,
+      'originalCurrencyCode': originalCurrencyCode,
     };
   }
 
   factory IncomeSource.fromJson(Map<String, dynamic> json) {
+    final amount = (json['amount'] as num).toDouble();
+    final currencyCode = json['currencyCode'] as String? ?? 'TRY';
+
     return IncomeSource(
       id: json['id'] as String,
       title: json['title'] as String,
-      amount: (json['amount'] as num).toDouble(),
-      currencyCode: json['currencyCode'] as String? ?? 'TRY',
+      amount: amount,
+      currencyCode: currencyCode,
       category: IncomeCategory.fromString(json['category'] as String),
       createdAt: DateTime.parse(json['createdAt'] as String),
       isPrimary: json['isPrimary'] as bool? ?? false,
+      // Eski veriler için fallback: mevcut değerleri orijinal olarak kullan
+      originalAmount: (json['originalAmount'] as num?)?.toDouble() ?? amount,
+      originalCurrencyCode: json['originalCurrencyCode'] as String? ?? currencyCode,
     );
   }
 

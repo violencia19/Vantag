@@ -55,3 +55,7 @@ export 'pending_review_sheet.dart';
 
 // Voice Assistant
 export 'voice_input_button.dart';
+
+// In-App Purchases
+export 'pro_feature_gate.dart';
+export 'ai_limit_dialog.dart';

@@ -1,5 +1,5 @@
 Kullanım Şartları
-Son Güncelleme: 10 Ocak 2026
+Son Güncelleme: 18 Ocak 2026
 1. Giriş
 Bu Kullanım Şartları ("Şartlar"), Vantag uygulamasını ("Uygulama") kullanımınızı düzenler. Uygulamayı indirerek, yükleyerek veya kullanarak bu Şartları kabul etmiş sayılırsınız.
 Uygulama Sahibi:
@@ -120,4 +120,4 @@ Bu Şartlar, sizinle aramızdaki tam anlaşmayı temsil eder
 Haklarımızdan birini kullanmamamız, o haktan feragat ettiğimiz anlamına gelmez
 
 
-Bu Kullanım Şartları 10 Ocak 2026 tarihinde yürürlüğe girmiştir.
+Bu Kullanım Şartları 18 Ocak 2026 tarihinde yürürlüğe girmiştir.

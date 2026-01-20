@@ -1,5 +1,5 @@
 Terms of Service
-Last Updated: January 10, 2026
+Last Updated: January 18, 2026
 1. Introduction
 These Terms of Service ("Terms") govern your use of the Vantag application ("App"). By downloading, installing, or using the App, you agree to these Terms.
 App Owner:
@@ -120,4 +120,4 @@ These Terms represent the complete agreement between you and us
 Our failure to exercise any right does not constitute a waiver of that right
 
 
-These Terms of Service are effective as of January 10, 2026.
+These Terms of Service are effective as of January 18, 2026.

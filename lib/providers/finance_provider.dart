@@ -200,6 +200,45 @@ class FinanceProvider extends ChangeNotifier {
     await _profileService.saveProfile(updatedProfile);
   }
 
+  /// Para birimi değiştiğinde tüm gelir kaynaklarını yeni para birimine convert et
+  /// [convertedSources] - CurrencyProvider.convertIncomeSources() ile convert edilmiş liste
+  Future<void> updateIncomeSourcesWithConversion(List<IncomeSource> convertedSources) async {
+    if (_userProfile == null) return;
+
+    _userProfile = _userProfile!.copyWith(
+      incomeSources: convertedSources,
+    );
+
+    _calculateStats();
+    notifyListeners();
+    await _profileService.saveProfile(_userProfile!);
+  }
+
+  /// Gelir kaynağının orijinal tutarını güncelle (maaş zammı vb.)
+  /// Bu işlem hem mevcut hem orijinal değerleri günceller
+  Future<void> updateIncomeSourceAmount({
+    required String sourceId,
+    required double newAmount,
+    required String currencyCode,
+  }) async {
+    if (_userProfile == null) return;
+
+    final sources = _userProfile!.incomeSources.map((source) {
+      if (source.id == sourceId) {
+        // Hem amount hem originalAmount güncellenir
+        return source.copyWith(
+          amount: newAmount,
+          currencyCode: currencyCode,
+          originalAmount: newAmount,
+          originalCurrencyCode: currencyCode,
+        );
+      }
+      return source;
+    }).toList();
+
+    await setIncomeSources(sources);
+  }
+
   Future<void> updateWorkSchedule({double? dailyHours, int? workDaysPerWeek}) async {
     if (_userProfile == null) return;
     _userProfile = _userProfile!.copyWith(dailyHours: dailyHours, workDaysPerWeek: workDaysPerWeek);

@@ -241,6 +241,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return showDialog<bool>(
       context: context,
       barrierDismissible: false,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

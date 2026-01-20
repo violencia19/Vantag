@@ -8,6 +8,57 @@
   "navReports": "Rapor",
   "navAchievements": "Rozetler",
   "navProfile": "Profil",
+  "navSettings": "Ayarlar",
+
+  "profile": "Profil",
+  "profileSavedTime": "Vantag ile Kurtarılan Zaman",
+  "profileHours": "{hours} Saat",
+  "@profileHours": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "profileMemberSince": "Üyelik Süresi",
+  "profileDays": "{days} Gün",
+  "@profileDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "profileBadgesEarned": "Kazanılan Rozet",
+  "profileGoogleConnected": "Google Hesabı Bağlı",
+  "profileGoogleNotConnected": "Google Hesabı Bağlı Değil",
+  "profileSignOut": "Çıkış Yap",
+  "profileSignOutConfirm": "Çıkış yapmak istediğinize emin misiniz?",
+  "proMember": "Pro Üye",
+  "proMemberToast": "Pro Üyesiniz ✓",
+
+  "settingsGeneral": "Genel",
+  "settingsCurrency": "Para Birimi",
+  "settingsLanguage": "Dil",
+  "settingsTheme": "Tema",
+  "settingsThemeDark": "Koyu",
+
+  "settingsNotifications": "Bildirimler",
+  "settingsReminders": "Hatırlatıcılar",
+
+  "settingsProPurchases": "Pro & Satın Alma",
+  "settingsVantagPro": "Vantag Pro",
+  "settingsRestorePurchases": "Satın Alımları Geri Yükle",
+  "settingsRestoreSuccess": "Satın alımlar geri yüklendi",
+  "settingsRestoreNone": "Geri yüklenecek satın alım bulunamadı",
+
+  "settingsDataPrivacy": "Veri & Gizlilik",
+  "settingsExportData": "Verileri Dışa Aktar",
+  "settingsPrivacyPolicy": "Gizlilik Politikası",
+
+  "settingsAbout": "Hakkında",
+  "settingsVersion": "Versiyon",
+  "settingsContactUs": "Bize Ulaşın",
+
+  "settingsGrowth": "Büyüme",
+  "settingsInviteFriends": "Arkadaşını Davet Et",
+  "settingsInviteMessage": "Vantag ile harcamalarımı kontrol ediyorum! Sen de dene:",
 
   "dashboard": "Anasayfa",
   "totalBalance": "Toplam Bakiye",
@@ -57,6 +108,7 @@
   "thinking": "Düşünüyorum",
   "passed": "Vazgeçtim",
   "cancel": "İptal",
+  "ok": "Tamam",
   "save": "Kaydet",
   "delete": "Sil",
   "edit": "Düzenle",
@@ -387,6 +439,15 @@
   "resetDataDebug": "Verileri Sıfırla (DEBUG)",
   "resetDataTitle": "Verileri Sıfırla",
   "resetDataMessage": "Tüm uygulama verileri silinecek. Bu işlem geri alınamaz.",
+
+  "deleteAccount": "Hesabımı Sil",
+  "deleteAccountWarningTitle": "Hesabınızı Silmek Üzeresiniz",
+  "deleteAccountWarningMessage": "Bu işlem geri alınamaz! Tüm verileriniz kalıcı olarak silinecektir:\n\n• Harcamalar\n• Gelirler\n• Taksitler\n• Başarımlar\n• Ayarlar",
+  "deleteAccountConfirmPlaceholder": "Onaylamak için 'Onaylıyorum' yazın",
+  "deleteAccountConfirmWord": "Onaylıyorum",
+  "deleteAccountButton": "Hesabı Sil",
+  "deleteAccountSuccess": "Hesabınız başarıyla silindi",
+  "deleteAccountError": "Hesap silinirken bir hata oluştu",
 
   "notificationTypes": "Bildirim Türleri",
   "awarenessReminder": "Farkındalık Hatırlatması",
@@ -1102,5 +1163,118 @@
       "hours": {"type": "String"}
     }
   },
-  "monthAbbreviation": "ay"
+  "monthAbbreviation": "ay",
+
+  "paywallTitle": "Premium'a Geç",
+  "paywallSubtitle": "Tüm özelliklerin kilidini aç ve finansal özgürlüğüne ulaş",
+  "subscribeToPro": "Pro'ya Abone Ol",
+  "restorePurchases": "Satın alımları geri yükle",
+  "feature": "Özellik",
+  "featureAiChat": "AI Sohbet",
+  "featureAiChatFree": "5/gün",
+  "featureHistory": "Geçmiş",
+  "featureHistory30Days": "30 gün",
+  "featureExport": "Excel Dışa Aktarma",
+  "featureWidgets": "Widgetlar",
+  "featureAds": "Reklamlar",
+  "featureUnlimited": "Sınırsız",
+  "featureYes": "Evet",
+  "featureNo": "Hayır",
+  "weekly": "Haftalık",
+  "week": "hafta",
+  "year": "yıl",
+  "bestValue": "En İyi Değer",
+  "yearlySavings": "%50'ye varan tasarruf",
+  "cancelAnytime": "İstediğin zaman iptal et",
+  "retry": "Tekrar Dene",
+  "aiLimitReached": "Günlük AI limitine ulaştın",
+  "aiLimitMessage": "Bugün {used}/{limit} AI sohbet hakkını kullandın. Sınırsız erişim için Pro'ya yükselt.",
+  "@aiLimitMessage": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "limit": {"type": "int"}
+    }
+  },
+  "historyLimitReached": "Geçmiş sınırına ulaştın",
+  "historyLimitMessage": "Ücretsiz planda sadece son 30 günlük geçmişi görebilirsin. Tüm geçmişe erişmek için Pro'ya yükselt.",
+  "exportProOnly": "Excel dışa aktarma Pro özelliğidir",
+  "remainingAiUses": "{count} AI hakkın kaldı",
+  "@remainingAiUses": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "lifetime": "Ömür Boyu",
+  "lifetimeDescription": "Bir kere öde, sonsuza kadar kullan • Ayda 100 AI kredisi",
+  "oneTime": "tek seferlik",
+  "forever": "SONSUZA KADAR",
+  "mostPopular": "EN POPÜLER",
+  "monthlyCredits": "Ayda {count} AI kredisi",
+  "@monthlyCredits": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "proMonthlyCredits": "{remaining}/{limit} aylık kredi",
+  "@proMonthlyCredits": {
+    "placeholders": {
+      "remaining": {"type": "int"},
+      "limit": {"type": "int"}
+    }
+  },
+
+  "aiLimitFreeTitleEmoji": "🔒 Günlük AI Limitine Ulaştın!",
+  "aiLimitProTitleEmoji": "⏳ Aylık AI Limitine Ulaştın!",
+  "aiLimitFreeMessage": "Bugün 5 AI soru hakkını kullandın.",
+  "aiLimitProMessage": "Bu ay 500 AI soru hakkını kullandın.",
+  "aiLimitLifetimeMessage": "Bu ay 200 AI kredini kullandın.",
+  "aiLimitResetDate": "Limitin {day} {month}'ta yenilenir ({days} gün kaldı)",
+  "@aiLimitResetDate": {
+    "placeholders": {
+      "day": {"type": "String"},
+      "month": {"type": "String"},
+      "days": {"type": "int"}
+    }
+  },
+  "aiLimitUpgradeToPro": "🚀 Pro'ya Geç - Sınırsız AI",
+  "aiLimitBuyCredits": "🔋 Ek Kredi Paketi Al",
+  "aiLimitTryTomorrow": "veya yarın tekrar dene",
+  "aiLimitOrWaitDays": "veya {days} gün sonra yenilenir",
+  "@aiLimitOrWaitDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+
+  "creditPurchaseTitle": "Kredi Satın Al",
+  "creditPurchaseHeader": "AI Kredisi Yükle",
+  "creditPurchaseSubtitle": "Aylık limitin dışında ekstra AI sorguları için kredi satın al.",
+  "creditCurrentBalance": "Mevcut Bakiye",
+  "creditAmount": "{credits} Kredi",
+  "@creditAmount": {
+    "placeholders": {
+      "credits": {"type": "int"}
+    }
+  },
+  "creditPackTitle": "{credits} Kredi",
+  "@creditPackTitle": {
+    "placeholders": {
+      "credits": {"type": "int"}
+    }
+  },
+  "creditPackPricePerCredit": "Kredi başına ₺{price}",
+  "@creditPackPricePerCredit": {
+    "placeholders": {
+      "price": {"type": "String"}
+    }
+  },
+  "creditPackPopular": "EN POPÜLER",
+  "creditPackBestValue": "EN TASARRUFLU",
+  "creditNeverExpire": "Krediler asla sona ermez, istediğin zaman kullan",
+  "creditPurchaseSuccess": "{credits} kredi hesabına eklendi!",
+  "@creditPurchaseSuccess": {
+    "placeholders": {
+      "credits": {"type": "int"}
+    }
+  }
 }

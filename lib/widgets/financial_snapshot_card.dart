@@ -482,37 +482,43 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                     ),
                   ),
                   const SizedBox(width: 14),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Design System: uppercase label, letterSpacing 1.2
-                      Text(
-                        l10n.income.toUpperCase(),
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1.2,
-                          color: AppColors.textTertiary,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Design System: uppercase label, letterSpacing 1.2
+                        Text(
+                          l10n.income.toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.2,
+                            color: AppColors.textTertiary,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 6),
-                      // Design System: fontSize 28, bold
-                      Text(
-                        formatTurkishCurrency(incomeConverted, decimalDigits: 0, showDecimals: false),
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -0.5,
-                          color: Colors.white,
-                          shadows: [
-                            Shadow(
-                              color: AppColors.success.withOpacity(0.4),
-                              blurRadius: 16,
+                        const SizedBox(height: 6),
+                        // Design System: fontSize 28, bold - FittedBox for responsive
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            formatTurkishCurrency(incomeConverted, decimalDigits: 0, showDecimals: false),
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: -0.5,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  color: AppColors.success.withOpacity(0.4),
+                                  blurRadius: 16,
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -541,37 +547,43 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      // Design System: uppercase label, letterSpacing 1.2
-                      Text(
-                        l10n.expense.toUpperCase(),
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1.2,
-                          color: AppColors.textTertiary,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        // Design System: uppercase label, letterSpacing 1.2
+                        Text(
+                          l10n.expense.toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.2,
+                            color: AppColors.textTertiary,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 6),
-                      // Design System: fontSize 28, bold
-                      Text(
-                        formatTurkishCurrency(spentConverted, decimalDigits: 0, showDecimals: false),
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -0.5,
-                          color: Colors.white,
-                          shadows: [
-                            Shadow(
-                              color: AppColors.error.withOpacity(0.4),
-                              blurRadius: 16,
+                        const SizedBox(height: 6),
+                        // Design System: fontSize 28, bold - FittedBox for responsive
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            formatTurkishCurrency(spentConverted, decimalDigits: 0, showDecimals: false),
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: -0.5,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  color: AppColors.error.withOpacity(0.4),
+                                  blurRadius: 16,
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   const SizedBox(width: 14),
                   // Icon with glow halo - enhanced

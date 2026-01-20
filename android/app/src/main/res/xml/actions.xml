@@ -39,11 +39,11 @@
 
     <!-- Entity Sets -->
     <entity-set entitySetId="categoryEntitySet">
-        <entity name="yemek" alternateName="@array/food_synonyms"/>
-        <entity name="ulasim" alternateName="@array/transport_synonyms"/>
-        <entity name="eglence" alternateName="@array/entertainment_synonyms"/>
-        <entity name="alisveris" alternateName="@array/shopping_synonyms"/>
-        <entity name="saglik" alternateName="@array/health_synonyms"/>
-        <entity name="fatura" alternateName="@array/bills_synonyms"/>
+        <entity name="yemek"/>
+        <entity name="ulasim"/>
+        <entity name="eglence"/>
+        <entity name="alisveris"/>
+        <entity name="saglik"/>
+        <entity name="fatura"/>
     </entity-set>
 </actions>

@@ -139,22 +139,27 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
     // Initialize FinanceProvider
     final financeProvider = context.read<FinanceProvider>();
 
-    // Initialize notifications
-    await notificationService.initialize();
+    // ÖNCE onboarding durumunu kontrol et (en kritik)
+    _onboardingCompleted = await profileService.isOnboardingCompleted();
+    debugPrint('[Splash] Onboarding completed: $_onboardingCompleted');
+
+    // Sonra profile kontrol et
+    _profile = await profileService.getProfile();
+    debugPrint('[Splash] Profile exists: ${_profile != null}');
+
+    // Diğer servisleri başlat (paralel olabilir)
+    await Future.wait([
+      notificationService.initialize(),
+      financeProvider.initialize(),
+    ]);
+
     await notificationService.initializeDefaultSettings();
     await notificationService.requestPermission();
 
     // Schedule subscription renewal notifications
     _scheduleSubscriptionNotifications(subscriptionService, notificationService);
 
-    // Profile and onboarding check - sıralı çalıştır, race condition önle
-    _onboardingCompleted = await profileService.isOnboardingCompleted();
-    _profile = await profileService.getProfile();
-    await financeProvider.initialize();
-
-    debugPrint('[Splash] Onboarding completed: $_onboardingCompleted');
-    debugPrint('[Splash] Profile exists: ${_profile != null}');
-
+    debugPrint('[Splash] ✓ App initialization complete');
     _initComplete = true;
   }
 

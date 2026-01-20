@@ -8,6 +8,57 @@
   "navReports": "Reports",
   "navAchievements": "Achievements",
   "navProfile": "Profile",
+  "navSettings": "Settings",
+
+  "profile": "Profile",
+  "profileSavedTime": "Time Saved with Vantag",
+  "profileHours": "{hours} Hours",
+  "@profileHours": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "profileMemberSince": "Member Since",
+  "profileDays": "{days} Days",
+  "@profileDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "profileBadgesEarned": "Badges Earned",
+  "profileGoogleConnected": "Google Account Connected",
+  "profileGoogleNotConnected": "Google Account Not Connected",
+  "profileSignOut": "Sign Out",
+  "profileSignOutConfirm": "Are you sure you want to sign out?",
+  "proMember": "Pro Member",
+  "proMemberToast": "You are a Pro Member ✓",
+
+  "settingsGeneral": "General",
+  "settingsCurrency": "Currency",
+  "settingsLanguage": "Language",
+  "settingsTheme": "Theme",
+  "settingsThemeDark": "Dark",
+
+  "settingsNotifications": "Notifications",
+  "settingsReminders": "Reminders",
+
+  "settingsProPurchases": "Pro & Purchases",
+  "settingsVantagPro": "Vantag Pro",
+  "settingsRestorePurchases": "Restore Purchases",
+  "settingsRestoreSuccess": "Purchases restored",
+  "settingsRestoreNone": "No purchases to restore",
+
+  "settingsDataPrivacy": "Data & Privacy",
+  "settingsExportData": "Export Data",
+  "settingsPrivacyPolicy": "Privacy Policy",
+
+  "settingsAbout": "About",
+  "settingsVersion": "Version",
+  "settingsContactUs": "Contact Us",
+
+  "settingsGrowth": "Growth",
+  "settingsInviteFriends": "Invite Friends",
+  "settingsInviteMessage": "I'm tracking my expenses with Vantag! You should try it too:",
 
   "dashboard": "Dashboard",
   "totalBalance": "Total Balance",
@@ -62,6 +113,7 @@
   "thinking": "Thinking",
   "passed": "Passed",
   "cancel": "Cancel",
+  "ok": "OK",
   "save": "Save",
   "delete": "Delete",
   "edit": "Edit",
@@ -604,6 +656,15 @@
   "resetDataDebug": "Reset Data (DEBUG)",
   "resetDataTitle": "Reset Data",
   "resetDataMessage": "All app data will be deleted. This action cannot be undone.",
+
+  "deleteAccount": "Delete My Account",
+  "deleteAccountWarningTitle": "You Are About to Delete Your Account",
+  "deleteAccountWarningMessage": "This action cannot be undone! All your data will be permanently deleted:\n\n• Expenses\n• Income\n• Installments\n• Achievements\n• Settings",
+  "deleteAccountConfirmPlaceholder": "Type 'I confirm' to confirm",
+  "deleteAccountConfirmWord": "I confirm",
+  "deleteAccountButton": "Delete Account",
+  "deleteAccountSuccess": "Your account has been successfully deleted",
+  "deleteAccountError": "An error occurred while deleting your account",
 
   "notificationTypes": "Notification Types",
   "awarenessReminder": "Awareness Reminder",
@@ -1468,5 +1529,118 @@
       "hours": {"type": "String"}
     }
   },
-  "monthAbbreviation": "mo"
+  "monthAbbreviation": "mo",
+
+  "paywallTitle": "Upgrade to Premium",
+  "paywallSubtitle": "Unlock all features and achieve your financial freedom",
+  "subscribeToPro": "Subscribe to Pro",
+  "restorePurchases": "Restore purchases",
+  "feature": "Feature",
+  "featureAiChat": "AI Chat",
+  "featureAiChatFree": "5/day",
+  "featureHistory": "History",
+  "featureHistory30Days": "30 days",
+  "featureExport": "Excel Export",
+  "featureWidgets": "Widgets",
+  "featureAds": "Ads",
+  "featureUnlimited": "Unlimited",
+  "featureYes": "Yes",
+  "featureNo": "No",
+  "weekly": "Weekly",
+  "week": "week",
+  "year": "year",
+  "bestValue": "Best Value",
+  "yearlySavings": "Save up to 50%",
+  "cancelAnytime": "Cancel anytime",
+  "retry": "Retry",
+  "aiLimitReached": "Daily AI limit reached",
+  "aiLimitMessage": "You've used {used}/{limit} AI chats today. Upgrade to Pro for unlimited access.",
+  "@aiLimitMessage": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "limit": {"type": "int"}
+    }
+  },
+  "historyLimitReached": "History limit reached",
+  "historyLimitMessage": "Free plan only shows last 30 days. Upgrade to Pro for full history access.",
+  "exportProOnly": "Excel export is a Pro feature",
+  "remainingAiUses": "{count} AI uses left",
+  "@remainingAiUses": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "lifetime": "Lifetime",
+  "lifetimeDescription": "Pay once, use forever • 100 AI credits/month",
+  "oneTime": "one-time",
+  "forever": "FOREVER",
+  "mostPopular": "MOST POPULAR",
+  "monthlyCredits": "{count} AI credits/month",
+  "@monthlyCredits": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "proMonthlyCredits": "{remaining}/{limit} monthly credits",
+  "@proMonthlyCredits": {
+    "placeholders": {
+      "remaining": {"type": "int"},
+      "limit": {"type": "int"}
+    }
+  },
+
+  "aiLimitFreeTitleEmoji": "🔒 Daily AI Limit Reached!",
+  "aiLimitProTitleEmoji": "⏳ Monthly AI Limit Reached!",
+  "aiLimitFreeMessage": "You've used all 5 AI questions for today.",
+  "aiLimitProMessage": "You've used all 500 AI questions this month.",
+  "aiLimitLifetimeMessage": "You've used all 200 AI credits this month.",
+  "aiLimitResetDate": "Limit resets on {month} {day} ({days} days left)",
+  "@aiLimitResetDate": {
+    "placeholders": {
+      "day": {"type": "String"},
+      "month": {"type": "String"},
+      "days": {"type": "int"}
+    }
+  },
+  "aiLimitUpgradeToPro": "🚀 Upgrade to Pro - Unlimited AI",
+  "aiLimitBuyCredits": "🔋 Buy Extra Credit Pack",
+  "aiLimitTryTomorrow": "or try again tomorrow",
+  "aiLimitOrWaitDays": "or wait {days} days for reset",
+  "@aiLimitOrWaitDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+
+  "creditPurchaseTitle": "Buy Credits",
+  "creditPurchaseHeader": "Top Up AI Credits",
+  "creditPurchaseSubtitle": "Purchase extra credits for AI queries beyond your monthly limit.",
+  "creditCurrentBalance": "Current Balance",
+  "creditAmount": "{credits} Credits",
+  "@creditAmount": {
+    "placeholders": {
+      "credits": {"type": "int"}
+    }
+  },
+  "creditPackTitle": "{credits} Credits",
+  "@creditPackTitle": {
+    "placeholders": {
+      "credits": {"type": "int"}
+    }
+  },
+  "creditPackPricePerCredit": "₺{price} per credit",
+  "@creditPackPricePerCredit": {
+    "placeholders": {
+      "price": {"type": "String"}
+    }
+  },
+  "creditPackPopular": "MOST POPULAR",
+  "creditPackBestValue": "BEST VALUE",
+  "creditNeverExpire": "Credits never expire, use them anytime",
+  "creditPurchaseSuccess": "{credits} credits added to your account!",
+  "@creditPurchaseSuccess": {
+    "placeholders": {
+      "credits": {"type": "int"}
+    }
+  }
 }

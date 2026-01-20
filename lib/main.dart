@@ -18,6 +18,7 @@ import 'services/ai_service.dart';
 import 'services/deep_link_service.dart';
 import 'services/siri_service.dart';
 import 'services/budget_service.dart';
+import 'services/purchase_service.dart';
 
 /// Global navigator key for deep link dialogs
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -42,6 +43,14 @@ void main() async {
     print("✅ AI Service başlatıldı");
   } catch (e) {
     print("❌ AI Service hatası: $e");
+  }
+
+  // Initialize RevenueCat for in-app purchases
+  try {
+    await PurchaseService.init();
+    print("✅ RevenueCat başlatıldı");
+  } catch (e) {
+    print("❌ RevenueCat hatası: $e");
   }
 
   print("🚀 ADIM 1: Flutter Hazır");

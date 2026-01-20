@@ -1,5 +1,5 @@
 Privacy Policy
-Last Updated: January 10, 2026
+Last Updated: January 18, 2026
 Introduction
 Vantag ("App", "we", "our", "us") respects your privacy. This Privacy Policy explains what information is collected when you use our app, how it is used, and how it is protected.
 By using the App, you agree to this Privacy Policy.
@@ -19,6 +19,8 @@ Profile photo: Optionally added by you
 Device information: Device model, operating system version
 App usage data: Open count, features used
 Crash reports: App crash information (via Crashlytics)
+Voice data: Voice commands are converted to text on your device, no audio is stored
+Receipt images: Processed on device (Google ML Kit), images are not sent to servers
 
 1.3 Google Sign-In
 If you sign in with your Google account:
@@ -76,8 +78,24 @@ We do not share your data except in the following cases:
 Legal requirement: When required by court order or legal process
 Service providers: For Firebase (Google) infrastructure services
 
+### Artificial Intelligence Services
+The app uses the following AI services:
+- **OpenAI (GPT-4o)**: For processing voice commands and AI chat
+- **Google Gemini**: For AI memory and recommendation system
+
+Data sent to these services:
+- Is processed anonymously (no personal information is sent)
+- Only expense descriptions and categories
+- Data is NOT used for AI training
+
 Third-Party Services We Use
-ServicePurposePrivacy PolicyFirebase AuthenticationUser sign-inGoogle Privacy PolicyCloud FirestoreData storageGoogle Privacy PolicyFirebase CrashlyticsCrash reportingGoogle Privacy Policy
+| Service | Purpose | Privacy Policy |
+|---------|---------|----------------|
+| Firebase Authentication | User sign-in | [Google Privacy Policy](https://policies.google.com/privacy) |
+| Cloud Firestore | Data storage | [Google Privacy Policy](https://policies.google.com/privacy) |
+| Firebase Crashlytics | Crash reporting | [Google Privacy Policy](https://policies.google.com/privacy) |
+| OpenAI | AI chat and voice processing | [OpenAI Privacy](https://openai.com/privacy) |
+| Google AI (Gemini) | AI memory system | [Google AI Privacy](https://ai.google/privacy) |
 
 6. Your Rights
 6.1 GDPR Rights (European Users)
@@ -127,4 +145,4 @@ Turkey
 11. Consent
 By using the App, you acknowledge that you have read, understood, and agree to this Privacy Policy.
 
-This policy is effective as of January 10, 2026.
+This policy is effective as of January 18, 2026.

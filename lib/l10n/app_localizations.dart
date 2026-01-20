@@ -134,6 +134,210 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get navProfile;
 
+  /// No description provided for @navSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get navSettings;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @profileSavedTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time Saved with Vantag'**
+  String get profileSavedTime;
+
+  /// No description provided for @profileHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} Hours'**
+  String profileHours(String hours);
+
+  /// No description provided for @profileMemberSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Member Since'**
+  String get profileMemberSince;
+
+  /// No description provided for @profileDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} Days'**
+  String profileDays(int days);
+
+  /// No description provided for @profileBadgesEarned.
+  ///
+  /// In en, this message translates to:
+  /// **'Badges Earned'**
+  String get profileBadgesEarned;
+
+  /// No description provided for @profileGoogleConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Account Connected'**
+  String get profileGoogleConnected;
+
+  /// No description provided for @profileGoogleNotConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Account Not Connected'**
+  String get profileGoogleNotConnected;
+
+  /// No description provided for @profileSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get profileSignOut;
+
+  /// No description provided for @profileSignOutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get profileSignOutConfirm;
+
+  /// No description provided for @proMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro Member'**
+  String get proMember;
+
+  /// No description provided for @proMemberToast.
+  ///
+  /// In en, this message translates to:
+  /// **'You are a Pro Member ✓'**
+  String get proMemberToast;
+
+  /// No description provided for @settingsGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get settingsGeneral;
+
+  /// No description provided for @settingsCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get settingsCurrency;
+
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguage;
+
+  /// No description provided for @settingsTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsTheme;
+
+  /// No description provided for @settingsThemeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settingsThemeDark;
+
+  /// No description provided for @settingsNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settingsNotifications;
+
+  /// No description provided for @settingsReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get settingsReminders;
+
+  /// No description provided for @settingsProPurchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro & Purchases'**
+  String get settingsProPurchases;
+
+  /// No description provided for @settingsVantagPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Vantag Pro'**
+  String get settingsVantagPro;
+
+  /// No description provided for @settingsRestorePurchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Purchases'**
+  String get settingsRestorePurchases;
+
+  /// No description provided for @settingsRestoreSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases restored'**
+  String get settingsRestoreSuccess;
+
+  /// No description provided for @settingsRestoreNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No purchases to restore'**
+  String get settingsRestoreNone;
+
+  /// No description provided for @settingsDataPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Data & Privacy'**
+  String get settingsDataPrivacy;
+
+  /// No description provided for @settingsExportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Data'**
+  String get settingsExportData;
+
+  /// No description provided for @settingsPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get settingsPrivacyPolicy;
+
+  /// No description provided for @settingsAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settingsAbout;
+
+  /// No description provided for @settingsVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get settingsVersion;
+
+  /// No description provided for @settingsContactUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get settingsContactUs;
+
+  /// No description provided for @settingsGrowth.
+  ///
+  /// In en, this message translates to:
+  /// **'Growth'**
+  String get settingsGrowth;
+
+  /// No description provided for @settingsInviteFriends.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite Friends'**
+  String get settingsInviteFriends;
+
+  /// No description provided for @settingsInviteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m tracking my expenses with Vantag! You should try it too:'**
+  String get settingsInviteMessage;
+
   /// No description provided for @dashboard.
   ///
   /// In en, this message translates to:
@@ -398,6 +602,12 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get cancel;
 
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
   /// No description provided for @save.
   ///
   /// In en, this message translates to:
@@ -481,12 +691,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{hours} hours equivalent'**
   String hoursEquivalent(String hours);
-
-  /// No description provided for @profile.
-  ///
-  /// In en, this message translates to:
-  /// **'Profile'**
-  String get profile;
 
   /// No description provided for @editProfile.
   ///
@@ -1187,7 +1391,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteAccount.
   ///
   /// In en, this message translates to:
-  /// **'Delete Account'**
+  /// **'Delete My Account'**
   String get deleteAccount;
 
   /// No description provided for @greetingMorning.
@@ -2083,6 +2287,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All app data will be deleted. This action cannot be undone.'**
   String get resetDataMessage;
+
+  /// No description provided for @deleteAccountWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You Are About to Delete Your Account'**
+  String get deleteAccountWarningTitle;
+
+  /// No description provided for @deleteAccountWarningMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone! All your data will be permanently deleted:\n\n• Expenses\n• Income\n• Installments\n• Achievements\n• Settings'**
+  String get deleteAccountWarningMessage;
+
+  /// No description provided for @deleteAccountConfirmPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Type \'I confirm\' to confirm'**
+  String get deleteAccountConfirmPlaceholder;
+
+  /// No description provided for @deleteAccountConfirmWord.
+  ///
+  /// In en, this message translates to:
+  /// **'I confirm'**
+  String get deleteAccountConfirmWord;
+
+  /// No description provided for @deleteAccountButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get deleteAccountButton;
+
+  /// No description provided for @deleteAccountSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been successfully deleted'**
+  String get deleteAccountSuccess;
+
+  /// No description provided for @deleteAccountError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while deleting your account'**
+  String get deleteAccountError;
 
   /// No description provided for @notificationTypes.
   ///
@@ -5005,6 +5251,336 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'mo'**
   String get monthAbbreviation;
+
+  /// No description provided for @paywallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Premium'**
+  String get paywallTitle;
+
+  /// No description provided for @paywallSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock all features and achieve your financial freedom'**
+  String get paywallSubtitle;
+
+  /// No description provided for @subscribeToPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe to Pro'**
+  String get subscribeToPro;
+
+  /// No description provided for @restorePurchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore purchases'**
+  String get restorePurchases;
+
+  /// No description provided for @feature.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature'**
+  String get feature;
+
+  /// No description provided for @featureAiChat.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Chat'**
+  String get featureAiChat;
+
+  /// No description provided for @featureAiChatFree.
+  ///
+  /// In en, this message translates to:
+  /// **'5/day'**
+  String get featureAiChatFree;
+
+  /// No description provided for @featureHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get featureHistory;
+
+  /// No description provided for @featureHistory30Days.
+  ///
+  /// In en, this message translates to:
+  /// **'30 days'**
+  String get featureHistory30Days;
+
+  /// No description provided for @featureExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Excel Export'**
+  String get featureExport;
+
+  /// No description provided for @featureWidgets.
+  ///
+  /// In en, this message translates to:
+  /// **'Widgets'**
+  String get featureWidgets;
+
+  /// No description provided for @featureAds.
+  ///
+  /// In en, this message translates to:
+  /// **'Ads'**
+  String get featureAds;
+
+  /// No description provided for @featureUnlimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited'**
+  String get featureUnlimited;
+
+  /// No description provided for @featureYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get featureYes;
+
+  /// No description provided for @featureNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get featureNo;
+
+  /// No description provided for @weekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get weekly;
+
+  /// No description provided for @week.
+  ///
+  /// In en, this message translates to:
+  /// **'week'**
+  String get week;
+
+  /// No description provided for @year.
+  ///
+  /// In en, this message translates to:
+  /// **'year'**
+  String get year;
+
+  /// No description provided for @bestValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Best Value'**
+  String get bestValue;
+
+  /// No description provided for @yearlySavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Save up to 50%'**
+  String get yearlySavings;
+
+  /// No description provided for @cancelAnytime.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel anytime'**
+  String get cancelAnytime;
+
+  /// No description provided for @aiLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily AI limit reached'**
+  String get aiLimitReached;
+
+  /// No description provided for @aiLimitMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve used {used}/{limit} AI chats today. Upgrade to Pro for unlimited access.'**
+  String aiLimitMessage(int used, int limit);
+
+  /// No description provided for @historyLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'History limit reached'**
+  String get historyLimitReached;
+
+  /// No description provided for @historyLimitMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Free plan only shows last 30 days. Upgrade to Pro for full history access.'**
+  String get historyLimitMessage;
+
+  /// No description provided for @exportProOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Excel export is a Pro feature'**
+  String get exportProOnly;
+
+  /// No description provided for @remainingAiUses.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} AI uses left'**
+  String remainingAiUses(int count);
+
+  /// No description provided for @lifetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime'**
+  String get lifetime;
+
+  /// No description provided for @lifetimeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay once, use forever • 100 AI credits/month'**
+  String get lifetimeDescription;
+
+  /// No description provided for @oneTime.
+  ///
+  /// In en, this message translates to:
+  /// **'one-time'**
+  String get oneTime;
+
+  /// No description provided for @forever.
+  ///
+  /// In en, this message translates to:
+  /// **'FOREVER'**
+  String get forever;
+
+  /// No description provided for @mostPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'MOST POPULAR'**
+  String get mostPopular;
+
+  /// No description provided for @monthlyCredits.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} AI credits/month'**
+  String monthlyCredits(int count);
+
+  /// No description provided for @proMonthlyCredits.
+  ///
+  /// In en, this message translates to:
+  /// **'{remaining}/{limit} monthly credits'**
+  String proMonthlyCredits(int remaining, int limit);
+
+  /// No description provided for @aiLimitFreeTitleEmoji.
+  ///
+  /// In en, this message translates to:
+  /// **'🔒 Daily AI Limit Reached!'**
+  String get aiLimitFreeTitleEmoji;
+
+  /// No description provided for @aiLimitProTitleEmoji.
+  ///
+  /// In en, this message translates to:
+  /// **'⏳ Monthly AI Limit Reached!'**
+  String get aiLimitProTitleEmoji;
+
+  /// No description provided for @aiLimitFreeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve used all 5 AI questions for today.'**
+  String get aiLimitFreeMessage;
+
+  /// No description provided for @aiLimitProMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve used all 500 AI questions this month.'**
+  String get aiLimitProMessage;
+
+  /// No description provided for @aiLimitLifetimeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve used all 200 AI credits this month.'**
+  String get aiLimitLifetimeMessage;
+
+  /// No description provided for @aiLimitResetDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Limit resets on {month} {day} ({days} days left)'**
+  String aiLimitResetDate(String day, String month, int days);
+
+  /// No description provided for @aiLimitUpgradeToPro.
+  ///
+  /// In en, this message translates to:
+  /// **'🚀 Upgrade to Pro - Unlimited AI'**
+  String get aiLimitUpgradeToPro;
+
+  /// No description provided for @aiLimitBuyCredits.
+  ///
+  /// In en, this message translates to:
+  /// **'🔋 Buy Extra Credit Pack'**
+  String get aiLimitBuyCredits;
+
+  /// No description provided for @aiLimitTryTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'or try again tomorrow'**
+  String get aiLimitTryTomorrow;
+
+  /// No description provided for @aiLimitOrWaitDays.
+  ///
+  /// In en, this message translates to:
+  /// **'or wait {days} days for reset'**
+  String aiLimitOrWaitDays(int days);
+
+  /// No description provided for @creditPurchaseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy Credits'**
+  String get creditPurchaseTitle;
+
+  /// No description provided for @creditPurchaseHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Up AI Credits'**
+  String get creditPurchaseHeader;
+
+  /// No description provided for @creditPurchaseSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase extra credits for AI queries beyond your monthly limit.'**
+  String get creditPurchaseSubtitle;
+
+  /// No description provided for @creditCurrentBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Balance'**
+  String get creditCurrentBalance;
+
+  /// No description provided for @creditAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'{credits} Credits'**
+  String creditAmount(int credits);
+
+  /// No description provided for @creditPackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{credits} Credits'**
+  String creditPackTitle(int credits);
+
+  /// No description provided for @creditPackPricePerCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'₺{price} per credit'**
+  String creditPackPricePerCredit(String price);
+
+  /// No description provided for @creditPackPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'MOST POPULAR'**
+  String get creditPackPopular;
+
+  /// No description provided for @creditPackBestValue.
+  ///
+  /// In en, this message translates to:
+  /// **'BEST VALUE'**
+  String get creditPackBestValue;
+
+  /// No description provided for @creditNeverExpire.
+  ///
+  /// In en, this message translates to:
+  /// **'Credits never expire, use them anytime'**
+  String get creditNeverExpire;
+
+  /// No description provided for @creditPurchaseSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'{credits} credits added to your account!'**
+  String creditPurchaseSuccess(int credits);
 }
 
 class _AppLocalizationsDelegate

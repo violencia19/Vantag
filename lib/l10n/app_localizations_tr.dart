@@ -27,6 +27,113 @@ class AppLocalizationsTr extends AppLocalizations {
   String get navProfile => 'Profil';
 
   @override
+  String get navSettings => 'Ayarlar';
+
+  @override
+  String get profile => 'Profil';
+
+  @override
+  String get profileSavedTime => 'Vantag ile Kurtarılan Zaman';
+
+  @override
+  String profileHours(String hours) {
+    return '$hours Saat';
+  }
+
+  @override
+  String get profileMemberSince => 'Üyelik Süresi';
+
+  @override
+  String profileDays(int days) {
+    return '$days Gün';
+  }
+
+  @override
+  String get profileBadgesEarned => 'Kazanılan Rozet';
+
+  @override
+  String get profileGoogleConnected => 'Google Hesabı Bağlı';
+
+  @override
+  String get profileGoogleNotConnected => 'Google Hesabı Bağlı Değil';
+
+  @override
+  String get profileSignOut => 'Çıkış Yap';
+
+  @override
+  String get profileSignOutConfirm => 'Çıkış yapmak istediğinize emin misiniz?';
+
+  @override
+  String get proMember => 'Pro Üye';
+
+  @override
+  String get proMemberToast => 'Pro Üyesiniz ✓';
+
+  @override
+  String get settingsGeneral => 'Genel';
+
+  @override
+  String get settingsCurrency => 'Para Birimi';
+
+  @override
+  String get settingsLanguage => 'Dil';
+
+  @override
+  String get settingsTheme => 'Tema';
+
+  @override
+  String get settingsThemeDark => 'Koyu';
+
+  @override
+  String get settingsNotifications => 'Bildirimler';
+
+  @override
+  String get settingsReminders => 'Hatırlatıcılar';
+
+  @override
+  String get settingsProPurchases => 'Pro & Satın Alma';
+
+  @override
+  String get settingsVantagPro => 'Vantag Pro';
+
+  @override
+  String get settingsRestorePurchases => 'Satın Alımları Geri Yükle';
+
+  @override
+  String get settingsRestoreSuccess => 'Satın alımlar geri yüklendi';
+
+  @override
+  String get settingsRestoreNone => 'Geri yüklenecek satın alım bulunamadı';
+
+  @override
+  String get settingsDataPrivacy => 'Veri & Gizlilik';
+
+  @override
+  String get settingsExportData => 'Verileri Dışa Aktar';
+
+  @override
+  String get settingsPrivacyPolicy => 'Gizlilik Politikası';
+
+  @override
+  String get settingsAbout => 'Hakkında';
+
+  @override
+  String get settingsVersion => 'Versiyon';
+
+  @override
+  String get settingsContactUs => 'Bize Ulaşın';
+
+  @override
+  String get settingsGrowth => 'Büyüme';
+
+  @override
+  String get settingsInviteFriends => 'Arkadaşını Davet Et';
+
+  @override
+  String get settingsInviteMessage =>
+      'Vantag ile harcamalarımı kontrol ediyorum! Sen de dene:';
+
+  @override
   String get dashboard => 'Anasayfa';
 
   @override
@@ -161,6 +268,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get cancel => 'İptal';
 
   @override
+  String get ok => 'Tamam';
+
+  @override
   String get save => 'Kaydet';
 
   @override
@@ -209,9 +319,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String hoursEquivalent(String hours) {
     return '$hours saat karşılığı';
   }
-
-  @override
-  String get profile => 'Profil';
 
   @override
   String get editProfile => 'Profili Düzenle';
@@ -579,7 +686,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signOut => 'Çıkış Yap';
 
   @override
-  String get deleteAccount => 'Hesabı Sil';
+  String get deleteAccount => 'Hesabımı Sil';
 
   @override
   String get greetingMorning => 'Günaydın';
@@ -1100,6 +1207,29 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get resetDataMessage =>
       'Tüm uygulama verileri silinecek. Bu işlem geri alınamaz.';
+
+  @override
+  String get deleteAccountWarningTitle => 'Hesabınızı Silmek Üzeresiniz';
+
+  @override
+  String get deleteAccountWarningMessage =>
+      'Bu işlem geri alınamaz! Tüm verileriniz kalıcı olarak silinecektir:\n\n• Harcamalar\n• Gelirler\n• Taksitler\n• Başarımlar\n• Ayarlar';
+
+  @override
+  String get deleteAccountConfirmPlaceholder =>
+      'Onaylamak için \'Onaylıyorum\' yazın';
+
+  @override
+  String get deleteAccountConfirmWord => 'Onaylıyorum';
+
+  @override
+  String get deleteAccountButton => 'Hesabı Sil';
+
+  @override
+  String get deleteAccountSuccess => 'Hesabınız başarıyla silindi';
+
+  @override
+  String get deleteAccountError => 'Hesap silinirken bir hata oluştu';
 
   @override
   String get notificationTypes => 'Bildirim Türleri';
@@ -2722,4 +2852,194 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get monthAbbreviation => 'ay';
+
+  @override
+  String get paywallTitle => 'Premium\'a Geç';
+
+  @override
+  String get paywallSubtitle =>
+      'Tüm özelliklerin kilidini aç ve finansal özgürlüğüne ulaş';
+
+  @override
+  String get subscribeToPro => 'Pro\'ya Abone Ol';
+
+  @override
+  String get restorePurchases => 'Satın alımları geri yükle';
+
+  @override
+  String get feature => 'Özellik';
+
+  @override
+  String get featureAiChat => 'AI Sohbet';
+
+  @override
+  String get featureAiChatFree => '5/gün';
+
+  @override
+  String get featureHistory => 'Geçmiş';
+
+  @override
+  String get featureHistory30Days => '30 gün';
+
+  @override
+  String get featureExport => 'Excel Dışa Aktarma';
+
+  @override
+  String get featureWidgets => 'Widgetlar';
+
+  @override
+  String get featureAds => 'Reklamlar';
+
+  @override
+  String get featureUnlimited => 'Sınırsız';
+
+  @override
+  String get featureYes => 'Evet';
+
+  @override
+  String get featureNo => 'Hayır';
+
+  @override
+  String get weekly => 'Haftalık';
+
+  @override
+  String get week => 'hafta';
+
+  @override
+  String get year => 'yıl';
+
+  @override
+  String get bestValue => 'En İyi Değer';
+
+  @override
+  String get yearlySavings => '%50\'ye varan tasarruf';
+
+  @override
+  String get cancelAnytime => 'İstediğin zaman iptal et';
+
+  @override
+  String get aiLimitReached => 'Günlük AI limitine ulaştın';
+
+  @override
+  String aiLimitMessage(int used, int limit) {
+    return 'Bugün $used/$limit AI sohbet hakkını kullandın. Sınırsız erişim için Pro\'ya yükselt.';
+  }
+
+  @override
+  String get historyLimitReached => 'Geçmiş sınırına ulaştın';
+
+  @override
+  String get historyLimitMessage =>
+      'Ücretsiz planda sadece son 30 günlük geçmişi görebilirsin. Tüm geçmişe erişmek için Pro\'ya yükselt.';
+
+  @override
+  String get exportProOnly => 'Excel dışa aktarma Pro özelliğidir';
+
+  @override
+  String remainingAiUses(int count) {
+    return '$count AI hakkın kaldı';
+  }
+
+  @override
+  String get lifetime => 'Ömür Boyu';
+
+  @override
+  String get lifetimeDescription =>
+      'Bir kere öde, sonsuza kadar kullan • Ayda 100 AI kredisi';
+
+  @override
+  String get oneTime => 'tek seferlik';
+
+  @override
+  String get forever => 'SONSUZA KADAR';
+
+  @override
+  String get mostPopular => 'EN POPÜLER';
+
+  @override
+  String monthlyCredits(int count) {
+    return 'Ayda $count AI kredisi';
+  }
+
+  @override
+  String proMonthlyCredits(int remaining, int limit) {
+    return '$remaining/$limit aylık kredi';
+  }
+
+  @override
+  String get aiLimitFreeTitleEmoji => '🔒 Günlük AI Limitine Ulaştın!';
+
+  @override
+  String get aiLimitProTitleEmoji => '⏳ Aylık AI Limitine Ulaştın!';
+
+  @override
+  String get aiLimitFreeMessage => 'Bugün 5 AI soru hakkını kullandın.';
+
+  @override
+  String get aiLimitProMessage => 'Bu ay 500 AI soru hakkını kullandın.';
+
+  @override
+  String get aiLimitLifetimeMessage => 'Bu ay 200 AI kredini kullandın.';
+
+  @override
+  String aiLimitResetDate(String day, String month, int days) {
+    return 'Limitin $day $month\'ta yenilenir ($days gün kaldı)';
+  }
+
+  @override
+  String get aiLimitUpgradeToPro => '🚀 Pro\'ya Geç - Sınırsız AI';
+
+  @override
+  String get aiLimitBuyCredits => '🔋 Ek Kredi Paketi Al';
+
+  @override
+  String get aiLimitTryTomorrow => 'veya yarın tekrar dene';
+
+  @override
+  String aiLimitOrWaitDays(int days) {
+    return 'veya $days gün sonra yenilenir';
+  }
+
+  @override
+  String get creditPurchaseTitle => 'Kredi Satın Al';
+
+  @override
+  String get creditPurchaseHeader => 'AI Kredisi Yükle';
+
+  @override
+  String get creditPurchaseSubtitle =>
+      'Aylık limitin dışında ekstra AI sorguları için kredi satın al.';
+
+  @override
+  String get creditCurrentBalance => 'Mevcut Bakiye';
+
+  @override
+  String creditAmount(int credits) {
+    return '$credits Kredi';
+  }
+
+  @override
+  String creditPackTitle(int credits) {
+    return '$credits Kredi';
+  }
+
+  @override
+  String creditPackPricePerCredit(String price) {
+    return 'Kredi başına ₺$price';
+  }
+
+  @override
+  String get creditPackPopular => 'EN POPÜLER';
+
+  @override
+  String get creditPackBestValue => 'EN TASARRUFLU';
+
+  @override
+  String get creditNeverExpire =>
+      'Krediler asla sona ermez, istediğin zaman kullan';
+
+  @override
+  String creditPurchaseSuccess(int credits) {
+    return '$credits kredi hesabına eklendi!';
+  }
 }

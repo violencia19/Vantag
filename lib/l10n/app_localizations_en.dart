@@ -27,6 +27,113 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navProfile => 'Profile';
 
   @override
+  String get navSettings => 'Settings';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get profileSavedTime => 'Time Saved with Vantag';
+
+  @override
+  String profileHours(String hours) {
+    return '$hours Hours';
+  }
+
+  @override
+  String get profileMemberSince => 'Member Since';
+
+  @override
+  String profileDays(int days) {
+    return '$days Days';
+  }
+
+  @override
+  String get profileBadgesEarned => 'Badges Earned';
+
+  @override
+  String get profileGoogleConnected => 'Google Account Connected';
+
+  @override
+  String get profileGoogleNotConnected => 'Google Account Not Connected';
+
+  @override
+  String get profileSignOut => 'Sign Out';
+
+  @override
+  String get profileSignOutConfirm => 'Are you sure you want to sign out?';
+
+  @override
+  String get proMember => 'Pro Member';
+
+  @override
+  String get proMemberToast => 'You are a Pro Member ✓';
+
+  @override
+  String get settingsGeneral => 'General';
+
+  @override
+  String get settingsCurrency => 'Currency';
+
+  @override
+  String get settingsLanguage => 'Language';
+
+  @override
+  String get settingsTheme => 'Theme';
+
+  @override
+  String get settingsThemeDark => 'Dark';
+
+  @override
+  String get settingsNotifications => 'Notifications';
+
+  @override
+  String get settingsReminders => 'Reminders';
+
+  @override
+  String get settingsProPurchases => 'Pro & Purchases';
+
+  @override
+  String get settingsVantagPro => 'Vantag Pro';
+
+  @override
+  String get settingsRestorePurchases => 'Restore Purchases';
+
+  @override
+  String get settingsRestoreSuccess => 'Purchases restored';
+
+  @override
+  String get settingsRestoreNone => 'No purchases to restore';
+
+  @override
+  String get settingsDataPrivacy => 'Data & Privacy';
+
+  @override
+  String get settingsExportData => 'Export Data';
+
+  @override
+  String get settingsPrivacyPolicy => 'Privacy Policy';
+
+  @override
+  String get settingsAbout => 'About';
+
+  @override
+  String get settingsVersion => 'Version';
+
+  @override
+  String get settingsContactUs => 'Contact Us';
+
+  @override
+  String get settingsGrowth => 'Growth';
+
+  @override
+  String get settingsInviteFriends => 'Invite Friends';
+
+  @override
+  String get settingsInviteMessage =>
+      'I\'m tracking my expenses with Vantag! You should try it too:';
+
+  @override
   String get dashboard => 'Dashboard';
 
   @override
@@ -161,6 +268,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancel => 'Cancel';
 
   @override
+  String get ok => 'OK';
+
+  @override
   String get save => 'Save';
 
   @override
@@ -209,9 +319,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String hoursEquivalent(String hours) {
     return '$hours hours equivalent';
   }
-
-  @override
-  String get profile => 'Profile';
 
   @override
   String get editProfile => 'Edit Profile';
@@ -579,7 +686,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signOut => 'Sign Out';
 
   @override
-  String get deleteAccount => 'Delete Account';
+  String get deleteAccount => 'Delete My Account';
 
   @override
   String get greetingMorning => 'Good morning';
@@ -1101,6 +1208,31 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get resetDataMessage =>
       'All app data will be deleted. This action cannot be undone.';
+
+  @override
+  String get deleteAccountWarningTitle =>
+      'You Are About to Delete Your Account';
+
+  @override
+  String get deleteAccountWarningMessage =>
+      'This action cannot be undone! All your data will be permanently deleted:\n\n• Expenses\n• Income\n• Installments\n• Achievements\n• Settings';
+
+  @override
+  String get deleteAccountConfirmPlaceholder => 'Type \'I confirm\' to confirm';
+
+  @override
+  String get deleteAccountConfirmWord => 'I confirm';
+
+  @override
+  String get deleteAccountButton => 'Delete Account';
+
+  @override
+  String get deleteAccountSuccess =>
+      'Your account has been successfully deleted';
+
+  @override
+  String get deleteAccountError =>
+      'An error occurred while deleting your account';
 
   @override
   String get notificationTypes => 'Notification Types';
@@ -2721,4 +2853,195 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get monthAbbreviation => 'mo';
+
+  @override
+  String get paywallTitle => 'Upgrade to Premium';
+
+  @override
+  String get paywallSubtitle =>
+      'Unlock all features and achieve your financial freedom';
+
+  @override
+  String get subscribeToPro => 'Subscribe to Pro';
+
+  @override
+  String get restorePurchases => 'Restore purchases';
+
+  @override
+  String get feature => 'Feature';
+
+  @override
+  String get featureAiChat => 'AI Chat';
+
+  @override
+  String get featureAiChatFree => '5/day';
+
+  @override
+  String get featureHistory => 'History';
+
+  @override
+  String get featureHistory30Days => '30 days';
+
+  @override
+  String get featureExport => 'Excel Export';
+
+  @override
+  String get featureWidgets => 'Widgets';
+
+  @override
+  String get featureAds => 'Ads';
+
+  @override
+  String get featureUnlimited => 'Unlimited';
+
+  @override
+  String get featureYes => 'Yes';
+
+  @override
+  String get featureNo => 'No';
+
+  @override
+  String get weekly => 'Weekly';
+
+  @override
+  String get week => 'week';
+
+  @override
+  String get year => 'year';
+
+  @override
+  String get bestValue => 'Best Value';
+
+  @override
+  String get yearlySavings => 'Save up to 50%';
+
+  @override
+  String get cancelAnytime => 'Cancel anytime';
+
+  @override
+  String get aiLimitReached => 'Daily AI limit reached';
+
+  @override
+  String aiLimitMessage(int used, int limit) {
+    return 'You\'ve used $used/$limit AI chats today. Upgrade to Pro for unlimited access.';
+  }
+
+  @override
+  String get historyLimitReached => 'History limit reached';
+
+  @override
+  String get historyLimitMessage =>
+      'Free plan only shows last 30 days. Upgrade to Pro for full history access.';
+
+  @override
+  String get exportProOnly => 'Excel export is a Pro feature';
+
+  @override
+  String remainingAiUses(int count) {
+    return '$count AI uses left';
+  }
+
+  @override
+  String get lifetime => 'Lifetime';
+
+  @override
+  String get lifetimeDescription =>
+      'Pay once, use forever • 100 AI credits/month';
+
+  @override
+  String get oneTime => 'one-time';
+
+  @override
+  String get forever => 'FOREVER';
+
+  @override
+  String get mostPopular => 'MOST POPULAR';
+
+  @override
+  String monthlyCredits(int count) {
+    return '$count AI credits/month';
+  }
+
+  @override
+  String proMonthlyCredits(int remaining, int limit) {
+    return '$remaining/$limit monthly credits';
+  }
+
+  @override
+  String get aiLimitFreeTitleEmoji => '🔒 Daily AI Limit Reached!';
+
+  @override
+  String get aiLimitProTitleEmoji => '⏳ Monthly AI Limit Reached!';
+
+  @override
+  String get aiLimitFreeMessage => 'You\'ve used all 5 AI questions for today.';
+
+  @override
+  String get aiLimitProMessage =>
+      'You\'ve used all 500 AI questions this month.';
+
+  @override
+  String get aiLimitLifetimeMessage =>
+      'You\'ve used all 200 AI credits this month.';
+
+  @override
+  String aiLimitResetDate(String day, String month, int days) {
+    return 'Limit resets on $month $day ($days days left)';
+  }
+
+  @override
+  String get aiLimitUpgradeToPro => '🚀 Upgrade to Pro - Unlimited AI';
+
+  @override
+  String get aiLimitBuyCredits => '🔋 Buy Extra Credit Pack';
+
+  @override
+  String get aiLimitTryTomorrow => 'or try again tomorrow';
+
+  @override
+  String aiLimitOrWaitDays(int days) {
+    return 'or wait $days days for reset';
+  }
+
+  @override
+  String get creditPurchaseTitle => 'Buy Credits';
+
+  @override
+  String get creditPurchaseHeader => 'Top Up AI Credits';
+
+  @override
+  String get creditPurchaseSubtitle =>
+      'Purchase extra credits for AI queries beyond your monthly limit.';
+
+  @override
+  String get creditCurrentBalance => 'Current Balance';
+
+  @override
+  String creditAmount(int credits) {
+    return '$credits Credits';
+  }
+
+  @override
+  String creditPackTitle(int credits) {
+    return '$credits Credits';
+  }
+
+  @override
+  String creditPackPricePerCredit(String price) {
+    return '₺$price per credit';
+  }
+
+  @override
+  String get creditPackPopular => 'MOST POPULAR';
+
+  @override
+  String get creditPackBestValue => 'BEST VALUE';
+
+  @override
+  String get creditNeverExpire => 'Credits never expire, use them anytime';
+
+  @override
+  String creditPurchaseSuccess(int credits) {
+    return '$credits credits added to your account!';
+  }
 }

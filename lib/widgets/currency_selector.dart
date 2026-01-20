@@ -5,12 +5,14 @@ import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/currency.dart';
 import '../providers/currency_provider.dart';
+import '../providers/finance_provider.dart';
 import '../theme/theme.dart';
 
 /// Show currency selector bottom sheet
 void showCurrencySelector(BuildContext context) {
   final l10n = AppLocalizations.of(context)!;
   final currencyProvider = context.read<CurrencyProvider>();
+  final financeProvider = context.read<FinanceProvider>();
 
   showModalBottomSheet(
     context: context,
@@ -87,7 +89,17 @@ void showCurrencySelector(BuildContext context) {
                     : null,
                 onTap: () async {
                   Navigator.pop(context);
+
+                  // Para birimi değiştir
                   await currencyProvider.setCurrency(currency);
+
+                  // Gelir kaynaklarını yeni para birimine convert et
+                  await _convertIncomeSources(
+                    currencyProvider,
+                    financeProvider,
+                    currency.code,
+                  );
+
                   HapticFeedback.lightImpact();
                 },
               );
@@ -97,4 +109,24 @@ void showCurrencySelector(BuildContext context) {
       ),
     ),
   );
+}
+
+/// Gelir kaynaklarını yeni para birimine convert et
+Future<void> _convertIncomeSources(
+  CurrencyProvider currencyProvider,
+  FinanceProvider financeProvider,
+  String targetCurrency,
+) async {
+  final currentSources = financeProvider.incomeSources;
+  if (currentSources.isEmpty) return;
+
+  // Tüm gelir kaynaklarını convert et
+  final convertedSources = currencyProvider.convertIncomeSources(
+    currentSources,
+    targetCurrency,
+  );
+
+  if (convertedSources != null) {
+    await financeProvider.updateIncomeSourcesWithConversion(convertedSources);
+  }
 }

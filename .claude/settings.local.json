@@ -65,7 +65,20 @@
       "Bash(find:*)",
       "Bash(wc:*)",
       "Bash(git rm:*)",
-      "Bash(more:*)"
+      "Bash(more:*)",
+      "Bash(uipro init:*)",
+      "Bash(python3:*)",
+      "Bash(python .claude/skills/ui-ux-pro-max/scripts/search.py:*)",
+      "Bash(where:*)",
+      "Bash(\"C:\\\\Users\\\\genca\\\\AppData\\\\Local\\\\Microsoft\\\\WindowsApps\\\\python.exe\" .claude/skills/ui-ux-pro-max/scripts/search.py \"fintech dashboard dark\" --design-system -p \"Vantag\")",
+      "Bash(powershell.exe -Command \"cd ''c:\\\\flutter_projects\\\\mmr_app''; python .claude/skills/ui-ux-pro-max/scripts/search.py ''fintech dashboard dark'' --design-system -p ''Vantag''\")",
+      "Bash(taskkill:*)",
+      "Bash(tasklist:*)",
+      "Bash(git status:*)",
+      "Bash(xargs dirname:*)",
+      "Bash(grep:*)",
+      "Bash(done)",
+      "Bash(nc:*)"
     ]
   }
 }

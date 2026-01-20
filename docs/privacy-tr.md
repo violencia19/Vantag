@@ -1,5 +1,5 @@
 Gizlilik Politikası
-Son Güncelleme: 10 Ocak 2026
+Son Güncelleme: 18 Ocak 2026
 Giriş
 Vantag ("Uygulama", "biz", "bizim") olarak gizliliğinize saygı duyuyoruz. Bu Gizlilik Politikası, uygulamamızı kullandığınızda hangi bilgilerin toplandığını, nasıl kullanıldığını ve nasıl korunduğunu açıklar.
 Uygulamayı kullanarak bu politikayı kabul etmiş sayılırsınız.
@@ -19,6 +19,8 @@ Profil fotoğrafı: İsteğe bağlı olarak ekleyebilirsiniz
 Cihaz bilgileri: Cihaz modeli, işletim sistemi versiyonu
 Uygulama kullanım verileri: Açılma sayısı, kullanılan özellikler
 Hata raporları: Uygulama çökme bilgileri (Crashlytics ile)
+Ses verileri: Sesli komutlar cihazınızda metne çevrilir, ses kaydı saklanmaz
+Fiş görüntüleri: Cihazda işlenir (Google ML Kit), görüntü sunucuya gönderilmez
 
 1.3 Google ile Giriş
 Google hesabınızla giriş yaparsanız:
@@ -76,8 +78,24 @@ Verilerinizi aşağıdaki durumlar dışında kimseyle paylaşmayız:
 Yasal zorunluluk: Mahkeme kararı veya yasal süreç gerektirdiğinde
 Hizmet sağlayıcılar: Firebase (Google) altyapı hizmetleri için
 
+### Yapay Zeka Hizmetleri
+Uygulama, aşağıdaki AI servislerini kullanır:
+- **OpenAI (GPT-4o)**: Sesli komutları işlemek ve AI sohbet için
+- **Google Gemini**: AI hafıza ve öneri sistemi için
+
+Bu servislere gönderilen veriler:
+- Anonim olarak işlenir (kişisel bilgi gönderilmez)
+- Sadece harcama açıklamaları ve kategoriler
+- Veriler AI eğitimi için KULLANILMAZ
+
 Kullandığımız Üçüncü Taraf Hizmetler
-HizmetAmaçGizlilik PolitikasıFirebase AuthenticationKullanıcı girişiGoogle Privacy PolicyCloud FirestoreVeri depolamaGoogle Privacy PolicyFirebase CrashlyticsHata raporlamaGoogle Privacy Policy
+| Hizmet | Amaç | Gizlilik Politikası |
+|--------|------|---------------------|
+| Firebase Authentication | Kullanıcı girişi | [Google Privacy Policy](https://policies.google.com/privacy) |
+| Cloud Firestore | Veri depolama | [Google Privacy Policy](https://policies.google.com/privacy) |
+| Firebase Crashlytics | Hata raporlama | [Google Privacy Policy](https://policies.google.com/privacy) |
+| OpenAI | AI sohbet ve ses işleme | [OpenAI Privacy](https://openai.com/privacy) |
+| Google AI (Gemini) | AI hafıza sistemi | [Google AI Privacy](https://ai.google/privacy) |
 
 6. Haklarınız
 6.1 KVKK Kapsamındaki Haklarınız
@@ -118,4 +136,4 @@ Türkiye
 10. Onay
 Uygulamayı kullanarak bu Gizlilik Politikası'nı okuduğunuzu, anladığınızı ve kabul ettiğinizi beyan etmiş olursunuz.
 
-Bu politika 10 Ocak 2026 tarihinde yürürlüğe girmiştir.
+Bu politika 18 Ocak 2026 tarihinde yürürlüğe girmiştir.

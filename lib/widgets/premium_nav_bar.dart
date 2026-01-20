@@ -76,11 +76,12 @@ class PremiumNavBar extends StatelessWidget {
                   isActive: currentIndex == 2,
                   onTap: () => onTap(2),
                 ),
-                // Profile
-                _ProfileNavItem(
+                // Settings
+                _NavItem(
+                  icon: PhosphorIconsDuotone.gear,
+                  label: l10n.navSettings,
                   isActive: currentIndex == 3,
                   onTap: () => onTap(3),
-                  label: l10n.navProfile,
                 ),
               ],
             ),
@@ -490,10 +491,10 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                     onTap: () => onTap(2),
                   ),
                 ),
-                // Profile - with Showcase
+                // Settings - with Showcase
                 Showcase(
                   key: TourKeys.navBarProfile,
-                  title: l10n.profileAndSettings,
+                  title: l10n.navSettings,
                   description: l10n.profileAndSettingsDescription,
                   titleTextStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -508,10 +509,11 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   overlayColor: Colors.black,
                   overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(12),
-                  child: _ProfileNavItem(
+                  child: _NavItem(
+                    icon: PhosphorIconsDuotone.gear,
+                    label: l10n.navSettings,
                     isActive: currentIndex == 3,
                     onTap: () => onTap(3),
-                    label: l10n.navProfile,
                   ),
                 ),
               ],

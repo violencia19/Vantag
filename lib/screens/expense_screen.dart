@@ -13,6 +13,8 @@ import '../providers/providers.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'subscription_screen.dart';
 import 'habit_calculator_screen.dart';
+import 'profile_modal.dart';
+import 'paywall_screen.dart';
 
 class ExpenseScreen extends StatefulWidget {
   final UserProfile userProfile;
@@ -148,6 +150,126 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     ),
                   ),
               ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Avatar button that opens profile modal
+  Widget _buildAvatarButton(BuildContext context) {
+    final authService = AuthService();
+    final user = authService.currentUser;
+    final photoUrl = user?.photoURL;
+
+    return GestureDetector(
+      onTap: () => ProfileModal.show(context),
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColors.primary.withValues(alpha: 0.3),
+              AppColors.secondary.withValues(alpha: 0.3),
+            ],
+          ),
+          border: Border.all(
+            color: AppColors.primary.withValues(alpha: 0.5),
+            width: 2,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.3),
+              blurRadius: 12,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: ClipOval(
+          child: photoUrl != null
+              ? Image.network(
+                  photoUrl,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => _buildDefaultAvatarIcon(),
+                )
+              : _buildDefaultAvatarIcon(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDefaultAvatarIcon() {
+    return Container(
+      color: AppColors.surfaceLight,
+      child: Icon(
+        PhosphorIconsDuotone.user,
+        size: 24,
+        color: AppColors.textTertiary,
+      ),
+    );
+  }
+
+  /// Pro lightning button - gold if Pro, gray if Free
+  Widget _buildProLightningButton(BuildContext context, AppLocalizations l10n) {
+    final proProvider = context.watch<ProProvider>();
+    final isPro = proProvider.isPro;
+
+    return GestureDetector(
+      onTap: () {
+        if (isPro) {
+          // Show toast for Pro users
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(l10n.proMemberToast),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: AppColors.success,
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        } else {
+          // Open Paywall for Free users
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const PaywallScreen()),
+          );
+        }
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(14),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: isPro
+                  ? const Color(0xFFFFD700).withValues(alpha: 0.15)
+                  : Colors.white.withValues(alpha: 0.03),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: isPro
+                    ? const Color(0xFFFFD700).withValues(alpha: 0.5)
+                    : Colors.white.withValues(alpha: 0.08),
+              ),
+              boxShadow: isPro
+                  ? [
+                      BoxShadow(
+                        color: const Color(0xFFFFD700).withValues(alpha: 0.3),
+                        blurRadius: 12,
+                        spreadRadius: 0,
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Icon(
+              PhosphorIconsDuotone.lightning,
+              size: 20,
+              color: isPro ? const Color(0xFFFFD700) : AppColors.textTertiary,
             ),
           ),
         ),
@@ -547,58 +669,55 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      // Left side: Avatar + Title
                       Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
                           children: [
-                            Text(
-                              _getGreeting(l10n).toUpperCase(),
-                              style: const TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textSecondary,
-                                letterSpacing: 2.5,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 6),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  l10n.financialStatus,
-                                  style: const TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.textPrimary,
-                                    letterSpacing: 1.5,
-                                    height: 1.1,
+                            // Avatar
+                            _buildAvatarButton(context),
+                            const SizedBox(width: 14),
+                            // Title Column
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    _getGreeting(l10n).toUpperCase(),
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.textSecondary,
+                                      letterSpacing: 2.5,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(height: 6),
-                                Container(
-                                  height: 3,
-                                  width: 60,
-                                  decoration: BoxDecoration(
-                                    gradient: AppGradients.primaryButton,
-                                    borderRadius: BorderRadius.circular(2),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: AppColors.primary.withOpacity(0.4),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 2),
+                                  const SizedBox(height: 6),
+                                  FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      l10n.financialStatus,
+                                      style: const TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.textPrimary,
+                                        letterSpacing: 1.5,
+                                        height: 1.1,
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
+                      // Right side: Pro Lightning + Calendar + Streak
                       Row(
                         children: [
+                          // Pro Lightning Button
+                          _buildProLightningButton(context, l10n),
+                          const SizedBox(width: 10),
                           Showcase(
                             key: TourKeys.subscriptionButton,
                             title: l10n.subscriptions,

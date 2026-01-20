@@ -14,7 +14,7 @@ import '../utils/currency_utils.dart';
 import 'expense_screen.dart';
 import 'report_screen.dart';
 import 'achievements_screen.dart';
-import 'profile_screen.dart';
+import 'settings_screen.dart';
 
 class MainScreen extends StatefulWidget {
   final UserProfile? userProfile;
@@ -432,11 +432,7 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           ReportScreen(userProfile: currentProfile),
                           const AchievementsScreen(),
-                          ProfileScreen(
-                            userProfile: currentProfile,
-                            onProfileUpdated: _onProfileUpdated,
-                            onStartTour: () => _startTour(context),
-                          ),
+                          const SettingsScreen(),
                         ],
                       ),
                     ),
