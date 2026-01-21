@@ -36,7 +36,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.85,
@@ -73,8 +73,8 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
           // Card preview (live updates)
           Expanded(
             child: Center(
-              child: Transform.scale(
-                scale: 0.5,
+              child: FittedBox(
+                fit: BoxFit.contain,
                 child: ShareCardWidget(
                   icon: widget.icon,
                   iconColor: widget.iconColor,
@@ -217,8 +217,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
               Switch(
                 value: value,
                 onChanged: onChanged,
-                activeColor: AppColors.primary,
-                activeTrackColor: AppColors.primary.withValues(alpha: 0.3),
+                activeTrackColor: AppColors.primary,
                 inactiveThumbColor: Colors.white54,
                 inactiveTrackColor: Colors.white.withValues(alpha: 0.1),
               ),

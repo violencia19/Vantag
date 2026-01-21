@@ -63,7 +63,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => AddSubscriptionSheet(
@@ -80,7 +80,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => SubscriptionDetailSheet(
@@ -115,7 +115,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               onPressed: () => Navigator.pop(context),
             ),
             title: Text(
-              AppLocalizations.of(context)!.subscriptions,
+              AppLocalizations.of(context).subscriptions,
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -131,8 +131,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 ),
                 onPressed: _toggleView,
                 tooltip: _isCalendarView
-                    ? AppLocalizations.of(context)!.listView
-                    : AppLocalizations.of(context)!.calendarView,
+                    ? AppLocalizations.of(context).listView
+                    : AppLocalizations.of(context).calendarView,
               ),
             ],
           ),
@@ -222,7 +222,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.monthlyTotal,
+                      AppLocalizations.of(context).monthlyTotal,
                       style: TextStyle(
                         fontSize: 12,
                         color: AppColors.textSecondary,
@@ -261,7 +261,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          '${_stats!.totalCount} ${AppLocalizations.of(context)!.subscription}',
+                          '${_stats!.totalCount} ${AppLocalizations.of(context).subscription}',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
@@ -272,7 +272,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '${_stats!.totalWorkDays.toStringAsFixed(1)} ${AppLocalizations.of(context)!.workDaysPerMonth}',
+                      '${_stats!.totalWorkDays.toStringAsFixed(1)} ${AppLocalizations.of(context).workDaysPerMonth}',
                       style: TextStyle(
                         fontSize: 12,
                         color: AppColors.textSecondary,
@@ -358,7 +358,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  AppLocalizations.of(context)!.everyMonthDay(subscription.renewalDay),
+                  AppLocalizations.of(context).everyMonthDay(subscription.renewalDay),
                   style: TextStyle(
                     fontSize: 11,
                     color: AppColors.textTertiary,
@@ -399,7 +399,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           ),
           const SizedBox(height: 20),
           Text(
-            AppLocalizations.of(context)!.noSubscriptionsYet,
+            AppLocalizations.of(context).noSubscriptionsYet,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
@@ -408,7 +408,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            AppLocalizations.of(context)!.addSubscriptionHint,
+            AppLocalizations.of(context).addSubscriptionHint,
             style: TextStyle(
               fontSize: 13,
               color: AppColors.textTertiary,
@@ -425,7 +425,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         margin: const EdgeInsets.all(16),
@@ -452,7 +452,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.everyMonthDay(day),
+                    AppLocalizations.of(context).everyMonthDay(day),
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,

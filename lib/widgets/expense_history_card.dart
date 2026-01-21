@@ -5,6 +5,7 @@ import '../models/models.dart';
 import '../theme/theme.dart';
 import '../utils/category_utils.dart';
 import '../utils/currency_utils.dart';
+import 'premium_share_card.dart';
 
 class ExpenseHistoryCard extends StatelessWidget {
   final Expense expense;
@@ -12,6 +13,7 @@ class ExpenseHistoryCard extends StatelessWidget {
   final VoidCallback? onEdit;
   final Function(ExpenseDecision)? onDecisionUpdate;
   final bool showHint;
+  final String currencySymbol;
 
   const ExpenseHistoryCard({
     super.key,
@@ -20,10 +22,11 @@ class ExpenseHistoryCard extends StatelessWidget {
     this.onEdit,
     this.onDecisionUpdate,
     this.showHint = false,
+    this.currencySymbol = '₺',
   });
 
   String _formatDate(BuildContext context, DateTime date) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final months = [
       l10n.monthJan, l10n.monthFeb, l10n.monthMar, l10n.monthApr,
       l10n.monthMay, l10n.monthJun, l10n.monthJul, l10n.monthAug,
@@ -51,10 +54,10 @@ class ExpenseHistoryCard extends StatelessWidget {
   }
 
   void _showDecisionDialog(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -151,10 +154,10 @@ class ExpenseHistoryCard extends StatelessWidget {
   }
 
   void _showOptionsMenu(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -174,6 +177,16 @@ class ExpenseHistoryCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
+              _buildMenuTile(
+                icon: PhosphorIconsDuotone.shareFat,
+                label: l10n.share,
+                color: AppColors.primary,
+                onTap: () {
+                  Navigator.pop(context);
+                  _showShareCard(context);
+                },
+              ),
+              const SizedBox(height: 12),
               _buildMenuTile(
                 icon: PhosphorIconsDuotone.pencilSimple,
                 label: l10n.edit,
@@ -198,6 +211,18 @@ class ExpenseHistoryCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _showShareCard(BuildContext context) {
+    showShareCardPreview(
+      context,
+      amount: expense.amount,
+      hoursRequired: expense.hoursRequired,
+      category: expense.category,
+      date: expense.date,
+      currencySymbol: currencySymbol,
+      decision: expense.decision,
     );
   }
 
@@ -239,7 +264,7 @@ class ExpenseHistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final decisionColor = _getDecisionColor(expense.decision);
     final isThinking = expense.decision == ExpenseDecision.thinking;
 
@@ -477,10 +502,10 @@ class ExpenseHistoryCard extends StatelessWidget {
   }
 
   void _showSwipeActions(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),

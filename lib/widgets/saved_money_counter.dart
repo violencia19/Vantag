@@ -90,7 +90,7 @@ class SavedMoneyCounter extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final currencyProvider = context.watch<CurrencyProvider>();
     final emotionalMessage = _getEmotionalMessage(l10n);
 

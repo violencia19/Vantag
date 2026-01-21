@@ -185,10 +185,10 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
   }
 
   Future<void> _showDatePicker() async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final picked = await showDatePicker(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       initialDate: _selectedDate,
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now(),
@@ -217,7 +217,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
   }
 
   void _submit() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final amount = parseTurkishCurrency(_amountController.text);
 
     if (amount == null || amount <= 0) {
@@ -332,7 +332,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -470,7 +470,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                             color: ExpenseCategory.getColor(category),
                           ),
                           const SizedBox(width: 8),
-                          Text(category),
+                          Text(ExpenseCategory.getLocalizedName(category, l10n)),
                         ],
                       ),
                     );
@@ -539,7 +539,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  l10n.autoSelected(_selectedCategory!),
+                  l10n.autoSelected(ExpenseCategory.getLocalizedName(_selectedCategory!, l10n)),
                   style: const TextStyle(
                     fontSize: 12,
                     color: AppColors.success,

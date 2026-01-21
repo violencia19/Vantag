@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -20,6 +19,7 @@ import '../theme/theme.dart';
 import '../widgets/currency_selector.dart';
 import 'paywall_screen.dart';
 import 'onboarding_screen.dart';
+import 'achievements_screen.dart';
 
 /// Settings Screen - Replaces Profile in bottom nav
 class SettingsScreen extends StatefulWidget {
@@ -61,7 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final proProvider = context.watch<ProProvider>();
     final isPro = proProvider.isPro;
 
@@ -134,6 +134,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
+            // Achievements Section
+            SliverToBoxAdapter(
+              child: _buildSection(
+                title: l10n.navAchievements,
+                children: [
+                  _buildAchievementsTile(l10n),
+                ],
+              ),
+            ),
+
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
             // Data & Privacy Section
             SliverToBoxAdapter(
               child: _buildSection(
@@ -142,6 +154,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   _buildExportTile(l10n, isPro),
                   _buildDivider(),
                   _buildPrivacyPolicyTile(l10n),
+                  _buildDivider(),
+                  _buildTermsOfServiceTile(l10n),
                   _buildDivider(),
                   _buildDeleteAccountTile(l10n),
                 ],
@@ -161,14 +175,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
             ),
-
-            // Debug Section (only in debug mode)
-            if (kDebugMode) ...[
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
-              SliverToBoxAdapter(
-                child: _buildDangerZoneSection(l10n),
-              ),
-            ],
 
             // Bottom padding for nav bar
             const SliverToBoxAdapter(child: SizedBox(height: 120)),
@@ -255,7 +261,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _shareApp() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     HapticFeedback.mediumImpact();
     Share.share(
       '${l10n.settingsInviteMessage}\nhttps://play.google.com/store/apps/details?id=com.vantag.app',
@@ -508,7 +514,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       trailing: Switch.adaptive(
         value: _remindersEnabled,
         onChanged: _toggleReminders,
-        activeColor: AppColors.primary,
+        activeTrackColor: AppColors.primary,
       ),
       showArrow: false,
     );
@@ -580,8 +586,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Widget _buildAchievementsTile(AppLocalizations l10n) {
+    return _buildListTile(
+      icon: PhosphorIconsDuotone.trophy,
+      iconColor: const Color(0xFFFFD700),
+      title: l10n.badges,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const AchievementsScreen()),
+        );
+      },
+    );
+  }
+
   Future<void> _restorePurchases() async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     setState(() => _isRestoring = true);
 
     try {
@@ -677,6 +697,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
       iconColor: const Color(0xFF3498DB),
       title: l10n.settingsPrivacyPolicy,
       onTap: () => launchUrl(Uri.parse(privacyUrl)),
+    );
+  }
+
+  Widget _buildTermsOfServiceTile(AppLocalizations l10n) {
+    final localeProvider = context.watch<LocaleProvider>();
+    final langCode = localeProvider.locale?.languageCode ?? 'tr';
+    final termsUrl = langCode == 'tr'
+        ? 'https://violencia19.github.io/Vantag/terms-tr'
+        : 'https://violencia19.github.io/Vantag/terms-en';
+
+    return _buildListTile(
+      icon: PhosphorIconsDuotone.fileText,
+      iconColor: const Color(0xFF9B59B6),
+      title: l10n.termsOfService,
+      onTap: () => launchUrl(Uri.parse(termsUrl)),
     );
   }
 
@@ -798,409 +833,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  // ========== DANGER ZONE (DEBUG ONLY) ==========
-
-  Widget _buildDangerZoneSection(AppLocalizations l10n) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 4, bottom: 12),
-            child: Row(
-              children: [
-                const Icon(
-                  PhosphorIconsBold.warning,
-                  size: 14,
-                  color: Colors.amber,
-                ),
-                const SizedBox(width: 6),
-                Text(
-                  'DANGER ZONE (DEBUG)',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.2,
-                    color: Colors.amber.withValues(alpha: 0.8),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.amber.withValues(alpha: 0.3)),
-            ),
-            child: Column(
-              children: [
-                _buildDangerTile(
-                  icon: PhosphorIconsBold.trophy,
-                  iconColor: Colors.amber,
-                  title: '🏆 Tüm Başarıları Aç',
-                  subtitle: 'Test için tüm 57 başarıyı anında açar',
-                  onTap: () => _showUnlockAllAchievementsDialog(context),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Divider(height: 1, color: Colors.amber.withValues(alpha: 0.2)),
-                ),
-                _buildDangerTile(
-                  icon: PhosphorIconsBold.trash,
-                  iconColor: Colors.red,
-                  title: '🗑️ Başarıları Sıfırla',
-                  subtitle: 'Tüm başarı ilerlemesini siler',
-                  onTap: () => _showResetAchievementsDialog(context),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDangerTile({
-    required IconData icon,
-    required Color iconColor,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          child: Row(
-            children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: iconColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(icon, size: 20, color: iconColor),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: iconColor,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.textTertiary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                PhosphorIconsBold.caretRight,
-                size: 18,
-                color: iconColor,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _showUnlockAllAchievementsDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: Colors.amber, width: 1),
-        ),
-        title: const Row(
-          children: [
-            Icon(PhosphorIconsBold.warning, color: Colors.amber),
-            SizedBox(width: 12),
-            Text(
-              'Debug Mode',
-              style: TextStyle(color: Colors.amber),
-            ),
-          ],
-        ),
-        content: const Text(
-          'Tüm 57 başarı anında açılacak. Bu işlem geri alınamaz.\n\nDevam etmek istiyor musun?',
-          style: TextStyle(color: Colors.white70),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('İptal', style: TextStyle(color: Colors.grey)),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.amber,
-              foregroundColor: Colors.black,
-            ),
-            onPressed: () async {
-              Navigator.pop(context);
-              await _unlockAllAchievements(context);
-            },
-            child: const Text('Tümünü Aç'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _unlockAllAchievements(BuildContext parentContext) async {
-    // Navigator referansını önceden al
-    final navigator = Navigator.of(parentContext);
-
-    // Loading göster
-    showDialog(
-      context: parentContext,
-      barrierDismissible: false,
-      builder: (dialogContext) => const Center(
-        child: CircularProgressIndicator(color: Colors.amber),
-      ),
-    );
-
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      const keyPrefix = 'achievement_unlocked_';
-
-      // Tüm achievement ID'leri (57 adet)
-      final allAchievementIds = [
-        // STREAK (10)
-        'streak_b1', 'streak_b2', 'streak_b3',
-        'streak_s1', 'streak_s2', 'streak_s3',
-        'streak_g1', 'streak_g2', 'streak_g3',
-        'streak_p',
-        // SAVINGS (12)
-        'savings_b1', 'savings_b2', 'savings_b3',
-        'savings_s1', 'savings_s2', 'savings_s3',
-        'savings_g1', 'savings_g2', 'savings_g3',
-        'savings_p1', 'savings_p2', 'savings_p3',
-        // DECISION (10)
-        'decision_b1', 'decision_b2', 'decision_b3',
-        'decision_s1', 'decision_s2', 'decision_s3',
-        'decision_g1', 'decision_g2', 'decision_g3',
-        'decision_p',
-        // RECORD (10)
-        'record_b1', 'record_b2', 'record_b3',
-        'record_s1', 'record_s2', 'record_s3',
-        'record_g1', 'record_g2', 'record_g3',
-        'record_p',
-        // HIDDEN (15)
-        'hidden_night', 'hidden_early', 'hidden_weekend', 'hidden_first_scan',
-        'curious_cat', 'hidden_balanced_week', 'hidden_all_categories',
-        'hidden_gold_equiv', 'hidden_usd_equiv', 'hidden_subscriptions',
-        'hidden_no_spend_month', 'hidden_gold_kg', 'hidden_usd_10k',
-        'hidden_anniversary', 'hidden_early_adopter', 'hidden_ultimate',
-        'hidden_collector',
-      ];
-
-      int successCount = 0;
-      int alreadyUnlocked = 0;
-      final now = DateTime.now().toIso8601String();
-
-      for (final achievementId in allAchievementIds) {
-        final key = '$keyPrefix$achievementId';
-        final existing = prefs.getString(key);
-
-        if (existing == null) {
-          await prefs.setString(key, now);
-          successCount++;
-        } else {
-          alreadyUnlocked++;
-        }
-      }
-
-      if (!mounted) return;
-      navigator.pop(); // Loading'i kapat
-
-      // Sonuç göster
-      if (mounted) {
-        _showResultDialog(
-          parentContext,
-          successCount: successCount,
-          alreadyUnlocked: alreadyUnlocked,
-          total: allAchievementIds.length,
-        );
-      }
-    } catch (e) {
-      if (!mounted) return;
-      navigator.pop();
-      if (mounted) {
-        _showDebugSnackBar(parentContext, 'Hata: $e', isError: true);
-      }
-    }
-  }
-
-  void _showResultDialog(
-    BuildContext context, {
-    required int successCount,
-    required int alreadyUnlocked,
-    required int total,
-  }) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: Colors.green, width: 1),
-        ),
-        title: const Row(
-          children: [
-            Icon(PhosphorIconsBold.checkCircle, color: Colors.green, size: 32),
-            SizedBox(width: 12),
-            Text(
-              'Tamamlandı!',
-              style: TextStyle(color: Colors.green),
-            ),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _resultRow('🏆 Toplam Başarı', '$total'),
-            const SizedBox(height: 8),
-            _resultRow('✅ Yeni Açılan', '$successCount', Colors.green),
-            const SizedBox(height: 8),
-            _resultRow('🔓 Zaten Açık', '$alreadyUnlocked', Colors.amber),
-          ],
-        ),
-        actions: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Harika! 🎉'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _resultRow(String label, String value, [Color? valueColor]) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(label, style: const TextStyle(color: Colors.white70)),
-        Text(
-          value,
-          style: TextStyle(
-            color: valueColor ?? Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-      ],
-    );
-  }
-
-  void _showResetAchievementsDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: Colors.red, width: 1),
-        ),
-        title: const Row(
-          children: [
-            Icon(PhosphorIconsBold.warning, color: Colors.red),
-            SizedBox(width: 12),
-            Text(
-              'Dikkat!',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
-        content: const Text(
-          'Tüm başarı ilerlemen silinecek.\n\nBu işlem geri alınamaz!',
-          style: TextStyle(color: Colors.white70),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('İptal', style: TextStyle(color: Colors.grey)),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () async {
-              Navigator.pop(context);
-              await _resetAllAchievements(context);
-            },
-            child: const Text('Sıfırla'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _resetAllAchievements(BuildContext parentContext) async {
-    final navigator = Navigator.of(parentContext);
-
-    showDialog(
-      context: parentContext,
-      barrierDismissible: false,
-      builder: (dialogContext) => const Center(
-        child: CircularProgressIndicator(color: Colors.red),
-      ),
-    );
-
-    try {
-      final achievementsService = AchievementsService();
-      await achievementsService.resetAllAchievements();
-
-      if (!mounted) return;
-      navigator.pop();
-      if (mounted) {
-        _showDebugSnackBar(parentContext, 'Tüm başarılar sıfırlandı!');
-      }
-    } catch (e) {
-      if (!mounted) return;
-      navigator.pop();
-      if (mounted) {
-        _showDebugSnackBar(parentContext, 'Hata: $e', isError: true);
-      }
-    }
-  }
-
-  void _showDebugSnackBar(BuildContext context, String message, {bool isError = false}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isError ? Colors.red : Colors.green,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      ),
-    );
-  }
 }
 
 /// Delete Account Confirmation Dialog

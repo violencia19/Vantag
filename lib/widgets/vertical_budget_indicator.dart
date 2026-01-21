@@ -74,7 +74,7 @@ class _VerticalBudgetIndicatorState extends State<VerticalBudgetIndicator>
       width: widget.width,
       height: widget.height,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(widget.width / 2),
       ),
       child: Stack(
@@ -113,7 +113,7 @@ class _VerticalBudgetIndicatorState extends State<VerticalBudgetIndicator>
               colors: isRed
                   ? [
                       AppColors.error,
-                      AppColors.error.withOpacity(0.8),
+                      AppColors.error.withValues(alpha: 0.8),
                     ]
                   : [
                       PremiumColors.purple,
@@ -123,12 +123,12 @@ class _VerticalBudgetIndicatorState extends State<VerticalBudgetIndicator>
             boxShadow: widget.showGlow
                 ? [
                     BoxShadow(
-                      color: color.withOpacity(_breatheAnimation.value),
+                      color: color.withValues(alpha: _breatheAnimation.value),
                       blurRadius: 20,
                       spreadRadius: 0,
                     ),
                     BoxShadow(
-                      color: color.withOpacity(_breatheAnimation.value * 0.5),
+                      color: color.withValues(alpha: _breatheAnimation.value * 0.5),
                       blurRadius: 40,
                       spreadRadius: 0,
                     ),
@@ -189,7 +189,7 @@ class _ShimmerOverlayState extends State<_ShimmerOverlay>
               end: Alignment.bottomCenter,
               colors: [
                 Colors.transparent,
-                Colors.white.withOpacity(0.4),
+                Colors.white.withValues(alpha: 0.4),
                 Colors.transparent,
               ],
               stops: [
@@ -279,7 +279,7 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
           width: totalWidth,
           height: widget.height,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(widget.height / 2),
           ),
           child: Stack(
@@ -315,7 +315,7 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: isRed
-                  ? [AppColors.error, AppColors.error.withOpacity(0.8)]
+                  ? [AppColors.error, AppColors.error.withValues(alpha: 0.8)]
                   : [
                       PremiumColors.purpleDark,
                       PremiumColors.purple,
@@ -326,7 +326,7 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
             boxShadow: widget.showGlow
                 ? [
                     BoxShadow(
-                      color: color.withOpacity(_breatheAnimation.value),
+                      color: color.withValues(alpha: _breatheAnimation.value),
                       blurRadius: 12,
                       spreadRadius: -2,
                     ),

@@ -1,1077 +1,726 @@
-# CLAUDE.md
+# CLAUDE.md - Vantag Project Documentation
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code when working with this repository.
+
+---
 
 ## Project Overview
 
-**Vantag** is a Turkish-language personal finance awareness app that helps users understand how much work time is required to afford purchases based on their income and work schedule. The app focuses on mindful spending by showing the "time cost" of purchases.
+**Vantag** is a Turkish-language personal finance awareness app that helps users understand how much work time is required to afford purchases based on their income and work schedule.
 
-**Package:** `com.vantag.app`
-**Version:** 1.0.0+1
-**Slogan:** "Finansal Üstünlüğün"
+| Key | Value |
+|-----|-------|
+| Package | `com.vantag.app` |
+| Version | 1.0.0+1 |
+| Slogan | "Finansal Üstünlüğün" |
+| Min SDK | 24 (Android 7.0) |
+| Target SDK | 34 |
+
+---
+
+## Tech Stack
+
+```yaml
+# Core
+flutter: 3.x
+dart: 3.x
+
+# State Management
+provider: ^6.1.2
+
+# Backend & Auth
+firebase_core: ^4.3.0
+firebase_auth: ^6.1.3
+cloud_firestore: ^6.1.1
+google_sign_in: 6.2.1
+
+# Monetization
+purchases_flutter: ^8.0.0  # RevenueCat
+
+# AI
+http: ^1.2.0  # OpenAI API calls
+
+# Storage
+shared_preferences: ^2.2.2
+
+# UI
+phosphor_flutter: ^2.1.0
+fl_chart: ^1.1.1
+flutter_animate: ^4.5.0
+confetti: ^0.7.0
+showcaseview: ^3.0.0
+
+# Localization
+flutter_localizations: sdk
+intl: ^0.20.2
+
+# Media
+video_player: ^2.8.2
+fvp: ^0.35.2
+share_plus: ^7.2.1
+screenshot: ^2.1.0
+
+# Utils
+path_drawing: ^1.0.1
+flutter_dotenv: ^5.1.0
+uuid: ^4.3.3
+```
+
+---
 
 ## Common Commands
 
 ```bash
-# Get dependencies
+# Dependencies
 flutter pub get
 
-# Run the app
-flutter run
-
-# Run on specific device
+# Run
 flutter run -d windows
 flutter run -d chrome
 flutter run -d android
 
-# Analyze code for issues
-flutter analyze
+# Build
+flutter build apk --release
+flutter build windows
 
-# Run tests
+# Analyze & Test
+flutter analyze
 flutter test
 
-# Build release
-flutter build apk
-flutter build windows
-flutter build web
+# Localization
+flutter gen-l10n
 ```
 
-## Architecture
+---
+
+## Project Structure
 
 ```
 lib/
-├── main.dart                    # App entry + SplashScreen (onboarding/profile check)
-├── models/
-│   ├── models.dart              # Barrel export
-│   ├── user_profile.dart        # User profile (income, hours, work days)
-│   ├── expense.dart             # Expense model with decision tracking
-│   ├── expense_result.dart      # Expense calculation result
-│   ├── subscription.dart        # Recurring subscription model
-│   └── achievement.dart         # Achievement/badge model
-├── services/
-│   ├── services.dart            # Barrel export
-│   ├── profile_service.dart     # Profile + onboarding persistence
-│   ├── calculation_service.dart # Work days and expense calculations
-│   ├── expense_history_service.dart # Expense CRUD with locking
-│   ├── currency_service.dart    # TCMB + Truncgil API for rates
-│   ├── streak_service.dart      # Daily entry streak tracking
-│   ├── subscription_service.dart # Recurring subscriptions
-│   ├── achievements_service.dart # Badge/achievement logic
-│   ├── notification_service.dart # Local notifications (Windows support)
-│   ├── insight_service.dart     # Category insights
-│   ├── messages_service.dart    # Emotional feedback messages
-│   ├── connectivity_service.dart # Network status
-│   ├── receipt_scanner_service.dart # OCR placeholder
-│   ├── category_learning_service.dart # Smart Match + user learning
-│   ├── sub_category_service.dart # Sub-category suggestions
-│   ├── tour_service.dart        # Discovery Tour management
-│   ├── streak_manager.dart      # Streak tracking singleton
-│   ├── vampire_detector_manager.dart # Vampire subscription detection
-│   ├── sensory_feedback_service.dart # Haptic feedback
-│   └── victory_manager.dart     # Victory celebration animations
-├── screens/
-│   ├── screens.dart             # Barrel export
-│   ├── splash_screen.dart       # Animated V logo splash (NEW)
-│   ├── onboarding_screen.dart   # 3-page intro (first launch only)
-│   ├── user_profile_screen.dart # Profile create/edit
-│   ├── main_screen.dart         # Bottom nav container
-│   ├── expense_screen.dart      # Main expense entry + history
-│   ├── report_screen.dart       # Monthly/category reports
-│   ├── achievements_screen.dart # Badges and stats
-│   ├── profile_screen.dart      # Profile view + settings
-│   ├── currency_detail_screen.dart # Detailed exchange rates
-│   ├── notification_settings_screen.dart # Notification prefs
-│   ├── subscription_screen.dart # Subscription management (replaces vampire)
-│   ├── income_wizard_screen.dart # Income setup wizard
-│   └── habit_calculator_screen.dart # Viral habit cost calculator (NEW)
-├── widgets/
-│   ├── widgets.dart             # Barrel export
-│   ├── collapsible_saved_header.dart # Animated header with savings
-│   ├── saved_money_counter.dart # Savings display (deprecated)
-│   ├── currency_rate_widget.dart # USD/EUR/Gold rate bar
-│   ├── decision_buttons.dart    # Yes/Thinking/No buttons
-│   ├── expense_history_card.dart # Expense list item
-│   ├── streak_widget.dart       # Flame streak indicator
-│   ├── subscription_sheet.dart  # Subscription management
-│   ├── profile_photo_widget.dart # Profile photo picker
-│   ├── labeled_text_field.dart  # Reusable text input
-│   ├── labeled_dropdown.dart    # Dropdown with labels
-│   ├── result_card.dart         # Expense result display
-│   ├── premium_nav_bar.dart     # Floating nav bar + Showcase version
-│   ├── financial_snapshot_card.dart # Income/spent/saved summary
-│   ├── quick_add_sheet.dart     # Quick expense entry modal
-│   ├── shadow_dashboard.dart    # Shadow savings panel (Quiet Luxury)
-│   ├── freedom_trajectory.dart  # Freedom progress widget
-│   ├── renewal_warning_banner.dart # Subscription renewal warnings
-│   ├── decision_stress_timer.dart # Decision timer visualization
-│   ├── share_card_widget.dart   # Instagram story share cards (NEW)
-│   ├── share_edit_sheet.dart    # Share card editor (NEW)
-│   ├── subscription_calendar_view.dart # Calendar grid with dots (NEW)
-│   ├── subscription_list_view.dart # List view for subscriptions (NEW)
-│   ├── add_subscription_sheet.dart # Add/edit subscription modal (NEW)
-│   └── subscription_detail_sheet.dart # Subscription details (NEW)
-├── data/
-│   └── store_categories.dart    # 200+ store→category mappings
-└── theme/
-    ├── theme.dart               # Barrel export
-    ├── app_theme.dart           # Colors and theme config
-    ├── app_animations.dart      # Animation constants
-    └── quiet_luxury.dart        # Quiet Luxury design system
+├── main.dart                           # App entry + providers setup
+├── models/                             # Data models (12 files)
+│   ├── models.dart                     # Barrel export
+│   ├── user_profile.dart               # User profile model
+│   ├── expense.dart                    # Expense with decision tracking
+│   ├── expense_result.dart             # Calculation result
+│   ├── subscription.dart               # Recurring subscriptions
+│   ├── achievement.dart                # Badges/achievements
+│   ├── currency.dart                   # Currency model
+│   ├── pursuit.dart                    # Savings goals
+│   ├── pursuit_transaction.dart        # Pursuit savings transactions
+│   ├── budget.dart                     # Budget model
+│   ├── income_source.dart              # Income source model
+│   └── enums.dart                      # Shared enums
+├── services/                           # Business logic (13 files)
+│   ├── services.dart                   # Barrel export
+│   ├── ai_service.dart                 # OpenAI GPT-4.1 integration
+│   ├── ai_tools.dart                   # AI function calling tools
+│   ├── ai_tool_handler.dart            # Tool execution handler
+│   ├── ai_memory_service.dart          # Chat history persistence
+│   ├── purchase_service.dart           # RevenueCat integration
+│   ├── pursuit_service.dart            # Pursuit CRUD
+│   ├── expense_history_service.dart    # Expense CRUD with locking
+│   ├── profile_service.dart            # Profile persistence
+│   ├── currency_service.dart           # TCMB + Gold API
+│   ├── subscription_service.dart       # Subscription management
+│   ├── notification_service.dart       # Local notifications
+│   ├── streak_service.dart             # Daily streak tracking
+│   ├── calculation_service.dart        # Work time calculations
+│   ├── auth_service.dart               # Firebase Auth
+│   ├── budget_service.dart             # Budget CRUD
+│   └── achievements_service.dart       # Badge logic
+├── providers/                          # State management (5 files)
+│   ├── providers.dart                  # Barrel export
+│   ├── pro_provider.dart               # Premium status (RevenueCat)
+│   ├── finance_provider.dart           # Core finance state
+│   ├── pursuit_provider.dart           # Pursuit state
+│   ├── currency_provider.dart          # Selected currency
+│   └── locale_provider.dart            # Language selection
+├── screens/                            # UI screens (22 files)
+│   ├── screens.dart                    # Barrel export
+│   ├── splash_screen.dart              # Video splash
+│   ├── onboarding_screen.dart          # 3-page intro
+│   ├── main_screen.dart                # Bottom nav container
+│   ├── expense_screen.dart             # Main expense entry
+│   ├── report_screen.dart              # Monthly reports
+│   ├── pursuit_list_screen.dart        # Savings goals
+│   ├── profile_screen.dart             # User profile
+│   ├── subscription_screen.dart        # Subscriptions
+│   ├── settings_screen.dart            # App settings
+│   └── ...                             # Other screens
+├── widgets/                            # Reusable widgets (55 files)
+│   ├── widgets.dart                    # Barrel export
+│   ├── ai_chat_sheet.dart              # AI chat bottom sheet
+│   ├── pursuit_card.dart               # Pursuit list item
+│   ├── pursuit_progress_visual.dart    # Progress animation
+│   ├── add_savings_sheet.dart          # Add savings modal
+│   ├── create_pursuit_sheet.dart       # Create pursuit modal
+│   ├── premium_nav_bar.dart            # Bottom navigation
+│   └── ...                             # Other widgets
+├── theme/                              # Design system
+│   ├── theme.dart                      # Barrel export
+│   ├── app_theme.dart                  # Colors, typography
+│   ├── app_gradients.dart              # Gradient definitions
+│   └── quiet_luxury.dart               # Premium design system
+├── l10n/                               # Localization
+│   ├── app_en.arb                      # English (~500 keys)
+│   └── app_tr.arb                      # Turkish (~500 keys)
+└── data/
+    └── store_categories.dart           # 200+ store→category mappings
 ```
+
+---
+
+## Key Models
+
+### UserProfile (`lib/models/user_profile.dart`)
+```dart
+class UserProfile {
+  final String? id;
+  final String name;
+  final String? photoUrl;
+  final List<IncomeSource> incomeSources;  // Multiple income support
+  final int workDaysPerWeek;               // 1-7
+  final double workHoursPerDay;            // 1-24
+  final String currency;                   // TRY, USD, EUR, GBP, SAR
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  double get totalMonthlyIncome;           // Sum of all sources
+  double get hourlyRate;                   // Calculated from income/hours
+}
+```
+
+### Expense (`lib/models/expense.dart`)
+```dart
+enum ExpenseDecision { yes, thinking, no }
+
+class Expense {
+  final String id;
+  final double amount;
+  final String category;
+  final String? description;
+  final ExpenseDecision decision;
+  final DateTime createdAt;
+  final double? originalAmount;      // If entered in different currency
+  final String? originalCurrency;    // Original currency code
+  final bool isSimulation;           // vs real expense
+}
+```
+
+### Pursuit (`lib/models/pursuit.dart`)
+```dart
+enum PursuitCategory { tech, travel, home, fashion, vehicle, education, health, other }
+
+class Pursuit {
+  final String id;
+  final String name;
+  final double targetAmount;
+  final String currency;
+  final double savedAmount;
+  final String? imageUrl;
+  final String emoji;
+  final PursuitCategory category;
+  final DateTime createdAt;
+  final DateTime? completedAt;
+  final bool isArchived;
+  final int sortOrder;
+
+  double get progressPercent;        // 0.0 - 1.0
+  bool get isCompleted;
+  double get remainingAmount;
+}
+```
+
+### Subscription (`lib/models/subscription.dart`)
+```dart
+enum BillingCycle { weekly, monthly, yearly }
+
+class Subscription {
+  final String id;
+  final String name;
+  final double amount;
+  final String currency;
+  final BillingCycle cycle;
+  final int renewalDay;              // 1-31
+  final String category;
+  final String? colorHex;
+  final DateTime createdAt;
+  final DateTime? lastUsedAt;
+  final bool isActive;
+
+  double get monthlyEquivalent;      // Normalized to monthly
+}
+```
+
+---
+
+## Key Providers
+
+### ProProvider (`lib/providers/pro_provider.dart`)
+RevenueCat integration for premium status.
+
+```dart
+class ProProvider extends ChangeNotifier {
+  // RevenueCat API Key
+  static const String _apiKey = 'goog_eaqbqIavIhPNWQubIRPgqVzUjrg';
+
+  bool _isPremium = false;
+  bool _isLifetime = false;
+  int _creditsRemaining = 0;
+
+  bool get isPremium;
+  bool get isLifetime;
+  int get creditsRemaining;
+
+  Future<void> initialize();
+  Future<void> checkPremiumStatus();
+  Future<bool> purchasePackage(Package package);
+  Future<void> restorePurchases();
+  Future<bool> useCredit();          // Deduct 1 AI credit
+}
+```
+
+**Entitlements:**
+- `pro` - Pro monthly/yearly (500 credits/month)
+- `lifetime` - Lifetime access (200 credits/month base)
+
+**Products:**
+- `vantag_pro_monthly` - ₺49.99/month
+- `vantag_pro_yearly` - ₺399.99/year
+- `vantag_lifetime` - ₺999.99 one-time
+- `vantag_credits_100` - ₺29.99 (100 credits)
+- `vantag_credits_500` - ₺99.99 (500 credits)
+
+### FinanceProvider (`lib/providers/finance_provider.dart`)
+Core finance state management.
+
+```dart
+class FinanceProvider extends ChangeNotifier {
+  UserProfile? _profile;
+  List<Expense> _expenses = [];
+  List<Subscription> _subscriptions = [];
+
+  // Getters
+  UserProfile? get profile;
+  List<Expense> get expenses;
+  List<Expense> get recentExpenses;      // Last 30 days
+  double get totalSaved;                  // "Vazgeçtim" decisions
+  double get totalSpent;                  // "Aldım" decisions
+
+  // Actions
+  Future<void> initialize();
+  Future<void> addExpense(Expense expense);
+  Future<void> deleteExpense(String id);
+  Future<void> updateProfile(UserProfile profile);
+}
+```
+
+### PursuitProvider (`lib/providers/pursuit_provider.dart`)
+Savings goals state management.
+
+```dart
+class PursuitProvider extends ChangeNotifier {
+  List<Pursuit> _pursuits = [];
+
+  List<Pursuit> get activePursuits;       // Not completed, not archived
+  List<Pursuit> get completedPursuits;
+  double get totalSaved;                   // Sum of all savedAmount
+
+  Future<void> initialize();
+  Future<bool> createPursuit(Pursuit pursuit);
+  Future<void> addSavings(String pursuitId, double amount, {TransactionSource? source});
+  Future<void> completePursuit(String pursuitId);
+  Future<void> deletePursuit(String pursuitId);
+}
+```
+
+---
+
+## Key Services
+
+### AIService (`lib/services/ai_service.dart`)
+OpenAI GPT-4.1 integration with function calling.
+
+```dart
+class AIService {
+  static const String _baseUrl = 'https://api.openai.com/v1/chat/completions';
+  static const String _model = 'gpt-4.1';
+
+  Future<void> initialize();             // Load API key from .env
+
+  Future<String> getResponse({
+    required String message,
+    required FinanceProvider financeProvider,
+    bool isPremium = true,               // Affects system prompt
+  });
+
+  // Available AI Tools (function calling):
+  // - get_expenses_summary: Monthly spending by category
+  // - get_recent_expenses: Last N expenses
+  // - add_expense: Add new expense via chat
+}
+```
+
+**System Prompt Behavior:**
+- Premium: Detailed analysis, specific advice, savings plans
+- Free: Short responses (2-3 sentences), no specific advice
+
+### PurchaseService (`lib/services/purchase_service.dart`)
+RevenueCat SDK wrapper.
+
+```dart
+class PurchaseService {
+  Future<void> initialize();
+  Future<CustomerInfo> getCustomerInfo();
+  Future<Offerings> getOfferings();
+  Future<CustomerInfo> purchasePackage(Package package);
+  Future<CustomerInfo> restorePurchases();
+}
+```
+
+### CurrencyService (`lib/services/currency_service.dart`)
+Exchange rate fetching.
+
+```dart
+class CurrencyService {
+  // APIs
+  static const _tcmbUrl = 'https://www.tcmb.gov.tr/kurlar/today.xml';
+  static const _goldUrl = 'https://finans.truncgil.com/v4/today.json';
+
+  Future<Map<String, double>> getRates();  // USD, EUR, GBP rates in TRY
+  Future<double> getGoldPrice();           // Per gram in TRY
+  double convert(double amount, String from, String to);
+}
+```
+
+### PursuitService (`lib/services/pursuit_service.dart`)
+Pursuit CRUD with locking mechanism.
+
+```dart
+class PursuitService {
+  static const _keyPursuits = 'pursuits_v1';
+  static const _keyTransactions = 'pursuit_transactions_v1';
+
+  // Lock mechanism prevents race conditions
+  Future<T> _withLock<T>(Future<T> Function() operation);
+
+  Future<List<Pursuit>> getActivePursuits();
+  Future<void> createPursuit(Pursuit pursuit);
+  Future<void> addSavings(String pursuitId, double amount, TransactionSource source);
+  Future<bool> canCreatePursuit(bool isPremium);  // Free: 1, Premium: unlimited
+}
+```
+
+---
+
+## Monetization
+
+### Free Tier Limits
+| Feature | Limit |
+|---------|-------|
+| AI Chat | 4 predefined buttons only |
+| AI Credits | 5/day |
+| Pursuits | 1 active |
+| Expense History | 30 days |
+| Reports | Basic |
+
+### Premium Features
+| Feature | Pro | Lifetime |
+|---------|-----|----------|
+| AI Chat | Free text input | Free text input |
+| AI Credits | 500/month | 200/month + purchasable |
+| Pursuits | Unlimited | Unlimited |
+| Expense History | Full | Full |
+| Reports | Advanced | Advanced |
+| Export | Excel/PDF | Excel/PDF |
+
+### RevenueCat Setup
+```dart
+// ProProvider initialization
+await Purchases.configure(
+  PurchasesConfiguration(_apiKey)
+    ..appUserID = userId
+);
+
+// Check entitlements
+final info = await Purchases.getCustomerInfo();
+_isPremium = info.entitlements.all['pro']?.isActive ?? false;
+_isLifetime = info.entitlements.all['lifetime']?.isActive ?? false;
+```
+
+---
+
+## Localization
+
+### File Structure
+```
+lib/l10n/
+├── app_en.arb    # English (~500 keys)
+└── app_tr.arb    # Turkish (~500 keys)
+```
+
+### Usage
+```dart
+import 'package:vantag/l10n/app_localizations.dart';
+
+// In widget
+final l10n = AppLocalizations.of(context)!;
+Text(l10n.expenses);           // "Expenses" or "Harcamalar"
+Text(l10n.streakDays(5));      // "5 days" or "5 gün"
+```
+
+### Key Categories
+- Navigation: 15 keys
+- Forms: 45 keys
+- Expenses: 60 keys
+- Subscriptions: 40 keys
+- Achievements: 25 keys
+- Reports: 30 keys
+- AI Chat: 15 keys
+- Pursuits: 50 keys
+
+### Regenerate
+```bash
+flutter gen-l10n
+```
+
+---
+
+## UI/UX Design System
+
+### Quiet Luxury Theme
+Premium banking-inspired design (JPMorgan/Goldman Sachs style).
+
+**Colors (`lib/theme/app_theme.dart`):**
+```dart
+class AppColors {
+  static const background = Color(0xFF1A1A2E);      // Midnight Blue
+  static const surface = Color(0xFF25253A);         // Card background
+  static const textPrimary = Color(0xFFF5F5F5);     // Off-White
+  static const textSecondary = Color(0xFFB0B0B0);   // Grey
+  static const textTertiary = Color(0xFF6A6A7A);    // Muted
+  static const positive = Color(0xFF2ECC71);        // Green
+  static const negative = Color(0xFFE74C3C);        // Red
+  static const warning = Color(0xFFFF8C00);         // Amber
+  static const accent = Color(0xFF6C63FF);          // Purple
+  static const accentSecondary = Color(0xFF4ECDC4); // Teal
+
+  // GOLD ONLY FOR: Victory, Achievement unlock, Streak milestones (5,10,30)
+  static const gold = Color(0xFFFFD700);
+}
+```
+
+**Gradients:**
+```dart
+class AppGradients {
+  static const background = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF1A1A2E), Color(0xFF16213E)],
+  );
+
+  static const accent = LinearGradient(
+    colors: [Color(0xFF6C63FF), Color(0xFF4ECDC4)],
+  );
+}
+```
+
+**Components:**
+- GlassCard: `BackdropFilter` blur(10), subtle border 0.5px
+- Pressable: Scale 0.98 on press
+- AnimatedNumber: Fade transition on value change
+
+---
 
 ## App Flow
 
 ```
-SplashScreen (2.5s)
-├── Onboarding not completed → OnboardingScreen (3 pages)
+SplashScreen (Video, 2-3s)
+├── First launch → OnboardingScreen (3 pages)
 │   └── Complete → UserProfileScreen (create)
 ├── No profile → UserProfileScreen (create)
 └── Profile exists → MainScreen
 
 MainScreen (Bottom Navigation)
 ├── Tab 1: ExpenseScreen (Harcama)
-│   ├── Collapsible header with saved money stats
-│   ├── Currency rates bar (USD/EUR/Gold)
-│   ├── Expense input with categories
+│   ├── Header with saved money stats
+│   ├── Currency rates bar
+│   ├── Expense input
 │   ├── Decision buttons (Aldım/Düşünüyorum/Vazgeçtim)
-│   └── Expense history list
+│   └── Recent expenses list
 ├── Tab 2: ReportScreen (Rapor)
-│   └── Monthly and category statistics
-├── Tab 3: AchievementsScreen (Rozetler)
-│   └── Earned badges and progress
+│   └── Monthly/category statistics
+├── Tab 3: PursuitListScreen (Hayallerim)
+│   └── Savings goals with progress
 └── Tab 4: ProfileScreen (Profil)
-    ├── Profile photo and info
-    ├── Notification settings
-    └── Edit profile
+    ├── Profile info
+    ├── Settings
+    └── Premium status
 ```
-
-## Key Features
-
-### 1. Onboarding (New)
-- 3-page intro shown on first launch
-- Swipe navigation with page indicators
-- Skip button and animated "Başla" button
-- `onboarding_completed` flag in SharedPreferences
-
-### 2. Expense Tracking
-- Enter amount and select category
-- See work hours/days required to afford it
-- Make decision: Aldım (bought), Düşünüyorum (thinking), Vazgeçtim (passed)
-- Simulations vs real entries (based on amount/time)
-- **İptal button**: Returns to input screen keeping form data
-- **Motivational SnackBar**: Shows "Para cebinde kaldı..." when user cancels
-
-### 2.1 Smart Match Engine (New)
-- Auto-detects category from store/product description
-- 200+ built-in store→category mappings (Migros→Yiyecek, Netflix→Dijital, etc.)
-- User preference learning via CategoryLearningService
-- Visual feedback: green glow on auto-match
-- Attention animation for unselected category
-
-### 2.2 Time-Travel Input (New)
-- Quick date selection chips: Dün, 2 Gün Önce, Calendar icon
-- Default is today (no chip selected)
-- Calendar picker for custom dates (up to 365 days back)
-- Date comparison helper for year/month/day only
-
-### 3. Collapsible Header (New)
-- Animated header showing total savings
-- Shrinks on scroll (80px → 40px icon, 32px → 20px font)
-- Uses `FittedBox` for responsive sizing
-- `SliverAppBar` with pinned behavior
-
-### 4. Currency Rates
-- TCMB API for USD/EUR rates
-- Truncgil Finans API for gold prices (no API key needed)
-- Daily cache for gold prices
-- Fallback calculation if API fails
-- Warning indicator when gold price is stale
-
-### 5. Streak System
-- Daily entry tracking with flame icon
-- Streak count and best streak
-- Weekly insights notification
-
-### 6. Achievements
-- Progress-based badges
-- Categories: savings, streaks, categories, decisions
-
-### 7. Subscriptions
-- Track recurring expenses
-- Calendar badge for upcoming renewals
-- Auto-calculate monthly impact
-
-### 8. Notifications
-- Streak reminders
-- Delayed awareness (after "bought" decision)
-- Reinforcement (after "passed" decision)
-- Weekly insights
-- Windows platform support (WindowsInitializationSettings)
-
-### 9. Discovery Tour (New)
-- Guided tour for first-time users using showcaseview package
-- 12 steps covering all main features:
-  - Financial Snapshot Card
-  - Currency Rates Widget
-  - Streak Widget
-  - Subscription Button
-  - Time-Travel Date Chips
-  - Amount Field
-  - Description Field (Smart Match)
-  - Category Field
-  - Nav Bar: Reports, Achievements, Profile, Add Button
-- Auto-starts on first launch
-- Manual trigger from Profile → "Uygulama Turunu Tekrarla"
-- SharedPreferences persistence (`has_seen_tour`, `tour_version`)
-
-### 10. Vampire Detector (Vampir Dedektörü)
-- Detects unused/underused subscriptions
-- Three status levels: Active, Suspicious (30+ days), Ghost (60+ days)
-- Access via Subscription Sheet → "🧛 Vampir Analizi" button
-- Tab-based UI: All, Vampires, Ghosts
-- Shows monthly cost and work time equivalent
-- "Mark as used" action to reset status
-- VampireDetectorManager singleton for stats
-
-### 11. Quiet Luxury Design System
-Premium banking-inspired design language (JPMorgan/Goldman Sachs style):
-
-**Color Palette:**
-- Background: Midnight Blue (#1A1A2E)
-- Text Primary: Off-White (#F5F5F5)
-- Text Secondary: Slate Grey (#4A4A5A)
-- Positive: Subtle Green (0xB32ECC71 - 0.7 opacity)
-- Negative: Subtle Red (0xB3E74C3C - 0.7 opacity)
-- Warning: Subtle Amber (0xB3FF8C00 - 0.7 opacity)
-- **Gold (#FFD700): ONLY for Victory, Achievement unlock, Streak milestones (5,10,30)**
-
-**Typography:**
-- Headings: w600, 20px
-- Large Numbers: w300, letterSpacing 1.5 (displayLarge)
-- Labels: w400, 12px, textTertiary
-
-**Components:**
-- GlassCard: BackdropFilter blur, subtle border, soft shadow
-- AnimatedNumber: Fade transition on value change
-- Pressable: Scale 0.98 on press
-- SubtleDivider: Space instead of lines
-
-**Animations:**
-- Page transitions: 350ms easeInOutCubic
-- Modals: 300ms easeOutCubic
-- Number changes: 200ms
-
-**Files Using Quiet Luxury:**
-- `lib/theme/quiet_luxury.dart` - Design system constants
-- `lib/widgets/shadow_dashboard.dart` - Savings panel
-- `lib/widgets/freedom_trajectory.dart` - Progress widget
-- `lib/screens/vampire_list_screen.dart` - Vampire detector
-- `lib/widgets/subscription_sheet.dart` - Subscriptions modal
-
-## Data Flow
-
-1. **Profile**: `ProfileService` → SharedPreferences
-2. **Expenses**: `ExpenseHistoryService` → SharedPreferences (with lock)
-3. **Currency**: `CurrencyService` → TCMB XML + Truncgil JSON → cache
-4. **Stats**: `DecisionStats.fromExpenses()` calculated in build()
-
-## Technical Notes
-
-- **State Management**: StatefulWidget with setState
-- **Persistence**: SharedPreferences for all data
-- **Theme**: Custom dark theme in `AppColors`
-- **Language**: Full i18n support (TR/EN), system-aware
-- **Barrel Exports**: Each folder has index file
-- **API Endpoints**:
-  - TCMB: `https://www.tcmb.gov.tr/kurlar/today.xml`
-  - Truncgil: `https://finans.truncgil.com/v4/today.json`
 
 ---
 
-## Localization Architecture (i18n)
+## AI Chat System
 
-### System Language Detection
+### Free User Flow
+1. 4 predefined suggestion buttons only
+2. TextField `readOnly: true` with lock icon
+3. Tapping TextField → Paywall modal
+4. 5 AI credits/day limit
 
-The app automatically detects and uses the device's system language:
+### Premium User Flow
+1. Free text input
+2. Typing effect animation (50ms/word)
+3. Full conversation history
+4. 500 credits/month
 
+### Suggestion Buttons
 ```dart
-// In main.dart - MaterialApp configuration
-MaterialApp(
-  locale: locale,  // From LocaleProvider
-  supportedLocales: AppLocalizations.supportedLocales,  // [en, tr]
-  localizationsDelegates: AppLocalizations.localizationsDelegates,
-);
-
-// System language detection in LocaleProvider
-final systemLocale = PlatformDispatcher.instance.locale;
-final langCode = systemLocale.languageCode;  // 'en', 'tr', etc.
+final suggestions = [
+  ('📊', l10n.aiSuggestion1),  // "Bu ay nereye harcadım?"
+  ('💡', l10n.aiSuggestion2),  // "Nereden tasarruf edebilirim?"
+  ('🔥', l10n.aiSuggestion3),  // "En pahalı alışkanlığım ne?"
+  ('🎯', l10n.aiSuggestion4),  // "Hedefime ne kadar kaldı?"
+];
 ```
 
-### File Structure
-
-```
-lib/l10n/
-├── l10n.yaml           # Localization config
-├── app_en.arb          # English translations (~470 keys)
-├── app_tr.arb          # Turkish translations (~470 keys)
-└── generated/          # Auto-generated (do not edit)
-    └── app_localizations.dart
-```
-
-### ARB File Format
-
-```json
-// app_en.arb
-{
-  "@@locale": "en",
-  "expenses": "Expenses",
-  "streakDays": "{count} days",
-  "@streakDays": {
-    "placeholders": {
-      "count": {"type": "int"}
-    }
-  }
-}
-```
-
-### Usage Pattern
-
-```dart
-// Import
-import 'package:vantag/l10n/app_localizations.dart';
-
-// In build method
-final l10n = AppLocalizations.of(context)!;
-
-// Simple string
-Text(l10n.expenses);  // "Expenses" or "Harcamalar"
-
-// Parameterized string
-Text(l10n.streakDays(5));  // "5 days" or "5 gün"
-
-// Pluralized string (uses ICU format in ARB)
-Text(l10n.itemCount(count));
-```
-
-### Regenerating Translations
-
-After editing ARB files:
-
-```bash
-flutter gen-l10n
-```
-
-### Key Categories (~470 keys)
-
-| Category | Count | Examples |
-|----------|-------|----------|
-| Navigation | 15 | homePage, analysis, badges, profile |
-| Forms | 45 | amount, category, description, save |
-| Expenses | 60 | bought, thinking, gaveUp, workDays |
-| Subscriptions | 40 | subscription, renewalDay, autoRecord |
-| Achievements | 25 | badge, streak, progress, unlocked |
-| Reports | 30 | monthly, weekly, categoryBreakdown |
-| Calendar | 20 | weekdayMon...weekdaySun, monthJan...monthDec |
-| Share Cards | 15 | shareCardDays, shareCardDescription |
-| Risk Levels | 10 | riskLevelNone...riskLevelExtreme |
-| Misc | 200+ | Various UI strings |
+### Upsell Widget
+After each AI response (for free users):
+- 500ms delay
+- FadeIn animation
+- "Premium'a Geç" button
 
 ---
 
-## Laser Splash Screen Technical Details
+## Pursuit System
 
-### File: `lib/screens/laser_splash_screen.dart`
-
-### Animation Timeline (4.5s total)
-
-```
-0.0s ──────────── Laser Drawing Start
-│
-│  PathMetrics.extractPath(0 → 1)
-│  Neon tip sparkle follows path
-│  4-layer blur glow effect
-│
-3.0s ──────────── Drawing Complete
-│
-│  Logo fade-in (800ms)
-│  Opacity: 0 → 1
-│
-3.8s ──────────── Logo Visible
-│
-│  Text fade-in (600ms)
-│  "VANTAG" + slogan
-│
-4.4s ──────────── Navigate
-```
-
-### SVG Path Processing
-
+### Categories
 ```dart
-// Using path_drawing package
-import 'package:path_drawing/path_drawing.dart';
-
-// Parse SVG path data (from Adobe Illustrator export)
-final path = parseSvgPathData(pathData);  // ~5120x5120 original
-
-// Calculate bounds for scaling
-final bounds = path.getBounds();
-final scale = targetSize / max(bounds.width, bounds.height);
-
-// Transform to screen coordinates
-canvas.translate(centerX, centerY);
-canvas.scale(scale);
-canvas.translate(-bounds.center.dx, -bounds.center.dy);
-```
-
-### PathMetrics for Laser Animation
-
-```dart
-// Extract partial path for animation
-final metrics = path.computeMetrics().first;
-final totalLength = metrics.length;
-
-// At animation progress 0.5 → draw first 50% of path
-final extractedPath = metrics.extractPath(0, totalLength * progress);
-```
-
-### 4-Layer Neon Glow Effect
-
-```dart
-// Outer glow (widest, most transparent)
-final outerPaint = Paint()
-  ..color = laserColor.withOpacity(0.2)
-  ..strokeWidth = 20
-  ..maskFilter = MaskFilter.blur(BlurStyle.normal, 15);
-
-// Mid glow
-final midPaint = Paint()
-  ..color = laserColor.withOpacity(0.4)
-  ..strokeWidth = 10
-  ..maskFilter = MaskFilter.blur(BlurStyle.normal, 8);
-
-// Inner glow
-final innerPaint = Paint()
-  ..color = laserColor.withOpacity(0.7)
-  ..strokeWidth = 4
-  ..maskFilter = MaskFilter.blur(BlurStyle.normal, 3);
-
-// Core (solid line)
-final corePaint = Paint()
-  ..color = Colors.white
-  ..strokeWidth = 2;
-```
-
-### Laser Tip Sparkle
-
-```dart
-// Get position at current progress
-final tangent = metrics.getTangentForOffset(currentLength);
-final tipPosition = tangent?.position ?? Offset.zero;
-
-// Draw 4-directional rays
-for (var i = 0; i < 4; i++) {
-  final angle = (i * pi / 2) + rotation;
-  final endPoint = Offset(
-    tipPosition.dx + cos(angle) * rayLength,
-    tipPosition.dy + sin(angle) * rayLength,
-  );
-  canvas.drawLine(tipPosition, endPoint, rayPaint);
+enum PursuitCategory {
+  tech,      // 📱 Teknoloji
+  travel,    // ✈️ Seyahat
+  home,      // 🏠 Ev
+  fashion,   // 👗 Moda
+  vehicle,   // 🚗 Araç
+  education, // 📚 Eğitim
+  health,    // 💊 Sağlık
+  other,     // 📦 Diğer
 }
 ```
 
-### Color Scheme
-
+### Progress Visual
+ShaderMask fill-from-bottom animation:
 ```dart
-const laserColor = Color(0xFF00FFFF);  // Cyan neon
-const backgroundColor = AppGradients.background;  // Purple → Blue gradient
-const textGradient = LinearGradient(
-  colors: [Color(0xFF6C63FF), Color(0xFF4ECDC4)],  // Purple → Teal
-);
+ShaderMask(
+  shaderCallback: (bounds) {
+    return LinearGradient(
+      begin: Alignment.bottomCenter,
+      end: Alignment.topCenter,
+      colors: [Colors.white, Colors.white.withOpacity(0.3)],
+      stops: [progress, progress],
+    ).createShader(bounds);
+  },
+  child: emojiOrImage,
+)
 ```
 
-## Recent Changes (This Session)
+### Free Tier Limit
+```dart
+Future<bool> canCreatePursuit(bool isPremium) async {
+  if (isPremium) return true;
+  final pursuits = await getActivePursuits();
+  return pursuits.isEmpty;  // Free: 1 pursuit max
+}
+```
 
-### Session: Quiet Luxury Design System & Vampire Detector
+---
 
-1. **Quiet Luxury Design System Implementation**:
-   - Created `lib/theme/quiet_luxury.dart` with design constants
-   - Color palette: Midnight Blue, Slate Grey, Off-White, subtle opacity colors
-   - Typography hierarchy: w600 headings, w300 large numbers with letterSpacing
-   - Reusable widgets: GlassCard, AnimatedNumber, Pressable, SubtleDivider
-   - **Critical Rule**: Gold (#FFD700) ONLY for Victory, Achievement, Streak milestones
+## Currency System
 
-2. **Vampire Detector (Vampir Dedektörü)**:
-   - `VampireDetectorManager` singleton for tracking unused subscriptions
-   - `VampireListScreen` with tab-based UI (All/Vampires/Ghosts)
-   - `SubscriptionStatus` enum: active, suspicious, ghost
-   - Access via Subscription Sheet → "🧛 Vampir Analizi" button
-   - Shows work time equivalent and monthly cost
+### Supported Currencies
+```dart
+final supportedCurrencies = [
+  Currency(code: 'TRY', symbol: '₺', flag: '🇹🇷', goldUnit: 'gr'),
+  Currency(code: 'USD', symbol: '\$', flag: '🇺🇸', goldUnit: 'oz'),
+  Currency(code: 'EUR', symbol: '€', flag: '🇪🇺', goldUnit: 'oz'),
+  Currency(code: 'GBP', symbol: '£', flag: '🇬🇧', goldUnit: 'oz'),
+  Currency(code: 'SAR', symbol: 'ر.س', flag: '🇸🇦', goldUnit: 'oz'),
+];
+```
 
-3. **Widget Updates with Quiet Luxury**:
-   - `FreedomTrajectory`: Elegant progress bar, subtle colors, no gold except milestones
-   - `ShadowDashboard`: Glassmorphism cards, AnimatedNumber for values
-   - `VampireListScreen`: Removed gold from tabs/stats, gradient icon backgrounds
-   - `SubscriptionSheet`: Subtle buttons, gradient card backgrounds, space instead of dividers
+### Rate Sources
+- **TCMB:** TRY-based rates (official Turkish Central Bank)
+- **Truncgil:** Gold prices (no API key needed)
 
-4. **Design Principles Applied**:
-   - Glassmorphism: BackdropFilter blur(10,10) on all cards
-   - Subtle borders: 0.5px width, 0.2 opacity colors
-   - No dividers: Replaced with spacing (SizedBox)
-   - Haptic feedback: lightImpact() on interactions
-   - Press effect: scale 0.98 via Pressable widget
+### Currency Toggle in Expense Entry
+When income currency ≠ display currency:
+- Toggle shown: `₺ TRY / $ USD`
+- Auto-conversion applied
+- Original amount/currency stored in expense
 
-### Previous Session: Smart Match, Time-Travel & Discovery Tour
+---
 
-1. **Smart Match Engine**: Auto-category prediction from description
-   - 200+ store→category mappings in `store_categories.dart`
-   - CategoryLearningService for user preference learning
-   - Visual feedback (green glow, attention animation)
+## Firebase Integration
 
-2. **Form UX Improvements**:
-   - Reordered fields: Amount → Description → Category
-   - Category default changed to null (must select)
-   - İptal button below decision buttons
-   - Motivational SnackBar on cancel
+### Auth
+```dart
+class AuthService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-3. **Time-Travel Input**: Past date selection
-   - Quick chips: Dün, 2 Gün Önce, Calendar
-   - Changed `_selectedMonth/Year` to single `DateTime _selectedDate`
-   - Helper methods: `_isSameDay()`, `_selectedDateChip` getter
+  Future<UserCredential?> signInWithGoogle();
+  Future<void> signOut();
+  User? get currentUser;
+  Stream<User?> get authStateChanges;
+}
+```
 
-4. **Discovery Tour**: Guided first-time user experience
-   - `showcaseview: ^3.0.0` package integration
-   - TourService for state management
-   - TourKeys for GlobalKey references
-   - 12-step tour covering all main features
-   - Profile settings button to restart tour
+### Firestore Paths
+```
+users/{uid}/
+├── profile              # UserProfile document
+├── expenses/{expenseId} # Expense documents
+├── subscriptions/{id}   # Subscription documents
+├── pursuits/{pursuitId} # Pursuit documents
+└── pursuit_transactions/{id}
+```
 
-5. **Package Upgrades**:
-   - `flutter_local_notifications: ^19.5.0`
-   - Added `WindowsInitializationSettings` for Windows support
-   - Removed deprecated `uiLocalNotificationDateInterpretation`
+---
 
-6. **Bug Fixes**:
-   - Windows notification settings initialization error
-   - const EdgeInsets.symmetric with runtime values
+## Environment Variables
+
+`.env` file required:
+```
+OPENAI_API_KEY=sk-...
+```
+
+Load in `main.dart`:
+```dart
+await dotenv.load(fileName: '.env');
+```
+
+---
 
 ## Known Issues / TODO
 
-- [ ] Lottie animations for onboarding (placeholder icons used)
-- [ ] Receipt scanner OCR integration
+- [ ] Unit test coverage needed
 - [ ] Web platform notification support
-- [ ] Unit tests needed
-- [ ] Store hazırlık (screenshots, açıklama, privacy policy)
-- [x] ~~Smart Match category prediction~~ (Implemented)
-- [x] ~~Time-Travel past date entry~~ (Implemented)
-- [x] ~~Discovery Tour for new users~~ (Implemented)
-- [x] ~~Vampire Detector for unused subscriptions~~ (Removed - simplified)
-- [x] ~~Quiet Luxury Design System~~ (Implemented)
-- [x] ~~Vantag rebranding~~ (Completed)
-- [x] ~~Animated splash screen~~ (Completed)
-- [x] ~~Subscription system redesign~~ (Completed)
-- [x] ~~Habit Calculator viral feature~~ (Completed)
-- [x] ~~Share cards system~~ (Completed)
+- [ ] Receipt scanner OCR integration
+- [ ] Cloud sync conflict resolution
+- [ ] Store preparation (screenshots, descriptions)
 
 ---
 
-## Son Güncelleme: 8 Ocak 2026
+## Recent Updates
 
-### Session: Vantag V1.0 Release Hazırlığı
-
-#### Tamamlanan Özellikler:
-
-1. **Marka Değişikliği: Gumtanım → Vantag**
-   - Package: `com.vantag.app`
-   - Android/iOS manifest ve config güncellemeleri
-   - main.dart: VantagApp class
-   - Slogan: "Finansal Üstünlüğün"
-
-2. **Animated Splash Screen (V Logo)**
-   - `lib/screens/splash_screen.dart` - VantagSplashScreen
-   - 5 aşamalı animasyon (2.5 saniye):
-     1. Yıldız hareketi (sol alt → sağ üst)
-     2. V harfi sağ bacak çizimi
-     3. V harfi sol bacak çizimi
-     4. Glow pulse efekti
-     5. Fade geçişi
-   - Gradient: Mor (#6C63FF) → Turkuaz (#4ECDC4)
-   - CustomPainter ile çizim
-
-3. **Abonelik Sistemi Yeniden Tasarımı**
-   - Vampir terminolojisi tamamen kaldırıldı
-   - `subscription_screen.dart` - Ana ekran
-   - `subscription_calendar_view.dart` - Takvim grid görünümü
-   - `subscription_list_view.dart` - Liste görünümü
-   - `add_subscription_sheet.dart` - Ekleme/düzenleme
-   - `subscription_detail_sheet.dart` - Detay görünümü
-   - Renk paleti sistemi (8 renk, round-robin)
-   - Ay navigasyonu ile takvim görünümü
-
-4. **Lucide Icons Entegrasyonu**
-   - Tüm Material Icons → LucideIcons değiştirildi
-   - `lucide_icons: ^0.275.0` paketi eklendi
-   - piggyBank → shieldCheck değişikliği
-
-5. **ÖP (Özgürlük Puanı) Sistemi Kaldırıldı**
-   - Tüm ÖP referansları temizlendi
-   - FreedomTrajectory widget'ı basitleştirildi
-
-6. **Alışkanlık Hesaplayıcı (Viral Hook)**
-   - `habit_calculator_screen.dart` - 3 adımlı wizard
-   - Adım 1: Alışkanlık seçimi (kahve, sigara, vb.)
-   - Adım 2: Miktar girişi
-   - Adım 3: Sonuç kartı (yıllık maliyet, iş günü karşılığı)
-   - Paylaşılabilir kart oluşturma
-
-7. **Paylaşım Kartları Sistemi**
-   - `share_card_widget.dart` - Instagram story formatı (1080x1920)
-   - `share_edit_sheet.dart` - Düzenleme arayüzü
-   - Gizlilik toggle'ları (tutar, kategori gizleme)
-   - Screenshot + share_plus entegrasyonu
-
-8. **Multi-Income Bug Fix**
-   - FinanceProvider state yönetimi düzeltildi
-   - Gelir kaynakları doğru hesaplanıyor
-
-9. **Kod Temizliği**
-   - Tüm debugPrint ifadeleri kaldırıldı
-   - Unused imports temizlendi
-   - flutter analyze hatasız geçiyor
-
-10. **Onboarding Optimizasyonu**
-    - const widget'lar kullanıldı
-    - RepaintBoundary eklendi
-    - SingleTickerProviderStateMixin
-
-#### Teknik Detaylar:
-
-| Özellik | Değer |
-|---------|-------|
-| Package | com.vantag.app |
-| Version | 1.0.0+1 |
-| Min SDK | 24 (Android 7.0) |
-| Target SDK | 34 (Android 14) |
-| Compile SDK | 36 |
-| APK Boyutu | 84.3 MB |
-| Architectures | arm64-v8a, armeabi-v7a, x86_64 |
-
-#### Kullanılan Paketler:
-- `lucide_icons: ^0.275.0` - İkon seti
-- `share_plus: ^7.2.2` - Paylaşım
-- `screenshot: ^2.5.0` - Ekran görüntüsü
-- `path_provider: ^2.1.2` - Dosya yolu
-- `confetti: ^0.7.0` - Kutlama animasyonları
-- `showcaseview: ^3.0.0` - Discovery tour
-
-#### Silinen/Yeniden Adlandırılan Dosyalar:
-- ~~vampire_list_screen.dart~~ → subscription_screen.dart
-- ~~vampire_detector_manager.dart~~ → subscription_manager.dart (simplified)
-
-#### Bekleyen İşler:
-- [ ] Store screenshots
-- [ ] Privacy policy
-- [ ] App store açıklaması
-- [ ] Feature graphic
+### January 2026
+- AI Chat free user 4-button system
+- Pursuit system (Hayallerim) implementation
+- RevenueCat premium integration
+- Multi-currency support (5 currencies)
+- Video splash screen
+- Full TR/EN localization (~500 keys)
 
 ---
 
-## Son Güncelleme: 9 Ocak 2026
-
-### Session: Internationalization (i18n) & Premium Laser Splash
-
-#### 1. Premium Laser Splash Screen
-
-**Dosya:** `lib/screens/laser_splash_screen.dart`
-
-**Teknik Detaylar:**
-- `path_drawing: ^1.0.1` paketi ile SVG path parsing
-- `parseSvgPathData()` fonksiyonu ile logo path verisi işleniyor
-- `PathMetrics` ile 0-1 arası lazer çizim animasyonu
-- `Curves.easeInOutQuart` ile akıcı animasyon eğrisi
-- 3 saniye çizim süresi
-
-**Animasyon Sahneleri:**
-1. **Lazer Çizimi (3s):** SVG path verisi segment segment çiziliyor
-2. **Neon Glow Efekti:** 4 katmanlı blur efekti (outer, mid, inner, core)
-3. **Lazer Ucu Yıldızı:** Parlayan neon nokta + 4 yönlü ışın efekti
-4. **Logo Fade-in (800ms):** `assets/icon/app_icon.png` görünür oluyor
-5. **Text Fade-in (600ms):** "VANTAG" gradient text + slogan
-6. **Navigasyon:** Toplam ~4-5 saniye sonra ana sayfaya yönlendirme
-
-**Renkler:**
-- Lazer: Cyan (#00FFFF)
-- Arka Plan: Mevcut tema gradyanı (AppGradients.background)
-- Text: Primary → Secondary gradient
-
-**Path Verisi:**
-- Orijinal koordinatlar: ~5120x5120
-- `canvas.scale()` ve `canvas.translate()` ile ekrana sığdırma
-- `path.getBounds()` ile otomatik merkez hesaplama
-
-#### 2. Full Internationalization (i18n) Architecture
-
-**Kurulum:**
-```yaml
-dependencies:
-  flutter_localizations:
-    sdk: flutter
-  intl: ^0.20.2
-  path_drawing: ^1.0.1  # SVG path parsing
-```
-
-**Dosya Yapısı:**
-```
-lib/
-├── l10n/
-│   ├── app_en.arb          # English translations (~450 keys)
-│   ├── app_tr.arb          # Turkish translations (~450 keys)
-│   └── generated/          # Auto-generated l10n classes
-├── providers/
-│   └── locale_provider.dart # Language state management
-```
-
-**Özellikler:**
-- Sistem dili otomatik algılama (`PlatformDispatcher.instance.locale`)
-- SharedPreferences ile dil tercihi kaydetme
-- `LocaleProvider` ile reaktif dil değişikliği
-- TR ve EN tam destek (DE, AR gelecekte eklenebilir)
-
-**Kullanım:**
-```dart
-// Import
-import '../l10n/generated/app_localizations.dart';
-
-// Widget içinde
-final l10n = AppLocalizations.of(context)!;
-Text(l10n.expenses);  // "Expenses" veya "Harcamalar"
-
-// Parametreli string
-Text(l10n.streakDays(count));  // "5 days" veya "5 gün"
-```
-
-**ARB Dosyası Yapısı:**
-- 450+ çeviri key'i
-- Parametreli stringler için placeholder desteği
-- Ay isimleri, hafta günleri, kategori isimleri dahil
-
-#### 3. Hardcoded String Audit
-
-**Tarama Sonuçları:**
-
-| Klasör | Dosya Sayısı | Hardcoded String |
-|--------|--------------|------------------|
-| lib/screens | 10 | ~160 string |
-| lib/widgets | 14 | ~130 string |
-| **Toplam** | **24** | **~290 string** |
-
-**Lokalize Edilmiş Dosyalar:**
-- [x] expense_screen.dart
-- [x] report_screen.dart
-- [x] user_profile_screen.dart
-- [x] main_screen.dart
-
-**Localization Complete:**
-All widget files have been converted to use localized strings:
-- [x] shadow_dashboard.dart
-- [x] share_card_widget.dart
-- [x] share_edit_sheet.dart
-- [x] wealth_modal.dart
-- [x] decision_stress_timer.dart
-- [x] saved_money_counter.dart
-- [x] premium_nav_bar.dart
-- [x] subscription_calendar_view.dart
-- [x] subscription_detail_sheet.dart
-- [x] subscription_sheet.dart
-- [x] renewal_warning_banner.dart
-- [x] empty_state.dart
-- [x] expense_form_content.dart
-
----
-
-## 5K MRR Analysis Report
-
-### Executive Summary
-
-VANTAG, Türkiye pazarı için güçlü bir değer önerisi sunan kişisel finans farkındalık uygulaması. Premium lazer splash screen, quiet luxury tasarım dili ve zaman-maliyet hesaplama yaklaşımı ile rakiplerden ayrışıyor.
-
-### Technical Debt Analysis
-
-**Güçlü Yönler:**
-- ✅ Clean architecture (screens/widgets/services/models ayrımı)
-- ✅ SharedPreferences ile basit ve güvenilir persistence
-- ✅ TCMB API entegrasyonu (kurlar)
-- ✅ Firebase Auth + Firestore hazırlığı
-- ✅ Responsive UI (farklı ekran boyutları)
-
-**Zayıf Yönler (Technical Debt):**
-- ⚠️ State management: StatefulWidget yerine Riverpod/BLoC önerilir
-- ⚠️ Veritabanı: SharedPreferences 5000+ kullanıcıda yavaşlayabilir → SQLite/Hive
-- ⚠️ Test coverage: Hiç unit/integration test yok
-- ⚠️ Error handling: Global error boundary eksik
-- ⚠️ Offline-first: Sınırlı offline destek
-
-**5K Kullanıcı Scaling Önerileri:**
-1. SQLite/Hive'a geçiş (veri katmanı)
-2. Riverpod state management
-3. Firebase Analytics entegrasyonu
-4. Crashlytics error tracking
-5. CI/CD pipeline (GitHub Actions)
-
-### Premium Feel vs UX Analysis
-
-**Premium Dokunuşlar:**
-- ✨ Laser drawing splash screen (3s, path_drawing)
-- ✨ Quiet Luxury design system (glassmorphism, subtle borders)
-- ✨ Neon glow effects (cyan #00FFFF)
-- ✨ Gradient text (mor → turkuaz)
-- ✨ 4-layer blur effects on cards
-- ✨ Haptic feedback on interactions
-
-**UX Güçlü Yönleri:**
-- Basit "zaman = para" konsepti
-- 3 seçenekli karar mekanizması (Aldım/Düşünüyorum/Vazgeçtim)
-- Smart Match ile otomatik kategori
-- Streak sistemi (gamification)
-- Viral Habit Calculator
-
-**UX İyileştirme Alanları:**
-- Onboarding biraz uzun (3 sayfa)
-- İlk kullanımda gelir girişi zorunlu
-- Grafikler basit kalıyor
-
-### Market Fit Analysis
-
-**Türkiye Pazarı (TR):**
-- ✅ TL enflasyonu → "kaç saat çalışmalıyım" konsepti çok güçlü
-- ✅ Genç nüfus (18-35) finansal farkındalık arıyor
-- ✅ Rakipler: Moka (karmaşık), Param Nerede (eski)
-- ✅ TCMB/altın entegrasyonu yerel değer
-
-**Global Pazar (EN):**
-- ⚠️ "Time = Money" konsepti evrensel ama rekabet yoğun
-- ⚠️ Mint, YNAB, Copilot gibi devler var
-- ✅ Diferansiyasyon: Mindful spending + Turkish niche
-
-**Dil Stratejisi:**
-- Phase 1: TR + EN (mevcut)
-- Phase 2: DE (Almanya'daki Türkler)
-- Phase 3: AR (Körfez ülkeleri)
-
-### Monetization Strategy
-
-**Freemium Model Önerisi:**
-
-| Özellik | Free | Pro (₺49.99/ay) |
-|---------|------|-----------------|
-| Temel harcama takibi | ✅ | ✅ |
-| Streak sistemi | ✅ | ✅ |
-| Aylık raporlar | ✅ | ✅ |
-| Sınırsız geçmiş | 30 gün | Sınırsız |
-| Kategori insights | - | ✅ |
-| Excel export | - | ✅ |
-| Widget | - | ✅ |
-| Ad-free | - | ✅ |
-
-**5K MRR Senaryoları:**
-
-| Model | Fiyat | Gerekli Kullanıcı |
-|-------|-------|-------------------|
-| Pro Monthly | ₺49.99 | ~100 |
-| Pro Yearly | ₺399.99 | ~150 |
-| Hybrid (60/40) | - | ~120 |
-
-**Hedef:** 50K+ indirme, %2.5 conversion rate → ~125 Pro user → 5K MRR
-
-### SWOT Analysis
-
-**Strengths (Güçlü):**
-- Unique value proposition ("zaman = para")
-- Premium UI/UX (quiet luxury)
-- Local API integrations (TCMB)
-- Gamification (streaks, badges)
-- Viral potential (habit calculator)
-
-**Weaknesses (Zayıf):**
-- No unit tests
-- Limited offline support
-- No cloud sync (kullanıcı verisi kaybı riski)
-- SharedPreferences scalability
-- Manual localization (tedious)
-
-**Opportunities (Fırsat):**
-- Turkish fintech boom
-- Inflation awareness
-- Gen-Z financial literacy trend
-- Social sharing features
-- B2B potential (şirket wellness)
-
-**Threats (Tehdit):**
-- Big players entering Turkish market
-- Economic instability (subscription churn)
-- App Store visibility competition
-- Privacy regulations (KVKK)
-
-### Action Items for 5K MRR
-
-**Immediate (Week 1-2):**
-1. ✅ Premium splash screen
-2. ✅ Full TR/EN localization
-3. [ ] App Store listing preparation
-4. [ ] Privacy policy
-
-**Short-term (Month 1):**
-1. [ ] Pro subscription implementation
-2. [ ] Firebase Analytics
-3. [ ] Crashlytics
-4. [ ] ASO optimization
-
-**Medium-term (Month 2-3):**
-1. [ ] Cloud sync (Firestore)
-2. [ ] Widget support
-3. [ ] German localization
-4. [ ] Referral system
-
----
-
-## Paket Versiyonları (Güncel)
-
-```yaml
-dependencies:
-  flutter_localizations: sdk
-  provider: ^6.1.2
-  shared_preferences: ^2.2.2
-  firebase_core: ^4.3.0
-  firebase_auth: ^6.1.3
-  cloud_firestore: ^6.1.1
-  google_sign_in: 6.2.1
-  fl_chart: ^1.1.1
-  intl: ^0.20.2
-  path_drawing: ^1.0.1
-  lucide_icons: ^0.257.0
-  phosphor_flutter: ^2.1.0
-  confetti: ^0.7.0
-  flutter_animate: ^4.5.0
-  showcaseview: ^3.0.0
-  share_plus: ^7.2.1
-  screenshot: ^2.1.0
-  video_player: ^2.8.2
-  fvp: ^0.35.2  # Windows/Linux video support
-```
-
----
-
-## Son Güncelleme: 12 Ocak 2026
-
-### Session: Video Splash Screen Fix
-
-#### Problem
-- `video_player` paketi Windows'ta asset videoları oynatamıyordu
-- Flutter'ın resmi video_player eklentisi Windows/Linux için sınırlı destek sunuyor
-
-#### Çözüm
-1. **fvp paketi eklendi** (`pubspec.yaml`):
-   ```yaml
-   fvp: ^0.35.2
-   ```
-
-2. **fvp registration eklendi** (`main.dart`):
-   ```dart
-   import 'package:fvp/fvp.dart' as fvp;
-
-   void main() async {
-     WidgetsFlutterBinding.ensureInitialized();
-     fvp.registerWith();  // Windows/Linux video support
-     // ...
-   }
-   ```
-
-#### Test Sonuçları
-- Windows: ✅ Video oynatma başarılı (8s, 24fps)
-- Android: ✅ Video oynatma başarılı
-
-#### Teknik Detaylar
-- fvp paketi tüm platformları destekliyor (Windows, Linux, macOS, iOS, Android)
-- video_player API'si ile uyumlu çalışıyor
-- MDK (Multimedia Development Kit) tabanlı
-
-#### Kaynaklar
-- [fvp package](https://pub.dev/packages/fvp)
-- [Flutter video_player Windows issue](https://github.com/flutter/flutter/issues/37673)
-
----
-
-## Son Güncelleme: 13 Ocak 2026
-
-### Session: Currency System Overhaul
-
-#### Para Birimi Sistemi
-- **Desteklenen:** TRY, USD, EUR, GBP, SAR
-- Profile'dan seçilebilir (`currency_selector.dart`)
-- Tüm app'te seçilen para biriminde gösterim
-- Currency ticker: Seçilen para birimine göre diğerlerini gösterir
-- Altın: TRY seçiliyse gram (₺/gr), diğerlerinde oz ($/oz)
-
-#### Harcama Girişi Currency Toggle
-- Gelir currency ≠ Display currency ise toggle gösterilir
-- Örnek: Gelir TRY, Display USD → `₺ TRY / $ USD` toggle
-- Varsayılan: Gelir para birimi
-- Otomatik çeviri yapılır (`_convertToIncomeCurrency`)
-- Orijinal tutar/currency expense'te saklanır
-
-#### Expense Model Güncellemeleri
-```dart
-// lib/models/expense.dart
-final double? originalAmount;   // Girilen tutar (farklı para biriminde)
-final String? originalCurrency; // Girilen para birimi kodu (USD, EUR, vb.)
-```
-
-#### Currency Provider
-```dart
-// lib/providers/currency_provider.dart
-- currency: Currency object (code, symbol, flag, goldUnit)
-- setCode(String code): Para birimini değiştir
-- Persist: SharedPreferences ile kalıcı
-```
-
-#### Dynamic Currency Ticker
-```dart
-// lib/widgets/currency_rate_widget.dart
-- _mainCurrencyCodes = ['USD', 'EUR', 'GBP']
-- Seçilen currency listeden çıkarılır
-- Gold: TRY için gram, diğerleri için oz
-- Cross-rate hesaplama: TCMB TRY bazlı verilerden türetilir
-```
-
-#### API'ler
-- **TCMB:** TRY bazlı döviz kurları (USD/TRY, EUR/TRY)
-- **Gold API:** Altın oz fiyatı (USD)
-- Cross-rate: `EUR/USD = EUR/TRY ÷ USD/TRY`
-
-#### Splash Screen Simplification
-- Logo kaldırıldı
-- Video fade out animasyonu eklendi
-- SingleTickerProviderStateMixin ile basitleştirildi
-
-#### Localization
-- Saat kısaltması: `hourAbbreviation` key (en: "h", tr: "sa")
-- AnimatedTimeCounter lokalize edildi
-
-#### Yeni Dosyalar
-```
-lib/widgets/
-├── add_expense_sheet.dart    # Full expense entry bottom sheet
-├── currency_selector.dart    # Para birimi seçici widget
-└── currency_ticker.dart      # Döviz ticker widget
-
-lib/models/
-└── currency.dart             # Currency model + supportedCurrencies
-```
-
-#### Yapılacaklar
-- [ ] Ana sayfa refactoring (New Expense → Bottom Sheet)
-- [ ] Recent Expenses (5 tane) ana sayfada
-- [ ] See More → 30 expense (Free), Full history (Pro)
-- [ ] Too Curious hidden achievement
-- [ ] Cache mekanizması (100 expense local)
-
----
+*Last updated: January 2026*

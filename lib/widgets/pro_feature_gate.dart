@@ -40,7 +40,7 @@ class ProFeatureGate extends StatelessWidget {
   }
 
   Widget _buildLockedState(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return GestureDetector(
       onTap: () => showPaywall(context, feature: feature),
@@ -58,8 +58,8 @@ class ProFeatureGate extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.primary.withOpacity(0.2),
-                    AppColors.secondary.withOpacity(0.2),
+                    AppColors.primary.withValues(alpha: 0.2),
+                    AppColors.secondary.withValues(alpha: 0.2),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(12),
@@ -159,7 +159,7 @@ class ProFeatureGate extends StatelessWidget {
 
   /// Show AI limit reached dialog
   static void _showAiLimitDialog(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     showDialog(
       context: context,
@@ -198,7 +198,7 @@ class ProFeatureGate extends StatelessWidget {
 
   /// Show history limit dialog
   static void showHistoryLimitDialog(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     showDialog(
       context: context,
@@ -235,7 +235,7 @@ class ProFeatureGate extends StatelessWidget {
 
   /// Show export Pro-only dialog
   static void showExportProDialog(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     showDialog(
       context: context,
@@ -278,7 +278,7 @@ class AiUsageIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final proProvider = context.watch<ProProvider>();
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     if (proProvider.isPro) {
       return const SizedBox.shrink();
@@ -293,12 +293,12 @@ class AiUsageIndicator extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             color: remaining <= 3
-                ? AppColors.error.withOpacity(0.2)
+                ? AppColors.error.withValues(alpha: 0.2)
                 : AppColors.surface,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: remaining <= 3
-                  ? AppColors.error.withOpacity(0.5)
+                  ? AppColors.error.withValues(alpha: 0.5)
                   : AppColors.cardBorder,
             ),
           ),

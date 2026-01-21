@@ -21,7 +21,7 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     _steps = [
       _SetupStep(
@@ -70,7 +70,7 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
     if (mounted) {
       Navigator.pop(context);
 
-      final l10n = AppLocalizations.of(context)!;
+      final l10n = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
@@ -92,7 +92,7 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: AppColors.background,

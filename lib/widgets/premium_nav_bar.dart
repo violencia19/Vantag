@@ -24,7 +24,7 @@ class PremiumNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
@@ -69,10 +69,10 @@ class PremiumNavBar extends StatelessWidget {
                 ),
                 // FAB - Center
                 _CenterAddButton(onTap: onAddTap),
-                // Achievements
+                // Pursuits (Dreams)
                 _NavItem(
-                  icon: PhosphorIconsDuotone.trophy,
-                  label: l10n.badges,
+                  icon: PhosphorIconsDuotone.star,
+                  label: l10n.navPursuits,
                   isActive: currentIndex == 2,
                   onTap: () => onTap(2),
                 ),
@@ -385,7 +385,7 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
@@ -466,11 +466,11 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   targetShapeBorder: const CircleBorder(),
                   child: _CenterAddButton(onTap: onAddTap),
                 ),
-                // Achievements - with Showcase
+                // Pursuits (Dreams) - with Showcase
                 Showcase(
                   key: TourKeys.navBarAchievements,
-                  title: l10n.badges,
-                  description: l10n.badgesDescription,
+                  title: l10n.navPursuits,
+                  description: l10n.emptyPursuitsMessage,
                   titleTextStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: AppColors.textPrimary,
@@ -485,8 +485,8 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(12),
                   child: _NavItem(
-                    icon: PhosphorIconsDuotone.trophy,
-                    label: l10n.badges,
+                    icon: PhosphorIconsDuotone.star,
+                    label: l10n.navPursuits,
                     isActive: currentIndex == 2,
                     onTap: () => onTap(2),
                   ),

@@ -30,7 +30,7 @@ class ShadowDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     // Hide if no data
     if (totalTime == l10n.zeroMinutes && totalAmount == l10n.zeroAmount) {
@@ -177,7 +177,7 @@ class StreakChip extends StatelessWidget {
   Widget build(BuildContext context) {
     if (streak <= 0) return const SizedBox.shrink();
 
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),

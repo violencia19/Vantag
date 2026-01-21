@@ -221,7 +221,7 @@ class AnimatedTimeCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     // 8 saatten fazlaysa gün olarak göster
     final bool displayAsDays = showDays && hours >= 8;

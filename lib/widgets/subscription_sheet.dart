@@ -55,7 +55,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
   void _showAddEditDialog({Subscription? existing}) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       isScrollControlled: true,
       backgroundColor: QuietLuxury.background,
       shape: const RoundedRectangleBorder(
@@ -73,7 +73,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     return DraggableScrollableSheet(
       initialChildSize: 0.7,
       minChildSize: 0.5,
@@ -315,7 +315,7 @@ class _SubscriptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     return Dismissible(
       key: Key(subscription.id),
       direction: DismissDirection.endToStart,
@@ -471,7 +471,7 @@ class _SubscriptionCard extends StatelessWidget {
   void _showOptionsMenu(BuildContext context, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       backgroundColor: QuietLuxury.background,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -605,7 +605,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
   }
 
   Future<void> _save() async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final name = _nameController.text.trim();
     final amount = double.tryParse(_amountController.text);
 
@@ -655,7 +655,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final currencyProvider = context.watch<CurrencyProvider>();
     return Padding(
       padding: EdgeInsets.only(
@@ -827,7 +827,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                       .map((cat) => DropdownMenuItem(
                             value: cat,
                             child: Text(
-                              cat,
+                              ExpenseCategory.getLocalizedName(cat, l10n),
                               style: const TextStyle(
                                 color: AppColors.textPrimary,
                               ),
@@ -984,7 +984,7 @@ class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final accentColor = _stats?.statusColor ?? QuietLuxury.textSecondary;
 
     return Pressable(

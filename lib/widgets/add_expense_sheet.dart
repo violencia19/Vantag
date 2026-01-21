@@ -15,6 +15,7 @@ import 'turkish_currency_input.dart';
 import 'result_card.dart';
 import 'decision_buttons.dart';
 import 'smart_choice_toggle.dart';
+import 'redirect_savings_sheet.dart';
 
 /// Full Expense Entry Bottom Sheet
 /// Contains: Date chips, Amount, Description (Smart Match), Category, Subcategory, Calculate button
@@ -22,12 +23,18 @@ import 'smart_choice_toggle.dart';
 class AddExpenseSheet extends StatefulWidget {
   final ExchangeRates? exchangeRates;
   final VoidCallback? onExpenseAdded;
+  final Expense? existingExpense;
+  final Function(Expense)? onExpenseUpdated;
 
   const AddExpenseSheet({
     super.key,
     this.exchangeRates,
     this.onExpenseAdded,
+    this.existingExpense,
+    this.onExpenseUpdated,
   });
+
+  bool get isEditMode => existingExpense != null;
 
   @override
   State<AddExpenseSheet> createState() => _AddExpenseSheetState();
@@ -106,6 +113,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     super.initState();
     CategoryLearningService.initialize();
     _initCurrencies();
+    _initEditMode();
 
     _smartMatchAnimController = AnimationController(
       duration: const Duration(milliseconds: 300),
@@ -148,6 +156,51 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
     // Default expense currency is income currency
     _expenseCurrency = _incomeCurrency;
+  }
+
+  /// Pre-fill form if editing an existing expense
+  void _initEditMode() {
+    final expense = widget.existingExpense;
+    if (expense == null) return;
+
+    // Pre-fill amount (use original amount if available, otherwise converted amount)
+    final displayAmount = expense.originalAmount ?? expense.amount;
+    _amountController.text = formatTurkishCurrency(displayAmount, decimalDigits: 2);
+
+    // Pre-fill category
+    _selectedCategory = expense.category;
+    _userManuallySelectedCategory = true;
+
+    // Pre-fill description/subcategory
+    if (expense.subCategory != null && expense.subCategory!.isNotEmpty) {
+      _subCategoryController.text = expense.subCategory!;
+    }
+
+    // Pre-fill currency
+    if (expense.originalCurrency != null) {
+      _expenseCurrency = getCurrencyByCode(expense.originalCurrency!);
+    }
+
+    // Pre-fill date
+    _selectedDate = expense.date;
+
+    // Pre-fill expense type and mandatory status
+    _expenseType = expense.type;
+    _isMandatory = expense.isMandatory;
+
+    // Pre-fill installment details if applicable
+    if (expense.type == ExpenseType.installment) {
+      _showInstallmentDetails = true;
+      if (expense.installmentCount != null) {
+        _installmentCountController.text = expense.installmentCount.toString();
+      }
+      if (expense.cashPrice != null) {
+        _cashPriceController.text = formatTurkishCurrency(expense.cashPrice!, decimalDigits: 2);
+      }
+      if (expense.installmentTotal != null) {
+        _installmentTotalController.text = formatTurkishCurrency(expense.installmentTotal!, decimalDigits: 2);
+      }
+    }
   }
 
   @override
@@ -256,10 +309,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
   }
 
   Future<void> _showCalendarDatePicker() async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final picked = await showDatePicker(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       initialDate: _selectedDate,
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now(),
@@ -344,7 +397,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
   }
 
   void _calculate() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final enteredAmount = parseTurkishCurrency(_amountController.text);
 
     if (enteredAmount == null) {
@@ -548,10 +601,34 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         amount: amount,
         hours: freedomHours,
       );
+
+      // Add to savings pool automatically
+      final savingsPoolProvider = context.read<SavingsPoolProvider>();
+      await savingsPoolProvider.addSavings(amount);
+
+      // Show redirect savings option if user has active pursuits
+      final pursuitProvider = context.read<PursuitProvider>();
+      if (pursuitProvider.activePursuits.isNotEmpty) {
+        // Close current sheet first
+        if (mounted) Navigator.pop(context);
+        widget.onExpenseAdded?.call();
+
+        // Show redirect savings sheet after a short delay
+        await Future.delayed(const Duration(milliseconds: 300));
+        if (mounted) {
+          final currencyProvider = context.read<CurrencyProvider>();
+          await showRedirectSavingsSheet(
+            context,
+            amount: amount,
+            currency: currencyProvider.code,
+          );
+        }
+        return;
+      }
     }
 
     final message = isSimulation
-        ? AppLocalizations.of(context)!.simulationSaved
+        ? AppLocalizations.of(context).simulationSaved
         : _getEmotionalMessage(decision, amount);
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -579,7 +656,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
   }
 
   Future<bool> _showDuplicateWarningDialog(DuplicateMatch match) async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final timeAgoText = _formatTimeAgo(match.timeSinceEntry, l10n);
     final amountStr = match.expense.amount.toStringAsFixed(0);
 
@@ -649,33 +726,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     });
   }
 
-  /// Formu sıfırla (kayıt sonrası veya iptal)
-  void _resetForm() {
-    _amountController.clear();
-    _descriptionController.clear();
-    _subCategoryController.clear();
-    _installmentCountController.clear();
-    _cashPriceController.clear();
-    _installmentTotalController.clear();
-    setState(() {
-      _selectedCategory = null;
-      _selectedDate = DateTime.now();
-      _expenseType = ExpenseType.single;
-      _isMandatory = false;
-      _showInstallmentDetails = false;
-      _smartChoiceSavedFrom = null;
-      _smartMatchActive = false;
-      _userManuallySelectedCategory = false;
-      _result = null;
-      _pendingExpense = null;
-      _categoryInsight = null;
-      _emotionalMessage = null;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return DraggableScrollableSheet(
       initialChildSize: 0.9,
@@ -691,7 +744,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 color: AppColors.gradientMid,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.1),
+                  color: Colors.white.withValues(alpha: 0.1),
                   width: 1,
                 ),
               ),
@@ -704,7 +757,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: AppColors.textTertiary.withOpacity(0.5),
+                        color: AppColors.textTertiary.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -720,7 +773,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              l10n.newExpense,
+                              widget.isEditMode ? l10n.editExpense : l10n.newExpense,
                               style: const TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
@@ -1065,7 +1118,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               boxShadow: _smartMatchActive
                   ? [
                       BoxShadow(
-                        color: AppColors.success.withOpacity(0.3),
+                        color: AppColors.success.withValues(alpha: 0.3),
                         blurRadius: 8,
                         spreadRadius: 1,
                       ),
@@ -1073,7 +1126,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   : _categoryValidationError
                       ? [
                           BoxShadow(
-                            color: AppColors.error.withOpacity(0.3),
+                            color: AppColors.error.withValues(alpha: 0.3),
                             blurRadius: 8,
                             spreadRadius: 1,
                           ),
@@ -1095,7 +1148,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   items: ExpenseCategory.all.map((category) {
                     return DropdownMenuItem(
                       value: category,
-                      child: Text(category),
+                      child: Text(ExpenseCategory.getLocalizedName(category, l10n)),
                     );
                   }).toList(),
                   onChanged: _onCategoryManuallySelected,
@@ -1173,6 +1226,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         TextField(
           controller: _subCategoryController,
           focusNode: _subCategoryFocusNode,
+          keyboardType: TextInputType.text,
+          enableSuggestions: true,
+          autocorrect: false,
+          enableIMEPersonalizedLearning: true,
+          textCapitalization: TextCapitalization.words,
           style: const TextStyle(color: AppColors.textPrimary, fontSize: 14),
           decoration: InputDecoration(
             hintText: l10n.subCategoryOptional,
@@ -1283,7 +1341,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withOpacity(0.3),
+              color: AppColors.primary.withValues(alpha: 0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -1323,12 +1381,12 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.05),
+          color: Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: _isMandatory
-                ? AppColors.info.withOpacity(0.5)
-                : Colors.white.withOpacity(0.1),
+                ? AppColors.info.withValues(alpha: 0.5)
+                : Colors.white.withValues(alpha: 0.1),
           ),
         ),
         child: SwitchListTile(
@@ -1354,7 +1412,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           ),
           value: _isMandatory,
           onChanged: (value) => setState(() => _isMandatory = value),
-          activeColor: AppColors.info,
+          activeTrackColor: AppColors.info,
         ),
       ),
     );
@@ -1370,12 +1428,12 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.05),
+              color: Colors.white.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: _expenseType == ExpenseType.installment
-                    ? AppColors.warning.withOpacity(0.5)
-                    : Colors.white.withOpacity(0.1),
+                    ? AppColors.warning.withValues(alpha: 0.5)
+                    : Colors.white.withValues(alpha: 0.1),
               ),
             ),
             child: SwitchListTile(
@@ -1407,9 +1465,13 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   _expenseType =
                       value ? ExpenseType.installment : ExpenseType.single;
                   _showInstallmentDetails = value;
+                  // Auto-copy amount to installment total when toggle is enabled
+                  if (value && _installmentTotalController.text.isEmpty && _amountController.text.isNotEmpty) {
+                    _installmentTotalController.text = _amountController.text;
+                  }
                 });
               },
-              activeColor: AppColors.warning,
+              activeTrackColor: AppColors.warning,
             ),
           ),
         ),
@@ -1433,9 +1495,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       margin: const EdgeInsets.only(top: 8, bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.warning.withOpacity(0.1),
+        color: AppColors.warning.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.warning.withOpacity(0.3)),
+        border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1577,7 +1639,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       margin: const EdgeInsets.only(top: 16),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.05),
+        color: Colors.white.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -1617,7 +1679,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppColors.error.withOpacity(0.15),
+                color: AppColors.error.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Row(
@@ -1684,9 +1746,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             padding: const EdgeInsets.all(12),
             margin: const EdgeInsets.only(bottom: 16),
             decoration: BoxDecoration(
-              color: AppColors.info.withOpacity(0.1),
+              color: AppColors.info.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: AppColors.info.withOpacity(0.3)),
+              border: Border.all(color: AppColors.info.withValues(alpha: 0.3)),
             ),
             child: Row(
               children: [
@@ -1711,14 +1773,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [AppColors.info, AppColors.info.withOpacity(0.8)],
+                  colors: [AppColors.info, AppColors.info.withValues(alpha: 0.8)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.info.withOpacity(0.3),
+                    color: AppColors.info.withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -1754,6 +1816,32 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         ],
       ),
     );
+  }
+
+  /// Update existing expense (edit mode)
+  Future<void> _updateExpense() async {
+    if (_pendingExpense == null || widget.existingExpense == null) return;
+
+    // Create updated expense keeping the original decision
+    final updatedExpense = _pendingExpense!.copyWith(
+      decision: widget.existingExpense!.decision,
+      decisionDate: widget.existingExpense!.decisionDate,
+    );
+
+    // Call the update callback
+    widget.onExpenseUpdated?.call(updatedExpense);
+
+    if (mounted) {
+      final l10n = AppLocalizations.of(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.updateExpense),
+          backgroundColor: AppColors.success,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      Navigator.pop(context);
+    }
   }
 
   /// Zorunlu gideri kaydet (otomatik "yes" kararı ile)
@@ -1804,8 +1892,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
         const SizedBox(height: 20),
 
+        // Edit mode: show update button
+        if (widget.isEditMode)
+          _buildUpdateButton(l10n)
         // Zorunlu gider ise sadece Kaydet butonu, değilse karar butonları
-        if (_isMandatory)
+        else if (_isMandatory)
           _buildMandatorySaveButton(l10n)
         else ...[
           // Decision Buttons
@@ -1836,6 +1927,59 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       ],
     );
   }
+
+  /// Update button for edit mode
+  Widget _buildUpdateButton(AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Column(
+        children: [
+          // Update button
+          SizedBox(
+            width: double.infinity,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: AppGradients.primaryButton,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: ElevatedButton.icon(
+                onPressed: _updateExpense,
+                icon: Icon(PhosphorIconsDuotone.pencilSimple, size: 20),
+                label: Text(l10n.updateExpense),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          // Cancel button
+          TextButton(
+            onPressed: _cancelDecision,
+            child: Text(
+              l10n.cancel,
+              style: TextStyle(color: AppColors.textSecondary),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 /// Date chip widget
@@ -1864,10 +2008,10 @@ class _DateChip extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           gradient: isSelected ? AppGradients.primaryButton : null,
-          color: isSelected ? null : Colors.white.withOpacity(0.05),
+          color: isSelected ? null : Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? Colors.transparent : Colors.white.withOpacity(0.1),
+            color: isSelected ? Colors.transparent : Colors.white.withValues(alpha: 0.1),
             width: 1,
           ),
         ),
@@ -1918,13 +2062,13 @@ class _SubCategoryChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isRecent
-              ? AppColors.primary.withOpacity(0.15)
-              : Colors.white.withOpacity(0.05),
+              ? AppColors.primary.withValues(alpha: 0.15)
+              : Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isRecent
-                ? AppColors.primary.withOpacity(0.5)
-                : Colors.white.withOpacity(0.1),
+                ? AppColors.primary.withValues(alpha: 0.5)
+                : Colors.white.withValues(alpha: 0.1),
             width: 1,
           ),
         ),
@@ -1960,16 +2104,20 @@ void showAddExpenseSheet(
   BuildContext context, {
   ExchangeRates? exchangeRates,
   VoidCallback? onExpenseAdded,
+  Expense? existingExpense,
+  Function(Expense)? onExpenseUpdated,
 }) {
   HapticFeedback.lightImpact();
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withOpacity(0.95),
+    barrierColor: Colors.black.withValues(alpha: 0.95),
     builder: (context) => AddExpenseSheet(
       exchangeRates: exchangeRates,
       onExpenseAdded: onExpenseAdded,
+      existingExpense: existingExpense,
+      onExpenseUpdated: onExpenseUpdated,
     ),
   );
 }

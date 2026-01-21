@@ -174,7 +174,7 @@ class _ReportScreenState extends State<ReportScreen>
     final financeProvider = context.watch<FinanceProvider>();
     final allExpenses = financeProvider.realExpenses;
     final isLoading = financeProvider.isLoading;
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     if (isLoading) {
       return Scaffold(
@@ -811,8 +811,8 @@ class _ReportScreenState extends State<ReportScreen>
             final index = entry.key;
             final category = entry.value.key;
             final hours = entry.value.value;
-            final percent = (hours / totalHours * 100);
-            final barWidth = hours / maxHours;
+            final percent = totalHours > 0 ? (hours / totalHours * 100) : 0.0;
+            final barWidth = maxHours > 0 ? hours / maxHours : 0.0;
             final color = colors[index % colors.length];
             final categoryIcon = ExpenseCategory.getIcon(category);
 
@@ -984,7 +984,7 @@ class _ReportScreenState extends State<ReportScreen>
       final maxEntry = categoryTotals.entries.reduce((a, b) => a.value > b.value ? a : b);
       highestCategory = maxEntry.key;
       // 20% savings in hours
-      savingsHours = (maxEntry.value * 0.2) / hourlyRate;
+      savingsHours = hourlyRate > 0 ? (maxEntry.value * 0.2) / hourlyRate : 0.0;
     }
 
     // 4. Weekly Trend (last 4 weeks)
@@ -1487,7 +1487,7 @@ class _ReportScreenState extends State<ReportScreen>
                               ? sortedCategories.asMap().entries.map((entry) {
                                   final index = entry.key;
                                   final value = entry.value.value;
-                                  final percentage = (value / total * 100);
+                                  final percentage = total > 0 ? (value / total * 100) : 0.0;
                                   final isTop = index == 0;
 
                                   return PieChartSectionData(
@@ -1523,7 +1523,7 @@ class _ReportScreenState extends State<ReportScreen>
                         final index = entry.key;
                         final category = entry.value.key;
                         final value = entry.value.value;
-                        final percentage = (value / total * 100);
+                        final percentage = total > 0 ? (value / total * 100) : 0.0;
                         final isTop = index == 0;
 
                         return TweenAnimationBuilder<double>(

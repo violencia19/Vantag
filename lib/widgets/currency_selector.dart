@@ -10,7 +10,7 @@ import '../theme/theme.dart';
 
 /// Show currency selector bottom sheet
 void showCurrencySelector(BuildContext context) {
-  final l10n = AppLocalizations.of(context)!;
+  final l10n = AppLocalizations.of(context);
   final currencyProvider = context.read<CurrencyProvider>();
   final financeProvider = context.read<FinanceProvider>();
 

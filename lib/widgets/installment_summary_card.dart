@@ -61,7 +61,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final currencyProvider = context.watch<CurrencyProvider>();
     final installments = widget.budgetService.activeInstallments;
 
@@ -102,7 +102,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                             width: 36,
                             height: 36,
                             decoration: BoxDecoration(
-                              color: Colors.orange.withOpacity(0.15),
+                              color: Colors.orange.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: PremiumShadows.coloredGlow(Colors.orange, intensity: 0.3),
                             ),
@@ -127,10 +127,10 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         decoration: BoxDecoration(
-                          color: Colors.orange.withOpacity(0.2),
+                          color: Colors.orange.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: Colors.orange.withOpacity(0.3),
+                            color: Colors.orange.withValues(alpha: 0.3),
                             width: 1,
                           ),
                         ),
@@ -171,7 +171,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                     ),
 
                   Divider(
-                    color: Colors.white.withOpacity(0.1),
+                    color: Colors.white.withValues(alpha: 0.1),
                     height: 24,
                   ),
 
@@ -204,9 +204,9 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: AppColors.error.withOpacity(0.1),
+                        color: AppColors.error.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppColors.error.withOpacity(0.2)),
+                        border: Border.all(color: AppColors.error.withValues(alpha: 0.2)),
                       ),
                       child: Row(
                         children: [
@@ -360,7 +360,7 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                         child: Container(
                           height: 6,
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.1),
+                            color: Colors.white.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(3),
                           ),
                           child: FractionallySizedBox(
@@ -370,14 +370,14 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: progress > 0.8
-                                      ? [AppColors.success, AppColors.success.withOpacity(0.8)]
+                                      ? [AppColors.success, AppColors.success.withValues(alpha: 0.8)]
                                       : [Colors.orange, Colors.orange.shade600],
                                 ),
                                 borderRadius: BorderRadius.circular(3),
                                 boxShadow: [
                                   BoxShadow(
                                     color: (progress > 0.8 ? AppColors.success : Colors.orange)
-                                        .withOpacity(0.4),
+                                        .withValues(alpha: 0.4),
                                     blurRadius: 6,
                                     spreadRadius: 0,
                                   ),
@@ -471,10 +471,10 @@ class _AnimatedSummaryItemState extends State<_AnimatedSummaryItem>
             child: Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: widget.color.withOpacity(0.1),
+                color: widget.color.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: widget.color.withOpacity(0.2),
+                  color: widget.color.withValues(alpha: 0.2),
                   width: 1,
                 ),
               ),
@@ -503,7 +503,7 @@ class _AnimatedSummaryItemState extends State<_AnimatedSummaryItem>
                       fontWeight: FontWeight.bold,
                       shadows: [
                         Shadow(
-                          color: widget.color.withOpacity(0.3),
+                          color: widget.color.withValues(alpha: 0.3),
                           blurRadius: 8,
                         ),
                       ],

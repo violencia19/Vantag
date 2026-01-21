@@ -471,10 +471,11 @@ class AIToolHandler {
       return {'error': 'Kullanıcı profili bulunamadı'};
     }
 
-    final hourlyRate = user.monthlyIncome / (user.dailyHours * user.workDaysPerWeek * 4.33);
-    final hours = amount / hourlyRate;
-    final days = hours / user.dailyHours;
-    final weeks = days / user.workDaysPerWeek;
+    final divisor = user.dailyHours * user.workDaysPerWeek * 4.33;
+    final hourlyRate = divisor > 0 ? user.monthlyIncome / divisor : 0.0;
+    final hours = hourlyRate > 0 ? amount / hourlyRate : 0.0;
+    final days = user.dailyHours > 0 ? hours / user.dailyHours : 0.0;
+    final weeks = user.workDaysPerWeek > 0 ? days / user.workDaysPerWeek : 0.0;
 
     return {
       'amount': amount,

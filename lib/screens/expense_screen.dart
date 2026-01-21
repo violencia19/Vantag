@@ -114,9 +114,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.03),
+              color: Colors.white.withValues(alpha: 0.03),
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: Colors.white.withOpacity(0.08)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
             ),
             child: Stack(
               alignment: Alignment.center,
@@ -130,10 +130,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                       width: 16,
                       height: 16,
                       decoration: BoxDecoration(
-                        color: AppColors.gold.withOpacity(0.15),
+                        color: AppColors.gold.withValues(alpha: 0.15),
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: AppColors.gold.withOpacity(0.3),
+                          color: AppColors.gold.withValues(alpha: 0.3),
                           width: 1,
                         ),
                       ),
@@ -293,7 +293,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF6C63FF).withOpacity(0.3),
+                color: const Color(0xFF6C63FF).withValues(alpha: 0.3),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -305,11 +305,11 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
+                  color: Colors.white.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       blurRadius: 8,
                       spreadRadius: -2,
                     ),
@@ -320,7 +320,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     PhosphorIconsDuotone.lightning,
                     size: 28,
                     color: Colors.white,
-                    duotoneSecondaryColor: Colors.white.withOpacity(0.5),
+                    duotoneSecondaryColor: Colors.white.withValues(alpha: 0.5),
                   ),
                 ),
               ),
@@ -328,7 +328,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               Expanded(
                 child: Builder(
                   builder: (context) {
-                    final l10n = AppLocalizations.of(context)!;
+                    final l10n = AppLocalizations.of(context);
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -345,7 +345,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                           l10n.calculateAndShock,
                           style: TextStyle(
                             fontSize: 13,
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                           ),
                         ),
                       ],
@@ -355,7 +355,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               ),
               Icon(
                 PhosphorIconsDuotone.caretRight,
-                color: Colors.white.withOpacity(0.8),
+                color: Colors.white.withValues(alpha: 0.8),
                 size: 24,
               ),
             ],
@@ -374,11 +374,13 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     final financeProvider = context.read<FinanceProvider>();
     final expense = financeProvider.expenses[index];
 
-    // Open AddExpenseSheet in edit mode (TODO: implement edit mode)
+    // Open AddExpenseSheet in edit mode
     showAddExpenseSheet(
       context,
       exchangeRates: widget.exchangeRates,
-      onExpenseAdded: () {
+      existingExpense: expense,
+      onExpenseUpdated: (updatedExpense) async {
+        await financeProvider.updateExpense(index, updatedExpense);
         _streakWidgetKey.currentState?.refresh();
         widget.onStreakUpdated?.call();
       },
@@ -391,7 +393,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
 
     if (!mounted) return;
 
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(decision == ExpenseDecision.yes
@@ -404,7 +406,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   }
 
   void _showFullHistory(List<Expense> allExpenses) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final isPro = context.read<ProProvider>().isPro;
 
     // Free: 30, Pro: all
@@ -416,7 +418,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       builder: (context) => DraggableScrollableSheet(
         initialChildSize: 0.9,
         minChildSize: 0.5,
@@ -431,7 +433,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   color: AppColors.gradientMid,
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.1),
+                    color: Colors.white.withValues(alpha: 0.1),
                     width: 1,
                   ),
                 ),
@@ -444,7 +446,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                         width: 40,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: AppColors.textTertiary.withOpacity(0.5),
+                          color: AppColors.textTertiary.withValues(alpha: 0.5),
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -554,14 +556,14 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primary.withOpacity(0.2),
-            AppColors.primary.withOpacity(0.1),
+            AppColors.primary.withValues(alpha: 0.2),
+            AppColors.primary.withValues(alpha: 0.1),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
@@ -569,7 +571,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.15),
+              color: AppColors.primary.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
             child: const Icon(
@@ -607,7 +609,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primary.withOpacity(0.3),
+                    color: AppColors.primary.withValues(alpha: 0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -629,13 +631,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   }
 
   void _showPaywall() {
-    final l10n = AppLocalizations.of(context)!;
-    // TODO: Implement paywall screen
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.comingSoon),
-        behavior: SnackBarBehavior.floating,
-      ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PaywallScreen()),
     );
   }
 
@@ -645,7 +643,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     final budgetService = context.watch<BudgetService>();
     final expenses = financeProvider.expenses;
     final stats = financeProvider.stats;
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     // Recent expenses: only show last 5
     final recentExpenses = expenses.take(_recentExpensesLimit).toList();
@@ -903,10 +901,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: AppColors.primary.withOpacity(0.15),
+                              color: AppColors.primary.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: AppColors.primary.withOpacity(0.3),
+                                color: AppColors.primary.withValues(alpha: 0.3),
                               ),
                             ),
                             child: Row(
@@ -988,10 +986,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.03),
+        color: Colors.white.withValues(alpha: 0.03),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Colors.white.withOpacity(0.08),
+          color: Colors.white.withValues(alpha: 0.08),
         ),
       ),
       child: Column(

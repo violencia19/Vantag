@@ -273,6 +273,8 @@
   "financialSummaryDescription": "Aylık gelirin, harcamaların ve kurtardığın para burada. Tüm veriler anlık güncellenir.",
 
   "newExpense": "Yeni Harcama",
+  "editExpense": "Harcama Düzenle",
+  "updateExpense": "Güncelle",
   "expenseHistory": "Geçmiş",
   "recordCount": "{count} kayıt",
   "recordCountLimited": "{total} kayıttan {shown} tanesi",
@@ -483,7 +485,7 @@
   "tl": "TL",
   "howOften": "Ne sıklıkta?",
   "whatIsYourIncome": "Aylık gelirin ne kadar?",
-  "exampleAmount": "Örn: 50000",
+  "exampleAmount": "örn: 20.000",
   "dontWantToSay": "Söylemek istemiyorum",
   "resultDays": "{value} GÜN",
   "yearlyHabitCost": "Yılda sadece {habit} için\nbu kadar çalışıyorsun",
@@ -491,6 +493,20 @@
   "shareOnStory": "Hikayemde Paylaş",
   "tryAnotherHabit": "Başka alışkanlık dene",
   "trackAllExpenses": "Tüm harcamalarımı takip et",
+
+  "habitCatCoffee": "Kahve",
+  "habitCatSmoking": "Sigara",
+  "habitCatEatingOut": "Dışarıda Yemek",
+  "habitCatGaming": "Oyun/Eğlence",
+  "habitCatClothing": "Kıyafet",
+  "habitCatTaxi": "Taksi/Uber",
+
+  "freqOnceDaily": "Günde 1",
+  "freqTwiceDaily": "Günde 2",
+  "freqEveryTwoDays": "2 günde 1",
+  "freqOnceWeekly": "Haftada 1",
+  "freqTwoThreeWeekly": "Haftada 2-3",
+  "freqFewMonthly": "Ayda birkaç",
 
   "editIncomes": "Gelirleri Düzenle",
   "addIncome": "Gelir Ekle",
@@ -1276,5 +1292,176 @@
     "placeholders": {
       "credits": {"type": "int"}
     }
-  }
+  },
+
+  "pursuits": "Hayallerim",
+  "myPursuits": "Hayallerim",
+  "navPursuits": "Hayaller",
+  "createPursuit": "Yeni Hayal",
+  "pursuitName": "Ne için biriktiriyorsun?",
+  "pursuitNameHint": "ör: iPhone 16, Maldivler Tatili...",
+  "targetAmount": "Hedef Tutar",
+  "savedAmount": "Biriken",
+  "addSavings": "Para Ekle",
+  "pursuitProgress": "%{percent} tamamlandı",
+  "@pursuitProgress": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+  "remainingAmount": "{amount} kaldı",
+  "@remainingAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "daysToGoal": "≈ {days} iş günü",
+  "@daysToGoal": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "pursuitCompleted": "Hayalin Gerçek Oldu!",
+  "congratulations": "Tebrikler!",
+  "pursuitCompletedMessage": "{days} günde {amount} biriktirdin!",
+  "@pursuitCompletedMessage": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "amount": {"type": "String"}
+    }
+  },
+  "shareProgress": "İlerlemeyi Paylaş",
+  "activePursuits": "Aktif",
+  "completedPursuits": "Gerçekleşenler",
+  "archivePursuit": "Arşivle",
+  "deletePursuit": "Sil",
+  "editPursuit": "Düzenle",
+  "deletePursuitConfirm": "Bu hayali silmek istediğinize emin misiniz?",
+  "pursuitCategoryTech": "Teknoloji",
+  "pursuitCategoryTravel": "Seyahat",
+  "pursuitCategoryHome": "Ev",
+  "pursuitCategoryFashion": "Moda",
+  "pursuitCategoryVehicle": "Araç",
+  "pursuitCategoryEducation": "Eğitim",
+  "pursuitCategoryHealth": "Sağlık",
+  "pursuitCategoryOther": "Diğer",
+  "emptyPursuitsTitle": "Hayaline Bir Adım At",
+  "emptyPursuitsMessage": "İlk hayalini ekle ve biriktirmeye başla!",
+  "addFirstPursuit": "İlk Hayalini Ekle",
+  "pursuitLimitReached": "Sınırsız hayal için Pro'ya geç",
+  "quickAmounts": "Hızlı Tutarlar",
+  "addNote": "Not ekle (opsiyonel)",
+  "pursuitCreated": "Hayal oluşturuldu!",
+  "savingsAdded": "Eklendi!",
+  "workHoursRemaining": "{hours} saatlik emek kaldı",
+  "@workHoursRemaining": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "pursuitInitialSavings": "Başlangıç Birikimi",
+  "pursuitInitialSavingsHint": "Zaten biriktirdiğin tutar",
+  "pursuitSelectCategory": "Kategori Seç",
+  "redirectSavings": "Tasarrufu Hayale Aktar",
+  "redirectSavingsMessage": "Vazgeçtiğin {amount} tutarı hangi hayaline eklemek istersin?",
+  "@redirectSavingsMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "skipRedirect": "Şimdilik Atla",
+  "pursuitTransactionHistory": "İşlem Geçmişi",
+  "noTransactions": "Henüz işlem yok",
+  "transactionSourceManual": "Manuel Ekleme",
+  "transactionSourcePool": "Havuzdan Transfer",
+  "transactionSourceExpense": "Vazgeçilen Harcama",
+
+  "savingsPool": "Tasarruf Havuzu",
+  "savingsPoolAvailable": "kullanılabilir",
+  "savingsPoolDebt": "Borçlusun",
+  "shadowDebtMessage": "Gelecekteki kendinden {amount} borç aldın",
+  "@shadowDebtMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "budgetShiftQuestion": "Bu {amount} hangi bütçenden geldi?",
+  "@budgetShiftQuestion": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "jokerUsed": "Bu ayki joker hakkını kullandın",
+  "jokerAvailable": "Joker hakkın var!",
+  "allocatedToDreams": "{amount} hayallerine ayrıldı",
+  "@allocatedToDreams": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "extraIncome": "Ekstra gelir elde ettim",
+  "useJoker": "Joker Kullan (ayda 1)",
+  "budgetShiftFromFood": "Yemek bütçemden",
+  "budgetShiftFromEntertainment": "Eğlence bütçemden",
+  "budgetShiftFromClothing": "Giyim bütçemden",
+  "budgetShiftFromTransport": "Ulaşım bütçemden",
+  "budgetShiftFromShopping": "Alışveriş bütçemden",
+  "budgetShiftFromHealth": "Sağlık bütçemden",
+  "budgetShiftFromEducation": "Eğitim bütçemden",
+  "insufficientFunds": "Yetersiz bakiye",
+  "insufficientFundsMessage": "Havuzda {available} var, {requested} istiyorsun",
+  "@insufficientFundsMessage": {
+    "placeholders": {
+      "available": {"type": "String"},
+      "requested": {"type": "String"}
+    }
+  },
+  "createShadowDebt": "Yine de ekle (borç oluştur)",
+  "debtRepaidMessage": "Borcundan {amount} ödendi!",
+  "@debtRepaidMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "poolSummaryTotal": "Toplam Tasarruf",
+  "poolSummaryAllocated": "Hayallere Ayrılan",
+  "poolSummaryAvailable": "Kullanılabilir",
+
+  "aiSuggestion1": "Bu ay nereye harcadım?",
+  "aiSuggestion2": "Nereden tasarruf edebilirim?",
+  "aiSuggestion3": "En pahalı alışkanlığım ne?",
+  "aiSuggestion4": "Hedefime ne kadar kaldı?",
+  "aiPremiumUpsell": "Detaylı analiz ve kişisel tasarruf planı için Premium'a geç",
+  "aiPremiumButton": "Premium'a Geç",
+  "aiInputPlaceholderFree": "Kendi sorunu sor 🔒",
+  "aiInputPlaceholder": "Bir şey sor...",
+
+  "onboardingTryTitle": "Haydi Deneyelim!",
+  "onboardingTrySubtitle": "Ne kadar çalıştığını merak ettiğin bir şey var mı?",
+  "onboardingTryButton": "Hesapla",
+  "onboardingTryDisclaimer": "Bu sadece paranın ne kadar soyut, zamanın ne kadar somut olduğunu göstermek içindi.",
+  "onboardingTryNotSaved": "Merak etme, bu harcamalara kaydedilmedi.",
+  "onboardingContinue": "Uygulamaya Geç",
+  "onboardingTryResult": "Bu harcama hayatından {hours} saat götürüyor",
+  "@onboardingTryResult": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+
+  "subscriptionNameHint": "Netflix, Spotify...",
+  "subscriptionPriceHint": "₺99.99",
+
+  "currencyUpdatePopup": "Kur güncelleniyor: {oldAmount} {oldCurrency} ≈ {newAmount} {newCurrency} olarak güncellendi",
+  "@currencyUpdatePopup": {
+    "placeholders": {
+      "oldAmount": {"type": "String"},
+      "oldCurrency": {"type": "String"},
+      "newAmount": {"type": "String"},
+      "newCurrency": {"type": "String"}
+    }
+  },
+
+  "currencyConverting": "Para birimi dönüştürülüyor...",
+  "currencyConversionFailed": "Döviz kuru alınamadı, değerler değiştirilmedi"
 }

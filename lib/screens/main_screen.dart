@@ -13,7 +13,7 @@ import '../widgets/widgets.dart';
 import '../utils/currency_utils.dart';
 import 'expense_screen.dart';
 import 'report_screen.dart';
-import 'achievements_screen.dart';
+import 'pursuit_list_screen.dart';
 import 'settings_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -214,6 +214,18 @@ class _MainScreenState extends State<MainScreen> {
       }
     });
 
+    // Setup deep link callbacks with actual hourly rate from provider
+    DeepLinkService().setCallbacks(
+      getHourlyRate: () {
+        final financeProvider = context.read<FinanceProvider>();
+        return financeProvider.hourlyRate;
+      },
+      onAddExpense: (expense) async {
+        final financeProvider = context.read<FinanceProvider>();
+        await financeProvider.addExpense(expense);
+      },
+    );
+
     // Kurları çek
     await _fetchExchangeRates();
 
@@ -274,11 +286,6 @@ class _MainScreenState extends State<MainScreen> {
     super.dispose();
   }
 
-  void _onProfileUpdated(UserProfile profile) {
-    // Provider zaten watch edildiğinden setState gerekli değil
-    // ProfileScreen callback beklentisi için metod korunuyor
-  }
-
   void _onNavTap(int index) {
     HapticFeedback.selectionClick();
     setState(() => _currentIndex = index);
@@ -308,69 +315,6 @@ class _MainScreenState extends State<MainScreen> {
       barrierColor: Colors.black.withValues(alpha: 0.7),
       builder: (context) => const AIChatSheet(),
     );
-  }
-
-  void _processQuickAdd(double amount, String category, String? subCategory) {
-    final now = DateTime.now();
-
-    // Provider'dan güncel profili al
-    final provider = context.read<FinanceProvider>();
-    final currentProfile = provider.userProfile ??
-        UserProfile(incomeSources: [], dailyHours: 8, workDaysPerWeek: 5);
-
-    // Hesaplama yap
-    final result = _calculationService.calculateExpense(
-      userProfile: currentProfile,
-      expenseAmount: amount,
-      month: now.month,
-      year: now.year,
-    );
-
-    // Simülasyon tespiti
-    final recordType = Expense.detectRecordType(amount, result.hoursRequired);
-
-    // Expense oluştur - karar bekliyor durumunda
-    final expense = Expense(
-      amount: amount,
-      category: category,
-      subCategory: subCategory,
-      date: now,
-      hoursRequired: result.hoursRequired,
-      daysRequired: result.daysRequired,
-      recordType: recordType,
-      decision: ExpenseDecision.thinking, // Başlangıçta "düşünüyorum"
-      decisionDate: now,
-    );
-
-    // Provider'a ekle
-    final financeProvider = context.read<FinanceProvider>();
-    financeProvider.addExpense(expense);
-
-    // Feedback
-    HapticFeedback.mediumImpact();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(PhosphorIconsDuotone.clock, size: 18, color: AppColors.warning),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                '${formatTurkishCurrency(amount, decimalDigits: 2)} TL - ${result.hoursRequired.toStringAsFixed(1)} saat',
-                style: const TextStyle(fontWeight: FontWeight.w500),
-              ),
-            ),
-          ],
-        ),
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: AppColors.surfaceLight,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        duration: const Duration(seconds: 3),
-      ),
-    );
-
-    // Ana sayfaya git
-    setState(() => _currentIndex = 0);
   }
 
   @override
@@ -431,7 +375,7 @@ class _MainScreenState extends State<MainScreen> {
                             onRetryRates: _fetchExchangeRates,
                           ),
                           ReportScreen(userProfile: currentProfile),
-                          const AchievementsScreen(),
+                          const PursuitListScreen(),
                           const SettingsScreen(),
                         ],
                       ),

@@ -123,14 +123,14 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
 
     if (!_isInitialized) {
       if (mounted) {
-        final l10n = AppLocalizations.of(context)!;
+        final l10n = AppLocalizations.of(context);
         setState(() => _statusText = l10n.voiceNotAvailable);
       }
       return;
     }
 
     if (mounted) {
-      final l10n = AppLocalizations.of(context)!;
+      final l10n = AppLocalizations.of(context);
       setState(() {
         _isListening = true;
         _statusText = l10n.listening;
@@ -250,7 +250,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
     HapticFeedback.mediumImpact();
 
     if (mounted) {
-      final l10n = AppLocalizations.of(context)!;
+      final l10n = AppLocalizations.of(context);
       setState(() => _statusText = '${l10n.voiceExpenseAdded}!');
 
       await Future.delayed(const Duration(milliseconds: 800));
@@ -282,7 +282,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
   }
 
   void _showConfirmation(VoiceParseResult result) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     showDialog(
       context: context,
@@ -304,10 +304,10 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 fontWeight: FontWeight.w700,
               ),
             ),
-            if (result.description != null && result.description!.isNotEmpty) ...[
+            if (result.description != null && result.description.isNotEmpty) ...[
               const SizedBox(height: 4),
               Text(
-                result.description!,
+                result.description,
                 style: TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 16,
@@ -375,7 +375,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
 
   void _showPermissionDenied() {
     if (!mounted) return;
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -391,7 +391,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: AppColors.background,

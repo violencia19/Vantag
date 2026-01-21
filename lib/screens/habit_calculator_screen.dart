@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../providers/currency_provider.dart';
+import '../providers/finance_provider.dart';
 import '../theme/theme.dart';
+import '../utils/currency_utils.dart';
 import '../utils/habit_calculator.dart';
 import '../widgets/share_card_widget.dart';
 import '../widgets/share_edit_sheet.dart';
@@ -67,6 +69,27 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
     Color(0xFF3498DB),
   ];
 
+  bool _hasLoadedInitialIncome = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Load user's monthly income as default value (only once)
+    if (!_hasLoadedInitialIncome) {
+      _hasLoadedInitialIncome = true;
+      final financeProvider = context.read<FinanceProvider>();
+      final userIncome = financeProvider.userProfile?.monthlyIncome ?? 0;
+      if (userIncome > 0) {
+        _monthlyIncome = userIncome;
+        _incomeController.text = formatTurkishCurrency(
+          userIncome,
+          decimalDigits: 0,
+          showDecimals: false,
+        );
+      }
+    }
+  }
+
   @override
   void dispose() {
     _pageController.dispose();
@@ -91,7 +114,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => StatefulBuilder(
@@ -123,7 +146,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  AppLocalizations.of(context)!.createOwnCategory,
+                  AppLocalizations.of(context).createOwnCategory,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -133,7 +156,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                 const SizedBox(height: 24),
                 // Icon picker
                 Text(
-                  AppLocalizations.of(context)!.selectEmoji,
+                  AppLocalizations.of(context).selectEmoji,
                   style: const TextStyle(
                     fontSize: 14,
                     color: AppColors.textSecondary,
@@ -218,9 +241,9 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     fontSize: 16,
                   ),
                   decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)!.categoryName,
+                    labelText: AppLocalizations.of(context).categoryName,
                     labelStyle: const TextStyle(color: AppColors.textSecondary),
-                    hintText: AppLocalizations.of(context)!.categoryNameHint,
+                    hintText: AppLocalizations.of(context).categoryNameHint,
                     hintStyle: TextStyle(
                       color: AppColors.textTertiary.withValues(alpha: 0.5),
                     ),
@@ -250,7 +273,8 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                               _customCategoryIcon = tempIcon;
                               _customCategoryColor = tempColor;
                               _selectedCategory = HabitCategory(
-                                _customCategoryName,
+                                'custom', // key
+                                _customCategoryName, // display name
                                 _customCategoryIcon,
                                 _customCategoryColor,
                               );
@@ -269,7 +293,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                       disabledBackgroundColor: AppColors.surfaceLight,
                     ),
                     child: Text(
-                      AppLocalizations.of(context)!.continueButton,
+                      AppLocalizations.of(context).continueButton,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -377,7 +401,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
   // STEP 1 - SELECT CATEGORY
   // ═══════════════════════════════════════════════════════════════
   Widget _buildStep1CategorySelect() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     return Column(
       children: [
         // Header
@@ -442,9 +466,9 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                 mainAxisSpacing: 16,
                 childAspectRatio: 1.1,
               ),
-              itemCount: defaultHabitCategories.length,
+              itemCount: getLocalizedHabitCategories(l10n).length,
               itemBuilder: (context, index) {
-                final category = defaultHabitCategories[index];
+                final category = getLocalizedHabitCategories(l10n)[index];
                 return _buildCategoryCard(category);
               },
             ),
@@ -518,7 +542,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
   // STEP 2 - DETAILS
   // ═══════════════════════════════════════════════════════════════
   Widget _buildStep2Details() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final currencyProvider = context.watch<CurrencyProvider>();
     return Column(
       children: [
@@ -670,17 +694,17 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: HabitCalculator.frequencies.map((freq) {
-                      final isSelected = _selectedFrequency == freq;
+                    children: HabitCalculator.frequencyKeys.map((freqKey) {
+                      final isSelected = _selectedFrequency == freqKey;
                       return Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: ChoiceChip(
-                          label: Text(freq),
+                          label: Text(HabitCalculator.getLocalizedFrequency(freqKey, l10n)),
                           selected: isSelected,
                           onSelected: (selected) {
                             HapticFeedback.selectionClick();
                             setState(() {
-                              _selectedFrequency = selected ? freq : null;
+                              _selectedFrequency = selected ? freqKey : null;
                             });
                           },
                           selectedColor: AppColors.primary,
@@ -717,8 +741,14 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     Expanded(
                       child: TextField(
                         controller: _incomeController,
-                        keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         enabled: !_dontWantToSay,
+                        inputFormatters: [
+                          PremiumCurrencyFormatter(
+                            allowDecimals: false,
+                            maxIntegerDigits: 12,
+                          ),
+                        ],
                         style: TextStyle(
                           color: _dontWantToSay
                               ? AppColors.textTertiary
@@ -748,7 +778,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           ),
                         ),
                         onChanged: (value) {
-                          final parsed = double.tryParse(value);
+                          final parsed = parseAmount(value);
                           setState(() {
                             _monthlyIncome = parsed ?? 0;
                           });
@@ -901,7 +931,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
     if (_result == null) {
       return const SizedBox();
     }
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0.0, end: 1.0),
@@ -1069,25 +1099,29 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
     HapticFeedback.mediumImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => ShareEditSheet(
-        icon: _selectedCategory!.icon,
-        iconColor: _selectedCategory!.color,
-        categoryName: _selectedCategory!.name,
-        yearlyDays: _result!.yearlyDays,
-        yearlyAmount: _result!.yearlyAmount,
-        frequency: _selectedFrequency!,
-        onShare: (showAmount, showFrequency) {
-          _showShareCardAndShare(showAmount, showFrequency);
-        },
-      ),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context);
+        return ShareEditSheet(
+          icon: _selectedCategory!.icon,
+          iconColor: _selectedCategory!.color,
+          categoryName: _selectedCategory!.name,
+          yearlyDays: _result!.yearlyDays,
+          yearlyAmount: _result!.yearlyAmount,
+          frequency: HabitCalculator.getLocalizedFrequency(_selectedFrequency!, l10n),
+          onShare: (showAmount, showFrequency) {
+            _showShareCardAndShare(showAmount, showFrequency);
+          },
+        );
+      },
     );
   }
 
   Future<void> _showShareCardAndShare(bool showAmount, bool showFrequency) async {
     // Paylaşım kartını dialog olarak göster ve screenshot al
+    final l10n = AppLocalizations.of(context);
     await showDialog(
       context: context,
       barrierColor: Colors.black,
@@ -1098,7 +1132,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
         categoryName: _selectedCategory!.name,
         yearlyDays: _result!.yearlyDays,
         yearlyAmount: showAmount ? _result!.yearlyAmount : null,
-        frequency: showFrequency ? _selectedFrequency : null,
+        frequency: showFrequency ? HabitCalculator.getLocalizedFrequency(_selectedFrequency!, l10n) : null,
       ),
     );
   }
@@ -1161,7 +1195,7 @@ class _ShareCardDialogState extends State<_ShareCardDialog> {
       if (!success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.shareError),
+            content: Text(AppLocalizations.of(context).shareError),
             backgroundColor: AppColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(

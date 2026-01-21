@@ -57,7 +57,7 @@ class StreakWidgetState extends State<StreakWidget>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     if (_streakData == null) {
       return const SizedBox.shrink();
     }
@@ -130,12 +130,12 @@ class StreakWidgetState extends State<StreakWidget>
   void _showStreakDetails(BuildContext context) {
     if (_streakData == null) return;
 
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final streak = _streakData!;
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),

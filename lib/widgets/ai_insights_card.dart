@@ -259,11 +259,11 @@ class _InsightCardState extends State<_InsightCard>
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: widget.insight.iconColor.withOpacity(0.15),
+                        color: widget.insight.iconColor.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                            color: widget.insight.iconColor.withOpacity(0.3),
+                            color: widget.insight.iconColor.withValues(alpha: 0.3),
                             blurRadius: 12,
                             spreadRadius: 0,
                           ),

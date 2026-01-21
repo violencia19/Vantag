@@ -151,11 +151,12 @@ class ExchangeRateService {
 
   /// Fetch all exchange rates
   /// Priority: 1. Firestore (Cloud Function), 2. Direct API, 3. Local cache
+  /// Cache duration: 24 hours to prevent API rate limiting
   Future<void> fetchAllRates({bool forceRefresh = false}) async {
-    // Cache check (5 minutes)
+    // Cache check (24 hours)
     if (!forceRefresh && _lastFetch != null) {
       final age = DateTime.now().difference(_lastFetch!);
-      if (age.inMinutes < 5 && _ratesInUSD.isNotEmpty) {
+      if (age.inHours < 24 && _ratesInUSD.isNotEmpty) {
         return;
       }
     }

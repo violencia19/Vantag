@@ -80,7 +80,7 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final daysInMonth = DateTime(_currentMonth.year, _currentMonth.month + 1, 0).day;
     final firstDayOfWeek = _currentMonth.weekday; // 1 = Monday
     final weekDays = _getWeekDays(l10n);

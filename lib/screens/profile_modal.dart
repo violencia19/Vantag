@@ -26,7 +26,7 @@ class ProfileModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final authService = AuthService();
     final financeProvider = context.watch<FinanceProvider>();
     final proProvider = context.watch<ProProvider>();
@@ -60,7 +60,7 @@ class ProfileModal extends StatelessWidget {
             color: AppColors.surface,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.1),
+              color: Colors.white.withValues(alpha: 0.2),
               width: 1,
             ),
           ),
@@ -251,13 +251,13 @@ class ProfileModal extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.primary.withValues(alpha: 0.15),
-            AppColors.secondary.withValues(alpha: 0.15),
+            AppColors.primary.withValues(alpha: 0.25),
+            AppColors.secondary.withValues(alpha: 0.25),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.3),
+          color: AppColors.primary.withValues(alpha: 0.4),
           width: 1,
         ),
       ),

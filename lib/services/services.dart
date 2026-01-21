@@ -36,3 +36,7 @@ export 'import_service.dart';
 export 'voice_parser_service.dart';
 export 'deep_link_service.dart';
 export 'siri_service.dart';
+// Pursuits
+export 'pursuit_service.dart';
+// Savings Pool
+export 'savings_pool_service.dart';

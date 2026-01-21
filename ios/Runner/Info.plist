@@ -84,5 +84,13 @@
 		<string>com.vantag.app.viewSummary</string>
 		<string>com.vantag.app.quickAdd</string>
 	</array>
+
+	<!-- File Import Permissions -->
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>Access required to import statement files</string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
 </dict>
 </plist>

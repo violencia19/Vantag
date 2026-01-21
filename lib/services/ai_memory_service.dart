@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -136,7 +137,7 @@ ${_userFacts.map((f) => '- $f').join('\n')}
           .where((m) => m['content']!.isNotEmpty)
           .toList();
     } catch (e) {
-      print('❌ [AIMemory] Error: $e');
+      debugPrint('❌ [AIMemory] Error: $e');
       return [];
     }
   }

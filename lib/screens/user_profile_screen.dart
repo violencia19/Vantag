@@ -10,6 +10,7 @@ import '../widgets/widgets.dart';
 import '../theme/theme.dart';
 import 'income_wizard_screen.dart';
 import 'main_screen.dart';
+import 'onboarding_try_screen.dart';
 
 class UserProfileScreen extends StatefulWidget {
   final UserProfile? existingProfile;
@@ -227,10 +228,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     if (_isEditMode) {
       Navigator.pop(context, profile);
     } else {
+      // Go to "Aha Moment" try screen before main app
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const MainScreen(),
+          builder: (context) => const OnboardingTryScreen(),
         ),
       );
     }

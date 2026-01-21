@@ -78,7 +78,18 @@
       "Bash(xargs dirname:*)",
       "Bash(grep:*)",
       "Bash(done)",
-      "Bash(nc:*)"
+      "Bash(nc:*)",
+      "Bash(del \"c:\\\\flutter_projects\\\\mmr_app\\\\CLAUDE.md\")",
+      "Bash(flutter test:*)",
+      "Bash(del \"c:\\\\flutter_projects\\\\mmr_app\\\\test\\\\widget_test.dart\")",
+      "Bash(firebase functions:config:set:*)",
+      "Bash(firebase experiments:enable:*)",
+      "Bash(firebase projects:list:*)",
+      "Bash(firebase deploy:*)",
+      "Bash(firebase firestore:delete:*)",
+      "Bash(node -e:*)",
+      "Bash(gcloud auth application-default print-access-token:*)",
+      "Bash(npx add-skill:*)"
     ]
   }
 }

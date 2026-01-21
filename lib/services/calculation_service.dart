@@ -36,8 +36,12 @@ class CalculationService {
     );
 
     final totalWorkHours = totalWorkDays * userProfile.dailyHours;
-    final hoursRequired = (expenseAmount / userProfile.monthlyIncome) * totalWorkHours;
-    final daysRequired = hoursRequired / userProfile.dailyHours;
+    final hoursRequired = userProfile.monthlyIncome > 0
+        ? (expenseAmount / userProfile.monthlyIncome) * totalWorkHours
+        : 0.0;
+    final daysRequired = userProfile.dailyHours > 0
+        ? hoursRequired / userProfile.dailyHours
+        : 0.0;
 
     return ExpenseResult(
       expenseAmount: expenseAmount,

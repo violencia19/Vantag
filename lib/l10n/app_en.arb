@@ -333,6 +333,8 @@
   "financialSummaryDescription": "Your monthly income, expenses and saved money here. All data updates in real-time.",
 
   "newExpense": "New Expense",
+  "editExpense": "Edit Expense",
+  "updateExpense": "Update",
   "expenseHistory": "History",
   "recordCount": "{count} records",
   "@recordCount": {
@@ -700,7 +702,7 @@
   "tl": "TL",
   "howOften": "How often?",
   "whatIsYourIncome": "What's your monthly income?",
-  "exampleAmount": "e.g: 50000",
+  "exampleAmount": "e.g: 20,000",
   "dontWantToSay": "I don't want to say",
   "resultDays": "{value} DAYS",
   "@resultDays": {
@@ -724,6 +726,20 @@
   "shareOnStory": "Share on Story",
   "tryAnotherHabit": "Try another habit",
   "trackAllExpenses": "Track all my expenses",
+
+  "habitCatCoffee": "Coffee",
+  "habitCatSmoking": "Smoking",
+  "habitCatEatingOut": "Eating Out",
+  "habitCatGaming": "Gaming",
+  "habitCatClothing": "Clothing",
+  "habitCatTaxi": "Taxi/Uber",
+
+  "freqOnceDaily": "Once daily",
+  "freqTwiceDaily": "Twice daily",
+  "freqEveryTwoDays": "Every 2 days",
+  "freqOnceWeekly": "Once weekly",
+  "freqTwoThreeWeekly": "2-3x weekly",
+  "freqFewMonthly": "Few per month",
 
   "editIncomes": "Edit Incomes",
   "addIncome": "Add Income",
@@ -1642,5 +1658,176 @@
     "placeholders": {
       "credits": {"type": "int"}
     }
-  }
+  },
+
+  "pursuits": "My Dreams",
+  "myPursuits": "My Dreams",
+  "navPursuits": "Dreams",
+  "createPursuit": "New Dream",
+  "pursuitName": "What are you saving for?",
+  "pursuitNameHint": "e.g: iPhone 16, Maldives Vacation...",
+  "targetAmount": "Target Amount",
+  "savedAmount": "Saved",
+  "addSavings": "Add Money",
+  "pursuitProgress": "{percent}% complete",
+  "@pursuitProgress": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+  "remainingAmount": "{amount} remaining",
+  "@remainingAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "daysToGoal": "≈ {days} work days",
+  "@daysToGoal": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "pursuitCompleted": "Your Dream Came True!",
+  "congratulations": "Congratulations!",
+  "pursuitCompletedMessage": "You saved {amount} in {days} days!",
+  "@pursuitCompletedMessage": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "amount": {"type": "String"}
+    }
+  },
+  "shareProgress": "Share Progress",
+  "activePursuits": "Active",
+  "completedPursuits": "Completed",
+  "archivePursuit": "Archive",
+  "deletePursuit": "Delete",
+  "editPursuit": "Edit",
+  "deletePursuitConfirm": "Are you sure you want to delete this dream?",
+  "pursuitCategoryTech": "Tech",
+  "pursuitCategoryTravel": "Travel",
+  "pursuitCategoryHome": "Home",
+  "pursuitCategoryFashion": "Fashion",
+  "pursuitCategoryVehicle": "Vehicle",
+  "pursuitCategoryEducation": "Education",
+  "pursuitCategoryHealth": "Health",
+  "pursuitCategoryOther": "Other",
+  "emptyPursuitsTitle": "Take a Step Toward Your Dream",
+  "emptyPursuitsMessage": "Add your first dream and start saving!",
+  "addFirstPursuit": "Add Your First Dream",
+  "pursuitLimitReached": "Upgrade to Pro for unlimited dreams",
+  "quickAmounts": "Quick Amounts",
+  "addNote": "Add note (optional)",
+  "pursuitCreated": "Dream created!",
+  "savingsAdded": "Added!",
+  "workHoursRemaining": "{hours} work hours remaining",
+  "@workHoursRemaining": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "pursuitInitialSavings": "Initial Savings",
+  "pursuitInitialSavingsHint": "Amount you've already saved",
+  "pursuitSelectCategory": "Select Category",
+  "redirectSavings": "Redirect Savings to Dream",
+  "redirectSavingsMessage": "Which dream would you like to add the {amount} you saved?",
+  "@redirectSavingsMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "skipRedirect": "Skip for Now",
+  "pursuitTransactionHistory": "Transaction History",
+  "noTransactions": "No transactions yet",
+  "transactionSourceManual": "Manual Entry",
+  "transactionSourcePool": "Pool Transfer",
+  "transactionSourceExpense": "Cancelled Expense",
+
+  "savingsPool": "Savings Pool",
+  "savingsPoolAvailable": "available",
+  "savingsPoolDebt": "You owe",
+  "shadowDebtMessage": "You borrowed {amount} from your future self",
+  "@shadowDebtMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "budgetShiftQuestion": "Where did this {amount} come from?",
+  "@budgetShiftQuestion": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "jokerUsed": "You used this month's joker",
+  "jokerAvailable": "You have a joker available!",
+  "allocatedToDreams": "{amount} allocated to dreams",
+  "@allocatedToDreams": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "extraIncome": "I earned extra income",
+  "useJoker": "Use Joker (1/month)",
+  "budgetShiftFromFood": "From my food budget",
+  "budgetShiftFromEntertainment": "From my entertainment budget",
+  "budgetShiftFromClothing": "From my clothing budget",
+  "budgetShiftFromTransport": "From my transport budget",
+  "budgetShiftFromShopping": "From my shopping budget",
+  "budgetShiftFromHealth": "From my health budget",
+  "budgetShiftFromEducation": "From my education budget",
+  "insufficientFunds": "Insufficient funds",
+  "insufficientFundsMessage": "Pool has {available}, you want {requested}",
+  "@insufficientFundsMessage": {
+    "placeholders": {
+      "available": {"type": "String"},
+      "requested": {"type": "String"}
+    }
+  },
+  "createShadowDebt": "Add anyway (create debt)",
+  "debtRepaidMessage": "{amount} paid towards your debt!",
+  "@debtRepaidMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "poolSummaryTotal": "Total Savings",
+  "poolSummaryAllocated": "Allocated to Dreams",
+  "poolSummaryAvailable": "Available",
+
+  "aiSuggestion1": "Where did I spend this month?",
+  "aiSuggestion2": "Where can I save money?",
+  "aiSuggestion3": "What's my most expensive habit?",
+  "aiSuggestion4": "How far am I from my goal?",
+  "aiPremiumUpsell": "Get detailed analysis and personal savings plan with Premium",
+  "aiPremiumButton": "Go Premium",
+  "aiInputPlaceholderFree": "Ask your own question 🔒",
+  "aiInputPlaceholder": "Ask something...",
+
+  "onboardingTryTitle": "Let's Try!",
+  "onboardingTrySubtitle": "Curious how long you'd work for something?",
+  "onboardingTryButton": "Calculate",
+  "onboardingTryDisclaimer": "This was just to show how abstract money is and how concrete time is.",
+  "onboardingTryNotSaved": "Don't worry, this wasn't saved to your expenses.",
+  "onboardingContinue": "Continue to App",
+  "onboardingTryResult": "This expense takes {hours} hours from your life",
+  "@onboardingTryResult": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+
+  "subscriptionNameHint": "Netflix, Spotify...",
+  "subscriptionPriceHint": "$9.99",
+
+  "currencyUpdatePopup": "Currency updating: {oldAmount} {oldCurrency} ≈ {newAmount} {newCurrency}",
+  "@currencyUpdatePopup": {
+    "placeholders": {
+      "oldAmount": {"type": "String"},
+      "oldCurrency": {"type": "String"},
+      "newAmount": {"type": "String"},
+      "newCurrency": {"type": "String"}
+    }
+  },
+
+  "currencyConverting": "Converting currency...",
+  "currencyConversionFailed": "Could not fetch exchange rate, values unchanged"
 }

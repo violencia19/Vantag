@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 
 enum ExpenseDecision {
   yes,
@@ -470,6 +471,33 @@ class ExpenseCategory {
       case 'Diğer':
       default:
         return const Color(0xFF78909C);
+    }
+  }
+
+  /// Lokalize kategori ismi (UI gösterimi için)
+  static String getLocalizedName(String category, AppLocalizations l10n) {
+    switch (category) {
+      case 'Yiyecek':
+        return l10n.categoryFood;
+      case 'Ulaşım':
+        return l10n.categoryTransport;
+      case 'Giyim':
+        return l10n.categoryClothing;
+      case 'Elektronik':
+        return l10n.categoryElectronics;
+      case 'Eğlence':
+        return l10n.categoryEntertainment;
+      case 'Sağlık':
+        return l10n.categoryHealth;
+      case 'Eğitim':
+        return l10n.categoryEducation;
+      case 'Faturalar':
+        return l10n.categoryBills;
+      case 'Abonelik':
+        return l10n.categorySubscription;
+      case 'Diğer':
+      default:
+        return l10n.categoryOther;
     }
   }
 }

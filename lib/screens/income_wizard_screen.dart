@@ -193,7 +193,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   }
 
   Future<void> _saveSalary() async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final amount = parseAmount(_salaryController.text);
     if (amount == null || amount <= 0) {
       _showError(l10n.pleaseEnterValidSalary);
@@ -223,7 +223,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   }
 
   void _addAdditionalIncome() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final amount = parseAmount(_additionalAmountController.text);
     final title = _additionalTitleController.text.trim();
 
@@ -264,7 +264,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   }
 
   Future<void> _complete() async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     // Double-tap protection
     if (_isLoading) return;
 
@@ -347,7 +347,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
     required Function(String) onChanged,
   }) {
     final currency = getCurrencyByCode(currencyCode);
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return GestureDetector(
       onTap: () => _showCurrencyPicker(currencyCode, onChanged),
@@ -397,7 +397,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
 
   /// Show currency picker bottom sheet
   void _showCurrencyPicker(String currentCode, Function(String) onChanged) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     showModalBottomSheet(
       context: context,
@@ -517,7 +517,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -594,7 +594,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   // STEP 1: Primary Salary
   // ============================================
   Widget _buildStep1_Salary() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -807,7 +807,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   // STEP 2: Additional Income Question
   // ============================================
   Widget _buildStep2_AskMore() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -931,7 +931,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   // STEP 3: Add Additional Income
   // ============================================
   Widget _buildStep3_AddMore() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final additionalSources = _incomeSources.where((s) => !s.isPrimary).toList();
 
     return SingleChildScrollView(
@@ -1024,6 +1024,11 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
           // Title (optional)
           TextField(
             controller: _additionalTitleController,
+            keyboardType: TextInputType.text,
+            enableSuggestions: true,
+            autocorrect: false,
+            enableIMEPersonalizedLearning: true,
+            textCapitalization: TextCapitalization.words,
             decoration: InputDecoration(
               labelText: l10n.descriptionOptional,
               hintText: _selectedCategory?.label ?? l10n.descriptionOptionalHint,
@@ -1215,7 +1220,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   // STEP 4: Summary
   // ============================================
   Widget _buildStep4_Summary() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final total = _incomeSources.fold<double>(
       0,
       (sum, s) => sum + s.amount,

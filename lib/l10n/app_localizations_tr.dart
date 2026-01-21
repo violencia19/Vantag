@@ -711,6 +711,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get newExpense => 'Yeni Harcama';
 
   @override
+  String get editExpense => 'Harcama Düzenle';
+
+  @override
+  String get updateExpense => 'Güncelle';
+
+  @override
   String get expenseHistory => 'Geçmiş';
 
   @override
@@ -1331,7 +1337,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get whatIsYourIncome => 'Aylık gelirin ne kadar?';
 
   @override
-  String get exampleAmount => 'Örn: 50000';
+  String get exampleAmount => 'örn: 20.000';
 
   @override
   String get dontWantToSay => 'Söylemek istemiyorum';
@@ -1359,6 +1365,42 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get trackAllExpenses => 'Tüm harcamalarımı takip et';
+
+  @override
+  String get habitCatCoffee => 'Kahve';
+
+  @override
+  String get habitCatSmoking => 'Sigara';
+
+  @override
+  String get habitCatEatingOut => 'Dışarıda Yemek';
+
+  @override
+  String get habitCatGaming => 'Oyun/Eğlence';
+
+  @override
+  String get habitCatClothing => 'Kıyafet';
+
+  @override
+  String get habitCatTaxi => 'Taksi/Uber';
+
+  @override
+  String get freqOnceDaily => 'Günde 1';
+
+  @override
+  String get freqTwiceDaily => 'Günde 2';
+
+  @override
+  String get freqEveryTwoDays => '2 günde 1';
+
+  @override
+  String get freqOnceWeekly => 'Haftada 1';
+
+  @override
+  String get freqTwoThreeWeekly => 'Haftada 2-3';
+
+  @override
+  String get freqFewMonthly => 'Ayda birkaç';
 
   @override
   String get editIncomes => 'Gelirleri Düzenle';
@@ -3042,4 +3084,320 @@ class AppLocalizationsTr extends AppLocalizations {
   String creditPurchaseSuccess(int credits) {
     return '$credits kredi hesabına eklendi!';
   }
+
+  @override
+  String get pursuits => 'Hayallerim';
+
+  @override
+  String get myPursuits => 'Hayallerim';
+
+  @override
+  String get navPursuits => 'Hayaller';
+
+  @override
+  String get createPursuit => 'Yeni Hayal';
+
+  @override
+  String get pursuitName => 'Ne için biriktiriyorsun?';
+
+  @override
+  String get pursuitNameHint => 'ör: iPhone 16, Maldivler Tatili...';
+
+  @override
+  String get targetAmount => 'Hedef Tutar';
+
+  @override
+  String get savedAmount => 'Biriken';
+
+  @override
+  String get addSavings => 'Para Ekle';
+
+  @override
+  String pursuitProgress(int percent) {
+    return '%$percent tamamlandı';
+  }
+
+  @override
+  String remainingAmount(String amount) {
+    return '$amount kaldı';
+  }
+
+  @override
+  String daysToGoal(int days) {
+    return '≈ $days iş günü';
+  }
+
+  @override
+  String get pursuitCompleted => 'Hayalin Gerçek Oldu!';
+
+  @override
+  String get congratulations => 'Tebrikler!';
+
+  @override
+  String pursuitCompletedMessage(int days, String amount) {
+    return '$days günde $amount biriktirdin!';
+  }
+
+  @override
+  String get shareProgress => 'İlerlemeyi Paylaş';
+
+  @override
+  String get activePursuits => 'Aktif';
+
+  @override
+  String get completedPursuits => 'Gerçekleşenler';
+
+  @override
+  String get archivePursuit => 'Arşivle';
+
+  @override
+  String get deletePursuit => 'Sil';
+
+  @override
+  String get editPursuit => 'Düzenle';
+
+  @override
+  String get deletePursuitConfirm =>
+      'Bu hayali silmek istediğinize emin misiniz?';
+
+  @override
+  String get pursuitCategoryTech => 'Teknoloji';
+
+  @override
+  String get pursuitCategoryTravel => 'Seyahat';
+
+  @override
+  String get pursuitCategoryHome => 'Ev';
+
+  @override
+  String get pursuitCategoryFashion => 'Moda';
+
+  @override
+  String get pursuitCategoryVehicle => 'Araç';
+
+  @override
+  String get pursuitCategoryEducation => 'Eğitim';
+
+  @override
+  String get pursuitCategoryHealth => 'Sağlık';
+
+  @override
+  String get pursuitCategoryOther => 'Diğer';
+
+  @override
+  String get emptyPursuitsTitle => 'Hayaline Bir Adım At';
+
+  @override
+  String get emptyPursuitsMessage => 'İlk hayalini ekle ve biriktirmeye başla!';
+
+  @override
+  String get addFirstPursuit => 'İlk Hayalini Ekle';
+
+  @override
+  String get pursuitLimitReached => 'Sınırsız hayal için Pro\'ya geç';
+
+  @override
+  String get quickAmounts => 'Hızlı Tutarlar';
+
+  @override
+  String get addNote => 'Not ekle (opsiyonel)';
+
+  @override
+  String get pursuitCreated => 'Hayal oluşturuldu!';
+
+  @override
+  String get savingsAdded => 'Eklendi!';
+
+  @override
+  String workHoursRemaining(String hours) {
+    return '$hours saatlik emek kaldı';
+  }
+
+  @override
+  String get pursuitInitialSavings => 'Başlangıç Birikimi';
+
+  @override
+  String get pursuitInitialSavingsHint => 'Zaten biriktirdiğin tutar';
+
+  @override
+  String get pursuitSelectCategory => 'Kategori Seç';
+
+  @override
+  String get redirectSavings => 'Tasarrufu Hayale Aktar';
+
+  @override
+  String redirectSavingsMessage(String amount) {
+    return 'Vazgeçtiğin $amount tutarı hangi hayaline eklemek istersin?';
+  }
+
+  @override
+  String get skipRedirect => 'Şimdilik Atla';
+
+  @override
+  String get pursuitTransactionHistory => 'İşlem Geçmişi';
+
+  @override
+  String get noTransactions => 'Henüz işlem yok';
+
+  @override
+  String get transactionSourceManual => 'Manuel Ekleme';
+
+  @override
+  String get transactionSourcePool => 'Havuzdan Transfer';
+
+  @override
+  String get transactionSourceExpense => 'Vazgeçilen Harcama';
+
+  @override
+  String get savingsPool => 'Tasarruf Havuzu';
+
+  @override
+  String get savingsPoolAvailable => 'kullanılabilir';
+
+  @override
+  String get savingsPoolDebt => 'Borçlusun';
+
+  @override
+  String shadowDebtMessage(String amount) {
+    return 'Gelecekteki kendinden $amount borç aldın';
+  }
+
+  @override
+  String budgetShiftQuestion(String amount) {
+    return 'Bu $amount hangi bütçenden geldi?';
+  }
+
+  @override
+  String get jokerUsed => 'Bu ayki joker hakkını kullandın';
+
+  @override
+  String get jokerAvailable => 'Joker hakkın var!';
+
+  @override
+  String allocatedToDreams(String amount) {
+    return '$amount hayallerine ayrıldı';
+  }
+
+  @override
+  String get extraIncome => 'Ekstra gelir elde ettim';
+
+  @override
+  String get useJoker => 'Joker Kullan (ayda 1)';
+
+  @override
+  String get budgetShiftFromFood => 'Yemek bütçemden';
+
+  @override
+  String get budgetShiftFromEntertainment => 'Eğlence bütçemden';
+
+  @override
+  String get budgetShiftFromClothing => 'Giyim bütçemden';
+
+  @override
+  String get budgetShiftFromTransport => 'Ulaşım bütçemden';
+
+  @override
+  String get budgetShiftFromShopping => 'Alışveriş bütçemden';
+
+  @override
+  String get budgetShiftFromHealth => 'Sağlık bütçemden';
+
+  @override
+  String get budgetShiftFromEducation => 'Eğitim bütçemden';
+
+  @override
+  String get insufficientFunds => 'Yetersiz bakiye';
+
+  @override
+  String insufficientFundsMessage(String available, String requested) {
+    return 'Havuzda $available var, $requested istiyorsun';
+  }
+
+  @override
+  String get createShadowDebt => 'Yine de ekle (borç oluştur)';
+
+  @override
+  String debtRepaidMessage(String amount) {
+    return 'Borcundan $amount ödendi!';
+  }
+
+  @override
+  String get poolSummaryTotal => 'Toplam Tasarruf';
+
+  @override
+  String get poolSummaryAllocated => 'Hayallere Ayrılan';
+
+  @override
+  String get poolSummaryAvailable => 'Kullanılabilir';
+
+  @override
+  String get aiSuggestion1 => 'Bu ay nereye harcadım?';
+
+  @override
+  String get aiSuggestion2 => 'Nereden tasarruf edebilirim?';
+
+  @override
+  String get aiSuggestion3 => 'En pahalı alışkanlığım ne?';
+
+  @override
+  String get aiSuggestion4 => 'Hedefime ne kadar kaldı?';
+
+  @override
+  String get aiPremiumUpsell =>
+      'Detaylı analiz ve kişisel tasarruf planı için Premium\'a geç';
+
+  @override
+  String get aiPremiumButton => 'Premium\'a Geç';
+
+  @override
+  String get aiInputPlaceholderFree => 'Kendi sorunu sor 🔒';
+
+  @override
+  String get aiInputPlaceholder => 'Bir şey sor...';
+
+  @override
+  String get onboardingTryTitle => 'Haydi Deneyelim!';
+
+  @override
+  String get onboardingTrySubtitle =>
+      'Ne kadar çalıştığını merak ettiğin bir şey var mı?';
+
+  @override
+  String get onboardingTryButton => 'Hesapla';
+
+  @override
+  String get onboardingTryDisclaimer =>
+      'Bu sadece paranın ne kadar soyut, zamanın ne kadar somut olduğunu göstermek içindi.';
+
+  @override
+  String get onboardingTryNotSaved =>
+      'Merak etme, bu harcamalara kaydedilmedi.';
+
+  @override
+  String get onboardingContinue => 'Uygulamaya Geç';
+
+  @override
+  String onboardingTryResult(String hours) {
+    return 'Bu harcama hayatından $hours saat götürüyor';
+  }
+
+  @override
+  String get subscriptionPriceHint => '₺99.99';
+
+  @override
+  String currencyUpdatePopup(
+    String oldAmount,
+    String oldCurrency,
+    String newAmount,
+    String newCurrency,
+  ) {
+    return 'Kur güncelleniyor: $oldAmount $oldCurrency ≈ $newAmount $newCurrency olarak güncellendi';
+  }
+
+  @override
+  String get currencyConverting => 'Para birimi dönüştürülüyor...';
+
+  @override
+  String get currencyConversionFailed =>
+      'Döviz kuru alınamadı, değerler değiştirilmedi';
 }

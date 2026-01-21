@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Service for iOS Siri Shortcuts integration
@@ -22,7 +23,7 @@ class SiriService {
       await _channel.invokeMethod('setupShortcuts');
     } on PlatformException catch (e) {
       // Siri not available or not configured
-      print('[Siri] Setup failed: ${e.message}');
+      debugPrint('[Siri] Setup failed: ${e.message}');
     }
   }
 
@@ -43,7 +44,7 @@ class SiriService {
         'timestamp': DateTime.now().toIso8601String(),
       });
     } on PlatformException catch (e) {
-      print('[Siri] Donation failed: ${e.message}');
+      debugPrint('[Siri] Donation failed: ${e.message}');
     }
   }
 
@@ -54,7 +55,7 @@ class SiriService {
     try {
       await _channel.invokeMethod('donateViewSummary');
     } on PlatformException catch (e) {
-      print('[Siri] Donation failed: ${e.message}');
+      debugPrint('[Siri] Donation failed: ${e.message}');
     }
   }
 
@@ -73,7 +74,7 @@ class SiriService {
         'category': category,
       });
     } on PlatformException catch (e) {
-      print('[Siri] Spotlight indexing failed: ${e.message}');
+      debugPrint('[Siri] Spotlight indexing failed: ${e.message}');
     }
   }
 
@@ -84,7 +85,7 @@ class SiriService {
     try {
       await _channel.invokeMethod('clearDonations');
     } on PlatformException catch (e) {
-      print('[Siri] Clear donations failed: ${e.message}');
+      debugPrint('[Siri] Clear donations failed: ${e.message}');
     }
   }
 
@@ -103,7 +104,7 @@ class SiriService {
         'suggestedPhrase': suggestedPhrase,
       });
     } on PlatformException catch (e) {
-      print('[Siri] Present Add to Siri failed: ${e.message}');
+      debugPrint('[Siri] Present Add to Siri failed: ${e.message}');
     }
   }
 }

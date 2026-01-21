@@ -103,7 +103,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     // No risk - direct confirm button
     if (widget.riskLevel == RiskLevel.none) {
@@ -374,7 +374,7 @@ class RiskBadge extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

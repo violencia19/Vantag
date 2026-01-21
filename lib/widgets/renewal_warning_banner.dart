@@ -72,7 +72,7 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     if (_isLoading || _isDismissed || _upcomingRenewals.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -403,7 +403,7 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     if (_isLoading || _stats == null || _stats!.totalCount == 0) {
       return const SizedBox.shrink();
     }

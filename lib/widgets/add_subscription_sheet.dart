@@ -29,19 +29,34 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
 
   int _selectedDay = DateTime.now().day;
   int _selectedColorIndex = 0;
-  String _selectedCategory = 'Eğlence';
+  String _selectedCategory = 'entertainment';
   bool _autoRecord = true;
   bool _isLoading = false;
 
-  static const List<String> _categories = [
-    'Eğlence',
-    'Dijital',
-    'Sağlık',
-    'Eğitim',
-    'Spor',
-    'Haberleşme',
-    'Diğer',
+  /// Subscription category keys and their localization getters
+  static const List<String> _categoryKeys = [
+    'entertainment',
+    'digital',
+    'health',
+    'education',
+    'sports',
+    'communication',
+    'other',
   ];
+
+  /// Get localized category name from key
+  String _getLocalizedCategory(String key, AppLocalizations l10n) {
+    return switch (key) {
+      'entertainment' => l10n.categoryEntertainment,
+      'digital' => l10n.categoryDigital,
+      'health' => l10n.categoryHealth,
+      'education' => l10n.categoryEducation,
+      'sports' => l10n.categorySports,
+      'communication' => l10n.categoryCommunication,
+      'other' => l10n.categoryOther,
+      _ => key,
+    };
+  }
 
   @override
   void initState() {
@@ -64,7 +79,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
   }
 
   Future<void> _submit() async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     if (!_formKey.currentState!.validate()) return;
 
     final amount = parseTurkishCurrency(_amountController.text);
@@ -95,7 +110,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final bottomPadding = MediaQuery.of(context).viewInsets.bottom;
 
     return Container(
@@ -159,7 +174,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                         TextFormField(
                           controller: _amountController,
                           style: const TextStyle(color: AppColors.textPrimary),
-                          decoration: _inputDecoration(l10n.monthlyAmountLabel, l10n.amountHint),
+                          decoration: _inputDecoration(l10n.monthlyAmountLabel, l10n.subscriptionPriceHint),
                           keyboardType: const TextInputType.numberWithOptions(decimal: true),
                           inputFormatters: [TurkishCurrencyInputFormatter()],
                           validator: (v) => v?.isEmpty == true ? l10n.amountRequired : null,
@@ -197,9 +212,9 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                           color: AppColors.textPrimary,
                                           fontSize: 14,
                                         ),
-                                        items: _categories.map((c) => DropdownMenuItem(
-                                          value: c,
-                                          child: Text(c),
+                                        items: _categoryKeys.map((key) => DropdownMenuItem(
+                                          value: key,
+                                          child: Text(_getLocalizedCategory(key, l10n)),
                                         )).toList(),
                                         onChanged: (v) {
                                           if (v != null) setState(() => _selectedCategory = v);
@@ -342,7 +357,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                               Switch(
                                 value: _autoRecord,
                                 onChanged: (v) => setState(() => _autoRecord = v),
-                                activeColor: AppColors.primary,
+                                activeTrackColor: AppColors.primary,
                               ),
                             ],
                           ),

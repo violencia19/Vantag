@@ -70,7 +70,7 @@ class _WealthModalState extends State<WealthModal>
   /// Close control - show dialog if there are changes
   Future<bool> _handleWillPop() async {
     if (widget.isDirty?.call() ?? false) {
-      final l10n = AppLocalizations.of(context)!;
+      final l10n = AppLocalizations.of(context);
       final result = await showDialog<String>(
         context: context,
         builder: (context) => _UnsavedChangesDialog(l10n: l10n),

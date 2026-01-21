@@ -6,7 +6,7 @@ import '../models/achievement.dart';
 class AchievementUtils {
   /// Get localized tier label
   static String getTierLabel(BuildContext context, AchievementTier tier) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     switch (tier) {
       case AchievementTier.bronze:
@@ -22,7 +22,7 @@ class AchievementUtils {
 
   /// Get localized category label
   static String getCategoryLabel(BuildContext context, AchievementCategory category) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     switch (category) {
       case AchievementCategory.streak:
@@ -40,7 +40,7 @@ class AchievementUtils {
 
   /// Get localized difficulty label
   static String getDifficultyLabel(BuildContext context, HiddenDifficulty difficulty) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     switch (difficulty) {
       case HiddenDifficulty.easy:
@@ -56,7 +56,7 @@ class AchievementUtils {
 
   /// Get localized achievement title by ID
   static String getTitle(BuildContext context, String id) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     switch (id) {
       // Streak achievements
@@ -189,7 +189,7 @@ class AchievementUtils {
 
   /// Get localized achievement description by ID
   static String getDescription(BuildContext context, String id) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     switch (id) {
       // Streak achievements

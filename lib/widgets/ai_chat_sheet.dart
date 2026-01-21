@@ -4,9 +4,11 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/finance_provider.dart';
 import '../providers/currency_provider.dart';
+import '../providers/pro_provider.dart';
 import '../services/ai_service.dart';
 import '../theme/theme.dart';
 import '../core/theme/premium_effects.dart';
@@ -23,6 +25,7 @@ class _AIChatSheetState extends State<AIChatSheet> {
   final ScrollController _scrollController = ScrollController();
   final List<ChatMessage> _messages = [];
   bool _isLoading = false;
+  bool _showUpsell = false;
 
   // Dynamic AI greeting
   String _greeting = '';
@@ -42,13 +45,16 @@ class _AIChatSheetState extends State<AIChatSheet> {
   }
 
   void _scrollToBottom() {
-    if (_scrollController.hasClients) {
-      _scrollController.animateTo(
-        0, // reverse: true olduğu için 0 en alt
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    }
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (!mounted) return;
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          0, // reverse: true olduğu için 0 en alt
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 
   Future<void> _loadAIGreeting() async {
@@ -204,8 +210,16 @@ SADECE karşılama cümlesini yaz:
         'ai_greeting_timestamp_$key', DateTime.now().millisecondsSinceEpoch);
   }
 
+  void _showPaywall(BuildContext context) {
+    HapticFeedback.mediumImpact();
+    // Navigate to paywall
+    Navigator.of(context).pushNamed('/paywall');
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isPremium = context.watch<ProProvider>().isPro;
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.85,
       decoration: BoxDecoration(
@@ -217,8 +231,8 @@ SADECE karşılama cümlesini yaz:
         children: [
           _buildHandle(),
           _buildHeader(),
-          Expanded(child: _buildMessageList()),
-          _buildInput(),
+          Expanded(child: _buildMessageList(isPremium)),
+          _buildInput(isPremium),
         ],
       ),
     );
@@ -285,7 +299,10 @@ SADECE karşılama cümlesini yaz:
               GestureDetector(
                 onTap: () async {
                   await AIService().clearHistory();
-                  setState(() => _messages.clear());
+                  setState(() {
+                    _messages.clear();
+                    _showUpsell = false;
+                  });
                   HapticFeedback.mediumImpact();
                 },
                 child: Container(
@@ -371,7 +388,9 @@ SADECE karşılama cümlesini yaz:
     );
   }
 
-  Widget _buildMessageList() {
+  Widget _buildMessageList(bool isPremium) {
+    final l10n = AppLocalizations.of(context);
+
     if (_messages.isEmpty) {
       return SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -432,37 +451,8 @@ SADECE karşılama cümlesini yaz:
 
             const SizedBox(height: 32),
 
-            // Quick Actions 2x2 Grid
-            GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1.3,
-              children: [
-                _buildQuickActionCard(
-                  icon: PhosphorIconsBold.chartLine,
-                  iconColor: const Color(0xFF8B5CF6),
-                  text: 'Harcama trendlerimi göster',
-                ),
-                _buildQuickActionCard(
-                  icon: PhosphorIconsBold.wallet,
-                  iconColor: const Color(0xFF06B6D4),
-                  text: 'En çok nereye harcadım?',
-                ),
-                _buildQuickActionCard(
-                  icon: PhosphorIconsBold.target,
-                  iconColor: const Color(0xFF10B981),
-                  text: 'Tasarruf hedefi koy',
-                ),
-                _buildQuickActionCard(
-                  icon: PhosphorIconsBold.calendarCheck,
-                  iconColor: const Color(0xFFF59E0B),
-                  text: 'Geçen ayı analiz et',
-                ),
-              ],
-            ),
+            // 4 Suggestion Buttons (for both free and premium users)
+            _buildSuggestionButtons(l10n),
           ],
         ),
       );
@@ -472,22 +462,49 @@ SADECE karşılama cümlesini yaz:
       controller: _scrollController,
       reverse: true,
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      itemCount: _messages.length + (_isLoading ? 1 : 0),
+      itemCount: _messages.length + (_isLoading ? 1 : 0) + (_showUpsell && !isPremium ? 1 : 0),
       itemBuilder: (context, index) {
+        // Loading indicator at the bottom (which is top in reverse)
         if (_isLoading && index == 0) {
           return _buildLoadingBubble();
         }
 
-        final msgIndex = _isLoading ? index - 1 : index;
-        final message = _messages.reversed.toList()[msgIndex];
+        // Upsell widget after AI response
+        if (_showUpsell && !isPremium && index == (_isLoading ? 1 : 0)) {
+          return _buildPremiumUpsell(context);
+        }
+
+        final adjustedIndex = index - (_isLoading ? 1 : 0) - (_showUpsell && !isPremium ? 1 : 0);
+        if (adjustedIndex < 0 || adjustedIndex >= _messages.length) {
+          return const SizedBox.shrink();
+        }
+
+        final message = _messages.reversed.toList()[adjustedIndex];
         return _buildMessageBubble(message);
       },
     );
   }
 
-  Widget _buildSuggestionChip(String text) {
+  Widget _buildSuggestionButtons(AppLocalizations l10n) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      alignment: WrapAlignment.center,
+      children: [
+        _buildSuggestionChip('📊', l10n.aiSuggestion1, 0),
+        _buildSuggestionChip('💡', l10n.aiSuggestion2, 1),
+        _buildSuggestionChip('🔥', l10n.aiSuggestion3, 2),
+        _buildSuggestionChip('🎯', l10n.aiSuggestion4, 3),
+      ],
+    );
+  }
+
+  Widget _buildSuggestionChip(String emoji, String text, int index) {
     return GestureDetector(
       onTap: () {
+        HapticFeedback.selectionClick();
+        // Analytics logging
+        _logAnalytics('ai_suggestion_tapped', {'suggestion': index});
         _controller.text = text;
         _sendMessage();
       },
@@ -498,28 +515,89 @@ SADECE karşılama cümlesini yaz:
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
         ),
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(emoji, style: const TextStyle(fontSize: 16)),
+            const SizedBox(width: 8),
+            Flexible(
+              child: Text(
+                text,
+                style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildQuickActionCard({
-    required IconData icon,
-    required Color iconColor,
-    required String text,
-  }) {
-    return _QuickActionCard(
-      icon: icon,
-      iconColor: iconColor,
-      text: text,
-      onTap: () {
-        _controller.text = text;
-        _sendMessage();
-      },
-    );
+  void _logAnalytics(String event, Map<String, dynamic> params) {
+    // Placeholder for analytics logging
+    // Analytics.log(event, params);
+  }
+
+  Widget _buildPremiumUpsell(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return AnimatedOpacity(
+      opacity: _showUpsell ? 1.0 : 0.0,
+      duration: const Duration(milliseconds: 500),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12, top: 8),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.primary.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(PhosphorIconsDuotone.lock,
+                    size: 18, color: AppColors.primary),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    l10n.aiPremiumUpsell,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                      height: 1.4,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            GestureDetector(
+              onTap: () => _showPaywall(context),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [AppColors.primary, AppColors.primaryDark],
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  l10n.aiPremiumButton,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ).animate().fadeIn(delay: 300.ms, duration: 500.ms);
   }
 
   Widget _buildMessageBubble(ChatMessage message) {
@@ -544,16 +622,29 @@ SADECE karşılama cümlesini yaz:
               ? null
               : Border.all(color: Colors.white.withValues(alpha: 0.08)),
         ),
-        child: Text(
-          message.content,
-          style: TextStyle(
-            fontSize: 14,
-            color: isUser ? Colors.white : AppColors.textPrimary,
-            height: 1.4,
-          ),
-        ),
+        child: message.isTyping
+            ? _buildTypingText(message.content)
+            : Text(
+                message.content,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: isUser ? Colors.white : AppColors.textPrimary,
+                  height: 1.4,
+                ),
+              ),
       ),
     ).animate().fadeIn(duration: 200.ms).slideY(begin: 0.1, end: 0);
+  }
+
+  Widget _buildTypingText(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 14,
+        color: AppColors.textPrimary,
+        height: 1.4,
+      ),
+    );
   }
 
   Widget _buildLoadingBubble() {
@@ -595,7 +686,9 @@ SADECE karşılama cümlesini yaz:
         .shimmer(duration: 1500.ms, color: AppColors.primary.withValues(alpha: 0.1));
   }
 
-  Widget _buildInput() {
+  Widget _buildInput(bool isPremium) {
+    final l10n = AppLocalizations.of(context);
+
     return Container(
       padding: EdgeInsets.fromLTRB(
           16, 12, 16, MediaQuery.of(context).padding.bottom + 12),
@@ -604,59 +697,137 @@ SADECE karşılama cümlesini yaz:
         border: Border(
             top: BorderSide(color: Colors.white.withValues(alpha: 0.05))),
       ),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.05),
-                borderRadius: BorderRadius.circular(24),
-                border:
-                    Border.all(color: Colors.white.withValues(alpha: 0.08)),
-              ),
-              child: TextField(
-                controller: _controller,
-                style: const TextStyle(color: Colors.white, fontSize: 14),
-                decoration: InputDecoration(
-                  hintText: 'Bir şey sor...',
-                  hintStyle: TextStyle(color: AppColors.textTertiary),
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.send,
-                enableIMEPersonalizedLearning: true,
-                onSubmitted: (_) => _sendMessage(),
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          GestureDetector(
-            onTap: _sendMessage,
-            child: Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [AppColors.primary, AppColors.primaryDark],
-                ),
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.3),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
-                  ),
+          // Suggestion buttons when in conversation (for quick access)
+          if (_messages.isNotEmpty) ...[
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  _buildMiniSuggestionChip('📊', l10n.aiSuggestion1, 0),
+                  const SizedBox(width: 8),
+                  _buildMiniSuggestionChip('💡', l10n.aiSuggestion2, 1),
+                  const SizedBox(width: 8),
+                  _buildMiniSuggestionChip('🔥', l10n.aiSuggestion3, 2),
+                  const SizedBox(width: 8),
+                  _buildMiniSuggestionChip('🎯', l10n.aiSuggestion4, 3),
                 ],
               ),
-              child: const Icon(PhosphorIconsBold.paperPlaneTilt,
-                  size: 20, color: Colors.white),
             ),
+            const SizedBox(height: 12),
+          ],
+          // Input row
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.05),
+                    borderRadius: BorderRadius.circular(24),
+                    border:
+                        Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                  ),
+                  child: TextField(
+                    controller: _controller,
+                    readOnly: !isPremium,
+                    onTap: () {
+                      if (!isPremium) {
+                        _showPaywall(context);
+                      }
+                    },
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                    decoration: InputDecoration(
+                      hintText: isPremium
+                          ? l10n.aiInputPlaceholder
+                          : l10n.aiInputPlaceholderFree,
+                      hintStyle: TextStyle(color: AppColors.textTertiary),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                      suffixIcon: !isPremium
+                          ? Icon(
+                              PhosphorIconsRegular.lock,
+                              size: 18,
+                              color: AppColors.textTertiary,
+                            )
+                          : null,
+                    ),
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.send,
+                    enableSuggestions: true,
+                    autocorrect: false,
+                    enableIMEPersonalizedLearning: true,
+                    onSubmitted: isPremium ? (_) => _sendMessage() : null,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              GestureDetector(
+                onTap: isPremium ? _sendMessage : () => _showPaywall(context),
+                child: Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: isPremium
+                          ? [AppColors.primary, AppColors.primaryDark]
+                          : [AppColors.textTertiary, AppColors.textSecondary],
+                    ),
+                    shape: BoxShape.circle,
+                    boxShadow: isPremium ? [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ] : null,
+                  ),
+                  child: Icon(
+                    isPremium
+                        ? PhosphorIconsBold.paperPlaneTilt
+                        : PhosphorIconsBold.lock,
+                    size: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMiniSuggestionChip(String emoji, String text, int index) {
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.selectionClick();
+        _logAnalytics('ai_suggestion_tapped', {'suggestion': index});
+        _controller.text = text;
+        _sendMessage();
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(emoji, style: const TextStyle(fontSize: 12)),
+            const SizedBox(width: 4),
+            Text(
+              text.length > 20 ? '${text.substring(0, 20)}...' : text,
+              style: TextStyle(fontSize: 11, color: AppColors.textTertiary),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -668,9 +839,13 @@ SADECE karşılama cümlesini yaz:
     HapticFeedback.lightImpact();
     _controller.clear();
 
+    final proProvider = context.read<ProProvider>();
+    final isPremium = proProvider.isPro;
+
     setState(() {
       _messages.add(ChatMessage(role: 'user', content: text));
       _isLoading = true;
+      _showUpsell = false;
     });
 
     _scrollToBottom();
@@ -681,15 +856,44 @@ SADECE karşılama cümlesini yaz:
       final response = await AIService().getResponse(
         message: text,
         financeProvider: financeProvider,
+        isPremium: isPremium,
+        proProvider: proProvider,
       );
 
       if (mounted) {
         HapticFeedback.lightImpact();
-        setState(() {
-          _messages.add(ChatMessage(role: 'assistant', content: response));
-          _isLoading = false;
-        });
+
+        // Add message with typing effect for free users
+        if (!isPremium) {
+          await _typeMessage(response);
+        } else {
+          setState(() {
+            _messages.add(ChatMessage(role: 'assistant', content: response));
+            _isLoading = false;
+          });
+        }
+
+        // Show upsell for free users
+        if (!isPremium) {
+          setState(() {
+            _showUpsell = true;
+          });
+        }
+
         _scrollToBottom();
+      }
+    } on AILimitExceededException catch (e) {
+      if (mounted) {
+        final resetTime = e.resetDate;
+        final limitType = e.limitType == 'daily' ? 'günlük' : 'aylık';
+        setState(() {
+          _messages.add(ChatMessage(
+            role: 'assistant',
+            content: '$limitType AI limitine ulaştın. ${_formatResetTime(resetTime)} sonra tekrar deneyebilirsin.',
+          ));
+          _isLoading = false;
+          _showUpsell = true;
+        });
       }
     } catch (e) {
       if (mounted) {
@@ -699,6 +903,57 @@ SADECE karşılama cümlesini yaz:
           _isLoading = false;
         });
       }
+    }
+  }
+
+  String _formatResetTime(DateTime resetDate) {
+    final now = DateTime.now();
+    final diff = resetDate.difference(now);
+    if (diff.inHours < 1) {
+      return '${diff.inMinutes} dakika';
+    } else if (diff.inHours < 24) {
+      return '${diff.inHours} saat';
+    } else {
+      return '${diff.inDays} gün';
+    }
+  }
+
+  Future<void> _typeMessage(String fullText) async {
+    setState(() {
+      _isLoading = false;
+      _messages.add(ChatMessage(role: 'assistant', content: '', isTyping: true));
+    });
+
+    final messageIndex = _messages.length - 1;
+    String currentText = '';
+
+    // Type word by word
+    final words = fullText.split(' ');
+    for (int i = 0; i < words.length; i++) {
+      if (!mounted) break;
+
+      currentText += (i > 0 ? ' ' : '') + words[i];
+
+      setState(() {
+        _messages[messageIndex] = ChatMessage(
+          role: 'assistant',
+          content: currentText,
+          isTyping: i < words.length - 1,
+        );
+      });
+
+      _scrollToBottom();
+      await Future.delayed(const Duration(milliseconds: 50));
+    }
+
+    if (mounted) {
+      setState(() {
+        _messages[messageIndex] = ChatMessage(
+          role: 'assistant',
+          content: fullText,
+          isTyping: false,
+        );
+      });
     }
   }
 
@@ -717,131 +972,11 @@ SADECE karşılama cümlesini yaz:
 class ChatMessage {
   final String role;
   final String content;
-  ChatMessage({required this.role, required this.content});
-}
+  final bool isTyping;
 
-/// Premium Quick Action Card with glow effects
-class _QuickActionCard extends StatefulWidget {
-  final IconData icon;
-  final Color iconColor;
-  final String text;
-  final VoidCallback onTap;
-
-  const _QuickActionCard({
-    required this.icon,
-    required this.iconColor,
-    required this.text,
-    required this.onTap,
+  ChatMessage({
+    required this.role,
+    required this.content,
+    this.isTyping = false,
   });
-
-  @override
-  State<_QuickActionCard> createState() => _QuickActionCardState();
-}
-
-class _QuickActionCardState extends State<_QuickActionCard>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  bool _isPressed = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 100),
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) {
-        setState(() => _isPressed = true);
-        _controller.forward();
-        HapticFeedback.lightImpact();
-      },
-      onTapUp: (_) {
-        setState(() => _isPressed = false);
-        _controller.reverse();
-        widget.onTap();
-      },
-      onTapCancel: () {
-        setState(() => _isPressed = false);
-        _controller.reverse();
-      },
-      child: AnimatedBuilder(
-        animation: _scaleAnimation,
-        builder: (context, child) {
-          return Transform.scale(
-            scale: _scaleAnimation.value,
-            child: GradientBorder(
-              borderRadius: 16,
-              borderWidth: 1.5,
-              child: Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: PremiumColors.cardBackground,
-                  borderRadius: BorderRadius.circular(14.5),
-                  boxShadow: _isPressed
-                      ? PremiumShadows.glowPurple
-                      : PremiumShadows.shadowPremium,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Icon with glow
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: widget.iconColor.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: widget.iconColor.withOpacity(0.3),
-                            blurRadius: 12,
-                            spreadRadius: 0,
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        widget.icon,
-                        color: widget.iconColor,
-                        size: 20,
-                        shadows: PremiumShadows.iconHalo(widget.iconColor),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    // Text
-                    Text(
-                      widget.text,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.textPrimary,
-                        height: 1.3,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
 }

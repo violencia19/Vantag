@@ -61,7 +61,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final currencyProvider = context.watch<CurrencyProvider>();
 
     final mandatory = widget.budgetService.mandatoryExpenses;
@@ -105,7 +105,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           width: 36,
                           height: 36,
                           decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.15),
+                            color: AppColors.primary.withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: PremiumShadows.coloredGlow(AppColors.primary, intensity: 0.3),
                           ),
@@ -178,10 +178,10 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color: AppColors.success.withOpacity(0.08),
+                          color: AppColors.success.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: AppColors.success.withOpacity(0.2),
+                            color: AppColors.success.withValues(alpha: 0.2),
                             width: 1,
                           ),
                         ),
@@ -217,10 +217,10 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color: AppColors.error.withOpacity(0.08),
+                          color: AppColors.error.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: AppColors.error.withOpacity(0.2),
+                            color: AppColors.error.withValues(alpha: 0.2),
                             width: 1,
                           ),
                         ),
@@ -320,7 +320,7 @@ class _AnimatedStackedProgressState extends State<_AnimatedStackedProgress>
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
-                color: PremiumColors.purple.withOpacity(0.2),
+                color: PremiumColors.purple.withValues(alpha: 0.2),
                 blurRadius: 12,
                 spreadRadius: 0,
               ),
@@ -330,7 +330,7 @@ class _AnimatedStackedProgressState extends State<_AnimatedStackedProgress>
             borderRadius: BorderRadius.circular(8),
             child: Container(
               height: 10,
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withValues(alpha: 0.1),
               child: Row(
                 children: [
                   // Zorunlu (mavi)
@@ -453,10 +453,10 @@ class _AnimatedStatItemState extends State<_AnimatedStatItem>
             child: Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: widget.iconColor.withOpacity(0.08),
+                color: widget.iconColor.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
-                  color: widget.iconColor.withOpacity(0.15),
+                  color: widget.iconColor.withValues(alpha: 0.15),
                   width: 1,
                 ),
               ),
@@ -469,7 +469,7 @@ class _AnimatedStatItemState extends State<_AnimatedStatItem>
                         width: 28,
                         height: 28,
                         decoration: BoxDecoration(
-                          color: widget.iconColor.withOpacity(0.15),
+                          color: widget.iconColor.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
@@ -509,7 +509,7 @@ class _AnimatedStatItemState extends State<_AnimatedStatItem>
                       fontWeight: FontWeight.w700,
                       shadows: [
                         Shadow(
-                          color: widget.iconColor.withOpacity(0.2),
+                          color: widget.iconColor.withValues(alpha: 0.2),
                           blurRadius: 8,
                         ),
                       ],

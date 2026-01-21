@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -32,69 +33,74 @@ void main() async {
   // Load environment variables
   try {
     await dotenv.load(fileName: ".env");
-    print("✅ .env dosyası yüklendi");
+    debugPrint("✅ .env dosyası yüklendi");
   } catch (e) {
-    print("❌ .env dosyası yüklenemedi: $e");
+    debugPrint("❌ .env dosyası yüklenemedi: $e");
   }
 
   // Initialize AI Service (Memory + Models)
   try {
     await AIService().initialize();
-    print("✅ AI Service başlatıldı");
+    debugPrint("✅ AI Service başlatıldı");
   } catch (e) {
-    print("❌ AI Service hatası: $e");
+    debugPrint("❌ AI Service hatası: $e");
   }
 
   // Initialize RevenueCat for in-app purchases
   try {
     await PurchaseService.init();
-    print("✅ RevenueCat başlatıldı");
+    debugPrint("✅ RevenueCat başlatıldı");
   } catch (e) {
-    print("❌ RevenueCat hatası: $e");
+    debugPrint("❌ RevenueCat hatası: $e");
   }
 
-  print("🚀 ADIM 1: Flutter Hazır");
+  debugPrint("🚀 ADIM 1: Flutter Hazır");
 
   // LocaleProvider başlat
   final localeProvider = LocaleProvider();
   await localeProvider.initialize();
-  print("✅ ADIM 1.5: Locale Provider Hazır");
+  debugPrint("✅ ADIM 1.5: Locale Provider Hazır");
 
   // CurrencyProvider başlat
   final currencyProvider = CurrencyProvider();
   await currencyProvider.loadCurrency();
-  print("✅ ADIM 1.6: Currency Provider Hazır");
+  debugPrint("✅ ADIM 1.6: Currency Provider Hazır");
 
-  // ProProvider başlat
-  final proProvider = ProProvider();
-  await proProvider.initialize();
-  print("✅ ADIM 1.7: Pro Provider Hazır");
-
-  // Firebase başlat
+  // Firebase başlat (ProProvider'dan ÖNCE başlatılmalı!)
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    print("✅ ADIM 2: Firebase Core Başarılı");
+    debugPrint("✅ ADIM 2: Firebase Core Başarılı");
   } catch (e) {
-    print("❌ HATA: Firebase Core Bağlanamadı: $e");
+    debugPrint("❌ HATA: Firebase Core Bağlanamadı: $e");
   }
 
-  // AuthService ile anonim giriş yap
+  // AuthService ile anonim giriş yap (ProProvider'dan ÖNCE Auth olmalı!)
   final authService = AuthService();
   final result = await authService.signInAnonymously();
 
   if (result.success) {
-    print("✅ ADIM 3: Auth Başarılı - UID: ${result.user?.uid}");
+    debugPrint("✅ ADIM 3: Auth Başarılı - UID: ${result.user?.uid}");
     authService.debugAuthStatus();
 
     // Cloud'dan mevcut expense verilerini çek (multi-device sync)
     final expenseService = ExpenseHistoryService();
     await expenseService.syncFromFirestore();
-    print("✅ ADIM 4: Cloud veriler senkronize edildi");
+    debugPrint("✅ ADIM 4: Cloud veriler senkronize edildi");
   } else {
-    print("❌ HATA: Auth Başarısız: ${result.errorMessage}");
+    debugPrint("❌ HATA: Auth Başarısız: ${result.errorMessage}");
   }
+
+  // ProProvider başlat (Firebase + Auth başlatıldıktan sonra!)
+  final proProvider = ProProvider();
+  await proProvider.initialize();
+  debugPrint("✅ ADIM 5: Pro Provider Hazır");
+
+  // SavingsPoolProvider başlat (Auth gerekiyor)
+  final savingsPoolProvider = SavingsPoolProvider();
+  await savingsPoolProvider.initialize();
+  debugPrint("✅ ADIM 6: Savings Pool Provider Hazır");
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -109,6 +115,7 @@ void main() async {
     localeProvider: localeProvider,
     currencyProvider: currencyProvider,
     proProvider: proProvider,
+    savingsPoolProvider: savingsPoolProvider,
   ));
 }
 
@@ -116,12 +123,14 @@ class VantagApp extends StatefulWidget {
   final LocaleProvider localeProvider;
   final CurrencyProvider currencyProvider;
   final ProProvider proProvider;
+  final SavingsPoolProvider savingsPoolProvider;
 
   const VantagApp({
     super.key,
     required this.localeProvider,
     required this.currencyProvider,
     required this.proProvider,
+    required this.savingsPoolProvider,
   });
 
   @override
@@ -158,6 +167,8 @@ class _VantagAppState extends State<VantagApp> {
         ChangeNotifierProvider.value(value: widget.localeProvider),
         ChangeNotifierProvider.value(value: widget.currencyProvider),
         ChangeNotifierProvider.value(value: widget.proProvider),
+        ChangeNotifierProvider.value(value: widget.savingsPoolProvider),
+        ChangeNotifierProvider(create: (_) => PursuitProvider()),
       ],
       child: Consumer<LocaleProvider>(
         builder: (context, localeProvider, child) {

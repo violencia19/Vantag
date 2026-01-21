@@ -112,7 +112,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final currencyProvider = context.watch<CurrencyProvider>();
 
     return AnimatedBuilder(
@@ -143,18 +143,18 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                   ],
                 ),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.15),
+                  color: Colors.white.withValues(alpha: 0.15),
                   width: 1.5,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF8B5CF6).withOpacity(0.4),
+                    color: const Color(0xFF8B5CF6).withValues(alpha: 0.4),
                     blurRadius: 32,
                     spreadRadius: 0,
                     offset: const Offset(0, 8),
                   ),
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withValues(alpha: 0.3),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -177,7 +177,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: (isHealthy ? AppColors.success : AppColors.error).withOpacity(0.5),
+                                  color: (isHealthy ? AppColors.success : AppColors.error).withValues(alpha: 0.5),
                                   blurRadius: 8,
                                   spreadRadius: 1,
                                 ),
@@ -202,10 +202,10 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: AppColors.primary.withOpacity(0.15),
+                              color: AppColors.primary.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(
-                                color: AppColors.primary.withOpacity(0.3),
+                                color: AppColors.primary.withValues(alpha: 0.3),
                                 width: 1,
                               ),
                             ),
@@ -260,7 +260,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                             height: 1,
                             shadows: [
                               Shadow(
-                                color: (isHealthy ? PremiumColors.purple : AppColors.error).withOpacity(0.4),
+                                color: (isHealthy ? PremiumColors.purple : AppColors.error).withValues(alpha: 0.4),
                                 blurRadius: 20,
                               ),
                             ],
@@ -274,7 +274,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.textSecondary.withOpacity(0.8),
+                              color: AppColors.textSecondary.withValues(alpha: 0.8),
                             ),
                           ),
                         ),
@@ -290,15 +290,15 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                         decoration: BoxDecoration(
-                          color: (isHealthy ? AppColors.success : AppColors.error).withOpacity(0.12),
+                          color: (isHealthy ? AppColors.success : AppColors.error).withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: (isHealthy ? AppColors.success : AppColors.error).withOpacity(0.25),
+                            color: (isHealthy ? AppColors.success : AppColors.error).withValues(alpha: 0.25),
                             width: 1,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: (isHealthy ? AppColors.success : AppColors.error).withOpacity(0.2),
+                              color: (isHealthy ? AppColors.success : AppColors.error).withValues(alpha: 0.2),
                               blurRadius: 16,
                               spreadRadius: 0,
                             ),
@@ -385,13 +385,13 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      PremiumColors.purple.withOpacity(0.3),
-                      PremiumColors.gradientEnd.withOpacity(0.2),
+                      PremiumColors.purple.withValues(alpha: 0.3),
+                      PremiumColors.gradientEnd.withValues(alpha: 0.2),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: PremiumColors.purple.withOpacity(0.4),
+                    color: PremiumColors.purple.withValues(alpha: 0.4),
                     width: 1,
                   ),
                 ),
@@ -452,9 +452,9 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Colors.white.withOpacity(0.2),
-          PremiumColors.purple.withOpacity(0.5),
-          Colors.white.withOpacity(0.15),
+          Colors.white.withValues(alpha: 0.2),
+          PremiumColors.purple.withValues(alpha: 0.5),
+          Colors.white.withValues(alpha: 0.15),
         ],
       ),
       child: Padding(
@@ -470,7 +470,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: AppColors.success.withOpacity(0.15),
+                      color: AppColors.success.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(14),
                       boxShadow: PremiumShadows.coloredGlow(AppColors.success, intensity: 0.6),
                     ),
@@ -510,7 +510,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                               color: Colors.white,
                               shadows: [
                                 Shadow(
-                                  color: AppColors.success.withOpacity(0.4),
+                                  color: AppColors.success.withValues(alpha: 0.4),
                                   blurRadius: 16,
                                 ),
                               ],
@@ -534,9 +534,9 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.white.withOpacity(0.0),
-                    Colors.white.withOpacity(0.15),
-                    Colors.white.withOpacity(0.0),
+                    Colors.white.withValues(alpha: 0.0),
+                    Colors.white.withValues(alpha: 0.15),
+                    Colors.white.withValues(alpha: 0.0),
                   ],
                 ),
               ),
@@ -575,7 +575,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                               color: Colors.white,
                               shadows: [
                                 Shadow(
-                                  color: AppColors.error.withOpacity(0.4),
+                                  color: AppColors.error.withValues(alpha: 0.4),
                                   blurRadius: 16,
                                 ),
                               ],
@@ -591,7 +591,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: AppColors.error.withOpacity(0.15),
+                      color: AppColors.error.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(14),
                       boxShadow: PremiumShadows.coloredGlow(AppColors.error, intensity: 0.6),
                     ),
@@ -638,11 +638,11 @@ class CompactFinancialBadge extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.03),
+              color: Colors.white.withValues(alpha: 0.03),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
                 color: (isHealthy ? AppColors.success : AppColors.error)
-                    .withOpacity(0.3),
+                    .withValues(alpha: 0.3),
               ),
             ),
             child: Row(
@@ -670,7 +670,7 @@ class CompactFinancialBadge extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: _getPercentColor().withOpacity(0.15),
+                    color: _getPercentColor().withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(

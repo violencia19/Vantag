@@ -44,10 +44,10 @@ class PremiumDecorations {
     Color? borderColor,
   }) {
     return BoxDecoration(
-      color: Colors.white.withOpacity(0.08),
+      color: Colors.white.withValues(alpha: 0.08),
       borderRadius: BorderRadius.circular(borderRadius),
       border: Border.all(
-        color: borderColor ?? Colors.white.withOpacity(0.12),
+        color: borderColor ?? Colors.white.withValues(alpha: 0.12),
         width: 1,
       ),
     );
@@ -58,14 +58,14 @@ class PremiumDecorations {
     double borderRadius = 16,
   }) {
     return BoxDecoration(
-      color: Colors.white.withOpacity(0.08),
+      color: Colors.white.withValues(alpha: 0.08),
       borderRadius: BorderRadius.circular(borderRadius),
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Colors.white.withOpacity(0.15),
-          Colors.white.withOpacity(0.05),
+          Colors.white.withValues(alpha: 0.15),
+          Colors.white.withValues(alpha: 0.05),
         ],
       ),
     );
@@ -82,12 +82,12 @@ class PremiumShadows {
   /// Purple glow - intense (Design System: opacity 0.4, blur 24px)
   static List<BoxShadow> glowPurple = [
     BoxShadow(
-      color: PremiumColors.purple.withOpacity(0.4),
+      color: PremiumColors.purple.withValues(alpha: 0.4),
       blurRadius: 24,
       spreadRadius: 2,
     ),
     BoxShadow(
-      color: PremiumColors.purple.withOpacity(0.2),
+      color: PremiumColors.purple.withValues(alpha: 0.2),
       blurRadius: 48,
       spreadRadius: 0,
     ),
@@ -96,7 +96,7 @@ class PremiumShadows {
   /// Purple glow - soft
   static List<BoxShadow> glowPurpleSoft = [
     BoxShadow(
-      color: PremiumColors.purple.withOpacity(0.3),
+      color: PremiumColors.purple.withValues(alpha: 0.3),
       blurRadius: 32,
       spreadRadius: 0,
     ),
@@ -105,12 +105,12 @@ class PremiumShadows {
   /// Premium shadow - subtle
   static List<BoxShadow> shadowPremium = [
     BoxShadow(
-      color: Colors.black.withOpacity(0.5),
+      color: Colors.black.withValues(alpha: 0.5),
       blurRadius: 12,
       offset: const Offset(0, 4),
     ),
     BoxShadow(
-      color: Colors.black.withOpacity(0.3),
+      color: Colors.black.withValues(alpha: 0.3),
       blurRadius: 40,
       offset: const Offset(0, 12),
     ),
@@ -119,17 +119,17 @@ class PremiumShadows {
   /// Premium shadow - floating effect (Design System: enhanced)
   static List<BoxShadow> shadowPremiumFloat = [
     BoxShadow(
-      color: Colors.black.withOpacity(0.4),
+      color: Colors.black.withValues(alpha: 0.4),
       blurRadius: 16,
       offset: const Offset(0, 6),
     ),
     BoxShadow(
-      color: Colors.black.withOpacity(0.25),
+      color: Colors.black.withValues(alpha: 0.25),
       blurRadius: 48,
       offset: const Offset(0, 16),
     ),
     BoxShadow(
-      color: PremiumColors.purple.withOpacity(0.3),
+      color: PremiumColors.purple.withValues(alpha: 0.3),
       blurRadius: 24,
       spreadRadius: 0,
     ),
@@ -139,11 +139,11 @@ class PremiumShadows {
   static List<Shadow> iconHalo(Color color) {
     return [
       Shadow(
-        color: color.withOpacity(0.6),
+        color: color.withValues(alpha: 0.6),
         blurRadius: 16,
       ),
       Shadow(
-        color: color.withOpacity(0.4),
+        color: color.withValues(alpha: 0.4),
         blurRadius: 32,
       ),
     ];
@@ -153,12 +153,12 @@ class PremiumShadows {
   static List<BoxShadow> coloredGlow(Color color, {double intensity = 1.0}) {
     return [
       BoxShadow(
-        color: color.withOpacity(0.5 * intensity),
+        color: color.withValues(alpha: 0.5 * intensity),
         blurRadius: 24,
         spreadRadius: 2,
       ),
       BoxShadow(
-        color: color.withOpacity(0.3 * intensity),
+        color: color.withValues(alpha: 0.3 * intensity),
         blurRadius: 48,
         spreadRadius: 0,
       ),
@@ -194,9 +194,9 @@ class GradientBorder extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Colors.white.withOpacity(0.2),
-                PremiumColors.purple.withOpacity(0.3),
-                Colors.white.withOpacity(0.1),
+                Colors.white.withValues(alpha: 0.2),
+                PremiumColors.purple.withValues(alpha: 0.3),
+                Colors.white.withValues(alpha: 0.1),
               ],
             ),
       ),
@@ -252,13 +252,13 @@ class GlassCard extends StatelessWidget {
           padding: padding ?? const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: backgroundGradient == null
-                ? (backgroundColor ?? const Color(0xFF2D1B4E).withOpacity(0.6))
+                ? (backgroundColor ?? const Color(0xFF2D1B4E).withValues(alpha: 0.6))
                 : null,
             gradient: backgroundGradient,
             borderRadius: BorderRadius.circular(borderRadius),
             border: showBorder
                 ? Border.all(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     width: 1.5,
                   )
                 : null,
@@ -324,7 +324,7 @@ class _ShimmerEffectState extends State<ShimmerEffect>
               end: Alignment.bottomRight,
               colors: [
                 Colors.transparent,
-                widget.shimmerColor.withOpacity(0.3),
+                widget.shimmerColor.withValues(alpha: 0.3),
                 Colors.transparent,
               ],
               stops: [
@@ -408,7 +408,7 @@ class _BreatheGlowState extends State<BreatheGlow>
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: widget.glowColor.withOpacity(_animation.value),
+                color: widget.glowColor.withValues(alpha: _animation.value),
                 blurRadius: widget.blurRadius,
                 spreadRadius: 0,
               ),
@@ -644,9 +644,9 @@ class _PremiumButtonState extends State<PremiumButton>
               padding: widget.padding ?? const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(widget.borderRadius),
-                color: Colors.white.withOpacity(0.08),
+                color: Colors.white.withValues(alpha: 0.08),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.12),
+                  color: Colors.white.withValues(alpha: 0.12),
                   width: 1,
                 ),
                 boxShadow: widget.showGlow ? PremiumShadows.glowPurple : PremiumShadows.shadowPremium,
@@ -689,7 +689,7 @@ class LevelProgressBar extends StatelessWidget {
     Widget bar = Container(
       height: height,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(height / 2),
       ),
       child: Stack(
@@ -756,7 +756,7 @@ class SmartBadge extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: PremiumColors.purple.withOpacity(0.4),
+            color: PremiumColors.purple.withValues(alpha: 0.4),
             blurRadius: 8,
             spreadRadius: 0,
           ),
@@ -812,7 +812,7 @@ class RadialGradientOverlay extends StatelessWidget {
                   center: Alignment.center,
                   radius: radius,
                   colors: [
-                    (centerColor ?? PremiumColors.purple).withOpacity(0.15),
+                    (centerColor ?? PremiumColors.purple).withValues(alpha: 0.15),
                     Colors.transparent,
                   ],
                 ),
@@ -957,7 +957,7 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
         return Container(
           height: widget.height,
           decoration: BoxDecoration(
-            color: widget.backgroundColor ?? Colors.white.withOpacity(0.1),
+            color: widget.backgroundColor ?? Colors.white.withValues(alpha: 0.1),
             borderRadius: radius,
           ),
           child: Stack(
@@ -1232,7 +1232,7 @@ class _PulseGlowState extends State<PulseGlow>
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: widget.glowColor.withOpacity(0.3 * _animation.value),
+                color: widget.glowColor.withValues(alpha: 0.3 * _animation.value),
                 blurRadius: widget.maxBlurRadius * _animation.value,
                 spreadRadius: 2 * _animation.value,
               ),

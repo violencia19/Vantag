@@ -711,6 +711,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newExpense => 'New Expense';
 
   @override
+  String get editExpense => 'Edit Expense';
+
+  @override
+  String get updateExpense => 'Update';
+
+  @override
   String get expenseHistory => 'History';
 
   @override
@@ -1333,7 +1339,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get whatIsYourIncome => 'What\'s your monthly income?';
 
   @override
-  String get exampleAmount => 'e.g: 50000';
+  String get exampleAmount => 'e.g: 20,000';
 
   @override
   String get dontWantToSay => 'I don\'t want to say';
@@ -1361,6 +1367,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trackAllExpenses => 'Track all my expenses';
+
+  @override
+  String get habitCatCoffee => 'Coffee';
+
+  @override
+  String get habitCatSmoking => 'Smoking';
+
+  @override
+  String get habitCatEatingOut => 'Eating Out';
+
+  @override
+  String get habitCatGaming => 'Gaming';
+
+  @override
+  String get habitCatClothing => 'Clothing';
+
+  @override
+  String get habitCatTaxi => 'Taxi/Uber';
+
+  @override
+  String get freqOnceDaily => 'Once daily';
+
+  @override
+  String get freqTwiceDaily => 'Twice daily';
+
+  @override
+  String get freqEveryTwoDays => 'Every 2 days';
+
+  @override
+  String get freqOnceWeekly => 'Once weekly';
+
+  @override
+  String get freqTwoThreeWeekly => '2-3x weekly';
+
+  @override
+  String get freqFewMonthly => 'Few per month';
 
   @override
   String get editIncomes => 'Edit Incomes';
@@ -3044,4 +3086,320 @@ class AppLocalizationsEn extends AppLocalizations {
   String creditPurchaseSuccess(int credits) {
     return '$credits credits added to your account!';
   }
+
+  @override
+  String get pursuits => 'My Dreams';
+
+  @override
+  String get myPursuits => 'My Dreams';
+
+  @override
+  String get navPursuits => 'Dreams';
+
+  @override
+  String get createPursuit => 'New Dream';
+
+  @override
+  String get pursuitName => 'What are you saving for?';
+
+  @override
+  String get pursuitNameHint => 'e.g: iPhone 16, Maldives Vacation...';
+
+  @override
+  String get targetAmount => 'Target Amount';
+
+  @override
+  String get savedAmount => 'Saved';
+
+  @override
+  String get addSavings => 'Add Money';
+
+  @override
+  String pursuitProgress(int percent) {
+    return '$percent% complete';
+  }
+
+  @override
+  String remainingAmount(String amount) {
+    return '$amount remaining';
+  }
+
+  @override
+  String daysToGoal(int days) {
+    return '≈ $days work days';
+  }
+
+  @override
+  String get pursuitCompleted => 'Your Dream Came True!';
+
+  @override
+  String get congratulations => 'Congratulations!';
+
+  @override
+  String pursuitCompletedMessage(int days, String amount) {
+    return 'You saved $amount in $days days!';
+  }
+
+  @override
+  String get shareProgress => 'Share Progress';
+
+  @override
+  String get activePursuits => 'Active';
+
+  @override
+  String get completedPursuits => 'Completed';
+
+  @override
+  String get archivePursuit => 'Archive';
+
+  @override
+  String get deletePursuit => 'Delete';
+
+  @override
+  String get editPursuit => 'Edit';
+
+  @override
+  String get deletePursuitConfirm =>
+      'Are you sure you want to delete this dream?';
+
+  @override
+  String get pursuitCategoryTech => 'Tech';
+
+  @override
+  String get pursuitCategoryTravel => 'Travel';
+
+  @override
+  String get pursuitCategoryHome => 'Home';
+
+  @override
+  String get pursuitCategoryFashion => 'Fashion';
+
+  @override
+  String get pursuitCategoryVehicle => 'Vehicle';
+
+  @override
+  String get pursuitCategoryEducation => 'Education';
+
+  @override
+  String get pursuitCategoryHealth => 'Health';
+
+  @override
+  String get pursuitCategoryOther => 'Other';
+
+  @override
+  String get emptyPursuitsTitle => 'Take a Step Toward Your Dream';
+
+  @override
+  String get emptyPursuitsMessage => 'Add your first dream and start saving!';
+
+  @override
+  String get addFirstPursuit => 'Add Your First Dream';
+
+  @override
+  String get pursuitLimitReached => 'Upgrade to Pro for unlimited dreams';
+
+  @override
+  String get quickAmounts => 'Quick Amounts';
+
+  @override
+  String get addNote => 'Add note (optional)';
+
+  @override
+  String get pursuitCreated => 'Dream created!';
+
+  @override
+  String get savingsAdded => 'Added!';
+
+  @override
+  String workHoursRemaining(String hours) {
+    return '$hours work hours remaining';
+  }
+
+  @override
+  String get pursuitInitialSavings => 'Initial Savings';
+
+  @override
+  String get pursuitInitialSavingsHint => 'Amount you\'ve already saved';
+
+  @override
+  String get pursuitSelectCategory => 'Select Category';
+
+  @override
+  String get redirectSavings => 'Redirect Savings to Dream';
+
+  @override
+  String redirectSavingsMessage(String amount) {
+    return 'Which dream would you like to add the $amount you saved?';
+  }
+
+  @override
+  String get skipRedirect => 'Skip for Now';
+
+  @override
+  String get pursuitTransactionHistory => 'Transaction History';
+
+  @override
+  String get noTransactions => 'No transactions yet';
+
+  @override
+  String get transactionSourceManual => 'Manual Entry';
+
+  @override
+  String get transactionSourcePool => 'Pool Transfer';
+
+  @override
+  String get transactionSourceExpense => 'Cancelled Expense';
+
+  @override
+  String get savingsPool => 'Savings Pool';
+
+  @override
+  String get savingsPoolAvailable => 'available';
+
+  @override
+  String get savingsPoolDebt => 'You owe';
+
+  @override
+  String shadowDebtMessage(String amount) {
+    return 'You borrowed $amount from your future self';
+  }
+
+  @override
+  String budgetShiftQuestion(String amount) {
+    return 'Where did this $amount come from?';
+  }
+
+  @override
+  String get jokerUsed => 'You used this month\'s joker';
+
+  @override
+  String get jokerAvailable => 'You have a joker available!';
+
+  @override
+  String allocatedToDreams(String amount) {
+    return '$amount allocated to dreams';
+  }
+
+  @override
+  String get extraIncome => 'I earned extra income';
+
+  @override
+  String get useJoker => 'Use Joker (1/month)';
+
+  @override
+  String get budgetShiftFromFood => 'From my food budget';
+
+  @override
+  String get budgetShiftFromEntertainment => 'From my entertainment budget';
+
+  @override
+  String get budgetShiftFromClothing => 'From my clothing budget';
+
+  @override
+  String get budgetShiftFromTransport => 'From my transport budget';
+
+  @override
+  String get budgetShiftFromShopping => 'From my shopping budget';
+
+  @override
+  String get budgetShiftFromHealth => 'From my health budget';
+
+  @override
+  String get budgetShiftFromEducation => 'From my education budget';
+
+  @override
+  String get insufficientFunds => 'Insufficient funds';
+
+  @override
+  String insufficientFundsMessage(String available, String requested) {
+    return 'Pool has $available, you want $requested';
+  }
+
+  @override
+  String get createShadowDebt => 'Add anyway (create debt)';
+
+  @override
+  String debtRepaidMessage(String amount) {
+    return '$amount paid towards your debt!';
+  }
+
+  @override
+  String get poolSummaryTotal => 'Total Savings';
+
+  @override
+  String get poolSummaryAllocated => 'Allocated to Dreams';
+
+  @override
+  String get poolSummaryAvailable => 'Available';
+
+  @override
+  String get aiSuggestion1 => 'Where did I spend this month?';
+
+  @override
+  String get aiSuggestion2 => 'Where can I save money?';
+
+  @override
+  String get aiSuggestion3 => 'What\'s my most expensive habit?';
+
+  @override
+  String get aiSuggestion4 => 'How far am I from my goal?';
+
+  @override
+  String get aiPremiumUpsell =>
+      'Get detailed analysis and personal savings plan with Premium';
+
+  @override
+  String get aiPremiumButton => 'Go Premium';
+
+  @override
+  String get aiInputPlaceholderFree => 'Ask your own question 🔒';
+
+  @override
+  String get aiInputPlaceholder => 'Ask something...';
+
+  @override
+  String get onboardingTryTitle => 'Let\'s Try!';
+
+  @override
+  String get onboardingTrySubtitle =>
+      'Curious how long you\'d work for something?';
+
+  @override
+  String get onboardingTryButton => 'Calculate';
+
+  @override
+  String get onboardingTryDisclaimer =>
+      'This was just to show how abstract money is and how concrete time is.';
+
+  @override
+  String get onboardingTryNotSaved =>
+      'Don\'t worry, this wasn\'t saved to your expenses.';
+
+  @override
+  String get onboardingContinue => 'Continue to App';
+
+  @override
+  String onboardingTryResult(String hours) {
+    return 'This expense takes $hours hours from your life';
+  }
+
+  @override
+  String get subscriptionPriceHint => '\$9.99';
+
+  @override
+  String currencyUpdatePopup(
+    String oldAmount,
+    String oldCurrency,
+    String newAmount,
+    String newCurrency,
+  ) {
+    return 'Currency updating: $oldAmount $oldCurrency ≈ $newAmount $newCurrency';
+  }
+
+  @override
+  String get currencyConverting => 'Converting currency...';
+
+  @override
+  String get currencyConversionFailed =>
+      'Could not fetch exchange rate, values unchanged';
 }

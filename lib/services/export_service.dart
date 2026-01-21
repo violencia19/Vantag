@@ -22,7 +22,7 @@ class ExportService {
 
   /// Excel dosyası oluştur ve paylaş
   Future<File?> exportToExcel(BuildContext context) async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     try {
       // Verileri topla
@@ -116,7 +116,7 @@ class ExportService {
         .fold<double>(0, (sum, e) => sum + e.amount);
     final totalSaved = totalIncome - totalSpent;
     final savingsRate = totalIncome > 0 ? (totalSaved / totalIncome * 100) : 0;
-    final totalWorkHours = totalSpent / hourlyRate;
+    final totalWorkHours = hourlyRate > 0 ? totalSpent / hourlyRate : 0.0;
 
     // Özet kartları
     int row = 6;
@@ -247,7 +247,7 @@ class ExportService {
     _setCell(sheet, 'A$totalRow', l10n.total, isBold: true);
     _setCell(sheet, 'D$totalRow', _formatCurrency(totalAmount), isBold: true);
     _setCell(
-        sheet, 'H$totalRow', '${(totalAmount / hourlyRate).toStringAsFixed(1)}h',
+        sheet, 'H$totalRow', '${(hourlyRate > 0 ? totalAmount / hourlyRate : 0.0).toStringAsFixed(1)}h',
         isBold: true);
 
     // Kolon genişlikleri
@@ -325,9 +325,9 @@ class ExportService {
       final catTotal =
           categoryExpenses.fold<double>(0, (sum, e) => sum + e.amount);
       final catCount = categoryExpenses.length;
-      final catAverage = catTotal / catCount;
+      final catAverage = catCount > 0 ? catTotal / catCount : 0.0;
       final catPercentage = totalSpent > 0 ? (catTotal / totalSpent * 100) : 0;
-      final catHours = catTotal / hourlyRate;
+      final catHours = hourlyRate > 0 ? catTotal / hourlyRate : 0.0;
 
       _setCell(sheet, 'A$row', category,
           isBold: isHighest,
@@ -531,7 +531,7 @@ class ExportService {
     final hoursRow = yearlyRow + 1;
     _setCell(sheet, 'A$hoursRow', l10n.workHoursEquivalent, isBold: true);
     _setCell(
-        sheet, 'B$hoursRow', '${(totalMonthly / hourlyRate).toStringAsFixed(1)}h/ay',
+        sheet, 'B$hoursRow', '${(hourlyRate > 0 ? totalMonthly / hourlyRate : 0.0).toStringAsFixed(1)}h/ay',
         isBold: true);
 
     // Kolon genişlikleri

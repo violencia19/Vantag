@@ -76,55 +76,55 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
   List<_CategoryOption> get _categories => [
         _CategoryOption(
           id: 'Yiyecek',
-          label: AppLocalizations.of(context)!.categoryFood,
+          label: AppLocalizations.of(context).categoryFood,
           icon: PhosphorIconsDuotone.hamburger,
           color: const Color(0xFFE74C3C),
         ),
         _CategoryOption(
           id: 'Ulaşım',
-          label: AppLocalizations.of(context)!.categoryTransport,
+          label: AppLocalizations.of(context).categoryTransport,
           icon: PhosphorIconsDuotone.car,
           color: const Color(0xFF3498DB),
         ),
         _CategoryOption(
           id: 'Giyim',
-          label: AppLocalizations.of(context)!.categoryClothing,
+          label: AppLocalizations.of(context).categoryClothing,
           icon: PhosphorIconsDuotone.tShirt,
           color: const Color(0xFF9B59B6),
         ),
         _CategoryOption(
           id: 'Elektronik',
-          label: AppLocalizations.of(context)!.categoryElectronics,
+          label: AppLocalizations.of(context).categoryElectronics,
           icon: PhosphorIconsDuotone.devices,
           color: const Color(0xFF1ABC9C),
         ),
         _CategoryOption(
           id: 'Eğlence',
-          label: AppLocalizations.of(context)!.categoryEntertainment,
+          label: AppLocalizations.of(context).categoryEntertainment,
           icon: PhosphorIconsDuotone.gameController,
           color: const Color(0xFFF39C12),
         ),
         _CategoryOption(
           id: 'Sağlık',
-          label: AppLocalizations.of(context)!.categoryHealth,
+          label: AppLocalizations.of(context).categoryHealth,
           icon: PhosphorIconsDuotone.heartbeat,
           color: const Color(0xFFE91E63),
         ),
         _CategoryOption(
           id: 'Eğitim',
-          label: AppLocalizations.of(context)!.categoryEducation,
+          label: AppLocalizations.of(context).categoryEducation,
           icon: PhosphorIconsDuotone.graduationCap,
           color: const Color(0xFF2ECC71),
         ),
         _CategoryOption(
           id: 'Faturalar',
-          label: AppLocalizations.of(context)!.categoryBills,
+          label: AppLocalizations.of(context).categoryBills,
           icon: PhosphorIconsDuotone.receipt,
           color: const Color(0xFF95A5A6),
         ),
         _CategoryOption(
           id: 'Diğer',
-          label: AppLocalizations.of(context)!.categoryOther,
+          label: AppLocalizations.of(context).categoryOther,
           icon: PhosphorIconsDuotone.dotsThree,
           color: const Color(0xFF7F8C8D),
         ),
@@ -195,7 +195,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
@@ -375,7 +375,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
   }
 
   Widget _buildExpenseCard(ParsedExpense expense) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final hasSuggestion = expense.hasSuggestion;
     final suggestedCategory = hasSuggestion ? expense.match!.category : null;
 
@@ -606,7 +606,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
             if (isSuggested) ...[
               const SizedBox(height: 2),
               Text(
-                AppLocalizations.of(context)!.suggested,
+                AppLocalizations.of(context).suggested,
                 style: TextStyle(
                   fontSize: 10,
                   color: category.color,
@@ -625,11 +625,11 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
     final diff = now.difference(date);
 
     if (diff.inDays == 0) {
-      return AppLocalizations.of(context)!.today;
+      return AppLocalizations.of(context).today;
     } else if (diff.inDays == 1) {
-      return AppLocalizations.of(context)!.yesterday;
+      return AppLocalizations.of(context).yesterday;
     } else if (diff.inDays < 7) {
-      return AppLocalizations.of(context)!.daysAgo(diff.inDays);
+      return AppLocalizations.of(context).daysAgo(diff.inDays);
     } else {
       return '${date.day}/${date.month}/${date.year}';
     }

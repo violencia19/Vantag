@@ -39,15 +39,46 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
   double? _workHours;
   double? _workDays;
 
-  static const List<String> _categories = [
-    'Eğlence',
-    'Dijital',
-    'Sağlık',
-    'Eğitim',
-    'Spor',
-    'Haberleşme',
-    'Diğer',
+  /// Subscription category keys
+  static const List<String> _categoryKeys = [
+    'entertainment',
+    'digital',
+    'health',
+    'education',
+    'sports',
+    'communication',
+    'other',
   ];
+
+  /// Map legacy Turkish categories to keys
+  static const Map<String, String> _legacyCategoryMap = {
+    'Eğlence': 'entertainment',
+    'Dijital': 'digital',
+    'Sağlık': 'health',
+    'Eğitim': 'education',
+    'Spor': 'sports',
+    'Haberleşme': 'communication',
+    'Diğer': 'other',
+  };
+
+  /// Normalize category (convert legacy Turkish to key)
+  String _normalizeCategory(String category) {
+    return _legacyCategoryMap[category] ?? category;
+  }
+
+  /// Get localized category name from key
+  String _getLocalizedCategory(String key, AppLocalizations l10n) {
+    return switch (key) {
+      'entertainment' => l10n.categoryEntertainment,
+      'digital' => l10n.categoryDigital,
+      'health' => l10n.categoryHealth,
+      'education' => l10n.categoryEducation,
+      'sports' => l10n.categorySports,
+      'communication' => l10n.categoryCommunication,
+      'other' => l10n.categoryOther,
+      _ => key,
+    };
+  }
 
   @override
   void initState() {
@@ -63,7 +94,8 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
     );
     _selectedDay = widget.subscription.renewalDay;
     _selectedColorIndex = widget.subscription.colorIndex;
-    _selectedCategory = widget.subscription.category;
+    // Normalize legacy Turkish category to key
+    _selectedCategory = _normalizeCategory(widget.subscription.category);
     _autoRecord = widget.subscription.autoRecord;
   }
 
@@ -112,11 +144,11 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
   }
 
   void _confirmDelete() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     HapticFeedback.lightImpact();
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.gradientMid,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -154,7 +186,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final sub = widget.subscription;
 
     return Container(
@@ -499,12 +531,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         Row(
           children: [
             Expanded(
-              child: _buildDropdown(
-                l10n.category,
-                _selectedCategory,
-                _categories,
-                (v) => setState(() => _selectedCategory = v),
-              ),
+              child: _buildCategoryDropdown(l10n),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -576,7 +603,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               Switch(
                 value: _autoRecord,
                 onChanged: (v) => setState(() => _autoRecord = v),
-                activeColor: AppColors.primary,
+                activeTrackColor: AppColors.primary,
               ),
             ],
           ),
@@ -606,6 +633,41 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           ),
         ),
         const SizedBox(height: 16),
+      ],
+    );
+  }
+
+  Widget _buildCategoryDropdown(AppLocalizations l10n) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.category,
+          style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            color: AppColors.surface.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: _selectedCategory,
+              isExpanded: true,
+              dropdownColor: AppColors.gradientMid,
+              style: const TextStyle(color: AppColors.textPrimary, fontSize: 14),
+              items: _categoryKeys.map((key) => DropdownMenuItem(
+                value: key,
+                child: Text(_getLocalizedCategory(key, l10n)),
+              )).toList(),
+              onChanged: (v) {
+                if (v != null) setState(() => _selectedCategory = v);
+              },
+            ),
+          ),
+        ),
       ],
     );
   }

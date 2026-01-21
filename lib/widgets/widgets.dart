@@ -35,6 +35,7 @@ export 'subscription_calendar_view.dart';
 // Sharing
 export 'share_card_widget.dart';
 export 'share_edit_sheet.dart';
+export 'premium_share_card.dart';
 
 // Expense Entry
 export 'add_expense_sheet.dart';
@@ -59,3 +60,15 @@ export 'voice_input_button.dart';
 // In-App Purchases
 export 'pro_feature_gate.dart';
 export 'ai_limit_dialog.dart';
+
+// Pursuits
+export 'pursuit_progress_visual.dart';
+export 'pursuit_card.dart';
+export 'create_pursuit_sheet.dart';
+export 'add_savings_sheet.dart';
+export 'pursuit_completion_modal.dart';
+export 'redirect_savings_sheet.dart';
+
+// Savings Pool
+export 'savings_pool_card.dart';
+export 'budget_shift_dialog.dart';

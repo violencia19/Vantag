@@ -1,13 +1,22 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// RevenueCat-based purchase service for Vantag Pro subscriptions
 /// Supports: Monthly, Yearly (subscriptions) and Lifetime (one-time purchase)
 class PurchaseService {
-  static const String _apiKey = 'goog_eaqbqIavIhPNWQubIRPgqVzUjrg';
+  static String get _apiKey {
+    final key = dotenv.env['REVENUECAT_API_KEY'];
+    if (key == null || key.isEmpty) {
+      debugPrint('WARNING: REVENUECAT_API_KEY not found in .env file');
+      return '';
+    }
+    return key;
+  }
+
   static const String _entitlementId = 'pro';
 
   // Product identifiers
@@ -59,14 +68,22 @@ class PurchaseService {
     if (instance._isInitialized) return;
 
     try {
+      // Check if API key is available
+      final apiKey = _apiKey;
+      if (apiKey.isEmpty) {
+        debugPrint('RevenueCat: API key not configured, using mock mode');
+        instance._isInitialized = true;
+        return;
+      }
+
       // Configure RevenueCat
       await Purchases.setLogLevel(LogLevel.debug);
 
       PurchasesConfiguration configuration;
       if (Platform.isAndroid) {
-        configuration = PurchasesConfiguration(_apiKey);
+        configuration = PurchasesConfiguration(apiKey);
       } else if (Platform.isIOS) {
-        configuration = PurchasesConfiguration(_apiKey);
+        configuration = PurchasesConfiguration(apiKey);
       } else {
         // Windows/Web - use mock mode
         debugPrint('RevenueCat: Platform not supported, using mock mode');

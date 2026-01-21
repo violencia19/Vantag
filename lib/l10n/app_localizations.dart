@@ -1436,6 +1436,18 @@ abstract class AppLocalizations {
   /// **'New Expense'**
   String get newExpense;
 
+  /// No description provided for @editExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Expense'**
+  String get editExpense;
+
+  /// No description provided for @updateExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get updateExpense;
+
   /// No description provided for @expenseHistory.
   ///
   /// In en, this message translates to:
@@ -2525,7 +2537,7 @@ abstract class AppLocalizations {
   /// No description provided for @exampleAmount.
   ///
   /// In en, this message translates to:
-  /// **'e.g: 50000'**
+  /// **'e.g: 20,000'**
   String get exampleAmount;
 
   /// No description provided for @dontWantToSay.
@@ -2569,6 +2581,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Track all my expenses'**
   String get trackAllExpenses;
+
+  /// No description provided for @habitCatCoffee.
+  ///
+  /// In en, this message translates to:
+  /// **'Coffee'**
+  String get habitCatCoffee;
+
+  /// No description provided for @habitCatSmoking.
+  ///
+  /// In en, this message translates to:
+  /// **'Smoking'**
+  String get habitCatSmoking;
+
+  /// No description provided for @habitCatEatingOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Eating Out'**
+  String get habitCatEatingOut;
+
+  /// No description provided for @habitCatGaming.
+  ///
+  /// In en, this message translates to:
+  /// **'Gaming'**
+  String get habitCatGaming;
+
+  /// No description provided for @habitCatClothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Clothing'**
+  String get habitCatClothing;
+
+  /// No description provided for @habitCatTaxi.
+  ///
+  /// In en, this message translates to:
+  /// **'Taxi/Uber'**
+  String get habitCatTaxi;
+
+  /// No description provided for @freqOnceDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Once daily'**
+  String get freqOnceDaily;
+
+  /// No description provided for @freqTwiceDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Twice daily'**
+  String get freqTwiceDaily;
+
+  /// No description provided for @freqEveryTwoDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Every 2 days'**
+  String get freqEveryTwoDays;
+
+  /// No description provided for @freqOnceWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Once weekly'**
+  String get freqOnceWeekly;
+
+  /// No description provided for @freqTwoThreeWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'2-3x weekly'**
+  String get freqTwoThreeWeekly;
+
+  /// No description provided for @freqFewMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Few per month'**
+  String get freqFewMonthly;
 
   /// No description provided for @editIncomes.
   ///
@@ -5581,6 +5665,569 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{credits} credits added to your account!'**
   String creditPurchaseSuccess(int credits);
+
+  /// No description provided for @pursuits.
+  ///
+  /// In en, this message translates to:
+  /// **'My Dreams'**
+  String get pursuits;
+
+  /// No description provided for @myPursuits.
+  ///
+  /// In en, this message translates to:
+  /// **'My Dreams'**
+  String get myPursuits;
+
+  /// No description provided for @navPursuits.
+  ///
+  /// In en, this message translates to:
+  /// **'Dreams'**
+  String get navPursuits;
+
+  /// No description provided for @createPursuit.
+  ///
+  /// In en, this message translates to:
+  /// **'New Dream'**
+  String get createPursuit;
+
+  /// No description provided for @pursuitName.
+  ///
+  /// In en, this message translates to:
+  /// **'What are you saving for?'**
+  String get pursuitName;
+
+  /// No description provided for @pursuitNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g: iPhone 16, Maldives Vacation...'**
+  String get pursuitNameHint;
+
+  /// No description provided for @targetAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Target Amount'**
+  String get targetAmount;
+
+  /// No description provided for @savedAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get savedAmount;
+
+  /// No description provided for @addSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Money'**
+  String get addSavings;
+
+  /// No description provided for @pursuitProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% complete'**
+  String pursuitProgress(int percent);
+
+  /// No description provided for @remainingAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} remaining'**
+  String remainingAmount(String amount);
+
+  /// No description provided for @daysToGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'≈ {days} work days'**
+  String daysToGoal(int days);
+
+  /// No description provided for @pursuitCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Dream Came True!'**
+  String get pursuitCompleted;
+
+  /// No description provided for @congratulations.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations!'**
+  String get congratulations;
+
+  /// No description provided for @pursuitCompletedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You saved {amount} in {days} days!'**
+  String pursuitCompletedMessage(int days, String amount);
+
+  /// No description provided for @shareProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Progress'**
+  String get shareProgress;
+
+  /// No description provided for @activePursuits.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get activePursuits;
+
+  /// No description provided for @completedPursuits.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completedPursuits;
+
+  /// No description provided for @archivePursuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get archivePursuit;
+
+  /// No description provided for @deletePursuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deletePursuit;
+
+  /// No description provided for @editPursuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get editPursuit;
+
+  /// No description provided for @deletePursuitConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this dream?'**
+  String get deletePursuitConfirm;
+
+  /// No description provided for @pursuitCategoryTech.
+  ///
+  /// In en, this message translates to:
+  /// **'Tech'**
+  String get pursuitCategoryTech;
+
+  /// No description provided for @pursuitCategoryTravel.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel'**
+  String get pursuitCategoryTravel;
+
+  /// No description provided for @pursuitCategoryHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get pursuitCategoryHome;
+
+  /// No description provided for @pursuitCategoryFashion.
+  ///
+  /// In en, this message translates to:
+  /// **'Fashion'**
+  String get pursuitCategoryFashion;
+
+  /// No description provided for @pursuitCategoryVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle'**
+  String get pursuitCategoryVehicle;
+
+  /// No description provided for @pursuitCategoryEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get pursuitCategoryEducation;
+
+  /// No description provided for @pursuitCategoryHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get pursuitCategoryHealth;
+
+  /// No description provided for @pursuitCategoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get pursuitCategoryOther;
+
+  /// No description provided for @emptyPursuitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a Step Toward Your Dream'**
+  String get emptyPursuitsTitle;
+
+  /// No description provided for @emptyPursuitsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first dream and start saving!'**
+  String get emptyPursuitsMessage;
+
+  /// No description provided for @addFirstPursuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Your First Dream'**
+  String get addFirstPursuit;
+
+  /// No description provided for @pursuitLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro for unlimited dreams'**
+  String get pursuitLimitReached;
+
+  /// No description provided for @quickAmounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Amounts'**
+  String get quickAmounts;
+
+  /// No description provided for @addNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Add note (optional)'**
+  String get addNote;
+
+  /// No description provided for @pursuitCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Dream created!'**
+  String get pursuitCreated;
+
+  /// No description provided for @savingsAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Added!'**
+  String get savingsAdded;
+
+  /// No description provided for @workHoursRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} work hours remaining'**
+  String workHoursRemaining(String hours);
+
+  /// No description provided for @pursuitInitialSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Initial Savings'**
+  String get pursuitInitialSavings;
+
+  /// No description provided for @pursuitInitialSavingsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount you\'ve already saved'**
+  String get pursuitInitialSavingsHint;
+
+  /// No description provided for @pursuitSelectCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Category'**
+  String get pursuitSelectCategory;
+
+  /// No description provided for @redirectSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Redirect Savings to Dream'**
+  String get redirectSavings;
+
+  /// No description provided for @redirectSavingsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Which dream would you like to add the {amount} you saved?'**
+  String redirectSavingsMessage(String amount);
+
+  /// No description provided for @skipRedirect.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip for Now'**
+  String get skipRedirect;
+
+  /// No description provided for @pursuitTransactionHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction History'**
+  String get pursuitTransactionHistory;
+
+  /// No description provided for @noTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions yet'**
+  String get noTransactions;
+
+  /// No description provided for @transactionSourceManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual Entry'**
+  String get transactionSourceManual;
+
+  /// No description provided for @transactionSourcePool.
+  ///
+  /// In en, this message translates to:
+  /// **'Pool Transfer'**
+  String get transactionSourcePool;
+
+  /// No description provided for @transactionSourceExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled Expense'**
+  String get transactionSourceExpense;
+
+  /// No description provided for @savingsPool.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings Pool'**
+  String get savingsPool;
+
+  /// No description provided for @savingsPoolAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'available'**
+  String get savingsPoolAvailable;
+
+  /// No description provided for @savingsPoolDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'You owe'**
+  String get savingsPoolDebt;
+
+  /// No description provided for @shadowDebtMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You borrowed {amount} from your future self'**
+  String shadowDebtMessage(String amount);
+
+  /// No description provided for @budgetShiftQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Where did this {amount} come from?'**
+  String budgetShiftQuestion(String amount);
+
+  /// No description provided for @jokerUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'You used this month\'s joker'**
+  String get jokerUsed;
+
+  /// No description provided for @jokerAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'You have a joker available!'**
+  String get jokerAvailable;
+
+  /// No description provided for @allocatedToDreams.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} allocated to dreams'**
+  String allocatedToDreams(String amount);
+
+  /// No description provided for @extraIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'I earned extra income'**
+  String get extraIncome;
+
+  /// No description provided for @useJoker.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Joker (1/month)'**
+  String get useJoker;
+
+  /// No description provided for @budgetShiftFromFood.
+  ///
+  /// In en, this message translates to:
+  /// **'From my food budget'**
+  String get budgetShiftFromFood;
+
+  /// No description provided for @budgetShiftFromEntertainment.
+  ///
+  /// In en, this message translates to:
+  /// **'From my entertainment budget'**
+  String get budgetShiftFromEntertainment;
+
+  /// No description provided for @budgetShiftFromClothing.
+  ///
+  /// In en, this message translates to:
+  /// **'From my clothing budget'**
+  String get budgetShiftFromClothing;
+
+  /// No description provided for @budgetShiftFromTransport.
+  ///
+  /// In en, this message translates to:
+  /// **'From my transport budget'**
+  String get budgetShiftFromTransport;
+
+  /// No description provided for @budgetShiftFromShopping.
+  ///
+  /// In en, this message translates to:
+  /// **'From my shopping budget'**
+  String get budgetShiftFromShopping;
+
+  /// No description provided for @budgetShiftFromHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'From my health budget'**
+  String get budgetShiftFromHealth;
+
+  /// No description provided for @budgetShiftFromEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'From my education budget'**
+  String get budgetShiftFromEducation;
+
+  /// No description provided for @insufficientFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Insufficient funds'**
+  String get insufficientFunds;
+
+  /// No description provided for @insufficientFundsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Pool has {available}, you want {requested}'**
+  String insufficientFundsMessage(String available, String requested);
+
+  /// No description provided for @createShadowDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Add anyway (create debt)'**
+  String get createShadowDebt;
+
+  /// No description provided for @debtRepaidMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} paid towards your debt!'**
+  String debtRepaidMessage(String amount);
+
+  /// No description provided for @poolSummaryTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Savings'**
+  String get poolSummaryTotal;
+
+  /// No description provided for @poolSummaryAllocated.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocated to Dreams'**
+  String get poolSummaryAllocated;
+
+  /// No description provided for @poolSummaryAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get poolSummaryAvailable;
+
+  /// No description provided for @aiSuggestion1.
+  ///
+  /// In en, this message translates to:
+  /// **'Where did I spend this month?'**
+  String get aiSuggestion1;
+
+  /// No description provided for @aiSuggestion2.
+  ///
+  /// In en, this message translates to:
+  /// **'Where can I save money?'**
+  String get aiSuggestion2;
+
+  /// No description provided for @aiSuggestion3.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s my most expensive habit?'**
+  String get aiSuggestion3;
+
+  /// No description provided for @aiSuggestion4.
+  ///
+  /// In en, this message translates to:
+  /// **'How far am I from my goal?'**
+  String get aiSuggestion4;
+
+  /// No description provided for @aiPremiumUpsell.
+  ///
+  /// In en, this message translates to:
+  /// **'Get detailed analysis and personal savings plan with Premium'**
+  String get aiPremiumUpsell;
+
+  /// No description provided for @aiPremiumButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Go Premium'**
+  String get aiPremiumButton;
+
+  /// No description provided for @aiInputPlaceholderFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask your own question 🔒'**
+  String get aiInputPlaceholderFree;
+
+  /// No description provided for @aiInputPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask something...'**
+  String get aiInputPlaceholder;
+
+  /// No description provided for @onboardingTryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s Try!'**
+  String get onboardingTryTitle;
+
+  /// No description provided for @onboardingTrySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Curious how long you\'d work for something?'**
+  String get onboardingTrySubtitle;
+
+  /// No description provided for @onboardingTryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate'**
+  String get onboardingTryButton;
+
+  /// No description provided for @onboardingTryDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'This was just to show how abstract money is and how concrete time is.'**
+  String get onboardingTryDisclaimer;
+
+  /// No description provided for @onboardingTryNotSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t worry, this wasn\'t saved to your expenses.'**
+  String get onboardingTryNotSaved;
+
+  /// No description provided for @onboardingContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to App'**
+  String get onboardingContinue;
+
+  /// No description provided for @onboardingTryResult.
+  ///
+  /// In en, this message translates to:
+  /// **'This expense takes {hours} hours from your life'**
+  String onboardingTryResult(String hours);
+
+  /// No description provided for @subscriptionPriceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'\$9.99'**
+  String get subscriptionPriceHint;
+
+  /// No description provided for @currencyUpdatePopup.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency updating: {oldAmount} {oldCurrency} ≈ {newAmount} {newCurrency}'**
+  String currencyUpdatePopup(
+    String oldAmount,
+    String oldCurrency,
+    String newAmount,
+    String newCurrency,
+  );
+
+  /// No description provided for @currencyConverting.
+  ///
+  /// In en, this message translates to:
+  /// **'Converting currency...'**
+  String get currencyConverting;
+
+  /// No description provided for @currencyConversionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not fetch exchange rate, values unchanged'**
+  String get currencyConversionFailed;
 }
 
 class _AppLocalizationsDelegate

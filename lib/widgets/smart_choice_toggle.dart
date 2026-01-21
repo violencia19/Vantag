@@ -202,7 +202,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                             Expanded(
                               child: Builder(
                                 builder: (context) {
-                                  final l10n = AppLocalizations.of(context)!;
+                                  final l10n = AppLocalizations.of(context);
                                   return Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -263,7 +263,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                             // Alternative amount input
                             Builder(
                               builder: (context) {
-                                final l10n = AppLocalizations.of(context)!;
+                                final l10n = AppLocalizations.of(context);
                                 return TextField(
                                   controller: _alternativeController,
                                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -326,7 +326,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
 
   Widget _buildFreedomPreview(BuildContext context) {
     final saved = _savedAmount!;
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       padding: const EdgeInsets.all(12),

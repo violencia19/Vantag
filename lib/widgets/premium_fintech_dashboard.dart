@@ -90,7 +90,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final currencyProvider = context.watch<CurrencyProvider>();
 
     return GestureDetector(
@@ -790,7 +790,7 @@ class PremiumFloatingNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Positioned(
       left: 20,

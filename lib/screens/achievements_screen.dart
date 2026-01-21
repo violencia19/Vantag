@@ -175,7 +175,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.badges,
+                          AppLocalizations.of(context).badges,
                           style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.w700,
@@ -276,7 +276,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            AppLocalizations.of(context)!.hiddenBadges,
+                            AppLocalizations.of(context).hiddenBadges,
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -570,24 +570,6 @@ class _AchievementsScreenState extends State<AchievementsScreen>
     return levels[level] ?? {'title': 'Unknown', 'emoji': '❓'};
   }
 
-  String _getMotivationalMessage(BuildContext context, int unlocked, int total) {
-    final l10n = AppLocalizations.of(context)!;
-    final ratio = unlocked / total;
-    if (ratio == 0) {
-      return l10n.startRecordingForFirstBadge;
-    } else if (ratio < 0.25) {
-      return l10n.greatStartKeepGoing;
-    } else if (ratio < 0.5) {
-      return l10n.halfwayThere;
-    } else if (ratio < 0.75) {
-      return l10n.doingVeryWell;
-    } else if (ratio < 1) {
-      return l10n.almostDone;
-    } else {
-      return l10n.allBadgesEarned;
-    }
-  }
-
   Color _getTierColor(AchievementTier tier) {
     switch (tier) {
       case AchievementTier.bronze:
@@ -813,7 +795,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
     final isPlatinum = achievement.tier == AchievementTier.platinum;
 
     // Difficulty color
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     Color difficultyColor;
     String difficultyLabel;
     switch (achievement.hiddenDifficulty) {
@@ -1023,7 +1005,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
   }
 
   String _formatDate(BuildContext context, DateTime date) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final dateOnly = DateTime(date.year, date.month, date.day);

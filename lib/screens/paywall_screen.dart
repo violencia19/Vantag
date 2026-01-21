@@ -114,7 +114,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: Container(
@@ -218,7 +218,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.4),
+            color: AppColors.primary.withValues(alpha: 0.4),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -327,7 +327,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
           Expanded(
             child: feature.pro.toLowerCase() == 'yes' ||
                     feature.pro.toLowerCase() == 'evet' ||
-                    feature.pro == AppLocalizations.of(context)!.featureUnlimited
+                    feature.pro == AppLocalizations.of(context).featureUnlimited
                 ? const Icon(LucideIcons.check, color: AppColors.success, size: 20)
                 : feature.pro.toLowerCase() == 'no' ||
                         feature.pro.toLowerCase() == 'hayır'
@@ -347,7 +347,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
 
   Widget _buildPackageCards() {
     final packages = _offerings?.current?.availablePackages ?? [];
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Column(
       children: packages.map((package) {
@@ -380,7 +380,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
               boxShadow: isSelected
                   ? [
                       BoxShadow(
-                        color: AppColors.primary.withOpacity(0.2),
+                        color: AppColors.primary.withValues(alpha: 0.2),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -477,7 +477,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF9C27B0).withOpacity(0.4),
+                            color: const Color(0xFF9C27B0).withValues(alpha: 0.4),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -533,7 +533,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
   }
 
   String _getPackageTitle(Package package) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final id = package.identifier.toLowerCase();
 
     if (id.contains('lifetime')) return l10n.lifetime;
@@ -543,7 +543,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
   }
 
   String _getPackageSubtitle(Package package) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final id = package.identifier.toLowerCase();
 
     if (id.contains('lifetime')) {
@@ -556,7 +556,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
   }
 
   String _getPricePeriod(Package package) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final id = package.identifier.toLowerCase();
 
     if (id.contains('lifetime')) return l10n.oneTime;
@@ -629,7 +629,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
           TextButton.icon(
             onPressed: _loadOfferings,
             icon: const Icon(LucideIcons.refreshCw),
-            label: Text(AppLocalizations.of(context)!.retry),
+            label: Text(AppLocalizations.of(context).retry),
           ),
         ],
       ),

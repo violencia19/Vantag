@@ -77,7 +77,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      AppLocalizations.of(context)!.creditPurchaseSuccess(pack.credits),
+                      AppLocalizations.of(context).creditPurchaseSuccess(pack.credits),
                       style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -111,7 +111,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: AppColors.background,

@@ -21,3 +21,7 @@ export 'assistant_setup_screen.dart';
 // In-App Purchases
 export 'paywall_screen.dart';
 export 'credit_purchase_screen.dart';
+// Pursuits
+export 'pursuit_list_screen.dart';
+// Onboarding
+export 'onboarding_try_screen.dart';

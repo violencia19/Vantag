@@ -30,15 +30,15 @@ class PremiumCard extends StatelessWidget {
     final cardContent = Container(
       margin: margin,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.03),
+        color: Colors.white.withValues(alpha: 0.03),
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
-          color: borderColor ?? Colors.white.withOpacity(0.08),
+          color: borderColor ?? Colors.white.withValues(alpha: 0.08),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withValues(alpha: 0.3),
             blurRadius: 30,
             offset: const Offset(0, 10),
           ),
@@ -113,7 +113,7 @@ class _PremiumButtonState extends State<PremiumButton> {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary.withOpacity(0.4),
+                color: AppColors.primary.withValues(alpha: 0.4),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -176,7 +176,7 @@ class PremiumProgressBar extends StatelessWidget {
     return Container(
       height: height,
       decoration: BoxDecoration(
-        color: backgroundColor ?? Colors.white.withOpacity(0.1),
+        color: backgroundColor ?? Colors.white.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(height / 2),
       ),
       child: LayoutBuilder(
@@ -193,7 +193,7 @@ class PremiumProgressBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(height / 2),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.secondary.withOpacity(0.4),
+                      color: AppColors.secondary.withValues(alpha: 0.4),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -235,12 +235,12 @@ class PremiumChip extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           gradient: isSelected ? AppGradients.primaryButton : null,
-          color: isSelected ? null : Colors.white.withOpacity(0.05),
+          color: isSelected ? null : Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected
                 ? Colors.transparent
-                : Colors.white.withOpacity(0.1),
+                : Colors.white.withValues(alpha: 0.1),
             width: 1,
           ),
         ),
@@ -289,7 +289,7 @@ class PremiumIconBadge extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: color.withOpacity(0.15),
+        color: color.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(size / 3),
       ),
       child: Icon(
@@ -323,10 +323,10 @@ class PremiumBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: badgeColor.withOpacity(0.15),
+        color: badgeColor.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: badgeColor.withOpacity(0.3),
+          color: badgeColor.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -539,7 +539,7 @@ class _PulsingDotState extends State<PulsingDot>
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: widget.color.withOpacity(_animation.value),
+                color: widget.color.withValues(alpha: _animation.value),
                 blurRadius: 8,
                 spreadRadius: 2,
               ),
@@ -623,15 +623,15 @@ class AIFinanceTheme {
   );
 
   static BoxDecoration get cardDecoration => BoxDecoration(
-        color: Colors.white.withOpacity(0.03),
+        color: Colors.white.withValues(alpha: 0.03),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Colors.white.withOpacity(0.08),
+          color: Colors.white.withValues(alpha: 0.08),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withValues(alpha: 0.3),
             blurRadius: 30,
             offset: const Offset(0, 10),
           ),
@@ -643,7 +643,7 @@ class AIFinanceTheme {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.4),
+            color: AppColors.primary.withValues(alpha: 0.4),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -723,16 +723,16 @@ class _AIGradientButtonState extends State<AIGradientButton>
                 boxShadow: [
                   // Primary glow - pulsing
                   BoxShadow(
-                    color: AppColors.primary.withOpacity(
-                      widget.enablePulse ? _pulseAnimation.value : 0.4,
+                    color: AppColors.primary.withValues(
+                      alpha: widget.enablePulse ? _pulseAnimation.value : 0.4,
                     ),
                     blurRadius: 20,
                     offset: const Offset(0, 8),
                   ),
                   // Secondary glow for depth
                   BoxShadow(
-                    color: AppColors.secondary.withOpacity(
-                      widget.enablePulse ? _pulseAnimation.value * 0.5 : 0.2,
+                    color: AppColors.secondary.withValues(
+                      alpha: widget.enablePulse ? _pulseAnimation.value * 0.5 : 0.2,
                     ),
                     blurRadius: 30,
                     spreadRadius: -5,

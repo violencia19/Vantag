@@ -404,3 +404,540 @@ exports.getRates = functions
       });
     }
   });
+
+// ============================================================================
+// AI CHAT CLOUD FUNCTION
+// ============================================================================
+
+const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+const OPENAI_MODEL = "gpt-4.1";
+
+// Rate limits
+const LIMITS = {
+  free: {daily: 5},
+  pro: {monthly: 500},
+  lifetime: {monthly: 100},
+};
+
+/**
+ * Get OpenAI API key from environment
+ */
+function getOpenAIKey() {
+  // Try Firebase functions config first, then environment variable
+  const config = functions.config();
+  return config.openai?.key || process.env.OPENAI_API_KEY || null;
+}
+
+/**
+ * Get user's AI usage document reference and data
+ */
+async function getUserUsage(userId) {
+  const now = new Date();
+  const today = now.toISOString().split("T")[0]; // YYYY-MM-DD
+  const month = today.substring(0, 7); // YYYY-MM
+
+  const usageRef = db.collection("users").doc(userId).collection("ai_usage").doc("current");
+  const usageDoc = await usageRef.get();
+
+  let usage = {
+    dailyCount: 0,
+    dailyDate: today,
+    monthlyCount: 0,
+    monthlyDate: month,
+    purchasedCredits: 0,
+  };
+
+  if (usageDoc.exists) {
+    const data = usageDoc.data();
+    usage = {
+      dailyCount: data.dailyDate === today ? (data.dailyCount || 0) : 0,
+      dailyDate: today,
+      monthlyCount: data.monthlyDate === month ? (data.monthlyCount || 0) : 0,
+      monthlyDate: month,
+      purchasedCredits: data.purchasedCredits || 0,
+    };
+  }
+
+  return {ref: usageRef, usage};
+}
+
+/**
+ * Check if user has exceeded their limit
+ * Returns: { allowed: boolean, remainingQuota: number, resetDate: string|null }
+ */
+function checkLimit(usage, subscriptionType) {
+  const now = new Date();
+
+  if (subscriptionType === "free") {
+    const limit = LIMITS.free.daily;
+    const remaining = Math.max(0, limit - usage.dailyCount);
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+
+    return {
+      allowed: usage.dailyCount < limit,
+      remainingQuota: remaining,
+      resetDate: tomorrow.toISOString(),
+      limitType: "daily",
+    };
+  }
+
+  if (subscriptionType === "pro") {
+    const limit = LIMITS.pro.monthly;
+    const remaining = Math.max(0, limit - usage.monthlyCount);
+    const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    return {
+      allowed: usage.monthlyCount < limit,
+      remainingQuota: remaining,
+      resetDate: nextMonth.toISOString(),
+      limitType: "monthly",
+    };
+  }
+
+  if (subscriptionType === "lifetime") {
+    const baseLimit = LIMITS.lifetime.monthly;
+    const totalLimit = baseLimit + usage.purchasedCredits;
+    const remaining = Math.max(0, totalLimit - usage.monthlyCount);
+    const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    return {
+      allowed: usage.monthlyCount < totalLimit,
+      remainingQuota: remaining,
+      resetDate: nextMonth.toISOString(),
+      limitType: "monthly",
+      purchasedCredits: usage.purchasedCredits,
+    };
+  }
+
+  // Unknown subscription type - treat as free
+  return checkLimit(usage, "free");
+}
+
+/**
+ * Increment usage counter
+ */
+async function incrementUsage(usageRef, usage, subscriptionType) {
+  const updateData = {
+    dailyCount: usage.dailyCount + 1,
+    dailyDate: usage.dailyDate,
+    monthlyCount: usage.monthlyCount + 1,
+    monthlyDate: usage.monthlyDate,
+    purchasedCredits: usage.purchasedCredits,
+    lastUsedAt: admin.firestore.FieldValue.serverTimestamp(),
+  };
+
+  await usageRef.set(updateData, {merge: true});
+
+  return updateData;
+}
+
+/**
+ * Build system prompt for AI
+ */
+function buildSystemPrompt(isPremium) {
+  const premiumInstructions = isPremium ? `
+PREMIUM KULLANICI - TAM ERİŞİM:
+- Detaylı analiz ve kişisel tasarruf planı ver.
+- Spesifik tavsiyeler: "Şu market yerine şuradan alışveriş yap"
+- Uzun vadeli hedefler ve stratejiler öner.
+` : `
+FREE KULLANICI - KISITLI ERİŞİM:
+- Cevabı KISA tut, sadece genel rakamları ver.
+- Spesifik tavsiye VERME (örn: "Şu market yerine şuradan al").
+- Detaylı analiz YAPMA, sadece özet ver.
+- Kişisel tasarruf planı VERME.
+- Max 2-3 cümle.
+- Cevap sonunda upsell mesajı YAZMA (UI'da gösterilecek).
+`;
+
+  return `
+SEN BİR FİNANSAL ASİSTANSIN - VANTAG.
+
+${premiumInstructions}
+
+⚠️ ZORUNLU TOOL KULLANIMI (EN ÖNEMLİ KURAL):
+Her soruda ÖNCE ilgili tool'u çağır, SONRA cevap ver:
+- Harcama/bütçe/tasarruf soruları → get_expenses_summary VEYA get_recent_expenses
+- Kullanıcı harcama söylüyorsa → add_expense
+- ASLA "seni tanımıyorum", "verin yok" DEME → tool çağır, veri al, sonra konuş!
+- Tool çağırmadan ASLA finansal tavsiye verme!
+
+KİMLİK:
+- Samimi, "sen/kanka" de. Dürüst ve sert ol ama yapıcı.
+- Kullanıcı hangi dilde yazarsa O DİLDE cevap ver.
+
+HARCAMA EKLEME (add_expense):
+- Kullanıcı "X TL harcadım", "Y aldım", "Z yedim" gibi şeyler söylerse add_expense tool'unu kullan.
+- Kategori: Yiyecek, Ulaşım, Eğlence, Alışveriş, Fatura, Sağlık, Eğitim, Diğer
+- PARA BİRİMİ ALGILAMA: Kullanıcı farklı para birimi belirtirse currency parametresini doldur.
+
+CEVAP KURALLARI:
+1. Rakamları HAYAT MALİYETİNE çevir: "X TL = Y saat çalışman"
+2. Bilmediğin şey hakkında YORUM YAPMA
+3. İrade zaferlerini ÖV, motive et.
+4. Somut aksiyon ver: "Şunu kes", "Bunu ertele"
+5. Max 3-4 cümle, boş laf yapma.
+
+YASAKLAR:
+- Tool çağırmadan finansal tavsiye vermek
+- "Belki", "düşünebilirsin", "değerlendirebilirsin" - belirsiz laflar
+- Emoji spam (max 1)
+- "Seni tanımıyorum", "verin yok" gibi kaçamak cevaplar
+`;
+}
+
+/**
+ * AI Tools definitions for OpenAI function calling
+ */
+const AI_TOOLS = [
+  {
+    type: "function",
+    function: {
+      name: "get_expenses_summary",
+      description: "Bu ayki harcamaların özetini getirir: toplam harcama, kategori dağılımı",
+      parameters: {type: "object", properties: {}, required: []},
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "get_category_breakdown",
+      description: "Belirli bir kategorideki harcamaların detayını getirir",
+      parameters: {
+        type: "object",
+        properties: {
+          category: {type: "string", description: "Kategori adı"},
+        },
+        required: ["category"],
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "add_expense",
+      description: "Yeni harcama kaydı ekler",
+      parameters: {
+        type: "object",
+        properties: {
+          amount: {type: "number", description: "Harcama tutarı"},
+          category: {type: "string", description: "Kategori"},
+          description: {type: "string", description: "Açıklama"},
+          decision: {type: "string", description: "yes/thinking/no"},
+          currency: {type: "string", description: "Para birimi: TRY, USD, EUR, GBP"},
+        },
+        required: ["amount", "category", "decision"],
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "get_budget_status",
+      description: "Bütçe durumunu getirir",
+      parameters: {type: "object", properties: {}, required: []},
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "calculate_hourly_equivalent",
+      description: "Bir tutarın kaç saatlik çalışmaya denk geldiğini hesaplar",
+      parameters: {
+        type: "object",
+        properties: {
+          amount: {type: "number", description: "Tutar"},
+        },
+        required: ["amount"],
+      },
+    },
+  },
+];
+
+/**
+ * Call OpenAI API
+ */
+async function callOpenAI(messages, apiKey) {
+  const response = await fetch(OPENAI_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: OPENAI_MODEL,
+      messages: messages,
+      tools: AI_TOOLS,
+      tool_choice: "auto",
+      max_tokens: 500,
+      temperature: 0.7,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`OpenAI API error: ${response.status} - ${error}`);
+  }
+
+  const data = await response.json();
+  return data.choices[0].message;
+}
+
+/**
+ * AI Chat Cloud Function
+ * URL: https://europe-west1-<project>.cloudfunctions.net/aiChat
+ *
+ * Request body:
+ * {
+ *   message: string,
+ *   userId: string,
+ *   isPremium: boolean,
+ *   subscriptionType: "free" | "pro" | "lifetime",
+ *   tools?: array (optional - tool definitions from client),
+ *   toolResults?: array (optional - tool results for follow-up)
+ * }
+ *
+ * Response:
+ * {
+ *   response: string,
+ *   remainingQuota: number,
+ *   toolCalls?: array (if AI wants to call tools)
+ * }
+ *
+ * Error response:
+ * {
+ *   error: "LIMIT_EXCEEDED" | "INVALID_REQUEST" | "API_ERROR",
+ *   resetDate?: string,
+ *   remainingQuota?: number
+ * }
+ */
+exports.aiChat = functions
+  .region("europe-west1")
+  .runWith({
+    timeoutSeconds: 60,
+    memory: "256MB",
+  })
+  .https
+  .onRequest(async (req, res) => {
+    // Enable CORS
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+
+    if (req.method === "OPTIONS") {
+      res.status(204).send("");
+      return;
+    }
+
+    if (req.method !== "POST") {
+      res.status(405).json({error: "METHOD_NOT_ALLOWED"});
+      return;
+    }
+
+    // Validate request
+    const {message, userId, isPremium, subscriptionType, toolResults} = req.body;
+
+    if (!message || !userId) {
+      res.status(400).json({error: "INVALID_REQUEST", message: "message and userId required"});
+      return;
+    }
+
+    // Get API key
+    const apiKey = getOpenAIKey();
+    if (!apiKey) {
+      console.error("OpenAI API key not configured");
+      res.status(500).json({error: "API_ERROR", message: "API key not configured"});
+      return;
+    }
+
+    try {
+      // Get user usage
+      const {ref: usageRef, usage} = await getUserUsage(userId);
+      const subType = subscriptionType || (isPremium ? "pro" : "free");
+
+      // Check limits
+      const limitCheck = checkLimit(usage, subType);
+
+      if (!limitCheck.allowed) {
+        console.log(`User ${userId} exceeded ${limitCheck.limitType} limit`);
+        res.status(429).json({
+          error: "LIMIT_EXCEEDED",
+          resetDate: limitCheck.resetDate,
+          remainingQuota: 0,
+          limitType: limitCheck.limitType,
+        });
+        return;
+      }
+
+      // Build messages
+      const systemPrompt = buildSystemPrompt(isPremium || subType !== "free");
+      const messages = [
+        {role: "system", content: systemPrompt},
+      ];
+
+      // Add tool results if this is a follow-up
+      if (toolResults && Array.isArray(toolResults)) {
+        for (const result of toolResults) {
+          if (result.role === "assistant" && result.tool_calls) {
+            messages.push(result);
+          } else if (result.role === "tool") {
+            messages.push(result);
+          }
+        }
+      }
+
+      // Add user message
+      messages.push({role: "user", content: message});
+
+      // Call OpenAI
+      console.log(`Calling OpenAI for user ${userId}...`);
+      const aiResponse = await callOpenAI(messages, apiKey);
+
+      // Check if AI wants to call tools
+      if (aiResponse.tool_calls && aiResponse.tool_calls.length > 0) {
+        // Return tool calls to client for execution
+        res.status(200).json({
+          response: aiResponse.content || "",
+          toolCalls: aiResponse.tool_calls,
+          remainingQuota: limitCheck.remainingQuota,
+          requiresToolExecution: true,
+        });
+        return;
+      }
+
+      // Increment usage (only count when we return a final response)
+      await incrementUsage(usageRef, usage, subType);
+
+      // Return response
+      const responseText = (aiResponse.content || "").trim();
+      const newRemaining = Math.max(0, limitCheck.remainingQuota - 1);
+
+      console.log(`AI response for user ${userId}: ${responseText.substring(0, 50)}...`);
+
+      res.status(200).json({
+        response: responseText || "Analiz yapamadım, tekrar sorar mısın?",
+        remainingQuota: newRemaining,
+      });
+    } catch (error) {
+      console.error("AI Chat error:", error);
+
+      if (error.message?.includes("429")) {
+        res.status(429).json({error: "RATE_LIMITED", message: "OpenAI rate limit"});
+        return;
+      }
+
+      res.status(500).json({
+        error: "API_ERROR",
+        message: error.message || "Unknown error",
+      });
+    }
+  });
+
+/**
+ * Add a user to promo_users collection (admin endpoint)
+ * URL: https://europe-west1-<project>.cloudfunctions.net/addPromoUser
+ *
+ * Request body:
+ * {
+ *   uid: string,
+ *   email: string,
+ *   type: "tester" | "gift" | "influencer"
+ * }
+ */
+exports.addPromoUser = functions
+  .region("europe-west1")
+  .https
+  .onRequest(async (req, res) => {
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+
+    if (req.method === "OPTIONS") {
+      res.status(204).send("");
+      return;
+    }
+
+    if (req.method !== "POST") {
+      res.status(405).json({error: "METHOD_NOT_ALLOWED"});
+      return;
+    }
+
+    const {uid, email, type} = req.body;
+
+    if (!uid) {
+      res.status(400).json({error: "INVALID_REQUEST", message: "uid required"});
+      return;
+    }
+
+    const promoType = type || "tester";
+
+    try {
+      await db.collection("promo_users").doc(uid).set({
+        email: email || null,
+        type: promoType,
+        grantedAt: admin.firestore.FieldValue.serverTimestamp(),
+      });
+
+      console.log(`Added ${uid} to promo_users as ${promoType}`);
+
+      res.status(200).json({
+        success: true,
+        uid: uid,
+        type: promoType,
+      });
+    } catch (error) {
+      console.error("Add promo user error:", error);
+      res.status(500).json({error: "SERVER_ERROR", message: error.message});
+    }
+  });
+
+/**
+ * Add purchased credits to user's account
+ * Called after successful credit purchase via RevenueCat webhook
+ */
+exports.addAICredits = functions
+  .region("europe-west1")
+  .https
+  .onRequest(async (req, res) => {
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+
+    if (req.method === "OPTIONS") {
+      res.status(204).send("");
+      return;
+    }
+
+    if (req.method !== "POST") {
+      res.status(405).json({error: "METHOD_NOT_ALLOWED"});
+      return;
+    }
+
+    const {userId, credits} = req.body;
+
+    if (!userId || !credits || credits <= 0) {
+      res.status(400).json({error: "INVALID_REQUEST"});
+      return;
+    }
+
+    try {
+      const usageRef = db.collection("users").doc(userId).collection("ai_usage").doc("current");
+
+      await usageRef.set({
+        purchasedCredits: admin.firestore.FieldValue.increment(credits),
+        lastCreditPurchase: admin.firestore.FieldValue.serverTimestamp(),
+      }, {merge: true});
+
+      console.log(`Added ${credits} AI credits for user ${userId}`);
+
+      res.status(200).json({
+        success: true,
+        creditsAdded: credits,
+      });
+    } catch (error) {
+      console.error("Add credits error:", error);
+      res.status(500).json({error: "SERVER_ERROR"});
+    }
+  });

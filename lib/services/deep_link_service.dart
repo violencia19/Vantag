@@ -11,6 +11,9 @@ typedef OnAddExpense = Future<void> Function(Expense expense);
 /// Callback for navigation
 typedef OnNavigate = void Function(String route);
 
+/// Callback to get the current hourly rate
+typedef GetHourlyRate = double Function();
+
 /// Service for handling deep links (vantag:// scheme)
 /// Supports Siri Shortcuts, Google Assistant, and direct links
 class DeepLinkService {
@@ -23,6 +26,7 @@ class DeepLinkService {
 
   OnAddExpense? _onAddExpense;
   OnNavigate? _onNavigate;
+  GetHourlyRate? _getHourlyRate;
   GlobalKey<NavigatorState>? _navigatorKey;
 
   /// Flag to auto-start voice input when app opens from deep link
@@ -36,15 +40,28 @@ class DeepLinkService {
     _initLinks();
   }
 
+  /// Set callbacks after initialization (can be called from a widget with provider access)
+  void setCallbacks({
+    OnAddExpense? onAddExpense,
+    OnNavigate? onNavigate,
+    GetHourlyRate? getHourlyRate,
+  }) {
+    if (onAddExpense != null) _onAddExpense = onAddExpense;
+    if (onNavigate != null) _onNavigate = onNavigate;
+    if (getHourlyRate != null) _getHourlyRate = getHourlyRate;
+  }
+
   /// Full initialization with callbacks
   Future<void> initWithCallbacks({
     required GlobalKey<NavigatorState> navigatorKey,
     required OnAddExpense onAddExpense,
     OnNavigate? onNavigate,
+    GetHourlyRate? getHourlyRate,
   }) async {
     _navigatorKey = navigatorKey;
     _onAddExpense = onAddExpense;
     _onNavigate = onNavigate;
+    _getHourlyRate = getHourlyRate;
     await _initLinks();
   }
 
@@ -194,10 +211,9 @@ class DeepLinkService {
     // Haptic feedback
     HapticFeedback.mediumImpact();
 
-    // Calculate work time (simplified - uses placeholder hourly rate)
-    // TODO: Get actual hourly rate from user profile
-    const hourlyRate = 50.0;
-    final hoursRequired = amount / hourlyRate;
+    // Calculate work time using actual hourly rate from user profile
+    final hourlyRate = _getHourlyRate?.call() ?? 50.0; // Fallback to 50 TL/hr if not set
+    final hoursRequired = hourlyRate > 0 ? amount / hourlyRate : 0.0;
     final daysRequired = hoursRequired / 8.0;
 
     final expense = Expense(

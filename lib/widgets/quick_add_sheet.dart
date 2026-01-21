@@ -129,7 +129,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
 
   /// Submit form
   void _submit() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final amount = parseAmount(_amountController.text);
 
     // Amount validation
@@ -187,7 +187,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     return Container(
       padding: EdgeInsets.only(
         left: 24,
@@ -464,7 +464,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        category,
+                        ExpenseCategory.getLocalizedName(category, l10n),
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
@@ -572,6 +572,11 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                   ),
                   child: TextField(
                     controller: _subCategoryController,
+                    keyboardType: TextInputType.text,
+                    enableSuggestions: true,
+                    autocorrect: false,
+                    enableIMEPersonalizedLearning: true,
+                    textCapitalization: TextCapitalization.words,
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -731,7 +736,7 @@ void showQuickAddSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withOpacity(0.95),
+    barrierColor: Colors.black.withValues(alpha: 0.95),
     builder: (context) => QuickAddSheet(onAdd: onAdd),
   );
 }
@@ -748,7 +753,7 @@ void showPremiumExpenseModal(
     isDismissible: true,
     enableDrag: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withOpacity(0.95),
+    barrierColor: Colors.black.withValues(alpha: 0.95),
     transitionAnimationController: AnimationController(
       vsync: Navigator.of(context),
       duration: const Duration(milliseconds: 350),
@@ -1266,6 +1271,7 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
       onTapUp: (_) {
@@ -1339,7 +1345,7 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
             // Kategori adı - beyaz, opacity yok
             Flexible(
               child: Text(
-                widget.category,
+                ExpenseCategory.getLocalizedName(widget.category, l10n),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: widget.isSelected ? FontWeight.w700 : FontWeight.w600,

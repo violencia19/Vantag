@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,7 +23,7 @@ class ExpenseHistoryService {
   CollectionReference<Map<String, dynamic>>? get _expensesCollection {
     final uid = _userId;
     if (uid == null) {
-      print("⚠️ [Firestore] Kullanıcı UID null - Auth yapılmamış!");
+      debugPrint("⚠️ [Firestore] Kullanıcı UID null - Auth yapılmamış!");
       return null;
     }
     return _firestore.collection('users').doc(uid).collection('expenses');
@@ -107,22 +108,22 @@ class ExpenseHistoryService {
   /// Firestore'a tek bir expense kaydet
   Future<void> _syncToFirestore(Expense expense) async {
     final uid = _userId;
-    print("🔄 [Firestore] Yazma başlıyor... UID: $uid");
+    debugPrint("🔄 [Firestore] Yazma başlıyor... UID: $uid");
 
     if (uid == null) {
-      print("❌ [Firestore] HATA: Kullanıcı giriş yapmamış! Auth kontrolü yapın.");
+      debugPrint("❌ [Firestore] HATA: Kullanıcı giriş yapmamış! Auth kontrolü yapın.");
       return;
     }
 
     final collection = _expensesCollection;
     if (collection == null) {
-      print("❌ [Firestore] HATA: Collection referansı alınamadı!");
+      debugPrint("❌ [Firestore] HATA: Collection referansı alınamadı!");
       return;
     }
 
     final docId = _generateExpenseId(expense);
-    print("📝 [Firestore] Document ID: $docId");
-    print("📝 [Firestore] Path: users/$uid/expenses/$docId");
+    debugPrint("📝 [Firestore] Document ID: $docId");
+    debugPrint("📝 [Firestore] Path: users/$uid/expenses/$docId");
 
     try {
       await collection.doc(docId).set({
@@ -130,26 +131,26 @@ class ExpenseHistoryService {
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
       });
-      print("✅ [Firestore] Yazma Başarılı! ${expense.amount} TL - ${expense.category}");
+      debugPrint("✅ [Firestore] Yazma Başarılı! ${expense.amount} TL - ${expense.category}");
     } on FirebaseException catch (e) {
-      print("❌ [Firestore] Firebase Hatası!");
-      print("   Code: ${e.code}");
-      print("   Message: ${e.message}");
+      debugPrint("❌ [Firestore] Firebase Hatası!");
+      debugPrint("   Code: ${e.code}");
+      debugPrint("   Message: ${e.message}");
       if (e.code == 'permission-denied') {
-        print("   💡 ÇÖZÜM: Firebase Console > Firestore > Rules kısmını kontrol edin.");
-        print("   💡 Test için şu kuralları kullanın:");
-        print("   rules_version = '2';");
-        print("   service cloud.firestore {");
-        print("     match /databases/{database}/documents {");
-        print("       match /{document=**} {");
-        print("         allow read, write: if true;");
-        print("       }");
-        print("     }");
-        print("   }");
+        debugPrint("   💡 ÇÖZÜM: Firebase Console > Firestore > Rules kısmını kontrol edin.");
+        debugPrint("   💡 Test için şu kuralları kullanın:");
+        debugPrint("   rules_version = '2';");
+        debugPrint("   service cloud.firestore {");
+        debugPrint("     match /databases/{database}/documents {");
+        debugPrint("       match /{document=**} {");
+        debugPrint("         allow read, write: if true;");
+        debugPrint("       }");
+        debugPrint("     }");
+        debugPrint("   }");
       }
     } catch (e) {
-      print("❌ [Firestore] Beklenmeyen Hata: $e");
-      print("   Type: ${e.runtimeType}");
+      debugPrint("❌ [Firestore] Beklenmeyen Hata: $e");
+      debugPrint("   Type: ${e.runtimeType}");
     }
   }
 
@@ -157,7 +158,7 @@ class ExpenseHistoryService {
   Future<void> _deleteFromFirestore(Expense expense) async {
     final uid = _userId;
     if (uid == null) {
-      print("⚠️ [Firestore] Silme atlandı - kullanıcı giriş yapmamış");
+      debugPrint("⚠️ [Firestore] Silme atlandı - kullanıcı giriş yapmamış");
       return;
     }
 
@@ -165,15 +166,15 @@ class ExpenseHistoryService {
     if (collection == null) return;
 
     final docId = _generateExpenseId(expense);
-    print("🗑️ [Firestore] Silme başlıyor... Path: users/$uid/expenses/$docId");
+    debugPrint("🗑️ [Firestore] Silme başlıyor... Path: users/$uid/expenses/$docId");
 
     try {
       await collection.doc(docId).delete();
-      print("✅ [Firestore] Silme Başarılı!");
+      debugPrint("✅ [Firestore] Silme Başarılı!");
     } on FirebaseException catch (e) {
-      print("❌ [Firestore] Silme Hatası: ${e.code} - ${e.message}");
+      debugPrint("❌ [Firestore] Silme Hatası: ${e.code} - ${e.message}");
     } catch (e) {
-      print("❌ [Firestore] Beklenmeyen Silme Hatası: $e");
+      debugPrint("❌ [Firestore] Beklenmeyen Silme Hatası: $e");
     }
   }
 
@@ -181,20 +182,20 @@ class ExpenseHistoryService {
   Future<void> _updateInFirestore(Expense oldExpense, Expense newExpense) async {
     final uid = _userId;
     if (uid == null) {
-      print("⚠️ [Firestore] Güncelleme atlandı - kullanıcı giriş yapmamış");
+      debugPrint("⚠️ [Firestore] Güncelleme atlandı - kullanıcı giriş yapmamış");
       return;
     }
 
     final collection = _expensesCollection;
     if (collection == null) return;
 
-    print("🔄 [Firestore] Güncelleme başlıyor...");
+    debugPrint("🔄 [Firestore] Güncelleme başlıyor...");
 
     try {
       // Eski document'ı sil (ID değişmiş olabilir)
       final oldDocId = _generateExpenseId(oldExpense);
       await collection.doc(oldDocId).delete();
-      print("✅ [Firestore] Eski document silindi: $oldDocId");
+      debugPrint("✅ [Firestore] Eski document silindi: $oldDocId");
 
       // Yeni document oluştur
       final newDocId = _generateExpenseId(newExpense);
@@ -203,11 +204,11 @@ class ExpenseHistoryService {
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
       });
-      print("✅ [Firestore] Yeni document oluşturuldu: $newDocId");
+      debugPrint("✅ [Firestore] Yeni document oluşturuldu: $newDocId");
     } on FirebaseException catch (e) {
-      print("❌ [Firestore] Güncelleme Hatası: ${e.code} - ${e.message}");
+      debugPrint("❌ [Firestore] Güncelleme Hatası: ${e.code} - ${e.message}");
     } catch (e) {
-      print("❌ [Firestore] Beklenmeyen Güncelleme Hatası: $e");
+      debugPrint("❌ [Firestore] Beklenmeyen Güncelleme Hatası: $e");
     }
   }
 
@@ -218,7 +219,7 @@ class ExpenseHistoryService {
         final oldExpense = expenses[index];
         expenses[index] = expense;
         await _saveExpenses(expenses);
-        print("✅ [Local] Harcama güncellendi: index=$index");
+        debugPrint("✅ [Local] Harcama güncellendi: index=$index");
 
         // Firestore'da güncelle
         await _updateInFirestore(oldExpense, expense);
@@ -233,7 +234,7 @@ class ExpenseHistoryService {
         final expenseToDelete = expenses[index];
         expenses.removeAt(index);
         await _saveExpenses(expenses);
-        print("✅ [Local] Harcama silindi: index=$index");
+        debugPrint("✅ [Local] Harcama silindi: index=$index");
 
         // Firestore'dan sil
         await _deleteFromFirestore(expenseToDelete);
@@ -257,7 +258,7 @@ class ExpenseHistoryService {
     await _withLock(() async {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove(_keyExpenses);
-      print("✅ [Local] Tüm veriler temizlendi");
+      debugPrint("✅ [Local] Tüm veriler temizlendi");
 
       // Firestore'dan da temizle
       await _clearFirestore();
@@ -268,19 +269,19 @@ class ExpenseHistoryService {
   Future<void> _clearFirestore() async {
     final uid = _userId;
     if (uid == null) {
-      print("⚠️ [Firestore] Temizleme atlandı - kullanıcı giriş yapmamış");
+      debugPrint("⚠️ [Firestore] Temizleme atlandı - kullanıcı giriş yapmamış");
       return;
     }
 
     final collection = _expensesCollection;
     if (collection == null) return;
 
-    print("🗑️ [Firestore] Toplu silme başlıyor...");
+    debugPrint("🗑️ [Firestore] Toplu silme başlıyor...");
 
     try {
       final snapshots = await collection.get();
       if (snapshots.docs.isEmpty) {
-        print("ℹ️ [Firestore] Silinecek document yok");
+        debugPrint("ℹ️ [Firestore] Silinecek document yok");
         return;
       }
 
@@ -289,11 +290,11 @@ class ExpenseHistoryService {
         batch.delete(doc.reference);
       }
       await batch.commit();
-      print("✅ [Firestore] ${snapshots.docs.length} document silindi");
+      debugPrint("✅ [Firestore] ${snapshots.docs.length} document silindi");
     } on FirebaseException catch (e) {
-      print("❌ [Firestore] Toplu Silme Hatası: ${e.code} - ${e.message}");
+      debugPrint("❌ [Firestore] Toplu Silme Hatası: ${e.code} - ${e.message}");
     } catch (e) {
-      print("❌ [Firestore] Beklenmeyen Toplu Silme Hatası: $e");
+      debugPrint("❌ [Firestore] Beklenmeyen Toplu Silme Hatası: $e");
     }
   }
 
@@ -302,19 +303,19 @@ class ExpenseHistoryService {
   Future<void> syncAllToFirestore() async {
     final uid = _userId;
     if (uid == null) {
-      print("❌ [Sync] Kullanıcı giriş yapmamış - sync yapılamaz!");
+      debugPrint("❌ [Sync] Kullanıcı giriş yapmamış - sync yapılamaz!");
       return;
     }
 
     final collection = _expensesCollection;
     if (collection == null) return;
 
-    print("🔄 [Sync] Local → Firestore senkronizasyonu başlıyor...");
+    debugPrint("🔄 [Sync] Local → Firestore senkronizasyonu başlıyor...");
 
     try {
       final expenses = await getAllExpenses();
       if (expenses.isEmpty) {
-        print("ℹ️ [Sync] Senkronize edilecek veri yok");
+        debugPrint("ℹ️ [Sync] Senkronize edilecek veri yok");
         return;
       }
 
@@ -330,11 +331,11 @@ class ExpenseHistoryService {
       }
 
       await batch.commit();
-      print("✅ [Sync] ${expenses.length} harcama Firestore'a yüklendi!");
+      debugPrint("✅ [Sync] ${expenses.length} harcama Firestore'a yüklendi!");
     } on FirebaseException catch (e) {
-      print("❌ [Sync] Hata: ${e.code} - ${e.message}");
+      debugPrint("❌ [Sync] Hata: ${e.code} - ${e.message}");
     } catch (e) {
-      print("❌ [Sync] Beklenmeyen Hata: $e");
+      debugPrint("❌ [Sync] Beklenmeyen Hata: $e");
     }
   }
 
@@ -342,14 +343,14 @@ class ExpenseHistoryService {
   Future<void> syncFromFirestore() async {
     final uid = _userId;
     if (uid == null) {
-      print("❌ [Sync] Kullanıcı giriş yapmamış - restore yapılamaz!");
+      debugPrint("❌ [Sync] Kullanıcı giriş yapmamış - restore yapılamaz!");
       return;
     }
 
     final collection = _expensesCollection;
     if (collection == null) return;
 
-    print("🔄 [Sync] Firestore → Local senkronizasyonu başlıyor...");
+    debugPrint("🔄 [Sync] Firestore → Local senkronizasyonu başlıyor...");
 
     try {
       final snapshots = await collection
@@ -357,7 +358,7 @@ class ExpenseHistoryService {
           .get();
 
       if (snapshots.docs.isEmpty) {
-        print("ℹ️ [Sync] Firestore'da veri yok");
+        debugPrint("ℹ️ [Sync] Firestore'da veri yok");
         return;
       }
 
@@ -366,57 +367,57 @@ class ExpenseHistoryService {
           .toList();
 
       await _saveExpenses(expenses);
-      print("✅ [Sync] ${expenses.length} harcama local'e indirildi!");
+      debugPrint("✅ [Sync] ${expenses.length} harcama local'e indirildi!");
     } on FirebaseException catch (e) {
-      print("❌ [Sync] Hata: ${e.code} - ${e.message}");
+      debugPrint("❌ [Sync] Hata: ${e.code} - ${e.message}");
     } catch (e) {
-      print("❌ [Sync] Beklenmeyen Hata: $e");
+      debugPrint("❌ [Sync] Beklenmeyen Hata: $e");
     }
   }
 
   /// Debug: Auth durumunu kontrol et
   void debugAuthStatus() {
     final user = _auth.currentUser;
-    print("═══════════════════════════════════════");
-    print("🔍 [DEBUG] Firebase Auth Durumu:");
-    print("   User: ${user != null ? 'VAR' : 'YOK'}");
-    print("   UID: ${user?.uid ?? 'null'}");
-    print("   Anonymous: ${user?.isAnonymous ?? 'N/A'}");
-    print("═══════════════════════════════════════");
+    debugPrint("═══════════════════════════════════════");
+    debugPrint("🔍 [DEBUG] Firebase Auth Durumu:");
+    debugPrint("   User: ${user != null ? 'VAR' : 'YOK'}");
+    debugPrint("   UID: ${user?.uid ?? 'null'}");
+    debugPrint("   Anonymous: ${user?.isAnonymous ?? 'N/A'}");
+    debugPrint("═══════════════════════════════════════");
   }
 
   /// Debug: Firestore bağlantısını test et
   Future<void> debugFirestoreConnection() async {
-    print("═══════════════════════════════════════");
-    print("🔍 [DEBUG] Firestore Bağlantı Testi:");
+    debugPrint("═══════════════════════════════════════");
+    debugPrint("🔍 [DEBUG] Firestore Bağlantı Testi:");
 
     final uid = _userId;
     if (uid == null) {
-      print("   ❌ Auth yapılmamış - test edilemiyor");
-      print("═══════════════════════════════════════");
+      debugPrint("   ❌ Auth yapılmamış - test edilemiyor");
+      debugPrint("═══════════════════════════════════════");
       return;
     }
 
-    print("   UID: $uid");
-    print("   Path: users/$uid/expenses");
+    debugPrint("   UID: $uid");
+    debugPrint("   Path: users/$uid/expenses");
 
     try {
       // Basit bir test yazması yap
       final testDoc = _firestore.collection('users').doc(uid).collection('_test').doc('connection');
       await testDoc.set({'test': true, 'timestamp': FieldValue.serverTimestamp()});
-      print("   ✅ Yazma testi başarılı!");
+      debugPrint("   ✅ Yazma testi başarılı!");
 
       // Test verisini sil
       await testDoc.delete();
-      print("   ✅ Silme testi başarılı!");
-      print("   🎉 Firestore bağlantısı çalışıyor!");
+      debugPrint("   ✅ Silme testi başarılı!");
+      debugPrint("   🎉 Firestore bağlantısı çalışıyor!");
     } on FirebaseException catch (e) {
-      print("   ❌ Firestore Hatası: ${e.code}");
-      print("   Message: ${e.message}");
+      debugPrint("   ❌ Firestore Hatası: ${e.code}");
+      debugPrint("   Message: ${e.message}");
     } catch (e) {
-      print("   ❌ Beklenmeyen Hata: $e");
+      debugPrint("   ❌ Beklenmeyen Hata: $e");
     }
-    print("═══════════════════════════════════════");
+    debugPrint("═══════════════════════════════════════");
   }
 
   // ============================================
@@ -467,10 +468,10 @@ class ExpenseHistoryService {
           .map((doc) => Expense.fromJson(doc.data()))
           .toList();
     } on FirebaseException catch (e) {
-      print("❌ [Firestore] Archive Fetch Hatası: ${e.code} - ${e.message}");
+      debugPrint("❌ [Firestore] Archive Fetch Hatası: ${e.code} - ${e.message}");
       return [];
     } catch (e) {
-      print("❌ [Firestore] Beklenmeyen Archive Fetch Hatası: $e");
+      debugPrint("❌ [Firestore] Beklenmeyen Archive Fetch Hatası: $e");
       return [];
     }
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -123,12 +124,12 @@ class AuthService {
 
   /// Anonim giriş yap (ilk açılışta)
   Future<AuthResult> signInAnonymously() async {
-    print("🔐 [Auth] Anonim giriş başlıyor...");
+    debugPrint("🔐 [Auth] Anonim giriş başlıyor...");
 
     try {
       // Zaten giriş yapılmışsa mevcut kullanıcıyı döndür
       if (currentUser != null) {
-        print("ℹ️ [Auth] Zaten giriş yapılmış - UID: ${currentUser!.uid}");
+        debugPrint("ℹ️ [Auth] Zaten giriş yapılmış - UID: ${currentUser!.uid}");
         return AuthResult.success(currentUser!);
       }
 
@@ -136,18 +137,18 @@ class AuthService {
       final user = credential.user;
 
       if (user != null) {
-        print("✅ [Auth] Anonim giriş başarılı - UID: ${user.uid}");
+        debugPrint("✅ [Auth] Anonim giriş başarılı - UID: ${user.uid}");
         await _saveUserProfile(user);
         return AuthResult.success(user);
       } else {
-        print("❌ [Auth] Anonim giriş başarısız - user null");
+        debugPrint("❌ [Auth] Anonim giriş başarısız - user null");
         return AuthResult.failure("Anonim giriş başarısız");
       }
     } on FirebaseAuthException catch (e) {
-      print("❌ [Auth] Firebase Auth Hatası: ${e.code} - ${e.message}");
+      debugPrint("❌ [Auth] Firebase Auth Hatası: ${e.code} - ${e.message}");
       return AuthResult.failure(_getAuthErrorMessage(e.code));
     } catch (e) {
-      print("❌ [Auth] Beklenmeyen Hata: $e");
+      debugPrint("❌ [Auth] Beklenmeyen Hata: $e");
       return AuthResult.failure("Giriş sırasında bir hata oluştu");
     }
   }
@@ -159,7 +160,7 @@ class AuthService {
   /// Google ile giriş yap
   /// Eğer anonim kullanıcı varsa, hesapları birleştirir (linkWithCredential)
   Future<AuthResult> signInWithGoogle() async {
-    print("🔐 [Auth] Google Sign-In başlıyor...");
+    debugPrint("🔐 [Auth] Google Sign-In başlıyor...");
 
     try {
       // 1. Önce mevcut Google oturumunu kapat (temiz başlangıç için)
@@ -169,11 +170,11 @@ class AuthService {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       if (googleUser == null) {
-        print("ℹ️ [Auth] Kullanıcı Google Sign-In'i iptal etti");
+        debugPrint("ℹ️ [Auth] Kullanıcı Google Sign-In'i iptal etti");
         return AuthResult.failure("Giriş iptal edildi");
       }
 
-      print("📧 [Auth] Google hesabı seçildi: ${googleUser.email}");
+      debugPrint("📧 [Auth] Google hesabı seçildi: ${googleUser.email}");
 
       // 3. Google Auth credential al
       final GoogleSignInAuthentication googleAuth =
@@ -193,17 +194,17 @@ class AuthService {
 
       if (wasAnonymous && existingUser != null) {
         // Anonim hesabı Google ile birleştir
-        print("🔗 [Auth] Anonim hesap Google ile birleştiriliyor...");
+        debugPrint("🔗 [Auth] Anonim hesap Google ile birleştiriliyor...");
         try {
           final linkedCredential =
               await existingUser.linkWithCredential(credential);
           user = linkedCredential.user;
           wasLinked = true;
-          print("✅ [Auth] Hesaplar birleştirildi! UID korundu: ${user?.uid}");
+          debugPrint("✅ [Auth] Hesaplar birleştirildi! UID korundu: ${user?.uid}");
         } on FirebaseAuthException catch (e) {
           if (e.code == 'credential-already-in-use') {
             // Bu Google hesabı başka bir hesaba bağlı
-            print("⚠️ [Auth] Google hesabı zaten kullanımda, yeni hesapla giriş yapılıyor...");
+            debugPrint("⚠️ [Auth] Google hesabı zaten kullanımda, yeni hesapla giriş yapılıyor...");
             await existingUser.delete();
             final signInResult = await _auth.signInWithCredential(credential);
             user = signInResult.user;
@@ -214,17 +215,17 @@ class AuthService {
         }
       } else {
         // Direkt Google ile giriş yap
-        print("🔐 [Auth] Google ile direkt giriş yapılıyor...");
+        debugPrint("🔐 [Auth] Google ile direkt giriş yapılıyor...");
         final signInResult = await _auth.signInWithCredential(credential);
         user = signInResult.user;
       }
 
       if (user != null) {
-        print("✅ [Auth] Google Sign-In başarılı!");
-        print("   UID: ${user.uid}");
-        print("   Email: ${user.email}");
-        print("   İsim: ${user.displayName}");
-        print("   Birleştirildi mi: $wasLinked");
+        debugPrint("✅ [Auth] Google Sign-In başarılı!");
+        debugPrint("   UID: ${user.uid}");
+        debugPrint("   Email: ${user.email}");
+        debugPrint("   İsim: ${user.displayName}");
+        debugPrint("   Birleştirildi mi: $wasLinked");
 
         await _saveUserProfile(user);
         return AuthResult.success(user, wasLinked: wasLinked);
@@ -232,10 +233,10 @@ class AuthService {
         return AuthResult.failure("Google ile giriş başarısız");
       }
     } on FirebaseAuthException catch (e) {
-      print("❌ [Auth] Firebase Auth Hatası: ${e.code} - ${e.message}");
+      debugPrint("❌ [Auth] Firebase Auth Hatası: ${e.code} - ${e.message}");
       return AuthResult.failure(_getAuthErrorMessage(e.code));
     } catch (e) {
-      print("❌ [Auth] Beklenmeyen Hata: $e");
+      debugPrint("❌ [Auth] Beklenmeyen Hata: $e");
       return AuthResult.failure("Google ile giriş sırasında bir hata oluştu: $e");
     }
   }
@@ -246,28 +247,28 @@ class AuthService {
 
   /// Çıkış yap
   Future<void> signOut() async {
-    print("🚪 [Auth] Çıkış yapılıyor...");
+    debugPrint("🚪 [Auth] Çıkış yapılıyor...");
 
     try {
       // Google Sign-Out
       try {
         await _googleSignIn.signOut();
-        print("✅ [Auth] Google Sign-Out başarılı");
+        debugPrint("✅ [Auth] Google Sign-Out başarılı");
       } catch (e) {
-        print("⚠️ [Auth] Google Sign-Out hatası: $e");
+        debugPrint("⚠️ [Auth] Google Sign-Out hatası: $e");
       }
 
       // Firebase Sign-Out
       await _auth.signOut();
-      print("✅ [Auth] Firebase Sign-Out başarılı");
+      debugPrint("✅ [Auth] Firebase Sign-Out başarılı");
     } catch (e) {
-      print("❌ [Auth] Çıkış hatası: $e");
+      debugPrint("❌ [Auth] Çıkış hatası: $e");
     }
   }
 
   /// Hesabı sil (dikkatli kullan!)
   Future<AuthResult> deleteAccount() async {
-    print("🗑️ [Auth] Hesap siliniyor...");
+    debugPrint("🗑️ [Auth] Hesap siliniyor...");
 
     try {
       final user = currentUser;
@@ -281,7 +282,7 @@ class AuthService {
       // Hesabı sil
       await user.delete();
 
-      print("✅ [Auth] Hesap silindi");
+      debugPrint("✅ [Auth] Hesap silindi");
       return AuthResult.success(user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
@@ -300,7 +301,7 @@ class AuthService {
 
   /// Kullanıcı profilini Firestore'a kaydet
   Future<void> _saveUserProfile(User user) async {
-    print("💾 [Auth] Profil Firestore'a kaydediliyor...");
+    debugPrint("💾 [Auth] Profil Firestore'a kaydediliyor...");
 
     try {
       final profileDoc = _firestore.collection('users').doc(user.uid);
@@ -317,14 +318,14 @@ class AuthService {
         'providers': user.providerData.map((p) => p.providerId).toList(),
       }, SetOptions(merge: true));
 
-      print("✅ [Auth] Profil kaydedildi!");
-      print("   Path: users/${user.uid}");
-      print("   Email: ${user.email ?? 'Anonim'}");
-      print("   İsim: ${user.displayName ?? 'Anonim Kullanıcı'}");
+      debugPrint("✅ [Auth] Profil kaydedildi!");
+      debugPrint("   Path: users/${user.uid}");
+      debugPrint("   Email: ${user.email ?? 'Anonim'}");
+      debugPrint("   İsim: ${user.displayName ?? 'Anonim Kullanıcı'}");
     } on FirebaseException catch (e) {
-      print("❌ [Auth] Profil kaydetme hatası: ${e.code} - ${e.message}");
+      debugPrint("❌ [Auth] Profil kaydetme hatası: ${e.code} - ${e.message}");
     } catch (e) {
-      print("❌ [Auth] Beklenmeyen profil hatası: $e");
+      debugPrint("❌ [Auth] Beklenmeyen profil hatası: $e");
     }
   }
 
@@ -343,7 +344,7 @@ class AuthService {
       // Firestore'da yoksa Firebase User'dan oluştur
       return FirebaseUserProfile.fromFirebaseUser(user);
     } catch (e) {
-      print("❌ [Auth] Profil getirme hatası: $e");
+      debugPrint("❌ [Auth] Profil getirme hatası: $e");
       return null;
     }
   }
@@ -351,7 +352,7 @@ class AuthService {
   /// Kullanıcı verilerini sil
   Future<void> _deleteUserData(String uid) async {
     try {
-      print("🗑️ [Auth] Kullanıcı verileri siliniyor...");
+      debugPrint("🗑️ [Auth] Kullanıcı verileri siliniyor...");
 
       // Expenses subcollection
       final expenses = await _firestore
@@ -370,9 +371,9 @@ class AuthService {
       batch.delete(_firestore.collection('users').doc(uid));
 
       await batch.commit();
-      print("✅ [Auth] Kullanıcı verileri silindi");
+      debugPrint("✅ [Auth] Kullanıcı verileri silindi");
     } catch (e) {
-      print("❌ [Auth] Veri silme hatası: $e");
+      debugPrint("❌ [Auth] Veri silme hatası: $e");
     }
   }
 
@@ -415,15 +416,15 @@ class AuthService {
   /// Debug: Auth durumunu yazdır
   void debugAuthStatus() {
     final user = currentUser;
-    print("═══════════════════════════════════════════════════════════");
-    print("🔍 [DEBUG] Auth Durumu:");
-    print("   Giriş yapılmış: ${isSignedIn ? 'Evet' : 'Hayır'}");
-    print("   UID: ${user?.uid ?? 'null'}");
-    print("   Anonim: ${isAnonymous ? 'Evet' : 'Hayır'}");
-    print("   Google bağlı: ${isLinkedWithGoogle ? 'Evet' : 'Hayır'}");
-    print("   Email: ${user?.email ?? 'Yok'}");
-    print("   İsim: ${user?.displayName ?? 'Yok'}");
-    print("   Providers: ${user?.providerData.map((p) => p.providerId).join(', ') ?? 'Yok'}");
-    print("═══════════════════════════════════════════════════════════");
+    debugPrint("═══════════════════════════════════════════════════════════");
+    debugPrint("🔍 [DEBUG] Auth Durumu:");
+    debugPrint("   Giriş yapılmış: ${isSignedIn ? 'Evet' : 'Hayır'}");
+    debugPrint("   UID: ${user?.uid ?? 'null'}");
+    debugPrint("   Anonim: ${isAnonymous ? 'Evet' : 'Hayır'}");
+    debugPrint("   Google bağlı: ${isLinkedWithGoogle ? 'Evet' : 'Hayır'}");
+    debugPrint("   Email: ${user?.email ?? 'Yok'}");
+    debugPrint("   İsim: ${user?.displayName ?? 'Yok'}");
+    debugPrint("   Providers: ${user?.providerData.map((p) => p.providerId).join(', ') ?? 'Yok'}");
+    debugPrint("═══════════════════════════════════════════════════════════");
   }
 }

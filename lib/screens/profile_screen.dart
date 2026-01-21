@@ -24,6 +24,7 @@ import '../widgets/widgets.dart';
 import 'user_profile_screen.dart';
 import 'notification_settings_screen.dart';
 import 'onboarding_screen.dart';
+import 'paywall_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final UserProfile userProfile;
@@ -89,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _exportToExcel() async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final proProvider = context.read<ProProvider>();
 
     // Pro kontrolü
@@ -149,8 +150,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      AppColors.primary.withOpacity(0.2),
-                      AppColors.secondary.withOpacity(0.2),
+                      AppColors.primary.withValues(alpha: 0.2),
+                      AppColors.secondary.withValues(alpha: 0.2),
                     ],
                   ),
                   shape: BoxShape.circle,
@@ -186,7 +187,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    // TODO: Navigate to Pro subscription page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PaywallScreen()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
@@ -215,7 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _importFromCSV() async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
@@ -443,7 +447,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -515,7 +519,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _deleteAccount() async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final confirmWord = l10n.deleteAccountConfirmWord;
 
     final confirmed = await showDialog<bool>(
@@ -619,7 +623,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _unlockCuriousCatAchievement() async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final achievementsService = AchievementsService();
 
     // Unlock the achievement
@@ -636,7 +640,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // Show achievement unlocked dialog
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.95),
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -723,7 +727,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -998,8 +1002,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.primary.withOpacity(0.2),
-                    AppColors.secondary.withOpacity(0.2),
+                    AppColors.primary.withValues(alpha: 0.2),
+                    AppColors.secondary.withValues(alpha: 0.2),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(6),
@@ -1110,9 +1114,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildDangerSection(AppLocalizations l10n) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.error.withValues(alpha: 0.05),
+        color: AppColors.error.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
+        border: Border.all(color: AppColors.error.withValues(alpha: 0.4)),
       ),
       child: _buildListTile(
         icon: PhosphorIconsDuotone.userMinus,
