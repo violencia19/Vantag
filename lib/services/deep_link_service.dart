@@ -125,6 +125,35 @@ class DeepLinkService {
         _handleNavigate('profile');
         break;
 
+      case 'pursuits':
+      case 'dreams':
+        _handleNavigate('pursuits');
+        break;
+
+      case 'settings':
+        _handleNavigate('settings');
+        break;
+
+      case 'achievements':
+      case 'badges':
+        _handleNavigate('achievements');
+        break;
+
+      case 'paywall':
+      case 'premium':
+      case 'pro':
+        _handleNavigate('paywall');
+        break;
+
+      case 'habit-calculator':
+      case 'calculator':
+        _handleNavigate('habit-calculator');
+        break;
+
+      case 'share':
+        _handleShare(uri);
+        break;
+
       default:
         debugPrint('[DeepLink] Unknown route: ${uri.host}');
     }
@@ -394,5 +423,70 @@ class DeepLinkService {
       host: 'quick-add',
       queryParameters: {'text': text},
     );
+  }
+
+  /// Generate pursuit deep link
+  static Uri generatePursuitLink(String pursuitId) {
+    return Uri(
+      scheme: 'vantag',
+      host: 'pursuits',
+      queryParameters: {'id': pursuitId},
+    );
+  }
+
+  /// Generate share link for achievements
+  static Uri generateShareAchievementLink(String achievementId) {
+    return Uri(
+      scheme: 'vantag',
+      host: 'share',
+      queryParameters: {'type': 'achievement', 'id': achievementId},
+    );
+  }
+
+  /// Generate share link for savings milestone
+  static Uri generateShareSavingsLink(double amount) {
+    return Uri(
+      scheme: 'vantag',
+      host: 'share',
+      queryParameters: {'type': 'savings', 'amount': amount.toString()},
+    );
+  }
+
+  /// Handle share deep link (from shared content)
+  void _handleShare(Uri uri) {
+    final type = uri.queryParameters['type'];
+    final id = uri.queryParameters['id'];
+
+    debugPrint('[DeepLink] Share: type=$type, id=$id');
+
+    // Navigate to appropriate screen based on share type
+    switch (type) {
+      case 'achievement':
+        _handleNavigate('achievements');
+        break;
+      case 'savings':
+      case 'progress':
+        _handleNavigate('pursuits');
+        break;
+      default:
+        _handleNavigate('home');
+    }
+  }
+
+  /// Get all supported URL schemes for documentation
+  static Map<String, String> getSupportedSchemes() {
+    return {
+      'vantag://add-expense?amount=50&category=food&description=kahve': 'Add expense with details',
+      'vantag://quick-add?text=50 lira kahve': 'Quick add with voice text',
+      'vantag://quick-add': 'Open voice input screen',
+      'vantag://summary': 'Open reports/summary screen',
+      'vantag://subscriptions': 'Open subscriptions screen',
+      'vantag://pursuits': 'Open dreams/pursuits screen',
+      'vantag://achievements': 'Open achievements screen',
+      'vantag://settings': 'Open settings screen',
+      'vantag://profile': 'Open profile screen',
+      'vantag://paywall': 'Open premium paywall',
+      'vantag://habit-calculator': 'Open habit calculator',
+    };
   }
 }
