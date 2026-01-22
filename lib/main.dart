@@ -18,6 +18,7 @@ import 'providers/providers.dart';
 import 'services/auth_service.dart';
 import 'services/expense_history_service.dart';
 import 'services/ai_service.dart';
+import 'services/referral_service.dart';
 import 'services/deep_link_service.dart';
 import 'services/siri_service.dart';
 import 'services/budget_service.dart';
@@ -110,6 +111,9 @@ void main() async {
 
       // Set user ID for Crashlytics
       await FirebaseCrashlytics.instance.setUserIdentifier(result.user?.uid ?? 'anonymous');
+
+      // Register user IP for referral abuse prevention (background)
+      ReferralService().registerUserIP();
 
       // Cloud'dan mevcut expense verilerini çek (multi-device sync)
       final expenseService = ExpenseHistoryService();

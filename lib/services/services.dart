@@ -53,3 +53,5 @@ export 'analytics_service.dart';
 export 'exchange_rate_service.dart';
 // App Clips
 export 'app_clip_service.dart';
+// Referral System
+export 'referral_service.dart';
