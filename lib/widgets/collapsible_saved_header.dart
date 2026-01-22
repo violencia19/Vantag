@@ -103,23 +103,23 @@ class CollapsibleSavedHeader extends StatelessWidget {
                     // Amount ve Label
                     Row(
                       mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        // Animasyonlu counter
-                        DelayedAnimatedCounter(
+                        // Slot-machine style counter
+                        NumberTicker(
                           value: stats.savedAmount,
                           style: TextStyle(
                             fontSize: amountFontSize,
                             fontWeight: FontWeight.w700,
                             color: AppColors.primary,
                             letterSpacing: -1,
-                            height: 1,
+                            height: 1.2,
                           ),
-                          delay: AppAnimations.decisionDelay,
+                          duration: const Duration(milliseconds: 800),
+                          curve: Curves.easeOutCubic,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 2 + (2 * expandRatio)),
+                          padding: EdgeInsets.only(left: 2 + (2 * expandRatio), bottom: 2),
                           child: Text(
                             currencyProvider.symbol,
                             style: TextStyle(
@@ -130,12 +130,15 @@ class CollapsibleSavedHeader extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 6 + (4 * expandRatio)),
-                        Text(
-                          l10n.youSaved,
-                          style: TextStyle(
-                            fontSize: labelFontSize,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.textSecondary,
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 2),
+                          child: Text(
+                            l10n.youSaved,
+                            style: TextStyle(
+                              fontSize: labelFontSize,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textSecondary,
+                            ),
                           ),
                         ),
                       ],

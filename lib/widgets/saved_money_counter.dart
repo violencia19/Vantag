@@ -8,6 +8,7 @@ import '../providers/currency_provider.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
+import 'animated_counter.dart';
 
 /// Saved money counter widget showing savings statistics
 class SavedMoneyCounter extends StatelessWidget {
@@ -19,15 +20,6 @@ class SavedMoneyCounter extends StatelessWidget {
     required this.stats,
     this.exchangeRates,
   });
-
-  String _formatAmount(double amount) {
-    if (amount >= 1000000) {
-      return '${(amount / 1000000).toStringAsFixed(1)}M';
-    } else if (amount >= 1000) {
-      return '${(amount / 1000).toStringAsFixed(1)}K';
-    }
-    return amount.toStringAsFixed(0);
-  }
 
   String _formatCurrency(double amount, {int decimals = 2}) {
     return formatTurkishCurrency(amount, decimalDigits: decimals);
@@ -124,23 +116,26 @@ class SavedMoneyCounter extends StatelessWidget {
           ),
           const SizedBox(height: 16),
 
-          // Amount
+          // Amount with slot-machine style animation
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                _formatAmount(stats.savedAmount),
+              NumberTicker(
+                value: stats.savedAmount,
                 style: const TextStyle(
                   fontSize: 42,
                   fontWeight: FontWeight.w700,
                   color: AppColors.primary,
                   letterSpacing: -2,
-                  height: 1,
+                  height: 1.2,
                 ),
+                duration: const Duration(milliseconds: 1000),
+                curve: Curves.easeOutCubic,
+                useGrouping: true,
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 6, left: 4),
+                padding: const EdgeInsets.only(bottom: 6, left: 4),
                 child: Text(
                   currencyProvider.symbol,
                   style: const TextStyle(
