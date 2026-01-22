@@ -3527,4 +3527,15 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get encrypted => 'Şifreli';
+
+  @override
+  String get syncing => 'Veriler senkronize ediliyor...';
+
+  @override
+  String pendingSync(int count) {
+    return '$count değişiklik bekliyor';
+  }
+
+  @override
+  String get pendingLabel => 'Bekliyor';
 }

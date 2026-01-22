@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:vantag/services/connectivity_service.dart';
+import 'package:vantag/services/offline_queue_service.dart';
 import 'package:vantag/theme/app_theme.dart';
 
 /// Elegant offline banner that shows when device is not connected
@@ -21,12 +22,14 @@ class OfflineBanner extends StatefulWidget {
 class _OfflineBannerState extends State<OfflineBanner>
     with SingleTickerProviderStateMixin {
   final ConnectivityService _connectivityService = ConnectivityService();
+  final OfflineQueueService _offlineQueueService = OfflineQueueService();
   late AnimationController _controller;
   late Animation<double> _slideAnimation;
   late Animation<double> _opacityAnimation;
 
   bool _isOffline = false;
   bool _showBanner = false;
+  int _pendingCount = 0;
   StreamSubscription<bool>? _subscription;
 
   @override
@@ -51,7 +54,13 @@ class _OfflineBannerState extends State<OfflineBanner>
 
   Future<void> _initConnectivity() async {
     await _connectivityService.initialize();
+    await _offlineQueueService.initialize();
+
     _isOffline = !_connectivityService.isConnected;
+    _pendingCount = _offlineQueueService.pendingCount;
+
+    // Listen for queue changes
+    _offlineQueueService.addListener(_onQueueChanged);
 
     if (_isOffline) {
       _showBanner = true;
@@ -71,7 +80,7 @@ class _OfflineBannerState extends State<OfflineBanner>
         setState(() => _isOffline = false);
         // Show brief "Back online" message then hide
         Future.delayed(const Duration(seconds: 2), () {
-          if (mounted && !_isOffline) {
+          if (mounted && !_isOffline && _pendingCount == 0) {
             _controller.reverse().then((_) {
               if (mounted) {
                 setState(() => _showBanner = false);
@@ -85,9 +94,18 @@ class _OfflineBannerState extends State<OfflineBanner>
     if (mounted) setState(() {});
   }
 
+  void _onQueueChanged() {
+    if (mounted) {
+      setState(() {
+        _pendingCount = _offlineQueueService.pendingCount;
+      });
+    }
+  }
+
   @override
   void dispose() {
     _subscription?.cancel();
+    _offlineQueueService.removeListener(_onQueueChanged);
     _controller.dispose();
     super.dispose();
   }
@@ -122,6 +140,19 @@ class _OfflineBannerState extends State<OfflineBanner>
   Widget _buildBanner(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final isBackOnline = !_isOffline;
+    final isSyncing = _offlineQueueService.isSyncing;
+
+    // Determine message based on state
+    String message;
+    if (isBackOnline && isSyncing) {
+      message = l10n.syncing;
+    } else if (isBackOnline) {
+      message = l10n.dataSynced;
+    } else if (_pendingCount > 0) {
+      message = l10n.pendingSync(_pendingCount);
+    } else {
+      message = l10n.offlineMessage;
+    }
 
     return SafeArea(
       child: Container(
@@ -147,9 +178,9 @@ class _OfflineBannerState extends State<OfflineBanner>
           children: [
             // Icon with pulse animation
             _PulsingIcon(
-              icon: isBackOnline ? LucideIcons.wifiOff : LucideIcons.wifiOff,
+              icon: isSyncing ? LucideIcons.refreshCw : (isBackOnline ? LucideIcons.wifi : LucideIcons.wifiOff),
               color: Colors.white,
-              isPulsing: !isBackOnline,
+              isPulsing: !isBackOnline || isSyncing,
             ),
             const SizedBox(width: 12),
 
@@ -169,7 +200,7 @@ class _OfflineBannerState extends State<OfflineBanner>
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    isBackOnline ? l10n.dataSynced : l10n.offlineMessage,
+                    message,
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.9),
                       fontSize: 12,
@@ -180,7 +211,7 @@ class _OfflineBannerState extends State<OfflineBanner>
             ),
 
             // Status indicator
-            if (!isBackOnline)
+            if (!isBackOnline || _pendingCount > 0)
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
@@ -190,17 +221,28 @@ class _OfflineBannerState extends State<OfflineBanner>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    if (_pendingCount > 0) ...[
+                      Text(
+                        '$_pendingCount',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                    ],
                     Container(
                       width: 6,
                       height: 6,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
+                      decoration: BoxDecoration(
+                        color: _pendingCount > 0 ? Colors.amber : Colors.white,
                         shape: BoxShape.circle,
                       ),
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      l10n.offline,
+                      _pendingCount > 0 ? l10n.pendingLabel : l10n.offline,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 10,

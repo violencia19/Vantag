@@ -6474,6 +6474,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Encrypted'**
   String get encrypted;
+
+  /// No description provided for @syncing.
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing data...'**
+  String get syncing;
+
+  /// No description provided for @pendingSync.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} changes pending sync'**
+  String pendingSync(int count);
+
+  /// No description provided for @pendingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pendingLabel;
 }
 
 class _AppLocalizationsDelegate

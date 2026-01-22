@@ -1880,5 +1880,14 @@
   "sunday": "Sunday",
 
   "securePayment": "Secure Payment",
-  "encrypted": "Encrypted"
+  "encrypted": "Encrypted",
+
+  "syncing": "Syncing data...",
+  "pendingSync": "{count} changes pending sync",
+  "@pendingSync": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pendingLabel": "Pending"
 }

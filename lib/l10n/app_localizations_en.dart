@@ -3528,4 +3528,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get encrypted => 'Encrypted';
+
+  @override
+  String get syncing => 'Syncing data...';
+
+  @override
+  String pendingSync(int count) {
+    return '$count changes pending sync';
+  }
+
+  @override
+  String get pendingLabel => 'Pending';
 }

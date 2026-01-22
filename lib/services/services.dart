@@ -7,6 +7,7 @@ export 'insight_service.dart';
 export 'receipt_scanner_service.dart';
 export 'currency_service.dart';
 export 'connectivity_service.dart';
+export 'offline_queue_service.dart';
 export 'streak_service.dart';
 export 'messages_service.dart';
 export 'notification_service.dart';

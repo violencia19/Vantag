@@ -1514,5 +1514,14 @@
   "sunday": "Pazar",
 
   "securePayment": "Güvenli Ödeme",
-  "encrypted": "Şifreli"
+  "encrypted": "Şifreli",
+
+  "syncing": "Veriler senkronize ediliyor...",
+  "pendingSync": "{count} değişiklik bekliyor",
+  "@pendingSync": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pendingLabel": "Bekliyor"
 }
