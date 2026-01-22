@@ -749,7 +749,11 @@
   "freqFewMonthly": "Few per month",
 
   "editIncomes": "Edit Incomes",
+  "editIncome": "Edit Income",
   "addIncome": "Add Income",
+  "changePhoto": "Photo",
+  "takePhoto": "Take Photo",
+  "chooseFromGallery": "Choose from Gallery",
   "daysPerWeek": "days/week",
   "doYouHaveOtherIncome": "Do You Have\nOther Income?",
   "otherIncomeDescription": "You can add additional incomes like\nfreelance, rental, investment income",

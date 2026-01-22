@@ -2702,11 +2702,35 @@ abstract class AppLocalizations {
   /// **'Edit Incomes'**
   String get editIncomes;
 
+  /// No description provided for @editIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Income'**
+  String get editIncome;
+
   /// No description provided for @addIncome.
   ///
   /// In en, this message translates to:
   /// **'Add Income'**
   String get addIncome;
+
+  /// No description provided for @changePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get changePhoto;
+
+  /// No description provided for @takePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Photo'**
+  String get takePhoto;
+
+  /// No description provided for @chooseFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from Gallery'**
+  String get chooseFromGallery;
 
   /// No description provided for @daysPerWeek.
   ///

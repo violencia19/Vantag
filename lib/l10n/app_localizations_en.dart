@@ -1429,7 +1429,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editIncomes => 'Edit Incomes';
 
   @override
+  String get editIncome => 'Edit Income';
+
+  @override
   String get addIncome => 'Add Income';
+
+  @override
+  String get changePhoto => 'Photo';
+
+  @override
+  String get takePhoto => 'Take Photo';
+
+  @override
+  String get chooseFromGallery => 'Choose from Gallery';
 
   @override
   String get daysPerWeek => 'days/week';

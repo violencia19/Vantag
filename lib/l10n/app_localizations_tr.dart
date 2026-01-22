@@ -1428,7 +1428,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get editIncomes => 'Gelirleri Düzenle';
 
   @override
+  String get editIncome => 'Gelir Düzenle';
+
+  @override
   String get addIncome => 'Gelir Ekle';
+
+  @override
+  String get changePhoto => 'Fotoğraf';
+
+  @override
+  String get takePhoto => 'Fotoğraf Çek';
+
+  @override
+  String get chooseFromGallery => 'Galeriden Seç';
 
   @override
   String get daysPerWeek => 'gün/hafta';

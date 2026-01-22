@@ -516,7 +516,11 @@
   "freqFewMonthly": "Ayda birkaç",
 
   "editIncomes": "Gelirleri Düzenle",
+  "editIncome": "Gelir Düzenle",
   "addIncome": "Gelir Ekle",
+  "changePhoto": "Fotoğraf",
+  "takePhoto": "Fotoğraf Çek",
+  "chooseFromGallery": "Galeriden Seç",
   "daysPerWeek": "gün/hafta",
   "doYouHaveOtherIncome": "Başka Bir Gelirin\nVar mı?",
   "otherIncomeDescription": "Freelance, kira, yatırım geliri gibi\nek gelirlerini de ekleyebilirsin",

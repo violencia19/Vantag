@@ -839,24 +839,121 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         const SizedBox(height: 16),
 
-        // Single Edit Profile button
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton.icon(
-            onPressed: _editProfile,
-            icon: Icon(PhosphorIconsDuotone.pencilSimple, size: 18),
-            label: Text(l10n.editProfile),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+        // Quick action buttons row
+        Row(
+          children: [
+            // Edit Photo button
+            Expanded(
+              child: _buildQuickActionButton(
+                icon: PhosphorIconsDuotone.camera,
+                label: l10n.changePhoto,
+                onTap: () => _showPhotoOptions(l10n),
               ),
             ),
-          ),
+            const SizedBox(width: 12),
+            // Edit Income button
+            Expanded(
+              child: _buildQuickActionButton(
+                icon: PhosphorIconsDuotone.wallet,
+                label: l10n.editIncome,
+                onTap: _editProfile,
+              ),
+            ),
+            const SizedBox(width: 12),
+            // Add Income Source button
+            Expanded(
+              child: _buildQuickActionButton(
+                icon: PhosphorIconsDuotone.plusCircle,
+                label: l10n.addIncome,
+                onTap: _editProfile,
+                highlight: true,
+              ),
+            ),
+          ],
         ),
       ],
+    );
+  }
+
+  Widget _buildQuickActionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    bool highlight = false,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        decoration: BoxDecoration(
+          color: highlight
+              ? AppColors.primary.withValues(alpha: 0.15)
+              : AppColors.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: highlight
+                ? AppColors.primary.withValues(alpha: 0.3)
+                : AppColors.cardBorder,
+          ),
+        ),
+        child: Column(
+          children: [
+            Icon(
+              icon,
+              size: 22,
+              color: highlight ? AppColors.primary : AppColors.textSecondary,
+            ),
+            const SizedBox(height: 6),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+                color: highlight ? AppColors.primary : AppColors.textSecondary,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showPhotoOptions(AppLocalizations l10n) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.cardBackground,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(PhosphorIconsDuotone.camera, color: AppColors.primary),
+                title: Text(l10n.takePhoto),
+                onTap: () {
+                  Navigator.pop(context);
+                  // ProfilePhotoWidget handles photo capture
+                },
+              ),
+              ListTile(
+                leading: Icon(PhosphorIconsDuotone.image, color: AppColors.primary),
+                title: Text(l10n.chooseFromGallery),
+                onTap: () {
+                  Navigator.pop(context);
+                  // ProfilePhotoWidget handles photo selection
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
