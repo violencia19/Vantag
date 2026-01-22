@@ -32,6 +32,8 @@ provider: ^6.1.2
 firebase_core: ^4.3.0
 firebase_auth: ^6.1.3
 cloud_firestore: ^6.1.1
+firebase_crashlytics: ^5.0.6
+firebase_analytics: ^12.0.0
 google_sign_in: 6.2.1
 
 # Monetization
@@ -713,13 +715,29 @@ await dotenv.load(fileName: '.env');
 
 ## Recent Updates
 
-### January 2026
+### January 2026 - Night Work Edition
+**Phase 1-10 Complete:**
+- Bug fixes (Share Card, Habit Calculator, Category Localization)
+- Full test coverage (199 tests passing)
+- Code audit & cleanup (41→27 issues)
+- Firebase Crashlytics & Analytics integration
+- Legal & Compliance (Privacy, ToS, Delete Account, Restore)
+- Light mode theme support (ThemeProvider)
+- Security hardening (SecurityUtils)
+- Localization complete (~530 keys per language)
+
+**New Services:**
+- `AnalyticsService` - Event tracking for key user actions
+- `ThemeProvider` - Dark/Light/System theme management
+- `SecurityUtils` - Input validation, sanitization, data masking
+
+**Previous Updates:**
 - AI Chat free user 4-button system
 - Pursuit system (Hayallerim) implementation
 - RevenueCat premium integration
 - Multi-currency support (5 currencies)
 - Video splash screen
-- Full TR/EN localization (~500 keys)
+- Full TR/EN localization
 
 ---
 
