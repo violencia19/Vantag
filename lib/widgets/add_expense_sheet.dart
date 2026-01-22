@@ -682,7 +682,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         ),
         content: Text(
           '${l10n.duplicateExpenseWarning}:\n\n'
-          '${l10n.duplicateExpenseDetails(amountStr, match.expense.category)}\n'
+          '${l10n.duplicateExpenseDetails(amountStr, ExpenseCategory.getLocalizedName(match.expense.category, l10n))}\n'
           '($timeAgoText)\n\n'
           '${l10n.addAnyway}',
           style: TextStyle(
@@ -1200,7 +1200,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                         const Icon(PhosphorIconsDuotone.sparkle, size: 14, color: AppColors.success),
                         const SizedBox(width: 4),
                         Text(
-                          l10n.autoSelected(_selectedCategory!),
+                          l10n.autoSelected(ExpenseCategory.getLocalizedName(_selectedCategory!, l10n)),
                           style: const TextStyle(fontSize: 12, color: AppColors.success),
                         ),
                       ],
