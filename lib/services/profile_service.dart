@@ -221,8 +221,6 @@ class ProfileService {
   Future<bool> isOnboardingCompleted() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      // Önce reload ile güncel veriyi al (multi-process sync)
-      await prefs.reload();
       final completed = prefs.getBool(_keyOnboardingCompleted) ?? false;
       debugPrint('[ProfileService] isOnboardingCompleted: $completed');
       return completed;
@@ -233,18 +231,24 @@ class ProfileService {
   }
 
   /// Onboarding'i tamamlandı olarak işaretler
-  Future<void> setOnboardingCompleted() async {
+  Future<bool> setOnboardingCompleted() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final success = await prefs.setBool(_keyOnboardingCompleted, true);
-      debugPrint('[ProfileService] setOnboardingCompleted: $success (saved to disk)');
+      debugPrint('[ProfileService] setOnboardingCompleted: $success');
 
-      // Verify it was saved correctly
-      await prefs.reload();
-      final verified = prefs.getBool(_keyOnboardingCompleted) ?? false;
-      debugPrint('[ProfileService] setOnboardingCompleted verified: $verified');
+      if (!success) {
+        // Retry once if first attempt fails
+        debugPrint('[ProfileService] setOnboardingCompleted: retrying...');
+        final retrySuccess = await prefs.setBool(_keyOnboardingCompleted, true);
+        debugPrint('[ProfileService] setOnboardingCompleted retry: $retrySuccess');
+        return retrySuccess;
+      }
+
+      return success;
     } catch (e) {
       debugPrint('[ProfileService] setOnboardingCompleted error: $e');
+      return false;
     }
   }
 }

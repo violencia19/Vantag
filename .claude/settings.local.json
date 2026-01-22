@@ -94,7 +94,12 @@
       "Bash(del \"c:\\\\flutter_projects\\\\mmr_app\\\\test\\\\services\\\\profile_service_test.dart\")",
       "Bash(del /q \"c:\\\\flutter_projects\\\\mmr_app\\\\test\\\\services\\\\pursuit_service_test.dart\")",
       "Bash(Select-String -Pattern \"\\(passed|failed|All tests\\)\")",
-      "Bash(Select-Object -Last 5)"
+      "Bash(Select-Object -Last 5)",
+      "Bash(del:*)",
+      "Bash(cmd //c \"taskkill /PID 45864 /F\")",
+      "Bash(cmd //c \"taskkill /IM mmr_app.exe /F 2>nul\")",
+      "Bash(cmd //c \"taskkill /IM mmr_app.exe /F\")",
+      "Bash(cmd //c \"taskkill /IM dart.exe /F\")"
     ]
   }
 }
