@@ -1829,5 +1829,34 @@
   },
 
   "currencyConverting": "Converting currency...",
-  "currencyConversionFailed": "Could not fetch exchange rate, values unchanged"
+  "currencyConversionFailed": "Could not fetch exchange rate, values unchanged",
+
+  "requiredExpense": "Required Expense",
+  "installmentPurchase": "Installment Purchase",
+  "installmentInfo": "Installment Information",
+  "cashPrice": "Cash Price",
+  "cashPriceHint": "Original cash price",
+  "numberOfInstallments": "Number of Installments",
+  "totalInstallmentPrice": "Total Installment Price",
+  "totalWithInterestHint": "Total with interest",
+  "installmentSummary": "INSTALLMENT SUMMARY",
+  "willBeSavedAsRequired": "Will be saved as required expense",
+  "creditCardOrStoreInstallment": "Credit card or store installment",
+
+  "vantagAI": "Vantag AI",
+  "professionalMode": "Professional mode",
+  "errorTryAgain": "An error occurred, try again?",
+
+  "aiInsights": "AI Insights",
+  "mostSpendingDay": "Busiest Spending Day",
+  "biggestCategory": "Biggest Category",
+  "thisMonthVsLast": "This Month vs Last Month",
+
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday": "Sunday"
 }

@@ -3402,4 +3402,79 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get currencyConversionFailed =>
       'Could not fetch exchange rate, values unchanged';
+
+  @override
+  String get requiredExpense => 'Required Expense';
+
+  @override
+  String get installmentPurchase => 'Installment Purchase';
+
+  @override
+  String get installmentInfo => 'Installment Information';
+
+  @override
+  String get cashPrice => 'Cash Price';
+
+  @override
+  String get cashPriceHint => 'Original cash price';
+
+  @override
+  String get numberOfInstallments => 'Number of Installments';
+
+  @override
+  String get totalInstallmentPrice => 'Total Installment Price';
+
+  @override
+  String get totalWithInterestHint => 'Total with interest';
+
+  @override
+  String get installmentSummary => 'INSTALLMENT SUMMARY';
+
+  @override
+  String get willBeSavedAsRequired => 'Will be saved as required expense';
+
+  @override
+  String get creditCardOrStoreInstallment => 'Credit card or store installment';
+
+  @override
+  String get vantagAI => 'Vantag AI';
+
+  @override
+  String get professionalMode => 'Professional mode';
+
+  @override
+  String get errorTryAgain => 'An error occurred, try again?';
+
+  @override
+  String get aiInsights => 'AI Insights';
+
+  @override
+  String get mostSpendingDay => 'Busiest Spending Day';
+
+  @override
+  String get biggestCategory => 'Biggest Category';
+
+  @override
+  String get thisMonthVsLast => 'This Month vs Last Month';
+
+  @override
+  String get monday => 'Monday';
+
+  @override
+  String get tuesday => 'Tuesday';
+
+  @override
+  String get wednesday => 'Wednesday';
+
+  @override
+  String get thursday => 'Thursday';
+
+  @override
+  String get friday => 'Friday';
+
+  @override
+  String get saturday => 'Saturday';
+
+  @override
+  String get sunday => 'Sunday';
 }

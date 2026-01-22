@@ -1463,5 +1463,34 @@
   },
 
   "currencyConverting": "Para birimi dönüştürülüyor...",
-  "currencyConversionFailed": "Döviz kuru alınamadı, değerler değiştirilmedi"
+  "currencyConversionFailed": "Döviz kuru alınamadı, değerler değiştirilmedi",
+
+  "requiredExpense": "Zorunlu Gider",
+  "installmentPurchase": "Taksitli Alım",
+  "installmentInfo": "Taksit Bilgileri",
+  "cashPrice": "Peşin Fiyat",
+  "cashPriceHint": "Ürünün peşin fiyatı",
+  "numberOfInstallments": "Taksit Sayısı",
+  "totalInstallmentPrice": "Taksitli Toplam Fiyat",
+  "totalWithInterestHint": "Vade farkı dahil toplam",
+  "installmentSummary": "TAKSİT ÖZETİ",
+  "willBeSavedAsRequired": "Zorunlu gider olarak kaydedilecek",
+  "creditCardOrStoreInstallment": "Kredi kartı veya mağaza taksiti",
+
+  "vantagAI": "Vantag AI",
+  "professionalMode": "Profesyonel mod",
+  "errorTryAgain": "Bir hata oluştu, tekrar dener misin?",
+
+  "aiInsights": "AI Insights",
+  "mostSpendingDay": "En Çok Harcama Günü",
+  "biggestCategory": "En Büyük Kategori",
+  "thisMonthVsLast": "Bu Ay vs Geçen Ay",
+
+  "monday": "Pazartesi",
+  "tuesday": "Salı",
+  "wednesday": "Çarşamba",
+  "thursday": "Perşembe",
+  "friday": "Cuma",
+  "saturday": "Cumartesi",
+  "sunday": "Pazar"
 }

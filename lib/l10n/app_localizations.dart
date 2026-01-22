@@ -6228,6 +6228,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not fetch exchange rate, values unchanged'**
   String get currencyConversionFailed;
+
+  /// No description provided for @requiredExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Required Expense'**
+  String get requiredExpense;
+
+  /// No description provided for @installmentPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Installment Purchase'**
+  String get installmentPurchase;
+
+  /// No description provided for @installmentInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Installment Information'**
+  String get installmentInfo;
+
+  /// No description provided for @cashPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash Price'**
+  String get cashPrice;
+
+  /// No description provided for @cashPriceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Original cash price'**
+  String get cashPriceHint;
+
+  /// No description provided for @numberOfInstallments.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of Installments'**
+  String get numberOfInstallments;
+
+  /// No description provided for @totalInstallmentPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Installment Price'**
+  String get totalInstallmentPrice;
+
+  /// No description provided for @totalWithInterestHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Total with interest'**
+  String get totalWithInterestHint;
+
+  /// No description provided for @installmentSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'INSTALLMENT SUMMARY'**
+  String get installmentSummary;
+
+  /// No description provided for @willBeSavedAsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Will be saved as required expense'**
+  String get willBeSavedAsRequired;
+
+  /// No description provided for @creditCardOrStoreInstallment.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit card or store installment'**
+  String get creditCardOrStoreInstallment;
+
+  /// No description provided for @vantagAI.
+  ///
+  /// In en, this message translates to:
+  /// **'Vantag AI'**
+  String get vantagAI;
+
+  /// No description provided for @professionalMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional mode'**
+  String get professionalMode;
+
+  /// No description provided for @errorTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred, try again?'**
+  String get errorTryAgain;
+
+  /// No description provided for @aiInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Insights'**
+  String get aiInsights;
+
+  /// No description provided for @mostSpendingDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Busiest Spending Day'**
+  String get mostSpendingDay;
+
+  /// No description provided for @biggestCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Biggest Category'**
+  String get biggestCategory;
+
+  /// No description provided for @thisMonthVsLast.
+  ///
+  /// In en, this message translates to:
+  /// **'This Month vs Last Month'**
+  String get thisMonthVsLast;
+
+  /// No description provided for @monday.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get monday;
+
+  /// No description provided for @tuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get tuesday;
+
+  /// No description provided for @wednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get wednesday;
+
+  /// No description provided for @thursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get thursday;
+
+  /// No description provided for @friday.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get friday;
+
+  /// No description provided for @saturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get saturday;
+
+  /// No description provided for @sunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get sunday;
 }
 
 class _AppLocalizationsDelegate

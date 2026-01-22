@@ -3400,4 +3400,79 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get currencyConversionFailed =>
       'Döviz kuru alınamadı, değerler değiştirilmedi';
+
+  @override
+  String get requiredExpense => 'Zorunlu Gider';
+
+  @override
+  String get installmentPurchase => 'Taksitli Alım';
+
+  @override
+  String get installmentInfo => 'Taksit Bilgileri';
+
+  @override
+  String get cashPrice => 'Peşin Fiyat';
+
+  @override
+  String get cashPriceHint => 'Ürünün peşin fiyatı';
+
+  @override
+  String get numberOfInstallments => 'Taksit Sayısı';
+
+  @override
+  String get totalInstallmentPrice => 'Taksitli Toplam Fiyat';
+
+  @override
+  String get totalWithInterestHint => 'Vade farkı dahil toplam';
+
+  @override
+  String get installmentSummary => 'TAKSİT ÖZETİ';
+
+  @override
+  String get willBeSavedAsRequired => 'Zorunlu gider olarak kaydedilecek';
+
+  @override
+  String get creditCardOrStoreInstallment => 'Kredi kartı veya mağaza taksiti';
+
+  @override
+  String get vantagAI => 'Vantag AI';
+
+  @override
+  String get professionalMode => 'Profesyonel mod';
+
+  @override
+  String get errorTryAgain => 'Bir hata oluştu, tekrar dener misin?';
+
+  @override
+  String get aiInsights => 'AI Insights';
+
+  @override
+  String get mostSpendingDay => 'En Çok Harcama Günü';
+
+  @override
+  String get biggestCategory => 'En Büyük Kategori';
+
+  @override
+  String get thisMonthVsLast => 'Bu Ay vs Geçen Ay';
+
+  @override
+  String get monday => 'Pazartesi';
+
+  @override
+  String get tuesday => 'Salı';
+
+  @override
+  String get wednesday => 'Çarşamba';
+
+  @override
+  String get thursday => 'Perşembe';
+
+  @override
+  String get friday => 'Cuma';
+
+  @override
+  String get saturday => 'Cumartesi';
+
+  @override
+  String get sunday => 'Pazar';
 }
