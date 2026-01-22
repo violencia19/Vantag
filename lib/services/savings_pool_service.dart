@@ -1,12 +1,24 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/savings_pool.dart';
 
-/// Tasarruf Havuzu Firestore Service
+/// Tasarruf Havuzu Service (Local + Firestore hybrid)
+/// Falls back to local storage when Firestore fails
 class SavingsPoolService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // Local storage key
+  static const _localKey = 'savings_pool_local';
+
+  // Stream controller for local updates
+  final _localStreamController = StreamController<SavingsPool>.broadcast();
+  SavingsPool _cachedPool = SavingsPool.empty();
+  bool _useLocalOnly = false;
 
   /// Firestore document reference
   DocumentReference<Map<String, dynamic>>? get _docRef {
@@ -15,53 +27,108 @@ class SavingsPoolService {
     return _firestore.collection('users').doc(user.uid).collection('savings_pool').doc('current');
   }
 
-  /// Havuz verisi stream'i
+  /// Havuz verisi stream'i (hybrid - tries Firestore, falls back to local)
   Stream<SavingsPool> get poolStream {
-    final ref = _docRef;
-    if (ref == null) {
-      return Stream.value(SavingsPool.empty());
+    if (_useLocalOnly) {
+      return _localStreamController.stream;
     }
 
-    return ref.snapshots().map((snapshot) {
+    final ref = _docRef;
+    if (ref == null) {
+      return _localStreamController.stream;
+    }
+
+    // Try Firestore first, fall back to local on error
+    return ref.snapshots().handleError((e) {
+      debugPrint('⚠️ [SavingsPoolService] Firestore error, switching to local: $e');
+      _useLocalOnly = true;
+      _loadLocalPool().then((pool) => _localStreamController.add(pool));
+    }).map((snapshot) {
       if (!snapshot.exists || snapshot.data() == null) {
-        return SavingsPool.empty();
+        return _cachedPool;
       }
-      return SavingsPool.fromFirestore(snapshot.data()!);
+      _cachedPool = SavingsPool.fromFirestore(snapshot.data()!);
+      // Also save locally as backup
+      _saveLocalPool(_cachedPool);
+      return _cachedPool;
     });
   }
 
   /// Mevcut havuzu getir
   Future<SavingsPool> getPool() async {
-    final ref = _docRef;
-    if (ref == null) return SavingsPool.empty();
-
-    try {
-      final snapshot = await ref.get();
-      if (!snapshot.exists || snapshot.data() == null) {
-        return SavingsPool.empty();
+    // Try Firestore first
+    if (!_useLocalOnly) {
+      final ref = _docRef;
+      if (ref != null) {
+        try {
+          final snapshot = await ref.get();
+          if (snapshot.exists && snapshot.data() != null) {
+            _cachedPool = SavingsPool.fromFirestore(snapshot.data()!);
+            _saveLocalPool(_cachedPool); // Backup locally
+            return _cachedPool;
+          }
+        } catch (e) {
+          debugPrint('⚠️ [SavingsPoolService] Firestore getPool error, using local: $e');
+          _useLocalOnly = true;
+        }
       }
-      return SavingsPool.fromFirestore(snapshot.data()!);
+    }
+
+    // Fall back to local
+    return _loadLocalPool();
+  }
+
+  /// Load pool from local storage
+  Future<SavingsPool> _loadLocalPool() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final json = prefs.getString(_localKey);
+      if (json != null) {
+        final data = jsonDecode(json) as Map<String, dynamic>;
+        _cachedPool = SavingsPool.fromFirestore(data);
+        debugPrint('💾 [SavingsPoolService] Loaded from local: $_cachedPool');
+        return _cachedPool;
+      }
     } catch (e) {
-      debugPrint('❌ [SavingsPoolService] getPool error: $e');
-      return SavingsPool.empty();
+      debugPrint('❌ [SavingsPoolService] Local load error: $e');
+    }
+    return SavingsPool.empty();
+  }
+
+  /// Save pool to local storage
+  Future<void> _saveLocalPool(SavingsPool pool) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_localKey, jsonEncode(pool.toFirestore(forLocalStorage: true)));
+    } catch (e) {
+      debugPrint('❌ [SavingsPoolService] Local save error: $e');
     }
   }
 
-  /// Havuzu güncelle
+  /// Havuzu güncelle (tries Firestore, always updates local)
   Future<void> updatePool(SavingsPool pool) async {
-    final ref = _docRef;
-    if (ref == null) {
-      debugPrint('❌ [SavingsPoolService] No user logged in');
-      return;
+    _cachedPool = pool;
+
+    // Always save locally first
+    await _saveLocalPool(pool);
+    _localStreamController.add(pool);
+
+    // Try Firestore if not in local-only mode
+    if (!_useLocalOnly) {
+      final ref = _docRef;
+      if (ref != null) {
+        try {
+          await ref.set(pool.toFirestore(), SetOptions(merge: true));
+          debugPrint('✅ [SavingsPoolService] Pool updated (Firestore): $pool');
+          return;
+        } catch (e) {
+          debugPrint('⚠️ [SavingsPoolService] Firestore update failed, local only: $e');
+          _useLocalOnly = true;
+        }
+      }
     }
 
-    try {
-      await ref.set(pool.toFirestore(), SetOptions(merge: true));
-      debugPrint('✅ [SavingsPoolService] Pool updated: $pool');
-    } catch (e) {
-      debugPrint('❌ [SavingsPoolService] updatePool error: $e');
-      rethrow;
-    }
+    debugPrint('✅ [SavingsPoolService] Pool updated (local): $pool');
   }
 
   /// Tasarruf ekle (vazgeçme durumunda)

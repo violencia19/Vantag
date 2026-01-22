@@ -51,28 +51,41 @@ class SavingsPool {
     );
   }
 
-  /// Firestore'dan oluştur
+  /// Firestore veya JSON'dan oluştur (hybrid support)
   factory SavingsPool.fromFirestore(Map<String, dynamic> data) {
+    // Handle both Timestamp (Firestore) and int (JSON) for dates
+    DateTime parseDate(dynamic value, DateTime defaultValue) {
+      if (value == null) return defaultValue;
+      if (value is Timestamp) return value.toDate();
+      if (value is int) return DateTime.fromMillisecondsSinceEpoch(value);
+      if (value is String) return DateTime.tryParse(value) ?? defaultValue;
+      return defaultValue;
+    }
+
+    final now = DateTime.now();
     return SavingsPool(
       totalSaved: (data['totalSaved'] as num?)?.toDouble() ?? 0,
       allocatedToDreams: (data['allocatedToDreams'] as num?)?.toDouble() ?? 0,
       shadowDebt: (data['shadowDebt'] as num?)?.toDouble() ?? 0,
       jokerUsedThisMonth: data['jokerUsedThisMonth'] as bool? ?? false,
-      jokerResetDate: (data['jokerResetDate'] as Timestamp?)?.toDate() ??
-          DateTime(DateTime.now().year, DateTime.now().month, 1),
-      lastUpdated: (data['lastUpdated'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      jokerResetDate: parseDate(data['jokerResetDate'], DateTime(now.year, now.month, 1)),
+      lastUpdated: parseDate(data['lastUpdated'], now),
     );
   }
 
-  /// Firestore'a kaydet
-  Map<String, dynamic> toFirestore() {
+  /// Firestore'a kaydet (uses Timestamp for Firestore compatibility)
+  Map<String, dynamic> toFirestore({bool forLocalStorage = false}) {
     return {
       'totalSaved': totalSaved,
       'allocatedToDreams': allocatedToDreams,
       'shadowDebt': shadowDebt,
       'jokerUsedThisMonth': jokerUsedThisMonth,
-      'jokerResetDate': Timestamp.fromDate(jokerResetDate),
-      'lastUpdated': Timestamp.fromDate(lastUpdated),
+      'jokerResetDate': forLocalStorage
+          ? jokerResetDate.millisecondsSinceEpoch
+          : Timestamp.fromDate(jokerResetDate),
+      'lastUpdated': forLocalStorage
+          ? lastUpdated.millisecondsSinceEpoch
+          : Timestamp.fromDate(lastUpdated),
     };
   }
 
