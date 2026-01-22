@@ -5,3 +5,4 @@ export 'currency_provider.dart';
 export 'pro_provider.dart';
 export 'pursuit_provider.dart';
 export 'savings_pool_provider.dart';
+export 'theme_provider.dart';

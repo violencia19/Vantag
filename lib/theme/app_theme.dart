@@ -162,6 +162,245 @@ class AppFonts {
 }
 
 class AppTheme {
+  /// Light theme for the app
+  static ThemeData get lightTheme {
+    final headingFont = AppFonts.heading;
+    final bodyFont = AppFonts.body;
+
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
+      fontFamily: bodyFont,
+      scaffoldBackgroundColor: AppColorsLight.background,
+      colorScheme: const ColorScheme.light(
+        surface: AppColorsLight.background,
+        primary: AppColorsLight.primary,
+        secondary: AppColorsLight.secondary,
+        error: AppColorsLight.error,
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        centerTitle: false,
+        titleTextStyle: TextStyle(
+          color: AppColorsLight.textPrimary,
+          fontSize: 28,
+          fontWeight: FontWeight.w700,
+          letterSpacing: -0.5,
+        ),
+        iconTheme: IconThemeData(
+          color: AppColorsLight.textPrimary,
+          size: 24,
+        ),
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+          systemNavigationBarColor: AppColorsLight.background,
+          systemNavigationBarIconBrightness: Brightness.dark,
+        ),
+      ),
+      cardTheme: CardThemeData(
+        color: AppColorsLight.cardBackground,
+        elevation: 2,
+        shadowColor: AppColorsLight.cardShadow,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(
+            color: AppColorsLight.cardBorder,
+            width: 1,
+          ),
+        ),
+        margin: EdgeInsets.zero,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColorsLight.primary,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          textStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColorsLight.textSecondary,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          textStyle: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColorsLight.surfaceLight,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: AppColorsLight.cardBorder),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: AppColorsLight.cardBorder),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: AppColorsLight.primary, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: AppColorsLight.error),
+        ),
+        labelStyle: const TextStyle(
+          color: AppColorsLight.textSecondary,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+        hintStyle: const TextStyle(
+          color: AppColorsLight.textTertiary,
+          fontSize: 16,
+        ),
+      ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: AppColorsLight.cardBackground,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: AppColorsLight.textPrimary,
+        contentTextStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+      dividerTheme: const DividerThemeData(
+        color: AppColorsLight.cardBorder,
+        thickness: 1,
+      ),
+      textTheme: TextTheme(
+        displayLarge: TextStyle(
+          fontFamily: headingFont,
+          fontSize: 56,
+          fontWeight: FontWeight.w700,
+          color: AppColorsLight.textPrimary,
+          letterSpacing: -2,
+        ),
+        displayMedium: TextStyle(
+          fontFamily: headingFont,
+          fontSize: 48,
+          fontWeight: FontWeight.w700,
+          color: AppColorsLight.textPrimary,
+          letterSpacing: -1,
+        ),
+        displaySmall: TextStyle(
+          fontFamily: headingFont,
+          fontSize: 32,
+          fontWeight: FontWeight.w600,
+          color: AppColorsLight.textPrimary,
+          letterSpacing: -0.5,
+        ),
+        headlineLarge: TextStyle(
+          fontFamily: headingFont,
+          fontSize: 32,
+          fontWeight: FontWeight.w700,
+          color: AppColorsLight.textPrimary,
+          letterSpacing: -1,
+        ),
+        headlineMedium: TextStyle(
+          fontFamily: headingFont,
+          fontSize: 28,
+          fontWeight: FontWeight.w700,
+          color: AppColorsLight.textPrimary,
+          letterSpacing: -0.5,
+        ),
+        headlineSmall: TextStyle(
+          fontFamily: headingFont,
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
+          color: AppColorsLight.textPrimary,
+        ),
+        titleLarge: TextStyle(
+          fontFamily: headingFont,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: AppColorsLight.textPrimary,
+        ),
+        titleMedium: TextStyle(
+          fontFamily: headingFont,
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: AppColorsLight.textPrimary,
+        ),
+        titleSmall: TextStyle(
+          fontFamily: headingFont,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: AppColorsLight.textSecondary,
+        ),
+        bodyLarge: TextStyle(
+          fontFamily: bodyFont,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          color: AppColorsLight.textPrimary,
+        ),
+        bodyMedium: TextStyle(
+          fontFamily: bodyFont,
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: AppColorsLight.textSecondary,
+        ),
+        bodySmall: TextStyle(
+          fontFamily: bodyFont,
+          fontSize: 13,
+          fontWeight: FontWeight.w400,
+          color: AppColorsLight.textSecondary,
+        ),
+        labelLarge: TextStyle(
+          fontFamily: bodyFont,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: AppColorsLight.textPrimary,
+        ),
+        labelMedium: TextStyle(
+          fontFamily: bodyFont,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          color: AppColorsLight.textSecondary,
+          letterSpacing: 1.5,
+        ),
+        labelSmall: TextStyle(
+          fontFamily: bodyFont,
+          fontSize: 11,
+          fontWeight: FontWeight.w500,
+          color: AppColorsLight.textSecondary,
+          letterSpacing: 2,
+        ),
+      ),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: _PremiumPageTransitionsBuilder(),
+          TargetPlatform.iOS: _PremiumPageTransitionsBuilder(),
+          TargetPlatform.windows: _PremiumPageTransitionsBuilder(),
+          TargetPlatform.macOS: _PremiumPageTransitionsBuilder(),
+          TargetPlatform.linux: _PremiumPageTransitionsBuilder(),
+        },
+      ),
+    );
+  }
+
   static ThemeData get darkTheme {
     final headingFont = AppFonts.heading;
     final bodyFont = AppFonts.body;
@@ -505,4 +744,92 @@ class PremiumModalRoute<T> extends PageRouteBuilder<T> {
             );
           },
         );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LIGHT MODE COLORS
+// ═══════════════════════════════════════════════════════════════════════════
+
+/// Light Mode Color Palette - Clean, Modern Finance App
+class AppColorsLight {
+  AppColorsLight._();
+
+  // ─────────────────────────────────────────────────────────────────
+  // BACKGROUNDS
+  // ─────────────────────────────────────────────────────────────────
+
+  /// Main background - Off-white
+  static const Color background = Color(0xFFF8F9FA);
+
+  /// Card background - Pure white
+  static const Color cardBackground = Color(0xFFFFFFFF);
+
+  /// Elevated surface - Light gray
+  static const Color surfaceElevated = Color(0xFFF0F2F5);
+
+  /// Gradient colors
+  static const Color gradientStart = Color(0xFFF8F9FA);
+  static const Color gradientMid = Color(0xFFFFFFFF);
+  static const Color gradientEnd = Color(0xFFF0F2F5);
+
+  // Surface colors
+  static const Color surface = Color(0xFFFFFFFF);
+  static const Color surfaceLight = Color(0xFFF0F2F5);
+  static const Color surfaceLighter = Color(0xFFE8EAED);
+
+  // ─────────────────────────────────────────────────────────────────
+  // PRIMARY COLORS
+  // ─────────────────────────────────────────────────────────────────
+
+  /// Primary - Soft purple (same as dark mode for consistency)
+  static const Color primary = Color(0xFF6C63FF);
+  static const Color primaryDark = Color(0xFF5A52E0);
+  static const Color primaryLight = Color(0xFF8B85FF);
+
+  /// Secondary - Turquoise
+  static const Color secondary = Color(0xFF4ECDC4);
+  static const Color secondaryDark = Color(0xFF3DBDB5);
+  static const Color secondaryLight = Color(0xFF6EDDD6);
+
+  /// Accent - Gold
+  static const Color accent = Color(0xFFFFD93D);
+  static const Color gold = Color(0xFFFFD93D);
+
+  // ─────────────────────────────────────────────────────────────────
+  // TEXT COLORS
+  // ─────────────────────────────────────────────────────────────────
+
+  /// Primary text - Dark gray (almost black)
+  static const Color textPrimary = Color(0xFF1A1A2E);
+
+  /// Secondary text - Medium gray
+  static const Color textSecondary = Color(0xFF6B7280);
+
+  /// Tertiary text - Light gray
+  static const Color textTertiary = Color(0xFF9CA3AF);
+
+  // ─────────────────────────────────────────────────────────────────
+  // STATUS COLORS
+  // ─────────────────────────────────────────────────────────────────
+
+  static const Color success = Color(0xFF10B981);
+  static const Color warning = Color(0xFFF59E0B);
+  static const Color error = Color(0xFFEF4444);
+  static const Color info = Color(0xFF6C63FF);
+
+  // ─────────────────────────────────────────────────────────────────
+  // DECISION COLORS
+  // ─────────────────────────────────────────────────────────────────
+
+  static const Color decisionYes = Color(0xFFEF4444);
+  static const Color decisionThinking = Color(0xFFF59E0B);
+  static const Color decisionNo = Color(0xFF10B981);
+
+  // ─────────────────────────────────────────────────────────────────
+  // CARD COLORS
+  // ─────────────────────────────────────────────────────────────────
+
+  static const Color cardBackgroundGlass = Color(0xFFFFFFFF);
+  static const Color cardBorder = Color(0xFFE5E7EB);
+  static const Color cardShadow = Color(0x1A000000);
 }
