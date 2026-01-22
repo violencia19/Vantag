@@ -30,11 +30,15 @@ class SavingsPoolService {
   /// Havuz verisi stream'i (hybrid - tries Firestore, falls back to local)
   Stream<SavingsPool> get poolStream {
     if (_useLocalOnly) {
+      // Emit cached pool immediately for local-only mode
+      Future.microtask(() => _localStreamController.add(_cachedPool));
       return _localStreamController.stream;
     }
 
     final ref = _docRef;
     if (ref == null) {
+      // No user, use local stream
+      Future.microtask(() => _localStreamController.add(_cachedPool));
       return _localStreamController.stream;
     }
 
@@ -42,7 +46,10 @@ class SavingsPoolService {
     return ref.snapshots().handleError((e) {
       debugPrint('⚠️ [SavingsPoolService] Firestore error, switching to local: $e');
       _useLocalOnly = true;
-      _loadLocalPool().then((pool) => _localStreamController.add(pool));
+      _loadLocalPool().then((pool) {
+        _cachedPool = pool;
+        _localStreamController.add(pool);
+      });
     }).map((snapshot) {
       if (!snapshot.exists || snapshot.data() == null) {
         return _cachedPool;

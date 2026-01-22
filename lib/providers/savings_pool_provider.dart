@@ -32,10 +32,16 @@ class SavingsPoolProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      // İlk olarak local'den yükle (hızlı başlangıç için)
+      _pool = await _service.getPool();
+      _isLoading = false;
+      notifyListeners();
+      debugPrint('💰 [SavingsPoolProvider] Initial load: available=${_pool.available}, debt=${_pool.shadowDebt}');
+
       // Aylık joker reset kontrolü
       await _service.resetMonthlyJoker();
 
-      // Stream'e bağlan
+      // Stream'e bağlan (background updates için)
       _subscription?.cancel();
       _subscription = _service.poolStream.listen(
         (pool) {
@@ -46,6 +52,7 @@ class SavingsPoolProvider extends ChangeNotifier {
           debugPrint('💰 [SavingsPoolProvider] Pool updated: available=${pool.available}, debt=${pool.shadowDebt}');
         },
         onError: (e) {
+          // Stream hatası olsa bile local data'yı kullan, loading'i kapat
           _error = e.toString();
           _isLoading = false;
           notifyListeners();
