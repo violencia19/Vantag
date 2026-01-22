@@ -644,6 +644,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     final expenses = financeProvider.expenses;
     final stats = financeProvider.stats;
     final l10n = AppLocalizations.of(context);
+    final colors = context.appColors;
 
     // Recent expenses: only show last 5
     final recentExpenses = expenses.take(_recentExpensesLimit).toList();
@@ -652,8 +653,8 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: AppGradients.background,
+        decoration: BoxDecoration(
+          gradient: colors.backgroundGradient,
         ),
         child: SafeArea(
           bottom: false,
@@ -681,10 +682,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                 children: [
                                   Text(
                                     _getGreeting(l10n).toUpperCase(),
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 11,
                                       fontWeight: FontWeight.w500,
-                                      color: AppColors.textSecondary,
+                                      color: colors.textSecondary,
                                       letterSpacing: 2.5,
                                     ),
                                     overflow: TextOverflow.ellipsis,
@@ -695,10 +696,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       l10n.financialStatus,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 28,
                                         fontWeight: FontWeight.w700,
-                                        color: AppColors.textPrimary,
+                                        color: colors.textPrimary,
                                         letterSpacing: 1.5,
                                         height: 1.1,
                                       ),

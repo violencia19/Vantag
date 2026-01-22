@@ -349,7 +349,7 @@ class _MainScreenState extends State<MainScreen> {
           }
 
           return Scaffold(
-            backgroundColor: AppColors.background,
+            backgroundColor: context.appColors.background,
             extendBody: true, // Nav bar arkasında içerik görünsün
             body: Stack(
               children: [

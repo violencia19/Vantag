@@ -25,6 +25,7 @@ class PremiumNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final isDark = context.isDarkMode;
 
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
@@ -36,15 +37,19 @@ class PremiumNavBar extends StatelessWidget {
             height: 72,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
-              color: const Color(0xF20D0D1A), // rgba(13,13,26,0.95)
+              color: isDark
+                  ? const Color(0xF20D0D1A) // Dark: rgba(13,13,26,0.95)
+                  : const Color(0xF2FFFFFF), // Light: rgba(255,255,255,0.95)
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.05),
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.05)
+                    : Colors.black.withValues(alpha: 0.08),
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.3),
+                  color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.15),
                   blurRadius: 25,
                   offset: const Offset(0, 8),
                 ),
@@ -107,6 +112,8 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
+
     return GestureDetector(
       onTap: () {
         haptics.navigation();
@@ -119,13 +126,13 @@ class _NavItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isActive
-              ? AppColors.primary.withValues(alpha: 0.15)
+              ? colors.primary.withValues(alpha: 0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           boxShadow: isActive
               ? [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.3),
+                    color: colors.primary.withValues(alpha: 0.3),
                     blurRadius: 12,
                     spreadRadius: -2,
                   ),
@@ -138,10 +145,10 @@ class _NavItem extends StatelessWidget {
             PhosphorIcon(
               icon,
               size: 24,
-              color: isActive ? AppColors.primary : AppColors.textTertiary,
+              color: isActive ? colors.primary : colors.textTertiary,
               duotoneSecondaryColor: isActive
-                  ? AppColors.primary.withValues(alpha: 0.4)
-                  : AppColors.textTertiary.withValues(alpha: 0.3),
+                  ? colors.primary.withValues(alpha: 0.4)
+                  : colors.textTertiary.withValues(alpha: 0.3),
             ),
             const SizedBox(height: 4),
             AnimatedDefaultTextStyle(
@@ -149,7 +156,7 @@ class _NavItem extends StatelessWidget {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-                color: isActive ? AppColors.primary : AppColors.textTertiary,
+                color: isActive ? colors.primary : colors.textTertiary,
                 letterSpacing: 0.3,
               ),
               child: Text(label),
@@ -386,6 +393,8 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final isDark = context.isDarkMode;
+    final colors = context.appColors;
 
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
@@ -397,15 +406,19 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
             height: 72,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
-              color: const Color(0xF20D0D1A), // rgba(13,13,26,0.95)
+              color: isDark
+                  ? const Color(0xF20D0D1A) // Dark: rgba(13,13,26,0.95)
+                  : const Color(0xF2FFFFFF), // Light: rgba(255,255,255,0.95)
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.05),
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.05)
+                    : Colors.black.withValues(alpha: 0.08),
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.3),
+                  color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.15),
                   blurRadius: 25,
                   offset: const Offset(0, 8),
                 ),

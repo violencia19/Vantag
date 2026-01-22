@@ -788,6 +788,82 @@ class PremiumModalRoute<T> extends PageRouteBuilder<T> {
 // LIGHT MODE COLORS
 // ═══════════════════════════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════════════════════════
+// THEME-AWARE COLOR HELPER
+// ═══════════════════════════════════════════════════════════════════════════
+
+/// Extension to get theme-aware colors from BuildContext
+/// Usage: context.appColors.background, context.appColors.textPrimary, etc.
+extension AppColorsExtension on BuildContext {
+  /// Get colors based on current theme (dark/light)
+  _ThemeColors get appColors {
+    final isDark = Theme.of(this).brightness == Brightness.dark;
+    return _ThemeColors(isDark);
+  }
+
+  /// Check if current theme is dark
+  bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
+}
+
+/// Theme-aware color container
+class _ThemeColors {
+  final bool _isDark;
+  const _ThemeColors(this._isDark);
+
+  // Backgrounds
+  Color get background => _isDark ? AppColors.background : AppColorsLight.background;
+  Color get cardBackground => _isDark ? AppColors.cardBackground : AppColorsLight.cardBackground;
+  Color get surfaceElevated => _isDark ? AppColors.surfaceElevated : AppColorsLight.surfaceElevated;
+  Color get surface => _isDark ? AppColors.surface : AppColorsLight.surface;
+  Color get surfaceLight => _isDark ? AppColors.surfaceLight : AppColorsLight.surfaceLight;
+  Color get surfaceLighter => _isDark ? AppColors.surfaceLighter : AppColorsLight.surfaceLighter;
+
+  // Gradient colors
+  Color get gradientStart => _isDark ? AppColors.gradientStart : AppColorsLight.gradientStart;
+  Color get gradientMid => _isDark ? AppColors.gradientMid : AppColorsLight.gradientMid;
+  Color get gradientEnd => _isDark ? AppColors.gradientEnd : AppColorsLight.gradientEnd;
+
+  // Primary colors (same in both themes)
+  Color get primary => AppColors.primary;
+  Color get primaryDark => AppColors.primaryDark;
+  Color get primaryLight => AppColors.primaryLight;
+  Color get secondary => AppColors.secondary;
+  Color get accent => AppColors.accent;
+  Color get gold => AppColors.gold;
+
+  // Text colors
+  Color get textPrimary => _isDark ? AppColors.textPrimary : AppColorsLight.textPrimary;
+  Color get textSecondary => _isDark ? AppColors.textSecondary : AppColorsLight.textSecondary;
+  Color get textTertiary => _isDark ? AppColors.textTertiary : AppColorsLight.textTertiary;
+
+  // Status colors
+  Color get success => _isDark ? AppColors.success : AppColorsLight.success;
+  Color get warning => _isDark ? AppColors.warning : AppColorsLight.warning;
+  Color get error => _isDark ? AppColors.error : AppColorsLight.error;
+  Color get info => _isDark ? AppColors.info : AppColorsLight.info;
+
+  // Decision colors
+  Color get decisionYes => _isDark ? AppColors.decisionYes : AppColorsLight.decisionYes;
+  Color get decisionThinking => _isDark ? AppColors.decisionThinking : AppColorsLight.decisionThinking;
+  Color get decisionNo => _isDark ? AppColors.decisionNo : AppColorsLight.decisionNo;
+
+  // Card colors
+  Color get cardBackgroundGlass => _isDark ? AppColors.cardBackgroundGlass : AppColorsLight.cardBackgroundGlass;
+  Color get cardBorder => _isDark ? AppColors.cardBorder : AppColorsLight.cardBorder;
+  Color get cardShadow => _isDark ? AppColors.cardShadow : AppColorsLight.cardShadow;
+
+  // Background gradient
+  LinearGradient get backgroundGradient => LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [gradientStart, gradientMid, gradientEnd],
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LIGHT MODE COLORS
+// ═══════════════════════════════════════════════════════════════════════════
+
 /// Light Mode Color Palette - Clean, Modern Finance App
 class AppColorsLight {
   AppColorsLight._();
