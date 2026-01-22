@@ -109,7 +109,7 @@ class _NavItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        HapticFeedback.selectionClick();
+        haptics.navigation();
         onTap();
       },
       behavior: HitTestBehavior.opaque,
@@ -202,7 +202,7 @@ class _CenterAddButtonState extends State<_CenterAddButton>
   void _onTapUp(TapUpDetails details) {
     setState(() => _isPressed = false);
     _controller.reverse();
-    HapticFeedback.mediumImpact();
+    haptics.buttonPress();
     widget.onTap();
   }
 
@@ -286,7 +286,7 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        HapticFeedback.selectionClick();
+        haptics.navigation();
         widget.onTap();
       },
       behavior: HitTestBehavior.opaque,

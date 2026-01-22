@@ -22,6 +22,7 @@ import 'services/deep_link_service.dart';
 import 'services/siri_service.dart';
 import 'services/budget_service.dart';
 import 'services/purchase_service.dart';
+import 'services/haptic_service.dart';
 
 /// Global navigator key for deep link dialogs
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -58,6 +59,14 @@ void main() async {
       debugPrint("✅ RevenueCat başlatıldı");
     } catch (e) {
       debugPrint("❌ RevenueCat hatası: $e");
+    }
+
+    // Initialize Haptic Service
+    try {
+      await haptics.init();
+      debugPrint("✅ Haptic Service başlatıldı");
+    } catch (e) {
+      debugPrint("❌ Haptic Service hatası: $e");
     }
 
     debugPrint("🚀 ADIM 1: Flutter Hazır");

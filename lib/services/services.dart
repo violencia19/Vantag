@@ -19,6 +19,7 @@ export 'tour_service.dart';
 // Wealth Coach
 export 'thinking_items_service.dart';
 export 'sensory_feedback_service.dart';
+export 'haptic_service.dart';
 export 'sound_service.dart';
 export 'victory_manager.dart';
 export 'streak_manager.dart';
