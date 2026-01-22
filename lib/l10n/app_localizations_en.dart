@@ -130,7 +130,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsContactUs => 'Contact Us';
 
   @override
-  String get settingsGrowth => 'Growth';
+  String get settingsGrowth => 'Invite & get 3 days Premium free!';
 
   @override
   String get settingsInviteFriends => 'Invite Friends';

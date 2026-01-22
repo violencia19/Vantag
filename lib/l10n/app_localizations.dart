@@ -335,7 +335,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsGrowth.
   ///
   /// In en, this message translates to:
-  /// **'Growth'**
+  /// **'Invite & get 3 days Premium free!'**
   String get settingsGrowth;
 
   /// No description provided for @settingsInviteFriends.

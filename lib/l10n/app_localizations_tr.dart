@@ -130,7 +130,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsContactUs => 'Bize Ulaşın';
 
   @override
-  String get settingsGrowth => 'Büyüme';
+  String get settingsGrowth => 'Davet et, 3 gün Premium kazan!';
 
   @override
   String get settingsInviteFriends => 'Arkadaşını Davet Et';
