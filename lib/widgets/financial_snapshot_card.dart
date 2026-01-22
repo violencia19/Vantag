@@ -501,6 +501,8 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                         // Design System: uppercase label, letterSpacing 1.2
                         Text(
                           l10n.income.toUpperCase(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: labelFontSize,
                             fontWeight: FontWeight.w600,
@@ -566,6 +568,8 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                         // Design System: uppercase label, letterSpacing 1.2
                         Text(
                           l10n.expense.toUpperCase(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: labelFontSize,
                             fontWeight: FontWeight.w600,
