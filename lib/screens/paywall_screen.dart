@@ -680,15 +680,22 @@ class _PaywallScreenState extends State<PaywallScreen>
                 // Most popular badge (yearly - gold)
                 if (isYearly && !isLifetime)
                   Positioned(
-                    top: -8,
-                    right: -8,
+                    top: -10,
+                    left: 40,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [AppColors.gold, Color(0xFFFFB800)],
                         ),
                         borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.gold.withValues(alpha: 0.4),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                       ),
                       child: Text(
                         l10n.mostPopular,
