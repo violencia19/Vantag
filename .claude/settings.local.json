@@ -92,7 +92,9 @@
       "Bash(npx add-skill:*)",
       "Bash(del \"c:\\\\flutter_projects\\\\mmr_app\\\\test\\\\services\\\\budget_service_test.dart\")",
       "Bash(del \"c:\\\\flutter_projects\\\\mmr_app\\\\test\\\\services\\\\profile_service_test.dart\")",
-      "Bash(del /q \"c:\\\\flutter_projects\\\\mmr_app\\\\test\\\\services\\\\pursuit_service_test.dart\")"
+      "Bash(del /q \"c:\\\\flutter_projects\\\\mmr_app\\\\test\\\\services\\\\pursuit_service_test.dart\")",
+      "Bash(Select-String -Pattern \"\\(passed|failed|All tests\\)\")",
+      "Bash(Select-Object -Last 5)"
     ]
   }
 }

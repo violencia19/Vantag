@@ -10,6 +10,7 @@ import '../providers/locale_provider.dart';
 import '../providers/currency_provider.dart';
 import '../providers/pro_provider.dart';
 import '../providers/finance_provider.dart';
+import '../providers/theme_provider.dart';
 import '../services/auth_service.dart';
 import '../services/export_service.dart';
 import '../services/purchase_service.dart';
@@ -479,29 +480,153 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildThemeTile(AppLocalizations l10n) {
+    final themeProvider = context.watch<ThemeProvider>();
+    final currentTheme = themeProvider.themeMode;
+
+    String themeName;
+    IconData themeIcon;
+    switch (currentTheme) {
+      case AppThemeMode.dark:
+        themeName = l10n.settingsThemeDark;
+        themeIcon = PhosphorIconsDuotone.moon;
+        break;
+      case AppThemeMode.light:
+        themeName = l10n.settingsThemeLight;
+        themeIcon = PhosphorIconsDuotone.sun;
+        break;
+      case AppThemeMode.system:
+        themeName = l10n.settingsThemeSystem;
+        themeIcon = PhosphorIconsDuotone.deviceMobile;
+        break;
+    }
+
     return _buildListTile(
-      icon: PhosphorIconsDuotone.moon,
+      icon: themeIcon,
       iconColor: const Color(0xFF9B59B6),
       title: l10n.settingsTheme,
-      trailing: Text(
-        l10n.settingsThemeDark,
-        style: TextStyle(
-          color: AppColors.textSecondary,
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-        ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            themeName,
+            style: TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Icon(
+            PhosphorIconsDuotone.caretRight,
+            size: 18,
+            color: AppColors.textTertiary,
+          ),
+        ],
       ),
       showArrow: false,
-      onTap: () {
-        HapticFeedback.lightImpact();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('More themes coming soon!'),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: AppColors.surfaceLight,
-          ),
-        );
-      },
+      onTap: () => _showThemeSelector(themeProvider, l10n),
+    );
+  }
+
+  void _showThemeSelector(ThemeProvider themeProvider, AppLocalizations l10n) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40,
+              height: 4,
+              margin: const EdgeInsets.only(top: 12, bottom: 20),
+              decoration: BoxDecoration(
+                color: AppColors.textTertiary.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: Text(
+                l10n.settingsTheme,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1A1A2E),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(PhosphorIconsDuotone.moon, color: Colors.white, size: 20),
+              ),
+              title: Text(l10n.settingsThemeDark),
+              trailing: themeProvider.themeMode == AppThemeMode.dark
+                  ? Icon(PhosphorIconsDuotone.checkCircle, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                themeProvider.setThemeMode(AppThemeMode.dark);
+                Navigator.pop(context);
+                HapticFeedback.selectionClick();
+              },
+            ),
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF5F5F5),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(PhosphorIconsDuotone.sun, color: Color(0xFF1A1A2E), size: 20),
+              ),
+              title: Text(l10n.settingsThemeLight),
+              trailing: themeProvider.themeMode == AppThemeMode.light
+                  ? Icon(PhosphorIconsDuotone.checkCircle, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                themeProvider.setThemeMode(AppThemeMode.light);
+                Navigator.pop(context);
+                HapticFeedback.selectionClick();
+              },
+            ),
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF1A1A2E), Color(0xFFF5F5F5)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(PhosphorIconsDuotone.deviceMobile, color: Colors.white, size: 20),
+              ),
+              title: Text(l10n.settingsThemeSystem),
+              trailing: themeProvider.themeMode == AppThemeMode.system
+                  ? Icon(PhosphorIconsDuotone.checkCircle, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                themeProvider.setThemeMode(AppThemeMode.system);
+                Navigator.pop(context);
+                HapticFeedback.selectionClick();
+              },
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
     );
   }
 

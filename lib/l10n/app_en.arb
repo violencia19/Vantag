@@ -38,6 +38,8 @@
   "settingsLanguage": "Language",
   "settingsTheme": "Theme",
   "settingsThemeDark": "Dark",
+  "settingsThemeLight": "Light",
+  "settingsThemeSystem": "System",
 
   "settingsNotifications": "Notifications",
   "settingsReminders": "Reminders",
@@ -190,6 +192,11 @@
   "getStarted": "Get Started",
 
   "offlineMode": "Offline mode - Data will be synced",
+  "noInternet": "No Internet Connection",
+  "offline": "Offline",
+  "offlineMessage": "Data will sync when connection is restored",
+  "backOnline": "Back Online",
+  "dataSynced": "Data synced successfully",
 
   "reports": "Reports",
   "monthlyReport": "Monthly Report",
@@ -1550,6 +1557,16 @@
   "paywallTitle": "Upgrade to Premium",
   "paywallSubtitle": "Unlock all features and achieve your financial freedom",
   "subscribeToPro": "Subscribe to Pro",
+  "startFreeTrial": "Start 7-Day Free Trial",
+  "freeTrialBanner": "7 DAYS FREE",
+  "freeTrialDescription": "First 7 days completely free, cancel anytime",
+  "trialThenPrice": "Then {price}/month after trial",
+  "@trialThenPrice": {
+    "placeholders": {
+      "price": {"type": "String"}
+    }
+  },
+  "noPaymentNow": "No payment required now",
   "restorePurchases": "Restore purchases",
   "feature": "Feature",
   "featureAiChat": "AI Chat",

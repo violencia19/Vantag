@@ -16,6 +16,7 @@ export 'animated_expense_list.dart';
 export 'animated_bottom_sheet.dart';
 export 'empty_state.dart';
 export 'shimmer_effect.dart';
+export 'offline_banner.dart';
 export 'turkish_currency_input.dart';
 export 'income_summary_widget.dart';
 export 'financial_snapshot_card.dart';

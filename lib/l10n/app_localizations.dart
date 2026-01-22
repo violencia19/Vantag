@@ -242,6 +242,18 @@ abstract class AppLocalizations {
   /// **'Dark'**
   String get settingsThemeDark;
 
+  /// No description provided for @settingsThemeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settingsThemeLight;
+
+  /// No description provided for @settingsThemeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get settingsThemeSystem;
+
   /// No description provided for @settingsNotifications.
   ///
   /// In en, this message translates to:
@@ -841,6 +853,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Offline mode - Data will be synced'**
   String get offlineMode;
+
+  /// No description provided for @noInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'No Internet Connection'**
+  String get noInternet;
+
+  /// No description provided for @offline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get offline;
+
+  /// No description provided for @offlineMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Data will sync when connection is restored'**
+  String get offlineMessage;
+
+  /// No description provided for @backOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Back Online'**
+  String get backOnline;
+
+  /// No description provided for @dataSynced.
+  ///
+  /// In en, this message translates to:
+  /// **'Data synced successfully'**
+  String get dataSynced;
 
   /// No description provided for @reports.
   ///
@@ -5353,6 +5395,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Subscribe to Pro'**
   String get subscribeToPro;
+
+  /// No description provided for @startFreeTrial.
+  ///
+  /// In en, this message translates to:
+  /// **'Start 7-Day Free Trial'**
+  String get startFreeTrial;
+
+  /// No description provided for @freeTrialBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'7 DAYS FREE'**
+  String get freeTrialBanner;
+
+  /// No description provided for @freeTrialDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'First 7 days completely free, cancel anytime'**
+  String get freeTrialDescription;
+
+  /// No description provided for @trialThenPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Then {price}/month after trial'**
+  String trialThenPrice(String price);
+
+  /// No description provided for @noPaymentNow.
+  ///
+  /// In en, this message translates to:
+  /// **'No payment required now'**
+  String get noPaymentNow;
 
   /// No description provided for @restorePurchases.
   ///

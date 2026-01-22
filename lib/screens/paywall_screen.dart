@@ -151,6 +151,10 @@ class _PaywallScreenState extends State<PaywallScreen> {
                       _buildProBadge(),
                       const SizedBox(height: 24),
 
+                      // FREE TRIAL BANNER - Prominent
+                      _buildFreeTrialBanner(l10n),
+                      const SizedBox(height: 24),
+
                       // Title
                       Text(
                         l10n.paywallTitle,
@@ -236,6 +240,105 @@ class _PaywallScreenState extends State<PaywallScreen> {
               fontWeight: FontWeight.bold,
               letterSpacing: 2,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFreeTrialBanner(AppLocalizations l10n) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppColors.success.withValues(alpha: 0.2),
+            AppColors.success.withValues(alpha: 0.1),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: AppColors.success.withValues(alpha: 0.5),
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.success.withValues(alpha: 0.2),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // Badge
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: AppColors.success,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(LucideIcons.gift, color: Colors.white, size: 18),
+                const SizedBox(width: 8),
+                Text(
+                  l10n.freeTrialBanner,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Main text
+          Text(
+            l10n.startFreeTrial,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.success,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+
+          // Description
+          Text(
+            l10n.freeTrialDescription,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: AppColors.textSecondary,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 12),
+
+          // No payment now indicator
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                LucideIcons.shieldCheck,
+                color: AppColors.success.withValues(alpha: 0.8),
+                size: 16,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                l10n.noPaymentNow,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColors.success,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -566,9 +669,16 @@ class _PaywallScreenState extends State<PaywallScreen> {
   }
 
   Widget _buildPurchaseButton(AppLocalizations l10n) {
+    // Check if selected package has a trial
+    final id = _selectedPackage?.identifier.toLowerCase() ?? '';
+    final isMonthlyWithTrial = id.contains('monthly');
+    final buttonText = isMonthlyWithTrial ? l10n.startFreeTrial : l10n.subscribeToPro;
+    final buttonColor = isMonthlyWithTrial ? AppColors.success : AppColors.primary;
+    final buttonColorEnd = isMonthlyWithTrial ? const Color(0xFF00C853) : AppColors.secondary;
+
     return SizedBox(
       width: double.infinity,
-      height: 56,
+      height: 60,
       child: ElevatedButton(
         onPressed: _isPurchasing ? null : _purchase,
         style: ElevatedButton.styleFrom(
@@ -579,10 +689,17 @@ class _PaywallScreenState extends State<PaywallScreen> {
         ),
         child: Ink(
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [AppColors.primary, AppColors.secondary],
+            gradient: LinearGradient(
+              colors: [buttonColor, buttonColorEnd],
             ),
             borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: buttonColor.withValues(alpha: 0.4),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
           child: Container(
             alignment: Alignment.center,
@@ -595,13 +712,22 @@ class _PaywallScreenState extends State<PaywallScreen> {
                       strokeWidth: 2,
                     ),
                   )
-                : Text(
-                    l10n.subscribeToPro,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (isMonthlyWithTrial) ...[
+                        const Icon(LucideIcons.gift, color: Colors.white, size: 20),
+                        const SizedBox(width: 8),
+                      ],
+                      Text(
+                        buttonText,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
           ),
         ),

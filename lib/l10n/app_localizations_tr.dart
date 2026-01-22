@@ -85,6 +85,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsThemeDark => 'Koyu';
 
   @override
+  String get settingsThemeLight => 'Açık';
+
+  @override
+  String get settingsThemeSystem => 'Sistem';
+
+  @override
   String get settingsNotifications => 'Bildirimler';
 
   @override
@@ -399,6 +405,22 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get offlineMode => 'Çevrimdışı mod - Veriler senkronize edilecek';
+
+  @override
+  String get noInternet => 'İnternet Bağlantısı Yok';
+
+  @override
+  String get offline => 'Çevrimdışı';
+
+  @override
+  String get offlineMessage =>
+      'Veriler bağlantı sağlandığında senkronize edilecek';
+
+  @override
+  String get backOnline => 'Tekrar Çevrimiçi';
+
+  @override
+  String get dataSynced => 'Veriler senkronize edildi';
 
   @override
   String get reports => 'Raporlar';
@@ -2904,6 +2926,24 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get subscribeToPro => 'Pro\'ya Abone Ol';
+
+  @override
+  String get startFreeTrial => '7 Gün Ücretsiz Dene';
+
+  @override
+  String get freeTrialBanner => '7 GÜN ÜCRETSİZ';
+
+  @override
+  String get freeTrialDescription =>
+      'İlk 7 gün tamamen ücretsiz, istediğin zaman iptal et';
+
+  @override
+  String trialThenPrice(String price) {
+    return 'Deneme sonrası $price/ay';
+  }
+
+  @override
+  String get noPaymentNow => 'Şimdi ödeme yapılmayacak';
 
   @override
   String get restorePurchases => 'Satın alımları geri yükle';

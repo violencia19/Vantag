@@ -85,6 +85,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsThemeDark => 'Dark';
 
   @override
+  String get settingsThemeLight => 'Light';
+
+  @override
+  String get settingsThemeSystem => 'System';
+
+  @override
   String get settingsNotifications => 'Notifications';
 
   @override
@@ -399,6 +405,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get offlineMode => 'Offline mode - Data will be synced';
+
+  @override
+  String get noInternet => 'No Internet Connection';
+
+  @override
+  String get offline => 'Offline';
+
+  @override
+  String get offlineMessage => 'Data will sync when connection is restored';
+
+  @override
+  String get backOnline => 'Back Online';
+
+  @override
+  String get dataSynced => 'Data synced successfully';
 
   @override
   String get reports => 'Reports';
@@ -2905,6 +2926,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get subscribeToPro => 'Subscribe to Pro';
+
+  @override
+  String get startFreeTrial => 'Start 7-Day Free Trial';
+
+  @override
+  String get freeTrialBanner => '7 DAYS FREE';
+
+  @override
+  String get freeTrialDescription =>
+      'First 7 days completely free, cancel anytime';
+
+  @override
+  String trialThenPrice(String price) {
+    return 'Then $price/month after trial';
+  }
+
+  @override
+  String get noPaymentNow => 'No payment required now';
 
   @override
   String get restorePurchases => 'Restore purchases';

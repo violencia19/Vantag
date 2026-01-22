@@ -120,6 +120,11 @@ void main() async {
     await savingsPoolProvider.initialize();
     debugPrint("✅ ADIM 6: Savings Pool Provider Hazır");
 
+    // ThemeProvider başlat
+    final themeProvider = ThemeProvider();
+    await themeProvider.initialize();
+    debugPrint("✅ ADIM 7: Theme Provider Hazır");
+
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -134,6 +139,7 @@ void main() async {
       currencyProvider: currencyProvider,
       proProvider: proProvider,
       savingsPoolProvider: savingsPoolProvider,
+      themeProvider: themeProvider,
     ));
   }, (error, stack) {
     // Record async errors to Crashlytics
@@ -146,6 +152,7 @@ class VantagApp extends StatefulWidget {
   final CurrencyProvider currencyProvider;
   final ProProvider proProvider;
   final SavingsPoolProvider savingsPoolProvider;
+  final ThemeProvider themeProvider;
 
   const VantagApp({
     super.key,
@@ -153,6 +160,7 @@ class VantagApp extends StatefulWidget {
     required this.currencyProvider,
     required this.proProvider,
     required this.savingsPoolProvider,
+    required this.themeProvider,
   });
 
   @override
@@ -190,15 +198,18 @@ class _VantagAppState extends State<VantagApp> {
         ChangeNotifierProvider.value(value: widget.currencyProvider),
         ChangeNotifierProvider.value(value: widget.proProvider),
         ChangeNotifierProvider.value(value: widget.savingsPoolProvider),
+        ChangeNotifierProvider.value(value: widget.themeProvider),
         ChangeNotifierProvider(create: (_) => PursuitProvider()),
       ],
-      child: Consumer<LocaleProvider>(
-        builder: (context, localeProvider, child) {
+      child: Consumer2<LocaleProvider, ThemeProvider>(
+        builder: (context, localeProvider, themeProvider, child) {
           return MaterialApp(
             title: 'Vantag',
             navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
-            theme: AppTheme.darkTheme,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: themeProvider.materialThemeMode,
 
             // Localization ayarları
             locale: localeProvider.locale,

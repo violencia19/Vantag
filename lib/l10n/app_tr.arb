@@ -38,6 +38,8 @@
   "settingsLanguage": "Dil",
   "settingsTheme": "Tema",
   "settingsThemeDark": "Koyu",
+  "settingsThemeLight": "Açık",
+  "settingsThemeSystem": "Sistem",
 
   "settingsNotifications": "Bildirimler",
   "settingsReminders": "Hatırlatıcılar",
@@ -155,6 +157,11 @@
   "getStarted": "Başla",
 
   "offlineMode": "Çevrimdışı mod - Veriler senkronize edilecek",
+  "noInternet": "İnternet Bağlantısı Yok",
+  "offline": "Çevrimdışı",
+  "offlineMessage": "Veriler bağlantı sağlandığında senkronize edilecek",
+  "backOnline": "Tekrar Çevrimiçi",
+  "dataSynced": "Veriler senkronize edildi",
 
   "reports": "Raporlar",
   "monthlyReport": "Aylık Rapor",
@@ -1184,6 +1191,16 @@
   "paywallTitle": "Premium'a Geç",
   "paywallSubtitle": "Tüm özelliklerin kilidini aç ve finansal özgürlüğüne ulaş",
   "subscribeToPro": "Pro'ya Abone Ol",
+  "startFreeTrial": "7 Gün Ücretsiz Dene",
+  "freeTrialBanner": "7 GÜN ÜCRETSİZ",
+  "freeTrialDescription": "İlk 7 gün tamamen ücretsiz, istediğin zaman iptal et",
+  "trialThenPrice": "Deneme sonrası {price}/ay",
+  "@trialThenPrice": {
+    "placeholders": {
+      "price": {"type": "String"}
+    }
+  },
+  "noPaymentNow": "Şimdi ödeme yapılmayacak",
   "restorePurchases": "Satın alımları geri yükle",
   "feature": "Özellik",
   "featureAiChat": "AI Sohbet",

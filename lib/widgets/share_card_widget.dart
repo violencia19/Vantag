@@ -39,35 +39,37 @@ class ShareCardWidget extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(24),
       ),
+      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           // Icon
           Container(
-            width: 120,
-            height: 120,
+            width: 100,
+            height: 100,
             decoration: BoxDecoration(
               color: iconColor.withValues(alpha: 0.2),
               shape: BoxShape.circle,
             ),
             child: Icon(
               icon,
-              size: 64,
+              size: 52,
               color: iconColor,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
 
           // Main number
           Text(
             l10n.shareCardDays(yearlyDays),
             style: const TextStyle(
-              fontSize: 72,
+              fontSize: 56,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
 
           // Description
           Text(
@@ -103,7 +105,7 @@ class ShareCardWidget extends StatelessWidget {
             ),
           ],
 
-          const SizedBox(height: 48),
+          const SizedBox(height: 32),
 
           // Divider
           Container(
@@ -111,18 +113,18 @@ class ShareCardWidget extends StatelessWidget {
             height: 1,
             color: const Color(0x40FFFFFF),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
 
           // CTA
           Text(
             l10n.shareCardQuestion,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 20),
 
           // Logo/URL
           const Text(
