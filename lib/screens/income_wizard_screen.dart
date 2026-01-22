@@ -5,7 +5,6 @@ import 'package:vantag/l10n/app_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
-import '../models/currency.dart';
 import '../providers/providers.dart';
 import '../theme/theme.dart';
 import '../utils/currency_utils.dart';

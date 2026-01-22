@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/savings_pool_provider.dart';

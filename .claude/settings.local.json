@@ -89,7 +89,10 @@
       "Bash(firebase firestore:delete:*)",
       "Bash(node -e:*)",
       "Bash(gcloud auth application-default print-access-token:*)",
-      "Bash(npx add-skill:*)"
+      "Bash(npx add-skill:*)",
+      "Bash(del \"c:\\\\flutter_projects\\\\mmr_app\\\\test\\\\services\\\\budget_service_test.dart\")",
+      "Bash(del \"c:\\\\flutter_projects\\\\mmr_app\\\\test\\\\services\\\\profile_service_test.dart\")",
+      "Bash(del /q \"c:\\\\flutter_projects\\\\mmr_app\\\\test\\\\services\\\\pursuit_service_test.dart\")"
     ]
   }
 }

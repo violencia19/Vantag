@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/currency_provider.dart';
 import '../theme/theme.dart' hide GlassCard;
-import '../theme/app_theme.dart' show AppFonts;
 import '../core/theme/premium_effects.dart';
 import '../utils/currency_utils.dart';
 
@@ -445,7 +444,20 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
     final incomeConverted = currencyProvider.convertFromTRY(income);
     final spentConverted = currencyProvider.convertFromTRY(spent);
 
-    return GradientBorder(
+    // Symmetric layout constants
+    const double iconSize = 48;
+    const double iconBorderRadius = 14;
+    const double iconInnerSize = 24;
+    const double labelFontSize = 12;
+    const double amountFontSize = 28;
+    const double spacing = 14;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Responsive font size for very small screens
+        final responsiveAmountSize = constraints.maxWidth < 300 ? 22.0 : amountFontSize;
+
+        return GradientBorder(
       borderWidth: 1.5,
       borderRadius: 20, // Design System: consistent border radius
       gradient: LinearGradient(
@@ -467,21 +479,21 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                 children: [
                   // Icon with glow halo - enhanced
                   Container(
-                    width: 48,
-                    height: 48,
+                    width: iconSize,
+                    height: iconSize,
                     decoration: BoxDecoration(
                       color: AppColors.success.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(iconBorderRadius),
                       boxShadow: PremiumShadows.coloredGlow(AppColors.success, intensity: 0.6),
                     ),
                     child: Icon(
                       PhosphorIconsDuotone.arrowDown,
-                      size: 24,
+                      size: iconInnerSize,
                       color: AppColors.success,
                       shadows: PremiumShadows.iconHalo(AppColors.success),
                     ),
                   ),
-                  const SizedBox(width: 14),
+                  SizedBox(width: spacing),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -489,8 +501,8 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                         // Design System: uppercase label, letterSpacing 1.2
                         Text(
                           l10n.income.toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 12,
+                          style: TextStyle(
+                            fontSize: labelFontSize,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 1.2,
                             color: AppColors.textTertiary,
@@ -504,7 +516,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                           child: Text(
                             formatTurkishCurrency(incomeConverted, decimalDigits: 0, showDecimals: false),
                             style: TextStyle(
-                              fontSize: 28,
+                              fontSize: responsiveAmountSize,
                               fontWeight: FontWeight.w700,
                               letterSpacing: -0.5,
                               color: Colors.white,
@@ -554,8 +566,8 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                         // Design System: uppercase label, letterSpacing 1.2
                         Text(
                           l10n.expense.toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 12,
+                          style: TextStyle(
+                            fontSize: labelFontSize,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 1.2,
                             color: AppColors.textTertiary,
@@ -569,7 +581,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                           child: Text(
                             formatTurkishCurrency(spentConverted, decimalDigits: 0, showDecimals: false),
                             style: TextStyle(
-                              fontSize: 28,
+                              fontSize: responsiveAmountSize,
                               fontWeight: FontWeight.w700,
                               letterSpacing: -0.5,
                               color: Colors.white,
@@ -585,19 +597,19 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                       ],
                     ),
                   ),
-                  const SizedBox(width: 14),
+                  SizedBox(width: spacing),
                   // Icon with glow halo - enhanced
                   Container(
-                    width: 48,
-                    height: 48,
+                    width: iconSize,
+                    height: iconSize,
                     decoration: BoxDecoration(
                       color: AppColors.error.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(iconBorderRadius),
                       boxShadow: PremiumShadows.coloredGlow(AppColors.error, intensity: 0.6),
                     ),
                     child: Icon(
                       PhosphorIconsDuotone.arrowUp,
-                      size: 24,
+                      size: iconInnerSize,
                       color: AppColors.error,
                       shadows: PremiumShadows.iconHalo(AppColors.error),
                     ),
@@ -608,6 +620,8 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
           ],
         ),
       ),
+    );
+      },
     );
   }
 }

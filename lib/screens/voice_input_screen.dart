@@ -267,7 +267,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    '${result.amount!.toStringAsFixed(0)} TL ${result.description ?? category} eklendi',
+                    '${result.amount!.toStringAsFixed(0)} TL ${result.description.isNotEmpty ? result.description : category} eklendi',
                   ),
                 ),
               ],
@@ -304,7 +304,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 fontWeight: FontWeight.w700,
               ),
             ),
-            if (result.description != null && result.description.isNotEmpty) ...[
+            if (result.description.isNotEmpty) ...[
               const SizedBox(height: 4),
               Text(
                 result.description,

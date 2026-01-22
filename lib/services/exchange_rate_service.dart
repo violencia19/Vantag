@@ -72,7 +72,6 @@ class ExchangeRateService {
 
     // Cross rates
     final eurTry = usdTry / eurUsd; // 1 EUR = X TRY
-    final gbpTry = usdTry / gbpUsd; // 1 GBP = X TRY
     final eurToUsd = 1 / eurUsd; // 1 EUR = X USD
     final gbpToUsd = 1 / gbpUsd; // 1 GBP = X USD
 

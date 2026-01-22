@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import '../models/models.dart';
 import '../providers/providers.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';

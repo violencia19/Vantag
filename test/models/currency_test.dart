@@ -148,9 +148,9 @@ void main() {
       expect(currency.code, supportedCurrencies.first.code);
     });
 
-    test('is case sensitive', () {
+    test('is case insensitive', () {
       final currency = getCurrencyByCode('try');
-      expect(currency.code, isNot('TRY'));
+      expect(currency.code, 'TRY');
     });
   });
 

@@ -18,7 +18,6 @@ class ExportService {
   static const _negativeColor = '#EF4444'; // Kırmızı
   static const _warningColor = '#F59E0B'; // Sarı
   static const _alternateRowColor = '#F8FAFC';
-  static const _borderColor = '#E2E8F0';
 
   /// Excel dosyası oluştur ve paylaş
   Future<File?> exportToExcel(BuildContext context) async {

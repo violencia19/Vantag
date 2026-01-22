@@ -7,7 +7,6 @@ import '../models/models.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 import '../widgets/widgets.dart';
-import '../utils/currency_utils.dart';
 
 /// Subscription management screen
 /// Allows switching between list and calendar views

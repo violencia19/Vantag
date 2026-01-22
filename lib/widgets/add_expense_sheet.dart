@@ -65,7 +65,6 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
   // Currency state
   late Currency _expenseCurrency;
   late Currency _incomeCurrency;
-  late Currency _displayCurrency;
 
   // Smart Match & Animations
   late AnimationController _smartMatchAnimController;
@@ -142,7 +141,6 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
   void _initCurrencies() {
     final financeProvider = context.read<FinanceProvider>();
-    final currencyProvider = context.read<CurrencyProvider>();
 
     // Get income currency from user profile (default TRY)
     final userProfile = financeProvider.userProfile;
@@ -150,9 +148,6 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         ? userProfile!.incomeSources.first.currencyCode
         : 'TRY';
     _incomeCurrency = getCurrencyByCode(incomeCurrencyCode);
-
-    // Get display currency from provider
-    _displayCurrency = currencyProvider.currency;
 
     // Default expense currency is income currency
     _expenseCurrency = _incomeCurrency;

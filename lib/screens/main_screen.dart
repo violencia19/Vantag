@@ -10,7 +10,6 @@ import '../services/services.dart';
 import '../theme/theme.dart';
 import '../providers/providers.dart';
 import '../widgets/widgets.dart';
-import '../utils/currency_utils.dart';
 import 'expense_screen.dart';
 import 'report_screen.dart';
 import 'pursuit_list_screen.dart';
@@ -36,7 +35,6 @@ class _MainScreenState extends State<MainScreen> {
 
   final _connectivityService = ConnectivityService();
   final _currencyService = CurrencyService();
-  final _calculationService = CalculationService();
 
   // ExpenseScreen'e erişim için GlobalKey
   final GlobalKey<State<ExpenseScreen>> _expenseScreenKey = GlobalKey();
@@ -142,7 +140,7 @@ class _MainScreenState extends State<MainScreen> {
       final expenseState = _expenseScreenKey.currentState;
       ScrollController? scrollController;
 
-      if (expenseState != null && expenseState is dynamic) {
+      if (expenseState != null) {
         try {
           scrollController = (expenseState as dynamic).scrollController as ScrollController?;
         } catch (_) {

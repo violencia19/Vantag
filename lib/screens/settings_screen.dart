@@ -14,7 +14,6 @@ import '../services/auth_service.dart';
 import '../services/export_service.dart';
 import '../services/purchase_service.dart';
 import '../services/notification_service.dart';
-import '../services/achievements_service.dart';
 import '../theme/theme.dart';
 import '../widgets/currency_selector.dart';
 import 'paywall_screen.dart';

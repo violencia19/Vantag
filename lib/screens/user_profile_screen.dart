@@ -9,7 +9,6 @@ import '../providers/providers.dart';
 import '../widgets/widgets.dart';
 import '../theme/theme.dart';
 import 'income_wizard_screen.dart';
-import 'main_screen.dart';
 import 'onboarding_try_screen.dart';
 
 class UserProfileScreen extends StatefulWidget {

@@ -21,7 +21,6 @@ class CategoryUtils {
   /// Get localized category name from internal key
   static String getLocalizedName(BuildContext context, String internalKey) {
     final l10n = AppLocalizations.of(context);
-    if (l10n == null) return internalKey;
 
     switch (internalKey) {
       case 'Yiyecek':
@@ -66,7 +65,6 @@ class CategoryUtils {
   /// Get localized full weekday name
   static String getLocalizedWeekday(BuildContext context, int weekday) {
     final l10n = AppLocalizations.of(context);
-    if (l10n == null) return '';
 
     switch (weekday) {
       case 1:

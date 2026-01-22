@@ -1,5 +1,4 @@
 import '../models/models.dart';
-import '../models/currency.dart';
 import '../providers/finance_provider.dart';
 import '../utils/duplicate_checker.dart';
 import 'calculation_service.dart';
