@@ -1249,6 +1249,342 @@ class _PulseGlowState extends State<PulseGlow>
 // PAGE TRANSITION WRAPPER
 // ===========================================
 
+// ===========================================
+// FROSTED GLASS CONTAINER
+// ===========================================
+
+/// Frosted glass effect with customizable blur and tint
+class FrostedGlass extends StatelessWidget {
+  final Widget child;
+  final double blur;
+  final Color tint;
+  final double tintOpacity;
+  final double borderRadius;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+
+  const FrostedGlass({
+    super.key,
+    required this.child,
+    this.blur = 10,
+    this.tint = Colors.white,
+    this.tintOpacity = 0.1,
+    this.borderRadius = 16,
+    this.padding,
+    this.margin,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: margin,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+          child: Container(
+            padding: padding,
+            decoration: BoxDecoration(
+              color: tint.withValues(alpha: tintOpacity),
+              borderRadius: BorderRadius.circular(borderRadius),
+            ),
+            child: child,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================
+// GLASS MODAL BOTTOM SHEET
+// ===========================================
+
+/// Glass-styled modal bottom sheet wrapper
+class GlassModalSheet extends StatelessWidget {
+  final Widget child;
+  final double blur;
+  final Color backgroundColor;
+  final double topRadius;
+  final EdgeInsets? padding;
+
+  const GlassModalSheet({
+    super.key,
+    required this.child,
+    this.blur = 20,
+    this.backgroundColor = const Color(0xFF1A1625),
+    this.topRadius = 24,
+    this.padding,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(topRadius)),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+        child: Container(
+          padding: padding,
+          decoration: BoxDecoration(
+            color: backgroundColor.withValues(alpha: 0.95),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(topRadius)),
+            border: Border(
+              top: BorderSide(
+                color: Colors.white.withValues(alpha: 0.1),
+                width: 1,
+              ),
+            ),
+          ),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================
+// GLASS BUTTON
+// ===========================================
+
+/// Glass-styled button with blur effect
+class GlassButton extends StatefulWidget {
+  final Widget child;
+  final VoidCallback? onTap;
+  final double blur;
+  final double borderRadius;
+  final EdgeInsets? padding;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final List<BoxShadow>? boxShadow;
+
+  const GlassButton({
+    super.key,
+    required this.child,
+    this.onTap,
+    this.blur = 10,
+    this.borderRadius = 12,
+    this.padding,
+    this.backgroundColor,
+    this.borderColor,
+    this.boxShadow,
+  });
+
+  @override
+  State<GlassButton> createState() => _GlassButtonState();
+}
+
+class _GlassButtonState extends State<GlassButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.96).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => _controller.forward(),
+      onTapUp: (_) {
+        _controller.reverse();
+        widget.onTap?.call();
+      },
+      onTapCancel: () => _controller.reverse(),
+      child: AnimatedBuilder(
+        animation: _scaleAnimation,
+        builder: (context, child) {
+          return Transform.scale(
+            scale: _scaleAnimation.value,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(widget.borderRadius),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: widget.blur, sigmaY: widget.blur),
+                child: Container(
+                  padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: widget.backgroundColor ?? Colors.white.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(widget.borderRadius),
+                    border: Border.all(
+                      color: widget.borderColor ?? Colors.white.withValues(alpha: 0.2),
+                      width: 1,
+                    ),
+                    boxShadow: widget.boxShadow,
+                  ),
+                  child: widget.child,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// ===========================================
+// GLASS CHIP
+// ===========================================
+
+/// Glass-styled chip/tag
+class GlassChip extends StatelessWidget {
+  final String label;
+  final IconData? icon;
+  final Color? iconColor;
+  final VoidCallback? onTap;
+  final bool selected;
+  final double blur;
+
+  const GlassChip({
+    super.key,
+    required this.label,
+    this.icon,
+    this.iconColor,
+    this.onTap,
+    this.selected = false,
+    this.blur = 8,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: selected
+                  ? PremiumColors.purple.withValues(alpha: 0.3)
+                  : Colors.white.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: selected
+                    ? PremiumColors.purple.withValues(alpha: 0.5)
+                    : Colors.white.withValues(alpha: 0.15),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (icon != null) ...[
+                  Icon(icon, size: 16, color: iconColor ?? Colors.white70),
+                  const SizedBox(width: 6),
+                ],
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: selected ? Colors.white : Colors.white70,
+                    fontSize: 13,
+                    fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================
+// NEON GLOW TEXT
+// ===========================================
+
+/// Text with neon glow effect
+class NeonText extends StatelessWidget {
+  final String text;
+  final TextStyle? style;
+  final Color glowColor;
+  final double blurRadius;
+
+  const NeonText({
+    super.key,
+    required this.text,
+    this.style,
+    this.glowColor = PremiumColors.purple,
+    this.blurRadius = 10,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        // Glow layer
+        Text(
+          text,
+          style: (style ?? const TextStyle()).copyWith(
+            foreground: Paint()
+              ..color = glowColor
+              ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurRadius),
+          ),
+        ),
+        // Main text
+        Text(text, style: style),
+      ],
+    );
+  }
+}
+
+// ===========================================
+// GLASS DIVIDER
+// ===========================================
+
+/// Frosted glass styled divider
+class GlassDivider extends StatelessWidget {
+  final double height;
+  final double indent;
+  final double endIndent;
+  final Color? color;
+
+  const GlassDivider({
+    super.key,
+    this.height = 1,
+    this.indent = 0,
+    this.endIndent = 0,
+    this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: indent, right: endIndent),
+      height: height,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.transparent,
+            (color ?? Colors.white).withValues(alpha: 0.2),
+            Colors.transparent,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ===========================================
+// PAGE TRANSITION WRAPPER
+// ===========================================
+
 /// Wrapper to trigger animations on page change
 class AnimatedPageContent extends StatefulWidget {
   final Widget child;
