@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -587,6 +588,17 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     }
 
     if (!mounted) return;
+
+    // Smart Choice savings (when user bought but spent less than intended)
+    // Example: Intended to spend 520₺, actually spent 500₺ = 20₺ savings
+    if (decision == ExpenseDecision.yes &&
+        expenseWithDecision.isSmartChoice &&
+        expenseWithDecision.savedAmount > 0 &&
+        !isSimulation) {
+      final savingsPoolProvider = context.read<SavingsPoolProvider>();
+      await savingsPoolProvider.addSavings(expenseWithDecision.savedAmount);
+      debugPrint('💰 [AddExpenseSheet] Smart Choice savings added: ${expenseWithDecision.savedAmount}');
+    }
 
     // Victory celebration for "passed" decision
     if (decision == ExpenseDecision.no && !isSimulation) {
