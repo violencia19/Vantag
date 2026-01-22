@@ -1656,6 +1656,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get share => 'Paylaş';
 
   @override
+  String get sharing => 'Paylaşılıyor...';
+
+  @override
+  String get frequency => 'Sıklık';
+
+  @override
   String get youSaved => 'kurtardın!';
 
   @override

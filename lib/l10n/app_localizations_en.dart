@@ -1658,6 +1658,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get share => 'Share';
 
   @override
+  String get sharing => 'Sharing...';
+
+  @override
+  String get frequency => 'Frequency';
+
+  @override
   String get youSaved => 'saved!';
 
   @override

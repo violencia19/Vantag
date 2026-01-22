@@ -9,9 +9,7 @@ import '../providers/finance_provider.dart';
 import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
 import '../utils/habit_calculator.dart';
-import '../widgets/share_card_widget.dart';
-import '../widgets/share_edit_sheet.dart';
-import '../services/share_service.dart';
+import '../widgets/premium_share_card.dart';
 
 /// Viral Habit Calculator
 /// 3-step wizard to calculate how many work days user's habits cost
@@ -1097,43 +1095,15 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
 
   void _shareResult() {
     HapticFeedback.mediumImpact();
-    showModalBottomSheet(
-      context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.95),
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        final l10n = AppLocalizations.of(context);
-        return ShareEditSheet(
-          icon: _selectedCategory!.icon,
-          iconColor: _selectedCategory!.color,
-          categoryName: _selectedCategory!.name,
-          yearlyDays: _result!.yearlyDays,
-          yearlyAmount: _result!.yearlyAmount,
-          frequency: HabitCalculator.getLocalizedFrequency(_selectedFrequency!, l10n),
-          onShare: (showAmount, showFrequency) {
-            _showShareCardAndShare(showAmount, showFrequency);
-          },
-        );
-      },
-    );
-  }
-
-  Future<void> _showShareCardAndShare(bool showAmount, bool showFrequency) async {
-    // Paylaşım kartını dialog olarak göster ve screenshot al
     final l10n = AppLocalizations.of(context);
-    await showDialog(
-      context: context,
-      barrierColor: Colors.black,
-      barrierDismissible: false,
-      builder: (context) => _ShareCardDialog(
-        icon: _selectedCategory!.icon,
-        iconColor: _selectedCategory!.color,
-        categoryName: _selectedCategory!.name,
-        yearlyDays: _result!.yearlyDays,
-        yearlyAmount: showAmount ? _result!.yearlyAmount : null,
-        frequency: showFrequency ? HabitCalculator.getLocalizedFrequency(_selectedFrequency!, l10n) : null,
-      ),
+    showHabitShareCardPreview(
+      context,
+      icon: _selectedCategory!.icon,
+      iconColor: _selectedCategory!.color,
+      categoryName: _selectedCategory!.name,
+      yearlyDays: _result!.yearlyDays,
+      yearlyAmount: _result!.yearlyAmount,
+      frequency: HabitCalculator.getLocalizedFrequency(_selectedFrequency!, l10n),
     );
   }
 
@@ -1144,93 +1114,5 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
       return '₺${(amount / 1000).toStringAsFixed(0)}K';
     }
     return '₺${amount.toStringAsFixed(0)}';
-  }
-}
-
-/// Share card dialog - takes screenshot and shares
-class _ShareCardDialog extends StatefulWidget {
-  final IconData icon;
-  final Color iconColor;
-  final String categoryName;
-  final int yearlyDays;
-  final double? yearlyAmount;
-  final String? frequency;
-
-  const _ShareCardDialog({
-    required this.icon,
-    required this.iconColor,
-    required this.categoryName,
-    required this.yearlyDays,
-    this.yearlyAmount,
-    this.frequency,
-  });
-
-  @override
-  State<_ShareCardDialog> createState() => _ShareCardDialogState();
-}
-
-class _ShareCardDialogState extends State<_ShareCardDialog> {
-  final GlobalKey _cardKey = GlobalKey();
-  bool _isSharing = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // Auto share after card renders
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(milliseconds: 300));
-      await _shareCard();
-    });
-  }
-
-  Future<void> _shareCard() async {
-    if (_isSharing) return;
-    setState(() => _isSharing = true);
-
-    final success = await ShareService.shareWidget(_cardKey);
-
-    if (mounted) {
-      Navigator.pop(context);
-
-      if (!success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context).shareError),
-            backgroundColor: AppColors.error,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-        );
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          RepaintBoundary(
-            key: _cardKey,
-            child: ShareCardWidget(
-              icon: widget.icon,
-              iconColor: widget.iconColor,
-              categoryName: widget.categoryName,
-              yearlyDays: widget.yearlyDays,
-              yearlyAmount: widget.yearlyAmount,
-              frequency: widget.frequency,
-            ),
-          ),
-          const SizedBox(height: 24),
-          if (_isSharing)
-            const CircularProgressIndicator(
-              color: Colors.white,
-            ),
-        ],
-      ),
-    );
   }
 }

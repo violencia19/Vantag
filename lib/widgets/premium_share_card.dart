@@ -1,7 +1,11 @@
+import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 import '../models/models.dart';
@@ -879,6 +883,856 @@ class _ShareButton extends StatelessWidget {
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
                 color: color,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// HABIT SHARE CARD - For Habit Calculator viral sharing
+// ═══════════════════════════════════════════════════════════════════════════
+
+/// Premium Habit Share Card Widget
+/// Shows yearly work days cost for a habit
+class HabitShareCard extends StatefulWidget {
+  final IconData icon;
+  final Color iconColor;
+  final String categoryName;
+  final int yearlyDays;
+  final double? yearlyAmount;
+  final String? frequency;
+  final ShareCardFormat format;
+
+  const HabitShareCard({
+    super.key,
+    required this.icon,
+    required this.iconColor,
+    required this.categoryName,
+    required this.yearlyDays,
+    this.yearlyAmount,
+    this.frequency,
+    this.format = ShareCardFormat.story,
+  });
+
+  @override
+  State<HabitShareCard> createState() => _HabitShareCardState();
+}
+
+class _HabitShareCardState extends State<HabitShareCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _glowController;
+  late Animation<double> _glowAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _glowController = AnimationController(
+      duration: const Duration(seconds: 3),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _glowAnimation = Tween<double>(begin: 0.4, end: 0.8).animate(
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _glowController.dispose();
+    super.dispose();
+  }
+
+  Size get _cardSize {
+    switch (widget.format) {
+      case ShareCardFormat.story:
+        return const Size(360, 640);
+      case ShareCardFormat.square:
+        return const Size(360, 360);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = _cardSize;
+
+    return Container(
+      width: size.width,
+      height: size.height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: Stack(
+          children: [
+            // Background gradient
+            _buildBackground(),
+
+            // Noise texture overlay
+            _buildNoiseOverlay(),
+
+            // Ambient glow orb (uses habit color)
+            _buildGlowOrb(),
+
+            // Main content
+            _buildContent(),
+
+            // Vantag branding
+            _buildBranding(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBackground() {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF0D0B14),
+            Color(0xFF1A1625),
+            Color(0xFF0F0D18),
+          ],
+          stops: [0.0, 0.5, 1.0],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNoiseOverlay() {
+    return Opacity(
+      opacity: 0.03,
+      child: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/noise.png'),
+            repeat: ImageRepeat.repeat,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGlowOrb() {
+    return AnimatedBuilder(
+      animation: _glowAnimation,
+      builder: (context, child) {
+        return Positioned(
+          top: widget.format == ShareCardFormat.story ? 120 : 40,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Container(
+              width: 280,
+              height: 280,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    widget.iconColor.withValues(alpha: _glowAnimation.value * 0.4),
+                    widget.iconColor.withValues(alpha: _glowAnimation.value * 0.2),
+                    widget.iconColor.withValues(alpha: 0.0),
+                  ],
+                  stops: const [0.0, 0.5, 1.0],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildContent() {
+    final isStory = widget.format == ShareCardFormat.story;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 24,
+        vertical: isStory ? 60 : 32,
+      ),
+      child: Column(
+        children: [
+          if (isStory) const SizedBox(height: 40),
+
+          // Category icon badge
+          _buildCategoryBadge(),
+
+          SizedBox(height: isStory ? 40 : 24),
+
+          // Hero: Days display
+          _buildHeroSection(),
+
+          SizedBox(height: isStory ? 32 : 20),
+
+          // Info cards (amount + frequency)
+          if (widget.yearlyAmount != null || widget.frequency != null)
+            _buildInfoCards(),
+
+          if (isStory) ...[
+            const Spacer(),
+
+            // CTA Section
+            _buildCTASection(),
+
+            const SizedBox(height: 24),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCategoryBadge() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.1),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: widget.iconColor.withValues(alpha: 0.2),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(widget.icon, size: 22, color: widget.iconColor),
+          ),
+          const SizedBox(width: 12),
+          Text(
+            widget.categoryName,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+              letterSpacing: 0.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeroSection() {
+    return Column(
+      children: [
+        // Pre-text
+        Text(
+          'Bu alışkanlık yılda',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: Colors.white.withValues(alpha: 0.7),
+            letterSpacing: 0.5,
+          ),
+        ),
+
+        const SizedBox(height: 12),
+
+        // Hero number with gradient
+        ShaderMask(
+          shaderCallback: (bounds) {
+            return LinearGradient(
+              colors: [
+                Colors.white,
+                widget.iconColor.withValues(alpha: 0.9),
+                widget.iconColor,
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ).createShader(bounds);
+          },
+          child: Text(
+            widget.yearlyDays.toString(),
+            style: TextStyle(
+              fontSize: widget.format == ShareCardFormat.story ? 120 : 88,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+              height: 1,
+              letterSpacing: -4,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 8),
+
+        // Unit badge
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                widget.iconColor.withValues(alpha: 0.3),
+                widget.iconColor.withValues(alpha: 0.1),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: widget.iconColor.withValues(alpha: 0.4),
+              width: 1,
+            ),
+          ),
+          child: const Text(
+            'İŞ GÜNÜ',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+              letterSpacing: 4,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 12),
+
+        // Post-text
+        Text(
+          'çalışmana eşdeğer',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: Colors.white.withValues(alpha: 0.7),
+            letterSpacing: 0.5,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInfoCards() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.1),
+              width: 1,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (widget.yearlyAmount != null) ...[
+                Icon(
+                  PhosphorIconsDuotone.coins,
+                  size: 18,
+                  color: Colors.white.withValues(alpha: 0.7),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  '₺${_formatAmount(widget.yearlyAmount!)}/yıl',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+              if (widget.yearlyAmount != null && widget.frequency != null)
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 12),
+                  width: 4,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.4),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              if (widget.frequency != null) ...[
+                Icon(
+                  PhosphorIconsDuotone.calendarBlank,
+                  size: 18,
+                  color: Colors.white.withValues(alpha: 0.7),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  widget.frequency!,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCTASection() {
+    return Column(
+      children: [
+        // Divider with glow
+        Container(
+          width: 120,
+          height: 2,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.transparent,
+                widget.iconColor.withValues(alpha: 0.6),
+                Colors.transparent,
+              ],
+            ),
+            borderRadius: BorderRadius.circular(1),
+          ),
+        ),
+
+        const SizedBox(height: 24),
+
+        // CTA text
+        Text(
+          'Senin alışkanlıkların kaç gün?',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Colors.white.withValues(alpha: 0.9),
+          ),
+        ),
+
+        const SizedBox(height: 8),
+
+        // Download prompt
+        Text(
+          'Öğrenmek için Vantag\'ı indir',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.white.withValues(alpha: 0.5),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBranding() {
+    return Positioned(
+      bottom: widget.format == ShareCardFormat.story ? 20 : 16,
+      left: 0,
+      right: 0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [AppColors.primary, AppColors.primaryLight],
+              ),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: const Center(
+              child: Text(
+                'V',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            'vantag.app',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.white.withValues(alpha: 0.5),
+              letterSpacing: 1,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _formatAmount(double amount) {
+    if (amount >= 1000000) {
+      return '${(amount / 1000000).toStringAsFixed(1)}M';
+    } else if (amount >= 1000) {
+      return '${(amount / 1000).toStringAsFixed(0)}K';
+    }
+    return amount.toStringAsFixed(0);
+  }
+}
+
+/// Helper function to show habit share card preview
+void showHabitShareCardPreview(
+  BuildContext context, {
+  required IconData icon,
+  required Color iconColor,
+  required String categoryName,
+  required int yearlyDays,
+  double? yearlyAmount,
+  String? frequency,
+}) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    barrierColor: Colors.black.withValues(alpha: 0.9),
+    builder: (context) => _HabitShareCardPreviewSheet(
+      icon: icon,
+      iconColor: iconColor,
+      categoryName: categoryName,
+      yearlyDays: yearlyDays,
+      yearlyAmount: yearlyAmount,
+      frequency: frequency,
+    ),
+  );
+}
+
+class _HabitShareCardPreviewSheet extends StatefulWidget {
+  final IconData icon;
+  final Color iconColor;
+  final String categoryName;
+  final int yearlyDays;
+  final double? yearlyAmount;
+  final String? frequency;
+
+  const _HabitShareCardPreviewSheet({
+    required this.icon,
+    required this.iconColor,
+    required this.categoryName,
+    required this.yearlyDays,
+    this.yearlyAmount,
+    this.frequency,
+  });
+
+  @override
+  State<_HabitShareCardPreviewSheet> createState() =>
+      _HabitShareCardPreviewSheetState();
+}
+
+class _HabitShareCardPreviewSheetState
+    extends State<_HabitShareCardPreviewSheet> {
+  ShareCardFormat _selectedFormat = ShareCardFormat.story;
+  bool _showAmount = true;
+  bool _showFrequency = true;
+  final GlobalKey _cardKey = GlobalKey();
+  bool _isSharing = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return DraggableScrollableSheet(
+      initialChildSize: 0.9,
+      minChildSize: 0.5,
+      maxChildSize: 0.95,
+      builder: (context, scrollController) {
+        return Container(
+          decoration: BoxDecoration(
+            color: AppColors.background,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: Column(
+            children: [
+              // Handle
+              Padding(
+                padding: const EdgeInsets.only(top: 12, bottom: 8),
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+
+              // Header
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      l10n.shareResult,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(
+                        PhosphorIconsRegular.x,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Format selector
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    _FormatButton(
+                      label: 'Story',
+                      icon: PhosphorIconsRegular.deviceMobile,
+                      isSelected: _selectedFormat == ShareCardFormat.story,
+                      onTap: () =>
+                          setState(() => _selectedFormat = ShareCardFormat.story),
+                    ),
+                    const SizedBox(width: 12),
+                    _FormatButton(
+                      label: 'Post',
+                      icon: PhosphorIconsRegular.squareLogo,
+                      isSelected: _selectedFormat == ShareCardFormat.square,
+                      onTap: () =>
+                          setState(() => _selectedFormat = ShareCardFormat.square),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Toggle options
+              if (widget.yearlyAmount != null || widget.frequency != null)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                  child: Row(
+                    children: [
+                      if (widget.yearlyAmount != null)
+                        _ToggleChip(
+                          label: l10n.amount,
+                          isSelected: _showAmount,
+                          onTap: () => setState(() => _showAmount = !_showAmount),
+                        ),
+                      if (widget.yearlyAmount != null && widget.frequency != null)
+                        const SizedBox(width: 8),
+                      if (widget.frequency != null)
+                        _ToggleChip(
+                          label: l10n.frequency,
+                          isSelected: _showFrequency,
+                          onTap: () =>
+                              setState(() => _showFrequency = !_showFrequency),
+                        ),
+                    ],
+                  ),
+                ),
+
+              const SizedBox(height: 16),
+
+              // Card preview
+              Expanded(
+                child: Center(
+                  child: SingleChildScrollView(
+                    controller: scrollController,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: RepaintBoundary(
+                      key: _cardKey,
+                      child: HabitShareCard(
+                        icon: widget.icon,
+                        iconColor: widget.iconColor,
+                        categoryName: widget.categoryName,
+                        yearlyDays: widget.yearlyDays,
+                        yearlyAmount:
+                            _showAmount ? widget.yearlyAmount : null,
+                        frequency:
+                            _showFrequency ? widget.frequency : null,
+                        format: _selectedFormat,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Share button
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF6C63FF), Color(0xFF4ECDC4)],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF6C63FF).withValues(alpha: 0.3),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: ElevatedButton.icon(
+                      onPressed: _isSharing ? null : _shareCard,
+                      icon: _isSharing
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : const Icon(PhosphorIconsFill.shareFat, size: 22),
+                      label: Text(
+                        _isSharing ? l10n.sharing : l10n.share,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        foregroundColor: Colors.white,
+                        shadowColor: Colors.transparent,
+                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _shareCard() async {
+    if (_isSharing) return;
+    setState(() => _isSharing = true);
+
+    try {
+      // Import share service dynamically to avoid circular deps
+      final boundary =
+          _cardKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+      if (boundary == null) {
+        setState(() => _isSharing = false);
+        return;
+      }
+
+      final image = await boundary.toImage(pixelRatio: 3.0);
+      final byteData = await image.toByteData(format: ImageByteFormat.png);
+      if (byteData == null) {
+        setState(() => _isSharing = false);
+        return;
+      }
+
+      final pngBytes = byteData.buffer.asUint8List();
+      final directory = await getTemporaryDirectory();
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final filePath = '${directory.path}/vantag_habit_$timestamp.png';
+      final file = File(filePath);
+      await file.writeAsBytes(pngBytes);
+
+      await Share.shareXFiles(
+        [XFile(filePath)],
+        text: 'Senin alışkanlıkların kaç gün? 👀 vantag.app',
+      );
+
+      // Cleanup after 5 minutes
+      Future.delayed(const Duration(minutes: 5), () {
+        if (file.existsSync()) {
+          try {
+            file.deleteSync();
+          } catch (_) {}
+        }
+      });
+
+      if (mounted) {
+        Navigator.pop(context);
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context).shareError),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isSharing = false);
+      }
+    }
+  }
+}
+
+class _ToggleChip extends StatelessWidget {
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _ToggleChip({
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? AppColors.primary.withValues(alpha: 0.2)
+              : Colors.white.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected
+                ? AppColors.primary
+                : Colors.white.withValues(alpha: 0.1),
+            width: 1,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              isSelected
+                  ? PhosphorIconsFill.checkCircle
+                  : PhosphorIconsRegular.circle,
+              size: 16,
+              color: isSelected
+                  ? AppColors.primary
+                  : Colors.white.withValues(alpha: 0.5),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                color: isSelected
+                    ? AppColors.primary
+                    : Colors.white.withValues(alpha: 0.6),
               ),
             ),
           ],
