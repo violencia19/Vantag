@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -120,6 +121,11 @@ Future<void> _convertIncomeSources(
   final currentSources = financeProvider.incomeSources;
   if (currentSources.isEmpty) return;
 
+  // Önce kurların yüklü olduğundan emin ol
+  if (!currencyProvider.hasRates) {
+    await currencyProvider.fetchRates();
+  }
+
   // Tüm gelir kaynaklarını convert et
   final convertedSources = currencyProvider.convertIncomeSources(
     currentSources,
@@ -128,5 +134,8 @@ Future<void> _convertIncomeSources(
 
   if (convertedSources != null) {
     await financeProvider.updateIncomeSourcesWithConversion(convertedSources);
+  } else {
+    // Conversion failed - log for debugging
+    debugPrint('[CurrencySelector] Income conversion failed - rates not available');
   }
 }

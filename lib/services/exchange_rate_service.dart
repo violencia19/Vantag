@@ -328,13 +328,24 @@ class ExchangeRateService {
   // CONVERSION METHODS
   // ═══════════════════════════════════════════════════════════════════
 
+  // Fallback rates (approximate, updated manually if needed)
+  static const Map<String, double> _fallbackRates = {
+    'USD': 1.0,
+    'EUR': 0.92,
+    'GBP': 0.79,
+    'TRY': 34.5,
+    'SAR': 3.75,
+  };
+
   /// Convert amount from one currency to another
   double? convert(double amount, String from, String to) {
     if (from == to) return amount;
-    if (_ratesInUSD.isEmpty) return null;
 
-    final fromRate = _ratesInUSD[from];
-    final toRate = _ratesInUSD[to];
+    // Use actual rates if available, otherwise use fallback
+    final rates = _ratesInUSD.isNotEmpty ? _ratesInUSD : _fallbackRates;
+
+    final fromRate = rates[from];
+    final toRate = rates[to];
 
     if (fromRate == null || toRate == null) return null;
     if (fromRate <= 0) return null;
