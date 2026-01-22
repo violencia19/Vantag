@@ -51,3 +51,5 @@ export 'savings_pool_service.dart';
 export 'analytics_service.dart';
 // Exchange Rates
 export 'exchange_rate_service.dart';
+// App Clips
+export 'app_clip_service.dart';
