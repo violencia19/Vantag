@@ -40,3 +40,7 @@ export 'siri_service.dart';
 export 'pursuit_service.dart';
 // Savings Pool
 export 'savings_pool_service.dart';
+// Analytics & Crashlytics
+export 'analytics_service.dart';
+// Exchange Rates
+export 'exchange_rate_service.dart';
