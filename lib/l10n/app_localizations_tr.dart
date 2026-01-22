@@ -3521,4 +3521,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get sunday => 'Pazar';
+
+  @override
+  String get securePayment => 'Güvenli Ödeme';
+
+  @override
+  String get encrypted => 'Şifreli';
 }

@@ -1511,5 +1511,8 @@
   "thursday": "Perşembe",
   "friday": "Cuma",
   "saturday": "Cumartesi",
-  "sunday": "Pazar"
+  "sunday": "Pazar",
+
+  "securePayment": "Güvenli Ödeme",
+  "encrypted": "Şifreli"
 }

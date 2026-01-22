@@ -6462,6 +6462,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sunday'**
   String get sunday;
+
+  /// No description provided for @securePayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure Payment'**
+  String get securePayment;
+
+  /// No description provided for @encrypted.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted'**
+  String get encrypted;
 }
 
 class _AppLocalizationsDelegate

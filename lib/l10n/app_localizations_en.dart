@@ -3522,4 +3522,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sunday => 'Sunday';
+
+  @override
+  String get securePayment => 'Secure Payment';
+
+  @override
+  String get encrypted => 'Encrypted';
 }

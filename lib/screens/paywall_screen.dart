@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -16,17 +17,39 @@ class PaywallScreen extends StatefulWidget {
   State<PaywallScreen> createState() => _PaywallScreenState();
 }
 
-class _PaywallScreenState extends State<PaywallScreen> {
+class _PaywallScreenState extends State<PaywallScreen>
+    with SingleTickerProviderStateMixin {
   Offerings? _offerings;
   Package? _selectedPackage;
   bool _isLoading = true;
   bool _isPurchasing = false;
   String? _error;
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
 
   @override
   void initState() {
     super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOut));
     _loadOfferings();
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadOfferings() async {
@@ -65,6 +88,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
   Future<void> _purchase() async {
     if (_selectedPackage == null) return;
 
+    HapticFeedback.mediumImpact();
     setState(() => _isPurchasing = true);
 
     final result = await PurchaseService().purchasePackage(_selectedPackage!);
@@ -179,17 +203,27 @@ class _PaywallScreenState extends State<PaywallScreen> {
                       _buildFeatureComparison(l10n),
                       const SizedBox(height: 32),
 
-                      // Package cards
+                      // Package cards with animation
                       if (_isLoading)
-                        const CircularProgressIndicator(color: AppColors.primary)
+                        _buildLoadingSkeleton()
                       else if (_error != null)
                         _buildErrorState()
                       else
-                        _buildPackageCards(),
+                        FadeTransition(
+                          opacity: _fadeAnimation,
+                          child: SlideTransition(
+                            position: _slideAnimation,
+                            child: _buildPackageCards(),
+                          ),
+                        ),
                       const SizedBox(height: 24),
 
                       // Purchase button
                       if (!_isLoading && _error == null) _buildPurchaseButton(l10n),
+                      const SizedBox(height: 16),
+
+                      // Trust indicators
+                      _buildTrustIndicators(l10n),
                       const SizedBox(height: 16),
 
                       // Restore purchases
@@ -199,6 +233,42 @@ class _PaywallScreenState extends State<PaywallScreen> {
                           l10n.restorePurchases,
                           style: const TextStyle(color: AppColors.textSecondary),
                         ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Legal links
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              // Privacy policy link
+                            },
+                            child: Text(
+                              l10n.privacyPolicy,
+                              style: TextStyle(
+                                color: AppColors.textTertiary,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            ' • ',
+                            style: TextStyle(color: AppColors.textTertiary),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              // Terms of use link
+                            },
+                            child: Text(
+                              l10n.termsOfService,
+                              style: TextStyle(
+                                color: AppColors.textTertiary,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 32),
                     ],
@@ -460,7 +530,10 @@ class _PaywallScreenState extends State<PaywallScreen> {
         final isLifetime = id.contains('lifetime');
 
         return GestureDetector(
-          onTap: () => setState(() => _selectedPackage = package),
+          onTap: () {
+            HapticFeedback.selectionClick();
+            setState(() => _selectedPackage = package);
+          },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             margin: const EdgeInsets.only(bottom: 12),
@@ -735,6 +808,49 @@ class _PaywallScreenState extends State<PaywallScreen> {
     );
   }
 
+  Widget _buildTrustIndicators(AppLocalizations l10n) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildTrustItem(
+            LucideIcons.shieldCheck,
+            l10n.securePayment,
+          ),
+          _buildTrustItem(
+            LucideIcons.lock,
+            l10n.encrypted,
+          ),
+          _buildTrustItem(
+            LucideIcons.refreshCcw,
+            l10n.cancelAnytime,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTrustItem(IconData icon, String label) {
+    return Column(
+      children: [
+        Icon(
+          icon,
+          color: AppColors.textTertiary,
+          size: 20,
+        ),
+        const SizedBox(height: 6),
+        Text(
+          label,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: AppColors.textTertiary,
+            fontSize: 10,
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildErrorState() {
     return Container(
       padding: const EdgeInsets.all(24),
@@ -759,6 +875,115 @@ class _PaywallScreenState extends State<PaywallScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildLoadingSkeleton() {
+    return Column(
+      children: List.generate(
+        3,
+        (index) => Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          height: 80,
+          decoration: BoxDecoration(
+            color: AppColors.cardBackground,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.cardBorder),
+          ),
+          child: Row(
+            children: [
+              const SizedBox(width: 16),
+              // Radio placeholder
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.textTertiary, width: 2),
+                ),
+              ),
+              const SizedBox(width: 16),
+              // Text placeholders
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _ShimmerBox(width: 80 + (index * 20), height: 16),
+                    const SizedBox(height: 8),
+                    _ShimmerBox(width: 120 + (index * 10), height: 12),
+                  ],
+                ),
+              ),
+              // Price placeholder
+              Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    _ShimmerBox(width: 60, height: 20),
+                    const SizedBox(height: 4),
+                    _ShimmerBox(width: 40, height: 12),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Shimmer loading box
+class _ShimmerBox extends StatefulWidget {
+  final double width;
+  final double height;
+
+  const _ShimmerBox({required this.width, required this.height});
+
+  @override
+  State<_ShimmerBox> createState() => _ShimmerBoxState();
+}
+
+class _ShimmerBoxState extends State<_ShimmerBox>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat();
+    _animation = Tween<double>(begin: 0.3, end: 0.6).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return Container(
+          width: widget.width,
+          height: widget.height,
+          decoration: BoxDecoration(
+            color: AppColors.textTertiary.withValues(alpha: _animation.value),
+            borderRadius: BorderRadius.circular(4),
+          ),
+        );
+      },
     );
   }
 }

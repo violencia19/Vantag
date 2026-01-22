@@ -1877,5 +1877,8 @@
   "thursday": "Thursday",
   "friday": "Friday",
   "saturday": "Saturday",
-  "sunday": "Sunday"
+  "sunday": "Sunday",
+
+  "securePayment": "Secure Payment",
+  "encrypted": "Encrypted"
 }
