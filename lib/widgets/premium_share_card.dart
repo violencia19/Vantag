@@ -452,7 +452,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
           ),
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 20),
 
         // CTA text
         Text(
@@ -464,16 +464,8 @@ class _PremiumShareCardState extends State<PremiumShareCard>
           ),
         ),
 
-        const SizedBox(height: 8),
-
-        // Download prompt
-        Text(
-          'Öğrenmek için Vantag\'ı indir',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.white.withValues(alpha: 0.5),
-          ),
-        ),
+        // Bottom spacing to prevent overlap with branding
+        const SizedBox(height: 48),
       ],
     );
   }
@@ -725,18 +717,20 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
 
               // Card preview
               Expanded(
-                child: Center(
-                  child: SingleChildScrollView(
-                    controller: scrollController,
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: PremiumShareCard(
-                      amount: widget.amount,
-                      hoursRequired: widget.hoursRequired,
-                      category: widget.category,
-                      date: widget.date,
-                      currencySymbol: widget.currencySymbol,
-                      format: _selectedFormat,
-                      decision: widget.decision,
+                    child: Center(
+                      child: PremiumShareCard(
+                        amount: widget.amount,
+                        hoursRequired: widget.hoursRequired,
+                        category: widget.category,
+                        date: widget.date,
+                        currencySymbol: widget.currencySymbol,
+                        format: _selectedFormat,
+                        decision: widget.decision,
+                      ),
                     ),
                   ),
                 ),
@@ -1299,7 +1293,7 @@ class _HabitShareCardState extends State<HabitShareCard>
           ),
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 20),
 
         // CTA text
         Text(
@@ -1311,16 +1305,8 @@ class _HabitShareCardState extends State<HabitShareCard>
           ),
         ),
 
-        const SizedBox(height: 8),
-
-        // Download prompt
-        Text(
-          'Öğrenmek için Vantag\'ı indir',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.white.withValues(alpha: 0.5),
-          ),
-        ),
+        // Bottom spacing to prevent overlap with branding
+        const SizedBox(height: 48),
       ],
     );
   }
@@ -1541,22 +1527,24 @@ class _HabitShareCardPreviewSheetState
 
               // Card preview
               Expanded(
-                child: Center(
-                  child: SingleChildScrollView(
-                    controller: scrollController,
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: RepaintBoundary(
-                      key: _cardKey,
-                      child: HabitShareCard(
-                        icon: widget.icon,
-                        iconColor: widget.iconColor,
-                        categoryName: widget.categoryName,
-                        yearlyDays: widget.yearlyDays,
-                        yearlyAmount:
-                            _showAmount ? widget.yearlyAmount : null,
-                        frequency:
-                            _showFrequency ? widget.frequency : null,
-                        format: _selectedFormat,
+                    child: Center(
+                      child: RepaintBoundary(
+                        key: _cardKey,
+                        child: HabitShareCard(
+                          icon: widget.icon,
+                          iconColor: widget.iconColor,
+                          categoryName: widget.categoryName,
+                          yearlyDays: widget.yearlyDays,
+                          yearlyAmount:
+                              _showAmount ? widget.yearlyAmount : null,
+                          frequency:
+                              _showFrequency ? widget.frequency : null,
+                          format: _selectedFormat,
+                        ),
                       ),
                     ),
                   ),
