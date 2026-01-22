@@ -13,6 +13,7 @@ export 'messages_service.dart';
 export 'notification_service.dart';
 export 'push_notification_service.dart';
 export 'widget_service.dart';
+export 'watch_service.dart';
 export 'achievements_service.dart';
 export 'subscription_service.dart';
 export 'sub_category_service.dart';
