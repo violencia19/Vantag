@@ -159,6 +159,44 @@ class AppFonts {
   static String get heading => GoogleFonts.spaceGrotesk().fontFamily!;
   static String get body => GoogleFonts.dmSans().fontFamily!;
   static String get mono => GoogleFonts.jetBrainsMono().fontFamily!;
+
+  /// Font fallback list for Turkish character support
+  /// These system fonts are used when characters (ı, ğ, ü, ş, ö, ç, İ) are missing
+  static const List<String> fontFallback = [
+    'SF Pro Display',    // iOS
+    'Roboto',            // Android
+    'Segoe UI',          // Windows
+    'Apple Color Emoji', // Emoji support
+    'Noto Sans',         // Universal fallback
+  ];
+
+  /// Create TextStyle with Turkish character fallback
+  static TextStyle withFallback(TextStyle style) {
+    return style.copyWith(
+      fontFamilyFallback: fontFallback,
+    );
+  }
+
+  /// Apply font fallback to entire TextTheme
+  static TextTheme applyFallbackToTextTheme(TextTheme textTheme) {
+    return TextTheme(
+      displayLarge: textTheme.displayLarge?.copyWith(fontFamilyFallback: fontFallback),
+      displayMedium: textTheme.displayMedium?.copyWith(fontFamilyFallback: fontFallback),
+      displaySmall: textTheme.displaySmall?.copyWith(fontFamilyFallback: fontFallback),
+      headlineLarge: textTheme.headlineLarge?.copyWith(fontFamilyFallback: fontFallback),
+      headlineMedium: textTheme.headlineMedium?.copyWith(fontFamilyFallback: fontFallback),
+      headlineSmall: textTheme.headlineSmall?.copyWith(fontFamilyFallback: fontFallback),
+      titleLarge: textTheme.titleLarge?.copyWith(fontFamilyFallback: fontFallback),
+      titleMedium: textTheme.titleMedium?.copyWith(fontFamilyFallback: fontFallback),
+      titleSmall: textTheme.titleSmall?.copyWith(fontFamilyFallback: fontFallback),
+      bodyLarge: textTheme.bodyLarge?.copyWith(fontFamilyFallback: fontFallback),
+      bodyMedium: textTheme.bodyMedium?.copyWith(fontFamilyFallback: fontFallback),
+      bodySmall: textTheme.bodySmall?.copyWith(fontFamilyFallback: fontFallback),
+      labelLarge: textTheme.labelLarge?.copyWith(fontFamilyFallback: fontFallback),
+      labelMedium: textTheme.labelMedium?.copyWith(fontFamilyFallback: fontFallback),
+      labelSmall: textTheme.labelSmall?.copyWith(fontFamilyFallback: fontFallback),
+    );
+  }
 }
 
 class AppTheme {
