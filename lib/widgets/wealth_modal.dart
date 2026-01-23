@@ -114,11 +114,13 @@ class _WealthModalState extends State<WealthModal>
               duration: const Duration(milliseconds: 300),
               decoration: BoxDecoration(
                 color: context.appColors.surface.withValues(alpha: 0.95),
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(24),
+                ),
                 border: Border.all(
                   color: _showGoldenGlow
                       ? const Color(0xFFFFD700)
-                      : Colors.white.withValues(alpha: 0.1),
+                      : context.appColors.cardBorder,
                   width: _showGoldenGlow ? 2 : 1,
                 ),
                 boxShadow: _showGoldenGlow
@@ -146,7 +148,9 @@ class _WealthModalState extends State<WealthModal>
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: context.appColors.textTertiary.withValues(alpha: 0.5),
+                        color: context.appColors.textTertiary.withValues(
+                          alpha: 0.5,
+                        ),
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -238,9 +242,7 @@ class _UnsavedChangesDialog extends StatelessWidget {
             decoration: BoxDecoration(
               color: context.appColors.surface.withValues(alpha: 0.95),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.1),
-              ),
+              border: Border.all(color: context.appColors.cardBorder),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,

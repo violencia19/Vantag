@@ -252,7 +252,7 @@ SADECE karşılama cümlesini yaz:
       decoration: BoxDecoration(
         color: context.appColors.background,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(
         children: [
@@ -319,7 +319,7 @@ SADECE karşılama cümlesini yaz:
       width: 40,
       height: 4,
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.2),
+        color: context.appColors.textTertiary.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(2),
       ),
     );
@@ -390,7 +390,7 @@ SADECE karşılama cümlesini yaz:
                   padding: const EdgeInsets.all(8),
                   margin: const EdgeInsets.only(right: 8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.05),
+                    color: context.appColors.surfaceLight,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
@@ -408,10 +408,10 @@ SADECE karşılama cümlesini yaz:
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.05),
+                    color: context.appColors.surfaceLight,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.1),
+                      color: context.appColors.cardBorder,
                     ),
                   ),
                   child: Row(
@@ -621,9 +621,9 @@ SADECE karşılama cümlesini yaz:
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.05),
+          color: context.appColors.surfaceLight,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+          border: Border.all(color: context.appColors.cardBorder),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -738,14 +738,14 @@ SADECE karşılama cümlesini yaz:
         decoration: BoxDecoration(
           color: isUser
               ? context.appColors.primary
-              : Colors.white.withValues(alpha: 0.05),
+              : context.appColors.surfaceLight,
           borderRadius: BorderRadius.circular(16).copyWith(
             bottomRight: isUser ? const Radius.circular(4) : null,
             bottomLeft: !isUser ? const Radius.circular(4) : null,
           ),
           border: isUser
               ? null
-              : Border.all(color: Colors.white.withValues(alpha: 0.08)),
+              : Border.all(color: context.appColors.cardBorder),
         ),
         child: message.isTyping
             ? _buildTypingText(message.content)
@@ -779,11 +779,11 @@ SADECE karşılama cümlesini yaz:
             margin: const EdgeInsets.only(bottom: 12),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.05),
+              color: context.appColors.surfaceLight,
               borderRadius: BorderRadius.circular(
                 16,
               ).copyWith(bottomLeft: const Radius.circular(4)),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+              border: Border.all(color: context.appColors.cardBorder),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -829,7 +829,7 @@ SADECE karşılama cümlesini yaz:
       decoration: BoxDecoration(
         color: context.appColors.surface,
         border: Border(
-          top: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
+          top: BorderSide(color: context.appColors.cardBorder),
         ),
       ),
       child: Column(
@@ -860,10 +860,10 @@ SADECE karşılama cümlesini yaz:
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.05),
+                    color: context.appColors.surfaceLight,
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.08),
+                      color: context.appColors.cardBorder,
                     ),
                   ),
                   child: Semantics(
@@ -969,9 +969,9 @@ SADECE karşılama cümlesini yaz:
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.05),
+          color: context.appColors.surfaceLight,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+          border: Border.all(color: context.appColors.cardBorder),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

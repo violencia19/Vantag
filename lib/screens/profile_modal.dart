@@ -49,7 +49,8 @@ class _ProfileModalState extends State<ProfileModal> {
     final userProfile = financeProvider.userProfile;
     final totalSaved = financeProvider.stats.savedAmount;
     final hourlyRate = userProfile != null && userProfile.dailyHours > 0
-        ? userProfile.monthlyIncome / (userProfile.dailyHours * userProfile.workDaysPerWeek * 4)
+        ? userProfile.monthlyIncome /
+              (userProfile.dailyHours * userProfile.workDaysPerWeek * 4)
         : 0.0;
     final savedHours = hourlyRate > 0 ? totalSaved / hourlyRate : 0.0;
 
@@ -61,7 +62,9 @@ class _ProfileModalState extends State<ProfileModal> {
     final memberDays = DateTime.now().difference(firstExpenseDate).inDays;
 
     // Get badges count - count unlocked achievements
-    final badgesEarned = financeProvider.achievements.where((a) => a.isUnlocked).length;
+    final badgesEarned = financeProvider.achievements
+        .where((a) => a.isUnlocked)
+        .length;
 
     return DraggableScrollableSheet(
       initialChildSize: 0.75,
@@ -73,7 +76,7 @@ class _ProfileModalState extends State<ProfileModal> {
             color: context.appColors.surface,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.2),
+              color: context.appColors.cardBorder,
               width: 1,
             ),
           ),
@@ -159,7 +162,9 @@ class _ProfileModalState extends State<ProfileModal> {
                   ],
                 ),
                 border: Border.all(
-                  color: isPro ? const Color(0xFFFFD700) : context.appColors.primary,
+                  color: isPro
+                      ? const Color(0xFFFFD700)
+                      : context.appColors.primary,
                   width: isPro ? 3 : 2,
                 ),
                 boxShadow: isPro
@@ -188,7 +193,10 @@ class _ProfileModalState extends State<ProfileModal> {
                 bottom: 0,
                 right: 0,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
@@ -396,26 +404,38 @@ class _ProfileModalState extends State<ProfileModal> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
-              isLinked ? PhosphorIconsDuotone.googleLogo : PhosphorIconsDuotone.link,
+              isLinked
+                  ? PhosphorIconsDuotone.googleLogo
+                  : PhosphorIconsDuotone.link,
               size: 20,
-              color: isLinked ? context.appColors.success : context.appColors.textTertiary,
+              color: isLinked
+                  ? context.appColors.success
+                  : context.appColors.textTertiary,
             ),
           ),
           const SizedBox(width: 14),
           Expanded(
             child: Text(
-              isLinked ? l10n.profileGoogleConnected : l10n.profileGoogleNotConnected,
+              isLinked
+                  ? l10n.profileGoogleConnected
+                  : l10n.profileGoogleNotConnected,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: isLinked ? context.appColors.success : context.appColors.textSecondary,
+                color: isLinked
+                    ? context.appColors.success
+                    : context.appColors.textSecondary,
               ),
             ),
           ),
           Icon(
-            isLinked ? PhosphorIconsDuotone.checkCircle : PhosphorIconsDuotone.xCircle,
+            isLinked
+                ? PhosphorIconsDuotone.checkCircle
+                : PhosphorIconsDuotone.xCircle,
             size: 20,
-            color: isLinked ? context.appColors.success : context.appColors.textTertiary,
+            color: isLinked
+                ? context.appColors.success
+                : context.appColors.textTertiary,
           ),
         ],
       ),
@@ -433,7 +453,9 @@ class _ProfileModalState extends State<ProfileModal> {
         onPressed: () => _confirmSignOut(context, authService, l10n),
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16),
-          side: BorderSide(color: context.appColors.error.withValues(alpha: 0.5)),
+          side: BorderSide(
+            color: context.appColors.error.withValues(alpha: 0.5),
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),

@@ -8,9 +8,9 @@ import '../screens/credit_purchase_screen.dart';
 
 /// AI Limit Dialog Types
 enum AILimitType {
-  free,           // 5/day limit reached
+  free, // 5/day limit reached
   proSubscription, // 500/month limit reached
-  lifetime,       // 100/month limit reached (can buy credits)
+  lifetime, // 100/month limit reached (can buy credits)
 }
 
 /// Shows AI limit dialog based on user type
@@ -58,7 +58,7 @@ class _AILimitDialogContent extends StatelessWidget {
           color: context.appColors.surface,
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
-            color: Colors.white.withValues(alpha: 0.1),
+            color: context.appColors.cardBorder,
             width: 1,
           ),
           boxShadow: [
@@ -145,18 +145,11 @@ class _AILimitDialogContent extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            color.withValues(alpha: 0.2),
-            color.withValues(alpha: 0.1),
-          ],
+          colors: [color.withValues(alpha: 0.2), color.withValues(alpha: 0.1)],
         ),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Icon(
-        icon,
-        size: 36,
-        color: color,
-      ),
+      child: Icon(icon, size: 36, color: color),
     );
   }
 
@@ -257,10 +250,7 @@ class _AILimitDialogContent extends StatelessWidget {
             ),
             child: Text(
               l10n.ok,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ),
         );
@@ -293,29 +283,39 @@ class _AILimitDialogContent extends StatelessWidget {
       },
       child: Text(
         text,
-        style: TextStyle(
-          fontSize: 13,
-          color: context.appColors.textTertiary,
-        ),
+        style: TextStyle(fontSize: 13, color: context.appColors.textTertiary),
       ),
     );
   }
 
   String _getMonthName(int month, AppLocalizations l10n) {
     switch (month) {
-      case 1: return l10n.monthJan;
-      case 2: return l10n.monthFeb;
-      case 3: return l10n.monthMar;
-      case 4: return l10n.monthApr;
-      case 5: return l10n.monthMay;
-      case 6: return l10n.monthJun;
-      case 7: return l10n.monthJul;
-      case 8: return l10n.monthAug;
-      case 9: return l10n.monthSep;
-      case 10: return l10n.monthOct;
-      case 11: return l10n.monthNov;
-      case 12: return l10n.monthDec;
-      default: return '';
+      case 1:
+        return l10n.monthJan;
+      case 2:
+        return l10n.monthFeb;
+      case 3:
+        return l10n.monthMar;
+      case 4:
+        return l10n.monthApr;
+      case 5:
+        return l10n.monthMay;
+      case 6:
+        return l10n.monthJun;
+      case 7:
+        return l10n.monthJul;
+      case 8:
+        return l10n.monthAug;
+      case 9:
+        return l10n.monthSep;
+      case 10:
+        return l10n.monthOct;
+      case 11:
+        return l10n.monthNov;
+      case 12:
+        return l10n.monthDec;
+      default:
+        return '';
     }
   }
 }

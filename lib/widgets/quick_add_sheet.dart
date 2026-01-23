@@ -18,11 +18,7 @@ class QuickAddSheet extends StatefulWidget {
   final Function(double amount, String category, String? subCategory) onAdd;
   final VoidCallback? onCancel;
 
-  const QuickAddSheet({
-    super.key,
-    required this.onAdd,
-    this.onCancel,
-  });
+  const QuickAddSheet({super.key, required this.onAdd, this.onCancel});
 
   @override
   State<QuickAddSheet> createState() => _QuickAddSheetState();
@@ -140,7 +136,9 @@ class _QuickAddSheetState extends State<QuickAddSheet>
           content: Text(l10n.pleaseEnterValidAmount),
           backgroundColor: context.appColors.error,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
       return;
@@ -154,7 +152,11 @@ class _QuickAddSheetState extends State<QuickAddSheet>
         SnackBar(
           content: Row(
             children: [
-              Icon(PhosphorIconsDuotone.warningCircle, color: context.appColors.background, size: 20),
+              Icon(
+                PhosphorIconsDuotone.warningCircle,
+                color: context.appColors.background,
+                size: 20,
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -166,7 +168,9 @@ class _QuickAddSheetState extends State<QuickAddSheet>
           ),
           backgroundColor: context.appColors.warning,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           duration: const Duration(seconds: 3),
         ),
       );
@@ -201,7 +205,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
         color: context.appColors.gradientMid, // #1A1A2E - solid dark
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.1),
+          color: context.appColors.cardBorder,
           width: 1,
         ),
       ),
@@ -324,7 +328,9 @@ class _QuickAddSheetState extends State<QuickAddSheet>
             child: TextField(
               controller: _amountController,
               focusNode: _amountFocusNode,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               inputFormatters: [
                 PremiumCurrencyFormatter(
                   allowDecimals: true,
@@ -377,7 +383,9 @@ class _QuickAddSheetState extends State<QuickAddSheet>
               width: 4,
               height: 16,
               decoration: BoxDecoration(
-                color: _showCategoryWarning ? context.appColors.warning : context.appColors.primary,
+                color: _showCategoryWarning
+                    ? context.appColors.warning
+                    : context.appColors.primary,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -387,7 +395,9 @@ class _QuickAddSheetState extends State<QuickAddSheet>
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: _showCategoryWarning ? context.appColors.warning : context.appColors.textPrimary,
+                color: _showCategoryWarning
+                    ? context.appColors.warning
+                    : context.appColors.textPrimary,
               ),
             ),
             const SizedBox(width: 6),
@@ -404,7 +414,9 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
-                  color: _showCategoryWarning ? context.appColors.warning : context.appColors.primary,
+                  color: _showCategoryWarning
+                      ? context.appColors.warning
+                      : context.appColors.primary,
                 ),
               ),
             ),
@@ -433,21 +445,23 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                     color: isSelected
                         ? context.appColors.primary
                         : _showCategoryWarning
-                            ? context.appColors.warning.withValues(alpha: 0.08)
-                            : context.appColors.surfaceLight,
+                        ? context.appColors.warning.withValues(alpha: 0.08)
+                        : context.appColors.surfaceLight,
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
                       color: isSelected
                           ? context.appColors.primary
                           : _showCategoryWarning
-                              ? context.appColors.warning.withValues(alpha: 0.3)
-                              : context.appColors.cardBorder,
+                          ? context.appColors.warning.withValues(alpha: 0.3)
+                          : context.appColors.cardBorder,
                       width: isSelected ? 2 : 1,
                     ),
                     boxShadow: isSelected
                         ? [
                             BoxShadow(
-                              color: context.appColors.primary.withValues(alpha: 0.3),
+                              color: context.appColors.primary.withValues(
+                                alpha: 0.3,
+                              ),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
@@ -461,15 +475,21 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                       Icon(
                         ExpenseCategory.getIcon(category),
                         size: 20,
-                        color: isSelected ? context.appColors.background : ExpenseCategory.getColor(category),
+                        color: isSelected
+                            ? context.appColors.background
+                            : ExpenseCategory.getColor(category),
                       ),
                       const SizedBox(width: 8),
                       Text(
                         ExpenseCategory.getLocalizedName(category, l10n),
                         style: TextStyle(
                           fontSize: 14,
-                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                          color: isSelected ? context.appColors.background : context.appColors.textSecondary,
+                          fontWeight: isSelected
+                              ? FontWeight.w600
+                              : FontWeight.w500,
+                          color: isSelected
+                              ? context.appColors.background
+                              : context.appColors.textSecondary,
                         ),
                       ),
                     ],
@@ -524,7 +544,10 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                     ),
                     const SizedBox(width: 6),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: context.appColors.surfaceLight,
                         borderRadius: BorderRadius.circular(4),
@@ -544,21 +567,20 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                 const SizedBox(height: 14),
 
                 // Alt kategori önerileri
-                if (_subCategorySuggestions != null && !_subCategorySuggestions!.isEmpty) ...[
+                if (_subCategorySuggestions != null &&
+                    !_subCategorySuggestions!.isEmpty) ...[
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
                     children: [
                       // Son kullanılanlar (outline stil)
-                      ..._subCategorySuggestions!.recent.map((sub) => _buildSubCategoryChip(
-                        sub,
-                        isRecent: true,
-                      )),
+                      ..._subCategorySuggestions!.recent.map(
+                        (sub) => _buildSubCategoryChip(sub, isRecent: true),
+                      ),
                       // Sabit öneriler
-                      ..._subCategorySuggestions!.fixed.map((sub) => _buildSubCategoryChip(
-                        sub,
-                        isRecent: false,
-                      )),
+                      ..._subCategorySuggestions!.fixed.map(
+                        (sub) => _buildSubCategoryChip(sub, isRecent: false),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 14),
@@ -584,10 +606,13 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                       color: context.appColors.textPrimary,
                     ),
                     decoration: InputDecoration(
-                      hintText: 'Örn: ${_getExampleForCategory(_selectedCategory!)}',
+                      hintText:
+                          'Örn: ${_getExampleForCategory(_selectedCategory!)}',
                       hintStyle: TextStyle(
                         fontSize: 14,
-                        color: context.appColors.textTertiary.withValues(alpha: 0.6),
+                        color: context.appColors.textTertiary.withValues(
+                          alpha: 0.6,
+                        ),
                       ),
                       prefixIcon: Icon(
                         PhosphorIconsDuotone.notepad,
@@ -628,15 +653,15 @@ class _QuickAddSheetState extends State<QuickAddSheet>
           color: isSelected
               ? context.appColors.secondary.withValues(alpha: 0.15)
               : isRecent
-                  ? Colors.transparent
-                  : context.appColors.surfaceLighter,
+              ? Colors.transparent
+              : context.appColors.surfaceLighter,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected
                 ? context.appColors.secondary
                 : isRecent
-                    ? context.appColors.secondary.withValues(alpha: 0.4)
-                    : context.appColors.cardBorder,
+                ? context.appColors.secondary.withValues(alpha: 0.4)
+                : context.appColors.cardBorder,
             width: isSelected ? 1.5 : 1,
           ),
         ),
@@ -649,7 +674,9 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                 child: Icon(
                   PhosphorIconsDuotone.clockCounterClockwise,
                   size: 14,
-                  color: isSelected ? context.appColors.secondary : context.appColors.textTertiary,
+                  color: isSelected
+                      ? context.appColors.secondary
+                      : context.appColors.textTertiary,
                 ),
               ),
             Text(
@@ -657,7 +684,9 @@ class _QuickAddSheetState extends State<QuickAddSheet>
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected ? context.appColors.secondary : context.appColors.textSecondary,
+                color: isSelected
+                    ? context.appColors.secondary
+                    : context.appColors.textSecondary,
               ),
             ),
           ],
@@ -674,8 +703,12 @@ class _QuickAddSheetState extends State<QuickAddSheet>
       child: ElevatedButton(
         onPressed: _submit, // Always clickable, validation inside
         style: ElevatedButton.styleFrom(
-          backgroundColor: _canSubmit ? context.appColors.primary : context.appColors.surfaceLight,
-          foregroundColor: _canSubmit ? context.appColors.background : context.appColors.textTertiary,
+          backgroundColor: _canSubmit
+              ? context.appColors.primary
+              : context.appColors.surfaceLight,
+          foregroundColor: _canSubmit
+              ? context.appColors.background
+              : context.appColors.textTertiary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -685,16 +718,15 @@ class _QuickAddSheetState extends State<QuickAddSheet>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              _canSubmit ? PhosphorIconsDuotone.calculator : PhosphorIconsDuotone.handTap,
+              _canSubmit
+                  ? PhosphorIconsDuotone.calculator
+                  : PhosphorIconsDuotone.handTap,
               size: 22,
             ),
             const SizedBox(width: 10),
             Text(
               _selectedCategory == null ? l10n.selectCategory : l10n.calculate,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ],
         ),
@@ -884,7 +916,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
 
   @override
   Widget build(BuildContext context) {
-    final gradientColors = sensoryFeedback.getBackgroundGradient(_currentAmount);
+    final gradientColors = sensoryFeedback.getBackgroundGradient(
+      _currentAmount,
+    );
     final riskLevel = sensoryFeedback.getRiskLevel(_currentAmount);
 
     return Container(
@@ -909,14 +943,18 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                   gradientColors[1].withValues(alpha: 0.98),
                 ],
               ),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(24),
+              ),
               border: Border.all(
                 color: _showGoldenGlow
                     ? const Color(0xFFFFD700)
                     : riskLevel.backgroundIntensity > 0.3
-                        ? const Color(0xFFE74C3C).withValues(alpha: 0.5)
-                        : Colors.white.withValues(alpha: 0.1),
-                width: _showGoldenGlow || riskLevel.backgroundIntensity > 0.3 ? 2 : 1,
+                    ? const Color(0xFFE74C3C).withValues(alpha: 0.5)
+                    : context.appColors.cardBorder,
+                width: _showGoldenGlow || riskLevel.backgroundIntensity > 0.3
+                    ? 2
+                    : 1,
               ),
               boxShadow: [
                 if (_showGoldenGlow)
@@ -927,9 +965,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                   )
                 else if (riskLevel.backgroundIntensity > 0.2)
                   BoxShadow(
-                    color: const Color(0xFFE74C3C).withValues(
-                      alpha: riskLevel.backgroundIntensity * 0.3,
-                    ),
+                    color: const Color(
+                      0xFFE74C3C,
+                    ).withValues(alpha: riskLevel.backgroundIntensity * 0.3),
                     blurRadius: 20,
                     spreadRadius: 2,
                   ),
@@ -944,7 +982,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: context.appColors.textTertiary.withValues(alpha: 0.5),
+                      color: context.appColors.textTertiary.withValues(
+                        alpha: 0.5,
+                      ),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -1031,7 +1071,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
             color: context.appColors.surfaceLight,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: _hasValidAmount ? borderColor : context.appColors.cardBorder,
+              color: _hasValidAmount
+                  ? borderColor
+                  : context.appColors.cardBorder,
               width: _hasValidAmount && riskLevel != RiskLevel.none ? 2 : 1,
             ),
             boxShadow: _hasValidAmount && riskLevel.backgroundIntensity > 0.2
@@ -1050,7 +1092,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                 child: TextField(
                   controller: _amountController,
                   autofocus: true,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                   inputFormatters: [
                     PremiumCurrencyFormatter(
                       allowDecimals: true,
@@ -1068,7 +1112,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                     hintStyle: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: context.appColors.textTertiary.withValues(alpha: 0.5),
+                      color: context.appColors.textTertiary.withValues(
+                        alpha: 0.5,
+                      ),
                     ),
                     border: InputBorder.none,
                   ),
@@ -1096,7 +1142,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
               width: 4,
               height: 16,
               decoration: BoxDecoration(
-                color: _showCategoryWarning ? context.appColors.warning : context.appColors.primary,
+                color: _showCategoryWarning
+                    ? context.appColors.warning
+                    : context.appColors.primary,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -1106,7 +1154,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: _showCategoryWarning ? context.appColors.warning : context.appColors.textPrimary,
+                color: _showCategoryWarning
+                    ? context.appColors.warning
+                    : context.appColors.textPrimary,
               ),
             ),
           ],
@@ -1139,7 +1189,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
         ),
 
         // Alt kategori önerileri
-        if (_selectedCategory != null && _subCategorySuggestions != null && !_subCategorySuggestions!.isEmpty) ...[
+        if (_selectedCategory != null &&
+            _subCategorySuggestions != null &&
+            !_subCategorySuggestions!.isEmpty) ...[
           const SizedBox(height: 20),
           Text(
             'Detay (Opsiyonel)',
@@ -1154,8 +1206,12 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
             spacing: 8,
             runSpacing: 8,
             children: [
-              ..._subCategorySuggestions!.recent.map((s) => _buildChip(s, true)),
-              ..._subCategorySuggestions!.fixed.map((s) => _buildChip(s, false)),
+              ..._subCategorySuggestions!.recent.map(
+                (s) => _buildChip(s, true),
+              ),
+              ..._subCategorySuggestions!.fixed.map(
+                (s) => _buildChip(s, false),
+              ),
             ],
           ),
         ],
@@ -1187,10 +1243,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                 SizedBox(width: 10),
                 Text(
                   'Hesapla',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ],
             ),
@@ -1214,12 +1267,12 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
         decoration: BoxDecoration(
           color: isRecent
               ? context.appColors.primary.withValues(alpha: 0.15)
-              : Colors.white.withValues(alpha: 0.12),
+              : context.appColors.surfaceLight,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: isRecent
                 ? context.appColors.primary.withValues(alpha: 0.5)
-                : Colors.white.withValues(alpha: 0.2),
+                : context.appColors.cardBorder,
           ),
         ),
         child: Row(
@@ -1239,7 +1292,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: isRecent ? context.appColors.primary : Colors.white,
+                color: isRecent ? context.appColors.primary : context.appColors.textPrimary,
               ),
             ),
           ],
@@ -1288,23 +1341,23 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
         transform: Matrix4.identity()..scale(_isPressed ? 0.95 : 1.0),
         transformAlignment: Alignment.center,
         decoration: BoxDecoration(
-          // Daha görünür arka plan: seçili=primary, basılı=0.25, normal=0.15
+          // Daha görünür arka plan: seçili=primary, basılı=surfaceLighter, normal=surfaceLight
           color: widget.isSelected
               ? context.appColors.primary
               : _isPressed
-                  ? Colors.white.withValues(alpha: 0.25)
-                  : widget.showWarning
-                      ? context.appColors.warning.withValues(alpha: 0.12)
-                      : Colors.white.withValues(alpha: 0.15),
+              ? context.appColors.surfaceLighter
+              : widget.showWarning
+              ? context.appColors.warning.withValues(alpha: 0.12)
+              : context.appColors.surfaceLight,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: widget.isSelected
                 ? context.appColors.primary
                 : _isPressed
-                    ? Colors.white.withValues(alpha: 0.4)
-                    : widget.showWarning
-                        ? context.appColors.warning.withValues(alpha: 0.4)
-                        : Colors.white.withValues(alpha: 0.2),
+                ? context.appColors.primary.withValues(alpha: 0.5)
+                : widget.showWarning
+                ? context.appColors.warning.withValues(alpha: 0.4)
+                : context.appColors.cardBorder,
             width: widget.isSelected || _isPressed ? 2 : 1,
           ),
           boxShadow: widget.isSelected
@@ -1316,13 +1369,13 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
                   ),
                 ]
               : _isPressed
-                  ? [
-                      BoxShadow(
-                        color: Colors.white.withValues(alpha: 0.1),
-                        blurRadius: 8,
-                      ),
-                    ]
-                  : null,
+              ? [
+                  BoxShadow(
+                    color: Colors.white.withValues(alpha: 0.1),
+                    blurRadius: 8,
+                  ),
+                ]
+              : null,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -1344,17 +1397,19 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
                   : null,
             ),
             const SizedBox(width: 8),
-            // Kategori adı - beyaz, opacity yok
+            // Kategori adı - theme-aware colors
             Flexible(
               child: Text(
                 ExpenseCategory.getLocalizedName(widget.category, l10n),
                 style: TextStyle(
                   fontSize: 13,
-                  fontWeight: widget.isSelected ? FontWeight.w700 : FontWeight.w600,
-                  // Seçili: koyu arka plan, diğer: beyaz
+                  fontWeight: widget.isSelected
+                      ? FontWeight.w700
+                      : FontWeight.w600,
+                  // Seçili: koyu arka plan, diğer: theme text
                   color: widget.isSelected
                       ? context.appColors.background
-                      : Colors.white,
+                      : context.appColors.textPrimary,
                   letterSpacing: -0.2,
                 ),
                 overflow: TextOverflow.ellipsis,
