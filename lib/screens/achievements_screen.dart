@@ -52,9 +52,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
     final achievements = financeProvider.achievements;
 
     // Start animation for newly unlocked achievements
-    final newlyUnlocked = achievements.where(
-      (a) => a.isNewlyUnlocked && !_celebratedIds.contains(a.id),
-    ).toList();
+    final newlyUnlocked = achievements
+        .where((a) => a.isNewlyUnlocked && !_celebratedIds.contains(a.id))
+        .toList();
 
     if (newlyUnlocked.isNotEmpty) {
       _startConfettiAnimation();
@@ -158,7 +158,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
 
     // Sort each category by tier
     for (final category in groupedAchievements.keys) {
-      groupedAchievements[category]!.sort((a, b) => a.sortKey.compareTo(b.sortKey));
+      groupedAchievements[category]!.sort(
+        (a, b) => a.sortKey.compareTo(b.sortKey),
+      );
     }
 
     return Scaffold(
@@ -184,7 +186,11 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                           ),
                         ),
                         const SizedBox(height: 20),
-                        _buildSummaryCard(unlockedCount, totalCount, overallProgress),
+                        _buildSummaryCard(
+                          unlockedCount,
+                          totalCount,
+                          overallProgress,
+                        ),
                       ],
                     ),
                   ),
@@ -212,7 +218,10 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              AchievementUtils.getCategoryLabel(context, category),
+                              AchievementUtils.getCategoryLabel(
+                                context,
+                                category,
+                              ),
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
@@ -239,18 +248,25 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           itemCount: groupedAchievements[category]!.length,
                           itemBuilder: (context, index) {
-                            final achievement = groupedAchievements[category]![index];
+                            final achievement =
+                                groupedAchievements[category]![index];
                             return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                              ),
                               child: ScaleFadeIn(
                                 index: index,
                                 duration: const Duration(milliseconds: 400),
                                 staggerDelay: const Duration(milliseconds: 80),
                                 child: achievement.isUnlocked
                                     ? PulseGlow(
-                                        glowColor: _getTierColor(achievement.tier),
+                                        glowColor: _getTierColor(
+                                          achievement.tier,
+                                        ),
                                         animate: achievement.isNewlyUnlocked,
-                                        child: _buildAchievementCard(achievement),
+                                        child: _buildAchievementCard(
+                                          achievement,
+                                        ),
                                       )
                                     : _buildAchievementCard(achievement),
                               ),
@@ -315,7 +331,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                                   ? PulseGlow(
                                       glowColor: context.appColors.gold,
                                       animate: achievement.isNewlyUnlocked,
-                                      child: _buildHiddenAchievementCard(achievement),
+                                      child: _buildHiddenAchievementCard(
+                                        achievement,
+                                      ),
                                     )
                                   : _buildHiddenAchievementCard(achievement),
                             ),
@@ -422,7 +440,10 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                         height: 48,
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                            colors: [PremiumColors.purple, PremiumColors.gradientEnd],
+                            colors: [
+                              PremiumColors.purple,
+                              PremiumColors.gradientEnd,
+                            ],
                           ),
                           borderRadius: BorderRadius.circular(14),
                           boxShadow: PremiumShadows.glowPurpleSoft,
@@ -550,7 +571,19 @@ class _AchievementsScreenState extends State<AchievementsScreen>
   }
 
   int _getXPForLevel(int level) {
-    const thresholds = [0, 0, 200, 500, 1000, 2000, 3500, 5000, 7000, 10000, 15000];
+    const thresholds = [
+      0,
+      0,
+      200,
+      500,
+      1000,
+      2000,
+      3500,
+      5000,
+      7000,
+      10000,
+      15000,
+    ];
     if (level < thresholds.length) return thresholds[level];
     return 15000;
   }
@@ -609,7 +642,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isUnlocked
-              ? (isPlatinum ? Colors.transparent : tierColor.withValues(alpha: 0.5))
+              ? (isPlatinum
+                    ? Colors.transparent
+                    : tierColor.withValues(alpha: 0.5))
               : context.appColors.cardBorder,
           width: isUnlocked ? 2 : 1,
         ),
@@ -617,7 +652,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
             ? LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: _getPlatinumGradient().map((c) => c.withValues(alpha: 0.3)).toList(),
+                colors: _getPlatinumGradient()
+                    .map((c) => c.withValues(alpha: 0.3))
+                    .toList(),
               )
             : null,
         boxShadow: isUnlocked
@@ -646,13 +683,13 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                       : context.appColors.surfaceLight,
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: isUnlocked ? tierColor : context.appColors.cardBorder,
+                    color: isUnlocked
+                        ? tierColor
+                        : context.appColors.cardBorder,
                     width: 2,
                   ),
                   gradient: isUnlocked && isPlatinum
-                      ? SweepGradient(
-                          colors: _getPlatinumGradient(),
-                        )
+                      ? SweepGradient(colors: _getPlatinumGradient())
                       : null,
                 ),
                 child: Center(
@@ -674,16 +711,25 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 bottom: 0,
                 right: 0,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
-                    color: isUnlocked ? tierColor : context.appColors.textTertiary,
+                    color: isUnlocked
+                        ? tierColor
+                        : context.appColors.textTertiary,
                     borderRadius: BorderRadius.circular(8),
                     gradient: isUnlocked && isPlatinum
                         ? LinearGradient(colors: _getPlatinumGradient())
                         : null,
                   ),
                   child: Text(
-                    AchievementUtils.getFullTierLabel(context, achievement.tier, achievement.subTier),
+                    AchievementUtils.getFullTierLabel(
+                      context,
+                      achievement.tier,
+                      achievement.subTier,
+                    ),
                     style: TextStyle(
                       fontSize: 9,
                       fontWeight: FontWeight.bold,
@@ -706,7 +752,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               fontWeight: FontWeight.w600,
               color: isUnlocked
                   ? context.appColors.textPrimary
-                  : Colors.white.withValues(alpha: 0.5), // Readable grey
+                  : context.appColors.textTertiary,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -720,7 +766,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               fontSize: 10,
               color: isUnlocked
                   ? context.appColors.textSecondary
-                  : Colors.white.withValues(alpha: 0.4), // Readable grey
+                  : context.appColors.textTertiary.withValues(alpha: 0.8),
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -817,7 +863,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
         difficultyLabel = l10n.difficultyLegendary;
         break;
       case null:
-        difficultyColor = Colors.grey;
+        difficultyColor = context.appColors.textTertiary;
         difficultyLabel = '';
     }
 
@@ -839,7 +885,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
             ? LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: _getPlatinumGradient().map((c) => c.withValues(alpha: 0.3)).toList(),
+                colors: _getPlatinumGradient()
+                    .map((c) => c.withValues(alpha: 0.3))
+                    .toList(),
               )
             : null,
         boxShadow: isUnlocked
@@ -868,7 +916,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                       : context.appColors.surfaceLight.withValues(alpha: 0.5),
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: isUnlocked ? difficultyColor : context.appColors.cardBorder,
+                    color: isUnlocked
+                        ? difficultyColor
+                        : context.appColors.cardBorder,
                     width: 2,
                   ),
                 ),
@@ -891,9 +941,14 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 bottom: 0,
                 right: 0,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
-                    color: isUnlocked ? difficultyColor : context.appColors.textTertiary,
+                    color: isUnlocked
+                        ? difficultyColor
+                        : context.appColors.textTertiary,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -901,7 +956,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                     style: TextStyle(
                       fontSize: 9,
                       fontWeight: FontWeight.bold,
-                      color: isUnlocked ? Colors.white : context.appColors.surface,
+                      color: isUnlocked
+                          ? Colors.white
+                          : context.appColors.surface,
                     ),
                   ),
                 ),
@@ -911,14 +968,16 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           const SizedBox(height: 10),
           // Title
           Text(
-            isUnlocked ? AchievementUtils.getTitle(context, achievement.id) : l10n.hiddenBadge,
+            isUnlocked
+                ? AchievementUtils.getTitle(context, achievement.id)
+                : l10n.hiddenBadge,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
               color: isUnlocked
                   ? context.appColors.textPrimary
-                  : Colors.white.withValues(alpha: 0.5), // Readable grey
+                  : context.appColors.textTertiary,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -926,14 +985,16 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           const SizedBox(height: 2),
           // Description
           Text(
-            isUnlocked ? AchievementUtils.getDescription(context, achievement.id) : l10n.discoverHowToUnlock,
+            isUnlocked
+                ? AchievementUtils.getDescription(context, achievement.id)
+                : l10n.discoverHowToUnlock,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 10,
               fontStyle: isUnlocked ? FontStyle.normal : FontStyle.italic,
               color: isUnlocked
                   ? context.appColors.textSecondary
-                  : Colors.white.withValues(alpha: 0.4), // Readable grey
+                  : context.appColors.textTertiary.withValues(alpha: 0.8),
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -943,8 +1004,11 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-              color: (isUnlocked ? difficultyColor : context.appColors.textTertiary)
-                  .withValues(alpha: 0.2),
+              color:
+                  (isUnlocked
+                          ? difficultyColor
+                          : context.appColors.textTertiary)
+                      .withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
@@ -952,7 +1016,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w500,
-                color: isUnlocked ? difficultyColor : context.appColors.textTertiary,
+                color: isUnlocked
+                    ? difficultyColor
+                    : context.appColors.textTertiary,
               ),
             ),
           ),
