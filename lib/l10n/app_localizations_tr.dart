@@ -91,6 +91,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsThemeSystem => 'Sistem';
 
   @override
+  String get simpleMode => 'Basit Mod';
+
+  @override
+  String get simpleModeDescription =>
+      'Sadece temel özelliklerle basitleştirilmiş deneyim';
+
+  @override
+  String get simpleModeEnabled => 'Basit mod etkin';
+
+  @override
+  String get simpleModeDisabled => 'Basit mod devre dışı';
+
+  @override
   String get settingsNotifications => 'Bildirimler';
 
   @override

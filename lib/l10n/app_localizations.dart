@@ -254,6 +254,30 @@ abstract class AppLocalizations {
   /// **'System'**
   String get settingsThemeSystem;
 
+  /// No description provided for @simpleMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Simple Mode'**
+  String get simpleMode;
+
+  /// No description provided for @simpleModeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Streamlined experience with essential features only'**
+  String get simpleModeDescription;
+
+  /// No description provided for @simpleModeEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Simple mode is enabled'**
+  String get simpleModeEnabled;
+
+  /// No description provided for @simpleModeDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Simple mode is disabled'**
+  String get simpleModeDisabled;
+
   /// No description provided for @settingsNotifications.
   ///
   /// In en, this message translates to:

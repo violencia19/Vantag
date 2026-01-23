@@ -57,3 +57,5 @@ export 'app_clip_service.dart';
 export 'referral_service.dart';
 // Free Tier
 export 'free_tier_service.dart';
+// Simple Mode
+export 'simple_mode_service.dart';

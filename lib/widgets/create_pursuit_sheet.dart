@@ -5,16 +5,14 @@ import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/providers.dart';
 import '../theme/quiet_luxury.dart';
+import '../utils/emoji_helper.dart';
 import 'upgrade_dialog.dart';
 
 /// Bottom sheet for creating or editing a pursuit
 class CreatePursuitSheet extends StatefulWidget {
   final Pursuit? pursuit; // If provided, edit mode
 
-  const CreatePursuitSheet({
-    super.key,
-    this.pursuit,
-  });
+  const CreatePursuitSheet({super.key, this.pursuit});
 
   @override
   State<CreatePursuitSheet> createState() => _CreatePursuitSheetState();
@@ -192,8 +190,8 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        disabledBackgroundColor:
-                            QuietLuxury.positive.withValues(alpha: 0.5),
+                        disabledBackgroundColor: QuietLuxury.positive
+                            .withValues(alpha: 0.5),
                       ),
                       child: _isLoading
                           ? const SizedBox(
@@ -201,8 +199,9 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                               height: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
                               ),
                             )
                           : Text(
@@ -238,12 +237,8 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
     return InputDecoration(
       hintText: hintText,
       prefixText: prefixText,
-      hintStyle: QuietLuxury.body.copyWith(
-        color: QuietLuxury.textTertiary,
-      ),
-      prefixStyle: QuietLuxury.body.copyWith(
-        color: QuietLuxury.textSecondary,
-      ),
+      hintStyle: QuietLuxury.body.copyWith(color: QuietLuxury.textTertiary),
+      prefixStyle: QuietLuxury.body.copyWith(color: QuietLuxury.textSecondary),
       filled: true,
       fillColor: QuietLuxury.cardBackground,
       border: OutlineInputBorder(
@@ -300,10 +295,7 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  category.emoji,
-                  style: const TextStyle(fontSize: 16),
-                ),
+                Text(category.emoji, style: const TextStyle(fontSize: 16)),
                 const SizedBox(width: 6),
                 Text(
                   _getCategoryLabel(category),
@@ -382,12 +374,18 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
         }
       } else {
         // Create new pursuit
+        final name = _nameController.text.trim();
+
+        // Get smart emoji based on name, fallback to selected/category emoji
+        final smartEmoji = getDefaultPursuitEmoji(name);
+        final finalEmoji = hasSmartEmoji(name) ? smartEmoji : _selectedEmoji;
+
         final pursuit = Pursuit.create(
-          name: _nameController.text.trim(),
+          name: name,
           targetAmount: targetAmount,
           currency: currencyProvider.currency.code,
           category: _selectedCategory,
-          emoji: _selectedEmoji,
+          emoji: finalEmoji,
           initialSavings: initialSavings,
         );
 
@@ -477,10 +475,7 @@ class _ThousandsSeparatorFormatter extends TextInputFormatter {
 }
 
 /// Show the create pursuit sheet
-Future<bool?> showCreatePursuitSheet(
-  BuildContext context, {
-  Pursuit? pursuit,
-}) {
+Future<bool?> showCreatePursuitSheet(BuildContext context, {Pursuit? pursuit}) {
   return showModalBottomSheet<bool>(
     context: context,
     isScrollControlled: true,

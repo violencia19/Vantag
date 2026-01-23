@@ -91,6 +91,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsThemeSystem => 'System';
 
   @override
+  String get simpleMode => 'Simple Mode';
+
+  @override
+  String get simpleModeDescription =>
+      'Streamlined experience with essential features only';
+
+  @override
+  String get simpleModeEnabled => 'Simple mode is enabled';
+
+  @override
+  String get simpleModeDisabled => 'Simple mode is disabled';
+
+  @override
   String get settingsNotifications => 'Notifications';
 
   @override

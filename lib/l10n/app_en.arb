@@ -41,6 +41,11 @@
   "settingsThemeLight": "Light",
   "settingsThemeSystem": "System",
 
+  "simpleMode": "Simple Mode",
+  "simpleModeDescription": "Streamlined experience with essential features only",
+  "simpleModeEnabled": "Simple mode is enabled",
+  "simpleModeDisabled": "Simple mode is disabled",
+
   "settingsNotifications": "Notifications",
   "settingsReminders": "Reminders",
 

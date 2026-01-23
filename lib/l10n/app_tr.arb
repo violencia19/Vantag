@@ -41,6 +41,11 @@
   "settingsThemeLight": "Açık",
   "settingsThemeSystem": "Sistem",
 
+  "simpleMode": "Basit Mod",
+  "simpleModeDescription": "Sadece temel özelliklerle basitleştirilmiş deneyim",
+  "simpleModeEnabled": "Basit mod etkin",
+  "simpleModeDisabled": "Basit mod devre dışı",
+
   "settingsNotifications": "Bildirimler",
   "settingsReminders": "Hatırlatıcılar",
 

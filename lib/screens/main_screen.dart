@@ -21,11 +21,7 @@ class MainScreen extends StatefulWidget {
   final UserProfile? userProfile;
   final bool startTour;
 
-  const MainScreen({
-    super.key,
-    this.userProfile,
-    this.startTour = false,
-  });
+  const MainScreen({super.key, this.userProfile, this.startTour = false});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -37,6 +33,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final _connectivityService = ConnectivityService();
   final _currencyService = CurrencyService();
+  final _simpleModeService = SimpleModeService();
 
   // ExpenseScreen'e erişim için GlobalKey
   final GlobalKey<State<ExpenseScreen>> _expenseScreenKey = GlobalKey();
@@ -45,6 +42,7 @@ class _MainScreenState extends State<MainScreen> {
   ExchangeRates? _exchangeRates;
   bool _isLoadingRates = true;
   bool _hasRateError = false;
+  bool _isSimpleMode = false;
   StreamSubscription<bool>? _connectivitySubscription;
 
   // Tour
@@ -62,7 +60,9 @@ class _MainScreenState extends State<MainScreen> {
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: Color(0xFF1A1A2E), // AppColors.background hardcoded for initState
+        systemNavigationBarColor: Color(
+          0xFF1A1A2E,
+        ), // AppColors.background hardcoded for initState
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
@@ -144,7 +144,8 @@ class _MainScreenState extends State<MainScreen> {
 
       if (expenseState != null) {
         try {
-          scrollController = (expenseState as dynamic).scrollController as ScrollController?;
+          scrollController =
+              (expenseState as dynamic).scrollController as ScrollController?;
         } catch (_) {
           // ScrollController bulunamazsa Scrollable.maybeOf kullan
         }
@@ -155,13 +156,25 @@ class _MainScreenState extends State<MainScreen> {
         final scrollable = Scrollable.maybeOf(targetContext);
         if (scrollable != null) {
           final scrollPosition = scrollable.position;
-          _animateScrollToTarget(scrollPosition, position.dy, widgetHeight, screenHeight, safeAreaTop);
+          _animateScrollToTarget(
+            scrollPosition,
+            position.dy,
+            widgetHeight,
+            screenHeight,
+            safeAreaTop,
+          );
         }
         return;
       }
 
       // ScrollController ile scroll yap
-      _animateScrollToTarget(scrollController.position, position.dy, widgetHeight, screenHeight, safeAreaTop);
+      _animateScrollToTarget(
+        scrollController.position,
+        position.dy,
+        widgetHeight,
+        screenHeight,
+        safeAreaTop,
+      );
     });
   }
 
@@ -204,15 +217,23 @@ class _MainScreenState extends State<MainScreen> {
     await _connectivityService.initialize();
     _isConnected = _connectivityService.isConnected;
 
-    // Connectivity değişikliklerini dinle
-    _connectivitySubscription = _connectivityService.onConnectivityChanged.listen((isConnected) {
-      setState(() => _isConnected = isConnected);
+    // Simple mode service başlat
+    await _simpleModeService.initialize();
+    _isSimpleMode = _simpleModeService.isEnabled;
 
-      // İnternet geldiğinde kurları güncelle
-      if (isConnected) {
-        _fetchExchangeRates();
-      }
-    });
+    // Listen to simple mode changes
+    _simpleModeService.addListener(_onSimpleModeChanged);
+
+    // Connectivity değişikliklerini dinle
+    _connectivitySubscription = _connectivityService.onConnectivityChanged
+        .listen((isConnected) {
+          setState(() => _isConnected = isConnected);
+
+          // İnternet geldiğinde kurları güncelle
+          if (isConnected) {
+            _fetchExchangeRates();
+          }
+        });
 
     // Setup deep link callbacks with actual hourly rate from provider
     DeepLinkService().setCallbacks(
@@ -308,7 +329,10 @@ class _MainScreenState extends State<MainScreen> {
         emoji: goalEmoji,
       );
 
-      await pursuitProvider.createPursuit(pursuit, isPremium: proProvider.isPro);
+      await pursuitProvider.createPursuit(
+        pursuit,
+        isPremium: proProvider.isPro,
+      );
       debugPrint('[MainScreen] Created onboarding pursuit: $goalName');
     }
   }
@@ -398,10 +422,19 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  void _onSimpleModeChanged() {
+    if (mounted) {
+      setState(() {
+        _isSimpleMode = _simpleModeService.isEnabled;
+      });
+    }
+  }
+
   @override
   void dispose() {
     _connectivitySubscription?.cancel();
     _connectivityService.dispose();
+    _simpleModeService.removeListener(_onSimpleModeChanged);
     super.dispose();
   }
 
@@ -439,7 +472,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     // Provider'ı WATCH et - gelir değiştiğinde tüm ekran yenilensin
     final financeProvider = context.watch<FinanceProvider>();
-    final currentProfile = financeProvider.userProfile ??
+    final currentProfile =
+        financeProvider.userProfile ??
         UserProfile(incomeSources: [], dailyHours: 8, workDaysPerWeek: 5);
 
     return ShowCaseWidget(
@@ -508,10 +542,9 @@ class _MainScreenState extends State<MainScreen> {
               onTap: _onNavTap,
               onAddTap: _showAddExpenseSheet,
             ),
-            // AI Chat FAB
-            floatingActionButton: AIFloatingButton(
-              onTap: _showAIChat,
-            ),
+            // AI Chat FAB (hidden in Simple Mode)
+            floatingActionButton:
+                _isSimpleMode ? null : AIFloatingButton(onTap: _showAIChat),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           );
         },

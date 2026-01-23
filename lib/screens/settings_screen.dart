@@ -17,6 +17,7 @@ import '../services/purchase_service.dart';
 import '../services/sound_service.dart';
 import '../services/referral_service.dart';
 import '../services/deep_link_service.dart';
+import '../services/simple_mode_service.dart';
 import '../theme/theme.dart';
 import '../widgets/currency_selector.dart';
 import 'paywall_screen.dart';
@@ -36,6 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _isExporting = false;
   bool _isRestoring = false;
   bool _soundEnabled = true;
+  bool _simpleModeEnabled = false;
 
   // Referral system
   String? _referralCode;
@@ -50,8 +52,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _loadSettings() async {
+    // Initialize simple mode service
+    await simpleModeService.initialize();
+
     setState(() {
       _soundEnabled = soundService.isEnabled;
+      _simpleModeEnabled = simpleModeService.isEnabled;
     });
   }
 
@@ -91,6 +97,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  Future<void> _toggleSimpleMode(bool value) async {
+    await simpleModeService.setEnabled(value);
+    setState(() => _simpleModeEnabled = value);
+    HapticFeedback.selectionClick();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -118,9 +130,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
 
             // Growth Section (Invite Friends)
-            SliverToBoxAdapter(
-              child: _buildGrowthSection(l10n),
-            ),
+            SliverToBoxAdapter(child: _buildGrowthSection(l10n)),
 
             const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
@@ -134,6 +144,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   _buildLanguageTile(l10n),
                   _buildDivider(),
                   _buildThemeTile(l10n),
+                  _buildDivider(),
+                  _buildSimpleModeTile(l10n),
                 ],
               ),
             ),
@@ -172,9 +184,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SliverToBoxAdapter(
               child: _buildSection(
                 title: l10n.navAchievements,
-                children: [
-                  _buildAchievementsTile(l10n),
-                ],
+                children: [_buildAchievementsTile(l10n)],
               ),
             ),
 
@@ -227,10 +237,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              context.appColors.primary,
-              context.appColors.secondary,
-            ],
+            colors: [context.appColors.primary, context.appColors.secondary],
           ),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
@@ -306,7 +313,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               GestureDetector(
                 onTap: _copyReferralCode,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(12),
@@ -383,7 +393,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            l10n.referralStats(_referralCount).replaceAll('$_referralCount ', ''),
+                            l10n
+                                .referralStats(_referralCount)
+                                .replaceAll('$_referralCount ', ''),
                             style: TextStyle(
                               fontSize: 11,
                               color: Colors.white.withValues(alpha: 0.7),
@@ -631,7 +643,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _showLanguageSelector(LocaleProvider localeProvider, AppLocalizations l10n) {
+  void _showLanguageSelector(
+    LocaleProvider localeProvider,
+    AppLocalizations l10n,
+  ) {
     showModalBottomSheet(
       context: context,
       backgroundColor: context.appColors.surface,
@@ -655,7 +670,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               leading: const Text('🇹🇷', style: TextStyle(fontSize: 24)),
               title: const Text('Türkçe'),
               trailing: localeProvider.locale?.languageCode == 'tr'
-                  ? Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.primary)
+                  ? Icon(
+                      PhosphorIconsDuotone.checkCircle,
+                      color: context.appColors.primary,
+                    )
                   : null,
               onTap: () {
                 localeProvider.setLocale(const Locale('tr'));
@@ -667,7 +685,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               leading: const Text('🇺🇸', style: TextStyle(fontSize: 24)),
               title: const Text('English'),
               trailing: localeProvider.locale?.languageCode == 'en'
-                  ? Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.primary)
+                  ? Icon(
+                      PhosphorIconsDuotone.checkCircle,
+                      color: context.appColors.primary,
+                    )
                   : null,
               onTap: () {
                 localeProvider.setLocale(const Locale('en'));
@@ -770,11 +791,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   color: const Color(0xFF1A1A2E),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(PhosphorIconsDuotone.moon, color: Colors.white, size: 20),
+                child: const Icon(
+                  PhosphorIconsDuotone.moon,
+                  color: Colors.white,
+                  size: 20,
+                ),
               ),
               title: Text(l10n.settingsThemeDark),
               trailing: themeProvider.themeMode == AppThemeMode.dark
-                  ? Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.primary)
+                  ? Icon(
+                      PhosphorIconsDuotone.checkCircle,
+                      color: context.appColors.primary,
+                    )
                   : null,
               onTap: () {
                 themeProvider.setThemeMode(AppThemeMode.dark);
@@ -790,11 +818,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   color: const Color(0xFFF5F5F5),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(PhosphorIconsDuotone.sun, color: Color(0xFF1A1A2E), size: 20),
+                child: const Icon(
+                  PhosphorIconsDuotone.sun,
+                  color: Color(0xFF1A1A2E),
+                  size: 20,
+                ),
               ),
               title: Text(l10n.settingsThemeLight),
               trailing: themeProvider.themeMode == AppThemeMode.light
-                  ? Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.primary)
+                  ? Icon(
+                      PhosphorIconsDuotone.checkCircle,
+                      color: context.appColors.primary,
+                    )
                   : null,
               onTap: () {
                 themeProvider.setThemeMode(AppThemeMode.light);
@@ -814,11 +849,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(PhosphorIconsDuotone.deviceMobile, color: Colors.white, size: 20),
+                child: const Icon(
+                  PhosphorIconsDuotone.deviceMobile,
+                  color: Colors.white,
+                  size: 20,
+                ),
               ),
               title: Text(l10n.settingsThemeSystem),
               trailing: themeProvider.themeMode == AppThemeMode.system
-                  ? Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.primary)
+                  ? Icon(
+                      PhosphorIconsDuotone.checkCircle,
+                      color: context.appColors.primary,
+                    )
                   : null,
               onTap: () {
                 themeProvider.setThemeMode(AppThemeMode.system);
@@ -830,6 +872,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSimpleModeTile(AppLocalizations l10n) {
+    return _buildListTile(
+      icon: PhosphorIconsDuotone.leaf,
+      iconColor: const Color(0xFF27AE60),
+      title: l10n.simpleMode,
+      trailing: Switch.adaptive(
+        value: _simpleModeEnabled,
+        onChanged: _toggleSimpleMode,
+        activeTrackColor: context.appColors.primary,
+      ),
+      showArrow: false,
     );
   }
 
@@ -864,7 +920,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildProTile(AppLocalizations l10n, bool isPro) {
     return _buildListTile(
       icon: PhosphorIconsDuotone.lightning,
-      iconColor: isPro ? const Color(0xFFFFD700) : context.appColors.textTertiary,
+      iconColor: isPro
+          ? const Color(0xFFFFD700)
+          : context.appColors.textTertiary,
       title: l10n.settingsVantagPro,
       trailing: isPro
           ? Container(
@@ -956,7 +1014,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               restored ? l10n.settingsRestoreSuccess : l10n.settingsRestoreNone,
             ),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: restored ? context.appColors.success : context.appColors.surfaceLight,
+            backgroundColor: restored
+                ? context.appColors.success
+                : context.appColors.surfaceLight,
           ),
         );
       }
@@ -979,27 +1039,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: CircularProgressIndicator(strokeWidth: 2),
             )
           : !isPro
-              ? Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        context.appColors.primary.withValues(alpha: 0.2),
-                        context.appColors.secondary.withValues(alpha: 0.2),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    'PRO',
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                      color: context.appColors.primary,
-                    ),
-                  ),
-                )
-              : null,
+          ? Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    context.appColors.primary.withValues(alpha: 0.2),
+                    context.appColors.secondary.withValues(alpha: 0.2),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                'PRO',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  color: context.appColors.primary,
+                ),
+              ),
+            )
+          : null,
       showArrow: !_isExporting && isPro,
       onTap: _isExporting ? null : () => _exportData(isPro),
     );
@@ -1074,10 +1134,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.9),
       barrierDismissible: false,
-      builder: (context) => _DeleteAccountDialog(
-        confirmWord: confirmWord,
-        l10n: l10n,
-      ),
+      builder: (context) =>
+          _DeleteAccountDialog(confirmWord: confirmWord, l10n: l10n),
     );
 
     if (confirmed == true && mounted) {
@@ -1173,7 +1231,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       onTap: () => launchUrl(Uri.parse('mailto:support@vantag.app')),
     );
   }
-
 }
 
 /// Delete Account Confirmation Dialog
@@ -1181,10 +1238,7 @@ class _DeleteAccountDialog extends StatefulWidget {
   final String confirmWord;
   final AppLocalizations l10n;
 
-  const _DeleteAccountDialog({
-    required this.confirmWord,
-    required this.l10n,
-  });
+  const _DeleteAccountDialog({required this.confirmWord, required this.l10n});
 
   @override
   State<_DeleteAccountDialog> createState() => _DeleteAccountDialogState();
@@ -1262,7 +1316,10 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             controller: _textController,
             decoration: InputDecoration(
               hintText: l10n.deleteAccountConfirmPlaceholder,
-              hintStyle: TextStyle(color: context.appColors.textTertiary, fontSize: 14),
+              hintStyle: TextStyle(
+                color: context.appColors.textTertiary,
+                fontSize: 14,
+              ),
               filled: true,
               fillColor: context.appColors.background,
               border: OutlineInputBorder(
@@ -1275,11 +1332,20 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.appColors.error, width: 2),
+                borderSide: BorderSide(
+                  color: context.appColors.error,
+                  width: 2,
+                ),
               ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 14,
+              ),
             ),
-            style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
+            style: TextStyle(
+              color: context.appColors.textPrimary,
+              fontSize: 14,
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
@@ -1316,12 +1382,18 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
               const SizedBox(width: 12),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: _isConfirmed ? () => Navigator.pop(context, true) : null,
+                  onPressed: _isConfirmed
+                      ? () => Navigator.pop(context, true)
+                      : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: context.appColors.error,
                     foregroundColor: Colors.white,
-                    disabledBackgroundColor: context.appColors.error.withValues(alpha: 0.3),
-                    disabledForegroundColor: Colors.white.withValues(alpha: 0.5),
+                    disabledBackgroundColor: context.appColors.error.withValues(
+                      alpha: 0.3,
+                    ),
+                    disabledForegroundColor: Colors.white.withValues(
+                      alpha: 0.5,
+                    ),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -1330,7 +1402,10 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                   ),
                   child: Text(
                     l10n.deleteAccountButton,
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
