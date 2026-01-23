@@ -10,6 +10,8 @@ import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 import '../models/models.dart';
 import '../utils/currency_utils.dart';
+import '../services/referral_service.dart';
+import '../services/deep_link_service.dart';
 
 /// Premium Share Card Format
 enum ShareCardFormat {
@@ -27,6 +29,8 @@ class PremiumShareCard extends StatefulWidget {
   final String currencySymbol;
   final ShareCardFormat format;
   final ExpenseDecision? decision;
+  /// Whether to show a watermark (for free users)
+  final bool showWatermark;
 
   const PremiumShareCard({
     super.key,
@@ -37,6 +41,7 @@ class PremiumShareCard extends StatefulWidget {
     this.currencySymbol = '₺',
     this.format = ShareCardFormat.story,
     this.decision,
+    this.showWatermark = false,
   });
 
   @override
@@ -105,6 +110,46 @@ class _PremiumShareCardState extends State<PremiumShareCard>
 
             // Vantag branding
             _buildBranding(),
+
+            // Watermark for free users
+            if (widget.showWatermark) _buildWatermark(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWatermark() {
+    return Positioned(
+      bottom: 12,
+      right: 12,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.black.withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.2),
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              PhosphorIconsDuotone.sparkle,
+              size: 14,
+              color: Colors.white.withValues(alpha: 0.8),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              'vantag.app',
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.8),
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.5,
+              ),
+            ),
           ],
         ),
       ),
@@ -158,9 +203,9 @@ class _PremiumShareCardState extends State<PremiumShareCard>
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.primary.withValues(alpha: _glowAnimation.value * 0.4),
-                    AppColors.primary.withValues(alpha: _glowAnimation.value * 0.2),
-                    AppColors.primary.withValues(alpha: 0.0),
+                    context.appColors.primary.withValues(alpha: _glowAnimation.value * 0.4),
+                    context.appColors.primary.withValues(alpha: _glowAnimation.value * 0.2),
+                    context.appColors.primary.withValues(alpha: 0.0),
                   ],
                   stops: const [0.0, 0.5, 1.0],
                 ),
@@ -324,13 +369,13 @@ class _PremiumShareCardState extends State<PremiumShareCard>
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                AppColors.primary.withValues(alpha: 0.3),
-                AppColors.primary.withValues(alpha: 0.1),
+                context.appColors.primary.withValues(alpha: 0.3),
+                context.appColors.primary.withValues(alpha: 0.1),
               ],
             ),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: AppColors.primary.withValues(alpha: 0.4),
+              color: context.appColors.primary.withValues(alpha: 0.4),
               width: 1,
             ),
           ),
@@ -404,9 +449,9 @@ class _PremiumShareCardState extends State<PremiumShareCard>
   Widget _buildDecisionIndicator() {
     final decision = widget.decision!;
     final (icon, color, label) = switch (decision) {
-      ExpenseDecision.yes => (PhosphorIconsFill.checkCircle, AppColors.error, 'Aldım'),
-      ExpenseDecision.no => (PhosphorIconsFill.prohibit, AppColors.success, 'Vazgeçtim'),
-      ExpenseDecision.thinking => (PhosphorIconsFill.clock, AppColors.warning, 'Düşünüyorum'),
+      ExpenseDecision.yes => (PhosphorIconsFill.checkCircle, context.appColors.error, 'Aldım'),
+      ExpenseDecision.no => (PhosphorIconsFill.prohibit, context.appColors.success, 'Vazgeçtim'),
+      ExpenseDecision.thinking => (PhosphorIconsFill.clock, context.appColors.warning, 'Düşünüyorum'),
     };
 
     return Container(
@@ -444,7 +489,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
             gradient: LinearGradient(
               colors: [
                 Colors.transparent,
-                AppColors.primary.withValues(alpha: 0.6),
+                context.appColors.primary.withValues(alpha: 0.6),
                 Colors.transparent,
               ],
             ),
@@ -483,8 +528,8 @@ class _PremiumShareCardState extends State<PremiumShareCard>
             width: 24,
             height: 24,
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [AppColors.primary, AppColors.primaryLight],
+              gradient: LinearGradient(
+                colors: [context.appColors.primary, context.appColors.primaryLight],
               ),
               borderRadius: BorderRadius.circular(6),
             ),
@@ -648,7 +693,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
       builder: (context, scrollController) {
         return Container(
           decoration: BoxDecoration(
-            color: AppColors.background,
+            color: context.appColors.background,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: Column(
@@ -767,7 +812,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                       child: _ShareButton(
                         label: l10n.save,
                         icon: PhosphorIconsFill.downloadSimple,
-                        color: AppColors.primary,
+                        color: context.appColors.primary,
                         onTap: () {
                           // TODO: Save to gallery
                         },
@@ -806,12 +851,12 @@ class _FormatButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.primary.withValues(alpha: 0.2)
+              ? context.appColors.primary.withValues(alpha: 0.2)
               : Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected
-                ? AppColors.primary
+                ? context.appColors.primary
                 : Colors.white.withValues(alpha: 0.1),
             width: 1,
           ),
@@ -822,7 +867,7 @@ class _FormatButton extends StatelessWidget {
             Icon(
               icon,
               size: 18,
-              color: isSelected ? AppColors.primary : Colors.white.withValues(alpha: 0.6),
+              color: isSelected ? context.appColors.primary : Colors.white.withValues(alpha: 0.6),
             ),
             const SizedBox(width: 8),
             Text(
@@ -830,7 +875,7 @@ class _FormatButton extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                color: isSelected ? AppColors.primary : Colors.white.withValues(alpha: 0.6),
+                color: isSelected ? context.appColors.primary : Colors.white.withValues(alpha: 0.6),
               ),
             ),
           ],
@@ -1323,8 +1368,8 @@ class _HabitShareCardState extends State<HabitShareCard>
             width: 24,
             height: 24,
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [AppColors.primary, AppColors.primaryLight],
+              gradient: LinearGradient(
+                colors: [context.appColors.primary, context.appColors.primaryLight],
               ),
               borderRadius: BorderRadius.circular(6),
             ),
@@ -1431,7 +1476,7 @@ class _HabitShareCardPreviewSheetState
       builder: (context, scrollController) {
         return Container(
           decoration: BoxDecoration(
-            color: AppColors.background,
+            color: context.appColors.background,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: Column(
@@ -1636,9 +1681,21 @@ class _HabitShareCardPreviewSheetState
       final file = File(filePath);
       await file.writeAsBytes(pngBytes);
 
+      // Get referral link for sharing
+      String shareText = 'Senin alışkanlıkların kaç gün? 👀 vantag.app';
+      try {
+        final referralCode = await ReferralService().getOrCreateReferralCode();
+        if (referralCode != null) {
+          final referralLink = DeepLinkService.generateReferralLink(referralCode);
+          shareText = 'Senin alışkanlıkların kaç gün? 👀 $referralLink';
+        }
+      } catch (_) {
+        // Use default text if referral fails
+      }
+
       await Share.shareXFiles(
         [XFile(filePath)],
-        text: 'Senin alışkanlıkların kaç gün? 👀 vantag.app',
+        text: shareText,
       );
 
       // Cleanup after 5 minutes
@@ -1658,7 +1715,7 @@ class _HabitShareCardPreviewSheetState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppLocalizations.of(context).shareError),
-            backgroundColor: AppColors.error,
+            backgroundColor: context.appColors.error,
           ),
         );
       }
@@ -1690,12 +1747,12 @@ class _ToggleChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.primary.withValues(alpha: 0.2)
+              ? context.appColors.primary.withValues(alpha: 0.2)
               : Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected
-                ? AppColors.primary
+                ? context.appColors.primary
                 : Colors.white.withValues(alpha: 0.1),
             width: 1,
           ),
@@ -1709,7 +1766,7 @@ class _ToggleChip extends StatelessWidget {
                   : PhosphorIconsRegular.circle,
               size: 16,
               color: isSelected
-                  ? AppColors.primary
+                  ? context.appColors.primary
                   : Colors.white.withValues(alpha: 0.5),
             ),
             const SizedBox(width: 6),
@@ -1719,7 +1776,7 @@ class _ToggleChip extends StatelessWidget {
                 fontSize: 13,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 color: isSelected
-                    ? AppColors.primary
+                    ? context.appColors.primary
                     : Colors.white.withValues(alpha: 0.6),
               ),
             ),

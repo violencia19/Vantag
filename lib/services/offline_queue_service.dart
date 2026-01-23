@@ -200,7 +200,9 @@ class OfflineQueueService extends ChangeNotifier {
     notifyListeners();
   }
 
+  @override
   void dispose() {
     _connectivitySubscription?.cancel();
+    super.dispose();
   }
 }

@@ -91,10 +91,10 @@ class SavedMoneyCounter extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 24),
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.2),
+          color: context.appColors.primary.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -105,13 +105,13 @@ class SavedMoneyCounter extends StatelessWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.1),
+              color: context.appColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(
+            child: Icon(
               PhosphorIconsDuotone.shieldCheck,
               size: 22,
-              color: AppColors.primary,
+              color: context.appColors.primary,
             ),
           ),
           const SizedBox(height: 16),
@@ -123,10 +123,10 @@ class SavedMoneyCounter extends StatelessWidget {
             children: [
               NumberTicker(
                 value: stats.savedAmount,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 42,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
+                  color: context.appColors.primary,
                   letterSpacing: -2,
                   height: 1.2,
                 ),
@@ -138,10 +138,10 @@ class SavedMoneyCounter extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 6, left: 4),
                 child: Text(
                   currencyProvider.symbol,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
+                    color: context.appColors.primary,
                   ),
                 ),
               ),
@@ -152,10 +152,10 @@ class SavedMoneyCounter extends StatelessWidget {
           // Label
           Text(
             l10n.youSaved,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
           ),
 
@@ -166,17 +166,17 @@ class SavedMoneyCounter extends StatelessWidget {
             // OR text
             Text(
               l10n.or,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textTertiary,
+                color: context.appColors.textTertiary,
                 letterSpacing: 1.5,
               ),
             ),
             const SizedBox(height: 12),
 
             // Currency list
-            _buildCurrencyAlternatives(l10n),
+            _buildCurrencyAlternatives(context, l10n),
           ],
 
           const SizedBox(height: 16),
@@ -185,24 +185,24 @@ class SavedMoneyCounter extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
             decoration: BoxDecoration(
-              color: AppColors.surfaceLight,
+              color: context.appColors.surfaceLight,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
+                Icon(
                   PhosphorIconsDuotone.clock,
                   size: 14,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                 ),
                 const SizedBox(width: 6),
                 Text(
                   _formatTime(l10n),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.textSecondary,
+                    color: context.appColors.textSecondary,
                   ),
                 ),
               ],
@@ -215,7 +215,7 @@ class SavedMoneyCounter extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.08),
+                color: context.appColors.primary.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -229,10 +229,10 @@ class SavedMoneyCounter extends StatelessWidget {
                   Flexible(
                     child: Text(
                       emotionalMessage,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.primary,
+                        color: context.appColors.primary,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -246,7 +246,7 @@ class SavedMoneyCounter extends StatelessWidget {
     );
   }
 
-  Widget _buildCurrencyAlternatives(AppLocalizations l10n) {
+  Widget _buildCurrencyAlternatives(BuildContext context, AppLocalizations l10n) {
     if (exchangeRates == null) return const SizedBox.shrink();
 
     final savedTL = stats.savedAmount;
@@ -259,14 +259,14 @@ class SavedMoneyCounter extends StatelessWidget {
       spacing: 16,
       runSpacing: 8,
       children: [
-        _buildCurrencyItem('💵', '${_formatCurrency(usdAmount)} USD'),
-        _buildCurrencyItem('💶', '${_formatCurrency(eurAmount)} EUR'),
-        _buildCurrencyItem('🥇', l10n.goldGramsShort(_formatCurrency(goldGrams, decimals: 1))),
+        _buildCurrencyItem(context, '💵', '${_formatCurrency(usdAmount)} USD'),
+        _buildCurrencyItem(context, '💶', '${_formatCurrency(eurAmount)} EUR'),
+        _buildCurrencyItem(context, '🥇', l10n.goldGramsShort(_formatCurrency(goldGrams, decimals: 1))),
       ],
     );
   }
 
-  Widget _buildCurrencyItem(String emoji, String text) {
+  Widget _buildCurrencyItem(BuildContext context, String emoji, String text) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -277,10 +277,10 @@ class SavedMoneyCounter extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
-            color: AppColors.textSecondary,
+            color: context.appColors.textSecondary,
           ),
         ),
       ],

@@ -24,6 +24,9 @@ import 'services/siri_service.dart';
 import 'services/budget_service.dart';
 import 'services/purchase_service.dart';
 import 'services/haptic_service.dart';
+import 'services/widget_service.dart';
+import 'services/sound_service.dart';
+import 'services/notification_service.dart';
 
 /// Global navigator key for deep link dialogs
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -68,6 +71,14 @@ void main() async {
       debugPrint("✅ Haptic Service başlatıldı");
     } catch (e) {
       debugPrint("❌ Haptic Service hatası: $e");
+    }
+
+    // Initialize Sound Service
+    try {
+      await soundService.init();
+      debugPrint("✅ Sound Service başlatıldı");
+    } catch (e) {
+      debugPrint("❌ Sound Service hatası: $e");
     }
 
     debugPrint("🚀 ADIM 1: Flutter Hazır");
@@ -142,7 +153,7 @@ void main() async {
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: AppColors.background,
+        systemNavigationBarColor: Color(0xFF1A1A2E), // AppColors.background hardcoded - no context before runApp
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
@@ -194,6 +205,21 @@ class _VantagAppState extends State<VantagApp> {
     // Initialize Siri shortcuts (iOS only)
     if (Platform.isIOS) {
       SiriService().setupShortcuts();
+    }
+
+    // Initialize Home Screen Widget Service (iOS + Android)
+    if (Platform.isIOS || Platform.isAndroid) {
+      await widgetService.initialize();
+      debugPrint('Widget Service initialized');
+    }
+
+    // Initialize Notification Service
+    try {
+      await NotificationService().initialize();
+      await NotificationService().initializeDefaultSettings();
+      debugPrint('Notification Service initialized');
+    } catch (e) {
+      debugPrint('Notification Service error: $e');
     }
   }
 

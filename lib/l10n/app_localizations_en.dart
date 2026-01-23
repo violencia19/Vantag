@@ -97,6 +97,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsReminders => 'Reminders';
 
   @override
+  String get settingsSoundEffects => 'Sound Effects';
+
+  @override
+  String get settingsSoundVolume => 'Volume';
+
+  @override
   String get settingsProPurchases => 'Pro & Purchases';
 
   @override
@@ -543,7 +549,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifications => 'Notifications';
 
   @override
-  String get notificationSettings => 'Notification Settings';
+  String get notificationSettings => 'Notifications';
 
   @override
   String get streakReminder => 'Streak Reminder';
@@ -733,6 +739,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editExpense => 'Edit Expense';
+
+  @override
+  String get deleteExpense => 'Delete Expense';
+
+  @override
+  String get deleteExpenseConfirm =>
+      'Are you sure you want to delete this expense?';
 
   @override
   String get updateExpense => 'Update';
@@ -3551,4 +3564,688 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pendingLabel => 'Pending';
+
+  @override
+  String insightMinutes(int minutes) {
+    return 'This expense took $minutes minutes of your life.';
+  }
+
+  @override
+  String insightHours(String hours) {
+    return 'This expense took $hours hours of your life.';
+  }
+
+  @override
+  String get insightAlmostDay =>
+      'You worked almost a full day for this expense.';
+
+  @override
+  String insightDays(String days) {
+    return 'This expense took $days days of your life.';
+  }
+
+  @override
+  String insightDaysWorked(String days) {
+    return 'You had to work $days days for this expense.';
+  }
+
+  @override
+  String get insightAlmostMonth =>
+      'This expense cost you almost a month of work.';
+
+  @override
+  String insightCategoryDays(String category, String days) {
+    return 'This month you worked $days days for $category.';
+  }
+
+  @override
+  String insightCategoryHours(String category, String hours) {
+    return 'This month you worked $hours hours for $category.';
+  }
+
+  @override
+  String get insightMonthlyAlmost =>
+      'You worked almost the entire month for this month\'s expenses.';
+
+  @override
+  String insightMonthlyDays(String days) {
+    return 'You worked $days days for this month\'s expenses.';
+  }
+
+  @override
+  String get msgShort1 => 'A few hours of work, for a fleeting desire?';
+
+  @override
+  String get msgShort2 =>
+      'Easy to spend what you earned in such short time, hard to earn it back.';
+
+  @override
+  String get msgShort3 =>
+      'You went to work this morning, this money will be gone before lunch.';
+
+  @override
+  String get msgShort4 =>
+      'You earned it in a coffee break, it\'ll be gone with one click.';
+
+  @override
+  String get msgShort5 =>
+      'Half a day\'s work, don\'t let it become a full day of regret.';
+
+  @override
+  String get msgShort6 => 'Think about the hours you worked for this item.';
+
+  @override
+  String get msgShort7 => 'Looks small but makes a big difference in total.';
+
+  @override
+  String get msgShort8 => 'If not now, tomorrow works too.';
+
+  @override
+  String get msgMedium1 => 'Is your week\'s work worth this item?';
+
+  @override
+  String get msgMedium2 =>
+      'It took days to save this money, seconds to spend it.';
+
+  @override
+  String get msgMedium3 =>
+      'Would you accept if you were investing a week into this?';
+
+  @override
+  String get msgMedium4 => 'Days of effort, a split-second decision.';
+
+  @override
+  String get msgMedium5 => 'A weekend getaway or this item?';
+
+  @override
+  String get msgMedium6 => 'Remember what you worked for all those days.';
+
+  @override
+  String get msgMedium7 => 'Did you work Monday to Friday for this?';
+
+  @override
+  String get msgMedium8 =>
+      'Does it make sense to spend your weekly budget in one go?';
+
+  @override
+  String get msgLong1 =>
+      'You need to work for weeks for this. Is it really worth it?';
+
+  @override
+  String get msgLong2 => 'Saving this money could take months.';
+
+  @override
+  String get msgLong3 => 'You might be delaying one of your long-term goals.';
+
+  @override
+  String get msgLong4 =>
+      'Does the time you\'ll spend on this affect your vacation plans?';
+
+  @override
+  String get msgLong5 => 'Is this an investment or an expense?';
+
+  @override
+  String get msgLong6 => 'How would future you evaluate this decision?';
+
+  @override
+  String get msgLong7 => 'Working this long should be for something lasting.';
+
+  @override
+  String get msgLong8 => 'How will you view this decision at month\'s end?';
+
+  @override
+  String get msgSim1 =>
+      'This amount isn\'t just spending anymore, it\'s a serious investment decision.';
+
+  @override
+  String get msgSim2 =>
+      'For such a large sum, decide with your vision, not your emotions.';
+
+  @override
+  String get msgSim3 =>
+      'It\'s hard to even calculate the time equivalent of this amount.';
+
+  @override
+  String get msgSim4 => 'Could this be that big step you\'ve been dreaming of?';
+
+  @override
+  String get msgSim5 =>
+      'Managing such a large amount requires patience and strategy.';
+
+  @override
+  String get msgSim6 =>
+      'You\'re at a point that will affect your future, not just your wallet.';
+
+  @override
+  String get msgSim7 =>
+      'Big numbers bring big responsibilities. Are you ready?';
+
+  @override
+  String get msgSim8 =>
+      'Is this amount just a number to you, or a turning point?';
+
+  @override
+  String get msgYes1 => 'Recorded. Hope it\'s worth it.';
+
+  @override
+  String get msgYes2 => 'Let\'s see if you\'ll regret it.';
+
+  @override
+  String get msgYes3 => 'Okay, it\'s your money.';
+
+  @override
+  String get msgYes4 => 'You bought it, congratulations.';
+
+  @override
+  String get msgYes5 => 'As you wish.';
+
+  @override
+  String get msgYes6 => 'Alright, it\'s on the record.';
+
+  @override
+  String get msgYes7 => 'If it\'s a need, no problem.';
+
+  @override
+  String get msgYes8 => 'Sometimes spending is necessary too.';
+
+  @override
+  String get msgNo1 => 'Great decision. You saved this money.';
+
+  @override
+  String get msgNo2 =>
+      'You chose the hard path, your future self will thank you.';
+
+  @override
+  String get msgNo3 => 'Willpower won.';
+
+  @override
+  String get msgNo4 => 'Smart move. You\'ll need this money.';
+
+  @override
+  String get msgNo5 => 'Passing is also a win.';
+
+  @override
+  String get msgNo6 => 'The urge passed, the money stayed.';
+
+  @override
+  String get msgNo7 => 'You actually invested in yourself.';
+
+  @override
+  String get msgNo8 => 'Hard decision, right decision.';
+
+  @override
+  String get msgThink1 => 'Thinking is free, spending isn\'t.';
+
+  @override
+  String get msgThink2 => 'Not rushing is smart.';
+
+  @override
+  String get msgThink3 => 'Sleep on it, look again tomorrow.';
+
+  @override
+  String get msgThink4 => 'Wait 24 hours, come back if you still want it.';
+
+  @override
+  String get msgThink5 =>
+      'If you\'re hesitating, it\'s probably not necessary.';
+
+  @override
+  String get msgThink6 => 'Time is the best advisor.';
+
+  @override
+  String get msgThink7 => 'If it\'s not urgent, don\'t rush.';
+
+  @override
+  String get msgThink8 => 'If you\'re not sure, the answer is probably no.';
+
+  @override
+  String get tourAmountTitle => 'Amount Entry';
+
+  @override
+  String get tourAmountDesc =>
+      'Enter the expense amount here. You can automatically scan it from a receipt using the scan button.';
+
+  @override
+  String get tourDescriptionTitle => 'Smart Matching';
+
+  @override
+  String get tourDescriptionDesc =>
+      'Enter the store or product name. Like Migros, A101, Starbucks... The app will automatically suggest a category!';
+
+  @override
+  String get tourCategoryTitle => 'Category Selection';
+
+  @override
+  String get tourCategoryDesc =>
+      'If smart matching doesn\'t find it or you want to change it, you can manually select from here.';
+
+  @override
+  String get tourDateTitle => 'Past Date Selection';
+
+  @override
+  String get tourDateDesc =>
+      'You can also enter expenses from yesterday or previous days. Click the calendar icon to select any date.';
+
+  @override
+  String get tourSnapshotTitle => 'Financial Summary';
+
+  @override
+  String get tourSnapshotDesc =>
+      'Your monthly income, expenses, and saved money are here. All data updates in real-time.';
+
+  @override
+  String get tourCurrencyTitle => 'Exchange Rates';
+
+  @override
+  String get tourCurrencyDesc =>
+      'Current USD, EUR, and gold prices. Tap for detailed information.';
+
+  @override
+  String get tourStreakTitle => 'Streak Tracking';
+
+  @override
+  String get tourStreakDesc =>
+      'Your streak increases every day you record an expense. Regular tracking is the key to mindful spending!';
+
+  @override
+  String get tourSubscriptionTitle => 'Subscriptions';
+
+  @override
+  String get tourSubscriptionDesc =>
+      'Track your regular subscriptions like Netflix, Spotify here. You\'ll get notifications for upcoming payments.';
+
+  @override
+  String get tourReportTitle => 'Reports';
+
+  @override
+  String get tourReportDesc =>
+      'View monthly and category-based spending analysis here.';
+
+  @override
+  String get tourAchievementsTitle => 'Badges';
+
+  @override
+  String get tourAchievementsDesc =>
+      'Earn badges as you reach savings goals. Keep your motivation high!';
+
+  @override
+  String get tourProfileTitle => 'Profile & Settings';
+
+  @override
+  String get tourProfileDesc =>
+      'Edit income info, manage notification preferences, and access app settings.';
+
+  @override
+  String get tourQuickAddTitle => 'Quick Add';
+
+  @override
+  String get tourQuickAddDesc =>
+      'Use this button to quickly add expenses from anywhere. Practical and fast!';
+
+  @override
+  String get notifChannelName => 'Vantag Notifications';
+
+  @override
+  String get notifChannelDescription => 'Financial tracking notifications';
+
+  @override
+  String get notifTitleThinkAboutIt => 'Think about it';
+
+  @override
+  String get notifTitleCongratulations => 'Congratulations';
+
+  @override
+  String get notifTitleStreakWaiting => 'Your streak is waiting';
+
+  @override
+  String get notifTitleWeeklySummary => 'Weekly summary';
+
+  @override
+  String get notifTitleSubscriptionReminder => 'Subscription reminder';
+
+  @override
+  String get aiGreeting =>
+      'Hello! I\'m Vantag.\nReady to answer your financial questions.';
+
+  @override
+  String get onboardingHookTitle => 'This coffee is 47 minutes';
+
+  @override
+  String get onboardingHookSubtitle => 'See the real cost of every purchase';
+
+  @override
+  String get pursuitOnboardingTitle => 'What\'s your goal?';
+
+  @override
+  String get pursuitOnboardingSubtitle => 'Pick something to save for';
+
+  @override
+  String get pursuitOnboardingAirpods => 'AirPods';
+
+  @override
+  String get pursuitOnboardingIphone => 'iPhone';
+
+  @override
+  String get pursuitOnboardingVacation => 'Vacation';
+
+  @override
+  String get pursuitOnboardingCustom => 'My own goal';
+
+  @override
+  String get pursuitOnboardingCta => 'I want this';
+
+  @override
+  String get pursuitOnboardingSkip => 'Skip for now';
+
+  @override
+  String pursuitOnboardingHours(int hours) {
+    return '$hours hours';
+  }
+
+  @override
+  String get celebrationTitle => 'Congratulations!';
+
+  @override
+  String celebrationSubtitle(String goalName) {
+    return 'You reached your $goalName goal!';
+  }
+
+  @override
+  String celebrationTotalSaved(String hours) {
+    return 'Total saved: $hours hours';
+  }
+
+  @override
+  String celebrationDuration(int days) {
+    return 'Duration: $days days';
+  }
+
+  @override
+  String get celebrationShare => 'Share';
+
+  @override
+  String get celebrationNewGoal => 'New Goal';
+
+  @override
+  String get celebrationDismiss => 'Close';
+
+  @override
+  String get widgetTodayLabel => 'Today';
+
+  @override
+  String get widgetHoursAbbrev => 'h';
+
+  @override
+  String get widgetMinutesAbbrev => 'm';
+
+  @override
+  String get widgetSetGoal => 'Set a goal';
+
+  @override
+  String get widgetNoData => 'Open app to start';
+
+  @override
+  String get widgetSmallTitle => 'Daily Spending';
+
+  @override
+  String get widgetSmallDesc => 'See today\'s spending in hours';
+
+  @override
+  String get widgetMediumTitle => 'Spending + Goal';
+
+  @override
+  String get widgetMediumDesc => 'Track spending and goal progress';
+
+  @override
+  String accessibilityTodaySpending(String amount, int hours, int minutes) {
+    return 'Today you spent $amount, equal to $hours hours $minutes minutes of work';
+  }
+
+  @override
+  String accessibilitySpendingProgress(int percentage) {
+    return 'Spending progress: $percentage percent of budget used';
+  }
+
+  @override
+  String accessibilityExpenseItem(
+    String category,
+    String amount,
+    String hours,
+    String decision,
+  ) {
+    return '$category expense of $amount, took $hours hours, status: $decision';
+  }
+
+  @override
+  String accessibilityPursuitCard(
+    String name,
+    String saved,
+    String target,
+    int percentage,
+  ) {
+    return '$name goal, $saved of $target saved, $percentage percent complete';
+  }
+
+  @override
+  String get accessibilityAddExpense => 'Add new expense';
+
+  @override
+  String get accessibilityDecisionYes => 'Purchased';
+
+  @override
+  String get accessibilityDecisionNo => 'Passed';
+
+  @override
+  String get accessibilityDecisionThinking => 'Thinking';
+
+  @override
+  String get navHomeTooltip => 'Home, spending overview';
+
+  @override
+  String get navPursuitsTooltip => 'Goals, savings targets';
+
+  @override
+  String get navReportsTooltip => 'Reports, spending analysis';
+
+  @override
+  String get navSettingsTooltip => 'Settings and preferences';
+
+  @override
+  String shareDefaultMessage(String link) {
+    return 'I track my expenses in hours! Try it: $link';
+  }
+
+  @override
+  String get shareInviteLink => 'Share Invite Link';
+
+  @override
+  String get inviteFriends => 'Invite Friends';
+
+  @override
+  String get yourReferralCode => 'Your referral code';
+
+  @override
+  String referralStats(int count) {
+    return '$count friends joined';
+  }
+
+  @override
+  String get referralRewardInfo => 'Earn 7 days premium for each friend!';
+
+  @override
+  String get codeCopied => 'Code copied!';
+
+  @override
+  String get haveReferralCode => 'Have a referral code?';
+
+  @override
+  String get referralCodeHint => 'Enter code (optional)';
+
+  @override
+  String get referralCodePlaceholder => 'VANTAG-XXXXX';
+
+  @override
+  String referralSuccess(String name) {
+    return '$name joined Vantag! +7 days premium';
+  }
+
+  @override
+  String get welcomeReferred => 'Welcome! You have 7 days premium trial';
+
+  @override
+  String get referralInvalidCode => 'Invalid referral code';
+
+  @override
+  String get referralCodeApplied => 'Referral code applied!';
+
+  @override
+  String get referralSectionTitle => 'Referrals';
+
+  @override
+  String get referralShareDescription =>
+      'Share your code and earn premium days';
+
+  @override
+  String get trialMidpointTitle => 'Halfway there! ⏳';
+
+  @override
+  String trialMidpointBody(String hours) {
+    return 'Your trial is halfway done. You\'ve saved $hours hours so far!';
+  }
+
+  @override
+  String get trialOneDayLeftTitle => 'Trial ends tomorrow ⏰';
+
+  @override
+  String get trialOneDayLeftBody => 'Go premium to keep tracking your savings!';
+
+  @override
+  String get trialEndsTodayTitle => 'Last day of trial! 🎁';
+
+  @override
+  String get trialEndsTodayBody => 'Get 50% off if you upgrade today!';
+
+  @override
+  String get trialExpiredTitle => 'We miss you! 💜';
+
+  @override
+  String get trialExpiredBody => 'Come back and continue reaching your goals';
+
+  @override
+  String get dailyReminderTitle => 'Don\'t forget to log! 📝';
+
+  @override
+  String get dailyReminderBody => 'Track today\'s spending in just seconds';
+
+  @override
+  String get notificationSettingsDesc => 'Reminders and updates';
+
+  @override
+  String get firstExpenseTitle => 'Great start! 🎉';
+
+  @override
+  String firstExpenseBody(String hours) {
+    return 'You saved $hours hours today!';
+  }
+
+  @override
+  String get trialReminderEnabled => 'Trial reminders';
+
+  @override
+  String get trialReminderDesc => 'Get notified before your trial ends';
+
+  @override
+  String get dailyReminderEnabled => 'Daily reminders';
+
+  @override
+  String get dailyReminderDesc => 'Evening reminder to log expenses';
+
+  @override
+  String get dailyReminderTime => 'Reminder time';
+
+  @override
+  String trialDaysRemaining(int days) {
+    return '$days days left in trial';
+  }
+
+  @override
+  String get subscriptionReminder => 'Subscription reminders';
+
+  @override
+  String get subscriptionReminderDesc =>
+      'Get notified before subscriptions renew';
+
+  @override
+  String get aiChatLimitReached =>
+      'You\'ve used your 3 daily AI chats. Go premium for unlimited!';
+
+  @override
+  String aiChatsRemaining(int count) {
+    return '$count chats left today';
+  }
+
+  @override
+  String get pursuitLimitReachedFree =>
+      'Free accounts can have 1 active goal. Go premium for unlimited goals!';
+
+  @override
+  String get exportPremiumOnly => 'Export is a premium feature';
+
+  @override
+  String get multiCurrencyPremium =>
+      'Multiple currencies is a premium feature. Free users can only use TRY.';
+
+  @override
+  String get reportsPremiumOnly =>
+      'Monthly and yearly reports are premium features';
+
+  @override
+  String get upgradeToPremium => 'Upgrade to Premium';
+
+  @override
+  String get premiumIncludes => 'Premium includes:';
+
+  @override
+  String get unlimitedAiChat => 'Unlimited AI chat';
+
+  @override
+  String get unlimitedPursuits => 'Unlimited goals';
+
+  @override
+  String get exportFeature => 'Export your data';
+
+  @override
+  String get allCurrencies => 'All currencies';
+
+  @override
+  String get fullReports => 'Full reports';
+
+  @override
+  String get cleanShareCards => 'Clean share cards (no watermark)';
+
+  @override
+  String get maybeLater => 'Maybe later';
+
+  @override
+  String get seePremium => 'See Premium';
+
+  @override
+  String get weeklyOnly => 'Weekly';
+
+  @override
+  String get monthlyPro => 'Monthly (Pro)';
+
+  @override
+  String get yearlyPro => 'Yearly (Pro)';
+
+  @override
+  String get currencyLocked => 'Premium only';
+
+  @override
+  String freeUserCurrencyNote(String currency) {
+    return 'Free users can only use TRY. Upgrade to use $currency.';
+  }
+
+  @override
+  String get watermarkText => 'vantag.app';
 }

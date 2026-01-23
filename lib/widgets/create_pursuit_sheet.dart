@@ -5,6 +5,7 @@ import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/providers.dart';
 import '../theme/quiet_luxury.dart';
+import 'upgrade_dialog.dart';
 
 /// Bottom sheet for creating or editing a pursuit
 class CreatePursuitSheet extends StatefulWidget {
@@ -396,21 +397,13 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
         );
 
         if (!success) {
-          // Free tier limit reached
+          // Free tier limit reached - show upgrade dialog
           HapticFeedback.heavyImpact();
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(l10n.pursuitLimitReached),
-                backgroundColor: QuietLuxury.warning,
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            );
-          }
           setState(() => _isLoading = false);
+          if (mounted) {
+            Navigator.of(context).pop(); // Close the sheet first
+            UpgradeDialog.show(context, l10n.pursuitLimitReachedFree);
+          }
           return;
         }
 

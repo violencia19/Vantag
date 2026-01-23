@@ -150,22 +150,22 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.95),
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.gradientMid,
+        backgroundColor: context.appColors.gradientMid,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
           l10n.deleteSubscription,
-          style: const TextStyle(color: AppColors.textPrimary),
+          style: TextStyle(color: context.appColors.textPrimary),
         ),
         content: Text(
           l10n.deleteSubscriptionConfirm(widget.subscription.name),
-          style: TextStyle(color: AppColors.textSecondary),
+          style: TextStyle(color: context.appColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
               l10n.cancel,
-              style: TextStyle(color: AppColors.textSecondary),
+              style: TextStyle(color: context.appColors.textSecondary),
             ),
           ),
           TextButton(
@@ -191,7 +191,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.gradientMid,
+        color: context.appColors.gradientMid,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: ClipRRect(
@@ -262,10 +262,10 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                 children: [
                   Text(
                     sub.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
+                      color: context.appColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -273,7 +273,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                     sub.category,
                     style: TextStyle(
                       fontSize: 14,
-                      color: AppColors.textSecondary,
+                      color: context.appColors.textSecondary,
                     ),
                   ),
                 ],
@@ -283,7 +283,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
             IconButton(
               onPressed: _toggleEdit,
               icon: const Icon(PhosphorIconsDuotone.pencilSimple),
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
             ),
           ],
         ),
@@ -293,7 +293,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: AppColors.surface.withValues(alpha: 0.5),
+            color: context.appColors.surface.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: sub.color.withValues(alpha: 0.3),
@@ -310,16 +310,16 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                       l10n.monthlyAmount,
                       style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.textSecondary,
+                        color: context.appColors.textSecondary,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       '${formatTurkishCurrency(sub.amount, decimalDigits: 2)} ₺',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                        color: context.appColors.textPrimary,
                       ),
                     ),
                   ],
@@ -328,7 +328,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                 decoration: BoxDecoration(
-                  color: AppColors.surface.withValues(alpha: 0.8),
+                  color: context.appColors.surface.withValues(alpha: 0.8),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -337,15 +337,15 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                       l10n.everyMonth,
                       style: TextStyle(
                         fontSize: 11,
-                        color: AppColors.textTertiary,
+                        color: context.appColors.textTertiary,
                       ),
                     ),
                     Text(
                       '${sub.renewalDay}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
+                        color: context.appColors.textPrimary,
                       ),
                     ),
                   ],
@@ -394,7 +394,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: AppColors.surface.withValues(alpha: 0.3),
+            color: context.appColors.surface.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
@@ -402,7 +402,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               Icon(
                 sub.autoRecord ? PhosphorIconsDuotone.checkCircle : PhosphorIconsDuotone.xCircle,
                 size: 20,
-                color: sub.autoRecord ? const Color(0xFF2ECC71) : AppColors.textTertiary,
+                color: sub.autoRecord ? const Color(0xFF2ECC71) : context.appColors.textTertiary,
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -412,7 +412,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                       : l10n.autoRecordOff,
                   style: TextStyle(
                     fontSize: 13,
-                    color: AppColors.textSecondary,
+                    color: context.appColors.textSecondary,
                   ),
                 ),
               ),
@@ -447,12 +447,12 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.surface.withValues(alpha: 0.4),
+        color: context.appColors.surface.withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
-          Icon(icon, size: 18, color: AppColors.textTertiary),
+          Icon(icon, size: 18, color: context.appColors.textTertiary),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -462,16 +462,16 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                   label,
                   style: TextStyle(
                     fontSize: 11,
-                    color: AppColors.textTertiary,
+                    color: context.appColors.textTertiary,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   value,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                   ),
                 ),
               ],
@@ -491,10 +491,10 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           children: [
             Text(
               l10n.editSubscription,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
               ),
             ),
             const Spacer(),
@@ -502,7 +502,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               onPressed: _toggleEdit,
               child: Text(
                 l10n.cancel,
-                style: TextStyle(color: AppColors.textSecondary),
+                style: TextStyle(color: context.appColors.textSecondary),
               ),
             ),
           ],
@@ -512,7 +512,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         // Subscription name
         TextFormField(
           controller: _nameController,
-          style: const TextStyle(color: AppColors.textPrimary),
+          style: TextStyle(color: context.appColors.textPrimary),
           decoration: _inputDecoration(l10n.subscriptionName),
         ),
         const SizedBox(height: 16),
@@ -520,7 +520,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         // Monthly amount
         TextFormField(
           controller: _amountController,
-          style: const TextStyle(color: AppColors.textPrimary),
+          style: TextStyle(color: context.appColors.textPrimary),
           decoration: _inputDecoration(l10n.monthlyAmountLabel),
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: [TurkishCurrencyInputFormatter()],
@@ -546,7 +546,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           l10n.color,
           style: TextStyle(
             fontSize: 12,
-            color: AppColors.textSecondary,
+            color: context.appColors.textSecondary,
           ),
         ),
         const SizedBox(height: 10),
@@ -580,7 +580,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: AppColors.surface.withValues(alpha: 0.4),
+            color: context.appColors.surface.withValues(alpha: 0.4),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
@@ -588,22 +588,22 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               Icon(
                 PhosphorIconsDuotone.sparkle,
                 size: 20,
-                color: _autoRecord ? AppColors.primary : AppColors.textTertiary,
+                color: _autoRecord ? context.appColors.primary : context.appColors.textTertiary,
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   l10n.autoRecord,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                   ),
                 ),
               ),
               Switch(
                 value: _autoRecord,
                 onChanged: (v) => setState(() => _autoRecord = v),
-                activeTrackColor: AppColors.primary,
+                activeTrackColor: context.appColors.primary,
               ),
             ],
           ),
@@ -616,7 +616,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           child: ElevatedButton(
             onPressed: _save,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
+              backgroundColor: context.appColors.primary,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
@@ -643,21 +643,21 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
       children: [
         Text(
           l10n.category,
-          style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+          style: TextStyle(fontSize: 12, color: context.appColors.textSecondary),
         ),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: AppColors.surface.withValues(alpha: 0.5),
+            color: context.appColors.surface.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(12),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: _selectedCategory,
               isExpanded: true,
-              dropdownColor: AppColors.gradientMid,
-              style: const TextStyle(color: AppColors.textPrimary, fontSize: 14),
+              dropdownColor: context.appColors.gradientMid,
+              style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
               items: _categoryKeys.map((key) => DropdownMenuItem(
                 value: key,
                 child: Text(_getLocalizedCategory(key, l10n)),
@@ -678,21 +678,21 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
       children: [
         Text(
           l10n.renewalDay,
-          style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+          style: TextStyle(fontSize: 12, color: context.appColors.textSecondary),
         ),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: AppColors.surface.withValues(alpha: 0.5),
+            color: context.appColors.surface.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(12),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<int>(
               value: _selectedDay,
               isExpanded: true,
-              dropdownColor: AppColors.gradientMid,
-              style: const TextStyle(color: AppColors.textPrimary, fontSize: 14),
+              dropdownColor: context.appColors.gradientMid,
+              style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
               items: List.generate(31, (i) => i + 1)
                   .map((d) => DropdownMenuItem(value: d, child: Text('$d')))
                   .toList(),
@@ -709,9 +709,9 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
   InputDecoration _inputDecoration(String label) {
     return InputDecoration(
       labelText: label,
-      labelStyle: TextStyle(color: AppColors.textSecondary, fontSize: 14),
+      labelStyle: TextStyle(color: context.appColors.textSecondary, fontSize: 14),
       filled: true,
-      fillColor: AppColors.surface.withValues(alpha: 0.5),
+      fillColor: context.appColors.surface.withValues(alpha: 0.5),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,

@@ -84,7 +84,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
                 ],
               ),
               behavior: SnackBarBehavior.floating,
-              backgroundColor: AppColors.success,
+              backgroundColor: context.appColors.success,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
           );
@@ -93,7 +93,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
             SnackBar(
               content: Text(result.message),
               behavior: SnackBarBehavior.floating,
-              backgroundColor: AppColors.error,
+              backgroundColor: context.appColors.error,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
           );
@@ -114,20 +114,20 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(PhosphorIconsDuotone.caretLeft, color: AppColors.textPrimary),
+          icon: Icon(PhosphorIconsDuotone.caretLeft, color: context.appColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           l10n.creditPurchaseTitle,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
           ),
         ),
         centerTitle: true,
@@ -185,13 +185,13 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.primary.withValues(alpha: 0.15),
-            AppColors.secondary.withValues(alpha: 0.15),
+            context.appColors.primary.withValues(alpha: 0.15),
+            context.appColors.secondary.withValues(alpha: 0.15),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.3),
+          color: context.appColors.primary.withValues(alpha: 0.3),
         ),
       ),
       child: Row(
@@ -201,7 +201,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
             height: 48,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [AppColors.primary, AppColors.secondary],
+                colors: [context.appColors.primary, context.appColors.secondary],
               ),
               borderRadius: BorderRadius.circular(14),
             ),
@@ -220,16 +220,16 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
                   l10n.creditCurrentBalance,
                   style: TextStyle(
                     fontSize: 13,
-                    color: AppColors.textSecondary,
+                    color: context.appColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   l10n.creditAmount(_currentCredits),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                   ),
                 ),
               ],
@@ -251,8 +251,8 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                AppColors.primary.withValues(alpha: 0.2),
-                AppColors.secondary.withValues(alpha: 0.2),
+                context.appColors.primary.withValues(alpha: 0.2),
+                context.appColors.secondary.withValues(alpha: 0.2),
               ],
             ),
             borderRadius: BorderRadius.circular(18),
@@ -260,16 +260,16 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
           child: Icon(
             PhosphorIconsDuotone.batteryCharging,
             size: 32,
-            color: AppColors.primary,
+            color: context.appColors.primary,
           ),
         ),
         const SizedBox(height: 16),
         Text(
           l10n.creditPurchaseHeader,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
           ),
           textAlign: TextAlign.center,
         ),
@@ -278,7 +278,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
           l10n.creditPurchaseSubtitle,
           style: TextStyle(
             fontSize: 14,
-            color: AppColors.textSecondary,
+            color: context.appColors.textSecondary,
             height: 1.5,
           ),
           textAlign: TextAlign.center,
@@ -299,18 +299,18 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
       opacity: isDisabled ? 0.5 : 1.0,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: badge != null
-                ? AppColors.primary.withValues(alpha: 0.5)
-                : AppColors.cardBorder,
+                ? context.appColors.primary.withValues(alpha: 0.5)
+                : context.appColors.cardBorder,
             width: badge != null ? 2 : 1,
           ),
           boxShadow: badge != null
               ? [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.2),
+                    color: context.appColors.primary.withValues(alpha: 0.2),
                     blurRadius: 20,
                     offset: const Offset(0, 5),
                   ),
@@ -337,8 +337,8 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              AppColors.primary.withValues(alpha: 0.15),
-                              AppColors.secondary.withValues(alpha: 0.15),
+                              context.appColors.primary.withValues(alpha: 0.15),
+                              context.appColors.secondary.withValues(alpha: 0.15),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(16),
@@ -349,7 +349,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
                             style: TextStyle(
                               fontSize: pack.credits >= 100 ? 18 : 22,
                               fontWeight: FontWeight.w800,
-                              color: AppColors.primary,
+                              color: context.appColors.primary,
                             ),
                           ),
                         ),
@@ -363,10 +363,10 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
                           children: [
                             Text(
                               l10n.creditPackTitle(pack.credits),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.textPrimary,
+                                color: context.appColors.textPrimary,
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -376,7 +376,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
                               ),
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColors.textTertiary,
+                                color: context.appColors.textTertiary,
                               ),
                             ),
                           ],
@@ -391,7 +391,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
                         ),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [AppColors.primary, AppColors.secondary],
+                            colors: [context.appColors.primary, context.appColors.secondary],
                           ),
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -429,7 +429,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
                       ),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [AppColors.primary, AppColors.secondary],
+                          colors: [context.appColors.primary, context.appColors.secondary],
                         ),
                         borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(8),
@@ -459,7 +459,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surfaceLight.withValues(alpha: 0.5),
+        color: context.appColors.surfaceLight.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -467,7 +467,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
           Icon(
             PhosphorIconsDuotone.infinity,
             size: 24,
-            color: AppColors.primary,
+            color: context.appColors.primary,
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -475,7 +475,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
               l10n.creditNeverExpire,
               style: TextStyle(
                 fontSize: 13,
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
                 height: 1.4,
               ),
             ),

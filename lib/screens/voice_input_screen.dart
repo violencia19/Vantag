@@ -272,7 +272,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 ),
               ],
             ),
-            backgroundColor: AppColors.success,
+            backgroundColor: context.appColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
@@ -287,19 +287,19 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: context.appColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
           l10n.voiceConfirmExpense,
-          style: const TextStyle(color: AppColors.textPrimary),
+          style: TextStyle(color: context.appColors.textPrimary),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               '${result.amount?.toStringAsFixed(0) ?? "?"} TL',
-              style: const TextStyle(
-                color: AppColors.textPrimary,
+              style: TextStyle(
+                color: context.appColors.textPrimary,
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
               ),
@@ -309,7 +309,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               Text(
                 result.description,
                 style: TextStyle(
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                   fontSize: 16,
                 ),
               ),
@@ -319,13 +319,13 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.2),
+                  color: context.appColors.primary.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   VoiceParserService.mapToAppCategory(result.category),
                   style: TextStyle(
-                    color: AppColors.primary,
+                    color: context.appColors.primary,
                     fontSize: 14,
                   ),
                 ),
@@ -341,7 +341,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
             },
             child: Text(
               'Tekrar söyle',
-              style: TextStyle(color: AppColors.textSecondary),
+              style: TextStyle(color: context.appColors.textSecondary),
             ),
           ),
           ElevatedButton(
@@ -350,7 +350,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               _saveExpense(result);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
+              backgroundColor: context.appColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -394,7 +394,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -404,15 +404,15 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(PhosphorIconsDuotone.x,
-                        color: AppColors.textSecondary),
+                    icon: Icon(PhosphorIconsDuotone.x,
+                        color: context.appColors.textSecondary),
                     onPressed: () => Navigator.pop(context),
                   ),
                   const Spacer(),
                   Text(
                     l10n.voiceInput,
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
+                    style: TextStyle(
+                      color: context.appColors.textPrimary,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
@@ -444,13 +444,13 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                           end: Alignment.bottomRight,
                           colors: _isListening
                               ? [const Color(0xFFE74C3C), const Color(0xFFC0392B)]
-                              : [AppColors.primary, AppColors.secondary],
+                              : [context.appColors.primary, context.appColors.secondary],
                         ),
                         boxShadow: [
                           BoxShadow(
                             color: (_isListening
                                     ? const Color(0xFFE74C3C)
-                                    : AppColors.primary)
+                                    : context.appColors.primary)
                                 .withValues(alpha: _isListening ? 0.6 : 0.4),
                             blurRadius: _isListening ? 50 : 25,
                             spreadRadius: _isListening ? 10 : 0,
@@ -489,7 +489,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 width: 200,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceLight,
+                  color: context.appColors.surfaceLight,
                   borderRadius: BorderRadius.circular(2),
                 ),
                 child: FractionallySizedBox(
@@ -498,7 +498,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [AppColors.primary, AppColors.secondary],
+                        colors: [context.appColors.primary, context.appColors.secondary],
                       ),
                       borderRadius: BorderRadius.circular(2),
                     ),
@@ -514,7 +514,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               style: TextStyle(
                 color: _isListening
                     ? const Color(0xFFE74C3C)
-                    : AppColors.textSecondary,
+                    : context.appColors.textSecondary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
@@ -528,16 +528,16 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 margin: const EdgeInsets.symmetric(horizontal: 32),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceLight,
+                  color: context.appColors.surfaceLight,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: AppColors.primary.withValues(alpha: 0.3),
+                    color: context.appColors.primary.withValues(alpha: 0.3),
                   ),
                 ),
                 child: Text(
                   _recognizedText,
-                  style: const TextStyle(
-                    color: AppColors.textPrimary,
+                  style: TextStyle(
+                    color: context.appColors.textPrimary,
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
@@ -552,7 +552,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               margin: const EdgeInsets.all(24),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surfaceLight.withValues(alpha: 0.5),
+                color: context.appColors.surfaceLight.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
@@ -562,14 +562,14 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                     children: [
                       PhosphorIcon(
                         PhosphorIconsDuotone.lightbulb,
-                        color: AppColors.warning,
+                        color: context.appColors.warning,
                         size: 20,
                       ),
                       const SizedBox(width: 8),
                       Text(
                         l10n.speakExpense,
                         style: TextStyle(
-                          color: AppColors.textSecondary,
+                          color: context.appColors.textSecondary,
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
@@ -580,7 +580,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                   Text(
                     '"50 lira kahve"\n"markete 200 TL verdim"\n"uber 85 lira"',
                     style: TextStyle(
-                      color: AppColors.textTertiary,
+                      color: context.appColors.textTertiary,
                       fontSize: 13,
                       height: 1.6,
                     ),

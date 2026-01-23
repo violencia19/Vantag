@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 
 /// Empty state widget
 /// Fade in + small icon pulse animation
+/// Supports both static icons and Lottie animations
 class EmptyState extends StatefulWidget {
   final IconData icon;
   final String? title;
   final String message;
   final Widget? action;
+  final bool useLottie;
 
   const EmptyState({
     super.key,
@@ -16,13 +19,15 @@ class EmptyState extends StatefulWidget {
     this.title,
     required this.message,
     this.action,
+    this.useLottie = false,
   });
 
-  /// Empty state for expense list
-  factory EmptyState.expenses({required String message}) {
+  /// Empty state for expense list with Lottie animation
+  factory EmptyState.expenses({required String message, bool useLottie = true}) {
     return EmptyState(
       icon: PhosphorIconsDuotone.receipt,
       message: message,
+      useLottie: useLottie,
     );
   }
 
@@ -47,6 +52,15 @@ class EmptyState extends StatefulWidget {
     return EmptyState(
       icon: PhosphorIconsDuotone.calendar,
       message: message,
+    );
+  }
+
+  /// Empty state for pursuits with Lottie animation
+  factory EmptyState.pursuits({required String message, bool useLottie = true}) {
+    return EmptyState(
+      icon: PhosphorIconsDuotone.target,
+      message: message,
+      useLottie: useLottie,
     );
   }
 
@@ -117,38 +131,49 @@ class _EmptyStateState extends State<EmptyState>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Animasyonlu ikon
-                AnimatedBuilder(
-                  animation: _pulseAnimation,
-                  builder: (context, child) {
-                    return Transform.scale(
-                      scale: _pulseAnimation.value,
-                      child: Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: AppColors.surfaceLight,
-                          borderRadius: BorderRadius.circular(20),
+                // Animasyonlu ikon veya Lottie
+                if (widget.useLottie)
+                  SizedBox(
+                    width: 150,
+                    height: 150,
+                    child: Lottie.asset(
+                      'assets/animations/empty.json',
+                      repeat: true,
+                      fit: BoxFit.contain,
+                    ),
+                  )
+                else
+                  AnimatedBuilder(
+                    animation: _pulseAnimation,
+                    builder: (context, child) {
+                      return Transform.scale(
+                        scale: _pulseAnimation.value,
+                        child: Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: context.appColors.surfaceLight,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Icon(
+                            widget.icon,
+                            size: 40,
+                            color: context.appColors.textTertiary,
+                          ),
                         ),
-                        child: Icon(
-                          widget.icon,
-                          size: 40,
-                          color: AppColors.textTertiary,
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  ),
                 const SizedBox(height: 24),
 
                 // Başlık (opsiyonel)
                 if (widget.title != null) ...[
                   Text(
                     widget.title!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
+                      color: context.appColors.textPrimary,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -158,9 +183,9 @@ class _EmptyStateState extends State<EmptyState>
                 // Mesaj
                 Text(
                   widget.message,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
-                    color: AppColors.textSecondary,
+                    color: context.appColors.textSecondary,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -240,9 +265,9 @@ class _LoadingPlaceholderState extends State<LoadingPlaceholder>
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [
-                  AppColors.surfaceLight,
-                  AppColors.surfaceLighter,
-                  AppColors.surfaceLight,
+                  context.appColors.surfaceLight,
+                  context.appColors.surfaceLighter,
+                  context.appColors.surfaceLight,
                 ],
                 stops: [
                   0.0,

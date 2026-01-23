@@ -30,15 +30,15 @@ class ResultCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final insightService = InsightService();
-    final insight = insightService.getExpenseInsight(result);
+    final insight = insightService.getExpenseInsight(context, result);
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(
         children: [
@@ -51,6 +51,7 @@ class ResultCard extends StatelessWidget {
                 children: [
                   // Left block: Hours or Years
                   _buildTimeBlock(
+                    context: context,
                     value: timeDisplay.value1,
                     unit: timeDisplay.unit1,
                     icon: timeDisplay.isYearMode
@@ -61,10 +62,11 @@ class ResultCard extends StatelessWidget {
                     width: 1,
                     height: 60,
                     margin: const EdgeInsets.symmetric(horizontal: 24),
-                    color: AppColors.cardBorder,
+                    color: context.appColors.cardBorder,
                   ),
                   // Right block: Days
                   _buildTimeBlock(
+                    context: context,
                     value: timeDisplay.value2,
                     unit: timeDisplay.unit2,
                     icon: PhosphorIconsDuotone.sun,
@@ -84,23 +86,23 @@ class ResultCard extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.primary.withValues(alpha: 0.08),
-                    AppColors.primary.withValues(alpha: 0.03),
+                    context.appColors.primary.withValues(alpha: 0.08),
+                    context.appColors.primary.withValues(alpha: 0.03),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: AppColors.primary.withValues(alpha: 0.15),
+                  color: context.appColors.primary.withValues(alpha: 0.15),
                 ),
               ),
               child: Text(
                 emotionalMessage!,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   fontStyle: FontStyle.italic,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                   height: 1.4,
                 ),
               ),
@@ -113,7 +115,7 @@ class ResultCard extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppColors.surfaceLight,
+              color: context.appColors.surfaceLight,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
@@ -122,23 +124,23 @@ class ResultCard extends StatelessWidget {
                   width: 36,
                   height: 36,
                   decoration: BoxDecoration(
-                    color: AppColors.warning.withValues(alpha: 0.1),
+                    color: context.appColors.warning.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     PhosphorIconsDuotone.lightbulb,
                     size: 18,
-                    color: AppColors.warning,
+                    color: context.appColors.warning,
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     insight,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: AppColors.textSecondary,
+                      color: context.appColors.textSecondary,
                       height: 1.4,
                     ),
                   ),
@@ -154,24 +156,24 @@ class ResultCard extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: AppColors.info.withValues(alpha: 0.1),
+                color: context.appColors.info.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     PhosphorIconsDuotone.chartBar,
                     size: 16,
-                    color: AppColors.info,
+                    color: context.appColors.info,
                   ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       categoryInsight!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
-                        color: AppColors.info,
+                        color: context.appColors.info,
                       ),
                     ),
                   ),
@@ -183,14 +185,14 @@ class ResultCard extends StatelessWidget {
           // Alternative currency display
           if (amount != null && exchangeRates != null) ...[
             const SizedBox(height: 16),
-            _buildCurrencyAlternatives(l10n),
+            _buildCurrencyAlternatives(context, l10n),
           ],
         ],
       ),
     );
   }
 
-  Widget _buildCurrencyAlternatives(AppLocalizations l10n) {
+  Widget _buildCurrencyAlternatives(BuildContext context, AppLocalizations l10n) {
     if (amount == null || exchangeRates == null) return const SizedBox.shrink();
 
     final usdAmount = amount! / exchangeRates!.usdRate;
@@ -201,10 +203,10 @@ class ResultCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surfaceLighter,
+        color: context.appColors.surfaceLighter,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.cardBorder.withValues(alpha: 0.5),
+          color: context.appColors.cardBorder.withValues(alpha: 0.5),
         ),
       ),
       child: Column(
@@ -215,16 +217,16 @@ class ResultCard extends StatelessWidget {
               Icon(
                 PhosphorIconsDuotone.arrowsLeftRight,
                 size: 14,
-                color: AppColors.textTertiary.withValues(alpha: 0.8),
+                color: context.appColors.textTertiary.withValues(alpha: 0.8),
               ),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
                   l10n.withThisAmountYouCouldBuy(_formatCurrency(amount!, decimals: 2)),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.textTertiary,
+                    color: context.appColors.textTertiary,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -237,9 +239,9 @@ class ResultCard extends StatelessWidget {
             spacing: 16,
             runSpacing: 8,
             children: [
-              _buildCurrencyItem('💵', '${_formatCurrency(usdAmount)} USD'),
-              _buildCurrencyItem('💶', '${_formatCurrency(eurAmount)} EUR'),
-              _buildCurrencyItem('🥇', l10n.goldGrams(_formatCurrency(goldGrams, decimals: 1))),
+              _buildCurrencyItem(context, '💵', '${_formatCurrency(usdAmount)} USD'),
+              _buildCurrencyItem(context, '💶', '${_formatCurrency(eurAmount)} EUR'),
+              _buildCurrencyItem(context, '🥇', l10n.goldGrams(_formatCurrency(goldGrams, decimals: 1))),
             ],
           ),
         ],
@@ -247,7 +249,7 @@ class ResultCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCurrencyItem(String emoji, String text) {
+  Widget _buildCurrencyItem(BuildContext context, String emoji, String text) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -255,10 +257,10 @@ class ResultCard extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: AppColors.textSecondary,
+            color: context.appColors.textSecondary,
           ),
         ),
       ],
@@ -266,6 +268,7 @@ class ResultCard extends StatelessWidget {
   }
 
   Widget _buildTimeBlock({
+    required BuildContext context,
     required String value,
     required String unit,
     required IconData icon,
@@ -275,15 +278,15 @@ class ResultCard extends StatelessWidget {
         Icon(
           icon,
           size: 20,
-          color: AppColors.textTertiary,
+          color: context.appColors.textTertiary,
         ),
         const SizedBox(height: 8),
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
             letterSpacing: -1,
             height: 1,
           ),
@@ -291,10 +294,10 @@ class ResultCard extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           unit,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: AppColors.textSecondary,
+            color: context.appColors.textSecondary,
           ),
         ),
       ],

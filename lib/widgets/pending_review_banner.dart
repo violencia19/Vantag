@@ -185,10 +185,10 @@ class PendingReviewChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: AppColors.warning.withValues(alpha: 0.2),
+          color: context.appColors.warning.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: AppColors.warning.withValues(alpha: 0.5),
+            color: context.appColors.warning.withValues(alpha: 0.5),
           ),
         ),
         child: Row(
@@ -196,14 +196,14 @@ class PendingReviewChip extends StatelessWidget {
           children: [
             PhosphorIcon(
               PhosphorIconsFill.warning,
-              color: AppColors.warning,
+              color: context.appColors.warning,
               size: 16,
             ),
             const SizedBox(width: 6),
             Text(
               '$count',
               style: TextStyle(
-                color: AppColors.warning,
+                color: context.appColors.warning,
                 fontWeight: FontWeight.w600,
                 fontSize: 14,
               ),

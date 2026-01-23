@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 
-/// Discovery Tour yönetim servisi
+/// Discovery Tour management service
 class TourService {
   static const _keyHasSeenTour = 'has_seen_tour';
   static const _keyTourVersion = 'tour_version';
 
-  // Tur versiyonu - yeni özellikler eklenince artırılır
+  // Tour version - increment when new features are added
   static const int currentTourVersion = 1;
 
-  /// Kullanıcı turu daha önce gördü mü?
+  /// Has the user seen the tour before?
   static Future<bool> hasSeenTour() async {
     final prefs = await SharedPreferences.getInstance();
     final seenVersion = prefs.getInt(_keyTourVersion) ?? 0;
     return seenVersion >= currentTourVersion;
   }
 
-  /// Turu tamamlandı olarak işaretle
+  /// Mark tour as complete
   static Future<void> markTourComplete() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_keyHasSeenTour, true);
     await prefs.setInt(_keyTourVersion, currentTourVersion);
   }
 
-  /// Tur durumunu sıfırla (ayarlardan tekrar başlatmak için)
+  /// Reset tour (to restart from settings)
   static Future<void> resetTour() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_keyHasSeenTour);
@@ -31,7 +32,7 @@ class TourService {
   }
 }
 
-/// Tour GlobalKey'leri
+/// Tour GlobalKeys
 class TourKeys {
   // Expense Screen
   static final amountField = GlobalKey();
@@ -58,7 +59,7 @@ class TourKeys {
   static final currencyRates = GlobalKey();
 }
 
-/// Tour adımı bilgisi
+/// Tour step information
 class TourStep {
   final GlobalKey key;
   final String title;
@@ -73,68 +74,71 @@ class TourStep {
   });
 }
 
-/// Tour adımları listesi
+/// Tour steps list builder
 class TourSteps {
-  static List<TourStep> get all => [
-    TourStep(
-      key: TourKeys.amountField,
-      title: 'Tutar Girişi',
-      description: 'Harcama tutarını buraya gir. Fiş tarama butonu ile fişten otomatik okuyabilirsin.',
-    ),
-    TourStep(
-      key: TourKeys.descriptionField,
-      title: 'Akıllı Eşleştirme',
-      description: 'Mağaza veya ürün adını yaz. Migros, A101, Starbucks gibi... Uygulama otomatik olarak kategori önericek!',
-    ),
-    TourStep(
-      key: TourKeys.categoryField,
-      title: 'Kategori Seçimi',
-      description: 'Akıllı eşleştirme bulamazsa veya düzeltmek istersen buradan manuel seçim yapabilirsin.',
-    ),
-    TourStep(
-      key: TourKeys.dateChips,
-      title: 'Geçmiş Tarih Seçimi',
-      description: 'Dün veya önceki günlerin harcamalarını da girebilirsin. Takvim ikonuna tıklayarak istediğin tarihi seç.',
-    ),
-    TourStep(
-      key: TourKeys.financialSnapshot,
-      title: 'Finansal Özet',
-      description: 'Aylık gelirin, harcamaların ve kurtardığın para burada. Tüm veriler anlık güncellenir.',
-    ),
-    TourStep(
-      key: TourKeys.currencyRates,
-      title: 'Döviz Kurları',
-      description: 'Güncel USD, EUR ve altın fiyatları. Tıklayarak detaylı bilgi alabilirsin.',
-    ),
-    TourStep(
-      key: TourKeys.streakWidget,
-      title: 'Seri Takibi',
-      description: 'Her gün harcama girdiğinde serin artar. Düzenli takip etmek bilinçli harcamanın anahtarı!',
-    ),
-    TourStep(
-      key: TourKeys.subscriptionButton,
-      title: 'Abonelikler',
-      description: 'Netflix, Spotify gibi düzenli aboneliklerini buradan takip et. Yaklaşan ödemeler için bildirim alırsın.',
-    ),
-    TourStep(
-      key: TourKeys.navBarReport,
-      title: 'Raporlar',
-      description: 'Aylık ve kategorilere göre harcama analizlerini buradan görüntüle.',
-    ),
-    TourStep(
-      key: TourKeys.navBarAchievements,
-      title: 'Rozetler',
-      description: 'Tasarruf hedeflerine ulaştıkça rozetler kazan. Motivasyonunu yüksek tut!',
-    ),
-    TourStep(
-      key: TourKeys.navBarProfile,
-      title: 'Profil & Ayarlar',
-      description: 'Gelir bilgilerini düzenle, bildirim tercihlerini yönet ve uygulama ayarlarına eriş.',
-    ),
-    TourStep(
-      key: TourKeys.navBarAddButton,
-      title: 'Hızlı Ekleme',
-      description: 'Her yerden hızlıca harcama eklemek için bu butonu kullan. Pratik ve hızlı!',
-    ),
-  ];
+  static List<TourStep> getAll(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return [
+      TourStep(
+        key: TourKeys.amountField,
+        title: l10n.tourAmountTitle,
+        description: l10n.tourAmountDesc,
+      ),
+      TourStep(
+        key: TourKeys.descriptionField,
+        title: l10n.tourDescriptionTitle,
+        description: l10n.tourDescriptionDesc,
+      ),
+      TourStep(
+        key: TourKeys.categoryField,
+        title: l10n.tourCategoryTitle,
+        description: l10n.tourCategoryDesc,
+      ),
+      TourStep(
+        key: TourKeys.dateChips,
+        title: l10n.tourDateTitle,
+        description: l10n.tourDateDesc,
+      ),
+      TourStep(
+        key: TourKeys.financialSnapshot,
+        title: l10n.tourSnapshotTitle,
+        description: l10n.tourSnapshotDesc,
+      ),
+      TourStep(
+        key: TourKeys.currencyRates,
+        title: l10n.tourCurrencyTitle,
+        description: l10n.tourCurrencyDesc,
+      ),
+      TourStep(
+        key: TourKeys.streakWidget,
+        title: l10n.tourStreakTitle,
+        description: l10n.tourStreakDesc,
+      ),
+      TourStep(
+        key: TourKeys.subscriptionButton,
+        title: l10n.tourSubscriptionTitle,
+        description: l10n.tourSubscriptionDesc,
+      ),
+      TourStep(
+        key: TourKeys.navBarReport,
+        title: l10n.tourReportTitle,
+        description: l10n.tourReportDesc,
+      ),
+      TourStep(
+        key: TourKeys.navBarAchievements,
+        title: l10n.tourAchievementsTitle,
+        description: l10n.tourAchievementsDesc,
+      ),
+      TourStep(
+        key: TourKeys.navBarProfile,
+        title: l10n.tourProfileTitle,
+        description: l10n.tourProfileDesc,
+      ),
+      TourStep(
+        key: TourKeys.navBarAddButton,
+        title: l10n.tourQuickAddTitle,
+        description: l10n.tourQuickAddDesc,
+      ),
+    ];
+  }
 }

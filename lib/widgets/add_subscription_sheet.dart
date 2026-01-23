@@ -116,7 +116,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
     return Container(
       margin: EdgeInsets.only(bottom: bottomPadding),
       decoration: BoxDecoration(
-        color: AppColors.gradientMid,
+        color: context.appColors.gradientMid,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: ClipRRect(
@@ -148,10 +148,10 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                         // Title
                         Text(
                           l10n.newSubscription,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
+                            color: context.appColors.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 24),
@@ -163,7 +163,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                           enableSuggestions: true,
                           autocorrect: false,
                           enableIMEPersonalizedLearning: true,
-                          style: const TextStyle(color: AppColors.textPrimary),
+                          style: TextStyle(color: context.appColors.textPrimary),
                           decoration: _inputDecoration(l10n.subscriptionName, l10n.subscriptionNameHint),
                           validator: (v) => v?.trim().isEmpty == true ? l10n.nameRequired : null,
                           textCapitalization: TextCapitalization.words,
@@ -173,7 +173,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                         // Monthly amount
                         TextFormField(
                           controller: _amountController,
-                          style: const TextStyle(color: AppColors.textPrimary),
+                          style: TextStyle(color: context.appColors.textPrimary),
                           decoration: _inputDecoration(l10n.monthlyAmountLabel, l10n.subscriptionPriceHint),
                           keyboardType: const TextInputType.numberWithOptions(decimal: true),
                           inputFormatters: [TurkishCurrencyInputFormatter()],
@@ -193,23 +193,23 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                     l10n.category,
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: AppColors.textSecondary,
+                                      color: context.appColors.textSecondary,
                                     ),
                                   ),
                                   const SizedBox(height: 8),
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 12),
                                     decoration: BoxDecoration(
-                                      color: AppColors.surface.withValues(alpha: 0.5),
+                                      color: context.appColors.surface.withValues(alpha: 0.5),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<String>(
                                         value: _selectedCategory,
                                         isExpanded: true,
-                                        dropdownColor: AppColors.gradientMid,
-                                        style: const TextStyle(
-                                          color: AppColors.textPrimary,
+                                        dropdownColor: context.appColors.gradientMid,
+                                        style: TextStyle(
+                                          color: context.appColors.textPrimary,
                                           fontSize: 14,
                                         ),
                                         items: _categoryKeys.map((key) => DropdownMenuItem(
@@ -235,23 +235,23 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                     l10n.renewalDay,
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: AppColors.textSecondary,
+                                      color: context.appColors.textSecondary,
                                     ),
                                   ),
                                   const SizedBox(height: 8),
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 12),
                                     decoration: BoxDecoration(
-                                      color: AppColors.surface.withValues(alpha: 0.5),
+                                      color: context.appColors.surface.withValues(alpha: 0.5),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<int>(
                                         value: _selectedDay,
                                         isExpanded: true,
-                                        dropdownColor: AppColors.gradientMid,
-                                        style: const TextStyle(
-                                          color: AppColors.textPrimary,
+                                        dropdownColor: context.appColors.gradientMid,
+                                        style: TextStyle(
+                                          color: context.appColors.textPrimary,
                                           fontSize: 14,
                                         ),
                                         items: List.generate(31, (i) => i + 1)
@@ -278,7 +278,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                           l10n.color,
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.textSecondary,
+                            color: context.appColors.textSecondary,
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -321,7 +321,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                         Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: AppColors.surface.withValues(alpha: 0.4),
+                            color: context.appColors.surface.withValues(alpha: 0.4),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
@@ -329,7 +329,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                               Icon(
                                 PhosphorIconsDuotone.sparkle,
                                 size: 20,
-                                color: _autoRecord ? AppColors.primary : AppColors.textTertiary,
+                                color: _autoRecord ? context.appColors.primary : context.appColors.textTertiary,
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -341,14 +341,14 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        color: AppColors.textPrimary,
+                                        color: context.appColors.textPrimary,
                                       ),
                                     ),
                                     Text(
                                       l10n.autoRecordDescription,
                                       style: TextStyle(
                                         fontSize: 11,
-                                        color: AppColors.textSecondary,
+                                        color: context.appColors.textSecondary,
                                       ),
                                     ),
                                   ],
@@ -357,7 +357,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                               Switch(
                                 value: _autoRecord,
                                 onChanged: (v) => setState(() => _autoRecord = v),
-                                activeTrackColor: AppColors.primary,
+                                activeTrackColor: context.appColors.primary,
                               ),
                             ],
                           ),
@@ -370,7 +370,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _submit,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary,
+                              backgroundColor: context.appColors.primary,
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
@@ -412,10 +412,10 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
     return InputDecoration(
       labelText: label,
       hintText: hint,
-      labelStyle: TextStyle(color: AppColors.textSecondary, fontSize: 14),
-      hintStyle: TextStyle(color: AppColors.textTertiary, fontSize: 14),
+      labelStyle: TextStyle(color: context.appColors.textSecondary, fontSize: 14),
+      hintStyle: TextStyle(color: context.appColors.textTertiary, fontSize: 14),
       filled: true,
-      fillColor: AppColors.surface.withValues(alpha: 0.5),
+      fillColor: context.appColors.surface.withValues(alpha: 0.5),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -14,6 +15,7 @@ import 'expense_screen.dart';
 import 'report_screen.dart';
 import 'pursuit_list_screen.dart';
 import 'settings_screen.dart';
+import 'onboarding_pursuit_screen.dart';
 
 class MainScreen extends StatefulWidget {
   final UserProfile? userProfile;
@@ -60,7 +62,7 @@ class _MainScreenState extends State<MainScreen> {
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: AppColors.background,
+        systemNavigationBarColor: Color(0xFF1A1A2E), // AppColors.background hardcoded for initState
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
@@ -230,7 +232,95 @@ class _MainScreenState extends State<MainScreen> {
     // Bildirimleri planla
     await _scheduleNotifications();
 
+    // Handle pending pursuit from onboarding
+    await _handlePendingPursuit();
+
+    // Sync home screen widget data
+    await _syncWidgetData();
+
     if (mounted) setState(() {});
+  }
+
+  /// Handle pending pursuit creation from onboarding
+  Future<void> _handlePendingPursuit() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasPending = prefs.getBool(PendingPursuitKeys.hasPending) ?? false;
+
+    if (!hasPending) return;
+
+    final goalId = prefs.getString(PendingPursuitKeys.goalId);
+    final isCustom = prefs.getBool(PendingPursuitKeys.isCustom) ?? false;
+    final goalName = prefs.getString(PendingPursuitKeys.goalName) ?? '';
+    final goalAmount = prefs.getDouble(PendingPursuitKeys.goalAmount) ?? 0;
+    final goalEmoji = prefs.getString(PendingPursuitKeys.goalEmoji) ?? '🎯';
+
+    // Clear pending pursuit data
+    await prefs.remove(PendingPursuitKeys.hasPending);
+    await prefs.remove(PendingPursuitKeys.goalId);
+    await prefs.remove(PendingPursuitKeys.goalName);
+    await prefs.remove(PendingPursuitKeys.goalAmount);
+    await prefs.remove(PendingPursuitKeys.goalEmoji);
+    await prefs.remove(PendingPursuitKeys.isCustom);
+
+    if (!mounted) return;
+
+    if (isCustom) {
+      // For custom goal, navigate to pursuit list and open create sheet
+      // Delay to ensure screen is fully built
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (mounted) {
+          // Navigate to Pursuits tab (index 2)
+          setState(() => _currentIndex = 2);
+          // Show create pursuit sheet
+          _showCreatePursuitSheet();
+        }
+      });
+    } else if (goalId != null && goalAmount > 0) {
+      // Create the preset pursuit
+      final pursuitProvider = context.read<PursuitProvider>();
+      final proProvider = context.read<ProProvider>();
+      final currencyProvider = context.read<CurrencyProvider>();
+
+      // Initialize pursuit provider if needed
+      if (!pursuitProvider.isInitialized) {
+        await pursuitProvider.initialize();
+      }
+
+      // Determine category based on goal ID
+      PursuitCategory category;
+      switch (goalId) {
+        case 'airpods':
+        case 'iphone':
+          category = PursuitCategory.tech;
+          break;
+        case 'vacation':
+          category = PursuitCategory.travel;
+          break;
+        default:
+          category = PursuitCategory.other;
+      }
+
+      final pursuit = Pursuit.create(
+        name: goalName,
+        targetAmount: goalAmount,
+        currency: currencyProvider.currency.code,
+        category: category,
+        emoji: goalEmoji,
+      );
+
+      await pursuitProvider.createPursuit(pursuit, isPremium: proProvider.isPro);
+      debugPrint('[MainScreen] Created onboarding pursuit: $goalName');
+    }
+  }
+
+  /// Show create pursuit bottom sheet
+  void _showCreatePursuitSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const CreatePursuitSheet(),
+    );
   }
 
   Future<void> _scheduleNotifications() async {
@@ -249,6 +339,37 @@ class _MainScreenState extends State<MainScreen> {
     // Haftalık içgörü planla
     await notificationService.scheduleWeeklyInsight(
       streakDays: streakData.currentStreak,
+    );
+  }
+
+  /// Sync data to home screen widgets (iOS + Android)
+  Future<void> _syncWidgetData() async {
+    if (!widgetService.isSupported) return;
+
+    final financeProvider = context.read<FinanceProvider>();
+    final currencyProvider = context.read<CurrencyProvider>();
+    final localeProvider = context.read<LocaleProvider>();
+    final pursuitProvider = context.read<PursuitProvider>();
+
+    // Get active pursuit for widget display
+    final activePursuits = pursuitProvider.activePursuits;
+    String? pursuitName;
+    double? pursuitProgress;
+    double? pursuitTarget;
+
+    if (activePursuits.isNotEmpty) {
+      final pursuit = activePursuits.first;
+      pursuitName = pursuit.name;
+      pursuitProgress = pursuit.savedAmount;
+      pursuitTarget = pursuit.targetAmount;
+    }
+
+    await financeProvider.syncWidgetData(
+      currencySymbol: currencyProvider.currency.symbol,
+      locale: localeProvider.locale?.languageCode ?? 'en',
+      pursuitName: pursuitName,
+      pursuitProgress: pursuitProgress,
+      pursuitTarget: pursuitTarget,
     );
   }
 
@@ -417,7 +538,7 @@ class _OfflineBanner extends StatelessWidget {
         opacity: isVisible ? 1.0 : 0.0,
         child: Container(
           width: double.infinity,
-          color: AppColors.warning.withValues(alpha: 0.95),
+          color: context.appColors.warning.withValues(alpha: 0.95),
           child: SafeArea(
             bottom: false,
             child: Padding(
@@ -434,7 +555,7 @@ class _OfflineBanner extends StatelessWidget {
                     child: Icon(
                       PhosphorIconsDuotone.wifiSlash,
                       size: 16,
-                      color: AppColors.background,
+                      color: context.appColors.background,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -444,7 +565,7 @@ class _OfflineBanner extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.background,
+                        color: context.appColors.background,
                       ),
                     ),
                   ),

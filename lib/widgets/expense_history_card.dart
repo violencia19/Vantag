@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -35,12 +37,12 @@ class ExpenseHistoryCard extends StatelessWidget {
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
 
-  Color _getDecisionColor(ExpenseDecision? decision) {
+  Color _getDecisionColor(BuildContext context, ExpenseDecision? decision) {
     return switch (decision) {
-      ExpenseDecision.yes => AppColors.decisionYes,
-      ExpenseDecision.thinking => AppColors.decisionThinking,
-      ExpenseDecision.no => AppColors.decisionNo,
-      null => AppColors.textTertiary,
+      ExpenseDecision.yes => context.appColors.decisionYes,
+      ExpenseDecision.thinking => context.appColors.decisionThinking,
+      ExpenseDecision.no => context.appColors.decisionNo,
+      null => context.appColors.textTertiary,
     };
   }
 
@@ -58,7 +60,7 @@ class ExpenseHistoryCard extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.95),
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -72,17 +74,17 @@ class ExpenseHistoryCard extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
               const SizedBox(height: 24),
               Text(
                 l10n.updateDecision,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 24),
@@ -90,7 +92,7 @@ class ExpenseHistoryCard extends StatelessWidget {
                 context: context,
                 icon: PhosphorIconsDuotone.checkCircle,
                 label: l10n.bought,
-                color: AppColors.decisionYes,
+                color: context.appColors.decisionYes,
                 onTap: () {
                   Navigator.pop(context);
                   onDecisionUpdate?.call(ExpenseDecision.yes);
@@ -101,7 +103,7 @@ class ExpenseHistoryCard extends StatelessWidget {
                 context: context,
                 icon: PhosphorIconsDuotone.xCircle,
                 label: l10n.passed,
-                color: AppColors.decisionNo,
+                color: context.appColors.decisionNo,
                 onTap: () {
                   Navigator.pop(context);
                   onDecisionUpdate?.call(ExpenseDecision.no);
@@ -158,7 +160,7 @@ class ExpenseHistoryCard extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.95),
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -172,15 +174,16 @@ class ExpenseHistoryCard extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
               const SizedBox(height: 24),
               _buildMenuTile(
+                context: context,
                 icon: PhosphorIconsDuotone.shareFat,
                 label: l10n.share,
-                color: AppColors.primary,
+                color: context.appColors.primary,
                 onTap: () {
                   Navigator.pop(context);
                   _showShareCard(context);
@@ -188,9 +191,10 @@ class ExpenseHistoryCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               _buildMenuTile(
+                context: context,
                 icon: PhosphorIconsDuotone.pencilSimple,
                 label: l10n.edit,
-                color: AppColors.info,
+                color: context.appColors.info,
                 onTap: () {
                   Navigator.pop(context);
                   onEdit?.call();
@@ -198,9 +202,10 @@ class ExpenseHistoryCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               _buildMenuTile(
+                context: context,
                 icon: PhosphorIconsDuotone.trash,
                 label: l10n.delete,
-                color: AppColors.error,
+                color: context.appColors.error,
                 onTap: () {
                   Navigator.pop(context);
                   onDelete?.call();
@@ -227,6 +232,7 @@ class ExpenseHistoryCard extends StatelessWidget {
   }
 
   Widget _buildMenuTile({
+    required BuildContext context,
     required IconData icon,
     required String label,
     required Color color,
@@ -240,7 +246,7 @@ class ExpenseHistoryCard extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.surfaceLight,
+            color: context.appColors.surfaceLight,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
@@ -262,18 +268,39 @@ class ExpenseHistoryCard extends StatelessWidget {
     );
   }
 
+  String _getDecisionLabel(BuildContext context, ExpenseDecision? decision) {
+    final l10n = AppLocalizations.of(context);
+    return switch (decision) {
+      ExpenseDecision.yes => l10n.accessibilityDecisionYes,
+      ExpenseDecision.thinking => l10n.accessibilityDecisionThinking,
+      ExpenseDecision.no => l10n.accessibilityDecisionNo,
+      null => '',
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final decisionColor = _getDecisionColor(expense.decision);
+    final decisionColor = _getDecisionColor(context, expense.decision);
     final isThinking = expense.decision == ExpenseDecision.thinking;
 
-    Widget card = Container(
+    // Accessibility: Semantic label for screen readers
+    final semanticLabel = l10n.accessibilityExpenseItem(
+      CategoryUtils.getLocalizedName(context, expense.category),
+      formatTurkishCurrency(expense.amount, decimalDigits: 0),
+      expense.hoursRequired.toStringAsFixed(1),
+      _getDecisionLabel(context, expense.decision),
+    );
+
+    Widget card = Semantics(
+      label: semanticLabel,
+      button: isThinking,
+      child: Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Material(
         color: Colors.transparent,
@@ -313,10 +340,12 @@ class ExpenseHistoryCard extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 '${formatTurkishCurrency(expense.amount, decimalDigits: 2)} TL',
-                                style: const TextStyle(
+                                style: AccessibleText.scaled(
+                                  context,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.textPrimary,
+                                  color: context.appColors.textPrimary,
+                                  maxScale: 1.4,
                                 ),
                               ),
                             ),
@@ -329,15 +358,15 @@ class ExpenseHistoryCard extends StatelessWidget {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColors.surfaceLight,
+                                color: context.appColors.surfaceLight,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
                                 CategoryUtils.getLocalizedName(context, expense.category),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
-                                  color: AppColors.textSecondary,
+                                  color: context.appColors.textSecondary,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -350,7 +379,7 @@ class ExpenseHistoryCard extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: AppColors.warning.withValues(alpha: 0.15),
+                                color: context.appColors.warning.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: Row(
@@ -359,7 +388,7 @@ class ExpenseHistoryCard extends StatelessWidget {
                                   Icon(
                                     PhosphorIconsDuotone.lightning,
                                     size: 12,
-                                    color: AppColors.warning,
+                                    color: context.appColors.warning,
                                   ),
                                   const SizedBox(width: 4),
                                   Text(
@@ -367,7 +396,7 @@ class ExpenseHistoryCard extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w600,
-                                      color: AppColors.warning,
+                                      color: context.appColors.warning,
                                     ),
                                   ),
                                 ],
@@ -382,14 +411,14 @@ class ExpenseHistoryCard extends StatelessWidget {
                           Icon(
                             PhosphorIconsDuotone.clock,
                             size: 14,
-                            color: AppColors.textTertiary,
+                            color: context.appColors.textTertiary,
                           ),
                           const SizedBox(width: 4),
                           Text(
                             '${expense.hoursRequired.toStringAsFixed(1)}s / ${expense.daysRequired.toStringAsFixed(1)}g',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 13,
-                              color: AppColors.textTertiary,
+                              color: context.appColors.textTertiary,
                             ),
                           ),
                           if (isThinking) ...[
@@ -398,7 +427,7 @@ class ExpenseHistoryCard extends StatelessWidget {
                               l10n.tapToUpdate,
                               style: TextStyle(
                                 fontSize: 11,
-                                color: AppColors.decisionThinking.withValues(alpha: 0.8),
+                                color: context.appColors.decisionThinking.withValues(alpha: 0.8),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -415,24 +444,27 @@ class ExpenseHistoryCard extends StatelessWidget {
                   children: [
                     Text(
                       _formatDate(context, expense.date),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.textTertiary,
+                        color: context.appColors.textTertiary,
                       ),
                     ),
                     const SizedBox(height: 8),
                     GestureDetector(
                       onTap: () => _showOptionsMenu(context),
+                      behavior: HitTestBehavior.opaque,
                       child: Container(
-                        padding: const EdgeInsets.all(4),
+                        width: 44,
+                        height: 44,
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceLight,
-                          borderRadius: BorderRadius.circular(6),
+                          color: context.appColors.surfaceLight,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           PhosphorIconsDuotone.dotsThree,
-                          size: 18,
-                          color: AppColors.textSecondary,
+                          size: 20,
+                          color: context.appColors.textSecondary,
                         ),
                       ),
                     ),
@@ -443,9 +475,10 @@ class ExpenseHistoryCard extends StatelessWidget {
           ),
         ),
       ),
+    ),
     );
 
-    // Swipe actions
+    // Swipe actions with flutter_slidable
     return Column(
       children: [
         if (showHint)
@@ -455,143 +488,146 @@ class ExpenseHistoryCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  PhosphorIconsDuotone.arrowLeft,
+                  PhosphorIconsDuotone.arrowsLeftRight,
                   size: 16,
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                 ),
                 const SizedBox(width: 6),
                 Text(
                   l10n.swipeToEditOrDelete,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
-                    color: AppColors.textTertiary,
+                    color: context.appColors.textTertiary,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
               ],
             ),
           ),
-        Dismissible(
-          key: Key('expense_${expense.amount}_${expense.date.toIso8601String()}'),
-          direction: DismissDirection.endToStart,
-          confirmDismiss: (direction) async {
-            _showSwipeActions(context);
-            return false;
-          },
-          background: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            decoration: BoxDecoration(
-              color: AppColors.error.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.only(right: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Icon(PhosphorIconsDuotone.pencilSimple, color: AppColors.info, size: 22),
-                const SizedBox(width: 20),
-                Icon(PhosphorIconsDuotone.trash, color: AppColors.error, size: 22),
-              ],
-            ),
+        Slidable(
+          key: ValueKey('expense_${expense.amount}_${expense.date.toIso8601String()}'),
+
+          // Swipe right → Edit (Blue)
+          startActionPane: ActionPane(
+            motion: const BehindMotion(),
+            extentRatio: 0.25,
+            children: [
+              CustomSlidableAction(
+                onPressed: (_) {
+                  HapticFeedback.lightImpact();
+                  onEdit?.call();
+                },
+                backgroundColor: context.appColors.info,
+                foregroundColor: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(PhosphorIconsBold.pencilSimple, size: 22),
+                    const SizedBox(height: 4),
+                    Text(
+                      l10n.edit,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
+
+          // Swipe left → Delete (Red)
+          endActionPane: ActionPane(
+            motion: const BehindMotion(),
+            extentRatio: 0.25,
+            dismissible: DismissiblePane(
+              onDismissed: () {
+                HapticFeedback.mediumImpact();
+                onDelete?.call();
+              },
+              confirmDismiss: () => _showDeleteConfirmation(context),
+            ),
+            children: [
+              CustomSlidableAction(
+                onPressed: (_) async {
+                  HapticFeedback.lightImpact();
+                  final confirmed = await _showDeleteConfirmation(context);
+                  if (confirmed) {
+                    onDelete?.call();
+                  }
+                },
+                backgroundColor: context.appColors.error,
+                foregroundColor: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(PhosphorIconsBold.trash, size: 22),
+                    const SizedBox(height: 4),
+                    Text(
+                      l10n.delete,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
           child: card,
         ),
       ],
     );
   }
 
-  void _showSwipeActions(BuildContext context) {
+  Future<bool> _showDeleteConfirmation(BuildContext context) async {
     final l10n = AppLocalizations.of(context);
-    showModalBottomSheet(
+
+    return await showDialog<bool>(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.95),
-      backgroundColor: AppColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (context) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppColors.textTertiary,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceLight,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        '${expense.amount.toStringAsFixed(0)} ${l10n.tl}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                          color: AppColors.textPrimary,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Flexible(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: AppColors.surface,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          CategoryUtils.getLocalizedName(context, expense.category),
-                          style: const TextStyle(
-                            fontSize: 13,
-                            color: AppColors.textSecondary,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              _buildMenuTile(
-                icon: PhosphorIconsDuotone.pencilSimple,
-                label: l10n.edit,
-                color: AppColors.info,
-                onTap: () {
-                  Navigator.pop(context);
-                  onEdit?.call();
-                },
-              ),
-              const SizedBox(height: 12),
-              _buildMenuTile(
-                icon: PhosphorIconsDuotone.trash,
-                label: l10n.delete,
-                color: AppColors.error,
-                onTap: () {
-                  Navigator.pop(context);
-                  onDelete?.call();
-                },
-              ),
-              const SizedBox(height: 12),
-            ],
+      builder: (context) => AlertDialog(
+        backgroundColor: context.appColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: Text(
+          l10n.deleteExpense,
+          style: TextStyle(
+            color: context.appColors.textPrimary,
+            fontWeight: FontWeight.w600,
           ),
         ),
+        content: Text(
+          l10n.deleteExpenseConfirm,
+          style: TextStyle(
+            color: context.appColors.textSecondary,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(
+              l10n.cancel,
+              style: TextStyle(color: context.appColors.textSecondary),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              HapticFeedback.mediumImpact();
+              Navigator.pop(context, true);
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: context.appColors.error,
+            ),
+            child: Text(l10n.delete),
+          ),
+        ],
       ),
-    );
+    ) ?? false;
   }
 }

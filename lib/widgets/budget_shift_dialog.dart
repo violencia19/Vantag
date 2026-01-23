@@ -140,7 +140,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: AppColors.error,
+        backgroundColor: context.appColors.error,
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -173,7 +173,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
     return Container(
       margin: EdgeInsets.only(bottom: bottomPadding),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: SafeArea(
@@ -189,7 +189,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.textTertiary,
+                    color: context.appColors.textTertiary,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -203,7 +203,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
+                      color: context.appColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Center(
@@ -217,17 +217,17 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                       children: [
                         Text(
                           widget.dreamName,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
+                            color: context.appColors.textPrimary,
                           ),
                         ),
                         Text(
                           '${widget.currencySymbol}${formatTurkishCurrency(widget.totalAmount, decimalDigits: 0, showDecimals: false)} ekleniyor',
                           style: TextStyle(
                             fontSize: 13,
-                            color: AppColors.textSecondary,
+                            color: context.appColors.textSecondary,
                           ),
                         ),
                       ],
@@ -242,10 +242,10 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                 l10n.budgetShiftQuestion(
                   '${widget.currencySymbol}${formatTurkishCurrency(widget.shortfall, decimalDigits: 0, showDecimals: false)}',
                 ),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -253,7 +253,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                 'Havuzda yeterli bakiye yok. Bu parayı nereden kaydırmak istersin?',
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                 ),
               ),
               const SizedBox(height: 20),
@@ -275,14 +275,14 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                       decoration: BoxDecoration(
                         color: isSelected
                             ? (option.isJoker
-                                ? AppColors.warning.withValues(alpha: 0.15)
-                                : AppColors.primary.withValues(alpha: 0.15))
-                            : AppColors.surfaceLight,
+                                ? context.appColors.warning.withValues(alpha: 0.15)
+                                : context.appColors.primary.withValues(alpha: 0.15))
+                            : context.appColors.surfaceLight,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: isSelected
-                              ? (option.isJoker ? AppColors.warning : AppColors.primary)
-                              : AppColors.cardBorder,
+                              ? (option.isJoker ? context.appColors.warning : context.appColors.primary)
+                              : context.appColors.cardBorder,
                           width: isSelected ? 2 : 1,
                         ),
                       ),
@@ -297,8 +297,8 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                               fontSize: 14,
                               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                               color: isSelected
-                                  ? (option.isJoker ? AppColors.warning : AppColors.primary)
-                                  : AppColors.textPrimary,
+                                  ? (option.isJoker ? context.appColors.warning : context.appColors.primary)
+                                  : context.appColors.textPrimary,
                             ),
                           ),
                         ],
@@ -316,13 +316,13 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                 child: ElevatedButton(
                   onPressed: _selectedSource != null && !_isLoading ? _confirm : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: context.appColors.primary,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    disabledBackgroundColor: AppColors.surfaceLight,
+                    disabledBackgroundColor: context.appColors.surfaceLight,
                   ),
                   child: _isLoading
                       ? const SizedBox(
@@ -352,13 +352,13 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                   icon: Icon(
                     PhosphorIconsDuotone.warning,
                     size: 18,
-                    color: AppColors.error,
+                    color: context.appColors.error,
                   ),
                   label: Text(
                     l10n.createShadowDebt,
                     style: TextStyle(
                       fontSize: 14,
-                      color: AppColors.error,
+                      color: context.appColors.error,
                     ),
                   ),
                 ),

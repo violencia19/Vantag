@@ -45,19 +45,19 @@ class CurrencyDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.appColors.background,
         leading: IconButton(
-          icon: Icon(PhosphorIconsDuotone.arrowLeft, color: AppColors.textPrimary),
+          icon: Icon(PhosphorIconsDuotone.arrowLeft, color: context.appColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           l10n.currencyRates,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
           ),
         ),
       ),
@@ -71,9 +71,9 @@ class CurrencyDetailScreen extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: context.appColors.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.cardBorder),
+                border: Border.all(color: context.appColors.cardBorder),
               ),
               child: Row(
                 children: [
@@ -81,13 +81,13 @@ class CurrencyDetailScreen extends StatelessWidget {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
+                      color: context.appColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Icon(
                       PhosphorIconsDuotone.arrowsClockwise,
                       size: 20,
-                      color: AppColors.primary,
+                      color: context.appColors.primary,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -97,18 +97,18 @@ class CurrencyDetailScreen extends StatelessWidget {
                       children: [
                         Text(
                           l10n.lastUpdate,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.textSecondary,
+                            color: context.appColors.textSecondary,
                           ),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           _formatLastUpdated(context, rates.lastUpdated),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
+                            color: context.appColors.textPrimary,
                           ),
                         ),
                       ],
@@ -120,15 +120,15 @@ class CurrencyDetailScreen extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
+                      color: context.appColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Text(
+                    child: Text(
                       'TCMB',
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.primary,
+                        color: context.appColors.primary,
                       ),
                     ),
                   ),
@@ -141,10 +141,10 @@ class CurrencyDetailScreen extends StatelessWidget {
             // Rates title
             Text(
               l10n.rates,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
               ),
             ),
 
@@ -194,7 +194,7 @@ class CurrencyDetailScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surfaceLight,
+                color: context.appColors.surfaceLight,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -203,15 +203,15 @@ class CurrencyDetailScreen extends StatelessWidget {
                   Icon(
                     PhosphorIconsDuotone.info,
                     size: 18,
-                    color: AppColors.textTertiary.withValues(alpha: 0.8),
+                    color: context.appColors.textTertiary.withValues(alpha: 0.8),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       l10n.tcmbNotice,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.textTertiary,
+                        color: context.appColors.textTertiary,
                         height: 1.4,
                       ),
                     ),
@@ -239,9 +239,9 @@ class CurrencyDetailScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(
         children: [
@@ -273,17 +273,17 @@ class CurrencyDetailScreen extends StatelessWidget {
                   children: [
                     Text(
                       name,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                        color: context.appColors.textPrimary,
                       ),
                     ),
                     Text(
                       code,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.textTertiary,
+                        color: context.appColors.textTertiary,
                       ),
                     ),
                   ],
@@ -298,15 +298,15 @@ class CurrencyDetailScreen extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _buildPriceColumn(l10n.buy, buying),
+                child: _buildPriceColumn(context, l10n.buy, buying),
               ),
               Container(
                 width: 1,
                 height: 40,
-                color: AppColors.cardBorder,
+                color: context.appColors.cardBorder,
               ),
               Expanded(
-                child: _buildPriceColumn(l10n.sell, selling),
+                child: _buildPriceColumn(context, l10n.sell, selling),
               ),
             ],
           ),
@@ -315,23 +315,23 @@ class CurrencyDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPriceColumn(String label, double value) {
+  Widget _buildPriceColumn(BuildContext context, String label, double value) {
     return Column(
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 11,
-            color: AppColors.textTertiary,
+            color: context.appColors.textTertiary,
           ),
         ),
         const SizedBox(height: 4),
         Text(
           '${_formatRate(value)} \u20BA',
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
           ),
         ),
       ],

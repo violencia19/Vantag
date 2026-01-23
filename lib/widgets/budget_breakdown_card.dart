@@ -105,22 +105,22 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           width: 36,
                           height: 36,
                           decoration: BoxDecoration(
-                            color: AppColors.primary.withValues(alpha: 0.15),
+                            color: context.appColors.primary.withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(10),
-                            boxShadow: PremiumShadows.coloredGlow(AppColors.primary, intensity: 0.3),
+                            boxShadow: PremiumShadows.coloredGlow(context.appColors.primary, intensity: 0.3),
                           ),
                           child: Icon(
                             PhosphorIconsDuotone.chartPie,
-                            color: AppColors.primary,
+                            color: context.appColors.primary,
                             size: 18,
-                            shadows: PremiumShadows.iconHalo(AppColors.primary),
+                            shadows: PremiumShadows.iconHalo(context.appColors.primary),
                           ),
                         ),
                         const SizedBox(width: 12),
                         Text(
                           l10n.monthlySpendingBreakdown,
-                          style: const TextStyle(
-                            color: AppColors.textPrimary,
+                          style: TextStyle(
+                            color: context.appColors.textPrimary,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.5,
@@ -178,10 +178,10 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color: AppColors.success.withValues(alpha: 0.08),
+                          color: context.appColors.success.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: AppColors.success.withValues(alpha: 0.2),
+                            color: context.appColors.success.withValues(alpha: 0.2),
                             width: 1,
                           ),
                         ),
@@ -189,9 +189,9 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           children: [
                             Icon(
                               PhosphorIconsDuotone.checkCircle,
-                              color: AppColors.success,
+                              color: context.appColors.success,
                               size: 20,
-                              shadows: PremiumShadows.iconHalo(AppColors.success),
+                              shadows: PremiumShadows.iconHalo(context.appColors.success),
                             ),
                             const SizedBox(width: 10),
                             Expanded(
@@ -199,8 +199,8 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                                 l10n.remainingHoursToSpend(
                                   widget.budgetService.remainingHours.toStringAsFixed(0),
                                 ),
-                                style: const TextStyle(
-                                  color: AppColors.success,
+                                style: TextStyle(
+                                  color: context.appColors.success,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -217,10 +217,10 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color: AppColors.error.withValues(alpha: 0.08),
+                          color: context.appColors.error.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: AppColors.error.withValues(alpha: 0.2),
+                            color: context.appColors.error.withValues(alpha: 0.2),
                             width: 1,
                           ),
                         ),
@@ -228,9 +228,9 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           children: [
                             Icon(
                               PhosphorIconsDuotone.warning,
-                              color: AppColors.error,
+                              color: context.appColors.error,
                               size: 20,
-                              shadows: PremiumShadows.iconHalo(AppColors.error),
+                              shadows: PremiumShadows.iconHalo(context.appColors.error),
                             ),
                             const SizedBox(width: 10),
                             Expanded(
@@ -242,8 +242,8 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                                     showDecimals: false,
                                   ),
                                 ),
-                                style: const TextStyle(
-                                  color: AppColors.error,
+                                style: TextStyle(
+                                  color: context.appColors.error,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -483,8 +483,8 @@ class _AnimatedStatItemState extends State<_AnimatedStatItem>
                       Expanded(
                         child: Text(
                           widget.label,
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
+                          style: TextStyle(
+                            color: context.appColors.textSecondary,
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
                           ),
@@ -504,7 +504,7 @@ class _AnimatedStatItemState extends State<_AnimatedStatItem>
                       showDecimals: false,
                     ),
                     style: TextStyle(
-                      color: AppColors.textPrimary,
+                      color: context.appColors.textPrimary,
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       shadows: [
@@ -518,8 +518,8 @@ class _AnimatedStatItemState extends State<_AnimatedStatItem>
                   const SizedBox(height: 6),
                   Text(
                     '${widget.hours.toStringAsFixed(1)} ${widget.l10n.hourAbbreviation} · %${widget.percent.toStringAsFixed(0)}',
-                    style: const TextStyle(
-                      color: AppColors.textTertiary,
+                    style: TextStyle(
+                      color: context.appColors.textTertiary,
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                     ),

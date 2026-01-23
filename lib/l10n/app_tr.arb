@@ -44,6 +44,9 @@
   "settingsNotifications": "Bildirimler",
   "settingsReminders": "Hatırlatıcılar",
 
+  "settingsSoundEffects": "Ses Efektleri",
+  "settingsSoundVolume": "Ses Seviyesi",
+
   "settingsProPurchases": "Pro & Satın Alma",
   "settingsVantagPro": "Vantag Pro",
   "settingsRestorePurchases": "Satın Alımları Geri Yükle",
@@ -281,6 +284,8 @@
 
   "newExpense": "Yeni Harcama",
   "editExpense": "Harcama Düzenle",
+  "deleteExpense": "Harcamayı Sil",
+  "deleteExpenseConfirm": "Bu harcamayı silmek istediğine emin misin?",
   "updateExpense": "Güncelle",
   "expenseHistory": "Geçmiş",
   "recordCount": "{count} kayıt",
@@ -1527,5 +1532,346 @@
       "count": {"type": "int"}
     }
   },
-  "pendingLabel": "Bekliyor"
+  "pendingLabel": "Bekliyor",
+
+  "insightMinutes": "Bu harcama hayatından {minutes} dakika aldı.",
+  "@insightMinutes": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "insightHours": "Bu harcama hayatından {hours} saat aldı.",
+  "@insightHours": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "insightAlmostDay": "Bu harcama için neredeyse bir gün çalıştın.",
+  "insightDays": "Bu harcama hayatından {days} gün aldı.",
+  "@insightDays": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "insightDaysWorked": "Bu harcama için {days} gün çalışman gerekti.",
+  "@insightDaysWorked": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "insightAlmostMonth": "Bu harcama neredeyse bir aylık emeğine mal oldu.",
+  "insightCategoryDays": "Bu ay {category} için {days} gün çalıştın.",
+  "@insightCategoryDays": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "days": {"type": "String"}
+    }
+  },
+  "insightCategoryHours": "Bu ay {category} için {hours} saat çalıştın.",
+  "@insightCategoryHours": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "insightMonthlyAlmost": "Bu ayki harcamalar için neredeyse tüm ay çalıştın.",
+  "insightMonthlyDays": "Bu ay harcamalar için {days} gün çalıştın.",
+  "@insightMonthlyDays": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+
+  "msgShort1": "Birkaç saatlik emeğin, bir anlık heves için mi?",
+  "msgShort2": "Bu kadar kısa sürede kazandığın parayı harcamak kolay, kazanmak zor.",
+  "msgShort3": "Sabah işe gittin, öğlene kalmadan bu para gidecek.",
+  "msgShort4": "Bir kahve molası kadar sürede kazandın, bir tıkla gidecek.",
+  "msgShort5": "Yarım günlük mesai, tam günlük pişmanlık olmasın.",
+  "msgShort6": "Bu ürün için çalıştığın saatleri düşün.",
+  "msgShort7": "Küçük görünüyor ama toplamda büyük fark yaratıyor.",
+  "msgShort8": "Şimdi değil dersen, yarın da olur.",
+
+  "msgMedium1": "Bir haftalık emeğin bu ürüne değer mi?",
+  "msgMedium2": "Bu parayı biriktirmek günler aldı, harcamak saniyeler alacak.",
+  "msgMedium3": "Bir haftanı buna yatırıyor olsaydın kabul eder miydin?",
+  "msgMedium4": "Günlerce emek, anlık bir karar.",
+  "msgMedium5": "Hafta sonu tatili mi, bu ürün mü?",
+  "msgMedium6": "Bu kadar gün boyunca ne için çalıştığını hatırla.",
+  "msgMedium7": "Pazartesiden cumaya kadar bunun için mi çalıştın?",
+  "msgMedium8": "Haftalık bütçeni tek seferde harcamak mantıklı mı?",
+
+  "msgLong1": "Haftalarca çalışman gerekiyor bunun için. Gerçekten değer mi?",
+  "msgLong2": "Bu parayı biriktirmek aylar alabilir.",
+  "msgLong3": "Uzun vadeli hedeflerinden birini erteliyor olabilirsin.",
+  "msgLong4": "Bu ürün için harcayacağın zaman, tatil planlarını etkiler mi?",
+  "msgLong5": "Bu yatırım mı, harcama mı?",
+  "msgLong6": "Gelecekteki sen bu kararı nasıl değerlendirir?",
+  "msgLong7": "Bu kadar uzun süre çalışmak, kalıcı bir şey için olmalı.",
+  "msgLong8": "Ay sonunda bu karara nasıl bakacaksın?",
+
+  "msgSim1": "Bu rakam artık bir harcama değil, ciddi bir yatırım kararı.",
+  "msgSim2": "Böyle büyük bir tutar için duygularınla değil, vizyonunla karar ver.",
+  "msgSim3": "Bu tutarın karşılığı olan zamanı hesaplamak bile güç.",
+  "msgSim4": "Hayallerini süsleyen o büyük adım bu olabilir mi?",
+  "msgSim5": "Bu kadar büyük bir rakamı yönetmek, sabır ve strateji ister.",
+  "msgSim6": "Cüzdanını değil, geleceğini etkileyecek bir noktadasın.",
+  "msgSim7": "Büyük rakamlar, büyük sorumluluklar getirir. Hazır mısın?",
+  "msgSim8": "Bu tutar senin için sadece bir sayı mı, yoksa bir dönüm noktası mı?",
+
+  "msgYes1": "Kaydettim. Umarım değer.",
+  "msgYes2": "Bakalım pişman olacak mısın.",
+  "msgYes3": "Tamam, senin paran.",
+  "msgYes4": "Aldın aldın, hayırlı olsun.",
+  "msgYes5": "Keyfin bilir.",
+  "msgYes6": "Peki, kayıtlara geçti.",
+  "msgYes7": "İhtiyaçsa sorun yok.",
+  "msgYes8": "Bazen harcamak da gerekir.",
+
+  "msgNo1": "Güzel karar. Bu parayı kurtardın.",
+  "msgNo2": "Zor olanı seçtin, gelecekte teşekkür edeceksin.",
+  "msgNo3": "İrade kazandı.",
+  "msgNo4": "Akıllıca. Bu para sana lazım olacak.",
+  "msgNo5": "Vazgeçmek de bir kazanım.",
+  "msgNo6": "Heves geçti, para kaldı.",
+  "msgNo7": "Kendine yatırım yaptın aslında.",
+  "msgNo8": "Zor karar, doğru karar.",
+
+  "msgThink1": "Düşünmek bedava, harcamak değil.",
+  "msgThink2": "Acele etmemek akıllıca.",
+  "msgThink3": "Bir gece uyu, yarın tekrar bak.",
+  "msgThink4": "24 saat bekle, hala istiyorsan gel.",
+  "msgThink5": "Tereddüt ediyorsan muhtemelen gerekli değil.",
+  "msgThink6": "Zaman en iyi danışman.",
+  "msgThink7": "Acil değilse, acele etme.",
+  "msgThink8": "Emin değilsen, cevap muhtemelen hayır.",
+
+  "tourAmountTitle": "Tutar Girişi",
+  "tourAmountDesc": "Harcama tutarını buraya gir. Fiş tarama butonu ile fişten otomatik okuyabilirsin.",
+  "tourDescriptionTitle": "Akıllı Eşleştirme",
+  "tourDescriptionDesc": "Mağaza veya ürün adını yaz. Migros, A101, Starbucks gibi... Uygulama otomatik olarak kategori önerecek!",
+  "tourCategoryTitle": "Kategori Seçimi",
+  "tourCategoryDesc": "Akıllı eşleştirme bulamazsa veya düzeltmek istersen buradan manuel seçim yapabilirsin.",
+  "tourDateTitle": "Geçmiş Tarih Seçimi",
+  "tourDateDesc": "Dün veya önceki günlerin harcamalarını da girebilirsin. Takvim ikonuna tıklayarak istediğin tarihi seç.",
+  "tourSnapshotTitle": "Finansal Özet",
+  "tourSnapshotDesc": "Aylık gelirin, harcamaların ve kurtardığın para burada. Tüm veriler anlık güncellenir.",
+  "tourCurrencyTitle": "Döviz Kurları",
+  "tourCurrencyDesc": "Güncel USD, EUR ve altın fiyatları. Tıklayarak detaylı bilgi alabilirsin.",
+  "tourStreakTitle": "Seri Takibi",
+  "tourStreakDesc": "Her gün harcama girdiğinde serin artar. Düzenli takip etmek bilinçli harcamanın anahtarı!",
+  "tourSubscriptionTitle": "Abonelikler",
+  "tourSubscriptionDesc": "Netflix, Spotify gibi düzenli aboneliklerini buradan takip et. Yaklaşan ödemeler için bildirim alırsın.",
+  "tourReportTitle": "Raporlar",
+  "tourReportDesc": "Aylık ve kategorilere göre harcama analizlerini buradan görüntüle.",
+  "tourAchievementsTitle": "Rozetler",
+  "tourAchievementsDesc": "Tasarruf hedeflerine ulaştıkça rozetler kazan. Motivasyonunu yüksek tut!",
+  "tourProfileTitle": "Profil & Ayarlar",
+  "tourProfileDesc": "Gelir bilgilerini düzenle, bildirim tercihlerini yönet ve uygulama ayarlarına eriş.",
+  "tourQuickAddTitle": "Hızlı Ekleme",
+  "tourQuickAddDesc": "Her yerden hızlıca harcama eklemek için bu butonu kullan. Pratik ve hızlı!",
+
+  "notifChannelName": "Vantag Bildirimleri",
+  "notifChannelDescription": "Finansal takip bildirimleri",
+  "notifTitleThinkAboutIt": "Bir düşün",
+  "notifTitleCongratulations": "Tebrikler",
+  "notifTitleStreakWaiting": "Serin bekliyor",
+  "notifTitleWeeklySummary": "Haftalık özet",
+  "notifTitleSubscriptionReminder": "Abonelik hatırlatma",
+
+  "aiGreeting": "Merhaba! Ben Vantag.\nFinansal sorularını yanıtlamaya hazırım.",
+
+  "onboardingHookTitle": "Bu kahve 47 dakikan",
+  "onboardingHookSubtitle": "Her harcamanın gerçek maliyetini gör",
+
+  "pursuitOnboardingTitle": "Hedefin ne?",
+  "pursuitOnboardingSubtitle": "Biriktirmek istediğin bir şey seç",
+  "pursuitOnboardingAirpods": "AirPods",
+  "pursuitOnboardingIphone": "iPhone",
+  "pursuitOnboardingVacation": "Tatil",
+  "pursuitOnboardingCustom": "Kendi hedefim",
+  "pursuitOnboardingCta": "Bunu istiyorum",
+  "pursuitOnboardingSkip": "Şimdilik geç",
+  "pursuitOnboardingHours": "{hours} saat",
+  "@pursuitOnboardingHours": {
+    "placeholders": {
+      "hours": {"type": "int"}
+    }
+  },
+
+  "celebrationTitle": "Tebrikler!",
+  "celebrationSubtitle": "{goalName} hedefine ulaştın!",
+  "@celebrationSubtitle": {
+    "placeholders": {
+      "goalName": {"type": "String"}
+    }
+  },
+  "celebrationTotalSaved": "Toplam biriktirdiğin: {hours} saat",
+  "@celebrationTotalSaved": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "celebrationDuration": "Süre: {days} gün",
+  "@celebrationDuration": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "celebrationShare": "Paylaş",
+  "celebrationNewGoal": "Yeni Hedef",
+  "celebrationDismiss": "Kapat",
+
+  "widgetTodayLabel": "Bugün",
+  "widgetHoursAbbrev": "s",
+  "widgetMinutesAbbrev": "dk",
+  "widgetSetGoal": "Hedef belirle",
+  "widgetNoData": "Başlamak için aç",
+  "widgetSmallTitle": "Günlük Harcama",
+  "widgetSmallDesc": "Bugünkü harcamanı saat olarak gör",
+  "widgetMediumTitle": "Harcama + Hedef",
+  "widgetMediumDesc": "Harcama ve hedef takibi",
+
+  "accessibilityTodaySpending": "Bugün {amount} harcadın, bu {hours} saat {minutes} dakika çalışmana eşit",
+  "@accessibilityTodaySpending": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "hours": {"type": "int"},
+      "minutes": {"type": "int"}
+    }
+  },
+  "accessibilitySpendingProgress": "Harcama ilerlemesi: bütçenin yüzde {percentage}'i kullanıldı",
+  "@accessibilitySpendingProgress": {
+    "placeholders": {
+      "percentage": {"type": "int"}
+    }
+  },
+  "accessibilityExpenseItem": "{category} harcaması {amount}, {hours} saat sürdü, durum: {decision}",
+  "@accessibilityExpenseItem": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "amount": {"type": "String"},
+      "hours": {"type": "String"},
+      "decision": {"type": "String"}
+    }
+  },
+  "accessibilityPursuitCard": "{name} hedefi, {target} hedeften {saved} biriktirildi, yüzde {percentage} tamamlandı",
+  "@accessibilityPursuitCard": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "saved": {"type": "String"},
+      "target": {"type": "String"},
+      "percentage": {"type": "int"}
+    }
+  },
+  "accessibilityAddExpense": "Yeni harcama ekle",
+  "accessibilityDecisionYes": "Satın alındı",
+  "accessibilityDecisionNo": "Vazgeçildi",
+  "accessibilityDecisionThinking": "Düşünülüyor",
+  "navHomeTooltip": "Ana sayfa, harcama özeti",
+  "navPursuitsTooltip": "Hedefler, birikim amaçları",
+  "navReportsTooltip": "Raporlar, harcama analizi",
+  "navSettingsTooltip": "Ayarlar ve tercihler",
+
+  "shareDefaultMessage": "Harcamalarımı saat olarak takip ediyorum! Sen de dene: {link}",
+  "@shareDefaultMessage": {
+    "placeholders": {
+      "link": {"type": "String"}
+    }
+  },
+  "shareInviteLink": "Davet Linkini Paylaş",
+  "inviteFriends": "Arkadaşlarını Davet Et",
+  "yourReferralCode": "Senin davet kodun",
+  "referralStats": "{count} arkadaşın katıldı",
+  "@referralStats": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "referralRewardInfo": "Her arkadaşın için 7 gün premium kazan!",
+  "codeCopied": "Kod kopyalandı!",
+  "haveReferralCode": "Davet kodun var mı?",
+  "referralCodeHint": "Kodu gir (opsiyonel)",
+  "referralCodePlaceholder": "VANTAG-XXXXX",
+  "referralSuccess": "{name} Vantag'a katıldı! +7 gün premium kazandın",
+  "@referralSuccess": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "welcomeReferred": "Hoş geldin! 7 gün premium denemen var",
+  "referralInvalidCode": "Geçersiz davet kodu",
+  "referralCodeApplied": "Davet kodu uygulandı!",
+  "referralSectionTitle": "Davetler",
+  "referralShareDescription": "Kodunu paylaş, premium gün kazan",
+
+  "trialMidpointTitle": "Yarı yoldasın! \u23f3",
+  "trialMidpointBody": "Deneme süren yarılandı. Şu ana kadar {hours} saat biriktirdin!",
+  "@trialMidpointBody": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "trialOneDayLeftTitle": "Denemen yarın bitiyor \u23f0",
+  "trialOneDayLeftBody": "Premium'a geç, biriktirmeye devam et!",
+  "trialEndsTodayTitle": "Denemenin son günü! \ud83c\udf81",
+  "trialEndsTodayBody": "Bugün geçersen %50 indirim!",
+  "trialExpiredTitle": "Seni özledik! \ud83d\udc9c",
+  "trialExpiredBody": "Geri dön, hedeflerine devam et",
+  "dailyReminderTitle": "Harcamalarını girmeyi unutma! \ud83d\udcdd",
+  "dailyReminderBody": "Bugünkü harcamalarını saniyeler içinde gir",
+  "notificationSettings": "Bildirimler",
+  "notificationSettingsDesc": "Hatırlatıcılar ve güncellemeler",
+  "firstExpenseTitle": "Harika başlangıç! \ud83c\udf89",
+  "firstExpenseBody": "Bugün {hours} saat biriktirdin!",
+  "@firstExpenseBody": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "trialReminderEnabled": "Deneme hatırlatmaları",
+  "trialReminderDesc": "Deneme süren bitmeden bildirim al",
+  "dailyReminderEnabled": "Günlük hatırlatmalar",
+  "dailyReminderDesc": "Akşam harcama girişi hatırlatması",
+  "dailyReminderTime": "Hatırlatma saati",
+  "trialDaysRemaining": "Denemede {days} gün kaldı",
+  "@trialDaysRemaining": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "subscriptionReminder": "Abonelik hatırlatmaları",
+  "subscriptionReminderDesc": "Abonelikler yenilenmeden önce bildirim al",
+
+  "aiChatLimitReached": "Günlük 3 AI sohbet hakkını kullandın. Sınırsız için premium'a geç!",
+  "aiChatsRemaining": "Bugün {count} mesaj hakkın kaldı",
+  "@aiChatsRemaining": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pursuitLimitReachedFree": "Ücretsiz hesaplarda 1 aktif hedef olabilir. Sınırsız hedef için premium'a geç!",
+  "exportPremiumOnly": "Dışa aktarma premium özelliği",
+  "multiCurrencyPremium": "Çoklu para birimi premium özelliği. Ücretsiz kullanıcılar sadece TRY kullanabilir.",
+  "reportsPremiumOnly": "Aylık ve yıllık raporlar premium özelliği",
+  "upgradeToPremium": "Premium'a Geç",
+  "premiumIncludes": "Premium içerir:",
+  "unlimitedAiChat": "Sınırsız AI sohbet",
+  "unlimitedPursuits": "Sınırsız hedef",
+  "exportFeature": "Verilerini dışa aktar",
+  "allCurrencies": "Tüm para birimleri",
+  "fullReports": "Detaylı raporlar",
+  "cleanShareCards": "Temiz paylaşım kartları (filigran yok)",
+  "maybeLater": "Belki sonra",
+  "seePremium": "Premium'u Gör",
+  "weeklyOnly": "Haftalık",
+  "monthlyPro": "Aylık (Pro)",
+  "yearlyPro": "Yıllık (Pro)",
+  "currencyLocked": "Sadece Premium",
+  "freeUserCurrencyNote": "Ücretsiz kullanıcılar sadece TRY kullanabilir. {currency} için premium'a geç.",
+  "@freeUserCurrencyNote": {
+    "placeholders": {
+      "currency": {"type": "String"}
+    }
+  },
+  "watermarkText": "vantag.app"
 }

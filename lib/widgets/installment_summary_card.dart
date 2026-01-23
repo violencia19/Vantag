@@ -116,8 +116,8 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                           const SizedBox(width: 12),
                           Text(
                             l10n.activeInstallments,
-                            style: const TextStyle(
-                              color: AppColors.textPrimary,
+                            style: TextStyle(
+                              color: context.appColors.textPrimary,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -163,8 +163,8 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                       padding: const EdgeInsets.only(top: 8),
                       child: Text(
                         l10n.moreInstallments(installments.length - 3),
-                        style: const TextStyle(
-                          color: AppColors.textTertiary,
+                        style: TextStyle(
+                          color: context.appColors.textTertiary,
                           fontSize: 12,
                         ),
                       ),
@@ -192,7 +192,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                           index: 1,
                           label: l10n.remainingDebt,
                           value: totalDebtConverted,
-                          color: AppColors.primary,
+                          color: context.appColors.primary,
                         ),
                       ),
                     ],
@@ -204,17 +204,17 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: AppColors.error.withValues(alpha: 0.1),
+                        color: context.appColors.error.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppColors.error.withValues(alpha: 0.2)),
+                        border: Border.all(color: context.appColors.error.withValues(alpha: 0.2)),
                       ),
                       child: Row(
                         children: [
                           Icon(
                             PhosphorIconsDuotone.trendUp,
-                            color: AppColors.error,
+                            color: context.appColors.error,
                             size: 16,
-                            shadows: PremiumShadows.iconHalo(AppColors.error),
+                            shadows: PremiumShadows.iconHalo(context.appColors.error),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
@@ -227,8 +227,8 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                                 ),
                                 interestHours.toStringAsFixed(0),
                               ),
-                              style: const TextStyle(
-                                color: AppColors.error,
+                              style: TextStyle(
+                                color: context.appColors.error,
                                 fontSize: 12,
                               ),
                             ),
@@ -340,7 +340,7 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                           widget.expense.subCategory?.isNotEmpty == true
                               ? '${widget.expense.category} - ${widget.expense.subCategory}'
                               : widget.expense.category,
-                          style: const TextStyle(color: AppColors.textPrimary),
+                          style: TextStyle(color: context.appColors.textPrimary),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -370,13 +370,13 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: progress > 0.8
-                                      ? [AppColors.success, AppColors.success.withValues(alpha: 0.8)]
+                                      ? [context.appColors.success, context.appColors.success.withValues(alpha: 0.8)]
                                       : [Colors.orange, Colors.orange.shade600],
                                 ),
                                 borderRadius: BorderRadius.circular(3),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: (progress > 0.8 ? AppColors.success : Colors.orange)
+                                    color: (progress > 0.8 ? context.appColors.success : Colors.orange)
                                         .withValues(alpha: 0.4),
                                     blurRadius: 6,
                                     spreadRadius: 0,
@@ -390,8 +390,8 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                       const SizedBox(width: 8),
                       Text(
                         '$currentInstallment/$totalInstallments',
-                        style: const TextStyle(
-                          color: AppColors.textTertiary,
+                        style: TextStyle(
+                          color: context.appColors.textTertiary,
                           fontSize: 11,
                         ),
                       ),
@@ -483,8 +483,8 @@ class _AnimatedSummaryItemState extends State<_AnimatedSummaryItem>
                 children: [
                   Text(
                     widget.label,
-                    style: const TextStyle(
-                      color: AppColors.textSecondary,
+                    style: TextStyle(
+                      color: context.appColors.textSecondary,
                       fontSize: 11,
                     ),
                   ),

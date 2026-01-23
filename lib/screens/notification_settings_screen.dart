@@ -15,6 +15,9 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
   final _notificationService = NotificationService();
   Map<String, bool> _settings = {};
   bool _isLoading = true;
+  int _dailyReminderHour = 20;
+  int _dailyReminderMinute = 0;
+  int? _trialDaysRemaining;
 
   @override
   void initState() {
@@ -24,9 +27,15 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
 
   Future<void> _loadSettings() async {
     final settings = await _notificationService.getSettings();
+    final dailyTime = await _notificationService.getDailyReminderTime();
+    final trialDays = await _notificationService.getTrialDaysRemaining();
+
     if (mounted) {
       setState(() {
         _settings = settings;
+        _dailyReminderHour = dailyTime?.hour ?? 20;
+        _dailyReminderMinute = dailyTime?.minute ?? 0;
+        _trialDaysRemaining = trialDays;
         _isLoading = false;
       });
     }
@@ -37,23 +46,47 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
     await _notificationService.updateSetting(key, value);
   }
 
+  Future<void> _selectDailyReminderTime() async {
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: _dailyReminderHour, minute: _dailyReminderMinute),
+    );
+
+    if (picked != null && mounted) {
+      setState(() {
+        _dailyReminderHour = picked.hour;
+        _dailyReminderMinute = picked.minute;
+      });
+      await _notificationService.scheduleDailyReminder(
+        hour: picked.hour,
+        minute: picked.minute,
+      );
+    }
+  }
+
+  String _formatTime(int hour, int minute) {
+    final h = hour.toString().padLeft(2, '0');
+    final m = minute.toString().padLeft(2, '0');
+    return '$h:$m';
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.appColors.background,
         leading: IconButton(
-          icon: Icon(PhosphorIconsDuotone.arrowLeft, color: AppColors.textPrimary),
+          icon: Icon(PhosphorIconsDuotone.arrowLeft, color: context.appColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           l10n.notificationSettings,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
           ),
         ),
       ),
@@ -72,10 +105,10 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   if (_settings['enabled'] == true) ...[
                     Text(
                       l10n.notificationTypes,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textSecondary,
+                        color: context.appColors.textSecondary,
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -111,6 +144,85 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                       key: 'weeklyInsight',
                       icon: PhosphorIconsDuotone.chartBar,
                     ),
+                    const SizedBox(height: 12),
+
+                    _buildSettingTile(
+                      title: l10n.subscriptionReminder,
+                      subtitle: l10n.subscriptionReminderDesc,
+                      key: 'subscriptionReminder',
+                      icon: PhosphorIconsDuotone.calendarCheck,
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Trial & Daily Reminders Section
+                    Text(
+                      l10n.trialReminderEnabled,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: context.appColors.textSecondary,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+
+                    // Trial days remaining indicator
+                    if (_trialDaysRemaining != null && _trialDaysRemaining! > 0) ...[
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              context.appColors.primary.withValues(alpha: 0.1),
+                              context.appColors.accent.withValues(alpha: 0.1),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: context.appColors.primary.withValues(alpha: 0.3)),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              PhosphorIconsDuotone.clock,
+                              size: 24,
+                              color: context.appColors.primary,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              l10n.trialDaysRemaining(_trialDaysRemaining!),
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: context.appColors.textPrimary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+
+                    _buildSettingTile(
+                      title: l10n.trialReminderEnabled,
+                      subtitle: l10n.trialReminderDesc,
+                      key: 'trialReminder',
+                      icon: PhosphorIconsDuotone.gift,
+                    ),
+                    const SizedBox(height: 12),
+
+                    _buildSettingTile(
+                      title: l10n.dailyReminderEnabled,
+                      subtitle: l10n.dailyReminderDesc,
+                      key: 'dailyReminder',
+                      icon: PhosphorIconsDuotone.alarm,
+                    ),
+
+                    // Daily reminder time picker
+                    if (_settings['dailyReminder'] == true) ...[
+                      const SizedBox(height: 12),
+                      _buildTimePicker(l10n),
+                    ],
 
                     const SizedBox(height: 32),
 
@@ -118,9 +230,9 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: AppColors.surface,
+                        color: context.appColors.surface,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.cardBorder),
+                        border: Border.all(color: context.appColors.cardBorder),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +240,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                           Icon(
                             PhosphorIconsDuotone.info,
                             size: 18,
-                            color: AppColors.textTertiary,
+                            color: context.appColors.textTertiary,
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -136,7 +248,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                               l10n.nightModeNotice,
                               style: TextStyle(
                                 fontSize: 13,
-                                color: AppColors.textTertiary,
+                                color: context.appColors.textTertiary,
                                 height: 1.4,
                               ),
                             ),
@@ -159,13 +271,13 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isEnabled
-            ? AppColors.primary.withValues(alpha: 0.1)
-            : AppColors.surface,
+            ? context.appColors.primary.withValues(alpha: 0.1)
+            : context.appColors.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isEnabled
-              ? AppColors.primary.withValues(alpha: 0.3)
-              : AppColors.cardBorder,
+              ? context.appColors.primary.withValues(alpha: 0.3)
+              : context.appColors.cardBorder,
         ),
       ),
       child: Row(
@@ -175,14 +287,14 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
             height: 48,
             decoration: BoxDecoration(
               color: isEnabled
-                  ? AppColors.primary.withValues(alpha: 0.2)
-                  : AppColors.surfaceLight,
+                  ? context.appColors.primary.withValues(alpha: 0.2)
+                  : context.appColors.surfaceLight,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               isEnabled ? PhosphorIconsDuotone.bellRinging : PhosphorIconsDuotone.bellSlash,
               size: 24,
-              color: isEnabled ? AppColors.primary : AppColors.textTertiary,
+              color: isEnabled ? context.appColors.primary : context.appColors.textTertiary,
             ),
           ),
           const SizedBox(width: 16),
@@ -192,10 +304,10 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
               children: [
                 Text(
                   l10n.notifications,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -203,7 +315,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   isEnabled ? l10n.on : l10n.off,
                   style: TextStyle(
                     fontSize: 13,
-                    color: isEnabled ? AppColors.primary : AppColors.textTertiary,
+                    color: isEnabled ? context.appColors.primary : context.appColors.textTertiary,
                   ),
                 ),
               ],
@@ -212,9 +324,70 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
           Switch(
             value: isEnabled,
             onChanged: (value) => _updateSetting('enabled', value),
-            activeTrackColor: AppColors.primary,
+            activeTrackColor: context.appColors.primary,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTimePicker(AppLocalizations l10n) {
+    return GestureDetector(
+      onTap: _selectDailyReminderTime,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: context.appColors.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: context.appColors.cardBorder),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: context.appColors.surfaceLight,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                PhosphorIconsDuotone.clockAfternoon,
+                size: 20,
+                color: context.appColors.textSecondary,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.dailyReminderTime,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: context.appColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    _formatTime(_dailyReminderHour, _dailyReminderMinute),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.appColors.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              PhosphorIconsDuotone.caretRight,
+              size: 20,
+              color: context.appColors.textTertiary,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -230,9 +403,9 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Row(
         children: [
@@ -240,13 +413,13 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: AppColors.surfaceLight,
+              color: context.appColors.surfaceLight,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(
               icon,
               size: 20,
-              color: isEnabled ? AppColors.textSecondary : AppColors.textTertiary,
+              color: isEnabled ? context.appColors.textSecondary : context.appColors.textTertiary,
             ),
           ),
           const SizedBox(width: 12),
@@ -259,7 +432,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: isEnabled ? AppColors.textPrimary : AppColors.textTertiary,
+                    color: isEnabled ? context.appColors.textPrimary : context.appColors.textTertiary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -267,7 +440,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   subtitle,
                   style: TextStyle(
                     fontSize: 12,
-                    color: AppColors.textTertiary,
+                    color: context.appColors.textTertiary,
                   ),
                 ),
               ],
@@ -276,7 +449,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
           Switch(
             value: isEnabled,
             onChanged: (value) => _updateSetting(key, value),
-            activeTrackColor: AppColors.primary,
+            activeTrackColor: context.appColors.primary,
           ),
         ],
       ),

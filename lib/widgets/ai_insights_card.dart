@@ -27,12 +27,12 @@ class AIInsightsCard extends StatelessWidget {
         // Header
         Row(
           children: [
-            const Text(
+            Text(
               'AI Insights',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
               ),
             ),
             const SizedBox(width: 8),
@@ -284,19 +284,19 @@ class _InsightCardState extends State<_InsightCard>
                         children: [
                           Text(
                             widget.insight.title,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
-                              color: AppColors.textSecondary,
+                              color: context.appColors.textSecondary,
                             ),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             widget.insight.subtitle,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
+                              color: context.appColors.textPrimary,
                             ),
                           ),
                         ],

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -14,6 +15,7 @@ class OnboardingPageData {
   final Color? iconColor;
   final bool showDecisionButtons;
   final bool showStartButton;
+  final bool showCoffeeClockAnimation;
 
   const OnboardingPageData({
     required this.title,
@@ -22,28 +24,31 @@ class OnboardingPageData {
     this.iconColor,
     this.showDecisionButtons = false,
     this.showStartButton = false,
+    this.showCoffeeClockAnimation = false,
   });
 }
 
 /// Build localized onboarding pages
-List<OnboardingPageData> _buildOnboardingPages(AppLocalizations l10n) {
+List<OnboardingPageData> _buildOnboardingPages(AppLocalizations l10n, BuildContext context) {
   return [
+    // Slide 1: Hook - Coffee to Clock animation
     OnboardingPageData(
-      title: l10n.notBudgetApp,
-      subtitle: l10n.showRealCost,
-      icon: PhosphorIconsDuotone.clock,
-      iconColor: AppColors.primary,
+      title: l10n.onboardingHookTitle,
+      subtitle: l10n.onboardingHookSubtitle,
+      showCoffeeClockAnimation: true,
     ),
+    // Slide 2: Decision buttons
     OnboardingPageData(
       title: l10n.everyExpenseDecision,
       subtitle: l10n.youDecide,
       showDecisionButtons: true,
     ),
+    // Slide 3: Start button
     OnboardingPageData(
       title: l10n.oneExpenseEnough,
       subtitle: l10n.startSmall,
       icon: PhosphorIconsDuotone.rocketLaunch,
-      iconColor: AppColors.primary,
+      iconColor: context.appColors.primary,
       showStartButton: true,
     ),
   ];
@@ -57,12 +62,17 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
   late AnimationController _buttonAnimationController;
   late Animation<double> _buttonScaleAnimation;
+
+  // Coffee-clock animation
+  late AnimationController _iconAnimationController;
+  bool _showClock = false;
+  Timer? _iconToggleTimer;
 
   @override
   void initState() {
@@ -77,12 +87,33 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         curve: Curves.easeInOut,
       ),
     );
+
+    // Setup icon animation controller for crossfade
+    _iconAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+
+    // Start coffee-clock toggle timer
+    _startIconToggle();
+  }
+
+  void _startIconToggle() {
+    _iconToggleTimer = Timer.periodic(const Duration(seconds: 2), (_) {
+      if (mounted) {
+        setState(() {
+          _showClock = !_showClock;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
     _pageController.dispose();
     _buttonAnimationController.dispose();
+    _iconAnimationController.dispose();
+    _iconToggleTimer?.cancel();
     super.dispose();
   }
 
@@ -115,10 +146,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final pages = _buildOnboardingPages(l10n);
+    final pages = _buildOnboardingPages(l10n, context);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: SafeArea(
         child: Stack(
           children: [
@@ -135,6 +166,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     buttonAnimationController: _buttonAnimationController,
                     buttonScaleAnimation: _buttonScaleAnimation,
                     l10n: l10n,
+                    showClock: _showClock,
                   );
                 },
               ),
@@ -194,8 +226,8 @@ class _SkipButton extends StatelessWidget {
       },
       child: Text(
         l10n.skip,
-        style: const TextStyle(
-          color: AppColors.textSecondary,
+        style: TextStyle(
+          color: context.appColors.textSecondary,
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),
@@ -234,6 +266,7 @@ class _OnboardingPage extends StatelessWidget {
   final AnimationController buttonAnimationController;
   final Animation<double> buttonScaleAnimation;
   final AppLocalizations l10n;
+  final bool showClock;
 
   const _OnboardingPage({
     required this.data,
@@ -241,6 +274,7 @@ class _OnboardingPage extends StatelessWidget {
     required this.buttonAnimationController,
     required this.buttonScaleAnimation,
     required this.l10n,
+    required this.showClock,
   });
 
   @override
@@ -252,6 +286,12 @@ class _OnboardingPage extends StatelessWidget {
         children: [
           const Spacer(flex: 2),
 
+          // Coffee-Clock animation (Slide 1 hook)
+          if (data.showCoffeeClockAnimation) ...[
+            _CoffeeClockAnimation(showClock: showClock),
+            const SizedBox(height: 48),
+          ],
+
           // Icon or visual content
           if (data.icon != null) ...[
             Container(
@@ -259,18 +299,18 @@ class _OnboardingPage extends StatelessWidget {
               height: 140,
               decoration: BoxDecoration(
                 color: data.iconColor?.withValues(alpha: 0.1) ??
-                    AppColors.primary.withValues(alpha: 0.1),
+                    context.appColors.primary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: data.iconColor?.withValues(alpha: 0.2) ??
-                      AppColors.primary.withValues(alpha: 0.2),
+                      context.appColors.primary.withValues(alpha: 0.2),
                   width: 2,
                 ),
               ),
               child: Icon(
                 data.icon,
                 size: 64,
-                color: data.iconColor ?? AppColors.primary,
+                color: data.iconColor ?? context.appColors.primary,
               ),
             ),
             const SizedBox(height: 48),
@@ -286,10 +326,10 @@ class _OnboardingPage extends StatelessWidget {
           Text(
             data.title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
               letterSpacing: -0.5,
               height: 1.2,
             ),
@@ -300,10 +340,10 @@ class _OnboardingPage extends StatelessWidget {
           Text(
             data.subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w400,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
               height: 1.5,
             ),
           ),
@@ -326,11 +366,11 @@ class _OnboardingPage extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 18),
                     decoration: BoxDecoration(
-                      color: AppColors.primary,
+                      color: context.appColors.primary,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.3),
+                          color: context.appColors.primary.withValues(alpha: 0.3),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
@@ -339,10 +379,10 @@ class _OnboardingPage extends StatelessWidget {
                     child: Text(
                       l10n.start,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.background,
+                        color: context.appColors.background,
                       ),
                     ),
                   ),
@@ -359,6 +399,70 @@ class _OnboardingPage extends StatelessWidget {
   }
 }
 
+/// Animated coffee-to-clock icon for the hook slide
+class _CoffeeClockAnimation extends StatelessWidget {
+  final bool showClock;
+
+  const _CoffeeClockAnimation({required this.showClock});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 160,
+      height: 160,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            context.appColors.primary.withValues(alpha: 0.15),
+            context.appColors.accent.withValues(alpha: 0.1),
+          ],
+        ),
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: context.appColors.primary.withValues(alpha: 0.3),
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: context.appColors.primary.withValues(alpha: 0.2),
+            blurRadius: 30,
+            spreadRadius: 5,
+          ),
+        ],
+      ),
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 600),
+        switchInCurve: Curves.easeOutBack,
+        switchOutCurve: Curves.easeIn,
+        transitionBuilder: (child, animation) {
+          return ScaleTransition(
+            scale: animation,
+            child: FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          );
+        },
+        child: showClock
+            ? Icon(
+                PhosphorIconsDuotone.clock,
+                key: const ValueKey('clock'),
+                size: 72,
+                color: context.appColors.primary,
+              )
+            : Icon(
+                PhosphorIconsDuotone.coffee,
+                key: const ValueKey('coffee'),
+                size: 72,
+                color: context.appColors.accent,
+              ),
+      ),
+    );
+  }
+}
+
 class _DecisionButtonsVisual extends StatelessWidget {
   final AppLocalizations l10n;
 
@@ -370,19 +474,19 @@ class _DecisionButtonsVisual extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _DecisionButton(
-          color: AppColors.decisionNo,
+          color: context.appColors.decisionNo,
           icon: PhosphorIconsDuotone.x,
           label: l10n.passed,
         ),
         const SizedBox(width: 12),
         _DecisionButton(
-          color: AppColors.decisionThinking,
+          color: context.appColors.decisionThinking,
           icon: PhosphorIconsDuotone.hourglass,
           label: l10n.thinking,
         ),
         const SizedBox(width: 12),
         _DecisionButton(
-          color: AppColors.decisionYes,
+          color: context.appColors.decisionYes,
           icon: PhosphorIconsDuotone.check,
           label: l10n.bought,
         ),
@@ -451,7 +555,7 @@ class _PageIndicator extends StatelessWidget {
       width: isActive ? 24 : 8,
       height: 8,
       decoration: BoxDecoration(
-        color: isActive ? AppColors.primary : AppColors.surfaceLight,
+        color: isActive ? context.appColors.primary : context.appColors.surfaceLight,
         borderRadius: BorderRadius.circular(4),
       ),
     );

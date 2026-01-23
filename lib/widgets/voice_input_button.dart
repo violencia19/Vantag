@@ -25,8 +25,8 @@ class VoiceInputButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primary = primaryColor ?? AppColors.primary;
-    final secondary = secondaryColor ?? AppColors.secondary;
+    final primary = primaryColor ?? context.appColors.primary;
+    final secondary = secondaryColor ?? context.appColors.secondary;
 
     return GestureDetector(
       onTap: () {
@@ -104,12 +104,12 @@ class CompactVoiceButton extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [AppColors.primary, AppColors.secondary],
+            colors: [context.appColors.primary, context.appColors.secondary],
           ),
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.3),
+              color: context.appColors.primary.withValues(alpha: 0.3),
               blurRadius: 8,
               offset: const Offset(0, 3),
             ),
@@ -199,13 +199,13 @@ class _AnimatedVoiceButtonState extends State<AnimatedVoiceButton>
                   end: Alignment.bottomRight,
                   colors: widget.isListening
                       ? [const Color(0xFFE74C3C), const Color(0xFFC0392B)]
-                      : [AppColors.primary, AppColors.secondary],
+                      : [context.appColors.primary, context.appColors.secondary],
                 ),
                 boxShadow: [
                   BoxShadow(
                     color: (widget.isListening
                             ? const Color(0xFFE74C3C)
-                            : AppColors.primary)
+                            : context.appColors.primary)
                         .withValues(alpha: widget.isListening ? 0.6 : 0.4),
                     blurRadius: widget.isListening ? 50 : 25,
                     spreadRadius: widget.isListening ? 10 : 0,

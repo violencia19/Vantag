@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background"
+    android:padding="12dp"
+    android:orientation="horizontal"
+    android:baselineAligned="false">
+
+    <!-- Left Section: Today's Spending -->
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <!-- Spending Level Indicator (left edge) -->
+        <View
+            android:id="@+id/widget_level_indicator"
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:background="@color/widget_positive" />
+
+        <!-- Spending Content -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <!-- Today Label -->
+            <TextView
+                android:id="@+id/widget_today_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today"
+                android:textSize="11sp"
+                android:textColor="@color/widget_text_tertiary"
+                android:letterSpacing="0.05" />
+
+            <!-- Time Value (Main) -->
+            <TextView
+                android:id="@+id/widget_time_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0h 0m"
+                android:textSize="20sp"
+                android:textColor="@color/widget_text_primary"
+                android:textStyle="bold"
+                android:layout_marginTop="2dp" />
+
+            <!-- Amount Value -->
+            <TextView
+                android:id="@+id/widget_amount_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$0"
+                android:textSize="13sp"
+                android:textColor="@color/widget_text_secondary"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="8dp"
+        android:background="@color/widget_text_tertiary" />
+
+    <!-- Right Section: Pursuit Progress -->
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginStart="12dp">
+
+        <!-- Pursuit Section (shown when there's an active pursuit) -->
+        <LinearLayout
+            android:id="@+id/widget_pursuit_section"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:visibility="visible">
+
+            <!-- Pursuit Name -->
+            <TextView
+                android:id="@+id/widget_pursuit_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="iPhone 16"
+                android:textSize="13sp"
+                android:textColor="@color/widget_text_primary"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <!-- Progress Bar -->
+            <ProgressBar
+                android:id="@+id/widget_pursuit_progress_bar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                android:progress="30"
+                android:progressDrawable="@drawable/widget_progress_bar" />
+
+            <!-- Progress Text -->
+            <TextView
+                android:id="@+id/widget_pursuit_progress_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="120/400 h"
+                android:textSize="11sp"
+                android:textColor="@color/widget_text_secondary"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+        <!-- No Pursuit Section (shown when no active pursuit) -->
+        <LinearLayout
+            android:id="@+id/widget_no_pursuit_section"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <!-- Target Icon -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🎯"
+                android:textSize="24sp" />
+
+            <!-- Set Goal Label -->
+            <TextView
+                android:id="@+id/widget_set_goal_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set a goal"
+                android:textSize="11sp"
+                android:textColor="@color/widget_text_tertiary"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

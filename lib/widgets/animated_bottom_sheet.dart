@@ -59,9 +59,9 @@ class _AnimatedBottomSheetState extends State<AnimatedBottomSheet> {
       constraints: BoxConstraints(
         maxHeight: widget.maxHeight ?? MediaQuery.of(context).size.height * 0.9,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: context.appColors.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -72,7 +72,7 @@ class _AnimatedBottomSheetState extends State<AnimatedBottomSheet> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppColors.cardBorder,
+                color: context.appColors.cardBorder,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -257,7 +257,7 @@ class _AnimatedModalState extends State<AnimatedModal> {
     return Container(
       margin: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -274,7 +274,7 @@ class _AnimatedModalState extends State<AnimatedModal> {
             Align(
               alignment: Alignment.topRight,
               child: IconButton(
-                icon: Icon(PhosphorIconsDuotone.x, color: AppColors.textSecondary),
+                icon: Icon(PhosphorIconsDuotone.x, color: context.appColors.textSecondary),
                 onPressed: widget.onClose ?? () => Navigator.of(context).pop(),
               ),
             ),

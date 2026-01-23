@@ -5,12 +5,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'referral_service.dart';
+import 'deep_link_service.dart';
 
 /// Paylaşım servisi - Widget'ları screenshot alıp paylaşır
 class ShareService {
+  /// Get share text with referral link if available
+  static Future<String> getShareTextWithReferral({
+    String? customText,
+    String defaultText = 'Sen kaç gün çalışıyorsun? 👀',
+  }) async {
+    String shareLink = 'vantag.app';
+    try {
+      final referralCode = await ReferralService().getOrCreateReferralCode();
+      if (referralCode != null) {
+        final referralLink = DeepLinkService.generateReferralLink(referralCode);
+        shareLink = referralLink.toString();
+      }
+    } catch (_) {
+      // Use default link if referral fails
+    }
+    return '${customText ?? defaultText} $shareLink';
+  }
+
   /// Widget'ı image'a çevirip paylaş
   /// [key] - RepaintBoundary'nin GlobalKey'i
-  /// [shareText] - Paylaşım metni (opsiyonel)
+  /// [shareText] - Paylaşım metni (opsiyonel, referral link otomatik eklenir)
   static Future<bool> shareWidget(
     GlobalKey key, {
     String? shareText,
@@ -40,10 +60,13 @@ class ShareService {
       final file = File(filePath);
       await file.writeAsBytes(pngBytes);
 
+      // Get share text with referral link
+      final finalShareText = shareText ?? await getShareTextWithReferral();
+
       // Paylaş
       await Share.shareXFiles(
         [XFile(filePath)],
-        text: shareText ?? 'Sen kaç gün çalışıyorsun? 👀 vantag.app',
+        text: finalShareText,
       );
 
       // Temp dosyayı 5 dakika sonra sil

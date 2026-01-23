@@ -124,11 +124,17 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
             ? ((animatedIncome - animatedSpent) / animatedIncome * 100).clamp(0.0, 100.0)
             : 100.0;
 
-        return GestureDetector(
-          onTap: widget.onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
+        // Accessibility: Semantic label for screen readers
+        final semanticLabel = l10n.accessibilitySpendingProgress(spentPercent.toInt());
+
+        return Semantics(
+          label: semanticLabel,
+          button: widget.onTap != null,
+          child: GestureDetector(
+            onTap: widget.onTap,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
@@ -172,11 +178,11 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                             width: 8,
                             height: 8,
                             decoration: BoxDecoration(
-                              color: isHealthy ? AppColors.success : AppColors.error,
+                              color: isHealthy ? context.appColors.success : context.appColors.error,
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: (isHealthy ? AppColors.success : AppColors.error).withValues(alpha: 0.5),
+                                  color: (isHealthy ? context.appColors.success : context.appColors.error).withValues(alpha: 0.5),
                                   blurRadius: 8,
                                   spreadRadius: 1,
                                 ),
@@ -186,11 +192,11 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                           const SizedBox(width: 10),
                           Text(
                             l10n.netBalance.toUpperCase(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                               letterSpacing: 1.2,
-                              color: AppColors.textSecondary,
+                              color: context.appColors.textSecondary,
                             ),
                           ),
                         ],
@@ -201,10 +207,10 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: AppColors.primary.withValues(alpha: 0.15),
+                              color: context.appColors.primary.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(
-                                color: AppColors.primary.withValues(alpha: 0.3),
+                                color: context.appColors.primary.withValues(alpha: 0.3),
                                 width: 1,
                               ),
                             ),
@@ -214,15 +220,15 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                                 Icon(
                                   PhosphorIconsDuotone.wallet,
                                   size: 14,
-                                  color: AppColors.primary,
+                                  color: context.appColors.primary,
                                 ),
                                 const SizedBox(width: 6),
                                 Text(
                                   l10n.sources(widget.incomeSourceCount),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.primary,
+                                    color: context.appColors.primary,
                                   ),
                                 ),
                               ],
@@ -244,25 +250,35 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         // Design System: fontSize 52, w700, letterSpacing -1, Space Grotesk
-                        Text(
-                          formatTurkishCurrency(
-                            currencyProvider.convertFromTRY(animatedNetBalance.abs()),
-                            decimalDigits: 0,
-                            showDecimals: false,
-                          ),
-                          style: TextStyle(
-                            fontFamily: AppFonts.heading, // Space Grotesk
-                            fontSize: 52,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: -1,
-                            color: isHealthy ? Colors.white : AppColors.error,
-                            height: 1,
-                            shadows: [
-                              Shadow(
-                                color: (isHealthy ? PremiumColors.purple : AppColors.error).withValues(alpha: 0.4),
-                                blurRadius: 20,
+                        // FittedBox ensures text scales down if needed
+                        Flexible(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              formatTurkishCurrency(
+                                currencyProvider.convertFromTRY(animatedNetBalance.abs()),
+                                decimalDigits: 0,
+                                showDecimals: false,
                               ),
-                            ],
+                              style: AccessibleText.scaled(
+                                context,
+                                fontSize: 52,
+                                fontWeight: FontWeight.w700,
+                                maxScale: 1.2, // Limit scale for hero numbers
+                              ).copyWith(
+                                fontFamily: AppFonts.heading, // Space Grotesk
+                                letterSpacing: -1,
+                                color: isHealthy ? Colors.white : context.appColors.error,
+                                height: 1,
+                                shadows: [
+                                  Shadow(
+                                    color: (isHealthy ? PremiumColors.purple : context.appColors.error).withValues(alpha: 0.4),
+                                    blurRadius: 20,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -270,10 +286,12 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Text(
                             currencyProvider.symbol,
-                            style: TextStyle(
+                            style: AccessibleText.scaled(
+                              context,
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.textSecondary.withValues(alpha: 0.8),
+                              color: context.appColors.textSecondary.withValues(alpha: 0.8),
+                              maxScale: 1.3,
                             ),
                           ),
                         ),
@@ -289,15 +307,15 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                         decoration: BoxDecoration(
-                          color: (isHealthy ? AppColors.success : AppColors.error).withValues(alpha: 0.12),
+                          color: (isHealthy ? context.appColors.success : context.appColors.error).withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: (isHealthy ? AppColors.success : AppColors.error).withValues(alpha: 0.25),
+                            color: (isHealthy ? context.appColors.success : context.appColors.error).withValues(alpha: 0.25),
                             width: 1,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: (isHealthy ? AppColors.success : AppColors.error).withValues(alpha: 0.2),
+                              color: (isHealthy ? context.appColors.success : context.appColors.error).withValues(alpha: 0.2),
                               blurRadius: 16,
                               spreadRadius: 0,
                             ),
@@ -309,9 +327,9 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                             Icon(
                               isHealthy ? PhosphorIconsBold.trendUp : PhosphorIconsBold.trendDown,
                               size: 18,
-                              color: isHealthy ? AppColors.success : AppColors.error,
+                              color: isHealthy ? context.appColors.success : context.appColors.error,
                               shadows: PremiumShadows.iconHalo(
-                                isHealthy ? AppColors.success : AppColors.error,
+                                isHealthy ? context.appColors.success : context.appColors.error,
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -321,7 +339,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 0.5,
-                                color: isHealthy ? AppColors.success : AppColors.error,
+                                color: isHealthy ? context.appColors.success : context.appColors.error,
                               ),
                             ),
                           ],
@@ -343,6 +361,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
               ),
             ),
           ),
+        ),
         );
       },
     );
@@ -369,11 +388,11 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
           children: [
             Text(
               l10n.budgetUsage.toUpperCase(),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 1.2,
-                color: AppColors.textTertiary,
+                color: context.appColors.textTertiary,
               ),
             ),
             // Percentage badge with shimmer
@@ -420,18 +439,18 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
           children: [
             Text(
               formatTurkishCurrency(displaySpent, decimalDigits: 0, showDecimals: false),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
               ),
             ),
             Text(
               formatTurkishCurrency(displayBudget, decimalDigits: 0, showDecimals: false),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: AppColors.textTertiary,
+                color: context.appColors.textTertiary,
               ),
             ),
           ],
@@ -482,15 +501,15 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                     width: iconSize,
                     height: iconSize,
                     decoration: BoxDecoration(
-                      color: AppColors.success.withValues(alpha: 0.15),
+                      color: context.appColors.success.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(iconBorderRadius),
-                      boxShadow: PremiumShadows.coloredGlow(AppColors.success, intensity: 0.6),
+                      boxShadow: PremiumShadows.coloredGlow(context.appColors.success, intensity: 0.6),
                     ),
                     child: Icon(
                       PhosphorIconsDuotone.arrowDown,
                       size: iconInnerSize,
-                      color: AppColors.success,
-                      shadows: PremiumShadows.iconHalo(AppColors.success),
+                      color: context.appColors.success,
+                      shadows: PremiumShadows.iconHalo(context.appColors.success),
                     ),
                   ),
                   SizedBox(width: spacing),
@@ -507,7 +526,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                             fontSize: labelFontSize,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 1.2,
-                            color: AppColors.textTertiary,
+                            color: context.appColors.textTertiary,
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -524,7 +543,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                               color: Colors.white,
                               shadows: [
                                 Shadow(
-                                  color: AppColors.success.withValues(alpha: 0.4),
+                                  color: context.appColors.success.withValues(alpha: 0.4),
                                   blurRadius: 16,
                                 ),
                               ],
@@ -574,7 +593,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                             fontSize: labelFontSize,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 1.2,
-                            color: AppColors.textTertiary,
+                            color: context.appColors.textTertiary,
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -591,7 +610,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                               color: Colors.white,
                               shadows: [
                                 Shadow(
-                                  color: AppColors.error.withValues(alpha: 0.4),
+                                  color: context.appColors.error.withValues(alpha: 0.4),
                                   blurRadius: 16,
                                 ),
                               ],
@@ -607,15 +626,15 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                     width: iconSize,
                     height: iconSize,
                     decoration: BoxDecoration(
-                      color: AppColors.error.withValues(alpha: 0.15),
+                      color: context.appColors.error.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(iconBorderRadius),
-                      boxShadow: PremiumShadows.coloredGlow(AppColors.error, intensity: 0.6),
+                      boxShadow: PremiumShadows.coloredGlow(context.appColors.error, intensity: 0.6),
                     ),
                     child: Icon(
                       PhosphorIconsDuotone.arrowUp,
                       size: iconInnerSize,
-                      color: AppColors.error,
-                      shadows: PremiumShadows.iconHalo(AppColors.error),
+                      color: context.appColors.error,
+                      shadows: PremiumShadows.iconHalo(context.appColors.error),
                     ),
                   ),
                 ],
@@ -659,7 +678,7 @@ class CompactFinancialBadge extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.03),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: (isHealthy ? AppColors.success : AppColors.error)
+                color: (isHealthy ? context.appColors.success : context.appColors.error)
                     .withValues(alpha: 0.3),
               ),
             ),
@@ -670,7 +689,7 @@ class CompactFinancialBadge extends StatelessWidget {
                   width: 6,
                   height: 6,
                   decoration: BoxDecoration(
-                    color: isHealthy ? AppColors.success : AppColors.error,
+                    color: isHealthy ? context.appColors.success : context.appColors.error,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -681,14 +700,14 @@ class CompactFinancialBadge extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                   ),
                 ),
                 const SizedBox(width: 6),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: _getPercentColor().withValues(alpha: 0.15),
+                    color: _getPercentColor(context).withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -696,7 +715,7 @@ class CompactFinancialBadge extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
-                      color: _getPercentColor(),
+                      color: _getPercentColor(context),
                     ),
                   ),
                 ),
@@ -708,9 +727,9 @@ class CompactFinancialBadge extends StatelessWidget {
     );
   }
 
-  Color _getPercentColor() {
-    if (spentPercent < 50) return AppColors.success;
-    if (spentPercent < 75) return AppColors.warning;
-    return AppColors.error;
+  Color _getPercentColor(BuildContext context) {
+    if (spentPercent < 50) return context.appColors.success;
+    if (spentPercent < 75) return context.appColors.warning;
+    return context.appColors.error;
   }
 }

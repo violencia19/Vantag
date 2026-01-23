@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'income_source.dart';
 
 class UserProfile {
@@ -9,13 +10,30 @@ class UserProfile {
   final double? monthlyBudget;        // Kullanıcının belirlediği harcama limiti
   final double? monthlySavingsGoal;   // Aylık tasarruf hedefi
 
+  // Referral system
+  final String? referralCode;         // User's unique referral code (VANTAG-XXXXX)
+  final String? referredBy;           // Code used when signing up (if any)
+  final int referralCount;            // How many people used their code
+
   const UserProfile({
     this.incomeSources = const [],
     this.dailyHours = 8,
     this.workDaysPerWeek = 5,
     this.monthlyBudget,
     this.monthlySavingsGoal,
+    this.referralCode,
+    this.referredBy,
+    this.referralCount = 0,
   });
+
+  /// Generate a unique referral code (VANTAG-XXXXX)
+  /// Uses characters that are not easily confused (no 0,O,1,I,L)
+  static String generateReferralCode() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    final random = Random();
+    final code = List.generate(5, (_) => chars[random.nextInt(chars.length)]).join();
+    return 'VANTAG-$code';
+  }
 
   /// Toplam aylık gelir (tüm kaynakların toplamı)
   double get monthlyIncome {
@@ -81,6 +99,9 @@ class UserProfile {
     int? workDaysPerWeek,
     double? monthlyBudget,
     double? monthlySavingsGoal,
+    String? referralCode,
+    String? referredBy,
+    int? referralCount,
   }) {
     return UserProfile(
       incomeSources: incomeSources ?? this.incomeSources,
@@ -88,6 +109,9 @@ class UserProfile {
       workDaysPerWeek: workDaysPerWeek ?? this.workDaysPerWeek,
       monthlyBudget: monthlyBudget ?? this.monthlyBudget,
       monthlySavingsGoal: monthlySavingsGoal ?? this.monthlySavingsGoal,
+      referralCode: referralCode ?? this.referralCode,
+      referredBy: referredBy ?? this.referredBy,
+      referralCount: referralCount ?? this.referralCount,
     );
   }
 

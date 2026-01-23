@@ -45,6 +45,16 @@
                 <data android:scheme="vantag"/>
             </intent-filter>
 
+            <!-- App Links (https://vantag.app) for referral deep links -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https"/>
+                <data android:host="vantag.app"/>
+                <data android:pathPrefix="/r/"/>
+            </intent-filter>
+
             <!-- Google Assistant App Actions -->
             <meta-data
                 android:name="com.google.android.actions"
@@ -54,6 +64,30 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <!-- Small Widget (2x2) -->
+        <receiver
+            android:name=".VantagSmallWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_small_info" />
+        </receiver>
+
+        <!-- Medium Widget (4x2) -->
+        <receiver
+            android:name=".VantagMediumWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_medium_info" />
+        </receiver>
     </application>
 
     <queries>

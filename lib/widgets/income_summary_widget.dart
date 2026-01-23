@@ -40,10 +40,10 @@ class IncomeSummaryWidget extends StatelessWidget {
           vertical: containerPadding * 0.75,
         ),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: AppColors.cardBorder.withValues(alpha: 0.5 + (0.3 * expandRatio)),
+            color: context.appColors.cardBorder.withValues(alpha: 0.5 + (0.3 * expandRatio)),
           ),
         ),
         child: Row(
@@ -54,13 +54,13 @@ class IncomeSummaryWidget extends StatelessWidget {
               width: iconSize * 1.8,
               height: iconSize * 1.8,
               decoration: BoxDecoration(
-                color: AppColors.success.withValues(alpha: 0.1),
+                color: context.appColors.success.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
                 PhosphorIconsDuotone.wallet,
                 size: iconSize,
-                color: AppColors.success,
+                color: context.appColors.success,
               ),
             ),
             SizedBox(width: 8 + (4 * expandRatio)),
@@ -79,7 +79,7 @@ class IncomeSummaryWidget extends StatelessWidget {
                       style: TextStyle(
                         fontSize: mainFontSize,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
+                        color: context.appColors.textPrimary,
                       ),
                     ),
                     Text(
@@ -87,7 +87,7 @@ class IncomeSummaryWidget extends StatelessWidget {
                       style: TextStyle(
                         fontSize: subFontSize,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.textSecondary,
+                        color: context.appColors.textSecondary,
                       ),
                     ),
                     if (incomeSourceCount > 1) ...[
@@ -98,7 +98,7 @@ class IncomeSummaryWidget extends StatelessWidget {
                           vertical: 1 + expandRatio,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.success.withValues(alpha: 0.1),
+                          color: context.appColors.success.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -106,7 +106,7 @@ class IncomeSummaryWidget extends StatelessWidget {
                           style: TextStyle(
                             fontSize: subFontSize - 2,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.success,
+                            color: context.appColors.success,
                           ),
                         ),
                       ),
@@ -121,7 +121,7 @@ class IncomeSummaryWidget extends StatelessWidget {
                     Icon(
                       isPositive ? PhosphorIconsDuotone.trendUp : PhosphorIconsDuotone.trendDown,
                       size: subFontSize + 2,
-                      color: isPositive ? AppColors.success : AppColors.error,
+                      color: isPositive ? context.appColors.success : context.appColors.error,
                     ),
                     const SizedBox(width: 4),
                     Text(
@@ -129,7 +129,7 @@ class IncomeSummaryWidget extends StatelessWidget {
                       style: TextStyle(
                         fontSize: subFontSize,
                         fontWeight: FontWeight.w600,
-                        color: isPositive ? AppColors.success : AppColors.error,
+                        color: isPositive ? context.appColors.success : context.appColors.error,
                       ),
                     ),
                   ],
@@ -143,7 +143,7 @@ class IncomeSummaryWidget extends StatelessWidget {
               Icon(
                 PhosphorIconsDuotone.caretRight,
                 size: iconSize,
-                color: AppColors.textTertiary,
+                color: context.appColors.textTertiary,
               ),
             ],
           ],
@@ -177,9 +177,9 @@ class CompactIncomeIndicator extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.cardBorder),
+          border: Border.all(color: context.appColors.cardBorder),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -189,7 +189,7 @@ class CompactIncomeIndicator extends StatelessWidget {
               width: 6,
               height: 6,
               decoration: BoxDecoration(
-                color: isPositive ? AppColors.success : AppColors.error,
+                color: isPositive ? context.appColors.success : context.appColors.error,
                 shape: BoxShape.circle,
               ),
             ),
@@ -199,7 +199,7 @@ class CompactIncomeIndicator extends StatelessWidget {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: _getSpendingColor(),
+                color: _getSpendingColor(context),
               ),
             ),
           ],
@@ -208,11 +208,11 @@ class CompactIncomeIndicator extends StatelessWidget {
     );
   }
 
-  Color _getSpendingColor() {
-    if (spendingRate < 50) return AppColors.success;
-    if (spendingRate < 75) return AppColors.warning;
-    if (spendingRate < 100) return AppColors.error;
-    return AppColors.error;
+  Color _getSpendingColor(BuildContext context) {
+    if (spendingRate < 50) return context.appColors.success;
+    if (spendingRate < 75) return context.appColors.warning;
+    if (spendingRate < 100) return context.appColors.error;
+    return context.appColors.error;
   }
 }
 
@@ -236,7 +236,7 @@ class IncomeProgressBar extends StatelessWidget {
     return Container(
       height: height,
       decoration: BoxDecoration(
-        color: AppColors.surfaceLight,
+        color: context.appColors.surfaceLight,
         borderRadius: BorderRadius.circular(height / 2),
       ),
       child: LayoutBuilder(
@@ -251,7 +251,7 @@ class IncomeProgressBar extends StatelessWidget {
                 height: height,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: _getGradientColors(),
+                    colors: _getGradientColors(context),
                   ),
                   borderRadius: BorderRadius.circular(height / 2),
                 ),
@@ -264,7 +264,7 @@ class IncomeProgressBar extends StatelessWidget {
                     width: height * 1.5,
                     height: height,
                     decoration: BoxDecoration(
-                      color: AppColors.error,
+                      color: context.appColors.error,
                       borderRadius: BorderRadius.circular(height / 2),
                     ),
                     child: Icon(
@@ -281,15 +281,15 @@ class IncomeProgressBar extends StatelessWidget {
     );
   }
 
-  List<Color> _getGradientColors() {
+  List<Color> _getGradientColors(BuildContext context) {
     if (progress < 0.5) {
-      return [AppColors.success, AppColors.success.withValues(alpha: 0.8)];
+      return [context.appColors.success, context.appColors.success.withValues(alpha: 0.8)];
     } else if (progress < 0.75) {
-      return [AppColors.success, AppColors.warning];
+      return [context.appColors.success, context.appColors.warning];
     } else if (progress < 1.0) {
-      return [AppColors.warning, AppColors.error];
+      return [context.appColors.warning, context.appColors.error];
     } else {
-      return [AppColors.error, AppColors.error.withValues(alpha: 0.8)];
+      return [context.appColors.error, context.appColors.error.withValues(alpha: 0.8)];
     }
   }
 }

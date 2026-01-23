@@ -80,7 +80,7 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
               Expanded(child: Text(l10n.assistantSetupComplete)),
             ],
           ),
-          backgroundColor: AppColors.success,
+          backgroundColor: context.appColors.success,
           behavior: SnackBarBehavior.floating,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -95,19 +95,19 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon:
-              const Icon(PhosphorIconsDuotone.x, color: AppColors.textSecondary),
+              Icon(PhosphorIconsDuotone.x, color: context.appColors.textSecondary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           l10n.assistantSetupTitle,
-          style: const TextStyle(
-            color: AppColors.textPrimary,
+          style: TextStyle(
+            color: context.appColors.textPrimary,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
@@ -124,20 +124,20 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.2),
+                    color: context.appColors.primary.withValues(alpha: 0.2),
                     shape: BoxShape.circle,
                   ),
                   child: PhosphorIcon(
                     PhosphorIconsDuotone.robot,
                     size: 48,
-                    color: AppColors.primary,
+                    color: context.appColors.primary,
                   ),
                 ),
                 const SizedBox(height: 16),
                 Text(
                   l10n.assistantSetupHeadline,
-                  style: const TextStyle(
-                    color: AppColors.textPrimary,
+                  style: TextStyle(
+                    color: context.appColors.textPrimary,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -147,7 +147,7 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
                 Text(
                   l10n.assistantSetupSubheadline,
                   style: TextStyle(
-                    color: AppColors.textSecondary,
+                    color: context.appColors.textSecondary,
                     fontSize: 14,
                   ),
                   textAlign: TextAlign.center,
@@ -169,8 +169,8 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
                     margin: const EdgeInsets.symmetric(horizontal: 2),
                     decoration: BoxDecoration(
                       color: isCompleted || isCurrent
-                          ? AppColors.primary
-                          : AppColors.surfaceLight,
+                          ? context.appColors.primary
+                          : context.appColors.surfaceLight,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -185,7 +185,7 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
           Text(
             '${l10n.step} ${_currentStep + 1} / ${_steps.length}',
             style: TextStyle(
-              color: AppColors.textTertiary,
+              color: context.appColors.textTertiary,
               fontSize: 12,
             ),
           ),
@@ -202,17 +202,17 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
                   Container(
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.15),
+                      color: context.appColors.primary.withValues(alpha: 0.15),
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: AppColors.primary.withValues(alpha: 0.3),
+                        color: context.appColors.primary.withValues(alpha: 0.3),
                         width: 2,
                       ),
                     ),
                     child: PhosphorIcon(
                       _steps[_currentStep].icon,
                       size: 48,
-                      color: AppColors.primary,
+                      color: context.appColors.primary,
                     ),
                   ),
 
@@ -221,8 +221,8 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
                   // Step title
                   Text(
                     _steps[_currentStep].title,
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
+                    style: TextStyle(
+                      color: context.appColors.textPrimary,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
@@ -235,7 +235,7 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
                   Text(
                     _steps[_currentStep].description,
                     style: TextStyle(
-                      color: AppColors.textSecondary,
+                      color: context.appColors.textSecondary,
                       fontSize: 16,
                       height: 1.5,
                     ),
@@ -248,17 +248,17 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
                   Container(
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: AppColors.warning.withValues(alpha: 0.1),
+                      color: context.appColors.warning.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: AppColors.warning.withValues(alpha: 0.3),
+                        color: context.appColors.warning.withValues(alpha: 0.3),
                       ),
                     ),
                     child: Row(
                       children: [
                         PhosphorIcon(
                           PhosphorIconsDuotone.lightbulb,
-                          color: AppColors.warning,
+                          color: context.appColors.warning,
                           size: 22,
                         ),
                         const SizedBox(width: 12),
@@ -266,7 +266,7 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
                           child: Text(
                             _steps[_currentStep].tip,
                             style: TextStyle(
-                              color: AppColors.warning,
+                              color: context.appColors.warning,
                               fontSize: 13,
                             ),
                           ),
@@ -296,14 +296,14 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         side: BorderSide(
-                            color: AppColors.textTertiary.withValues(alpha: 0.3)),
+                            color: context.appColors.textTertiary.withValues(alpha: 0.3)),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       child: Text(
                         l10n.back,
-                        style: const TextStyle(color: AppColors.textSecondary),
+                        style: TextStyle(color: context.appColors.textSecondary),
                       ),
                     ),
                   ),
@@ -322,7 +322,7 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
+                      backgroundColor: context.appColors.primary,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
@@ -350,7 +350,7 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
             child: Text(
               l10n.laterButton,
               style: TextStyle(
-                color: AppColors.textTertiary,
+                color: context.appColors.textTertiary,
               ),
             ),
           ),

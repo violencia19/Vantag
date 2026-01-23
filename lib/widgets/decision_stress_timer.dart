@@ -129,7 +129,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
           TextButton(
             onPressed: widget.onCancel,
             style: TextButton.styleFrom(
-              foregroundColor: AppColors.textSecondary,
+              foregroundColor: context.appColors.textSecondary,
             ),
             child: Text(l10n.giveUp),
           ),
@@ -189,7 +189,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
                         widget.warningMessage!,
                         style: TextStyle(
                           fontSize: 12,
-                          color: AppColors.textSecondary,
+                          color: context.appColors.textSecondary,
                           height: 1.4,
                         ),
                       ),
@@ -261,7 +261,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
             l10n.thinkingTime,
             style: TextStyle(
               fontSize: 14,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
             ),
           ),
           const SizedBox(height: 12),
@@ -294,7 +294,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: widget.riskLevel == RiskLevel.none
-              ? AppColors.primary
+              ? context.appColors.primary
               : _riskColor,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
@@ -337,10 +337,10 @@ class RiskBadge extends StatelessWidget {
     this.showLabel = true,
   });
 
-  Color get _color {
+  Color _getColor(BuildContext context) {
     switch (riskLevel) {
       case RiskLevel.none:
-        return AppColors.success;
+        return context.appColors.success;
       case RiskLevel.low:
         return const Color(0xFFFFD700);
       case RiskLevel.medium:
@@ -374,14 +374,15 @@ class RiskBadge extends StatelessWidget {
     }
 
     final l10n = AppLocalizations.of(context);
+    final color = _getColor(context);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: _color.withValues(alpha: 0.15),
+        color: color.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: _color.withValues(alpha: 0.4),
+          color: color.withValues(alpha: 0.4),
         ),
       ),
       child: Row(
@@ -398,7 +399,7 @@ class RiskBadge extends StatelessWidget {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
-                color: _color,
+                color: color,
               ),
             ),
           ],

@@ -34,7 +34,7 @@ class ExportService {
       final profile = await profileService.getProfile();
       final expenses = await expenseService.getExpenses();
       final subscriptions = await subscriptionService.getSubscriptions();
-      final achievements = await achievementsService.getAchievements();
+      final achievements = await achievementsService.getAchievements(context);
 
       if (profile == null) {
         throw Exception('Profile not found');

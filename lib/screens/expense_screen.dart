@@ -121,7 +121,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Icon(icon, size: 20, color: AppColors.textSecondary),
+                Icon(icon, size: 20, color: context.appColors.textSecondary),
                 if (badge != null)
                   Positioned(
                     top: 6,
@@ -130,10 +130,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                       width: 16,
                       height: 16,
                       decoration: BoxDecoration(
-                        color: AppColors.gold.withValues(alpha: 0.15),
+                        color: context.appColors.gold.withValues(alpha: 0.15),
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: AppColors.gold.withValues(alpha: 0.3),
+                          color: context.appColors.gold.withValues(alpha: 0.3),
                           width: 1,
                         ),
                       ),
@@ -143,7 +143,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                           style: TextStyle(
                             fontSize: 9,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.gold,
+                            color: context.appColors.gold,
                           ),
                         ),
                       ),
@@ -174,17 +174,17 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColors.primary.withValues(alpha: 0.3),
-              AppColors.secondary.withValues(alpha: 0.3),
+              context.appColors.primary.withValues(alpha: 0.3),
+              context.appColors.secondary.withValues(alpha: 0.3),
             ],
           ),
           border: Border.all(
-            color: AppColors.primary.withValues(alpha: 0.5),
+            color: context.appColors.primary.withValues(alpha: 0.5),
             width: 2,
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.3),
+              color: context.appColors.primary.withValues(alpha: 0.3),
               blurRadius: 12,
               spreadRadius: 0,
             ),
@@ -205,11 +205,11 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
 
   Widget _buildDefaultAvatarIcon() {
     return Container(
-      color: AppColors.surfaceLight,
+      color: context.appColors.surfaceLight,
       child: Icon(
         PhosphorIconsDuotone.user,
         size: 24,
-        color: AppColors.textTertiary,
+        color: context.appColors.textTertiary,
       ),
     );
   }
@@ -227,7 +227,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             SnackBar(
               content: Text(l10n.proMemberToast),
               behavior: SnackBarBehavior.floating,
-              backgroundColor: AppColors.success,
+              backgroundColor: context.appColors.success,
               duration: const Duration(seconds: 2),
             ),
           );
@@ -269,7 +269,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             child: Icon(
               PhosphorIconsDuotone.lightning,
               size: 20,
-              color: isPro ? const Color(0xFFFFD700) : AppColors.textTertiary,
+              color: isPro ? const Color(0xFFFFD700) : context.appColors.textTertiary,
             ),
           ),
         ),
@@ -430,7 +430,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
                 decoration: BoxDecoration(
-                  color: AppColors.gradientMid,
+                  color: context.appColors.gradientMid,
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                   border: Border.all(
                     color: Colors.white.withValues(alpha: 0.1),
@@ -446,7 +446,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                         width: 40,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: AppColors.textTertiary.withValues(alpha: 0.5),
+                          color: context.appColors.textTertiary.withValues(alpha: 0.5),
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -463,10 +463,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                             children: [
                               Text(
                                 l10n.expenseHistory,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.textPrimary,
+                                  color: context.appColors.textPrimary,
                                   letterSpacing: -0.5,
                                 ),
                               ),
@@ -475,10 +475,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                 isPro
                                     ? l10n.recordCount(totalCount)
                                     : l10n.recordCountLimited(visibleExpenses.length, totalCount),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
-                                  color: AppColors.textTertiary,
+                                  color: context.appColors.textTertiary,
                                 ),
                               ),
                             ],
@@ -489,13 +489,13 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                               width: 36,
                               height: 36,
                               decoration: BoxDecoration(
-                                color: AppColors.surfaceLight,
+                                color: context.appColors.surfaceLight,
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 PhosphorIconsDuotone.x,
                                 size: 20,
-                                color: AppColors.textSecondary,
+                                color: context.appColors.textSecondary,
                               ),
                             ),
                           ),
@@ -556,14 +556,14 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primary.withValues(alpha: 0.2),
-            AppColors.primary.withValues(alpha: 0.1),
+            context.appColors.primary.withValues(alpha: 0.2),
+            context.appColors.primary.withValues(alpha: 0.1),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+        border: Border.all(color: context.appColors.primary.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
@@ -571,31 +571,31 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.15),
+              color: context.appColors.primary.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               PhosphorIconsDuotone.crownSimple,
               size: 28,
-              color: AppColors.primary,
+              color: context.appColors.primary,
             ),
           ),
           const SizedBox(height: 16),
           Text(
             l10n.unlockFullHistory,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             l10n.proHistoryDescription(lockedCount),
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
               height: 1.4,
             ),
           ),
@@ -609,7 +609,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.3),
+                    color: context.appColors.primary.withValues(alpha: 0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -721,16 +721,16 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                             key: TourKeys.subscriptionButton,
                             title: l10n.subscriptions,
                             description: l10n.subscriptionsDescription,
-                            titleTextStyle: const TextStyle(
+                            titleTextStyle: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: AppColors.textPrimary,
+                              color: context.appColors.textPrimary,
                               fontSize: 16,
                             ),
-                            descTextStyle: const TextStyle(
-                              color: AppColors.textSecondary,
+                            descTextStyle: TextStyle(
+                              color: context.appColors.textSecondary,
                               fontSize: 14,
                             ),
-                            tooltipBackgroundColor: AppColors.surface,
+                            tooltipBackgroundColor: context.appColors.surface,
                             overlayColor: Colors.black,
                             overlayOpacity: 0.95,
                             targetBorderRadius: BorderRadius.circular(14),
@@ -745,16 +745,16 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                             key: TourKeys.streakWidget,
                             title: l10n.streakTracking,
                             description: l10n.streakTrackingDescription,
-                            titleTextStyle: const TextStyle(
+                            titleTextStyle: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: AppColors.textPrimary,
+                              color: context.appColors.textPrimary,
                               fontSize: 16,
                             ),
-                            descTextStyle: const TextStyle(
-                              color: AppColors.textSecondary,
+                            descTextStyle: TextStyle(
+                              color: context.appColors.textSecondary,
                               fontSize: 14,
                             ),
-                            tooltipBackgroundColor: AppColors.surface,
+                            tooltipBackgroundColor: context.appColors.surface,
                             overlayColor: Colors.black,
                             overlayOpacity: 0.95,
                             targetBorderRadius: BorderRadius.circular(14),
@@ -792,16 +792,16 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   key: TourKeys.financialSnapshot,
                   title: l10n.financialSummary,
                   description: l10n.financialSummaryDescription,
-                  titleTextStyle: const TextStyle(
+                  titleTextStyle: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                     fontSize: 16,
                   ),
-                  descTextStyle: const TextStyle(
-                    color: AppColors.textSecondary,
+                  descTextStyle: TextStyle(
+                    color: context.appColors.textSecondary,
                     fontSize: 14,
                   ),
-                  tooltipBackgroundColor: AppColors.surface,
+                  tooltipBackgroundColor: context.appColors.surface,
                   overlayColor: Colors.black,
                   overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(20),
@@ -847,16 +847,16 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     key: TourKeys.currencyRates,
                     title: l10n.currencyRates,
                     description: l10n.currencyRatesDescription,
-                    titleTextStyle: const TextStyle(
+                    titleTextStyle: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                      color: context.appColors.textPrimary,
                       fontSize: 16,
                     ),
-                    descTextStyle: const TextStyle(
-                      color: AppColors.textSecondary,
+                    descTextStyle: TextStyle(
+                      color: context.appColors.textSecondary,
                       fontSize: 14,
                     ),
-                    tooltipBackgroundColor: AppColors.surface,
+                    tooltipBackgroundColor: context.appColors.surface,
                     overlayColor: Colors.black,
                     overlayOpacity: 0.95,
                     targetBorderRadius: BorderRadius.circular(16),
@@ -889,10 +889,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                       const SizedBox(width: 12),
                       Text(
                         l10n.recentExpenses,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
+                          color: context.appColors.textPrimary,
                         ),
                       ),
                       const Spacer(),
@@ -902,10 +902,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: AppColors.primary.withValues(alpha: 0.15),
+                              color: context.appColors.primary.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: AppColors.primary.withValues(alpha: 0.3),
+                                color: context.appColors.primary.withValues(alpha: 0.3),
                               ),
                             ),
                             child: Row(
@@ -913,17 +913,17 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                               children: [
                                 Text(
                                   l10n.seeMore,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.primary,
+                                    color: context.appColors.primary,
                                   ),
                                 ),
                                 const SizedBox(width: 4),
                                 Icon(
                                   PhosphorIconsDuotone.caretRight,
                                   size: 14,
-                                  color: AppColors.primary,
+                                  color: context.appColors.primary,
                                 ),
                               ],
                             ),
@@ -1004,14 +1004,14 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 width: 72,
                 height: 72,
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceLight,
+                  color: context.appColors.surfaceLight,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppColors.cardBorder),
+                  border: Border.all(color: context.appColors.cardBorder),
                 ),
                 child: Icon(
                   PhosphorIconsDuotone.receipt,
                   size: 32,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                 ),
               ),
             ),
@@ -1019,18 +1019,18 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           const SizedBox(height: 20),
           Text(
             l10n.noExpenses,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             l10n.tapPlusToAdd,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
             ),
             textAlign: TextAlign.center,
           ),

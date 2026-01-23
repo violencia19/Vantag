@@ -44,6 +44,9 @@
   "settingsNotifications": "Notifications",
   "settingsReminders": "Reminders",
 
+  "settingsSoundEffects": "Sound Effects",
+  "settingsSoundVolume": "Volume",
+
   "settingsProPurchases": "Pro & Purchases",
   "settingsVantagPro": "Vantag Pro",
   "settingsRestorePurchases": "Restore Purchases",
@@ -341,6 +344,8 @@
 
   "newExpense": "New Expense",
   "editExpense": "Edit Expense",
+  "deleteExpense": "Delete Expense",
+  "deleteExpenseConfirm": "Are you sure you want to delete this expense?",
   "updateExpense": "Update",
   "expenseHistory": "History",
   "recordCount": "{count} records",
@@ -1893,5 +1898,346 @@
       "count": {"type": "int"}
     }
   },
-  "pendingLabel": "Pending"
+  "pendingLabel": "Pending",
+
+  "insightMinutes": "This expense took {minutes} minutes of your life.",
+  "@insightMinutes": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "insightHours": "This expense took {hours} hours of your life.",
+  "@insightHours": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "insightAlmostDay": "You worked almost a full day for this expense.",
+  "insightDays": "This expense took {days} days of your life.",
+  "@insightDays": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "insightDaysWorked": "You had to work {days} days for this expense.",
+  "@insightDaysWorked": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "insightAlmostMonth": "This expense cost you almost a month of work.",
+  "insightCategoryDays": "This month you worked {days} days for {category}.",
+  "@insightCategoryDays": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "days": {"type": "String"}
+    }
+  },
+  "insightCategoryHours": "This month you worked {hours} hours for {category}.",
+  "@insightCategoryHours": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "insightMonthlyAlmost": "You worked almost the entire month for this month's expenses.",
+  "insightMonthlyDays": "You worked {days} days for this month's expenses.",
+  "@insightMonthlyDays": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+
+  "msgShort1": "A few hours of work, for a fleeting desire?",
+  "msgShort2": "Easy to spend what you earned in such short time, hard to earn it back.",
+  "msgShort3": "You went to work this morning, this money will be gone before lunch.",
+  "msgShort4": "You earned it in a coffee break, it'll be gone with one click.",
+  "msgShort5": "Half a day's work, don't let it become a full day of regret.",
+  "msgShort6": "Think about the hours you worked for this item.",
+  "msgShort7": "Looks small but makes a big difference in total.",
+  "msgShort8": "If not now, tomorrow works too.",
+
+  "msgMedium1": "Is your week's work worth this item?",
+  "msgMedium2": "It took days to save this money, seconds to spend it.",
+  "msgMedium3": "Would you accept if you were investing a week into this?",
+  "msgMedium4": "Days of effort, a split-second decision.",
+  "msgMedium5": "A weekend getaway or this item?",
+  "msgMedium6": "Remember what you worked for all those days.",
+  "msgMedium7": "Did you work Monday to Friday for this?",
+  "msgMedium8": "Does it make sense to spend your weekly budget in one go?",
+
+  "msgLong1": "You need to work for weeks for this. Is it really worth it?",
+  "msgLong2": "Saving this money could take months.",
+  "msgLong3": "You might be delaying one of your long-term goals.",
+  "msgLong4": "Does the time you'll spend on this affect your vacation plans?",
+  "msgLong5": "Is this an investment or an expense?",
+  "msgLong6": "How would future you evaluate this decision?",
+  "msgLong7": "Working this long should be for something lasting.",
+  "msgLong8": "How will you view this decision at month's end?",
+
+  "msgSim1": "This amount isn't just spending anymore, it's a serious investment decision.",
+  "msgSim2": "For such a large sum, decide with your vision, not your emotions.",
+  "msgSim3": "It's hard to even calculate the time equivalent of this amount.",
+  "msgSim4": "Could this be that big step you've been dreaming of?",
+  "msgSim5": "Managing such a large amount requires patience and strategy.",
+  "msgSim6": "You're at a point that will affect your future, not just your wallet.",
+  "msgSim7": "Big numbers bring big responsibilities. Are you ready?",
+  "msgSim8": "Is this amount just a number to you, or a turning point?",
+
+  "msgYes1": "Recorded. Hope it's worth it.",
+  "msgYes2": "Let's see if you'll regret it.",
+  "msgYes3": "Okay, it's your money.",
+  "msgYes4": "You bought it, congratulations.",
+  "msgYes5": "As you wish.",
+  "msgYes6": "Alright, it's on the record.",
+  "msgYes7": "If it's a need, no problem.",
+  "msgYes8": "Sometimes spending is necessary too.",
+
+  "msgNo1": "Great decision. You saved this money.",
+  "msgNo2": "You chose the hard path, your future self will thank you.",
+  "msgNo3": "Willpower won.",
+  "msgNo4": "Smart move. You'll need this money.",
+  "msgNo5": "Passing is also a win.",
+  "msgNo6": "The urge passed, the money stayed.",
+  "msgNo7": "You actually invested in yourself.",
+  "msgNo8": "Hard decision, right decision.",
+
+  "msgThink1": "Thinking is free, spending isn't.",
+  "msgThink2": "Not rushing is smart.",
+  "msgThink3": "Sleep on it, look again tomorrow.",
+  "msgThink4": "Wait 24 hours, come back if you still want it.",
+  "msgThink5": "If you're hesitating, it's probably not necessary.",
+  "msgThink6": "Time is the best advisor.",
+  "msgThink7": "If it's not urgent, don't rush.",
+  "msgThink8": "If you're not sure, the answer is probably no.",
+
+  "tourAmountTitle": "Amount Entry",
+  "tourAmountDesc": "Enter the expense amount here. You can automatically scan it from a receipt using the scan button.",
+  "tourDescriptionTitle": "Smart Matching",
+  "tourDescriptionDesc": "Enter the store or product name. Like Migros, A101, Starbucks... The app will automatically suggest a category!",
+  "tourCategoryTitle": "Category Selection",
+  "tourCategoryDesc": "If smart matching doesn't find it or you want to change it, you can manually select from here.",
+  "tourDateTitle": "Past Date Selection",
+  "tourDateDesc": "You can also enter expenses from yesterday or previous days. Click the calendar icon to select any date.",
+  "tourSnapshotTitle": "Financial Summary",
+  "tourSnapshotDesc": "Your monthly income, expenses, and saved money are here. All data updates in real-time.",
+  "tourCurrencyTitle": "Exchange Rates",
+  "tourCurrencyDesc": "Current USD, EUR, and gold prices. Tap for detailed information.",
+  "tourStreakTitle": "Streak Tracking",
+  "tourStreakDesc": "Your streak increases every day you record an expense. Regular tracking is the key to mindful spending!",
+  "tourSubscriptionTitle": "Subscriptions",
+  "tourSubscriptionDesc": "Track your regular subscriptions like Netflix, Spotify here. You'll get notifications for upcoming payments.",
+  "tourReportTitle": "Reports",
+  "tourReportDesc": "View monthly and category-based spending analysis here.",
+  "tourAchievementsTitle": "Badges",
+  "tourAchievementsDesc": "Earn badges as you reach savings goals. Keep your motivation high!",
+  "tourProfileTitle": "Profile & Settings",
+  "tourProfileDesc": "Edit income info, manage notification preferences, and access app settings.",
+  "tourQuickAddTitle": "Quick Add",
+  "tourQuickAddDesc": "Use this button to quickly add expenses from anywhere. Practical and fast!",
+
+  "notifChannelName": "Vantag Notifications",
+  "notifChannelDescription": "Financial tracking notifications",
+  "notifTitleThinkAboutIt": "Think about it",
+  "notifTitleCongratulations": "Congratulations",
+  "notifTitleStreakWaiting": "Your streak is waiting",
+  "notifTitleWeeklySummary": "Weekly summary",
+  "notifTitleSubscriptionReminder": "Subscription reminder",
+
+  "aiGreeting": "Hello! I'm Vantag.\nReady to answer your financial questions.",
+
+  "onboardingHookTitle": "This coffee is 47 minutes",
+  "onboardingHookSubtitle": "See the real cost of every purchase",
+
+  "pursuitOnboardingTitle": "What's your goal?",
+  "pursuitOnboardingSubtitle": "Pick something to save for",
+  "pursuitOnboardingAirpods": "AirPods",
+  "pursuitOnboardingIphone": "iPhone",
+  "pursuitOnboardingVacation": "Vacation",
+  "pursuitOnboardingCustom": "My own goal",
+  "pursuitOnboardingCta": "I want this",
+  "pursuitOnboardingSkip": "Skip for now",
+  "pursuitOnboardingHours": "{hours} hours",
+  "@pursuitOnboardingHours": {
+    "placeholders": {
+      "hours": {"type": "int"}
+    }
+  },
+
+  "celebrationTitle": "Congratulations!",
+  "celebrationSubtitle": "You reached your {goalName} goal!",
+  "@celebrationSubtitle": {
+    "placeholders": {
+      "goalName": {"type": "String"}
+    }
+  },
+  "celebrationTotalSaved": "Total saved: {hours} hours",
+  "@celebrationTotalSaved": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "celebrationDuration": "Duration: {days} days",
+  "@celebrationDuration": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "celebrationShare": "Share",
+  "celebrationNewGoal": "New Goal",
+  "celebrationDismiss": "Close",
+
+  "widgetTodayLabel": "Today",
+  "widgetHoursAbbrev": "h",
+  "widgetMinutesAbbrev": "m",
+  "widgetSetGoal": "Set a goal",
+  "widgetNoData": "Open app to start",
+  "widgetSmallTitle": "Daily Spending",
+  "widgetSmallDesc": "See today's spending in hours",
+  "widgetMediumTitle": "Spending + Goal",
+  "widgetMediumDesc": "Track spending and goal progress",
+
+  "accessibilityTodaySpending": "Today you spent {amount}, equal to {hours} hours {minutes} minutes of work",
+  "@accessibilityTodaySpending": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "hours": {"type": "int"},
+      "minutes": {"type": "int"}
+    }
+  },
+  "accessibilitySpendingProgress": "Spending progress: {percentage} percent of budget used",
+  "@accessibilitySpendingProgress": {
+    "placeholders": {
+      "percentage": {"type": "int"}
+    }
+  },
+  "accessibilityExpenseItem": "{category} expense of {amount}, took {hours} hours, status: {decision}",
+  "@accessibilityExpenseItem": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "amount": {"type": "String"},
+      "hours": {"type": "String"},
+      "decision": {"type": "String"}
+    }
+  },
+  "accessibilityPursuitCard": "{name} goal, {saved} of {target} saved, {percentage} percent complete",
+  "@accessibilityPursuitCard": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "saved": {"type": "String"},
+      "target": {"type": "String"},
+      "percentage": {"type": "int"}
+    }
+  },
+  "accessibilityAddExpense": "Add new expense",
+  "accessibilityDecisionYes": "Purchased",
+  "accessibilityDecisionNo": "Passed",
+  "accessibilityDecisionThinking": "Thinking",
+  "navHomeTooltip": "Home, spending overview",
+  "navPursuitsTooltip": "Goals, savings targets",
+  "navReportsTooltip": "Reports, spending analysis",
+  "navSettingsTooltip": "Settings and preferences",
+
+  "shareDefaultMessage": "I track my expenses in hours! Try it: {link}",
+  "@shareDefaultMessage": {
+    "placeholders": {
+      "link": {"type": "String"}
+    }
+  },
+  "shareInviteLink": "Share Invite Link",
+  "inviteFriends": "Invite Friends",
+  "yourReferralCode": "Your referral code",
+  "referralStats": "{count} friends joined",
+  "@referralStats": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "referralRewardInfo": "Earn 7 days premium for each friend!",
+  "codeCopied": "Code copied!",
+  "haveReferralCode": "Have a referral code?",
+  "referralCodeHint": "Enter code (optional)",
+  "referralCodePlaceholder": "VANTAG-XXXXX",
+  "referralSuccess": "{name} joined Vantag! +7 days premium",
+  "@referralSuccess": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "welcomeReferred": "Welcome! You have 7 days premium trial",
+  "referralInvalidCode": "Invalid referral code",
+  "referralCodeApplied": "Referral code applied!",
+  "referralSectionTitle": "Referrals",
+  "referralShareDescription": "Share your code and earn premium days",
+
+  "trialMidpointTitle": "Halfway there! \u23f3",
+  "trialMidpointBody": "Your trial is halfway done. You've saved {hours} hours so far!",
+  "@trialMidpointBody": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "trialOneDayLeftTitle": "Trial ends tomorrow \u23f0",
+  "trialOneDayLeftBody": "Go premium to keep tracking your savings!",
+  "trialEndsTodayTitle": "Last day of trial! \ud83c\udf81",
+  "trialEndsTodayBody": "Get 50% off if you upgrade today!",
+  "trialExpiredTitle": "We miss you! \ud83d\udc9c",
+  "trialExpiredBody": "Come back and continue reaching your goals",
+  "dailyReminderTitle": "Don't forget to log! \ud83d\udcdd",
+  "dailyReminderBody": "Track today's spending in just seconds",
+  "notificationSettings": "Notifications",
+  "notificationSettingsDesc": "Reminders and updates",
+  "firstExpenseTitle": "Great start! \ud83c\udf89",
+  "firstExpenseBody": "You saved {hours} hours today!",
+  "@firstExpenseBody": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "trialReminderEnabled": "Trial reminders",
+  "trialReminderDesc": "Get notified before your trial ends",
+  "dailyReminderEnabled": "Daily reminders",
+  "dailyReminderDesc": "Evening reminder to log expenses",
+  "dailyReminderTime": "Reminder time",
+  "trialDaysRemaining": "{days} days left in trial",
+  "@trialDaysRemaining": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "subscriptionReminder": "Subscription reminders",
+  "subscriptionReminderDesc": "Get notified before subscriptions renew",
+
+  "aiChatLimitReached": "You've used your 3 daily AI chats. Go premium for unlimited!",
+  "aiChatsRemaining": "{count} chats left today",
+  "@aiChatsRemaining": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pursuitLimitReachedFree": "Free accounts can have 1 active goal. Go premium for unlimited goals!",
+  "exportPremiumOnly": "Export is a premium feature",
+  "multiCurrencyPremium": "Multiple currencies is a premium feature. Free users can only use TRY.",
+  "reportsPremiumOnly": "Monthly and yearly reports are premium features",
+  "upgradeToPremium": "Upgrade to Premium",
+  "premiumIncludes": "Premium includes:",
+  "unlimitedAiChat": "Unlimited AI chat",
+  "unlimitedPursuits": "Unlimited goals",
+  "exportFeature": "Export your data",
+  "allCurrencies": "All currencies",
+  "fullReports": "Full reports",
+  "cleanShareCards": "Clean share cards (no watermark)",
+  "maybeLater": "Maybe later",
+  "seePremium": "See Premium",
+  "weeklyOnly": "Weekly",
+  "monthlyPro": "Monthly (Pro)",
+  "yearlyPro": "Yearly (Pro)",
+  "currencyLocked": "Premium only",
+  "freeUserCurrencyNote": "Free users can only use TRY. Upgrade to use {currency}.",
+  "@freeUserCurrencyNote": {
+    "placeholders": {
+      "currency": {"type": "String"}
+    }
+  },
+  "watermarkText": "vantag.app"
 }

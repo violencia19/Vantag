@@ -28,10 +28,10 @@ class LabeledDropdown<T> extends StatelessWidget {
         if (label != null) ...[
           Text(
             label!,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
@@ -39,24 +39,24 @@ class LabeledDropdown<T> extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.appColors.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.cardBorder),
+            border: Border.all(color: context.appColors.cardBorder),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<T>(
               value: value,
               isExpanded: true,
-              icon: const Icon(
+              icon: Icon(
                 PhosphorIconsDuotone.caretDown,
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
               ),
-              dropdownColor: AppColors.surfaceLight,
+              dropdownColor: context.appColors.surfaceLight,
               borderRadius: BorderRadius.circular(12),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
               ),
               onChanged: onChanged,
               selectedItemBuilder: shortLabelBuilder != null
@@ -65,10 +65,10 @@ class LabeledDropdown<T> extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               shortLabelBuilder!(item),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.textPrimary,
+                                color: context.appColors.textPrimary,
                               ),
                             ),
                           ))
@@ -79,10 +79,10 @@ class LabeledDropdown<T> extends StatelessWidget {
                         value: item,
                         child: Text(
                           labelBuilder(item),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w400,
-                            color: AppColors.textPrimary,
+                            color: context.appColors.textPrimary,
                           ),
                         ),
                       ))

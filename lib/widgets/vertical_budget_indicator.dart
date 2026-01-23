@@ -56,11 +56,11 @@ class _VerticalBudgetIndicatorState extends State<VerticalBudgetIndicator>
     super.dispose();
   }
 
-  Color get _fillColor {
+  Color _getFillColor(BuildContext context) {
     final clampedProgress = widget.progress.clamp(0.0, 1.0);
     // %70'te kırmızıya dön
     if (clampedProgress >= 0.7) {
-      return AppColors.error;
+      return context.appColors.error;
     }
     return PremiumColors.purple;
   }
@@ -68,7 +68,8 @@ class _VerticalBudgetIndicatorState extends State<VerticalBudgetIndicator>
   @override
   Widget build(BuildContext context) {
     final clampedProgress = widget.progress.clamp(0.0, 1.0);
-    final fillColor = _fillColor;
+    final fillColor = _getFillColor(context);
+    final errorColor = context.appColors.error;
 
     return Container(
       width: widget.width,
@@ -87,17 +88,17 @@ class _VerticalBudgetIndicatorState extends State<VerticalBudgetIndicator>
                   duration: widget.animationDuration,
                   curve: Curves.easeOutCubic,
                   builder: (context, value, child) {
-                    return _buildFillBar(value, fillColor);
+                    return _buildFillBar(value, fillColor, errorColor);
                   },
                 )
-              : _buildFillBar(clampedProgress, fillColor),
+              : _buildFillBar(clampedProgress, fillColor, errorColor),
         ],
       ),
     );
   }
 
-  Widget _buildFillBar(double value, Color color) {
-    final isRed = color == AppColors.error;
+  Widget _buildFillBar(double value, Color color, Color errorColor) {
+    final isRed = color == errorColor;
 
     Widget bar = AnimatedBuilder(
       animation: _breatheAnimation,
@@ -112,8 +113,8 @@ class _VerticalBudgetIndicatorState extends State<VerticalBudgetIndicator>
               end: Alignment.bottomCenter,
               colors: isRed
                   ? [
-                      AppColors.error,
-                      AppColors.error.withValues(alpha: 0.8),
+                      errorColor,
+                      errorColor.withValues(alpha: 0.8),
                     ]
                   : [
                       PremiumColors.purple,
@@ -258,10 +259,10 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
     super.dispose();
   }
 
-  Color get _fillColor {
+  Color _getFillColor(BuildContext context) {
     final clampedProgress = widget.progress.clamp(0.0, 1.0);
     if (clampedProgress >= 0.7) {
-      return AppColors.error;
+      return context.appColors.error;
     }
     return PremiumColors.purple;
   }
@@ -269,7 +270,8 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
   @override
   Widget build(BuildContext context) {
     final clampedProgress = widget.progress.clamp(0.0, 1.0);
-    final fillColor = _fillColor;
+    final fillColor = _getFillColor(context);
+    final errorColor = context.appColors.error;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -292,10 +294,10 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
                       duration: widget.animationDuration,
                       curve: Curves.easeOutCubic,
                       builder: (context, value, child) {
-                        return _buildFillBar(value, fillColor, totalWidth);
+                        return _buildFillBar(value, fillColor, totalWidth, errorColor);
                       },
                     )
-                  : _buildFillBar(clampedProgress, fillColor, totalWidth),
+                  : _buildFillBar(clampedProgress, fillColor, totalWidth, errorColor),
             ],
           ),
         );
@@ -303,8 +305,8 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
     );
   }
 
-  Widget _buildFillBar(double value, Color color, double totalWidth) {
-    final isRed = color == AppColors.error;
+  Widget _buildFillBar(double value, Color color, double totalWidth, Color errorColor) {
+    final isRed = color == errorColor;
 
     Widget bar = AnimatedBuilder(
       animation: _breatheAnimation,
@@ -315,7 +317,7 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: isRed
-                  ? [AppColors.error, AppColors.error.withValues(alpha: 0.8)]
+                  ? [errorColor, errorColor.withValues(alpha: 0.8)]
                   : [
                       PremiumColors.purpleDark,
                       PremiumColors.purple,
@@ -367,7 +369,7 @@ class AccentLine extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: showGradient ? null : (color ?? AppColors.primary),
+        color: showGradient ? null : (color ?? context.appColors.primary),
         gradient: showGradient ? AppGradients.primaryButton : null,
         borderRadius: BorderRadius.circular(width / 2),
       ),

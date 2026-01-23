@@ -101,12 +101,12 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: CustomScrollView(
         slivers: [
           // App Bar
           SliverAppBar(
-            backgroundColor: AppColors.background,
+            backgroundColor: context.appColors.background,
             pinned: true,
             expandedHeight: 0,
             leading: IconButton(
@@ -146,9 +146,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
 
           // Content
           if (_isLoading)
-            const SliverFillRemaining(
+            SliverFillRemaining(
               child: Center(
-                child: CircularProgressIndicator(color: AppColors.primary),
+                child: CircularProgressIndicator(color: context.appColors.primary),
               ),
             )
           else if (_subscriptions.isEmpty)
@@ -188,7 +188,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       // Floating Action Button
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddSheet,
-        backgroundColor: AppColors.primary,
+        backgroundColor: context.appColors.primary,
         child: Icon(PhosphorIconsDuotone.plus, color: Colors.white),
       ),
     );
@@ -202,7 +202,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.surface.withValues(alpha: 0.8),
+        color: context.appColors.surface.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: Colors.white.withValues(alpha: 0.1),
@@ -224,16 +224,16 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       AppLocalizations.of(context).monthlyTotal,
                       style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.textSecondary,
+                        color: context.appColors.textSecondary,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       '${formatTurkishCurrency(_stats!.totalMonthlyCost, decimalDigits: 0)} ₺',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                        color: context.appColors.textPrimary,
                       ),
                     ),
                   ],
@@ -264,7 +264,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.textPrimary,
+                            color: context.appColors.textPrimary,
                           ),
                         ),
                       ],
@@ -274,7 +274,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       '${_stats!.totalWorkDays.toStringAsFixed(1)} ${AppLocalizations.of(context).workDaysPerMonth}',
                       style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.textSecondary,
+                        color: context.appColors.textSecondary,
                       ),
                     ),
                   ],
@@ -293,7 +293,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.surface.withValues(alpha: 0.6),
+          color: context.appColors.surface.withValues(alpha: 0.6),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: subscription.color.withValues(alpha: 0.3),
@@ -326,10 +326,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 children: [
                   Text(
                     subscription.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
+                      color: context.appColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -337,7 +337,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     subscription.category,
                     style: TextStyle(
                       fontSize: 12,
-                      color: AppColors.textSecondary,
+                      color: context.appColors.textSecondary,
                     ),
                   ),
                 ],
@@ -349,10 +349,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               children: [
                 Text(
                   '${formatTurkishCurrency(subscription.amount, decimalDigits: 0)} ₺',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -360,7 +360,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   AppLocalizations.of(context).everyMonthDay(subscription.renewalDay),
                   style: TextStyle(
                     fontSize: 11,
-                    color: AppColors.textTertiary,
+                    color: context.appColors.textTertiary,
                   ),
                 ),
               ],
@@ -370,7 +370,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             Icon(
               PhosphorIconsDuotone.caretRight,
               size: 20,
-              color: AppColors.textTertiary,
+              color: context.appColors.textTertiary,
             ),
           ],
         ),
@@ -387,13 +387,13 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: AppColors.surface.withValues(alpha: 0.5),
+              color: context.appColors.surface.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Icon(
               PhosphorIconsDuotone.repeat,
               size: 40,
-              color: AppColors.textTertiary,
+              color: context.appColors.textTertiary,
             ),
           ),
           const SizedBox(height: 20),
@@ -402,7 +402,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
@@ -410,7 +410,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             AppLocalizations.of(context).addSubscriptionHint,
             style: TextStyle(
               fontSize: 13,
-              color: AppColors.textTertiary,
+              color: context.appColors.textTertiary,
             ),
           ),
         ],
@@ -429,7 +429,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       builder: (context) => Container(
         margin: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.gradientMid,
+          color: context.appColors.gradientMid,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
@@ -452,10 +452,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 children: [
                   Text(
                     AppLocalizations.of(context).everyMonthDay(day),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
+                      color: context.appColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -480,9 +480,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                           Expanded(
                             child: Text(
                               sub.name,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 14,
-                                color: AppColors.textPrimary,
+                                color: context.appColors.textPrimary,
                               ),
                             ),
                           ),
@@ -491,7 +491,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: AppColors.textSecondary,
+                              color: context.appColors.textSecondary,
                             ),
                           ),
                         ],

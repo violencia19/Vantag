@@ -113,7 +113,7 @@ class _WealthModalState extends State<WealthModal>
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               decoration: BoxDecoration(
-                color: AppColors.surface.withValues(alpha: 0.95),
+                color: context.appColors.surface.withValues(alpha: 0.95),
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                 border: Border.all(
                   color: _showGoldenGlow
@@ -146,7 +146,7 @@ class _WealthModalState extends State<WealthModal>
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: AppColors.textTertiary.withValues(alpha: 0.5),
+                        color: context.appColors.textTertiary.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -169,13 +169,13 @@ class _WealthModalState extends State<WealthModal>
                             width: 36,
                             height: 36,
                             decoration: BoxDecoration(
-                              color: AppColors.surfaceLight,
+                              color: context.appColors.surfaceLight,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               PhosphorIconsDuotone.x,
                               size: 20,
-                              color: AppColors.textSecondary,
+                              color: context.appColors.textSecondary,
                             ),
                           ),
                         ),
@@ -184,10 +184,10 @@ class _WealthModalState extends State<WealthModal>
                         Expanded(
                           child: Text(
                             widget.title,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.textPrimary,
+                              color: context.appColors.textPrimary,
                             ),
                           ),
                         ),
@@ -236,7 +236,7 @@ class _UnsavedChangesDialog extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: AppColors.surface.withValues(alpha: 0.95),
+              color: context.appColors.surface.withValues(alpha: 0.95),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: Colors.white.withValues(alpha: 0.1),
@@ -262,10 +262,10 @@ class _UnsavedChangesDialog extends StatelessWidget {
                 const SizedBox(height: 16),
                 Text(
                   l10n.unsavedChanges,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -274,7 +274,7 @@ class _UnsavedChangesDialog extends StatelessWidget {
                   l10n.unsavedChangesConfirm,
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppColors.textSecondary,
+                    color: context.appColors.textSecondary,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -290,7 +290,7 @@ class _UnsavedChangesDialog extends StatelessWidget {
                           Navigator.of(context).pop('discard');
                         },
                         style: TextButton.styleFrom(
-                          foregroundColor: AppColors.error,
+                          foregroundColor: context.appColors.error,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -311,8 +311,8 @@ class _UnsavedChangesDialog extends StatelessWidget {
                           Navigator.of(context).pop('save');
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: AppColors.background,
+                          backgroundColor: context.appColors.primary,
+                          foregroundColor: context.appColors.background,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -334,7 +334,7 @@ class _UnsavedChangesDialog extends StatelessWidget {
                     Navigator.of(context).pop('cancel');
                   },
                   style: TextButton.styleFrom(
-                    foregroundColor: AppColors.textSecondary,
+                    foregroundColor: context.appColors.textSecondary,
                   ),
                   child: Text(l10n.cancel),
                 ),

@@ -97,6 +97,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsReminders => 'Hatırlatıcılar';
 
   @override
+  String get settingsSoundEffects => 'Ses Efektleri';
+
+  @override
+  String get settingsSoundVolume => 'Ses Seviyesi';
+
+  @override
   String get settingsProPurchases => 'Pro & Satın Alma';
 
   @override
@@ -544,7 +550,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get notifications => 'Bildirimler';
 
   @override
-  String get notificationSettings => 'Bildirim Ayarları';
+  String get notificationSettings => 'Bildirimler';
 
   @override
   String get streakReminder => 'Seri Hatırlatıcı';
@@ -734,6 +740,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get editExpense => 'Harcama Düzenle';
+
+  @override
+  String get deleteExpense => 'Harcamayı Sil';
+
+  @override
+  String get deleteExpenseConfirm =>
+      'Bu harcamayı silmek istediğine emin misin?';
 
   @override
   String get updateExpense => 'Güncelle';
@@ -3550,4 +3563,681 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get pendingLabel => 'Bekliyor';
+
+  @override
+  String insightMinutes(int minutes) {
+    return 'Bu harcama hayatından $minutes dakika aldı.';
+  }
+
+  @override
+  String insightHours(String hours) {
+    return 'Bu harcama hayatından $hours saat aldı.';
+  }
+
+  @override
+  String get insightAlmostDay => 'Bu harcama için neredeyse bir gün çalıştın.';
+
+  @override
+  String insightDays(String days) {
+    return 'Bu harcama hayatından $days gün aldı.';
+  }
+
+  @override
+  String insightDaysWorked(String days) {
+    return 'Bu harcama için $days gün çalışman gerekti.';
+  }
+
+  @override
+  String get insightAlmostMonth =>
+      'Bu harcama neredeyse bir aylık emeğine mal oldu.';
+
+  @override
+  String insightCategoryDays(String category, String days) {
+    return 'Bu ay $category için $days gün çalıştın.';
+  }
+
+  @override
+  String insightCategoryHours(String category, String hours) {
+    return 'Bu ay $category için $hours saat çalıştın.';
+  }
+
+  @override
+  String get insightMonthlyAlmost =>
+      'Bu ayki harcamalar için neredeyse tüm ay çalıştın.';
+
+  @override
+  String insightMonthlyDays(String days) {
+    return 'Bu ay harcamalar için $days gün çalıştın.';
+  }
+
+  @override
+  String get msgShort1 => 'Birkaç saatlik emeğin, bir anlık heves için mi?';
+
+  @override
+  String get msgShort2 =>
+      'Bu kadar kısa sürede kazandığın parayı harcamak kolay, kazanmak zor.';
+
+  @override
+  String get msgShort3 => 'Sabah işe gittin, öğlene kalmadan bu para gidecek.';
+
+  @override
+  String get msgShort4 =>
+      'Bir kahve molası kadar sürede kazandın, bir tıkla gidecek.';
+
+  @override
+  String get msgShort5 => 'Yarım günlük mesai, tam günlük pişmanlık olmasın.';
+
+  @override
+  String get msgShort6 => 'Bu ürün için çalıştığın saatleri düşün.';
+
+  @override
+  String get msgShort7 => 'Küçük görünüyor ama toplamda büyük fark yaratıyor.';
+
+  @override
+  String get msgShort8 => 'Şimdi değil dersen, yarın da olur.';
+
+  @override
+  String get msgMedium1 => 'Bir haftalık emeğin bu ürüne değer mi?';
+
+  @override
+  String get msgMedium2 =>
+      'Bu parayı biriktirmek günler aldı, harcamak saniyeler alacak.';
+
+  @override
+  String get msgMedium3 =>
+      'Bir haftanı buna yatırıyor olsaydın kabul eder miydin?';
+
+  @override
+  String get msgMedium4 => 'Günlerce emek, anlık bir karar.';
+
+  @override
+  String get msgMedium5 => 'Hafta sonu tatili mi, bu ürün mü?';
+
+  @override
+  String get msgMedium6 => 'Bu kadar gün boyunca ne için çalıştığını hatırla.';
+
+  @override
+  String get msgMedium7 => 'Pazartesiden cumaya kadar bunun için mi çalıştın?';
+
+  @override
+  String get msgMedium8 => 'Haftalık bütçeni tek seferde harcamak mantıklı mı?';
+
+  @override
+  String get msgLong1 =>
+      'Haftalarca çalışman gerekiyor bunun için. Gerçekten değer mi?';
+
+  @override
+  String get msgLong2 => 'Bu parayı biriktirmek aylar alabilir.';
+
+  @override
+  String get msgLong3 =>
+      'Uzun vadeli hedeflerinden birini erteliyor olabilirsin.';
+
+  @override
+  String get msgLong4 =>
+      'Bu ürün için harcayacağın zaman, tatil planlarını etkiler mi?';
+
+  @override
+  String get msgLong5 => 'Bu yatırım mı, harcama mı?';
+
+  @override
+  String get msgLong6 => 'Gelecekteki sen bu kararı nasıl değerlendirir?';
+
+  @override
+  String get msgLong7 =>
+      'Bu kadar uzun süre çalışmak, kalıcı bir şey için olmalı.';
+
+  @override
+  String get msgLong8 => 'Ay sonunda bu karara nasıl bakacaksın?';
+
+  @override
+  String get msgSim1 =>
+      'Bu rakam artık bir harcama değil, ciddi bir yatırım kararı.';
+
+  @override
+  String get msgSim2 =>
+      'Böyle büyük bir tutar için duygularınla değil, vizyonunla karar ver.';
+
+  @override
+  String get msgSim3 => 'Bu tutarın karşılığı olan zamanı hesaplamak bile güç.';
+
+  @override
+  String get msgSim4 => 'Hayallerini süsleyen o büyük adım bu olabilir mi?';
+
+  @override
+  String get msgSim5 =>
+      'Bu kadar büyük bir rakamı yönetmek, sabır ve strateji ister.';
+
+  @override
+  String get msgSim6 =>
+      'Cüzdanını değil, geleceğini etkileyecek bir noktadasın.';
+
+  @override
+  String get msgSim7 =>
+      'Büyük rakamlar, büyük sorumluluklar getirir. Hazır mısın?';
+
+  @override
+  String get msgSim8 =>
+      'Bu tutar senin için sadece bir sayı mı, yoksa bir dönüm noktası mı?';
+
+  @override
+  String get msgYes1 => 'Kaydettim. Umarım değer.';
+
+  @override
+  String get msgYes2 => 'Bakalım pişman olacak mısın.';
+
+  @override
+  String get msgYes3 => 'Tamam, senin paran.';
+
+  @override
+  String get msgYes4 => 'Aldın aldın, hayırlı olsun.';
+
+  @override
+  String get msgYes5 => 'Keyfin bilir.';
+
+  @override
+  String get msgYes6 => 'Peki, kayıtlara geçti.';
+
+  @override
+  String get msgYes7 => 'İhtiyaçsa sorun yok.';
+
+  @override
+  String get msgYes8 => 'Bazen harcamak da gerekir.';
+
+  @override
+  String get msgNo1 => 'Güzel karar. Bu parayı kurtardın.';
+
+  @override
+  String get msgNo2 => 'Zor olanı seçtin, gelecekte teşekkür edeceksin.';
+
+  @override
+  String get msgNo3 => 'İrade kazandı.';
+
+  @override
+  String get msgNo4 => 'Akıllıca. Bu para sana lazım olacak.';
+
+  @override
+  String get msgNo5 => 'Vazgeçmek de bir kazanım.';
+
+  @override
+  String get msgNo6 => 'Heves geçti, para kaldı.';
+
+  @override
+  String get msgNo7 => 'Kendine yatırım yaptın aslında.';
+
+  @override
+  String get msgNo8 => 'Zor karar, doğru karar.';
+
+  @override
+  String get msgThink1 => 'Düşünmek bedava, harcamak değil.';
+
+  @override
+  String get msgThink2 => 'Acele etmemek akıllıca.';
+
+  @override
+  String get msgThink3 => 'Bir gece uyu, yarın tekrar bak.';
+
+  @override
+  String get msgThink4 => '24 saat bekle, hala istiyorsan gel.';
+
+  @override
+  String get msgThink5 => 'Tereddüt ediyorsan muhtemelen gerekli değil.';
+
+  @override
+  String get msgThink6 => 'Zaman en iyi danışman.';
+
+  @override
+  String get msgThink7 => 'Acil değilse, acele etme.';
+
+  @override
+  String get msgThink8 => 'Emin değilsen, cevap muhtemelen hayır.';
+
+  @override
+  String get tourAmountTitle => 'Tutar Girişi';
+
+  @override
+  String get tourAmountDesc =>
+      'Harcama tutarını buraya gir. Fiş tarama butonu ile fişten otomatik okuyabilirsin.';
+
+  @override
+  String get tourDescriptionTitle => 'Akıllı Eşleştirme';
+
+  @override
+  String get tourDescriptionDesc =>
+      'Mağaza veya ürün adını yaz. Migros, A101, Starbucks gibi... Uygulama otomatik olarak kategori önerecek!';
+
+  @override
+  String get tourCategoryTitle => 'Kategori Seçimi';
+
+  @override
+  String get tourCategoryDesc =>
+      'Akıllı eşleştirme bulamazsa veya düzeltmek istersen buradan manuel seçim yapabilirsin.';
+
+  @override
+  String get tourDateTitle => 'Geçmiş Tarih Seçimi';
+
+  @override
+  String get tourDateDesc =>
+      'Dün veya önceki günlerin harcamalarını da girebilirsin. Takvim ikonuna tıklayarak istediğin tarihi seç.';
+
+  @override
+  String get tourSnapshotTitle => 'Finansal Özet';
+
+  @override
+  String get tourSnapshotDesc =>
+      'Aylık gelirin, harcamaların ve kurtardığın para burada. Tüm veriler anlık güncellenir.';
+
+  @override
+  String get tourCurrencyTitle => 'Döviz Kurları';
+
+  @override
+  String get tourCurrencyDesc =>
+      'Güncel USD, EUR ve altın fiyatları. Tıklayarak detaylı bilgi alabilirsin.';
+
+  @override
+  String get tourStreakTitle => 'Seri Takibi';
+
+  @override
+  String get tourStreakDesc =>
+      'Her gün harcama girdiğinde serin artar. Düzenli takip etmek bilinçli harcamanın anahtarı!';
+
+  @override
+  String get tourSubscriptionTitle => 'Abonelikler';
+
+  @override
+  String get tourSubscriptionDesc =>
+      'Netflix, Spotify gibi düzenli aboneliklerini buradan takip et. Yaklaşan ödemeler için bildirim alırsın.';
+
+  @override
+  String get tourReportTitle => 'Raporlar';
+
+  @override
+  String get tourReportDesc =>
+      'Aylık ve kategorilere göre harcama analizlerini buradan görüntüle.';
+
+  @override
+  String get tourAchievementsTitle => 'Rozetler';
+
+  @override
+  String get tourAchievementsDesc =>
+      'Tasarruf hedeflerine ulaştıkça rozetler kazan. Motivasyonunu yüksek tut!';
+
+  @override
+  String get tourProfileTitle => 'Profil & Ayarlar';
+
+  @override
+  String get tourProfileDesc =>
+      'Gelir bilgilerini düzenle, bildirim tercihlerini yönet ve uygulama ayarlarına eriş.';
+
+  @override
+  String get tourQuickAddTitle => 'Hızlı Ekleme';
+
+  @override
+  String get tourQuickAddDesc =>
+      'Her yerden hızlıca harcama eklemek için bu butonu kullan. Pratik ve hızlı!';
+
+  @override
+  String get notifChannelName => 'Vantag Bildirimleri';
+
+  @override
+  String get notifChannelDescription => 'Finansal takip bildirimleri';
+
+  @override
+  String get notifTitleThinkAboutIt => 'Bir düşün';
+
+  @override
+  String get notifTitleCongratulations => 'Tebrikler';
+
+  @override
+  String get notifTitleStreakWaiting => 'Serin bekliyor';
+
+  @override
+  String get notifTitleWeeklySummary => 'Haftalık özet';
+
+  @override
+  String get notifTitleSubscriptionReminder => 'Abonelik hatırlatma';
+
+  @override
+  String get aiGreeting =>
+      'Merhaba! Ben Vantag.\nFinansal sorularını yanıtlamaya hazırım.';
+
+  @override
+  String get onboardingHookTitle => 'Bu kahve 47 dakikan';
+
+  @override
+  String get onboardingHookSubtitle => 'Her harcamanın gerçek maliyetini gör';
+
+  @override
+  String get pursuitOnboardingTitle => 'Hedefin ne?';
+
+  @override
+  String get pursuitOnboardingSubtitle => 'Biriktirmek istediğin bir şey seç';
+
+  @override
+  String get pursuitOnboardingAirpods => 'AirPods';
+
+  @override
+  String get pursuitOnboardingIphone => 'iPhone';
+
+  @override
+  String get pursuitOnboardingVacation => 'Tatil';
+
+  @override
+  String get pursuitOnboardingCustom => 'Kendi hedefim';
+
+  @override
+  String get pursuitOnboardingCta => 'Bunu istiyorum';
+
+  @override
+  String get pursuitOnboardingSkip => 'Şimdilik geç';
+
+  @override
+  String pursuitOnboardingHours(int hours) {
+    return '$hours saat';
+  }
+
+  @override
+  String get celebrationTitle => 'Tebrikler!';
+
+  @override
+  String celebrationSubtitle(String goalName) {
+    return '$goalName hedefine ulaştın!';
+  }
+
+  @override
+  String celebrationTotalSaved(String hours) {
+    return 'Toplam biriktirdiğin: $hours saat';
+  }
+
+  @override
+  String celebrationDuration(int days) {
+    return 'Süre: $days gün';
+  }
+
+  @override
+  String get celebrationShare => 'Paylaş';
+
+  @override
+  String get celebrationNewGoal => 'Yeni Hedef';
+
+  @override
+  String get celebrationDismiss => 'Kapat';
+
+  @override
+  String get widgetTodayLabel => 'Bugün';
+
+  @override
+  String get widgetHoursAbbrev => 's';
+
+  @override
+  String get widgetMinutesAbbrev => 'dk';
+
+  @override
+  String get widgetSetGoal => 'Hedef belirle';
+
+  @override
+  String get widgetNoData => 'Başlamak için aç';
+
+  @override
+  String get widgetSmallTitle => 'Günlük Harcama';
+
+  @override
+  String get widgetSmallDesc => 'Bugünkü harcamanı saat olarak gör';
+
+  @override
+  String get widgetMediumTitle => 'Harcama + Hedef';
+
+  @override
+  String get widgetMediumDesc => 'Harcama ve hedef takibi';
+
+  @override
+  String accessibilityTodaySpending(String amount, int hours, int minutes) {
+    return 'Bugün $amount harcadın, bu $hours saat $minutes dakika çalışmana eşit';
+  }
+
+  @override
+  String accessibilitySpendingProgress(int percentage) {
+    return 'Harcama ilerlemesi: bütçenin yüzde $percentage\'i kullanıldı';
+  }
+
+  @override
+  String accessibilityExpenseItem(
+    String category,
+    String amount,
+    String hours,
+    String decision,
+  ) {
+    return '$category harcaması $amount, $hours saat sürdü, durum: $decision';
+  }
+
+  @override
+  String accessibilityPursuitCard(
+    String name,
+    String saved,
+    String target,
+    int percentage,
+  ) {
+    return '$name hedefi, $target hedeften $saved biriktirildi, yüzde $percentage tamamlandı';
+  }
+
+  @override
+  String get accessibilityAddExpense => 'Yeni harcama ekle';
+
+  @override
+  String get accessibilityDecisionYes => 'Satın alındı';
+
+  @override
+  String get accessibilityDecisionNo => 'Vazgeçildi';
+
+  @override
+  String get accessibilityDecisionThinking => 'Düşünülüyor';
+
+  @override
+  String get navHomeTooltip => 'Ana sayfa, harcama özeti';
+
+  @override
+  String get navPursuitsTooltip => 'Hedefler, birikim amaçları';
+
+  @override
+  String get navReportsTooltip => 'Raporlar, harcama analizi';
+
+  @override
+  String get navSettingsTooltip => 'Ayarlar ve tercihler';
+
+  @override
+  String shareDefaultMessage(String link) {
+    return 'Harcamalarımı saat olarak takip ediyorum! Sen de dene: $link';
+  }
+
+  @override
+  String get shareInviteLink => 'Davet Linkini Paylaş';
+
+  @override
+  String get inviteFriends => 'Arkadaşlarını Davet Et';
+
+  @override
+  String get yourReferralCode => 'Senin davet kodun';
+
+  @override
+  String referralStats(int count) {
+    return '$count arkadaşın katıldı';
+  }
+
+  @override
+  String get referralRewardInfo => 'Her arkadaşın için 7 gün premium kazan!';
+
+  @override
+  String get codeCopied => 'Kod kopyalandı!';
+
+  @override
+  String get haveReferralCode => 'Davet kodun var mı?';
+
+  @override
+  String get referralCodeHint => 'Kodu gir (opsiyonel)';
+
+  @override
+  String get referralCodePlaceholder => 'VANTAG-XXXXX';
+
+  @override
+  String referralSuccess(String name) {
+    return '$name Vantag\'a katıldı! +7 gün premium kazandın';
+  }
+
+  @override
+  String get welcomeReferred => 'Hoş geldin! 7 gün premium denemen var';
+
+  @override
+  String get referralInvalidCode => 'Geçersiz davet kodu';
+
+  @override
+  String get referralCodeApplied => 'Davet kodu uygulandı!';
+
+  @override
+  String get referralSectionTitle => 'Davetler';
+
+  @override
+  String get referralShareDescription => 'Kodunu paylaş, premium gün kazan';
+
+  @override
+  String get trialMidpointTitle => 'Yarı yoldasın! ⏳';
+
+  @override
+  String trialMidpointBody(String hours) {
+    return 'Deneme süren yarılandı. Şu ana kadar $hours saat biriktirdin!';
+  }
+
+  @override
+  String get trialOneDayLeftTitle => 'Denemen yarın bitiyor ⏰';
+
+  @override
+  String get trialOneDayLeftBody => 'Premium\'a geç, biriktirmeye devam et!';
+
+  @override
+  String get trialEndsTodayTitle => 'Denemenin son günü! 🎁';
+
+  @override
+  String get trialEndsTodayBody => 'Bugün geçersen %50 indirim!';
+
+  @override
+  String get trialExpiredTitle => 'Seni özledik! 💜';
+
+  @override
+  String get trialExpiredBody => 'Geri dön, hedeflerine devam et';
+
+  @override
+  String get dailyReminderTitle => 'Harcamalarını girmeyi unutma! 📝';
+
+  @override
+  String get dailyReminderBody => 'Bugünkü harcamalarını saniyeler içinde gir';
+
+  @override
+  String get notificationSettingsDesc => 'Hatırlatıcılar ve güncellemeler';
+
+  @override
+  String get firstExpenseTitle => 'Harika başlangıç! 🎉';
+
+  @override
+  String firstExpenseBody(String hours) {
+    return 'Bugün $hours saat biriktirdin!';
+  }
+
+  @override
+  String get trialReminderEnabled => 'Deneme hatırlatmaları';
+
+  @override
+  String get trialReminderDesc => 'Deneme süren bitmeden bildirim al';
+
+  @override
+  String get dailyReminderEnabled => 'Günlük hatırlatmalar';
+
+  @override
+  String get dailyReminderDesc => 'Akşam harcama girişi hatırlatması';
+
+  @override
+  String get dailyReminderTime => 'Hatırlatma saati';
+
+  @override
+  String trialDaysRemaining(int days) {
+    return 'Denemede $days gün kaldı';
+  }
+
+  @override
+  String get subscriptionReminder => 'Abonelik hatırlatmaları';
+
+  @override
+  String get subscriptionReminderDesc =>
+      'Abonelikler yenilenmeden önce bildirim al';
+
+  @override
+  String get aiChatLimitReached =>
+      'Günlük 3 AI sohbet hakkını kullandın. Sınırsız için premium\'a geç!';
+
+  @override
+  String aiChatsRemaining(int count) {
+    return 'Bugün $count mesaj hakkın kaldı';
+  }
+
+  @override
+  String get pursuitLimitReachedFree =>
+      'Ücretsiz hesaplarda 1 aktif hedef olabilir. Sınırsız hedef için premium\'a geç!';
+
+  @override
+  String get exportPremiumOnly => 'Dışa aktarma premium özelliği';
+
+  @override
+  String get multiCurrencyPremium =>
+      'Çoklu para birimi premium özelliği. Ücretsiz kullanıcılar sadece TRY kullanabilir.';
+
+  @override
+  String get reportsPremiumOnly => 'Aylık ve yıllık raporlar premium özelliği';
+
+  @override
+  String get upgradeToPremium => 'Premium\'a Geç';
+
+  @override
+  String get premiumIncludes => 'Premium içerir:';
+
+  @override
+  String get unlimitedAiChat => 'Sınırsız AI sohbet';
+
+  @override
+  String get unlimitedPursuits => 'Sınırsız hedef';
+
+  @override
+  String get exportFeature => 'Verilerini dışa aktar';
+
+  @override
+  String get allCurrencies => 'Tüm para birimleri';
+
+  @override
+  String get fullReports => 'Detaylı raporlar';
+
+  @override
+  String get cleanShareCards => 'Temiz paylaşım kartları (filigran yok)';
+
+  @override
+  String get maybeLater => 'Belki sonra';
+
+  @override
+  String get seePremium => 'Premium\'u Gör';
+
+  @override
+  String get weeklyOnly => 'Haftalık';
+
+  @override
+  String get monthlyPro => 'Aylık (Pro)';
+
+  @override
+  String get yearlyPro => 'Yıllık (Pro)';
+
+  @override
+  String get currencyLocked => 'Sadece Premium';
+
+  @override
+  String freeUserCurrencyNote(String currency) {
+    return 'Ücretsiz kullanıcılar sadece TRY kullanabilir. $currency için premium\'a geç.';
+  }
+
+  @override
+  String get watermarkText => 'vantag.app';
 }

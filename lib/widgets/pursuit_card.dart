@@ -24,9 +24,20 @@ class PursuitCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Pressable(
-      onTap: onTap,
-      child: GlassCard(
+    // Accessibility: Semantic label for screen readers
+    final semanticLabel = l10n.accessibilityPursuitCard(
+      pursuit.name,
+      formatAmount(pursuit.savedAmount),
+      formatAmount(pursuit.targetAmount),
+      pursuit.progressPercentDisplay,
+    );
+
+    return Semantics(
+      label: semanticLabel,
+      button: onTap != null,
+      child: Pressable(
+        onTap: onTap,
+        child: GlassCard(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,6 +146,7 @@ class PursuitCard extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 
@@ -179,12 +191,13 @@ class _AddSavingsButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          constraints: const BoxConstraints(minHeight: 44),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           decoration: BoxDecoration(
             color: QuietLuxury.positive.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: QuietLuxury.positive.withValues(alpha: 0.3),
               width: 0.5,

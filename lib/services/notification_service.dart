@@ -144,6 +144,14 @@ class NotificationService {
   static const _idReinforceDecision = 2;
   static const _idStreakReminder = 3;
   static const _idWeeklyInsight = 4;
+  // Trial notification IDs (5-9)
+  static const _idTrialMidpoint = 5;
+  static const _idTrialOneDayLeft = 6;
+  static const _idTrialEndsToday = 7;
+  static const _idTrialExpired = 8;
+  static const _idFirstExpense = 9;
+  // Daily reminder
+  static const _idDailyReminder = 10;
   static const _idSubscriptionBase = 100; // Abonelikler için 100+ ID
 
   // Pref keys
@@ -154,6 +162,13 @@ class NotificationService {
   static const _keyStreakReminderEnabled = 'notif_streak_reminder';
   static const _keyWeeklyInsightEnabled = 'notif_weekly_insight';
   static const _keySubscriptionReminderEnabled = 'notif_subscription_reminder';
+  // Trial & daily reminder keys
+  static const _keyTrialReminderEnabled = 'notif_trial_reminder';
+  static const _keyDailyReminderEnabled = 'notif_daily_reminder';
+  static const _keyDailyReminderHour = 'notif_daily_reminder_hour';
+  static const _keyDailyReminderMinute = 'notif_daily_reminder_minute';
+  static const _keyTrialStartDate = 'notif_trial_start_date';
+  static const _keyTrialDays = 'notif_trial_days';
 
   /// Servisi başlat
   Future<void> initialize() async {
@@ -466,6 +481,227 @@ class NotificationService {
   }
 
   // ============================================
+  // 6. TRIAL HATIRLATMA BİLDİRİMLERİ
+  // ============================================
+
+  /// Trial bildirimleri planla
+  /// trialDays: 7 (referral) veya 3 (normal)
+  Future<void> scheduleTrialNotifications({
+    required DateTime trialStartDate,
+    required int trialDays,
+    String? totalSavedHours,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Ayar kontrolü
+    if (!(prefs.getBool(_keyNotificationsEnabled) ?? true)) return;
+    if (!(prefs.getBool(_keyTrialReminderEnabled) ?? true)) return;
+
+    // Trial bilgilerini kaydet (daha sonra kontrol için)
+    await prefs.setString(_keyTrialStartDate, trialStartDate.toIso8601String());
+    await prefs.setInt(_keyTrialDays, trialDays);
+
+    final trialEndDate = trialStartDate.add(Duration(days: trialDays));
+    final midpoint = trialStartDate.add(Duration(days: trialDays ~/ 2));
+    final oneDayBefore = trialEndDate.subtract(const Duration(days: 1));
+    final oneDayAfter = trialEndDate.add(const Duration(days: 1));
+
+    final now = DateTime.now();
+    final hours = totalSavedHours ?? '0';
+
+    // Midpoint reminder (trial'ın yarısında)
+    if (midpoint.isAfter(now)) {
+      final midpointTime = DateTime(midpoint.year, midpoint.month, midpoint.day, 12, 0);
+      await _scheduleNotification(
+        id: _idTrialMidpoint,
+        title: 'Yarı yoldasın! ⏳',
+        body: 'Deneme süren yarılandı. Şu ana kadar $hours saat biriktirdin!',
+        scheduledTime: _getNextAvailableTime(midpointTime),
+        channelId: 'trial_channel',
+        channelName: 'Trial Reminders',
+      );
+    }
+
+    // 1 day before end
+    if (oneDayBefore.isAfter(now)) {
+      final oneDayBeforeTime = DateTime(oneDayBefore.year, oneDayBefore.month, oneDayBefore.day, 10, 0);
+      await _scheduleNotification(
+        id: _idTrialOneDayLeft,
+        title: 'Denemen yarın bitiyor ⏰',
+        body: 'Premium\'a geç, biriktirmeye devam et!',
+        scheduledTime: _getNextAvailableTime(oneDayBeforeTime),
+        channelId: 'trial_channel',
+        channelName: 'Trial Reminders',
+      );
+    }
+
+    // Trial end day
+    if (trialEndDate.isAfter(now)) {
+      final endDayTime = DateTime(trialEndDate.year, trialEndDate.month, trialEndDate.day, 10, 0);
+      await _scheduleNotification(
+        id: _idTrialEndsToday,
+        title: 'Denemenin son günü! 🎁',
+        body: 'Bugün geçersen %50 indirim!',
+        scheduledTime: _getNextAvailableTime(endDayTime),
+        channelId: 'trial_channel',
+        channelName: 'Trial Reminders',
+      );
+    }
+
+    // 1 day after (win-back)
+    if (oneDayAfter.isAfter(now)) {
+      final dayAfterTime = DateTime(oneDayAfter.year, oneDayAfter.month, oneDayAfter.day, 18, 0);
+      await _scheduleNotification(
+        id: _idTrialExpired,
+        title: 'Seni özledik! 💜',
+        body: 'Geri dön, hedeflerine devam et',
+        scheduledTime: _getNextAvailableTime(dayAfterTime),
+        channelId: 'trial_channel',
+        channelName: 'Trial Reminders',
+      );
+    }
+  }
+
+  /// Trial bildirimlerini iptal et (kullanıcı premium'a geçtiğinde)
+  Future<void> cancelTrialNotifications() async {
+    await cancel(_idTrialMidpoint);
+    await cancel(_idTrialOneDayLeft);
+    await cancel(_idTrialEndsToday);
+    await cancel(_idTrialExpired);
+  }
+
+  /// Trial'ın kalan günlerini hesapla
+  Future<int?> getTrialDaysRemaining() async {
+    final prefs = await SharedPreferences.getInstance();
+    final startDateStr = prefs.getString(_keyTrialStartDate);
+    final trialDays = prefs.getInt(_keyTrialDays);
+
+    if (startDateStr == null || trialDays == null) return null;
+
+    final startDate = DateTime.parse(startDateStr);
+    final endDate = startDate.add(Duration(days: trialDays));
+    final remaining = endDate.difference(DateTime.now()).inDays;
+
+    return remaining > 0 ? remaining : 0;
+  }
+
+  // ============================================
+  // 7. İLK HARCAMA KUTLAMASI
+  // ============================================
+
+  /// İlk harcama sonrası kutlama bildirimi
+  Future<void> scheduleFirstExpenseCelebration({
+    required String savedHours,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Ayar kontrolü
+    if (!(prefs.getBool(_keyNotificationsEnabled) ?? true)) return;
+
+    // 2-4 saat sonra
+    final random = Random();
+    final hoursDelay = 2 + random.nextInt(3);
+    var scheduledTime = DateTime.now().add(Duration(hours: hoursDelay));
+
+    // Gece kontrolü
+    scheduledTime = _getNextAvailableTime(scheduledTime);
+
+    await _scheduleNotification(
+      id: _idFirstExpense,
+      title: 'Harika başlangıç! 🎉',
+      body: 'Bugün $savedHours saat biriktirdin!',
+      scheduledTime: scheduledTime,
+    );
+  }
+
+  // ============================================
+  // 8. GÜNLÜK HATIRLATMA
+  // ============================================
+
+  /// Günlük hatırlatma planla
+  Future<void> scheduleDailyReminder({int hour = 20, int minute = 0}) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Ayar kontrolü
+    if (!(prefs.getBool(_keyNotificationsEnabled) ?? true)) return;
+    if (!(prefs.getBool(_keyDailyReminderEnabled) ?? false)) return;
+
+    // Windows ve Linux'ta desteklenmiyor
+    if (Platform.isWindows || Platform.isLinux) return;
+
+    // Saati kaydet
+    await prefs.setInt(_keyDailyReminderHour, hour);
+    await prefs.setInt(_keyDailyReminderMinute, minute);
+
+    // Bir sonraki hatırlatma zamanını hesapla
+    final now = DateTime.now();
+    var scheduledTime = DateTime(now.year, now.month, now.day, hour, minute);
+
+    // Saat geçtiyse yarına planla
+    if (scheduledTime.isBefore(now)) {
+      scheduledTime = scheduledTime.add(const Duration(days: 1));
+    }
+
+    final androidDetails = AndroidNotificationDetails(
+      'daily_reminder_channel',
+      'Günlük Hatırlatmalar',
+      channelDescription: 'Günlük harcama girişi hatırlatmaları',
+      importance: Importance.defaultImportance,
+      priority: Priority.defaultPriority,
+    );
+
+    const darwinDetails = DarwinNotificationDetails();
+
+    final details = NotificationDetails(
+      android: androidDetails,
+      iOS: darwinDetails,
+      macOS: darwinDetails,
+    );
+
+    try {
+      // Her gün tekrarlayan bildirim
+      await _notifications.zonedSchedule(
+        _idDailyReminder,
+        'Harcamalarını girmeyi unutma! 📝',
+        'Bugünkü harcamalarını saniyeler içinde gir',
+        tz.TZDateTime.from(scheduledTime, tz.local),
+        details,
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.time, // Her gün aynı saatte
+      );
+    } on UnimplementedError {
+      // Platform desteklemiyor
+    }
+  }
+
+  /// Günlük hatırlatmayı iptal et
+  Future<void> cancelDailyReminder() async {
+    await cancel(_idDailyReminder);
+  }
+
+  /// Günlük hatırlatma saatini al
+  Future<({int hour, int minute})?> getDailyReminderTime() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hour = prefs.getInt(_keyDailyReminderHour);
+    final minute = prefs.getInt(_keyDailyReminderMinute);
+
+    if (hour == null) return null;
+    return (hour: hour, minute: minute ?? 0);
+  }
+
+  /// Günlük hatırlatma aktif mi?
+  Future<bool> isDailyReminderEnabled() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_keyDailyReminderEnabled) ?? false;
+  }
+
+  /// Trial hatırlatması aktif mi?
+  Future<bool> isTrialReminderEnabled() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_keyTrialReminderEnabled) ?? true;
+  }
+
+  // ============================================
   // YARDIMCI METODLAR
   // ============================================
 
@@ -474,6 +710,10 @@ class NotificationService {
     required String title,
     required String body,
     required DateTime scheduledTime,
+    String channelId = 'vantag_channel',
+    String channelName = 'Vantag Bildirimleri',
+    Importance importance = Importance.defaultImportance,
+    Priority priority = Priority.defaultPriority,
   }) async {
     // Windows ve Linux'ta zamanlanmış bildirimler desteklenmiyor
     if (Platform.isWindows || Platform.isLinux) {
@@ -481,11 +721,11 @@ class NotificationService {
     }
 
     final androidDetails = AndroidNotificationDetails(
-      'vantag_channel',
-      'Vantag Bildirimleri',
+      channelId,
+      channelName,
       channelDescription: 'Finansal takip bildirimleri',
-      importance: Importance.defaultImportance,
-      priority: Priority.defaultPriority,
+      importance: importance,
+      priority: priority,
       styleInformation: BigTextStyleInformation(body),
     );
 
@@ -561,6 +801,8 @@ class NotificationService {
       'streakReminder': prefs.getBool(_keyStreakReminderEnabled) ?? true,
       'weeklyInsight': prefs.getBool(_keyWeeklyInsightEnabled) ?? true,
       'subscriptionReminder': prefs.getBool(_keySubscriptionReminderEnabled) ?? true,
+      'trialReminder': prefs.getBool(_keyTrialReminderEnabled) ?? true,
+      'dailyReminder': prefs.getBool(_keyDailyReminderEnabled) ?? false,
     };
   }
 
@@ -575,6 +817,8 @@ class NotificationService {
       'streakReminder' => _keyStreakReminderEnabled,
       'weeklyInsight' => _keyWeeklyInsightEnabled,
       'subscriptionReminder' => _keySubscriptionReminderEnabled,
+      'trialReminder' => _keyTrialReminderEnabled,
+      'dailyReminder' => _keyDailyReminderEnabled,
       _ => null,
     };
 
@@ -583,6 +827,17 @@ class NotificationService {
 
       if (key == 'enabled' && !value) {
         await cancelAll();
+      } else if (key == 'trialReminder' && !value) {
+        await cancelTrialNotifications();
+      } else if (key == 'dailyReminder' && !value) {
+        await cancelDailyReminder();
+      } else if (key == 'dailyReminder' && value) {
+        // Re-schedule with saved time
+        final time = await getDailyReminderTime();
+        await scheduleDailyReminder(
+          hour: time?.hour ?? 20,
+          minute: time?.minute ?? 0,
+        );
       }
     }
   }
@@ -598,6 +853,8 @@ class NotificationService {
       await prefs.setBool(_keyStreakReminderEnabled, true);
       await prefs.setBool(_keyWeeklyInsightEnabled, true);
       await prefs.setBool(_keySubscriptionReminderEnabled, true);
+      await prefs.setBool(_keyTrialReminderEnabled, true);
+      await prefs.setBool(_keyDailyReminderEnabled, false); // Off by default
     }
   }
 }

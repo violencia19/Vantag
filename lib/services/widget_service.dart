@@ -1,213 +1,200 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/services.dart';
+import 'package:home_widget/home_widget.dart';
 
 /// Service for providing data to home screen widgets (iOS/Android)
+/// Uses home_widget package for cross-platform support
 class WidgetService {
   static final WidgetService _instance = WidgetService._internal();
   factory WidgetService() => _instance;
   WidgetService._internal();
 
-  // Method channel for native widget communication
-  static const MethodChannel _channel = MethodChannel('com.vantag.app/widget');
+  // iOS App Group ID (must match widget extension)
+  static const String appGroupId = 'group.com.vantag.app';
 
-  // App Group ID for iOS (must match widget extension)
-  static const String _appGroupId = 'group.com.vantag.app';
-
-  // Widget data keys
-  static const String _keyWidgetData = 'widget_data';
-  static const String _keyLastUpdate = 'widget_last_update';
+  // Widget names
+  static const String iOSWidgetName = 'VantagWidget';
+  static const String androidSmallWidgetName = 'VantagSmallWidgetProvider';
+  static const String androidMediumWidgetName = 'VantagMediumWidgetProvider';
 
   /// Initialize widget service
   Future<void> initialize() async {
-    // Initial data sync
-    await updateWidgetData(WidgetData.empty());
-  }
-
-  /// Update widget data (call this when relevant data changes)
-  Future<void> updateWidgetData(WidgetData data) async {
     try {
-      final jsonData = json.encode(data.toJson());
-
+      // Set app group for iOS
       if (Platform.isIOS) {
-        await _updateIOSWidget(jsonData);
-      } else if (Platform.isAndroid) {
-        await _updateAndroidWidget(jsonData);
+        await HomeWidget.setAppGroupId(appGroupId);
       }
 
-      // Also save to SharedPreferences as fallback
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(_keyWidgetData, jsonData);
-      await prefs.setString(_keyLastUpdate, DateTime.now().toIso8601String());
+      // Register interactivity callback for widget taps
+      await HomeWidget.registerInteractivityCallback(widgetBackgroundCallback);
 
-      debugPrint('[Widget] Data updated: ${data.savedAmount}');
+      debugPrint('[Widget] Service initialized');
+    } catch (e) {
+      debugPrint('[Widget] Initialization error: $e');
+    }
+  }
+
+  /// Update widget data - call this whenever relevant data changes
+  Future<void> updateWidgetData({
+    required double todayHours,
+    required int todayMinutes,
+    required double todayAmount,
+    required String currencySymbol,
+    required String spendingLevel, // "low", "medium", "high"
+    String? pursuitName,
+    double? pursuitProgress,
+    double? pursuitTarget,
+    required String locale, // "en" or "tr"
+  }) async {
+    try {
+      // Save all data for widgets to read
+      await HomeWidget.saveWidgetData<double>('todayHours', todayHours);
+      await HomeWidget.saveWidgetData<int>('todayMinutes', todayMinutes);
+      await HomeWidget.saveWidgetData<double>('todayAmount', todayAmount);
+      await HomeWidget.saveWidgetData<String>('currencySymbol', currencySymbol);
+      await HomeWidget.saveWidgetData<String>('spendingLevel', spendingLevel);
+      await HomeWidget.saveWidgetData<String>('pursuitName', pursuitName ?? '');
+      await HomeWidget.saveWidgetData<double>('pursuitProgress', pursuitProgress ?? 0.0);
+      await HomeWidget.saveWidgetData<double>('pursuitTarget', pursuitTarget ?? 0.0);
+      await HomeWidget.saveWidgetData<String>('locale', locale);
+      await HomeWidget.saveWidgetData<String>('lastUpdate', DateTime.now().toIso8601String());
+
+      // Format time strings for widgets (avoids computation on widget side)
+      final hourAbbrev = locale == 'tr' ? 's' : 'h';
+      final minAbbrev = locale == 'tr' ? 'dk' : 'm';
+      final formattedTime = '${todayHours.toInt()}$hourAbbrev ${todayMinutes}$minAbbrev';
+      final formattedAmount = '$currencySymbol${todayAmount.toStringAsFixed(0)}';
+
+      await HomeWidget.saveWidgetData<String>('formattedTime', formattedTime);
+      await HomeWidget.saveWidgetData<String>('formattedAmount', formattedAmount);
+
+      // Pursuit formatted string
+      if (pursuitName != null && pursuitName.isNotEmpty && pursuitTarget != null && pursuitTarget > 0) {
+        final pursuitProgressStr = '${pursuitProgress?.toInt() ?? 0}/${pursuitTarget.toInt()} $hourAbbrev';
+        await HomeWidget.saveWidgetData<String>('pursuitProgressText', pursuitProgressStr);
+        await HomeWidget.saveWidgetData<bool>('hasPursuit', true);
+      } else {
+        await HomeWidget.saveWidgetData<String>('pursuitProgressText', '');
+        await HomeWidget.saveWidgetData<bool>('hasPursuit', false);
+      }
+
+      // Trigger widget update on both platforms
+      await _updateWidgets();
+
+      debugPrint('[Widget] Data updated: $formattedTime, $formattedAmount, level: $spendingLevel');
     } catch (e) {
       debugPrint('[Widget] Error updating widget data: $e');
     }
   }
 
-  /// Update iOS widget via UserDefaults (App Groups)
-  Future<void> _updateIOSWidget(String jsonData) async {
+  /// Update all widgets
+  Future<void> _updateWidgets() async {
     try {
-      await _channel.invokeMethod('updateWidget', {
-        'appGroupId': _appGroupId,
-        'data': jsonData,
-      });
+      if (Platform.isIOS) {
+        await HomeWidget.updateWidget(iOSName: iOSWidgetName);
+      } else if (Platform.isAndroid) {
+        // Update both widget sizes
+        await HomeWidget.updateWidget(androidName: androidSmallWidgetName);
+        await HomeWidget.updateWidget(androidName: androidMediumWidgetName);
+      }
     } catch (e) {
-      debugPrint('[Widget] iOS update error: $e');
+      debugPrint('[Widget] Error triggering widget update: $e');
     }
   }
 
-  /// Update Android widget via native channel
-  Future<void> _updateAndroidWidget(String jsonData) async {
-    try {
-      await _channel.invokeMethod('updateWidget', {
-        'data': jsonData,
-      });
-    } catch (e) {
-      debugPrint('[Widget] Android update error: $e');
-    }
-  }
-
-  /// Request widget refresh (iOS only)
+  /// Request widget refresh (call on app launch to sync)
   Future<void> refreshWidgets() async {
-    if (!Platform.isIOS) return;
-
     try {
-      await _channel.invokeMethod('refreshWidgets');
+      await _updateWidgets();
       debugPrint('[Widget] Refresh requested');
     } catch (e) {
       debugPrint('[Widget] Refresh error: $e');
     }
   }
 
-  /// Get last widget data
-  Future<WidgetData?> getLastWidgetData() async {
+  /// Get widget data (for reading back saved data)
+  Future<T?> getWidgetData<T>(String key) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final jsonData = prefs.getString(_keyWidgetData);
-      if (jsonData != null) {
-        return WidgetData.fromJson(json.decode(jsonData));
-      }
+      return await HomeWidget.getWidgetData<T>(key);
     } catch (e) {
       debugPrint('[Widget] Error getting widget data: $e');
+      return null;
     }
-    return null;
   }
 
-  /// Check if widgets are supported
-  Future<bool> isSupported() async {
-    try {
-      final result = await _channel.invokeMethod('isSupported');
-      return result ?? false;
-    } catch (e) {
-      return false;
+  /// Check if widgets are supported on this platform
+  bool get isSupported => Platform.isIOS || Platform.isAndroid;
+
+  /// Calculate spending level based on daily average
+  /// Returns "low", "medium", or "high"
+  static String calculateSpendingLevel({
+    required double todaySpending,
+    required double dailyAverage,
+  }) {
+    if (dailyAverage <= 0) return 'low';
+
+    final ratio = todaySpending / dailyAverage;
+
+    if (ratio < 0.5) {
+      return 'low'; // Green - under 50%
+    } else if (ratio < 0.7) {
+      return 'medium'; // Yellow - 50-70%
+    } else {
+      return 'high'; // Red - over 70%
     }
   }
 }
 
-/// Data model for widget display
-class WidgetData {
-  final double savedAmount;
-  final double savedHours;
-  final int streakDays;
-  final int noDecisionCount;
-  final double monthlyBudgetUsed;
-  final double monthlyBudgetTotal;
-  final String currencySymbol;
-  final DateTime lastUpdate;
+/// Background callback for widget tap interactions
+/// This is called when user taps on widget elements
+@pragma('vm:entry-point')
+Future<void> widgetBackgroundCallback(Uri? uri) async {
+  debugPrint('[Widget] Background callback: $uri');
 
-  WidgetData({
-    required this.savedAmount,
-    required this.savedHours,
-    required this.streakDays,
-    required this.noDecisionCount,
-    required this.monthlyBudgetUsed,
-    required this.monthlyBudgetTotal,
-    required this.currencySymbol,
-    required this.lastUpdate,
-  });
+  if (uri == null) return;
 
-  factory WidgetData.empty() {
-    return WidgetData(
-      savedAmount: 0,
-      savedHours: 0,
-      streakDays: 0,
-      noDecisionCount: 0,
-      monthlyBudgetUsed: 0,
-      monthlyBudgetTotal: 0,
-      currencySymbol: '₺',
-      lastUpdate: DateTime.now(),
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-        'savedAmount': savedAmount,
-        'savedHours': savedHours,
-        'streakDays': streakDays,
-        'noDecisionCount': noDecisionCount,
-        'monthlyBudgetUsed': monthlyBudgetUsed,
-        'monthlyBudgetTotal': monthlyBudgetTotal,
-        'currencySymbol': currencySymbol,
-        'lastUpdate': lastUpdate.toIso8601String(),
-      };
-
-  factory WidgetData.fromJson(Map<String, dynamic> json) {
-    return WidgetData(
-      savedAmount: (json['savedAmount'] as num?)?.toDouble() ?? 0,
-      savedHours: (json['savedHours'] as num?)?.toDouble() ?? 0,
-      streakDays: json['streakDays'] as int? ?? 0,
-      noDecisionCount: json['noDecisionCount'] as int? ?? 0,
-      monthlyBudgetUsed: (json['monthlyBudgetUsed'] as num?)?.toDouble() ?? 0,
-      monthlyBudgetTotal: (json['monthlyBudgetTotal'] as num?)?.toDouble() ?? 0,
-      currencySymbol: json['currencySymbol'] as String? ?? '₺',
-      lastUpdate: json['lastUpdate'] != null
-          ? DateTime.parse(json['lastUpdate'] as String)
-          : DateTime.now(),
-    );
-  }
-
-  /// Get budget progress (0.0 - 1.0)
-  double get budgetProgress {
-    if (monthlyBudgetTotal <= 0) return 0;
-    return (monthlyBudgetUsed / monthlyBudgetTotal).clamp(0.0, 1.0);
-  }
-
-  /// Get formatted saved amount
-  String get formattedSavedAmount {
-    if (savedAmount >= 1000000) {
-      return '${(savedAmount / 1000000).toStringAsFixed(1)}M$currencySymbol';
-    } else if (savedAmount >= 1000) {
-      return '${(savedAmount / 1000).toStringAsFixed(1)}K$currencySymbol';
-    }
-    return '${savedAmount.toStringAsFixed(0)}$currencySymbol';
-  }
-
-  /// Get formatted saved hours
-  String get formattedSavedHours {
-    if (savedHours >= 24) {
-      final days = savedHours / 8;
-      return '${days.toStringAsFixed(1)} days';
-    }
-    return '${savedHours.toStringAsFixed(1)}h';
-  }
+  // Handle different deep link paths
+  // vantag://home - Open main screen
+  // vantag://pursuits - Open pursuits tab
+  // These are handled by the app's deep link service when app opens
 }
 
-/// Global instance
+/// Global instance for easy access
 final widgetService = WidgetService();
 
 /// Widget types available
 enum WidgetType {
-  small, // Small widget (savings amount only)
-  medium, // Medium widget (savings + streak)
-  large, // Large widget (full dashboard)
+  small, // Small widget (2x2) - daily spending
+  medium, // Medium widget (4x2) - spending + pursuit
 }
 
-/// Widget theme options
-enum WidgetTheme {
-  dark, // Dark theme (default)
-  light, // Light theme
-  system, // Follow system
+/// Widget spending level colors
+enum SpendingLevel {
+  low, // Green - under 50% of daily average
+  medium, // Yellow - 50-70% of daily average
+  high, // Red - over 70% of daily average
+}
+
+extension SpendingLevelExtension on SpendingLevel {
+  String get value {
+    switch (this) {
+      case SpendingLevel.low:
+        return 'low';
+      case SpendingLevel.medium:
+        return 'medium';
+      case SpendingLevel.high:
+        return 'high';
+    }
+  }
+
+  static SpendingLevel fromString(String value) {
+    switch (value) {
+      case 'medium':
+        return SpendingLevel.medium;
+      case 'high':
+        return SpendingLevel.high;
+      default:
+        return SpendingLevel.low;
+    }
+  }
 }

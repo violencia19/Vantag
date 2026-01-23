@@ -55,7 +55,7 @@ class _AILimitDialogContent extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(maxWidth: 340),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: Colors.white.withValues(alpha: 0.1),
@@ -75,16 +75,16 @@ class _AILimitDialogContent extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Icon
-              _buildIcon(),
+              _buildIcon(context),
               const SizedBox(height: 20),
 
               // Title
               Text(
                 _getTitle(l10n),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -95,7 +95,7 @@ class _AILimitDialogContent extends StatelessWidget {
                 _getMessage(l10n),
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                   height: 1.5,
                 ),
                 textAlign: TextAlign.center,
@@ -104,7 +104,7 @@ class _AILimitDialogContent extends StatelessWidget {
               // Reset date info (for Pro/Lifetime)
               if (type != AILimitType.free && resetDate != null) ...[
                 const SizedBox(height: 16),
-                _buildResetInfo(l10n),
+                _buildResetInfo(context, l10n),
               ],
 
               const SizedBox(height: 24),
@@ -124,18 +124,18 @@ class _AILimitDialogContent extends StatelessWidget {
     );
   }
 
-  Widget _buildIcon() {
+  Widget _buildIcon(BuildContext context) {
     final IconData icon;
     final Color color;
 
     switch (type) {
       case AILimitType.free:
         icon = PhosphorIconsDuotone.lock;
-        color = AppColors.warning;
+        color = context.appColors.warning;
       case AILimitType.proSubscription:
       case AILimitType.lifetime:
         icon = PhosphorIconsDuotone.hourglassMedium;
-        color = AppColors.primary;
+        color = context.appColors.primary;
     }
 
     return Container(
@@ -181,7 +181,7 @@ class _AILimitDialogContent extends StatelessWidget {
     }
   }
 
-  Widget _buildResetInfo(AppLocalizations l10n) {
+  Widget _buildResetInfo(BuildContext context, AppLocalizations l10n) {
     final monthName = _getMonthName(resetDate!.month, l10n);
     final resetText = l10n.aiLimitResetDate(
       resetDate!.day.toString(),
@@ -192,10 +192,10 @@ class _AILimitDialogContent extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.1),
+        color: context.appColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.2),
+          color: context.appColors.primary.withValues(alpha: 0.2),
         ),
       ),
       child: Row(
@@ -204,7 +204,7 @@ class _AILimitDialogContent extends StatelessWidget {
           Icon(
             PhosphorIconsDuotone.calendarCheck,
             size: 18,
-            color: AppColors.primary,
+            color: context.appColors.primary,
           ),
           const SizedBox(width: 8),
           Flexible(
@@ -212,7 +212,7 @@ class _AILimitDialogContent extends StatelessWidget {
               resetText,
               style: TextStyle(
                 fontSize: 13,
-                color: AppColors.primary,
+                color: context.appColors.primary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -247,7 +247,7 @@ class _AILimitDialogContent extends StatelessWidget {
               Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
+              backgroundColor: context.appColors.primary,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
@@ -295,7 +295,7 @@ class _AILimitDialogContent extends StatelessWidget {
         text,
         style: TextStyle(
           fontSize: 13,
-          color: AppColors.textTertiary,
+          color: context.appColors.textTertiary,
         ),
       ),
     );
@@ -338,12 +338,12 @@ class _GradientButton extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [AppColors.primary, AppColors.secondary],
+          colors: [context.appColors.primary, context.appColors.secondary],
         ),
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.4),
+            color: context.appColors.primary.withValues(alpha: 0.4),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),

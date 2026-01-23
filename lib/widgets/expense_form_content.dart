@@ -198,11 +198,11 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.dark(
-              primary: AppColors.primary,
-              onPrimary: AppColors.background,
-              surface: AppColors.surface,
-              onSurface: AppColors.textPrimary,
+            colorScheme: ColorScheme.dark(
+              primary: context.appColors.primary,
+              onPrimary: context.appColors.background,
+              surface: context.appColors.surface,
+              onSurface: context.appColors.textPrimary,
             ),
           ),
           child: child!,
@@ -258,7 +258,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: AppColors.error,
+        backgroundColor: context.appColors.error,
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -285,9 +285,9 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.surfaceLight,
+        color: context.appColors.surfaceLight,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
@@ -295,14 +295,14 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
           icon: Icon(
             PhosphorIconsFill.caretDown,
             size: 14,
-            color: AppColors.textSecondary,
+            color: context.appColors.textSecondary,
           ),
-          dropdownColor: AppColors.cardBackground,
+          dropdownColor: context.appColors.cardBackground,
           borderRadius: BorderRadius.circular(12),
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
           ),
           items: _availableCurrencies.map((code) {
             return DropdownMenuItem<String>(
@@ -314,7 +314,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                   fontWeight: _selectedCurrencyCode == code
                       ? FontWeight.w600
                       : FontWeight.w400,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
             );
@@ -377,46 +377,46 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
           enableSuggestions: true,
           autocorrect: false,
           enableIMEPersonalizedLearning: true,
-          style: const TextStyle(
-            color: AppColors.textPrimary,
+          style: TextStyle(
+            color: context.appColors.textPrimary,
             fontSize: 14,
           ),
           decoration: InputDecoration(
             labelText: l10n.descriptionLabel,
-            labelStyle: const TextStyle(
-              color: AppColors.textSecondary,
+            labelStyle: TextStyle(
+              color: context.appColors.textSecondary,
               fontSize: 14,
             ),
             hintText: l10n.descriptionHint,
-            hintStyle: const TextStyle(
-              color: AppColors.textTertiary,
+            hintStyle: TextStyle(
+              color: context.appColors.textTertiary,
               fontSize: 14,
             ),
             filled: true,
-            fillColor: AppColors.surfaceLight,
+            fillColor: context.appColors.surfaceLight,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 14,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.cardBorder),
+              borderSide: BorderSide(color: context.appColors.cardBorder),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.cardBorder),
+              borderSide: BorderSide(color: context.appColors.cardBorder),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+              borderSide: BorderSide(color: context.appColors.primary, width: 1.5),
             ),
             suffixIcon: _smartMatchActive
-                ? const Padding(
-                    padding: EdgeInsets.only(right: 8),
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 8),
                     child: Icon(
                       PhosphorIconsDuotone.sparkle,
                       size: 18,
-                      color: AppColors.success,
+                      color: context.appColors.success,
                     ),
                   )
                 : null,
@@ -438,7 +438,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                   boxShadow: _smartMatchActive
                       ? [
                           BoxShadow(
-                            color: AppColors.success.withValues(alpha: 0.3),
+                            color: context.appColors.success.withValues(alpha: 0.3),
                             blurRadius: 8,
                             spreadRadius: 1,
                           ),
@@ -446,7 +446,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                       : _categoryValidationError
                           ? [
                               BoxShadow(
-                                color: AppColors.error.withValues(alpha: 0.3),
+                                color: context.appColors.error.withValues(alpha: 0.3),
                                 blurRadius: 8,
                                 spreadRadius: 1,
                               ),
@@ -457,7 +457,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                   value: _selectedCategory,
                   hint: Text(
                     l10n.selectCategory,
-                    style: const TextStyle(color: AppColors.textTertiary, fontSize: 14),
+                    style: TextStyle(color: context.appColors.textTertiary, fontSize: 14),
                   ),
                   items: ExpenseCategory.all.map((category) {
                     return DropdownMenuItem(
@@ -480,12 +480,12 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                     labelText: l10n.category,
                     labelStyle: TextStyle(
                       color: _categoryValidationError
-                          ? AppColors.error
-                          : AppColors.textSecondary,
+                          ? context.appColors.error
+                          : context.appColors.textSecondary,
                       fontSize: 14,
                     ),
                     filled: true,
-                    fillColor: AppColors.surfaceLight,
+                    fillColor: context.appColors.surfaceLight,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 14,
@@ -494,30 +494,30 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
                         color: _categoryValidationError
-                            ? AppColors.error
-                            : AppColors.cardBorder,
+                            ? context.appColors.error
+                            : context.appColors.cardBorder,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
                         color: _categoryValidationError
-                            ? AppColors.error
-                            : (_smartMatchActive ? AppColors.success : AppColors.cardBorder),
+                            ? context.appColors.error
+                            : (_smartMatchActive ? context.appColors.success : context.appColors.cardBorder),
                         width: _smartMatchActive || _categoryValidationError ? 1.5 : 1,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                        color: AppColors.primary,
+                      borderSide: BorderSide(
+                        color: context.appColors.primary,
                         width: 1.5,
                       ),
                     ),
                   ),
-                  dropdownColor: AppColors.surface,
-                  style: const TextStyle(
-                    color: AppColors.textPrimary,
+                  dropdownColor: context.appColors.surface,
+                  style: TextStyle(
+                    color: context.appColors.textPrimary,
                     fontSize: 14,
                   ),
                 ),
@@ -532,17 +532,17 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
             padding: const EdgeInsets.only(top: 6, left: 4),
             child: Row(
               children: [
-                const Icon(
+                Icon(
                   PhosphorIconsDuotone.sparkle,
                   size: 14,
-                  color: AppColors.success,
+                  color: context.appColors.success,
                 ),
                 const SizedBox(width: 4),
                 Text(
                   l10n.autoSelected(ExpenseCategory.getLocalizedName(_selectedCategory!, l10n)),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
-                    color: AppColors.success,
+                    color: context.appColors.success,
                   ),
                 ),
               ],
@@ -559,33 +559,33 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
           enableSuggestions: true,
           autocorrect: false,
           enableIMEPersonalizedLearning: true,
-          style: const TextStyle(
-            color: AppColors.textPrimary,
+          style: TextStyle(
+            color: context.appColors.textPrimary,
             fontSize: 14,
           ),
           decoration: InputDecoration(
             hintText: l10n.subCategoryOptional,
-            hintStyle: const TextStyle(
-              color: AppColors.textTertiary,
+            hintStyle: TextStyle(
+              color: context.appColors.textTertiary,
               fontSize: 14,
             ),
             filled: true,
-            fillColor: AppColors.surfaceLight,
+            fillColor: context.appColors.surfaceLight,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 14,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.cardBorder),
+              borderSide: BorderSide(color: context.appColors.cardBorder),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.cardBorder),
+              borderSide: BorderSide(color: context.appColors.cardBorder),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+              borderSide: BorderSide(color: context.appColors.primary, width: 1.5),
             ),
           ),
           onTap: () => setState(() => _showSubCategorySuggestions = true),
@@ -603,16 +603,16 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
-              color: AppColors.surfaceLight,
+              color: context.appColors.surfaceLight,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.cardBorder),
+              border: Border.all(color: context.appColors.cardBorder),
             ),
             child: Row(
               children: [
-                const Icon(
+                Icon(
                   PhosphorIconsDuotone.calendar,
                   size: 20,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -623,15 +623,15 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                         l10n.date,
                         style: TextStyle(
                           fontSize: 11,
-                          color: AppColors.textTertiary,
+                          color: context.appColors.textTertiary,
                         ),
                       ),
                       const SizedBox(height: 2),
                       Text(
                         _formatDate(_selectedDate, l10n),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
-                          color: AppColors.textPrimary,
+                          color: context.appColors.textPrimary,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -640,7 +640,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                 ),
                 Icon(
                   PhosphorIconsDuotone.caretRight,
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                 ),
               ],
             ),
@@ -655,8 +655,8 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
           child: ElevatedButton(
             onPressed: _submit,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: AppColors.background,
+              backgroundColor: context.appColors.primary,
+              foregroundColor: context.appColors.background,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -681,7 +681,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
             child: TextButton(
               onPressed: widget.onCancel,
               style: TextButton.styleFrom(
-                foregroundColor: AppColors.textSecondary,
+                foregroundColor: context.appColors.textSecondary,
               ),
               child: Text(l10n.cancel),
             ),
@@ -735,12 +735,12 @@ class _SubCatChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: isRecent ? Colors.transparent : AppColors.surface,
+          color: isRecent ? Colors.transparent : context.appColors.surface,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isRecent
-                ? AppColors.primary.withValues(alpha: 0.5)
-                : AppColors.cardBorder,
+                ? context.appColors.primary.withValues(alpha: 0.5)
+                : context.appColors.cardBorder,
           ),
         ),
         child: Row(
@@ -752,14 +752,14 @@ class _SubCatChip extends StatelessWidget {
                 child: Icon(
                   PhosphorIconsDuotone.clockCounterClockwise,
                   size: 12,
-                  color: AppColors.primary.withValues(alpha: 0.7),
+                  color: context.appColors.primary.withValues(alpha: 0.7),
                 ),
               ),
             Text(
               label,
               style: TextStyle(
                 fontSize: 13,
-                color: isRecent ? AppColors.primary : AppColors.textSecondary,
+                color: isRecent ? context.appColors.primary : context.appColors.textSecondary,
               ),
             ),
           ],

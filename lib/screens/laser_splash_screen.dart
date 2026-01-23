@@ -259,7 +259,7 @@ m-46 -98 c-4 -5 -12 -9 -18 -8 -9 0 -8 2 1 6 6 2 9 10 6 15 -4 7 -2 8 5 4 6
 
     return Scaffold(
       // Mevcut tema arka planı
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: AnimatedBuilder(
         animation: Listenable.merge([
           _laserDrawController,
@@ -314,7 +314,7 @@ m-46 -98 c-4 -5 -12 -9 -18 -8 -9 0 -8 2 1 6 6 2 9 10 6 15 -4 7 -2 8 5 4 6
                               borderRadius: BorderRadius.circular(28),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.primary.withValues(alpha: 0.3),
+                                  color: context.appColors.primary.withValues(alpha: 0.3),
                                   blurRadius: 30,
                                   spreadRadius: 5,
                                 ),
@@ -357,10 +357,10 @@ m-46 -98 c-4 -5 -12 -9 -18 -8 -9 0 -8 2 1 6 6 2 9 10 6 15 -4 7 -2 8 5 4 6
                             children: [
                               // Premium gradient text
                               ShaderMask(
-                                shaderCallback: (bounds) => const LinearGradient(
+                                shaderCallback: (bounds) => LinearGradient(
                                   colors: [
-                                    AppColors.primary,
-                                    AppColors.secondary,
+                                    context.appColors.primary,
+                                    context.appColors.secondary,
                                   ],
                                 ).createShader(bounds),
                                 child: const Text(
@@ -383,7 +383,7 @@ m-46 -98 c-4 -5 -12 -9 -18 -8 -9 0 -8 2 1 6 6 2 9 10 6 15 -4 7 -2 8 5 4 6
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
                                   letterSpacing: 6,
-                                  color: AppColors.textSecondary.withValues(alpha: 0.8),
+                                  color: context.appColors.textSecondary.withValues(alpha: 0.8),
                                 ),
                               ),
                             ],

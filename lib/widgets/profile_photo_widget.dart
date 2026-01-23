@@ -91,7 +91,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
     showModalBottomSheet(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.95),
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -105,17 +105,17 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
               const SizedBox(height: 24),
-              const Text(
+              Text(
                 'Profil Fotoğrafı',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 20),
@@ -171,15 +171,15 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: isDestructive
-                ? AppColors.error.withValues(alpha: 0.1)
-                : AppColors.surfaceLight,
+                ? context.appColors.error.withValues(alpha: 0.1)
+                : context.appColors.surfaceLight,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
             children: [
               Icon(
                 icon,
-                color: isDestructive ? AppColors.error : AppColors.textSecondary,
+                color: isDestructive ? context.appColors.error : context.appColors.textSecondary,
                 size: 24,
               ),
               const SizedBox(width: 16),
@@ -188,7 +188,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: isDestructive ? AppColors.error : AppColors.textPrimary,
+                  color: isDestructive ? context.appColors.error : context.appColors.textPrimary,
                 ),
               ),
             ],
@@ -209,19 +209,19 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
             width: widget.size,
             height: widget.size,
             decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.1),
+              color: context.appColors.primary.withValues(alpha: 0.1),
               shape: BoxShape.circle,
               border: Border.all(
-                color: AppColors.primary.withValues(alpha: 0.3),
+                color: context.appColors.primary.withValues(alpha: 0.3),
                 width: 2,
               ),
             ),
             child: ClipOval(
               child: _isLoading
-                  ? const Center(
+                  ? Center(
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                        valueColor: AlwaysStoppedAnimation<Color>(context.appColors.primary),
                       ),
                     )
                   : _photoPath != null
@@ -234,14 +234,14 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                             return Icon(
                               PhosphorIconsDuotone.user,
                               size: widget.size * 0.48,
-                              color: AppColors.primary,
+                              color: context.appColors.primary,
                             );
                           },
                         )
                       : Icon(
                           PhosphorIconsDuotone.user,
                           size: widget.size * 0.48,
-                          color: AppColors.primary,
+                          color: context.appColors.primary,
                         ),
             ),
           ),
@@ -254,17 +254,17 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                 width: widget.size * 0.32,
                 height: widget.size * 0.32,
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  color: context.appColors.primary,
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: AppColors.background,
+                    color: context.appColors.background,
                     width: 2,
                   ),
                 ),
                 child: Icon(
                   PhosphorIconsDuotone.camera,
                   size: widget.size * 0.16,
-                  color: AppColors.background,
+                  color: context.appColors.background,
                 ),
               ),
             ),

@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import 'streak_service.dart';
 import 'expense_history_service.dart';
@@ -14,567 +16,242 @@ class AchievementsService {
   final _currencyService = CurrencyService();
   final _subscriptionService = SubscriptionService();
 
-  // ========== STREAK ROZETLERİ (10 adet) ==========
+  // ========== ACHIEVEMENT DEFINITIONS (ID, category, tier, target only) ==========
+
   static const _streakAchievements = <_AchievementDef>[
-    // Bronze
-    _AchievementDef(
-      id: 'streak_b1',
-      title: 'Başlangıç',
-      description: '3 gün üst üste kayıt yap',
-      category: AchievementCategory.streak,
-      tier: AchievementTier.bronze,
-      subTier: 1,
-      target: 3,
-    ),
-    _AchievementDef(
-      id: 'streak_b2',
-      title: 'Devam Ediyorum',
-      description: '7 gün üst üste kayıt yap',
-      category: AchievementCategory.streak,
-      tier: AchievementTier.bronze,
-      subTier: 2,
-      target: 7,
-    ),
-    _AchievementDef(
-      id: 'streak_b3',
-      title: 'Rutin Oluşuyor',
-      description: '14 gün üst üste kayıt yap',
-      category: AchievementCategory.streak,
-      tier: AchievementTier.bronze,
-      subTier: 3,
-      target: 14,
-    ),
-    // Silver
-    _AchievementDef(
-      id: 'streak_s1',
-      title: 'Kararlılık',
-      description: '30 gün üst üste kayıt yap',
-      category: AchievementCategory.streak,
-      tier: AchievementTier.silver,
-      subTier: 1,
-      target: 30,
-    ),
-    _AchievementDef(
-      id: 'streak_s2',
-      title: 'Alışkanlık',
-      description: '60 gün üst üste kayıt yap',
-      category: AchievementCategory.streak,
-      tier: AchievementTier.silver,
-      subTier: 2,
-      target: 60,
-    ),
-    _AchievementDef(
-      id: 'streak_s3',
-      title: 'Disiplin',
-      description: '90 gün üst üste kayıt yap',
-      category: AchievementCategory.streak,
-      tier: AchievementTier.silver,
-      subTier: 3,
-      target: 90,
-    ),
-    // Gold
-    _AchievementDef(
-      id: 'streak_g1',
-      title: 'Güçlü İrade',
-      description: '150 gün üst üste kayıt yap',
-      category: AchievementCategory.streak,
-      tier: AchievementTier.gold,
-      subTier: 1,
-      target: 150,
-    ),
-    _AchievementDef(
-      id: 'streak_g2',
-      title: 'Sarsılmaz',
-      description: '250 gün üst üste kayıt yap',
-      category: AchievementCategory.streak,
-      tier: AchievementTier.gold,
-      subTier: 2,
-      target: 250,
-    ),
-    _AchievementDef(
-      id: 'streak_g3',
-      title: 'İstikrar',
-      description: '365 gün üst üste kayıt yap',
-      category: AchievementCategory.streak,
-      tier: AchievementTier.gold,
-      subTier: 3,
-      target: 365,
-    ),
-    // Platinum
-    _AchievementDef(
-      id: 'streak_p',
-      title: 'Süreklilik',
-      description: '730 gün üst üste kayıt yap',
-      category: AchievementCategory.streak,
-      tier: AchievementTier.platinum,
-      subTier: 1,
-      target: 730,
-    ),
+    _AchievementDef(id: 'streak_b1', category: AchievementCategory.streak, tier: AchievementTier.bronze, subTier: 1, target: 3),
+    _AchievementDef(id: 'streak_b2', category: AchievementCategory.streak, tier: AchievementTier.bronze, subTier: 2, target: 7),
+    _AchievementDef(id: 'streak_b3', category: AchievementCategory.streak, tier: AchievementTier.bronze, subTier: 3, target: 14),
+    _AchievementDef(id: 'streak_s1', category: AchievementCategory.streak, tier: AchievementTier.silver, subTier: 1, target: 30),
+    _AchievementDef(id: 'streak_s2', category: AchievementCategory.streak, tier: AchievementTier.silver, subTier: 2, target: 60),
+    _AchievementDef(id: 'streak_s3', category: AchievementCategory.streak, tier: AchievementTier.silver, subTier: 3, target: 90),
+    _AchievementDef(id: 'streak_g1', category: AchievementCategory.streak, tier: AchievementTier.gold, subTier: 1, target: 150),
+    _AchievementDef(id: 'streak_g2', category: AchievementCategory.streak, tier: AchievementTier.gold, subTier: 2, target: 250),
+    _AchievementDef(id: 'streak_g3', category: AchievementCategory.streak, tier: AchievementTier.gold, subTier: 3, target: 365),
+    _AchievementDef(id: 'streak_p', category: AchievementCategory.streak, tier: AchievementTier.platinum, subTier: 1, target: 730),
   ];
 
-  // ========== TASARRUF ROZETLERİ (12 adet) ==========
   static const _savingsAchievements = <_AchievementDef>[
-    // Bronze
-    _AchievementDef(
-      id: 'savings_b1',
-      title: 'İlk Tasarruf',
-      description: '250 TL kurtardın',
-      category: AchievementCategory.savings,
-      tier: AchievementTier.bronze,
-      subTier: 1,
-      target: 250,
-    ),
-    _AchievementDef(
-      id: 'savings_b2',
-      title: 'Birikime Başladım',
-      description: '500 TL kurtardın',
-      category: AchievementCategory.savings,
-      tier: AchievementTier.bronze,
-      subTier: 2,
-      target: 500,
-    ),
-    _AchievementDef(
-      id: 'savings_b3',
-      title: 'Yolun Başında',
-      description: '1,000 TL kurtardın',
-      category: AchievementCategory.savings,
-      tier: AchievementTier.bronze,
-      subTier: 3,
-      target: 1000,
-    ),
-    // Silver
-    _AchievementDef(
-      id: 'savings_s1',
-      title: 'Bilinçli Harcama',
-      description: '2,500 TL kurtardın',
-      category: AchievementCategory.savings,
-      tier: AchievementTier.silver,
-      subTier: 1,
-      target: 2500,
-    ),
-    _AchievementDef(
-      id: 'savings_s2',
-      title: 'Kontrollü',
-      description: '5,000 TL kurtardın',
-      category: AchievementCategory.savings,
-      tier: AchievementTier.silver,
-      subTier: 2,
-      target: 5000,
-    ),
-    _AchievementDef(
-      id: 'savings_s3',
-      title: 'Tutarlı',
-      description: '10,000 TL kurtardın',
-      category: AchievementCategory.savings,
-      tier: AchievementTier.silver,
-      subTier: 3,
-      target: 10000,
-    ),
-    // Gold
-    _AchievementDef(
-      id: 'savings_g1',
-      title: 'Güçlü Birikim',
-      description: '25,000 TL kurtardın',
-      category: AchievementCategory.savings,
-      tier: AchievementTier.gold,
-      subTier: 1,
-      target: 25000,
-    ),
-    _AchievementDef(
-      id: 'savings_g2',
-      title: 'Finansal Farkındalık',
-      description: '50,000 TL kurtardın',
-      category: AchievementCategory.savings,
-      tier: AchievementTier.gold,
-      subTier: 2,
-      target: 50000,
-    ),
-    _AchievementDef(
-      id: 'savings_g3',
-      title: 'Sağlam Zemin',
-      description: '100,000 TL kurtardın',
-      category: AchievementCategory.savings,
-      tier: AchievementTier.gold,
-      subTier: 3,
-      target: 100000,
-    ),
-    // Platinum
-    _AchievementDef(
-      id: 'savings_p1',
-      title: 'Uzun Vadeli Düşünce',
-      description: '250,000 TL kurtardın',
-      category: AchievementCategory.savings,
-      tier: AchievementTier.platinum,
-      subTier: 1,
-      target: 250000,
-    ),
-    _AchievementDef(
-      id: 'savings_p2',
-      title: 'Finansal Netlik',
-      description: '500,000 TL kurtardın',
-      category: AchievementCategory.savings,
-      tier: AchievementTier.platinum,
-      subTier: 2,
-      target: 500000,
-    ),
-    _AchievementDef(
-      id: 'savings_p3',
-      title: 'Büyük Resim',
-      description: '1,000,000 TL kurtardın',
-      category: AchievementCategory.savings,
-      tier: AchievementTier.platinum,
-      subTier: 3,
-      target: 1000000,
-    ),
+    _AchievementDef(id: 'savings_b1', category: AchievementCategory.savings, tier: AchievementTier.bronze, subTier: 1, target: 250),
+    _AchievementDef(id: 'savings_b2', category: AchievementCategory.savings, tier: AchievementTier.bronze, subTier: 2, target: 500),
+    _AchievementDef(id: 'savings_b3', category: AchievementCategory.savings, tier: AchievementTier.bronze, subTier: 3, target: 1000),
+    _AchievementDef(id: 'savings_s1', category: AchievementCategory.savings, tier: AchievementTier.silver, subTier: 1, target: 2500),
+    _AchievementDef(id: 'savings_s2', category: AchievementCategory.savings, tier: AchievementTier.silver, subTier: 2, target: 5000),
+    _AchievementDef(id: 'savings_s3', category: AchievementCategory.savings, tier: AchievementTier.silver, subTier: 3, target: 10000),
+    _AchievementDef(id: 'savings_g1', category: AchievementCategory.savings, tier: AchievementTier.gold, subTier: 1, target: 25000),
+    _AchievementDef(id: 'savings_g2', category: AchievementCategory.savings, tier: AchievementTier.gold, subTier: 2, target: 50000),
+    _AchievementDef(id: 'savings_g3', category: AchievementCategory.savings, tier: AchievementTier.gold, subTier: 3, target: 100000),
+    _AchievementDef(id: 'savings_p1', category: AchievementCategory.savings, tier: AchievementTier.platinum, subTier: 1, target: 250000),
+    _AchievementDef(id: 'savings_p2', category: AchievementCategory.savings, tier: AchievementTier.platinum, subTier: 2, target: 500000),
+    _AchievementDef(id: 'savings_p3', category: AchievementCategory.savings, tier: AchievementTier.platinum, subTier: 3, target: 1000000),
   ];
 
-  // ========== KARAR ROZETLERİ (10 adet) ==========
   static const _decisionAchievements = <_AchievementDef>[
-    // Bronze
-    _AchievementDef(
-      id: 'decision_b1',
-      title: 'İlk Karar',
-      description: '3 kez vazgeçtin',
-      category: AchievementCategory.decision,
-      tier: AchievementTier.bronze,
-      subTier: 1,
-      target: 3,
-    ),
-    _AchievementDef(
-      id: 'decision_b2',
-      title: 'Direnç',
-      description: '7 kez vazgeçtin',
-      category: AchievementCategory.decision,
-      tier: AchievementTier.bronze,
-      subTier: 2,
-      target: 7,
-    ),
-    _AchievementDef(
-      id: 'decision_b3',
-      title: 'Kontrol',
-      description: '15 kez vazgeçtin',
-      category: AchievementCategory.decision,
-      tier: AchievementTier.bronze,
-      subTier: 3,
-      target: 15,
-    ),
-    // Silver
-    _AchievementDef(
-      id: 'decision_s1',
-      title: 'Kararlılık',
-      description: '30 kez vazgeçtin',
-      category: AchievementCategory.decision,
-      tier: AchievementTier.silver,
-      subTier: 1,
-      target: 30,
-    ),
-    _AchievementDef(
-      id: 'decision_s2',
-      title: 'Netlik',
-      description: '60 kez vazgeçtin',
-      category: AchievementCategory.decision,
-      tier: AchievementTier.silver,
-      subTier: 2,
-      target: 60,
-    ),
-    _AchievementDef(
-      id: 'decision_s3',
-      title: 'Güçlü Seçimler',
-      description: '100 kez vazgeçtin',
-      category: AchievementCategory.decision,
-      tier: AchievementTier.silver,
-      subTier: 3,
-      target: 100,
-    ),
-    // Gold
-    _AchievementDef(
-      id: 'decision_g1',
-      title: 'İrade',
-      description: '200 kez vazgeçtin',
-      category: AchievementCategory.decision,
-      tier: AchievementTier.gold,
-      subTier: 1,
-      target: 200,
-    ),
-    _AchievementDef(
-      id: 'decision_g2',
-      title: 'Soğukkanlılık',
-      description: '400 kez vazgeçtin',
-      category: AchievementCategory.decision,
-      tier: AchievementTier.gold,
-      subTier: 2,
-      target: 400,
-    ),
-    _AchievementDef(
-      id: 'decision_g3',
-      title: 'Üst Seviye Kontrol',
-      description: '700 kez vazgeçtin',
-      category: AchievementCategory.decision,
-      tier: AchievementTier.gold,
-      subTier: 3,
-      target: 700,
-    ),
-    // Platinum
-    _AchievementDef(
-      id: 'decision_p',
-      title: 'Tam Hakimiyet',
-      description: '1,000 kez vazgeçtin',
-      category: AchievementCategory.decision,
-      tier: AchievementTier.platinum,
-      subTier: 1,
-      target: 1000,
-    ),
+    _AchievementDef(id: 'decision_b1', category: AchievementCategory.decision, tier: AchievementTier.bronze, subTier: 1, target: 3),
+    _AchievementDef(id: 'decision_b2', category: AchievementCategory.decision, tier: AchievementTier.bronze, subTier: 2, target: 7),
+    _AchievementDef(id: 'decision_b3', category: AchievementCategory.decision, tier: AchievementTier.bronze, subTier: 3, target: 15),
+    _AchievementDef(id: 'decision_s1', category: AchievementCategory.decision, tier: AchievementTier.silver, subTier: 1, target: 30),
+    _AchievementDef(id: 'decision_s2', category: AchievementCategory.decision, tier: AchievementTier.silver, subTier: 2, target: 60),
+    _AchievementDef(id: 'decision_s3', category: AchievementCategory.decision, tier: AchievementTier.silver, subTier: 3, target: 100),
+    _AchievementDef(id: 'decision_g1', category: AchievementCategory.decision, tier: AchievementTier.gold, subTier: 1, target: 200),
+    _AchievementDef(id: 'decision_g2', category: AchievementCategory.decision, tier: AchievementTier.gold, subTier: 2, target: 400),
+    _AchievementDef(id: 'decision_g3', category: AchievementCategory.decision, tier: AchievementTier.gold, subTier: 3, target: 700),
+    _AchievementDef(id: 'decision_p', category: AchievementCategory.decision, tier: AchievementTier.platinum, subTier: 1, target: 1000),
   ];
 
-  // ========== KAYIT ROZETLERİ (10 adet) ==========
   static const _recordAchievements = <_AchievementDef>[
-    // Bronze
-    _AchievementDef(
-      id: 'record_b1',
-      title: 'Başladım',
-      description: '5 harcama kaydı',
-      category: AchievementCategory.record,
-      tier: AchievementTier.bronze,
-      subTier: 1,
-      target: 5,
-    ),
-    _AchievementDef(
-      id: 'record_b2',
-      title: 'Takip Ediyorum',
-      description: '15 harcama kaydı',
-      category: AchievementCategory.record,
-      tier: AchievementTier.bronze,
-      subTier: 2,
-      target: 15,
-    ),
-    _AchievementDef(
-      id: 'record_b3',
-      title: 'Düzen Oluştu',
-      description: '30 harcama kaydı',
-      category: AchievementCategory.record,
-      tier: AchievementTier.bronze,
-      subTier: 3,
-      target: 30,
-    ),
-    // Silver
-    _AchievementDef(
-      id: 'record_s1',
-      title: 'Detaylı Takip',
-      description: '60 harcama kaydı',
-      category: AchievementCategory.record,
-      tier: AchievementTier.silver,
-      subTier: 1,
-      target: 60,
-    ),
-    _AchievementDef(
-      id: 'record_s2',
-      title: 'Analitik',
-      description: '120 harcama kaydı',
-      category: AchievementCategory.record,
-      tier: AchievementTier.silver,
-      subTier: 2,
-      target: 120,
-    ),
-    _AchievementDef(
-      id: 'record_s3',
-      title: 'Sistemli',
-      description: '200 harcama kaydı',
-      category: AchievementCategory.record,
-      tier: AchievementTier.silver,
-      subTier: 3,
-      target: 200,
-    ),
-    // Gold
-    _AchievementDef(
-      id: 'record_g1',
-      title: 'Derinlik',
-      description: '350 harcama kaydı',
-      category: AchievementCategory.record,
-      tier: AchievementTier.gold,
-      subTier: 1,
-      target: 350,
-    ),
-    _AchievementDef(
-      id: 'record_g2',
-      title: 'Uzmanlaşma',
-      description: '600 harcama kaydı',
-      category: AchievementCategory.record,
-      tier: AchievementTier.gold,
-      subTier: 2,
-      target: 600,
-    ),
-    _AchievementDef(
-      id: 'record_g3',
-      title: 'Arşiv',
-      description: '1,000 harcama kaydı',
-      category: AchievementCategory.record,
-      tier: AchievementTier.gold,
-      subTier: 3,
-      target: 1000,
-    ),
-    // Platinum
-    _AchievementDef(
-      id: 'record_p',
-      title: 'Uzun Süreli Kayıt',
-      description: '2,000 harcama kaydı',
-      category: AchievementCategory.record,
-      tier: AchievementTier.platinum,
-      subTier: 1,
-      target: 2000,
-    ),
+    _AchievementDef(id: 'record_b1', category: AchievementCategory.record, tier: AchievementTier.bronze, subTier: 1, target: 5),
+    _AchievementDef(id: 'record_b2', category: AchievementCategory.record, tier: AchievementTier.bronze, subTier: 2, target: 15),
+    _AchievementDef(id: 'record_b3', category: AchievementCategory.record, tier: AchievementTier.bronze, subTier: 3, target: 30),
+    _AchievementDef(id: 'record_s1', category: AchievementCategory.record, tier: AchievementTier.silver, subTier: 1, target: 60),
+    _AchievementDef(id: 'record_s2', category: AchievementCategory.record, tier: AchievementTier.silver, subTier: 2, target: 120),
+    _AchievementDef(id: 'record_s3', category: AchievementCategory.record, tier: AchievementTier.silver, subTier: 3, target: 200),
+    _AchievementDef(id: 'record_g1', category: AchievementCategory.record, tier: AchievementTier.gold, subTier: 1, target: 350),
+    _AchievementDef(id: 'record_g2', category: AchievementCategory.record, tier: AchievementTier.gold, subTier: 2, target: 600),
+    _AchievementDef(id: 'record_g3', category: AchievementCategory.record, tier: AchievementTier.gold, subTier: 3, target: 1000),
+    _AchievementDef(id: 'record_p', category: AchievementCategory.record, tier: AchievementTier.platinum, subTier: 1, target: 2000),
   ];
 
-  // ========== GİZLİ ROZETLERİ (15 adet) ==========
   static const _hiddenAchievements = <_HiddenAchievementDef>[
-    // KOLAY (4 adet)
-    _HiddenAchievementDef(
-      id: 'hidden_night',
-      title: 'Gece Kaydı',
-      description: '00:00-05:00 arası kayıt yap',
-      difficulty: HiddenDifficulty.easy,
-      checkType: HiddenCheckType.nightRecord,
-    ),
-    _HiddenAchievementDef(
-      id: 'hidden_early',
-      title: 'Erken Saat',
-      description: '05:00-07:00 arası kayıt yap',
-      difficulty: HiddenDifficulty.easy,
-      checkType: HiddenCheckType.earlyRecord,
-    ),
-    _HiddenAchievementDef(
-      id: 'hidden_weekend',
-      title: 'Hafta Sonu Rutini',
-      description: 'Cumartesi-Pazar 5 kayıt',
-      difficulty: HiddenDifficulty.easy,
-      checkType: HiddenCheckType.weekendRecords,
-      target: 5,
-    ),
-    _HiddenAchievementDef(
-      id: 'hidden_first_scan',
-      title: 'İlk Tarama',
-      description: 'İlk fiş OCR kullanımı',
-      difficulty: HiddenDifficulty.easy,
-      checkType: HiddenCheckType.firstOcrScan,
-    ),
-    _HiddenAchievementDef(
-      id: 'curious_cat',
-      title: 'Çok Meraklı',
-      description: 'Gizli Easter Egg\'i buldun!',
-      difficulty: HiddenDifficulty.easy,
-      checkType: HiddenCheckType.manualUnlock,
-    ),
-    // ORTA (5 adet)
-    _HiddenAchievementDef(
-      id: 'hidden_balanced_week',
-      title: 'Dengeli Hafta',
-      description: '7 gün üst üste 0 "Aldım"',
-      difficulty: HiddenDifficulty.medium,
-      checkType: HiddenCheckType.balancedWeek,
-      target: 7,
-    ),
-    _HiddenAchievementDef(
-      id: 'hidden_all_categories',
-      title: 'Kategori Tamamlama',
-      description: 'Tüm 6 kategoride kayıt',
-      difficulty: HiddenDifficulty.medium,
-      checkType: HiddenCheckType.allCategories,
-      target: 6,
-    ),
-    _HiddenAchievementDef(
-      id: 'hidden_gold_equiv',
-      title: 'Altın Denkliği',
-      description: 'Kurtarılan para 1 gram altın değerinde',
-      difficulty: HiddenDifficulty.medium,
-      checkType: HiddenCheckType.goldEquivalent,
-      target: 1,
-    ),
-    _HiddenAchievementDef(
-      id: 'hidden_usd_equiv',
-      title: 'Döviz Denkliği',
-      description: 'Kurtarılan para 100\$ değerinde',
-      difficulty: HiddenDifficulty.medium,
-      checkType: HiddenCheckType.usdEquivalent,
-      target: 100,
-    ),
-    _HiddenAchievementDef(
-      id: 'hidden_subscriptions',
-      title: 'Abonelik Kontrolü',
-      description: '5 abonelik takibi',
-      difficulty: HiddenDifficulty.medium,
-      checkType: HiddenCheckType.subscriptionCount,
-      target: 5,
-    ),
-    // ZOR (4 adet)
-    _HiddenAchievementDef(
-      id: 'hidden_no_spend_month',
-      title: 'Harcamasız Ay',
-      description: '1 ay boyunca 0 "Aldım"',
-      difficulty: HiddenDifficulty.hard,
-      checkType: HiddenCheckType.noSpendMonth,
-      target: 30,
-    ),
-    _HiddenAchievementDef(
-      id: 'hidden_gold_kg',
-      title: 'Yüksek Değer Birikim',
-      description: 'Kurtarılan para 1 kg altın değerinde',
-      difficulty: HiddenDifficulty.hard,
-      checkType: HiddenCheckType.goldKgEquivalent,
-      target: 1000,
-    ),
-    _HiddenAchievementDef(
-      id: 'hidden_usd_10k',
-      title: 'Büyük Döviz Denkliği',
-      description: 'Kurtarılan para 10,000\$ değerinde',
-      difficulty: HiddenDifficulty.hard,
-      checkType: HiddenCheckType.usd10kEquivalent,
-      target: 10000,
-    ),
-    _HiddenAchievementDef(
-      id: 'hidden_anniversary',
-      title: 'Kullanım Yıldönümü',
-      description: '365 gün kullanım',
-      difficulty: HiddenDifficulty.hard,
-      checkType: HiddenCheckType.usageAnniversary,
-      target: 365,
-    ),
-    // EFSANEVİ (3 adet)
-    _HiddenAchievementDef(
-      id: 'hidden_early_adopter',
-      title: 'İlk Nesil Kullanıcı',
-      description: 'Uygulamayı 2 yıl önce indirdi',
-      difficulty: HiddenDifficulty.legendary,
-      checkType: HiddenCheckType.earlyAdopter,
-      target: 730,
-    ),
-    _HiddenAchievementDef(
-      id: 'hidden_ultimate',
-      title: 'Uzun Vadeli Disiplin',
-      description: '1,000,000 TL + 365 gün streak aynı anda',
-      difficulty: HiddenDifficulty.legendary,
-      checkType: HiddenCheckType.ultimateCombo,
-    ),
-    _HiddenAchievementDef(
-      id: 'hidden_collector',
-      title: 'Koleksiyoncu',
-      description: 'Platinum hariç tüm rozetleri topladı',
-      difficulty: HiddenDifficulty.legendary,
-      checkType: HiddenCheckType.collector,
-    ),
+    // EASY
+    _HiddenAchievementDef(id: 'hidden_night', difficulty: HiddenDifficulty.easy, checkType: HiddenCheckType.nightRecord),
+    _HiddenAchievementDef(id: 'hidden_early', difficulty: HiddenDifficulty.easy, checkType: HiddenCheckType.earlyRecord),
+    _HiddenAchievementDef(id: 'hidden_weekend', difficulty: HiddenDifficulty.easy, checkType: HiddenCheckType.weekendRecords, target: 5),
+    _HiddenAchievementDef(id: 'hidden_first_scan', difficulty: HiddenDifficulty.easy, checkType: HiddenCheckType.firstOcrScan),
+    _HiddenAchievementDef(id: 'curious_cat', difficulty: HiddenDifficulty.easy, checkType: HiddenCheckType.manualUnlock),
+    // MEDIUM
+    _HiddenAchievementDef(id: 'hidden_balanced_week', difficulty: HiddenDifficulty.medium, checkType: HiddenCheckType.balancedWeek, target: 7),
+    _HiddenAchievementDef(id: 'hidden_all_categories', difficulty: HiddenDifficulty.medium, checkType: HiddenCheckType.allCategories, target: 6),
+    _HiddenAchievementDef(id: 'hidden_gold_equiv', difficulty: HiddenDifficulty.medium, checkType: HiddenCheckType.goldEquivalent, target: 1),
+    _HiddenAchievementDef(id: 'hidden_usd_equiv', difficulty: HiddenDifficulty.medium, checkType: HiddenCheckType.usdEquivalent, target: 100),
+    _HiddenAchievementDef(id: 'hidden_subscriptions', difficulty: HiddenDifficulty.medium, checkType: HiddenCheckType.subscriptionCount, target: 5),
+    // HARD
+    _HiddenAchievementDef(id: 'hidden_no_spend_month', difficulty: HiddenDifficulty.hard, checkType: HiddenCheckType.noSpendMonth, target: 30),
+    _HiddenAchievementDef(id: 'hidden_gold_kg', difficulty: HiddenDifficulty.hard, checkType: HiddenCheckType.goldKgEquivalent, target: 1000),
+    _HiddenAchievementDef(id: 'hidden_usd_10k', difficulty: HiddenDifficulty.hard, checkType: HiddenCheckType.usd10kEquivalent, target: 10000),
+    _HiddenAchievementDef(id: 'hidden_anniversary', difficulty: HiddenDifficulty.hard, checkType: HiddenCheckType.usageAnniversary, target: 365),
+    // LEGENDARY
+    _HiddenAchievementDef(id: 'hidden_early_adopter', difficulty: HiddenDifficulty.legendary, checkType: HiddenCheckType.earlyAdopter, target: 730),
+    _HiddenAchievementDef(id: 'hidden_ultimate', difficulty: HiddenDifficulty.legendary, checkType: HiddenCheckType.ultimateCombo),
+    _HiddenAchievementDef(id: 'hidden_collector', difficulty: HiddenDifficulty.legendary, checkType: HiddenCheckType.collector),
   ];
 
-  /// Tüm rozetleri hesapla ve döndür
-  Future<List<Achievement>> getAchievements() async {
+  // ========== LOCALIZATION HELPERS ==========
+
+  String _getAchievementTitle(AppLocalizations l10n, String id) {
+    return switch (id) {
+      // Streak
+      'streak_b1' => l10n.achievementStreakB1Title,
+      'streak_b2' => l10n.achievementStreakB2Title,
+      'streak_b3' => l10n.achievementStreakB3Title,
+      'streak_s1' => l10n.achievementStreakS1Title,
+      'streak_s2' => l10n.achievementStreakS2Title,
+      'streak_s3' => l10n.achievementStreakS3Title,
+      'streak_g1' => l10n.achievementStreakG1Title,
+      'streak_g2' => l10n.achievementStreakG2Title,
+      'streak_g3' => l10n.achievementStreakG3Title,
+      'streak_p' => l10n.achievementStreakPTitle,
+      // Savings
+      'savings_b1' => l10n.achievementSavingsB1Title,
+      'savings_b2' => l10n.achievementSavingsB2Title,
+      'savings_b3' => l10n.achievementSavingsB3Title,
+      'savings_s1' => l10n.achievementSavingsS1Title,
+      'savings_s2' => l10n.achievementSavingsS2Title,
+      'savings_s3' => l10n.achievementSavingsS3Title,
+      'savings_g1' => l10n.achievementSavingsG1Title,
+      'savings_g2' => l10n.achievementSavingsG2Title,
+      'savings_g3' => l10n.achievementSavingsG3Title,
+      'savings_p1' => l10n.achievementSavingsP1Title,
+      'savings_p2' => l10n.achievementSavingsP2Title,
+      'savings_p3' => l10n.achievementSavingsP3Title,
+      // Decision
+      'decision_b1' => l10n.achievementDecisionB1Title,
+      'decision_b2' => l10n.achievementDecisionB2Title,
+      'decision_b3' => l10n.achievementDecisionB3Title,
+      'decision_s1' => l10n.achievementDecisionS1Title,
+      'decision_s2' => l10n.achievementDecisionS2Title,
+      'decision_s3' => l10n.achievementDecisionS3Title,
+      'decision_g1' => l10n.achievementDecisionG1Title,
+      'decision_g2' => l10n.achievementDecisionG2Title,
+      'decision_g3' => l10n.achievementDecisionG3Title,
+      'decision_p' => l10n.achievementDecisionPTitle,
+      // Record
+      'record_b1' => l10n.achievementRecordB1Title,
+      'record_b2' => l10n.achievementRecordB2Title,
+      'record_b3' => l10n.achievementRecordB3Title,
+      'record_s1' => l10n.achievementRecordS1Title,
+      'record_s2' => l10n.achievementRecordS2Title,
+      'record_s3' => l10n.achievementRecordS3Title,
+      'record_g1' => l10n.achievementRecordG1Title,
+      'record_g2' => l10n.achievementRecordG2Title,
+      'record_g3' => l10n.achievementRecordG3Title,
+      'record_p' => l10n.achievementRecordPTitle,
+      // Hidden
+      'hidden_night' => l10n.achievementHiddenNightTitle,
+      'hidden_early' => l10n.achievementHiddenEarlyTitle,
+      'hidden_weekend' => l10n.achievementHiddenWeekendTitle,
+      'hidden_first_scan' => l10n.achievementHiddenOcrTitle,
+      'curious_cat' => l10n.achievementHiddenCuriousCatTitle,
+      'hidden_balanced_week' => l10n.achievementHiddenBalancedTitle,
+      'hidden_all_categories' => l10n.achievementHiddenCategoriesTitle,
+      'hidden_gold_equiv' => l10n.achievementHiddenGoldTitle,
+      'hidden_usd_equiv' => l10n.achievementHiddenUsdTitle,
+      'hidden_subscriptions' => l10n.achievementHiddenSubsTitle,
+      'hidden_no_spend_month' => l10n.achievementHiddenNoSpendTitle,
+      'hidden_gold_kg' => l10n.achievementHiddenGoldKgTitle,
+      'hidden_usd_10k' => l10n.achievementHiddenUsd10kTitle,
+      'hidden_anniversary' => l10n.achievementHiddenAnniversaryTitle,
+      'hidden_early_adopter' => l10n.achievementHiddenEarlyAdopterTitle,
+      'hidden_ultimate' => l10n.achievementHiddenUltimateTitle,
+      'hidden_collector' => l10n.achievementHiddenCollectorTitle,
+      _ => id,
+    };
+  }
+
+  String _getAchievementDescription(AppLocalizations l10n, String id) {
+    return switch (id) {
+      // Streak
+      'streak_b1' => l10n.achievementStreakB1Desc,
+      'streak_b2' => l10n.achievementStreakB2Desc,
+      'streak_b3' => l10n.achievementStreakB3Desc,
+      'streak_s1' => l10n.achievementStreakS1Desc,
+      'streak_s2' => l10n.achievementStreakS2Desc,
+      'streak_s3' => l10n.achievementStreakS3Desc,
+      'streak_g1' => l10n.achievementStreakG1Desc,
+      'streak_g2' => l10n.achievementStreakG2Desc,
+      'streak_g3' => l10n.achievementStreakG3Desc,
+      'streak_p' => l10n.achievementStreakPDesc,
+      // Savings
+      'savings_b1' => l10n.achievementSavingsB1Desc,
+      'savings_b2' => l10n.achievementSavingsB2Desc,
+      'savings_b3' => l10n.achievementSavingsB3Desc,
+      'savings_s1' => l10n.achievementSavingsS1Desc,
+      'savings_s2' => l10n.achievementSavingsS2Desc,
+      'savings_s3' => l10n.achievementSavingsS3Desc,
+      'savings_g1' => l10n.achievementSavingsG1Desc,
+      'savings_g2' => l10n.achievementSavingsG2Desc,
+      'savings_g3' => l10n.achievementSavingsG3Desc,
+      'savings_p1' => l10n.achievementSavingsP1Desc,
+      'savings_p2' => l10n.achievementSavingsP2Desc,
+      'savings_p3' => l10n.achievementSavingsP3Desc,
+      // Decision
+      'decision_b1' => l10n.achievementDecisionB1Desc,
+      'decision_b2' => l10n.achievementDecisionB2Desc,
+      'decision_b3' => l10n.achievementDecisionB3Desc,
+      'decision_s1' => l10n.achievementDecisionS1Desc,
+      'decision_s2' => l10n.achievementDecisionS2Desc,
+      'decision_s3' => l10n.achievementDecisionS3Desc,
+      'decision_g1' => l10n.achievementDecisionG1Desc,
+      'decision_g2' => l10n.achievementDecisionG2Desc,
+      'decision_g3' => l10n.achievementDecisionG3Desc,
+      'decision_p' => l10n.achievementDecisionPDesc,
+      // Record
+      'record_b1' => l10n.achievementRecordB1Desc,
+      'record_b2' => l10n.achievementRecordB2Desc,
+      'record_b3' => l10n.achievementRecordB3Desc,
+      'record_s1' => l10n.achievementRecordS1Desc,
+      'record_s2' => l10n.achievementRecordS2Desc,
+      'record_s3' => l10n.achievementRecordS3Desc,
+      'record_g1' => l10n.achievementRecordG1Desc,
+      'record_g2' => l10n.achievementRecordG2Desc,
+      'record_g3' => l10n.achievementRecordG3Desc,
+      'record_p' => l10n.achievementRecordPDesc,
+      // Hidden
+      'hidden_night' => l10n.achievementHiddenNightDesc,
+      'hidden_early' => l10n.achievementHiddenEarlyDesc,
+      'hidden_weekend' => l10n.achievementHiddenWeekendDesc,
+      'hidden_first_scan' => l10n.achievementHiddenOcrDesc,
+      'curious_cat' => l10n.achievementHiddenCuriousCatDesc,
+      'hidden_balanced_week' => l10n.achievementHiddenBalancedDesc,
+      'hidden_all_categories' => l10n.achievementHiddenCategoriesDesc,
+      'hidden_gold_equiv' => l10n.achievementHiddenGoldDesc,
+      'hidden_usd_equiv' => l10n.achievementHiddenUsdDesc,
+      'hidden_subscriptions' => l10n.achievementHiddenSubsDesc,
+      'hidden_no_spend_month' => l10n.achievementHiddenNoSpendDesc,
+      'hidden_gold_kg' => l10n.achievementHiddenGoldKgDesc,
+      'hidden_usd_10k' => l10n.achievementHiddenUsd10kDesc,
+      'hidden_anniversary' => l10n.achievementHiddenAnniversaryDesc,
+      'hidden_early_adopter' => l10n.achievementHiddenEarlyAdopterDesc,
+      'hidden_ultimate' => l10n.achievementHiddenUltimateDesc,
+      'hidden_collector' => l10n.achievementHiddenCollectorDesc,
+      _ => id,
+    };
+  }
+
+  /// Calculate and return all achievements
+  Future<List<Achievement>> getAchievements(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
     final prefs = await SharedPreferences.getInstance();
 
-    // İlk kurulum tarihini kaydet
+    // Save first install date
     await _ensureFirstInstallDate(prefs);
 
-    // Verileri topla
+    // Collect data
     final streakData = await _streakService.getStreakData();
     final expenses = await _historyService.getRealExpenses();
     final stats = DecisionStats.fromExpenses(expenses);
 
-    // Döviz ve altın kurlarını al
+    // Get exchange rates
     double? usdRate;
     double? goldGramRate;
     try {
@@ -583,11 +260,9 @@ class AchievementsService {
         usdRate = rates.usdRate;
         goldGramRate = rates.goldRate;
       }
-    } catch (_) {
-      // Döviz kurları alınamazsa null kalır
-    }
+    } catch (_) {}
 
-    // Abonelik sayısını al
+    // Get subscription count
     int subscriptionCount = 0;
     try {
       final subs = await _subscriptionService.getSubscriptions();
@@ -596,7 +271,7 @@ class AchievementsService {
 
     final achievements = <Achievement>[];
 
-    // Normal rozetler
+    // Regular achievements
     final allDefs = [
       ..._streakAchievements,
       ..._savingsAchievements,
@@ -621,8 +296,8 @@ class AchievementsService {
 
       achievements.add(Achievement(
         id: def.id,
-        title: def.title,
-        description: def.description,
+        title: _getAchievementTitle(l10n, def.id),
+        description: _getAchievementDescription(l10n, def.id),
         category: def.category,
         tier: def.tier,
         subTier: def.subTier,
@@ -633,7 +308,7 @@ class AchievementsService {
       ));
     }
 
-    // Gizli rozetler
+    // Hidden achievements
     for (final def in _hiddenAchievements) {
       final checkResult = await _checkHiddenAchievement(
         def,
@@ -659,8 +334,8 @@ class AchievementsService {
 
       achievements.add(Achievement(
         id: def.id,
-        title: def.title,
-        description: def.description,
+        title: _getAchievementTitle(l10n, def.id),
+        description: _getAchievementDescription(l10n, def.id),
         category: AchievementCategory.hidden,
         tier: _difficultyToTier(def.difficulty),
         subTier: 1,
@@ -890,7 +565,6 @@ class AchievementsService {
         );
 
       case HiddenCheckType.collector:
-        // Platinum ve hidden hariç tüm rozetleri kontrol et
         final nonPlatinumNonHidden = currentAchievements.where((a) =>
             a.tier != AchievementTier.platinum && !a.isHidden).toList();
         final unlockedCount = nonPlatinumNonHidden.where((a) => a.isUnlocked).length;
@@ -903,7 +577,6 @@ class AchievementsService {
         );
 
       case HiddenCheckType.manualUnlock:
-        // Manuel olarak unlock edilen rozetler için SharedPreferences kontrol et
         final isUnlocked = prefs.getString('$_keyPrefix${def.id}') != null;
         return _HiddenCheckResult(
           isComplete: isUnlocked,
@@ -916,21 +589,18 @@ class AchievementsService {
   int _getConsecutiveNoBuyDays(List<Expense> expenses) {
     if (expenses.isEmpty) return 0;
 
-    // Tarihe göre grupla ve "Aldım" kararları filtrele
     final buyDates = expenses
         .where((e) => e.decision == ExpenseDecision.yes)
         .map((e) => DateTime(e.date.year, e.date.month, e.date.day))
         .toSet();
 
     if (buyDates.isEmpty) {
-      // Hiç satın alma yoksa, ilk kayıttan bugüne kadar say
       final firstRecord = expenses
           .map((e) => e.date)
           .reduce((a, b) => a.isBefore(b) ? a : b);
       return DateTime.now().difference(firstRecord).inDays;
     }
 
-    // Bugünden geriye doğru ardışık "satın almasız" günleri say
     int consecutive = 0;
     var checkDate = DateTime.now();
     checkDate = DateTime(checkDate.year, checkDate.month, checkDate.day);
@@ -938,7 +608,6 @@ class AchievementsService {
     while (!buyDates.contains(checkDate)) {
       consecutive++;
       checkDate = checkDate.subtract(const Duration(days: 1));
-      // Makul bir üst sınır
       if (consecutive > 365) break;
     }
 
@@ -958,7 +627,7 @@ class AchievementsService {
     }
   }
 
-  /// Toplam rozet sayısı
+  /// Total achievement count
   int get totalCount =>
       _streakAchievements.length +
       _savingsAchievements.length +
@@ -966,47 +635,45 @@ class AchievementsService {
       _recordAchievements.length +
       _hiddenAchievements.length;
 
-  /// Normal (gizli olmayan) rozet sayısı
+  /// Visible (non-hidden) achievement count
   int get visibleCount =>
       _streakAchievements.length +
       _savingsAchievements.length +
       _decisionAchievements.length +
       _recordAchievements.length;
 
-  /// Yeni kazanılan rozetleri kontrol et (bugün kazanılanlar)
-  Future<List<Achievement>> getNewlyUnlockedAchievements() async {
-    final achievements = await getAchievements();
+  /// Check for newly unlocked achievements (unlocked today)
+  Future<List<Achievement>> getNewlyUnlockedAchievements(BuildContext context) async {
+    final achievements = await getAchievements(context);
     return achievements.where((a) => a.isNewlyUnlocked).toList();
   }
 
-  /// OCR kullanıldığını işaretle
+  /// Mark OCR as used
   Future<void> markOcrUsed() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('ocr_used', true);
   }
 
-  /// Manuel olarak bir rozeti unlock et (Easter Egg gibi durumlar için)
+  /// Manually unlock an achievement (for Easter Eggs, etc.)
   Future<bool> unlockManualAchievement(String achievementId) async {
     final prefs = await SharedPreferences.getInstance();
     final key = '$_keyPrefix$achievementId';
 
-    // Zaten unlock edilmiş mi kontrol et
     if (prefs.getString(key) != null) {
-      return false; // Zaten unlock edilmiş
+      return false; // Already unlocked
     }
 
-    // Unlock et
     await prefs.setString(key, DateTime.now().toIso8601String());
     return true;
   }
 
-  /// Bir rozetin unlock durumunu kontrol et
+  /// Check if an achievement is unlocked
   Future<bool> isAchievementUnlocked(String achievementId) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('$_keyPrefix$achievementId') != null;
   }
 
-  /// Tüm rozet verilerini sıfırla (test için)
+  /// Reset all achievement data (for testing)
   Future<void> resetAllAchievements() async {
     final prefs = await SharedPreferences.getInstance();
     final allDefs = [
@@ -1025,12 +692,10 @@ class AchievementsService {
   }
 }
 
-// ========== YARDIMCI SINIFLAR ==========
+// ========== HELPER CLASSES ==========
 
 class _AchievementDef {
   final String id;
-  final String title;
-  final String description;
   final AchievementCategory category;
   final AchievementTier tier;
   final int subTier;
@@ -1038,8 +703,6 @@ class _AchievementDef {
 
   const _AchievementDef({
     required this.id,
-    required this.title,
-    required this.description,
     required this.category,
     required this.tier,
     required this.subTier,
@@ -1069,16 +732,12 @@ enum HiddenCheckType {
 
 class _HiddenAchievementDef {
   final String id;
-  final String title;
-  final String description;
   final HiddenDifficulty difficulty;
   final HiddenCheckType checkType;
   final int? target;
 
   const _HiddenAchievementDef({
     required this.id,
-    required this.title,
-    required this.description,
     required this.difficulty,
     required this.checkType,
     this.target,

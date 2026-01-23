@@ -1,27 +1,31 @@
+import 'package:flutter/material.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 
 class InsightService {
-  String getExpenseInsight(ExpenseResult result) {
+  String getExpenseInsight(BuildContext context, ExpenseResult result) {
+    final l10n = AppLocalizations.of(context);
     final hours = result.hoursRequired;
     final days = result.daysRequired;
 
     if (hours < 1) {
       final minutes = (hours * 60).round();
-      return 'Bu harcama hayatından $minutes dakika aldı.';
+      return l10n.insightMinutes(minutes);
     } else if (hours < 8) {
-      return 'Bu harcama hayatından ${hours.toStringAsFixed(1)} saat aldı.';
+      return l10n.insightHours(hours.toStringAsFixed(1));
     } else if (days < 1) {
-      return 'Bu harcama için neredeyse bir gün çalıştın.';
+      return l10n.insightAlmostDay;
     } else if (days < 5) {
-      return 'Bu harcama hayatından ${days.toStringAsFixed(1)} gün aldı.';
+      return l10n.insightDays(days.toStringAsFixed(1));
     } else if (days < 20) {
-      return 'Bu harcama için ${days.toStringAsFixed(0)} gün çalışman gerekti.';
+      return l10n.insightDaysWorked(days.toStringAsFixed(0));
     } else {
-      return 'Bu harcama neredeyse bir aylık emeğine mal oldu.';
+      return l10n.insightAlmostMonth;
     }
   }
 
-  String? getCategoryInsight(List<Expense> expenses, String category, int month, int year) {
+  String? getCategoryInsight(BuildContext context, List<Expense> expenses, String category, int month, int year) {
+    final l10n = AppLocalizations.of(context);
     final categoryExpenses = expenses.where((e) =>
         e.category == category &&
         e.date.month == month &&
@@ -35,13 +39,14 @@ class InsightService {
         0, (sum, e) => sum + e.daysRequired);
 
     if (totalDays >= 1) {
-      return 'Bu ay $category için ${totalDays.toStringAsFixed(1)} gün çalıştın.';
+      return l10n.insightCategoryDays(category, totalDays.toStringAsFixed(1));
     } else {
-      return 'Bu ay $category için ${totalHours.toStringAsFixed(1)} saat çalıştın.';
+      return l10n.insightCategoryHours(category, totalHours.toStringAsFixed(1));
     }
   }
 
-  String? getMonthlyInsight(List<Expense> expenses, int month, int year) {
+  String? getMonthlyInsight(BuildContext context, List<Expense> expenses, int month, int year) {
+    final l10n = AppLocalizations.of(context);
     final monthExpenses = expenses.where((e) =>
         e.date.month == month && e.date.year == year).toList();
 
@@ -51,9 +56,9 @@ class InsightService {
         0, (sum, e) => sum + e.daysRequired);
 
     if (totalDays >= 20) {
-      return 'Bu ayki harcamalar için neredeyse tüm ay çalıştın.';
+      return l10n.insightMonthlyAlmost;
     } else if (totalDays >= 10) {
-      return 'Bu ay harcamalar için ${totalDays.toStringAsFixed(0)} gün çalıştın.';
+      return l10n.insightMonthlyDays(totalDays.toStringAsFixed(0));
     }
 
     return null;

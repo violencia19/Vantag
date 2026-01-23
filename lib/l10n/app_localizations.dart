@@ -266,6 +266,18 @@ abstract class AppLocalizations {
   /// **'Reminders'**
   String get settingsReminders;
 
+  /// No description provided for @settingsSoundEffects.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound Effects'**
+  String get settingsSoundEffects;
+
+  /// No description provided for @settingsSoundVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume'**
+  String get settingsSoundVolume;
+
   /// No description provided for @settingsProPurchases.
   ///
   /// In en, this message translates to:
@@ -1115,7 +1127,7 @@ abstract class AppLocalizations {
   /// No description provided for @notificationSettings.
   ///
   /// In en, this message translates to:
-  /// **'Notification Settings'**
+  /// **'Notifications'**
   String get notificationSettings;
 
   /// No description provided for @streakReminder.
@@ -1483,6 +1495,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit Expense'**
   String get editExpense;
+
+  /// No description provided for @deleteExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Expense'**
+  String get deleteExpense;
+
+  /// No description provided for @deleteExpenseConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this expense?'**
+  String get deleteExpenseConfirm;
 
   /// No description provided for @updateExpense.
   ///
@@ -6516,6 +6540,1192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pending'**
   String get pendingLabel;
+
+  /// No description provided for @insightMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'This expense took {minutes} minutes of your life.'**
+  String insightMinutes(int minutes);
+
+  /// No description provided for @insightHours.
+  ///
+  /// In en, this message translates to:
+  /// **'This expense took {hours} hours of your life.'**
+  String insightHours(String hours);
+
+  /// No description provided for @insightAlmostDay.
+  ///
+  /// In en, this message translates to:
+  /// **'You worked almost a full day for this expense.'**
+  String get insightAlmostDay;
+
+  /// No description provided for @insightDays.
+  ///
+  /// In en, this message translates to:
+  /// **'This expense took {days} days of your life.'**
+  String insightDays(String days);
+
+  /// No description provided for @insightDaysWorked.
+  ///
+  /// In en, this message translates to:
+  /// **'You had to work {days} days for this expense.'**
+  String insightDaysWorked(String days);
+
+  /// No description provided for @insightAlmostMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This expense cost you almost a month of work.'**
+  String get insightAlmostMonth;
+
+  /// No description provided for @insightCategoryDays.
+  ///
+  /// In en, this message translates to:
+  /// **'This month you worked {days} days for {category}.'**
+  String insightCategoryDays(String category, String days);
+
+  /// No description provided for @insightCategoryHours.
+  ///
+  /// In en, this message translates to:
+  /// **'This month you worked {hours} hours for {category}.'**
+  String insightCategoryHours(String category, String hours);
+
+  /// No description provided for @insightMonthlyAlmost.
+  ///
+  /// In en, this message translates to:
+  /// **'You worked almost the entire month for this month\'s expenses.'**
+  String get insightMonthlyAlmost;
+
+  /// No description provided for @insightMonthlyDays.
+  ///
+  /// In en, this message translates to:
+  /// **'You worked {days} days for this month\'s expenses.'**
+  String insightMonthlyDays(String days);
+
+  /// No description provided for @msgShort1.
+  ///
+  /// In en, this message translates to:
+  /// **'A few hours of work, for a fleeting desire?'**
+  String get msgShort1;
+
+  /// No description provided for @msgShort2.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy to spend what you earned in such short time, hard to earn it back.'**
+  String get msgShort2;
+
+  /// No description provided for @msgShort3.
+  ///
+  /// In en, this message translates to:
+  /// **'You went to work this morning, this money will be gone before lunch.'**
+  String get msgShort3;
+
+  /// No description provided for @msgShort4.
+  ///
+  /// In en, this message translates to:
+  /// **'You earned it in a coffee break, it\'ll be gone with one click.'**
+  String get msgShort4;
+
+  /// No description provided for @msgShort5.
+  ///
+  /// In en, this message translates to:
+  /// **'Half a day\'s work, don\'t let it become a full day of regret.'**
+  String get msgShort5;
+
+  /// No description provided for @msgShort6.
+  ///
+  /// In en, this message translates to:
+  /// **'Think about the hours you worked for this item.'**
+  String get msgShort6;
+
+  /// No description provided for @msgShort7.
+  ///
+  /// In en, this message translates to:
+  /// **'Looks small but makes a big difference in total.'**
+  String get msgShort7;
+
+  /// No description provided for @msgShort8.
+  ///
+  /// In en, this message translates to:
+  /// **'If not now, tomorrow works too.'**
+  String get msgShort8;
+
+  /// No description provided for @msgMedium1.
+  ///
+  /// In en, this message translates to:
+  /// **'Is your week\'s work worth this item?'**
+  String get msgMedium1;
+
+  /// No description provided for @msgMedium2.
+  ///
+  /// In en, this message translates to:
+  /// **'It took days to save this money, seconds to spend it.'**
+  String get msgMedium2;
+
+  /// No description provided for @msgMedium3.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you accept if you were investing a week into this?'**
+  String get msgMedium3;
+
+  /// No description provided for @msgMedium4.
+  ///
+  /// In en, this message translates to:
+  /// **'Days of effort, a split-second decision.'**
+  String get msgMedium4;
+
+  /// No description provided for @msgMedium5.
+  ///
+  /// In en, this message translates to:
+  /// **'A weekend getaway or this item?'**
+  String get msgMedium5;
+
+  /// No description provided for @msgMedium6.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember what you worked for all those days.'**
+  String get msgMedium6;
+
+  /// No description provided for @msgMedium7.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you work Monday to Friday for this?'**
+  String get msgMedium7;
+
+  /// No description provided for @msgMedium8.
+  ///
+  /// In en, this message translates to:
+  /// **'Does it make sense to spend your weekly budget in one go?'**
+  String get msgMedium8;
+
+  /// No description provided for @msgLong1.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to work for weeks for this. Is it really worth it?'**
+  String get msgLong1;
+
+  /// No description provided for @msgLong2.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving this money could take months.'**
+  String get msgLong2;
+
+  /// No description provided for @msgLong3.
+  ///
+  /// In en, this message translates to:
+  /// **'You might be delaying one of your long-term goals.'**
+  String get msgLong3;
+
+  /// No description provided for @msgLong4.
+  ///
+  /// In en, this message translates to:
+  /// **'Does the time you\'ll spend on this affect your vacation plans?'**
+  String get msgLong4;
+
+  /// No description provided for @msgLong5.
+  ///
+  /// In en, this message translates to:
+  /// **'Is this an investment or an expense?'**
+  String get msgLong5;
+
+  /// No description provided for @msgLong6.
+  ///
+  /// In en, this message translates to:
+  /// **'How would future you evaluate this decision?'**
+  String get msgLong6;
+
+  /// No description provided for @msgLong7.
+  ///
+  /// In en, this message translates to:
+  /// **'Working this long should be for something lasting.'**
+  String get msgLong7;
+
+  /// No description provided for @msgLong8.
+  ///
+  /// In en, this message translates to:
+  /// **'How will you view this decision at month\'s end?'**
+  String get msgLong8;
+
+  /// No description provided for @msgSim1.
+  ///
+  /// In en, this message translates to:
+  /// **'This amount isn\'t just spending anymore, it\'s a serious investment decision.'**
+  String get msgSim1;
+
+  /// No description provided for @msgSim2.
+  ///
+  /// In en, this message translates to:
+  /// **'For such a large sum, decide with your vision, not your emotions.'**
+  String get msgSim2;
+
+  /// No description provided for @msgSim3.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s hard to even calculate the time equivalent of this amount.'**
+  String get msgSim3;
+
+  /// No description provided for @msgSim4.
+  ///
+  /// In en, this message translates to:
+  /// **'Could this be that big step you\'ve been dreaming of?'**
+  String get msgSim4;
+
+  /// No description provided for @msgSim5.
+  ///
+  /// In en, this message translates to:
+  /// **'Managing such a large amount requires patience and strategy.'**
+  String get msgSim5;
+
+  /// No description provided for @msgSim6.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re at a point that will affect your future, not just your wallet.'**
+  String get msgSim6;
+
+  /// No description provided for @msgSim7.
+  ///
+  /// In en, this message translates to:
+  /// **'Big numbers bring big responsibilities. Are you ready?'**
+  String get msgSim7;
+
+  /// No description provided for @msgSim8.
+  ///
+  /// In en, this message translates to:
+  /// **'Is this amount just a number to you, or a turning point?'**
+  String get msgSim8;
+
+  /// No description provided for @msgYes1.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded. Hope it\'s worth it.'**
+  String get msgYes1;
+
+  /// No description provided for @msgYes2.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s see if you\'ll regret it.'**
+  String get msgYes2;
+
+  /// No description provided for @msgYes3.
+  ///
+  /// In en, this message translates to:
+  /// **'Okay, it\'s your money.'**
+  String get msgYes3;
+
+  /// No description provided for @msgYes4.
+  ///
+  /// In en, this message translates to:
+  /// **'You bought it, congratulations.'**
+  String get msgYes4;
+
+  /// No description provided for @msgYes5.
+  ///
+  /// In en, this message translates to:
+  /// **'As you wish.'**
+  String get msgYes5;
+
+  /// No description provided for @msgYes6.
+  ///
+  /// In en, this message translates to:
+  /// **'Alright, it\'s on the record.'**
+  String get msgYes6;
+
+  /// No description provided for @msgYes7.
+  ///
+  /// In en, this message translates to:
+  /// **'If it\'s a need, no problem.'**
+  String get msgYes7;
+
+  /// No description provided for @msgYes8.
+  ///
+  /// In en, this message translates to:
+  /// **'Sometimes spending is necessary too.'**
+  String get msgYes8;
+
+  /// No description provided for @msgNo1.
+  ///
+  /// In en, this message translates to:
+  /// **'Great decision. You saved this money.'**
+  String get msgNo1;
+
+  /// No description provided for @msgNo2.
+  ///
+  /// In en, this message translates to:
+  /// **'You chose the hard path, your future self will thank you.'**
+  String get msgNo2;
+
+  /// No description provided for @msgNo3.
+  ///
+  /// In en, this message translates to:
+  /// **'Willpower won.'**
+  String get msgNo3;
+
+  /// No description provided for @msgNo4.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart move. You\'ll need this money.'**
+  String get msgNo4;
+
+  /// No description provided for @msgNo5.
+  ///
+  /// In en, this message translates to:
+  /// **'Passing is also a win.'**
+  String get msgNo5;
+
+  /// No description provided for @msgNo6.
+  ///
+  /// In en, this message translates to:
+  /// **'The urge passed, the money stayed.'**
+  String get msgNo6;
+
+  /// No description provided for @msgNo7.
+  ///
+  /// In en, this message translates to:
+  /// **'You actually invested in yourself.'**
+  String get msgNo7;
+
+  /// No description provided for @msgNo8.
+  ///
+  /// In en, this message translates to:
+  /// **'Hard decision, right decision.'**
+  String get msgNo8;
+
+  /// No description provided for @msgThink1.
+  ///
+  /// In en, this message translates to:
+  /// **'Thinking is free, spending isn\'t.'**
+  String get msgThink1;
+
+  /// No description provided for @msgThink2.
+  ///
+  /// In en, this message translates to:
+  /// **'Not rushing is smart.'**
+  String get msgThink2;
+
+  /// No description provided for @msgThink3.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep on it, look again tomorrow.'**
+  String get msgThink3;
+
+  /// No description provided for @msgThink4.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait 24 hours, come back if you still want it.'**
+  String get msgThink4;
+
+  /// No description provided for @msgThink5.
+  ///
+  /// In en, this message translates to:
+  /// **'If you\'re hesitating, it\'s probably not necessary.'**
+  String get msgThink5;
+
+  /// No description provided for @msgThink6.
+  ///
+  /// In en, this message translates to:
+  /// **'Time is the best advisor.'**
+  String get msgThink6;
+
+  /// No description provided for @msgThink7.
+  ///
+  /// In en, this message translates to:
+  /// **'If it\'s not urgent, don\'t rush.'**
+  String get msgThink7;
+
+  /// No description provided for @msgThink8.
+  ///
+  /// In en, this message translates to:
+  /// **'If you\'re not sure, the answer is probably no.'**
+  String get msgThink8;
+
+  /// No description provided for @tourAmountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount Entry'**
+  String get tourAmountTitle;
+
+  /// No description provided for @tourAmountDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the expense amount here. You can automatically scan it from a receipt using the scan button.'**
+  String get tourAmountDesc;
+
+  /// No description provided for @tourDescriptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Matching'**
+  String get tourDescriptionTitle;
+
+  /// No description provided for @tourDescriptionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the store or product name. Like Migros, A101, Starbucks... The app will automatically suggest a category!'**
+  String get tourDescriptionDesc;
+
+  /// No description provided for @tourCategoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Category Selection'**
+  String get tourCategoryTitle;
+
+  /// No description provided for @tourCategoryDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'If smart matching doesn\'t find it or you want to change it, you can manually select from here.'**
+  String get tourCategoryDesc;
+
+  /// No description provided for @tourDateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Past Date Selection'**
+  String get tourDateTitle;
+
+  /// No description provided for @tourDateDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You can also enter expenses from yesterday or previous days. Click the calendar icon to select any date.'**
+  String get tourDateDesc;
+
+  /// No description provided for @tourSnapshotTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial Summary'**
+  String get tourSnapshotTitle;
+
+  /// No description provided for @tourSnapshotDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your monthly income, expenses, and saved money are here. All data updates in real-time.'**
+  String get tourSnapshotDesc;
+
+  /// No description provided for @tourCurrencyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange Rates'**
+  String get tourCurrencyTitle;
+
+  /// No description provided for @tourCurrencyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Current USD, EUR, and gold prices. Tap for detailed information.'**
+  String get tourCurrencyDesc;
+
+  /// No description provided for @tourStreakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak Tracking'**
+  String get tourStreakTitle;
+
+  /// No description provided for @tourStreakDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your streak increases every day you record an expense. Regular tracking is the key to mindful spending!'**
+  String get tourStreakDesc;
+
+  /// No description provided for @tourSubscriptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions'**
+  String get tourSubscriptionTitle;
+
+  /// No description provided for @tourSubscriptionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your regular subscriptions like Netflix, Spotify here. You\'ll get notifications for upcoming payments.'**
+  String get tourSubscriptionDesc;
+
+  /// No description provided for @tourReportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports'**
+  String get tourReportTitle;
+
+  /// No description provided for @tourReportDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'View monthly and category-based spending analysis here.'**
+  String get tourReportDesc;
+
+  /// No description provided for @tourAchievementsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Badges'**
+  String get tourAchievementsTitle;
+
+  /// No description provided for @tourAchievementsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn badges as you reach savings goals. Keep your motivation high!'**
+  String get tourAchievementsDesc;
+
+  /// No description provided for @tourProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile & Settings'**
+  String get tourProfileTitle;
+
+  /// No description provided for @tourProfileDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit income info, manage notification preferences, and access app settings.'**
+  String get tourProfileDesc;
+
+  /// No description provided for @tourQuickAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Add'**
+  String get tourQuickAddTitle;
+
+  /// No description provided for @tourQuickAddDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this button to quickly add expenses from anywhere. Practical and fast!'**
+  String get tourQuickAddDesc;
+
+  /// No description provided for @notifChannelName.
+  ///
+  /// In en, this message translates to:
+  /// **'Vantag Notifications'**
+  String get notifChannelName;
+
+  /// No description provided for @notifChannelDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial tracking notifications'**
+  String get notifChannelDescription;
+
+  /// No description provided for @notifTitleThinkAboutIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Think about it'**
+  String get notifTitleThinkAboutIt;
+
+  /// No description provided for @notifTitleCongratulations.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations'**
+  String get notifTitleCongratulations;
+
+  /// No description provided for @notifTitleStreakWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Your streak is waiting'**
+  String get notifTitleStreakWaiting;
+
+  /// No description provided for @notifTitleWeeklySummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly summary'**
+  String get notifTitleWeeklySummary;
+
+  /// No description provided for @notifTitleSubscriptionReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription reminder'**
+  String get notifTitleSubscriptionReminder;
+
+  /// No description provided for @aiGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello! I\'m Vantag.\nReady to answer your financial questions.'**
+  String get aiGreeting;
+
+  /// No description provided for @onboardingHookTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This coffee is 47 minutes'**
+  String get onboardingHookTitle;
+
+  /// No description provided for @onboardingHookSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See the real cost of every purchase'**
+  String get onboardingHookSubtitle;
+
+  /// No description provided for @pursuitOnboardingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s your goal?'**
+  String get pursuitOnboardingTitle;
+
+  /// No description provided for @pursuitOnboardingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick something to save for'**
+  String get pursuitOnboardingSubtitle;
+
+  /// No description provided for @pursuitOnboardingAirpods.
+  ///
+  /// In en, this message translates to:
+  /// **'AirPods'**
+  String get pursuitOnboardingAirpods;
+
+  /// No description provided for @pursuitOnboardingIphone.
+  ///
+  /// In en, this message translates to:
+  /// **'iPhone'**
+  String get pursuitOnboardingIphone;
+
+  /// No description provided for @pursuitOnboardingVacation.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation'**
+  String get pursuitOnboardingVacation;
+
+  /// No description provided for @pursuitOnboardingCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'My own goal'**
+  String get pursuitOnboardingCustom;
+
+  /// No description provided for @pursuitOnboardingCta.
+  ///
+  /// In en, this message translates to:
+  /// **'I want this'**
+  String get pursuitOnboardingCta;
+
+  /// No description provided for @pursuitOnboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip for now'**
+  String get pursuitOnboardingSkip;
+
+  /// No description provided for @pursuitOnboardingHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours'**
+  String pursuitOnboardingHours(int hours);
+
+  /// No description provided for @celebrationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations!'**
+  String get celebrationTitle;
+
+  /// No description provided for @celebrationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You reached your {goalName} goal!'**
+  String celebrationSubtitle(String goalName);
+
+  /// No description provided for @celebrationTotalSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Total saved: {hours} hours'**
+  String celebrationTotalSaved(String hours);
+
+  /// No description provided for @celebrationDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration: {days} days'**
+  String celebrationDuration(int days);
+
+  /// No description provided for @celebrationShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get celebrationShare;
+
+  /// No description provided for @celebrationNewGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'New Goal'**
+  String get celebrationNewGoal;
+
+  /// No description provided for @celebrationDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get celebrationDismiss;
+
+  /// No description provided for @widgetTodayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get widgetTodayLabel;
+
+  /// No description provided for @widgetHoursAbbrev.
+  ///
+  /// In en, this message translates to:
+  /// **'h'**
+  String get widgetHoursAbbrev;
+
+  /// No description provided for @widgetMinutesAbbrev.
+  ///
+  /// In en, this message translates to:
+  /// **'m'**
+  String get widgetMinutesAbbrev;
+
+  /// No description provided for @widgetSetGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a goal'**
+  String get widgetSetGoal;
+
+  /// No description provided for @widgetNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'Open app to start'**
+  String get widgetNoData;
+
+  /// No description provided for @widgetSmallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Spending'**
+  String get widgetSmallTitle;
+
+  /// No description provided for @widgetSmallDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'See today\'s spending in hours'**
+  String get widgetSmallDesc;
+
+  /// No description provided for @widgetMediumTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Spending + Goal'**
+  String get widgetMediumTitle;
+
+  /// No description provided for @widgetMediumDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Track spending and goal progress'**
+  String get widgetMediumDesc;
+
+  /// No description provided for @accessibilityTodaySpending.
+  ///
+  /// In en, this message translates to:
+  /// **'Today you spent {amount}, equal to {hours} hours {minutes} minutes of work'**
+  String accessibilityTodaySpending(String amount, int hours, int minutes);
+
+  /// No description provided for @accessibilitySpendingProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Spending progress: {percentage} percent of budget used'**
+  String accessibilitySpendingProgress(int percentage);
+
+  /// No description provided for @accessibilityExpenseItem.
+  ///
+  /// In en, this message translates to:
+  /// **'{category} expense of {amount}, took {hours} hours, status: {decision}'**
+  String accessibilityExpenseItem(
+    String category,
+    String amount,
+    String hours,
+    String decision,
+  );
+
+  /// No description provided for @accessibilityPursuitCard.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} goal, {saved} of {target} saved, {percentage} percent complete'**
+  String accessibilityPursuitCard(
+    String name,
+    String saved,
+    String target,
+    int percentage,
+  );
+
+  /// No description provided for @accessibilityAddExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new expense'**
+  String get accessibilityAddExpense;
+
+  /// No description provided for @accessibilityDecisionYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchased'**
+  String get accessibilityDecisionYes;
+
+  /// No description provided for @accessibilityDecisionNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed'**
+  String get accessibilityDecisionNo;
+
+  /// No description provided for @accessibilityDecisionThinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Thinking'**
+  String get accessibilityDecisionThinking;
+
+  /// No description provided for @navHomeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Home, spending overview'**
+  String get navHomeTooltip;
+
+  /// No description provided for @navPursuitsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Goals, savings targets'**
+  String get navPursuitsTooltip;
+
+  /// No description provided for @navReportsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports, spending analysis'**
+  String get navReportsTooltip;
+
+  /// No description provided for @navSettingsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings and preferences'**
+  String get navSettingsTooltip;
+
+  /// No description provided for @shareDefaultMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'I track my expenses in hours! Try it: {link}'**
+  String shareDefaultMessage(String link);
+
+  /// No description provided for @shareInviteLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Invite Link'**
+  String get shareInviteLink;
+
+  /// No description provided for @inviteFriends.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite Friends'**
+  String get inviteFriends;
+
+  /// No description provided for @yourReferralCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Your referral code'**
+  String get yourReferralCode;
+
+  /// No description provided for @referralStats.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} friends joined'**
+  String referralStats(int count);
+
+  /// No description provided for @referralRewardInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn 7 days premium for each friend!'**
+  String get referralRewardInfo;
+
+  /// No description provided for @codeCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Code copied!'**
+  String get codeCopied;
+
+  /// No description provided for @haveReferralCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Have a referral code?'**
+  String get haveReferralCode;
+
+  /// No description provided for @referralCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter code (optional)'**
+  String get referralCodeHint;
+
+  /// No description provided for @referralCodePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'VANTAG-XXXXX'**
+  String get referralCodePlaceholder;
+
+  /// No description provided for @referralSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} joined Vantag! +7 days premium'**
+  String referralSuccess(String name);
+
+  /// No description provided for @welcomeReferred.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome! You have 7 days premium trial'**
+  String get welcomeReferred;
+
+  /// No description provided for @referralInvalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid referral code'**
+  String get referralInvalidCode;
+
+  /// No description provided for @referralCodeApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Referral code applied!'**
+  String get referralCodeApplied;
+
+  /// No description provided for @referralSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Referrals'**
+  String get referralSectionTitle;
+
+  /// No description provided for @referralShareDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your code and earn premium days'**
+  String get referralShareDescription;
+
+  /// No description provided for @trialMidpointTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Halfway there! ⏳'**
+  String get trialMidpointTitle;
+
+  /// No description provided for @trialMidpointBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your trial is halfway done. You\'ve saved {hours} hours so far!'**
+  String trialMidpointBody(String hours);
+
+  /// No description provided for @trialOneDayLeftTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trial ends tomorrow ⏰'**
+  String get trialOneDayLeftTitle;
+
+  /// No description provided for @trialOneDayLeftBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Go premium to keep tracking your savings!'**
+  String get trialOneDayLeftBody;
+
+  /// No description provided for @trialEndsTodayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Last day of trial! 🎁'**
+  String get trialEndsTodayTitle;
+
+  /// No description provided for @trialEndsTodayBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Get 50% off if you upgrade today!'**
+  String get trialEndsTodayBody;
+
+  /// No description provided for @trialExpiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We miss you! 💜'**
+  String get trialExpiredTitle;
+
+  /// No description provided for @trialExpiredBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Come back and continue reaching your goals'**
+  String get trialExpiredBody;
+
+  /// No description provided for @dailyReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t forget to log! 📝'**
+  String get dailyReminderTitle;
+
+  /// No description provided for @dailyReminderBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Track today\'s spending in just seconds'**
+  String get dailyReminderBody;
+
+  /// No description provided for @notificationSettingsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders and updates'**
+  String get notificationSettingsDesc;
+
+  /// No description provided for @firstExpenseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Great start! 🎉'**
+  String get firstExpenseTitle;
+
+  /// No description provided for @firstExpenseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You saved {hours} hours today!'**
+  String firstExpenseBody(String hours);
+
+  /// No description provided for @trialReminderEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Trial reminders'**
+  String get trialReminderEnabled;
+
+  /// No description provided for @trialReminderDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified before your trial ends'**
+  String get trialReminderDesc;
+
+  /// No description provided for @dailyReminderEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily reminders'**
+  String get dailyReminderEnabled;
+
+  /// No description provided for @dailyReminderDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening reminder to log expenses'**
+  String get dailyReminderDesc;
+
+  /// No description provided for @dailyReminderTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder time'**
+  String get dailyReminderTime;
+
+  /// No description provided for @trialDaysRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days left in trial'**
+  String trialDaysRemaining(int days);
+
+  /// No description provided for @subscriptionReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription reminders'**
+  String get subscriptionReminder;
+
+  /// No description provided for @subscriptionReminderDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified before subscriptions renew'**
+  String get subscriptionReminderDesc;
+
+  /// No description provided for @aiChatLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve used your 3 daily AI chats. Go premium for unlimited!'**
+  String get aiChatLimitReached;
+
+  /// No description provided for @aiChatsRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} chats left today'**
+  String aiChatsRemaining(int count);
+
+  /// No description provided for @pursuitLimitReachedFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Free accounts can have 1 active goal. Go premium for unlimited goals!'**
+  String get pursuitLimitReachedFree;
+
+  /// No description provided for @exportPremiumOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Export is a premium feature'**
+  String get exportPremiumOnly;
+
+  /// No description provided for @multiCurrencyPremium.
+  ///
+  /// In en, this message translates to:
+  /// **'Multiple currencies is a premium feature. Free users can only use TRY.'**
+  String get multiCurrencyPremium;
+
+  /// No description provided for @reportsPremiumOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly and yearly reports are premium features'**
+  String get reportsPremiumOnly;
+
+  /// No description provided for @upgradeToPremium.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Premium'**
+  String get upgradeToPremium;
+
+  /// No description provided for @premiumIncludes.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium includes:'**
+  String get premiumIncludes;
+
+  /// No description provided for @unlimitedAiChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited AI chat'**
+  String get unlimitedAiChat;
+
+  /// No description provided for @unlimitedPursuits.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited goals'**
+  String get unlimitedPursuits;
+
+  /// No description provided for @exportFeature.
+  ///
+  /// In en, this message translates to:
+  /// **'Export your data'**
+  String get exportFeature;
+
+  /// No description provided for @allCurrencies.
+  ///
+  /// In en, this message translates to:
+  /// **'All currencies'**
+  String get allCurrencies;
+
+  /// No description provided for @fullReports.
+  ///
+  /// In en, this message translates to:
+  /// **'Full reports'**
+  String get fullReports;
+
+  /// No description provided for @cleanShareCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean share cards (no watermark)'**
+  String get cleanShareCards;
+
+  /// No description provided for @maybeLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Maybe later'**
+  String get maybeLater;
+
+  /// No description provided for @seePremium.
+  ///
+  /// In en, this message translates to:
+  /// **'See Premium'**
+  String get seePremium;
+
+  /// No description provided for @weeklyOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get weeklyOnly;
+
+  /// No description provided for @monthlyPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly (Pro)'**
+  String get monthlyPro;
+
+  /// No description provided for @yearlyPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly (Pro)'**
+  String get yearlyPro;
+
+  /// No description provided for @currencyLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium only'**
+  String get currencyLocked;
+
+  /// No description provided for @freeUserCurrencyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Free users can only use TRY. Upgrade to use {currency}.'**
+  String freeUserCurrencyNote(String currency);
+
+  /// No description provided for @watermarkText.
+  ///
+  /// In en, this message translates to:
+  /// **'vantag.app'**
+  String get watermarkText;
 }
 
 class _AppLocalizationsDelegate

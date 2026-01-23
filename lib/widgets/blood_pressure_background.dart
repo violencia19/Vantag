@@ -160,10 +160,10 @@ class BloodPressureAmountField extends StatelessWidget {
       curve: Curves.easeOut,
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
       decoration: BoxDecoration(
-        color: AppColors.surfaceLight,
+        color: context.appColors.surfaceLight,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: isValid ? borderColor : AppColors.cardBorder,
+          color: isValid ? borderColor : context.appColors.cardBorder,
           width: isValid && riskLevel != RiskLevel.none ? 2 : 1,
         ),
         boxShadow: isValid && riskLevel.backgroundIntensity > 0.2

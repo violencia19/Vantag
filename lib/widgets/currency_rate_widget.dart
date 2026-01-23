@@ -167,16 +167,16 @@ class CurrencyRateWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.cardBorder),
+          border: Border.all(color: context.appColors.cardBorder),
         ),
-        child: _buildContent(l10n, selectedCurrency),
+        child: _buildContent(context, l10n, selectedCurrency),
       ),
     );
   }
 
-  Widget _buildContent(AppLocalizations l10n, Currency selectedCurrency) {
+  Widget _buildContent(BuildContext context, AppLocalizations l10n, Currency selectedCurrency) {
     // Loading state
     if (isLoading) {
       return Row(
@@ -188,16 +188,16 @@ class CurrencyRateWidget extends StatelessWidget {
             child: CircularProgressIndicator(
               strokeWidth: 2,
               valueColor: AlwaysStoppedAnimation<Color>(
-                AppColors.textTertiary.withValues(alpha: 0.7),
+                context.appColors.textTertiary.withValues(alpha: 0.7),
               ),
             ),
           ),
           const SizedBox(width: 10),
           Text(
             l10n.ratesLoading,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
-              color: AppColors.textTertiary,
+              color: context.appColors.textTertiary,
             ),
           ),
         ],
@@ -209,17 +209,17 @@ class CurrencyRateWidget extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             PhosphorIconsDuotone.warningCircle,
             size: 14,
-            color: AppColors.textTertiary,
+            color: context.appColors.textTertiary,
           ),
           const SizedBox(width: 8),
           Text(
             l10n.ratesLoadFailed,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
-              color: AppColors.textTertiary,
+              color: context.appColors.textTertiary,
             ),
           ),
           if (onRetry != null) ...[
@@ -228,9 +228,9 @@ class CurrencyRateWidget extends StatelessWidget {
               onTap: onRetry,
               child: Text(
                 l10n.retry,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
-                  color: AppColors.primary,
+                  color: context.appColors.primary,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -251,39 +251,39 @@ class CurrencyRateWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           for (int i = 0; i < rateItems.length; i++) ...[
-            if (i > 0) _buildDivider(),
-            _buildRateItem(rateItems[i], l10n),
+            if (i > 0) _buildDivider(context),
+            _buildRateItem(context, rateItems[i], l10n),
           ],
           const SizedBox(width: 8),
           Icon(
             PhosphorIconsDuotone.caretRight,
             size: 16,
-            color: AppColors.textTertiary.withValues(alpha: 0.7),
+            color: context.appColors.textTertiary.withValues(alpha: 0.7),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildRateItem(_RateItem item, AppLocalizations l10n) {
+  Widget _buildRateItem(BuildContext context, _RateItem item, AppLocalizations l10n) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           item.symbol,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
-            color: AppColors.textSecondary,
+            color: context.appColors.textSecondary,
           ),
         ),
         const SizedBox(width: 4),
         Text(
           item.value,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
           ),
         ),
         if (item.showWarning) ...[
@@ -293,7 +293,7 @@ class CurrencyRateWidget extends StatelessWidget {
             child: Icon(
               PhosphorIconsDuotone.info,
               size: 12,
-              color: AppColors.warning.withValues(alpha: 0.8),
+              color: context.appColors.warning.withValues(alpha: 0.8),
             ),
           ),
         ],
@@ -301,14 +301,14 @@ class CurrencyRateWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildDivider() {
+  Widget _buildDivider(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Text(
         '|',
         style: TextStyle(
           fontSize: 12,
-          color: AppColors.textTertiary.withValues(alpha: 0.5),
+          color: context.appColors.textTertiary.withValues(alpha: 0.5),
         ),
       ),
     );

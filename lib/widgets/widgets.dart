@@ -68,8 +68,15 @@ export 'pursuit_card.dart';
 export 'create_pursuit_sheet.dart';
 export 'add_savings_sheet.dart';
 export 'pursuit_completion_modal.dart';
+export 'pursuit_celebration_overlay.dart';
 export 'redirect_savings_sheet.dart';
 
 // Savings Pool
 export 'savings_pool_card.dart';
 export 'budget_shift_dialog.dart';
+
+// Free Tier
+export 'upgrade_dialog.dart';
+
+// Animations
+export 'lottie_animations.dart';

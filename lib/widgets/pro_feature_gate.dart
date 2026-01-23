@@ -47,9 +47,9 @@ class ProFeatureGate extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.cardBackground,
+          color: context.appColors.cardBackground,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.cardBorder),
+          border: Border.all(color: context.appColors.cardBorder),
         ),
         child: Row(
           children: [
@@ -58,15 +58,15 @@ class ProFeatureGate extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.primary.withValues(alpha: 0.2),
-                    AppColors.secondary.withValues(alpha: 0.2),
+                    context.appColors.primary.withValues(alpha: 0.2),
+                    context.appColors.secondary.withValues(alpha: 0.2),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(
+              child: Icon(
                 LucideIcons.crown,
-                color: AppColors.gold,
+                color: context.appColors.gold,
                 size: 24,
               ),
             ),
@@ -83,15 +83,15 @@ class ProFeatureGate extends StatelessWidget {
                   Text(
                     l10n.paywallSubtitle,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.textSecondary,
+                      color: context.appColors.textSecondary,
                     ),
                   ),
                 ],
               ),
             ),
-            const Icon(
+            Icon(
               LucideIcons.chevronRight,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
             ),
           ],
         ),
@@ -164,11 +164,11 @@ class ProFeatureGate extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.cardBackground,
+        backgroundColor: context.appColors.cardBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Row(
           children: [
-            const Icon(LucideIcons.sparkles, color: AppColors.primary),
+            Icon(LucideIcons.sparkles, color: context.appColors.primary),
             const SizedBox(width: 12),
             Text(l10n.aiLimitReached),
           ],
@@ -187,7 +187,7 @@ class ProFeatureGate extends StatelessWidget {
               showPaywall(context, feature: ProFeature.aiChat);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
+              backgroundColor: context.appColors.primary,
             ),
             child: Text(l10n.subscribeToPro),
           ),
@@ -203,11 +203,11 @@ class ProFeatureGate extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.cardBackground,
+        backgroundColor: context.appColors.cardBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Row(
           children: [
-            const Icon(LucideIcons.history, color: AppColors.primary),
+            Icon(LucideIcons.history, color: context.appColors.primary),
             const SizedBox(width: 12),
             Text(l10n.historyLimitReached),
           ],
@@ -224,7 +224,7 @@ class ProFeatureGate extends StatelessWidget {
               showPaywall(context, feature: ProFeature.fullHistory);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
+              backgroundColor: context.appColors.primary,
             ),
             child: Text(l10n.subscribeToPro),
           ),
@@ -240,11 +240,11 @@ class ProFeatureGate extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.cardBackground,
+        backgroundColor: context.appColors.cardBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Row(
           children: [
-            const Icon(LucideIcons.fileSpreadsheet, color: AppColors.primary),
+            Icon(LucideIcons.fileSpreadsheet, color: context.appColors.primary),
             const SizedBox(width: 12),
             Expanded(child: Text(l10n.exportProOnly)),
           ],
@@ -261,7 +261,7 @@ class ProFeatureGate extends StatelessWidget {
               showPaywall(context, feature: ProFeature.export);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
+              backgroundColor: context.appColors.primary,
             ),
             child: Text(l10n.subscribeToPro),
           ),
@@ -293,13 +293,13 @@ class AiUsageIndicator extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             color: remaining <= 3
-                ? AppColors.error.withValues(alpha: 0.2)
-                : AppColors.surface,
+                ? context.appColors.error.withValues(alpha: 0.2)
+                : context.appColors.surface,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: remaining <= 3
-                  ? AppColors.error.withValues(alpha: 0.5)
-                  : AppColors.cardBorder,
+                  ? context.appColors.error.withValues(alpha: 0.5)
+                  : context.appColors.cardBorder,
             ),
           ),
           child: Row(
@@ -308,13 +308,13 @@ class AiUsageIndicator extends StatelessWidget {
               Icon(
                 LucideIcons.sparkles,
                 size: 14,
-                color: remaining <= 3 ? AppColors.error : AppColors.textSecondary,
+                color: remaining <= 3 ? context.appColors.error : context.appColors.textSecondary,
               ),
               const SizedBox(width: 6),
               Text(
                 l10n.remainingAiUses(remaining),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: remaining <= 3 ? AppColors.error : AppColors.textSecondary,
+                  color: remaining <= 3 ? context.appColors.error : context.appColors.textSecondary,
                 ),
               ),
             ],

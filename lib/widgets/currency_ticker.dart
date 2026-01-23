@@ -208,9 +208,9 @@ class CurrencyTicker extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.cardBorder),
+          border: Border.all(color: context.appColors.cardBorder),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -221,16 +221,16 @@ class CurrencyTicker extends StatelessWidget {
               child: CircularProgressIndicator(
                 strokeWidth: 2,
                 valueColor: AlwaysStoppedAnimation<Color>(
-                  AppColors.textTertiary.withValues(alpha: 0.7),
+                  context.appColors.textTertiary.withValues(alpha: 0.7),
                 ),
               ),
             ),
             const SizedBox(width: 10),
-            const Text(
+            Text(
               'Loading rates...',
               style: TextStyle(
                 fontSize: 12,
-                color: AppColors.textTertiary,
+                color: context.appColors.textTertiary,
               ),
             ),
           ],
@@ -241,18 +241,18 @@ class CurrencyTicker extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: items.map((item) => _buildTickerItem(item)).toList(),
+        children: items.map((item) => _buildTickerItem(context, item)).toList(),
       ),
     );
   }
 
-  Widget _buildTickerItem(_TickerData item) {
+  Widget _buildTickerItem(BuildContext context, _TickerData item) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -263,10 +263,10 @@ class CurrencyTicker extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           item.value,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
           ),
         ),
       ],

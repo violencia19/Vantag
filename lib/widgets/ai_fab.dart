@@ -53,14 +53,14 @@ class _AIFloatingButtonState extends State<AIFloatingButton>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  AppColors.primary,
-                  AppColors.primaryDark,
+                  context.appColors.primary,
+                  context.appColors.primaryDark,
                 ],
               ),
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.4 * _animation.value),
+                  color: context.appColors.primary.withValues(alpha: 0.4 * _animation.value),
                   blurRadius: 16 * _animation.value,
                   spreadRadius: 2 * _animation.value,
                 ),

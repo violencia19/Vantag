@@ -138,7 +138,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.pleaseEnterValidAmount),
-          backgroundColor: AppColors.error,
+          backgroundColor: context.appColors.error,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
@@ -154,7 +154,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
         SnackBar(
           content: Row(
             children: [
-              Icon(PhosphorIconsDuotone.warningCircle, color: AppColors.background, size: 20),
+              Icon(PhosphorIconsDuotone.warningCircle, color: context.appColors.background, size: 20),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -164,7 +164,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
               ),
             ],
           ),
-          backgroundColor: AppColors.warning,
+          backgroundColor: context.appColors.warning,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           duration: const Duration(seconds: 3),
@@ -175,6 +175,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
 
     // Başarılı - kaydet
     HapticFeedback.mediumImpact();
+    soundService.playCoin();
     final subCategory = _subCategoryController.text.trim().isNotEmpty
         ? _subCategoryController.text.trim()
         : _selectedSubCategory;
@@ -197,7 +198,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
       ),
       decoration: BoxDecoration(
         // Solid dark background - not transparent
-        color: AppColors.gradientMid, // #1A1A2E - solid dark
+        color: context.appColors.gradientMid, // #1A1A2E - solid dark
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         border: Border.all(
           color: Colors.white.withValues(alpha: 0.1),
@@ -215,7 +216,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.textTertiary.withValues(alpha: 0.3),
+                  color: context.appColors.textTertiary.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -232,10 +233,10 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                   children: [
                     Text(
                       l10n.newExpense,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
+                        color: context.appColors.textPrimary,
                         letterSpacing: -0.5,
                       ),
                     ),
@@ -245,7 +246,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.textTertiary,
+                        color: context.appColors.textTertiary,
                       ),
                     ),
                   ],
@@ -265,13 +266,13 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                         width: 36,
                         height: 36,
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceLight,
+                          color: context.appColors.surfaceLight,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           PhosphorIconsDuotone.x,
                           size: 20,
-                          color: AppColors.textSecondary,
+                          color: context.appColors.textSecondary,
                         ),
                       ),
                     ),
@@ -308,12 +309,12 @@ class _QuickAddSheetState extends State<QuickAddSheet>
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
       decoration: BoxDecoration(
-        color: AppColors.surfaceLight,
+        color: context.appColors.surfaceLight,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
           color: _hasValidAmount
-              ? AppColors.primary.withValues(alpha: 0.5)
-              : AppColors.cardBorder,
+              ? context.appColors.primary.withValues(alpha: 0.5)
+              : context.appColors.cardBorder,
           width: _hasValidAmount ? 2 : 1,
         ),
       ),
@@ -330,10 +331,10 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                   maxIntegerDigits: 12,
                 ),
               ],
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
                 letterSpacing: -1,
               ),
               textAlign: TextAlign.center,
@@ -342,7 +343,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                 hintStyle: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textTertiary.withValues(alpha: 0.5),
+                  color: context.appColors.textTertiary.withValues(alpha: 0.5),
                 ),
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.zero,
@@ -353,10 +354,10 @@ class _QuickAddSheetState extends State<QuickAddSheet>
           const SizedBox(width: 8),
           Text(
             l10n.tl,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
             ),
           ),
         ],
@@ -376,7 +377,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
               width: 4,
               height: 16,
               decoration: BoxDecoration(
-                color: _showCategoryWarning ? AppColors.warning : AppColors.primary,
+                color: _showCategoryWarning ? context.appColors.warning : context.appColors.primary,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -386,7 +387,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: _showCategoryWarning ? AppColors.warning : AppColors.textPrimary,
+                color: _showCategoryWarning ? context.appColors.warning : context.appColors.textPrimary,
               ),
             ),
             const SizedBox(width: 6),
@@ -394,8 +395,8 @@ class _QuickAddSheetState extends State<QuickAddSheet>
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
                 color: _showCategoryWarning
-                    ? AppColors.warning.withValues(alpha: 0.15)
-                    : AppColors.primary.withValues(alpha: 0.1),
+                    ? context.appColors.warning.withValues(alpha: 0.15)
+                    : context.appColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
@@ -403,7 +404,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
-                  color: _showCategoryWarning ? AppColors.warning : AppColors.primary,
+                  color: _showCategoryWarning ? context.appColors.warning : context.appColors.primary,
                 ),
               ),
             ),
@@ -430,23 +431,23 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? AppColors.primary
+                        ? context.appColors.primary
                         : _showCategoryWarning
-                            ? AppColors.warning.withValues(alpha: 0.08)
-                            : AppColors.surfaceLight,
+                            ? context.appColors.warning.withValues(alpha: 0.08)
+                            : context.appColors.surfaceLight,
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
                       color: isSelected
-                          ? AppColors.primary
+                          ? context.appColors.primary
                           : _showCategoryWarning
-                              ? AppColors.warning.withValues(alpha: 0.3)
-                              : AppColors.cardBorder,
+                              ? context.appColors.warning.withValues(alpha: 0.3)
+                              : context.appColors.cardBorder,
                       width: isSelected ? 2 : 1,
                     ),
                     boxShadow: isSelected
                         ? [
                             BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.3),
+                              color: context.appColors.primary.withValues(alpha: 0.3),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
@@ -460,7 +461,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                       Icon(
                         ExpenseCategory.getIcon(category),
                         size: 20,
-                        color: isSelected ? AppColors.background : ExpenseCategory.getColor(category),
+                        color: isSelected ? context.appColors.background : ExpenseCategory.getColor(category),
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -468,7 +469,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                          color: isSelected ? AppColors.background : AppColors.textSecondary,
+                          color: isSelected ? context.appColors.background : context.appColors.textSecondary,
                         ),
                       ),
                     ],
@@ -508,32 +509,32 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                       width: 4,
                       height: 16,
                       decoration: BoxDecoration(
-                        color: AppColors.secondary,
+                        color: context.appColors.secondary,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
                     const SizedBox(width: 10),
                     Text(
                       l10n.detail,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                        color: context.appColors.textPrimary,
                       ),
                     ),
                     const SizedBox(width: 6),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceLight,
+                        color: context.appColors.surfaceLight,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
                         l10n.optional,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.textTertiary,
+                          color: context.appColors.textTertiary,
                         ),
                       ),
                     ),
@@ -566,9 +567,9 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                 // Manuel giriş alanı
                 Container(
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceLight,
+                    color: context.appColors.surfaceLight,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: AppColors.cardBorder),
+                    border: Border.all(color: context.appColors.cardBorder),
                   ),
                   child: TextField(
                     controller: _subCategoryController,
@@ -577,21 +578,21 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                     autocorrect: false,
                     enableIMEPersonalizedLearning: true,
                     textCapitalization: TextCapitalization.words,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.textPrimary,
+                      color: context.appColors.textPrimary,
                     ),
                     decoration: InputDecoration(
                       hintText: 'Örn: ${_getExampleForCategory(_selectedCategory!)}',
                       hintStyle: TextStyle(
                         fontSize: 14,
-                        color: AppColors.textTertiary.withValues(alpha: 0.6),
+                        color: context.appColors.textTertiary.withValues(alpha: 0.6),
                       ),
                       prefixIcon: Icon(
                         PhosphorIconsDuotone.notepad,
                         size: 22,
-                        color: AppColors.textTertiary,
+                        color: context.appColors.textTertiary,
                       ),
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.symmetric(
@@ -625,17 +626,17 @@ class _QuickAddSheetState extends State<QuickAddSheet>
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.secondary.withValues(alpha: 0.15)
+              ? context.appColors.secondary.withValues(alpha: 0.15)
               : isRecent
                   ? Colors.transparent
-                  : AppColors.surfaceLighter,
+                  : context.appColors.surfaceLighter,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected
-                ? AppColors.secondary
+                ? context.appColors.secondary
                 : isRecent
-                    ? AppColors.secondary.withValues(alpha: 0.4)
-                    : AppColors.cardBorder,
+                    ? context.appColors.secondary.withValues(alpha: 0.4)
+                    : context.appColors.cardBorder,
             width: isSelected ? 1.5 : 1,
           ),
         ),
@@ -648,7 +649,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                 child: Icon(
                   PhosphorIconsDuotone.clockCounterClockwise,
                   size: 14,
-                  color: isSelected ? AppColors.secondary : AppColors.textTertiary,
+                  color: isSelected ? context.appColors.secondary : context.appColors.textTertiary,
                 ),
               ),
             Text(
@@ -656,7 +657,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected ? AppColors.secondary : AppColors.textSecondary,
+                color: isSelected ? context.appColors.secondary : context.appColors.textSecondary,
               ),
             ),
           ],
@@ -673,8 +674,8 @@ class _QuickAddSheetState extends State<QuickAddSheet>
       child: ElevatedButton(
         onPressed: _submit, // Always clickable, validation inside
         style: ElevatedButton.styleFrom(
-          backgroundColor: _canSubmit ? AppColors.primary : AppColors.surfaceLight,
-          foregroundColor: _canSubmit ? AppColors.background : AppColors.textTertiary,
+          backgroundColor: _canSubmit ? context.appColors.primary : context.appColors.surfaceLight,
+          foregroundColor: _canSubmit ? context.appColors.background : context.appColors.textTertiary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -851,9 +852,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
     if (amount == null || amount <= 0) {
       HapticFeedback.heavyImpact();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Lütfen geçerli bir tutar girin'),
-          backgroundColor: AppColors.error,
+        SnackBar(
+          content: const Text('Lütfen geçerli bir tutar girin'),
+          backgroundColor: context.appColors.error,
         ),
       );
       return;
@@ -868,6 +869,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
     // Golden glow efekti
     setState(() => _showGoldenGlow = true);
     HapticFeedback.mediumImpact();
+    soundService.playCoin();
 
     Future.delayed(const Duration(milliseconds: 400), () {
       if (mounted) {
@@ -942,7 +944,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: AppColors.textTertiary.withValues(alpha: 0.5),
+                      color: context.appColors.textTertiary.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -958,24 +960,24 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                           width: 36,
                           height: 36,
                           decoration: BoxDecoration(
-                            color: AppColors.surfaceLight,
+                            color: context.appColors.surfaceLight,
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: const Icon(
+                          child: Icon(
                             PhosphorIconsDuotone.x,
                             size: 20,
-                            color: AppColors.textSecondary,
+                            color: context.appColors.textSecondary,
                           ),
                         ),
                       ),
                       const SizedBox(width: 12),
-                      const Expanded(
+                      Expanded(
                         child: Text(
                           'Yeni Harcama',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary,
+                            color: context.appColors.textPrimary,
                           ),
                         ),
                       ),
@@ -1026,10 +1028,10 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
           curve: Curves.easeOut,
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
           decoration: BoxDecoration(
-            color: AppColors.surfaceLight,
+            color: context.appColors.surfaceLight,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: _hasValidAmount ? borderColor : AppColors.cardBorder,
+              color: _hasValidAmount ? borderColor : context.appColors.cardBorder,
               width: _hasValidAmount && riskLevel != RiskLevel.none ? 2 : 1,
             ),
             boxShadow: _hasValidAmount && riskLevel.backgroundIntensity > 0.2
@@ -1055,10 +1057,10 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                       maxIntegerDigits: 12,
                     ),
                   ],
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                   ),
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
@@ -1066,7 +1068,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                     hintStyle: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.textTertiary.withValues(alpha: 0.5),
+                      color: context.appColors.textTertiary.withValues(alpha: 0.5),
                     ),
                     border: InputBorder.none,
                   ),
@@ -1075,10 +1077,10 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
               ),
               Text(
                 currencyProvider.code,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                 ),
               ),
             ],
@@ -1094,7 +1096,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
               width: 4,
               height: 16,
               decoration: BoxDecoration(
-                color: _showCategoryWarning ? AppColors.warning : AppColors.primary,
+                color: _showCategoryWarning ? context.appColors.warning : context.appColors.primary,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -1104,7 +1106,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: _showCategoryWarning ? AppColors.warning : AppColors.textPrimary,
+                color: _showCategoryWarning ? context.appColors.warning : context.appColors.textPrimary,
               ),
             ),
           ],
@@ -1139,12 +1141,12 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
         // Alt kategori önerileri
         if (_selectedCategory != null && _subCategorySuggestions != null && !_subCategorySuggestions!.isEmpty) ...[
           const SizedBox(height: 20),
-          const Text(
+          Text(
             'Detay (Opsiyonel)',
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
           ),
           const SizedBox(height: 10),
@@ -1168,11 +1170,11 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
             onPressed: _submit,
             style: ElevatedButton.styleFrom(
               backgroundColor: (_hasValidAmount && _selectedCategory != null)
-                  ? AppColors.primary
-                  : AppColors.surfaceLight,
+                  ? context.appColors.primary
+                  : context.appColors.surfaceLight,
               foregroundColor: (_hasValidAmount && _selectedCategory != null)
-                  ? AppColors.background
-                  : AppColors.textTertiary,
+                  ? context.appColors.background
+                  : context.appColors.textTertiary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -1211,12 +1213,12 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
           color: isRecent
-              ? AppColors.primary.withValues(alpha: 0.15)
+              ? context.appColors.primary.withValues(alpha: 0.15)
               : Colors.white.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: isRecent
-                ? AppColors.primary.withValues(alpha: 0.5)
+                ? context.appColors.primary.withValues(alpha: 0.5)
                 : Colors.white.withValues(alpha: 0.2),
           ),
         ),
@@ -1229,7 +1231,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                 child: Icon(
                   PhosphorIconsDuotone.clockCounterClockwise,
                   size: 14,
-                  color: AppColors.primary,
+                  color: context.appColors.primary,
                 ),
               ),
             Text(
@@ -1237,7 +1239,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: isRecent ? AppColors.primary : Colors.white,
+                color: isRecent ? context.appColors.primary : Colors.white,
               ),
             ),
           ],
@@ -1288,27 +1290,27 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
         decoration: BoxDecoration(
           // Daha görünür arka plan: seçili=primary, basılı=0.25, normal=0.15
           color: widget.isSelected
-              ? AppColors.primary
+              ? context.appColors.primary
               : _isPressed
                   ? Colors.white.withValues(alpha: 0.25)
                   : widget.showWarning
-                      ? AppColors.warning.withValues(alpha: 0.12)
+                      ? context.appColors.warning.withValues(alpha: 0.12)
                       : Colors.white.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: widget.isSelected
-                ? AppColors.primary
+                ? context.appColors.primary
                 : _isPressed
                     ? Colors.white.withValues(alpha: 0.4)
                     : widget.showWarning
-                        ? AppColors.warning.withValues(alpha: 0.4)
+                        ? context.appColors.warning.withValues(alpha: 0.4)
                         : Colors.white.withValues(alpha: 0.2),
             width: widget.isSelected || _isPressed ? 2 : 1,
           ),
           boxShadow: widget.isSelected
               ? [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.4),
+                    color: context.appColors.primary.withValues(alpha: 0.4),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -1330,7 +1332,7 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
               ExpenseCategory.getIcon(widget.category),
               size: 20,
               color: widget.isSelected
-                  ? AppColors.background
+                  ? context.appColors.background
                   : ExpenseCategory.getColor(widget.category),
               shadows: widget.isSelected || _isPressed
                   ? [
@@ -1351,7 +1353,7 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
                   fontWeight: widget.isSelected ? FontWeight.w700 : FontWeight.w600,
                   // Seçili: koyu arka plan, diğer: beyaz
                   color: widget.isSelected
-                      ? AppColors.background
+                      ? context.appColors.background
                       : Colors.white,
                   letterSpacing: -0.2,
                 ),

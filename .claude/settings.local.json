@@ -99,7 +99,12 @@
       "Bash(cmd //c \"taskkill /PID 45864 /F\")",
       "Bash(cmd //c \"taskkill /IM mmr_app.exe /F 2>nul\")",
       "Bash(cmd //c \"taskkill /IM mmr_app.exe /F\")",
-      "Bash(cmd //c \"taskkill /IM dart.exe /F\")"
+      "Bash(cmd //c \"taskkill /IM dart.exe /F\")",
+      "Bash(flutter doctor:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(ffprobe:*)",
+      "Bash(for f in *.mp3)",
+      "Bash(do echo \"=== $f ===\")"
     ]
   }
 }

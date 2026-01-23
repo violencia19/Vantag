@@ -97,20 +97,20 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
               IconButton(
                 onPressed: _previousMonth,
                 icon: const Icon(PhosphorIconsDuotone.caretLeft),
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
               ),
               Text(
                 '${monthNames[_currentMonth.month]} ${_currentMonth.year}',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
               IconButton(
                 onPressed: _nextMonth,
                 icon: const Icon(PhosphorIconsDuotone.caretRight),
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
               ),
             ],
           ),
@@ -126,7 +126,7 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                 ),
               ),
             ),
@@ -188,13 +188,13 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
         margin: const EdgeInsets.symmetric(horizontal: 2),
         decoration: BoxDecoration(
           color: isToday
-              ? AppColors.primary.withValues(alpha: 0.2)
+              ? context.appColors.primary.withValues(alpha: 0.2)
               : hasSubscriptions
-                  ? AppColors.surface.withValues(alpha: 0.5)
+                  ? context.appColors.surface.withValues(alpha: 0.5)
                   : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
           border: isToday
-              ? Border.all(color: AppColors.primary, width: 1.5)
+              ? Border.all(color: context.appColors.primary, width: 1.5)
               : null,
         ),
         child: Column(
@@ -207,10 +207,10 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
                 fontSize: 14,
                 fontWeight: isToday || hasSubscriptions ? FontWeight.w600 : FontWeight.w400,
                 color: isToday
-                    ? AppColors.primary
+                    ? context.appColors.primary
                     : hasSubscriptions
-                        ? AppColors.textPrimary
-                        : AppColors.textTertiary,
+                        ? context.appColors.textPrimary
+                        : context.appColors.textTertiary,
               ),
             ),
             if (hasSubscriptions) ...[
@@ -247,7 +247,7 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
             height: 6,
             margin: const EdgeInsets.symmetric(horizontal: 1),
             decoration: BoxDecoration(
-              color: AppColors.textTertiary,
+              color: context.appColors.textTertiary,
               shape: BoxShape.circle,
             ),
             child: const Center(

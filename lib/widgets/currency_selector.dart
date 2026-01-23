@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -7,18 +6,24 @@ import 'package:vantag/l10n/app_localizations.dart';
 import '../models/currency.dart';
 import '../providers/currency_provider.dart';
 import '../providers/finance_provider.dart';
+import '../providers/pro_provider.dart';
+import '../services/free_tier_service.dart';
 import '../theme/theme.dart';
+import 'upgrade_dialog.dart';
 
 /// Show currency selector bottom sheet
 void showCurrencySelector(BuildContext context) {
   final l10n = AppLocalizations.of(context);
   final currencyProvider = context.read<CurrencyProvider>();
   final financeProvider = context.read<FinanceProvider>();
+  final proProvider = context.read<ProProvider>();
+  final isPremium = proProvider.isPro;
+  final freeTierService = FreeTierService();
 
   showModalBottomSheet(
     context: context,
     barrierColor: Colors.black.withValues(alpha: 0.95),
-    backgroundColor: AppColors.surface,
+    backgroundColor: context.appColors.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
@@ -34,7 +39,7 @@ void showCurrencySelector(BuildContext context) {
               height: 4,
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
-                color: AppColors.textTertiary,
+                color: context.appColors.textTertiary,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -43,16 +48,52 @@ void showCurrencySelector(BuildContext context) {
               padding: const EdgeInsets.only(bottom: 8),
               child: Text(
                 l10n.selectCurrency,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
             ),
+            // Free tier note
+            if (!isPremium)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: context.appColors.warning.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: context.appColors.warning.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        PhosphorIconsDuotone.info,
+                        size: 16,
+                        color: context.appColors.warning,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          l10n.freeUserCurrencyNote(l10n.allCurrencies),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: context.appColors.textSecondary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             // Currency options
             ...supportedCurrencies.map((currency) {
               final isSelected = currencyProvider.currency.code == currency.code;
+              final isLocked = !freeTierService.isCurrencyAvailable(isPremium, currency.code);
+
               return ListTile(
                 leading: Text(
                   currency.flag,
@@ -63,7 +104,9 @@ void showCurrencySelector(BuildContext context) {
                     Text(
                       currency.code,
                       style: TextStyle(
-                        color: AppColors.textPrimary,
+                        color: isLocked
+                            ? context.appColors.textTertiary
+                            : context.appColors.textPrimary,
                         fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                         fontSize: 16,
                       ),
@@ -72,23 +115,39 @@ void showCurrencySelector(BuildContext context) {
                     Text(
                       currency.symbol,
                       style: TextStyle(
-                        color: AppColors.textSecondary,
+                        color: isLocked
+                            ? context.appColors.textTertiary.withValues(alpha: 0.5)
+                            : context.appColors.textSecondary,
                         fontSize: 16,
                       ),
                     ),
                   ],
                 ),
                 subtitle: Text(
-                  currency.name,
+                  isLocked ? l10n.currencyLocked : currency.name,
                   style: TextStyle(
-                    color: AppColors.textTertiary,
+                    color: isLocked
+                        ? context.appColors.textTertiary.withValues(alpha: 0.7)
+                        : context.appColors.textTertiary,
                     fontSize: 13,
                   ),
                 ),
-                trailing: isSelected
-                    ? Icon(PhosphorIconsDuotone.checkCircle, color: AppColors.primary)
-                    : null,
+                trailing: isLocked
+                    ? Icon(
+                        PhosphorIconsRegular.lock,
+                        size: 20,
+                        color: context.appColors.textTertiary,
+                      )
+                    : isSelected
+                        ? Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.primary)
+                        : null,
                 onTap: () async {
+                  if (isLocked) {
+                    Navigator.pop(context);
+                    UpgradeDialog.show(context, l10n.multiCurrencyPremium);
+                    return;
+                  }
+
                   Navigator.pop(context);
 
                   // Para birimi değiştir

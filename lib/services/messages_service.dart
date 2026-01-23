@@ -1,114 +1,30 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 
 enum DurationCategory {
-  short,      // 1-8 saat
-  medium,     // 1-7 gün
-  long,       // 7+ gün
-  simulation  // 100.000 TL ve üzeri (Özel kategori)
+  short,      // 1-8 hours
+  medium,     // 1-7 days
+  long,       // 7+ days
+  simulation  // 100.000 TL+ (Special category)
 }
 
 enum DecisionType {
-  yes,      // Aldım
-  no,       // Vazgeçtim
-  thinking, // Düşünüyorum
+  yes,      // Bought
+  no,       // Passed
+  thinking, // Thinking
 }
 
 class MessagesService {
   final _random = Random();
-  final List<String> _recentMessages = [];
+  final List<int> _recentMessageIndices = [];
   static const _maxRecentMessages = 5;
 
   // ============================================
-  // SÜREYE VE TUTARA GÖRE MESAJLAR
+  // MESSAGE SELECTION LOGIC
   // ============================================
 
-  static const _shortDurationMessages = [
-    'Birkaç saatlik emeğin, bir anlık heves için mi?',
-    'Bu kadar kısa sürede kazandığın parayı harcamak kolay, kazanmak zor.',
-    'Sabah işe gittin, öğlene kalmadan bu para gidecek.',
-    'Bir kahve molası kadar sürede kazandın, bir tıkla gidecek.',
-    'Yarım günlük mesai, tam günlük pişmanlık olmasın.',
-    'Bu ürün için çalıştığın saatleri düşün.',
-    'Küçük görünüyor ama toplamda büyük fark yaratıyor.',
-    'Şimdi değil dersen, yarın da olur.',
-  ];
-
-  static const _mediumDurationMessages = [
-    'Bir haftalık emeğin bu ürüne değer mi?',
-    'Bu parayı biriktirmek günler aldı, harcamak saniyeler alacak.',
-    'Bir haftanı buna yatırıyor olsaydın kabul eder miydin?',
-    'Günlerce emek, anlık bir karar.',
-    'Hafta sonu tatili mi, bu ürün mü?',
-    'Bu kadar gün boyunca ne için çalıştığını hatırla.',
-    'Pazartesiden cumaya kadar bunun için mi çalıştın?',
-    'Haftalık bütçeni tek seferde harcamak mantıklı mı?',
-  ];
-
-  static const _longDurationMessages = [
-    'Haftalarca çalışman gerekiyor bunun için. Gerçekten değer mi?',
-    'Bu parayı biriktirmek aylar alabilir.',
-    'Uzun vadeli hedeflerinden birini erteliyor olabilirsin.',
-    'Bu ürün için harcayacağın zaman, tatil planlarını etkiler mi?',
-    'Bu yatırım mı, harcama mı?',
-    'Gelecekteki sen bu kararı nasıl değerlendirir?',
-    'Bu kadar uzun süre çalışmak, kalıcı bir şey için olmalı.',
-    'Ay sonunda bu karara nasıl bakacaksın?',
-  ];
-
-  // YENİ: Simülasyon seviyesi için karar ekranı mesajları (100k+ TL)
-  static const _simulationDurationMessages = [
-    'Bu rakam artık bir harcama değil, ciddi bir yatırım kararı.',
-    'Böyle büyük bir tutar için duygularınla değil, vizyonunla karar ver.',
-    'Bu tutarın karşılığı olan zamanı hesaplamak bile güç.',
-    'Hayallerini süsleyen o büyük adım bu olabilir mi?',
-    'Bu kadar büyük bir rakamı yönetmek, sabır ve strateji ister.',
-    'Cüzdanını değil, geleceğini etkileyecek bir noktadasın.',
-    'Büyük rakamlar, büyük sorumluluklar getirir. Hazır mısın?',
-    'Bu tutar senin için sadece bir sayı mı, yoksa bir dönüm noktası mı?',
-  ];
-
-  // ============================================
-  // KARARA GÖRE MESAJLAR
-  // ============================================
-
-  static const _yesMessages = [
-    'Kaydettim. Umarım değer.',
-    'Bakalım pişman olacak mısın.',
-    'Tamam, senin paran.',
-    'Aldın aldın, hayırlı olsun.',
-    'Keyfin bilir.',
-    'Peki, kayıtlara geçti.',
-    'İhtiyaçsa sorun yok.',
-    'Bazen harcamak da gerekir.',
-  ];
-
-  static const _noMessages = [
-    'Güzel karar. Bu parayı kurtardın.',
-    'Zor olanı seçtin, gelecekte teşekkür edeceksin.',
-    'İrade kazandı.',
-    'Akıllıca. Bu para sana lazım olacak.',
-    'Vazgeçmek de bir kazanım.',
-    'Heves geçti, para kaldı.',
-    'Kendine yatırım yaptın aslında.',
-    'Zor karar, doğru karar.',
-  ];
-
-  static const _thinkingMessages = [
-    'Düşünmek bedava, harcamak değil.',
-    'Acele etmemek akıllıca.',
-    'Bir gece uyu, yarın tekrar bak.',
-    '24 saat bekle, hala istiyorsan gel.',
-    'Tereddüt ediyorsan muhtemelen gerekli değil.',
-    'Zaman en iyi danışman.',
-    'Acil değilse, acele etme.',
-    'Emin değilsen, cevap muhtemelen hayır.',
-  ];
-
-  // ============================================
-  // MESAJ SEÇME MANTIĞI
-  // ============================================
-
-  /// Süreye VE Tutara göre kategori belirle
+  /// Determine category based on duration AND amount
   DurationCategory _getDurationCategory(double hours, double amount) {
     if (amount >= 100000) {
       return DurationCategory.simulation;
@@ -122,53 +38,122 @@ class MessagesService {
     }
   }
 
-  /// Kategoriye göre mesaj listesi getir
-  List<String> _getMessagesForDuration(DurationCategory category) {
+  /// Get messages list for duration category
+  List<String> _getMessagesForDuration(BuildContext context, DurationCategory category) {
+    final l10n = AppLocalizations.of(context);
     return switch (category) {
-      DurationCategory.short => _shortDurationMessages,
-      DurationCategory.medium => _mediumDurationMessages,
-      DurationCategory.long => _longDurationMessages,
-      DurationCategory.simulation => _simulationDurationMessages,
+      DurationCategory.short => [
+        l10n.msgShort1,
+        l10n.msgShort2,
+        l10n.msgShort3,
+        l10n.msgShort4,
+        l10n.msgShort5,
+        l10n.msgShort6,
+        l10n.msgShort7,
+        l10n.msgShort8,
+      ],
+      DurationCategory.medium => [
+        l10n.msgMedium1,
+        l10n.msgMedium2,
+        l10n.msgMedium3,
+        l10n.msgMedium4,
+        l10n.msgMedium5,
+        l10n.msgMedium6,
+        l10n.msgMedium7,
+        l10n.msgMedium8,
+      ],
+      DurationCategory.long => [
+        l10n.msgLong1,
+        l10n.msgLong2,
+        l10n.msgLong3,
+        l10n.msgLong4,
+        l10n.msgLong5,
+        l10n.msgLong6,
+        l10n.msgLong7,
+        l10n.msgLong8,
+      ],
+      DurationCategory.simulation => [
+        l10n.msgSim1,
+        l10n.msgSim2,
+        l10n.msgSim3,
+        l10n.msgSim4,
+        l10n.msgSim5,
+        l10n.msgSim6,
+        l10n.msgSim7,
+        l10n.msgSim8,
+      ],
     };
   }
 
-  List<String> _getMessagesForDecision(DecisionType decision) {
+  List<String> _getMessagesForDecision(BuildContext context, DecisionType decision) {
+    final l10n = AppLocalizations.of(context);
     return switch (decision) {
-      DecisionType.yes => _yesMessages,
-      DecisionType.no => _noMessages,
-      DecisionType.thinking => _thinkingMessages,
+      DecisionType.yes => [
+        l10n.msgYes1,
+        l10n.msgYes2,
+        l10n.msgYes3,
+        l10n.msgYes4,
+        l10n.msgYes5,
+        l10n.msgYes6,
+        l10n.msgYes7,
+        l10n.msgYes8,
+      ],
+      DecisionType.no => [
+        l10n.msgNo1,
+        l10n.msgNo2,
+        l10n.msgNo3,
+        l10n.msgNo4,
+        l10n.msgNo5,
+        l10n.msgNo6,
+        l10n.msgNo7,
+        l10n.msgNo8,
+      ],
+      DecisionType.thinking => [
+        l10n.msgThink1,
+        l10n.msgThink2,
+        l10n.msgThink3,
+        l10n.msgThink4,
+        l10n.msgThink5,
+        l10n.msgThink6,
+        l10n.msgThink7,
+        l10n.msgThink8,
+      ],
     };
   }
 
   String _selectRandomMessage(List<String> messages) {
-    final availableMessages = messages
-        .where((m) => !_recentMessages.contains(m))
+    // Create available indices (0-7) excluding recent ones
+    final availableIndices = List.generate(messages.length, (i) => i)
+        .where((i) => !_recentMessageIndices.contains(i))
         .toList();
 
-    final sourceList = availableMessages.isEmpty ? messages : availableMessages;
-    final message = sourceList[_random.nextInt(sourceList.length)];
+    final sourceIndices = availableIndices.isEmpty
+        ? List.generate(messages.length, (i) => i)
+        : availableIndices;
 
-    _recentMessages.add(message);
-    if (_recentMessages.length > _maxRecentMessages) {
-      _recentMessages.removeAt(0);
+    final selectedIndex = sourceIndices[_random.nextInt(sourceIndices.length)];
+
+    _recentMessageIndices.add(selectedIndex);
+    if (_recentMessageIndices.length > _maxRecentMessages) {
+      _recentMessageIndices.removeAt(0);
     }
 
-    return message;
+    return messages[selectedIndex];
   }
 
-  /// Hesaplama sonucu gösterilirken hem saate hem tutara bakarak mesaj döndür
-  String getCalculationMessage(double hours, double amount) {
+  /// Return message based on hours and amount when showing calculation result
+  String getCalculationMessage(BuildContext context, double hours, double amount) {
     final category = _getDurationCategory(hours, amount);
-    final messages = _getMessagesForDuration(category);
+    final messages = _getMessagesForDuration(context, category);
     return _selectRandomMessage(messages);
   }
 
-  String getMessageForDecision(DecisionType decision) {
-    final messages = _getMessagesForDecision(decision);
+  String getMessageForDecision(BuildContext context, DecisionType decision) {
+    final messages = _getMessagesForDecision(context, decision);
     return _selectRandomMessage(messages);
   }
 
   void clearRecentMessages() {
-    _recentMessages.clear();
+    _recentMessageIndices.clear();
   }
 }

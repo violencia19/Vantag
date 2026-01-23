@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'notification_service.dart';
 
 /// RevenueCat-based purchase service for Vantag Pro subscriptions
 /// Supports: Monthly, Yearly (subscriptions) and Lifetime (one-time purchase)
@@ -136,6 +137,16 @@ class PurchaseService {
         await prefs.setBool(_keyIsLifetime, true);
       }
 
+      // Cancel trial notifications since user converted to paid
+      if (isPro) {
+        try {
+          await NotificationService().cancelTrialNotifications();
+          debugPrint('[PurchaseService] Trial notifications cancelled');
+        } catch (e) {
+          debugPrint('[PurchaseService] Error cancelling trial notifications: $e');
+        }
+      }
+
       return PurchaseResult(
         success: isPro,
         message: isPro ? 'Purchase successful!' : 'Purchase completed but entitlement not found',
@@ -177,6 +188,16 @@ class PurchaseService {
       final customerInfo = await Purchases.restorePurchases();
       final isPro = _checkEntitlement(customerInfo);
       _proStatusController.add(isPro);
+
+      // Cancel trial notifications if user has active subscription
+      if (isPro) {
+        try {
+          await NotificationService().cancelTrialNotifications();
+          debugPrint('[PurchaseService] Trial notifications cancelled after restore');
+        } catch (e) {
+          debugPrint('[PurchaseService] Error cancelling trial notifications: $e');
+        }
+      }
 
       return PurchaseResult(
         success: true,

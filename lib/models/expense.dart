@@ -8,14 +8,27 @@ enum ExpenseDecision {
   thinking,
   no;
 
+  /// Returns the localized label for UI display
+  String getLocalizedLabel(AppLocalizations l10n) {
+    switch (this) {
+      case ExpenseDecision.yes:
+        return l10n.bought;
+      case ExpenseDecision.thinking:
+        return l10n.thinking;
+      case ExpenseDecision.no:
+        return l10n.passed;
+    }
+  }
+
+  /// Internal key for data export/serialization (not for UI display)
   String get label {
     switch (this) {
       case ExpenseDecision.yes:
-        return 'Aldım';
+        return 'yes';
       case ExpenseDecision.thinking:
-        return 'Düşünüyorum';
+        return 'thinking';
       case ExpenseDecision.no:
-        return 'Vazgeçtim';
+        return 'no';
     }
   }
 }

@@ -111,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SnackBar(
             content: Text(l10n.exportSuccess),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: AppColors.success,
+            backgroundColor: context.appColors.success,
           ),
         );
       }
@@ -121,7 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SnackBar(
             content: Text('${l10n.exportError}: $e'),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: AppColors.error,
+            backgroundColor: context.appColors.error,
           ),
         );
       }
@@ -135,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _showProPaywall(AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColors.cardBackground,
+      backgroundColor: context.appColors.cardBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -150,8 +150,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      AppColors.primary.withValues(alpha: 0.2),
-                      AppColors.secondary.withValues(alpha: 0.2),
+                      context.appColors.primary.withValues(alpha: 0.2),
+                      context.appColors.secondary.withValues(alpha: 0.2),
                     ],
                   ),
                   shape: BoxShape.circle,
@@ -159,16 +159,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Icon(
                   PhosphorIconsDuotone.crown,
                   size: 48,
-                  color: AppColors.warning,
+                  color: context.appColors.warning,
                 ),
               ),
               const SizedBox(height: 16),
               Text(
                 l10n.proFeatureExport,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -177,7 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 l10n.upgradeForExport,
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -193,7 +193,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: context.appColors.primary,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
@@ -208,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onPressed: () => Navigator.pop(context),
                 child: Text(
                   l10n.cancel,
-                  style: TextStyle(color: AppColors.textSecondary),
+                  style: TextStyle(color: context.appColors.textSecondary),
                 ),
               ),
             ],
@@ -227,7 +227,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         SnackBar(
           content: Text(l10n.importError),
           behavior: SnackBarBehavior.floating,
-          backgroundColor: AppColors.error,
+          backgroundColor: context.appColors.error,
         ),
       );
       return;
@@ -259,7 +259,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SnackBar(
             content: Text('${l10n.importError}: $e'),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: AppColors.error,
+            backgroundColor: context.appColors.error,
           ),
         );
       }
@@ -273,7 +273,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _showImportSummary(AppLocalizations l10n, ImportResult result, String userId) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -289,7 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 4,
                 margin: const EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -297,10 +297,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               // Title
               Text(
                 l10n.importSummary,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 20),
@@ -311,13 +311,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   _buildImportStat(
                     icon: PhosphorIconsDuotone.checkCircle,
-                    color: AppColors.success,
+                    color: context.appColors.success,
                     count: result.recognized.length,
                     label: l10n.autoMatched,
                   ),
                   _buildImportStat(
                     icon: PhosphorIconsDuotone.warningCircle,
-                    color: AppColors.warning,
+                    color: context.appColors.warning,
                     count: result.needsReviewCount,
                     label: l10n.needsReview,
                   ),
@@ -331,7 +331,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   '${result.errors.length} errors during import',
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppColors.error,
+                    color: context.appColors.error,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -346,14 +346,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onPressed: () => Navigator.pop(context),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 14),
-                        side: BorderSide(color: AppColors.cardBorder),
+                        side: BorderSide(color: context.appColors.cardBorder),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       child: Text(
                         l10n.close,
-                        style: TextStyle(color: AppColors.textSecondary),
+                        style: TextStyle(color: context.appColors.textSecondary),
                       ),
                     ),
                   ),
@@ -383,7 +383,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         label: Text(l10n.startReview),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
+                          backgroundColor: context.appColors.primary,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
@@ -434,7 +434,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           label,
           style: TextStyle(
             fontSize: 12,
-            color: AppColors.textSecondary,
+            color: context.appColors.textSecondary,
           ),
         ),
       ],
@@ -448,7 +448,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     showModalBottomSheet(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.95),
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -463,7 +463,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 4,
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -503,12 +503,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       title: Text(
         name,
         style: TextStyle(
-          color: AppColors.textPrimary,
+          color: context.appColors.textPrimary,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
         ),
       ),
       trailing: isSelected
-          ? Icon(PhosphorIconsDuotone.checkCircle, color: AppColors.primary)
+          ? Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.primary)
           : null,
       onTap: () async {
         Navigator.pop(context);
@@ -540,8 +540,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         context: context,
         barrierDismissible: false,
         barrierColor: Colors.black.withValues(alpha: 0.9),
-        builder: (context) => const Center(
-          child: CircularProgressIndicator(color: AppColors.primary),
+        builder: (ctx) => Center(
+          child: CircularProgressIndicator(color: ctx.appColors.primary),
         ),
       );
 
@@ -556,7 +556,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(result.errorMessage ?? l10n.deleteAccountError),
-                backgroundColor: AppColors.error,
+                backgroundColor: context.appColors.error,
               ),
             );
           }
@@ -581,7 +581,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.deleteAccountSuccess),
-            backgroundColor: AppColors.success,
+            backgroundColor: context.appColors.success,
           ),
         );
 
@@ -596,7 +596,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(l10n.deleteAccountError),
-              backgroundColor: AppColors.error,
+              backgroundColor: context.appColors.error,
             ),
           );
         }
@@ -642,7 +642,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.95),
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: context.appColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -654,14 +654,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.warning.withValues(alpha: 0.3),
-                    AppColors.primary.withValues(alpha: 0.3),
+                    context.appColors.warning.withValues(alpha: 0.3),
+                    context.appColors.primary.withValues(alpha: 0.3),
                   ],
                 ),
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.warning.withValues(alpha: 0.4),
+                    color: context.appColors.warning.withValues(alpha: 0.4),
                     blurRadius: 20,
                     spreadRadius: -5,
                   ),
@@ -671,8 +671,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: PhosphorIcon(
                   PhosphorIconsDuotone.smileyWink,
                   size: 40,
-                  color: AppColors.warning,
-                  duotoneSecondaryColor: AppColors.warning.withValues(alpha: 0.4),
+                  color: context.appColors.warning,
+                  duotoneSecondaryColor: context.appColors.warning.withValues(alpha: 0.4),
                 ),
               ),
             ),
@@ -681,17 +681,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               l10n.achievementUnlocked,
               style: TextStyle(
                 fontSize: 14,
-                color: AppColors.primary,
+                color: context.appColors.primary,
                 fontWeight: FontWeight.w500,
               ),
             ),
             const SizedBox(height: 8),
             Text(
               l10n.curiousCatTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
               ),
             ),
             const SizedBox(height: 8),
@@ -700,7 +700,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
               ),
             ),
             const SizedBox(height: 24),
@@ -709,7 +709,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
+                  backgroundColor: context.appColors.primary,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
@@ -730,15 +730,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.appColors.background,
         title: Text(
           l10n.profile,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
           ),
         ),
       ),
@@ -791,7 +791,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           l10n.tapToAddPhoto,
           style: TextStyle(
             fontSize: 12,
-            color: AppColors.textTertiary,
+            color: context.appColors.textTertiary,
           ),
         ),
         const SizedBox(height: 20),
@@ -887,13 +887,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         decoration: BoxDecoration(
           color: highlight
-              ? AppColors.primary.withValues(alpha: 0.15)
-              : AppColors.surface,
+              ? context.appColors.primary.withValues(alpha: 0.15)
+              : context.appColors.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: highlight
-                ? AppColors.primary.withValues(alpha: 0.3)
-                : AppColors.cardBorder,
+                ? context.appColors.primary.withValues(alpha: 0.3)
+                : context.appColors.cardBorder,
           ),
         ),
         child: Column(
@@ -901,7 +901,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Icon(
               icon,
               size: 22,
-              color: highlight ? AppColors.primary : AppColors.textSecondary,
+              color: highlight ? context.appColors.primary : context.appColors.textSecondary,
             ),
             const SizedBox(height: 6),
             Text(
@@ -909,7 +909,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
-                color: highlight ? AppColors.primary : AppColors.textSecondary,
+                color: highlight ? context.appColors.primary : context.appColors.textSecondary,
               ),
               textAlign: TextAlign.center,
               maxLines: 1,
@@ -924,7 +924,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _showPhotoOptions(AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColors.cardBackground,
+      backgroundColor: context.appColors.cardBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -935,7 +935,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading: Icon(PhosphorIconsDuotone.camera, color: AppColors.primary),
+                leading: Icon(PhosphorIconsDuotone.camera, color: context.appColors.primary),
                 title: Text(l10n.takePhoto),
                 onTap: () {
                   Navigator.pop(context);
@@ -943,7 +943,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
               ),
               ListTile(
-                leading: Icon(PhosphorIconsDuotone.image, color: AppColors.primary),
+                leading: Icon(PhosphorIconsDuotone.image, color: context.appColors.primary),
                 title: Text(l10n.chooseFromGallery),
                 onTap: () {
                   Navigator.pop(context);
@@ -967,9 +967,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(
         children: [
@@ -1009,7 +1009,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Text(
                   currentLangName,
                   style: TextStyle(
-                    color: AppColors.textSecondary,
+                    color: context.appColors.textSecondary,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -1018,7 +1018,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Icon(
                   PhosphorIconsDuotone.caretRight,
                   size: 18,
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                 ),
               ],
             ),
@@ -1055,7 +1055,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Text(
             currency.code,
             style: TextStyle(
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
@@ -1064,7 +1064,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Icon(
             PhosphorIconsDuotone.caretRight,
             size: 18,
-            color: AppColors.textTertiary,
+            color: context.appColors.textTertiary,
           ),
         ],
       ),
@@ -1085,12 +1085,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (_isExporting)
-            const SizedBox(
+            SizedBox(
               width: 18,
               height: 18,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: AppColors.primary,
+                color: context.appColors.primary,
               ),
             )
           else if (!isPro)
@@ -1099,8 +1099,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.primary.withValues(alpha: 0.2),
-                    AppColors.secondary.withValues(alpha: 0.2),
+                    context.appColors.primary.withValues(alpha: 0.2),
+                    context.appColors.secondary.withValues(alpha: 0.2),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(6),
@@ -1110,7 +1110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
+                  color: context.appColors.primary,
                 ),
               ),
             )
@@ -1118,7 +1118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Icon(
               PhosphorIconsDuotone.caretRight,
               size: 18,
-              color: AppColors.textTertiary,
+              color: context.appColors.textTertiary,
             ),
         ],
       ),
@@ -1133,18 +1133,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
       iconColor: const Color(0xFF3498DB),
       title: l10n.importStatement,
       trailing: _isImporting
-          ? const SizedBox(
+          ? SizedBox(
               width: 18,
               height: 18,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: AppColors.primary,
+                color: context.appColors.primary,
               ),
             )
           : Icon(
               PhosphorIconsDuotone.caretRight,
               size: 18,
-              color: AppColors.textTertiary,
+              color: context.appColors.textTertiary,
             ),
       showArrow: false,
       onTap: _isImporting ? null : _importFromCSV,
@@ -1167,9 +1167,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(
         children: [
@@ -1194,7 +1194,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             trailing: Text(
               '1.0.0',
               style: TextStyle(
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
@@ -1211,15 +1211,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildDangerSection(AppLocalizations l10n) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.error.withValues(alpha: 0.15),
+        color: context.appColors.error.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.error.withValues(alpha: 0.4)),
+        border: Border.all(color: context.appColors.error.withValues(alpha: 0.4)),
       ),
       child: _buildListTile(
         icon: PhosphorIconsDuotone.userMinus,
-        iconColor: AppColors.error,
+        iconColor: context.appColors.error,
         title: l10n.deleteAccount,
-        titleColor: AppColors.error,
+        titleColor: context.appColors.error,
         showArrow: false,
         onTap: _deleteAccount,
       ),
@@ -1236,7 +1236,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           fontSize: 12,
           fontWeight: FontWeight.w600,
           letterSpacing: 1.2,
-          color: isDestructive ? AppColors.error : AppColors.textTertiary,
+          color: isDestructive ? context.appColors.error : context.appColors.textTertiary,
         ),
       ),
     );
@@ -1252,13 +1252,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: highlight
-            ? AppColors.primary.withValues(alpha: 0.1)
-            : AppColors.surface,
+            ? context.appColors.primary.withValues(alpha: 0.1)
+            : context.appColors.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: highlight
-              ? AppColors.primary.withValues(alpha: 0.3)
-              : AppColors.cardBorder,
+              ? context.appColors.primary.withValues(alpha: 0.3)
+              : context.appColors.cardBorder,
         ),
       ),
       child: Column(
@@ -1269,7 +1269,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Icon(
                 icon,
                 size: 18,
-                color: highlight ? AppColors.primary : AppColors.textTertiary,
+                color: highlight ? context.appColors.primary : context.appColors.textTertiary,
               ),
               const SizedBox(width: 6),
               Expanded(
@@ -1277,7 +1277,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   title,
                   style: TextStyle(
                     fontSize: 11,
-                    color: AppColors.textTertiary,
+                    color: context.appColors.textTertiary,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -1290,7 +1290,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              color: highlight ? AppColors.primary : AppColors.textPrimary,
+              color: highlight ? context.appColors.primary : context.appColors.textPrimary,
             ),
           ),
         ],
@@ -1332,7 +1332,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: titleColor ?? AppColors.textPrimary,
+                    color: titleColor ?? context.appColors.textPrimary,
                   ),
                 ),
               ),
@@ -1341,7 +1341,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Icon(
                   PhosphorIconsDuotone.caretRight,
                   size: 18,
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                 ),
             ],
           ),
@@ -1355,7 +1355,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Divider(
         height: 1,
-        color: AppColors.cardBorder,
+        color: context.appColors.cardBorder,
       ),
     );
   }
@@ -1403,7 +1403,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
     final l10n = widget.l10n;
 
     return AlertDialog(
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.appColors.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
       content: Column(
@@ -1414,12 +1414,12 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             width: 64,
             height: 64,
             decoration: BoxDecoration(
-              color: AppColors.error.withValues(alpha: 0.15),
+              color: context.appColors.error.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
               PhosphorIconsDuotone.warning,
-              color: AppColors.error,
+              color: context.appColors.error,
               size: 32,
             ),
           ),
@@ -1428,10 +1428,10 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
           // Title
           Text(
             l10n.deleteAccountWarningTitle,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -1440,9 +1440,9 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
           // Warning Message
           Text(
             l10n.deleteAccountWarningMessage,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
               height: 1.5,
             ),
             textAlign: TextAlign.center,
@@ -1455,30 +1455,30 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             decoration: InputDecoration(
               hintText: l10n.deleteAccountConfirmPlaceholder,
               hintStyle: TextStyle(
-                color: AppColors.textTertiary,
+                color: context.appColors.textTertiary,
                 fontSize: 14,
               ),
               filled: true,
-              fillColor: AppColors.background,
+              fillColor: context.appColors.background,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: AppColors.cardBorder),
+                borderSide: BorderSide(color: context.appColors.cardBorder),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: AppColors.cardBorder),
+                borderSide: BorderSide(color: context.appColors.cardBorder),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: AppColors.error, width: 2),
+                borderSide: BorderSide(color: context.appColors.error, width: 2),
               ),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 14,
               ),
             ),
-            style: const TextStyle(
-              color: AppColors.textPrimary,
+            style: TextStyle(
+              color: context.appColors.textPrimary,
               fontSize: 14,
             ),
             textAlign: TextAlign.center,
@@ -1490,7 +1490,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             '"${widget.confirmWord}"',
             style: TextStyle(
               fontSize: 12,
-              color: AppColors.textTertiary,
+              color: context.appColors.textTertiary,
               fontStyle: FontStyle.italic,
             ),
           ),
@@ -1510,8 +1510,8 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                   ),
                   child: Text(
                     l10n.cancel,
-                    style: const TextStyle(
-                      color: AppColors.textSecondary,
+                    style: TextStyle(
+                      color: context.appColors.textSecondary,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
@@ -1525,9 +1525,9 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                       ? () => Navigator.pop(context, true)
                       : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.error,
+                    backgroundColor: context.appColors.error,
                     foregroundColor: Colors.white,
-                    disabledBackgroundColor: AppColors.error.withValues(alpha: 0.3),
+                    disabledBackgroundColor: context.appColors.error.withValues(alpha: 0.3),
                     disabledForegroundColor: Colors.white.withValues(alpha: 0.5),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(

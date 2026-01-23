@@ -62,6 +62,7 @@ class PremiumNavBar extends StatelessWidget {
                 _NavItem(
                   icon: PhosphorIconsDuotone.house,
                   label: l10n.homePage,
+                  tooltip: l10n.navHomeTooltip,
                   isActive: currentIndex == 0,
                   onTap: () => onTap(0),
                 ),
@@ -69,15 +70,21 @@ class PremiumNavBar extends StatelessWidget {
                 _NavItem(
                   icon: PhosphorIconsDuotone.chartBar,
                   label: l10n.analysis,
+                  tooltip: l10n.navReportsTooltip,
                   isActive: currentIndex == 1,
                   onTap: () => onTap(1),
                 ),
                 // FAB - Center
-                _CenterAddButton(onTap: onAddTap),
+                Semantics(
+                  label: l10n.accessibilityAddExpense,
+                  button: true,
+                  child: _CenterAddButton(onTap: onAddTap),
+                ),
                 // Pursuits (Dreams)
                 _NavItem(
                   icon: PhosphorIconsDuotone.star,
                   label: l10n.navPursuits,
+                  tooltip: l10n.navPursuitsTooltip,
                   isActive: currentIndex == 2,
                   onTap: () => onTap(2),
                 ),
@@ -85,6 +92,7 @@ class PremiumNavBar extends StatelessWidget {
                 _NavItem(
                   icon: PhosphorIconsDuotone.gear,
                   label: l10n.navSettings,
+                  tooltip: l10n.navSettingsTooltip,
                   isActive: currentIndex == 3,
                   onTap: () => onTap(3),
                 ),
@@ -102,25 +110,31 @@ class _NavItem extends StatelessWidget {
   final String label;
   final bool isActive;
   final VoidCallback onTap;
+  final String? tooltip;
 
   const _NavItem({
     required this.icon,
     required this.label,
     required this.isActive,
     required this.onTap,
+    this.tooltip,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
 
-    return GestureDetector(
-      onTap: () {
-        haptics.navigation();
-        onTap();
-      },
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
+    return Semantics(
+      label: tooltip ?? label,
+      button: true,
+      selected: isActive,
+      child: GestureDetector(
+        onTap: () {
+          haptics.navigation();
+          onTap();
+        },
+        behavior: HitTestBehavior.opaque,
+        child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOutCubic,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -164,6 +178,7 @@ class _NavItem extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }
@@ -237,7 +252,7 @@ class _CenterAddButtonState extends State<_CenterAddButton>
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: _isPressed ? 0.3 : 0.5),
+                    color: context.appColors.primary.withValues(alpha: _isPressed ? 0.3 : 0.5),
                     blurRadius: _isPressed ? 15 : 25,
                     offset: Offset(0, _isPressed ? 4 : 8),
                   ),
@@ -303,7 +318,7 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: widget.isActive
-              ? AppColors.primary.withValues(alpha: 0.15)
+              ? context.appColors.primary.withValues(alpha: 0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -318,14 +333,14 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                       shape: BoxShape.circle,
                       border: Border.all(
                         color: widget.isActive
-                            ? AppColors.primary
-                            : AppColors.textTertiary,
+                            ? context.appColors.primary
+                            : context.appColors.textTertiary,
                         width: 2,
                       ),
                       boxShadow: widget.isActive
                           ? [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.3),
+                                color: context.appColors.primary.withValues(alpha: 0.3),
                                 blurRadius: 8,
                               ),
                             ]
@@ -342,8 +357,8 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                             PhosphorIconsDuotone.user,
                             size: 16,
                             color: widget.isActive
-                                ? AppColors.primary
-                                : AppColors.textTertiary,
+                                ? context.appColors.primary
+                                : context.appColors.textTertiary,
                           );
                         },
                       ),
@@ -353,11 +368,11 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                     PhosphorIconsDuotone.user,
                     size: 24,
                     color: widget.isActive
-                        ? AppColors.primary
-                        : AppColors.textTertiary,
+                        ? context.appColors.primary
+                        : context.appColors.textTertiary,
                     duotoneSecondaryColor: widget.isActive
-                        ? AppColors.primary.withValues(alpha: 0.4)
-                        : AppColors.textTertiary.withValues(alpha: 0.3),
+                        ? context.appColors.primary.withValues(alpha: 0.4)
+                        : context.appColors.textTertiary.withValues(alpha: 0.3),
                   ),
             const SizedBox(height: 4),
             AnimatedDefaultTextStyle(
@@ -366,7 +381,7 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                 fontSize: 11,
                 fontWeight: widget.isActive ? FontWeight.w600 : FontWeight.w500,
                 color:
-                    widget.isActive ? AppColors.primary : AppColors.textTertiary,
+                    widget.isActive ? context.appColors.primary : context.appColors.textTertiary,
               ),
               child: Text(widget.label),
             ),
@@ -439,16 +454,16 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   key: TourKeys.navBarReport,
                   title: l10n.reports,
                   description: l10n.reportsDescription,
-                  titleTextStyle: const TextStyle(
+                  titleTextStyle: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                     fontSize: 16,
                   ),
-                  descTextStyle: const TextStyle(
-                    color: AppColors.textSecondary,
+                  descTextStyle: TextStyle(
+                    color: context.appColors.textSecondary,
                     fontSize: 14,
                   ),
-                  tooltipBackgroundColor: AppColors.gradientMid,
+                  tooltipBackgroundColor: context.appColors.gradientMid,
                   overlayColor: Colors.black,
                   overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(12),
@@ -464,16 +479,16 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   key: TourKeys.navBarAddButton,
                   title: l10n.quickAdd,
                   description: l10n.quickAddDescription,
-                  titleTextStyle: const TextStyle(
+                  titleTextStyle: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                     fontSize: 16,
                   ),
-                  descTextStyle: const TextStyle(
-                    color: AppColors.textSecondary,
+                  descTextStyle: TextStyle(
+                    color: context.appColors.textSecondary,
                     fontSize: 14,
                   ),
-                  tooltipBackgroundColor: AppColors.gradientMid,
+                  tooltipBackgroundColor: context.appColors.gradientMid,
                   overlayColor: Colors.black,
                   overlayOpacity: 0.95,
                   targetShapeBorder: const CircleBorder(),
@@ -484,16 +499,16 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   key: TourKeys.navBarAchievements,
                   title: l10n.navPursuits,
                   description: l10n.emptyPursuitsMessage,
-                  titleTextStyle: const TextStyle(
+                  titleTextStyle: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                     fontSize: 16,
                   ),
-                  descTextStyle: const TextStyle(
-                    color: AppColors.textSecondary,
+                  descTextStyle: TextStyle(
+                    color: context.appColors.textSecondary,
                     fontSize: 14,
                   ),
-                  tooltipBackgroundColor: AppColors.gradientMid,
+                  tooltipBackgroundColor: context.appColors.gradientMid,
                   overlayColor: Colors.black,
                   overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(12),
@@ -509,16 +524,16 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   key: TourKeys.navBarProfile,
                   title: l10n.navSettings,
                   description: l10n.profileAndSettingsDescription,
-                  titleTextStyle: const TextStyle(
+                  titleTextStyle: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                     fontSize: 16,
                   ),
-                  descTextStyle: const TextStyle(
-                    color: AppColors.textSecondary,
+                  descTextStyle: TextStyle(
+                    color: context.appColors.textSecondary,
                     fontSize: 14,
                   ),
-                  tooltipBackgroundColor: AppColors.gradientMid,
+                  tooltipBackgroundColor: context.appColors.gradientMid,
                   overlayColor: Colors.black,
                   overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(12),

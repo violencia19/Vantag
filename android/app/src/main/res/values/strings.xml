@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vantag</string>
+    <string name="widget_small_description">Daily spending in work hours</string>
+    <string name="widget_medium_description">Spending + savings goal progress</string>
+</resources>

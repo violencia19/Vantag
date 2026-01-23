@@ -50,7 +50,7 @@ class CollapsibleSavedHeader extends StatelessWidget {
               opacity: opacity,
               child: FittedBox(
                 fit: BoxFit.scaleDown,
-                child: _buildEmptyState(expandRatio, l10n),
+                child: _buildEmptyState(context, expandRatio, l10n),
               ),
             ),
           ),
@@ -74,15 +74,15 @@ class CollapsibleSavedHeader extends StatelessWidget {
                   horizontal: 12 + (8 * expandRatio),
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: context.appColors.surface,
                   borderRadius: BorderRadius.circular(12 + (4 * expandRatio)),
                   border: Border.all(
-                    color: AppColors.primary.withValues(alpha: 0.2 + (0.1 * expandRatio)),
+                    color: context.appColors.primary.withValues(alpha: 0.2 + (0.1 * expandRatio)),
                     width: 1,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.05 * expandRatio),
+                      color: context.appColors.primary.withValues(alpha: 0.05 * expandRatio),
                       blurRadius: 20 * expandRatio,
                       spreadRadius: 0,
                     ),
@@ -111,7 +111,7 @@ class CollapsibleSavedHeader extends StatelessWidget {
                           style: TextStyle(
                             fontSize: amountFontSize,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.primary,
+                            color: context.appColors.primary,
                             letterSpacing: -1,
                             height: 1.2,
                           ),
@@ -125,7 +125,7 @@ class CollapsibleSavedHeader extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 10 + (4 * expandRatio),
                               fontWeight: FontWeight.w600,
-                              color: AppColors.primary,
+                              color: context.appColors.primary,
                             ),
                           ),
                         ),
@@ -137,7 +137,7 @@ class CollapsibleSavedHeader extends StatelessWidget {
                             style: TextStyle(
                               fontSize: labelFontSize,
                               fontWeight: FontWeight.w500,
-                              color: AppColors.textSecondary,
+                              color: context.appColors.textSecondary,
                             ),
                           ),
                         ),
@@ -153,17 +153,17 @@ class CollapsibleSavedHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState(double expandRatio, AppLocalizations l10n) {
+  Widget _buildEmptyState(BuildContext context, double expandRatio, AppLocalizations l10n) {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 12 + (8 * expandRatio),
         vertical: 8 + (8 * expandRatio),
       ),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.cardBorder,
+          color: context.appColors.cardBorder,
           width: 1,
         ),
       ),
@@ -173,7 +173,7 @@ class CollapsibleSavedHeader extends StatelessWidget {
           Icon(
             PhosphorIconsDuotone.shieldCheck,
             size: 20 + (12 * expandRatio),
-            color: AppColors.textTertiary,
+            color: context.appColors.textTertiary,
           ),
           SizedBox(width: 6 + (4 * expandRatio)),
           Text(
@@ -181,7 +181,7 @@ class CollapsibleSavedHeader extends StatelessWidget {
             style: TextStyle(
               fontSize: 12 + (2 * expandRatio),
               fontWeight: FontWeight.w500,
-              color: AppColors.textTertiary,
+              color: context.appColors.textTertiary,
             ),
           ),
         ],
@@ -250,13 +250,13 @@ class _AnimatedSavingsIconState extends State<_AnimatedSavingsIcon>
             width: widget.size,
             height: widget.size,
             decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.1),
+              color: context.appColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12 + (8 * widget.expandRatio)),
             ),
             child: Icon(
               PhosphorIconsDuotone.shieldCheck,
               size: widget.iconSize,
-              color: AppColors.primary,
+              color: context.appColors.primary,
             ),
           ),
         );
@@ -286,7 +286,7 @@ class CollapsibleSavedHeaderDelegate extends SliverPersistentHeaderDelegate {
     final expandRatio = 1.0 - (shrinkOffset / (maxHeight - minHeight)).clamp(0.0, 1.0);
 
     return Container(
-      color: AppColors.background,
+      color: context.appColors.background,
       alignment: Alignment.center,
       child: CollapsibleSavedHeader(
         stats: stats,

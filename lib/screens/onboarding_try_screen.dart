@@ -8,7 +8,7 @@ import '../providers/providers.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
-import 'main_screen.dart';
+import 'onboarding_pursuit_screen.dart';
 
 /// Onboarding "Aha Moment" screen
 /// Shows after profile creation, before main app
@@ -96,7 +96,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
       context,
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>
-            const MainScreen(),
+            const OnboardingPursuitScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(opacity: animation, child: child);
         },
@@ -111,7 +111,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
     final currencyProvider = context.watch<CurrencyProvider>();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: SafeArea(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 400),
@@ -137,7 +137,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.3),
+                  color: context.appColors.primary.withValues(alpha: 0.3),
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),
@@ -154,10 +154,10 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
           // Title
           Text(
             l10n.onboardingTryTitle,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -168,7 +168,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
             l10n.onboardingTrySubtitle,
             style: TextStyle(
               fontSize: 16,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
               height: 1.5,
             ),
             textAlign: TextAlign.center,
@@ -194,33 +194,33 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                   children: [
                     Text(
                       l10n.amount,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textSecondary,
+                        color: context.appColors.textSecondary,
                       ),
                     ),
                     const SizedBox(height: 12),
                     TextField(
                       controller: _amountController,
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                        color: context.appColors.textPrimary,
                       ),
                       decoration: InputDecoration(
                         hintText: '0',
                         hintStyle: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.textTertiary,
+                          color: context.appColors.textTertiary,
                         ),
                         prefixText: '${currencyProvider.symbol} ',
-                        prefixStyle: const TextStyle(
+                        prefixStyle: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
+                          color: context.appColors.textPrimary,
                         ),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.zero,
@@ -247,7 +247,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.3),
+                    color: context.appColors.primary.withValues(alpha: 0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -289,7 +289,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
               l10n.skip,
               style: TextStyle(
                 fontSize: 16,
-                color: AppColors.textTertiary,
+                color: context.appColors.textTertiary,
               ),
             ),
           ),
@@ -335,10 +335,10 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
             },
             child: Text(
               l10n.onboardingTryResult(_hoursRequired.toStringAsFixed(1)),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -360,10 +360,10 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
               children: [
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       PhosphorIconsDuotone.lightbulb,
                       size: 20,
-                      color: AppColors.warning,
+                      color: context.appColors.warning,
                     ),
                     const SizedBox(width: 8),
                     Expanded(
@@ -371,7 +371,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                         l10n.onboardingTryDisclaimer,
                         style: TextStyle(
                           fontSize: 14,
-                          color: AppColors.textSecondary,
+                          color: context.appColors.textSecondary,
                           height: 1.4,
                         ),
                       ),
@@ -381,10 +381,10 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       PhosphorIconsDuotone.notepad,
                       size: 20,
-                      color: AppColors.info,
+                      color: context.appColors.info,
                     ),
                     const SizedBox(width: 8),
                     Expanded(
@@ -392,7 +392,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                         l10n.onboardingTryNotSaved,
                         style: TextStyle(
                           fontSize: 14,
-                          color: AppColors.textSecondary,
+                          color: context.appColors.textSecondary,
                           height: 1.4,
                         ),
                       ),
@@ -415,7 +415,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.3),
+                    color: context.appColors.primary.withValues(alpha: 0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -466,13 +466,13 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                AppColors.primary.withValues(alpha: 0.2),
-                AppColors.secondary.withValues(alpha: 0.1),
+                context.appColors.primary.withValues(alpha: 0.2),
+                context.appColors.secondary.withValues(alpha: 0.1),
               ],
             ),
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: AppColors.primary.withValues(alpha: 0.3),
+              color: context.appColors.primary.withValues(alpha: 0.3),
               width: 1.5,
             ),
           ),
@@ -482,10 +482,10 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
               // Amount
               Text(
                 currencyProvider.format(_enteredAmount),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -493,7 +493,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 '=',
                 style: TextStyle(
                   fontSize: 24,
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -505,15 +505,15 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                   Icon(
                     PhosphorIconsDuotone.clock,
                     size: 32,
-                    color: AppColors.warning,
+                    color: context.appColors.warning,
                   ),
                   const SizedBox(width: 12),
                   Text(
                     '${_hoursRequired.toStringAsFixed(1)} ${l10n.hourAbbreviation}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.warning,
+                      color: context.appColors.warning,
                     ),
                   ),
                 ],
@@ -523,7 +523,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 '≈ ${_daysRequired.toStringAsFixed(1)} ${l10n.workDays}',
                 style: TextStyle(
                   fontSize: 16,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                 ),
               ),
             ],

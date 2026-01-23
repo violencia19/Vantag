@@ -113,9 +113,9 @@ class _PremiumButtonState extends State<PremiumButton> {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary.withValues(alpha: 0.4),
+                color: context.appColors.primary.withValues(alpha: 0.4),
                 blurRadius: 20,
-                offset: const Offset(0, 8),
+                offset: Offset(0, 8),
               ),
             ],
           ),
@@ -193,9 +193,9 @@ class PremiumProgressBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(height / 2),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.secondary.withValues(alpha: 0.4),
+                      color: context.appColors.secondary.withValues(alpha: 0.4),
                       blurRadius: 8,
-                      offset: const Offset(0, 2),
+                      offset: Offset(0, 2),
                     ),
                   ],
                 ),
@@ -251,7 +251,7 @@ class PremiumChip extends StatelessWidget {
               Icon(
                 icon,
                 size: 16,
-                color: isSelected ? Colors.white : AppColors.textSecondary,
+                color: isSelected ? Colors.white : context.appColors.textSecondary,
               ),
             if (icon != null && label != null) const SizedBox(width: 6),
             if (label != null)
@@ -260,7 +260,7 @@ class PremiumChip extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  color: isSelected ? Colors.white : AppColors.textSecondary,
+                  color: isSelected ? Colors.white : context.appColors.textSecondary,
                 ),
               ),
           ],
@@ -318,7 +318,7 @@ class PremiumBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final badgeColor = isGold ? AppColors.gold : (color ?? AppColors.primary);
+    final badgeColor = isGold ? context.appColors.gold : (color ?? context.appColors.primary);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -400,10 +400,10 @@ class PremiumSectionTitle extends StatelessWidget {
         if (useGradientAccent) const SizedBox(width: 12),
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
           ),
         ),
         if (trailing != null) ...[
@@ -433,7 +433,7 @@ class PremiumLabel extends StatelessWidget {
       style: TextStyle(
         fontSize: 11,
         fontWeight: FontWeight.w500,
-        color: AppColors.textSecondary,
+        color: context.appColors.textSecondary,
         letterSpacing: uppercase ? 1.5 : 0,
       ),
     );
@@ -466,7 +466,7 @@ class PremiumBigNumber extends StatelessWidget {
           style: TextStyle(
             fontSize: 56,
             fontWeight: light ? FontWeight.w300 : FontWeight.w700,
-            color: color ?? AppColors.textPrimary,
+            color: color ?? context.appColors.textPrimary,
             letterSpacing: -2,
             height: 1,
           ),
@@ -479,7 +479,7 @@ class PremiumBigNumber extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w300,
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
               ),
             ),
           ),
@@ -723,20 +723,20 @@ class _AIGradientButtonState extends State<AIGradientButton>
                 boxShadow: [
                   // Primary glow - pulsing
                   BoxShadow(
-                    color: AppColors.primary.withValues(
+                    color: context.appColors.primary.withValues(
                       alpha: widget.enablePulse ? _pulseAnimation.value : 0.4,
                     ),
                     blurRadius: 20,
-                    offset: const Offset(0, 8),
+                    offset: Offset(0, 8),
                   ),
                   // Secondary glow for depth
                   BoxShadow(
-                    color: AppColors.secondary.withValues(
+                    color: context.appColors.secondary.withValues(
                       alpha: widget.enablePulse ? _pulseAnimation.value * 0.5 : 0.2,
                     ),
                     blurRadius: 30,
                     spreadRadius: -5,
-                    offset: const Offset(0, 12),
+                    offset: Offset(0, 12),
                   ),
                 ],
               ),

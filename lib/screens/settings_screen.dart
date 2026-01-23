@@ -14,12 +14,15 @@ import '../providers/theme_provider.dart';
 import '../services/auth_service.dart';
 import '../services/export_service.dart';
 import '../services/purchase_service.dart';
-import '../services/notification_service.dart';
+import '../services/sound_service.dart';
+import '../services/referral_service.dart';
+import '../services/deep_link_service.dart';
 import '../theme/theme.dart';
 import '../widgets/currency_selector.dart';
 import 'paywall_screen.dart';
 import 'onboarding_screen.dart';
 import 'achievements_screen.dart';
+import 'notification_settings_screen.dart';
 
 /// Settings Screen - Replaces Profile in bottom nav
 class SettingsScreen extends StatefulWidget {
@@ -32,31 +35,60 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _isExporting = false;
   bool _isRestoring = false;
-  bool _remindersEnabled = true;
+  bool _soundEnabled = true;
+
+  // Referral system
+  String? _referralCode;
+  int _referralCount = 0;
+  bool _isLoadingReferral = true;
 
   @override
   void initState() {
     super.initState();
-    _loadNotificationSettings();
+    _loadSettings();
+    _loadReferralData();
   }
 
-  Future<void> _loadNotificationSettings() async {
-    final prefs = await SharedPreferences.getInstance();
+  Future<void> _loadSettings() async {
     setState(() {
-      _remindersEnabled = prefs.getBool('notifications_enabled') ?? true;
+      _soundEnabled = soundService.isEnabled;
     });
   }
 
-  Future<void> _toggleReminders(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('notifications_enabled', value);
-    setState(() => _remindersEnabled = value);
+  Future<void> _loadReferralData() async {
+    try {
+      final referralService = ReferralService();
 
-    if (!value) {
-      await NotificationService().cancelAll();
+      // Get or create referral code
+      final code = await referralService.getOrCreateReferralCode();
+
+      // Get referral stats
+      final stats = await referralService.getReferralStats();
+
+      if (mounted) {
+        setState(() {
+          _referralCode = code;
+          _referralCount = stats.totalReferrals;
+          _isLoadingReferral = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('[Settings] Error loading referral data: $e');
+      if (mounted) {
+        setState(() => _isLoadingReferral = false);
+      }
     }
+  }
 
+  Future<void> _toggleSound(bool value) async {
+    await soundService.setEnabled(value);
+    setState(() => _soundEnabled = value);
     HapticFeedback.selectionClick();
+
+    // Play success sound as feedback when enabling
+    if (value) {
+      soundService.playSuccess();
+    }
   }
 
   @override
@@ -66,7 +98,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final isPro = proProvider.isPro;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -76,10 +108,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
                 child: Text(
                   l10n.navSettings,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                   ),
                 ),
               ),
@@ -114,6 +146,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: l10n.settingsNotifications,
                 children: [
                   _buildRemindersTile(l10n),
+                  _buildDivider(),
+                  _buildSoundEffectsTile(l10n),
                 ],
               ),
             ),
@@ -187,74 +221,215 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildGrowthSection(AppLocalizations l10n) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: GestureDetector(
-        onTap: _shareApp,
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                AppColors.primary,
-                AppColors.secondary,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              context.appColors.primary,
+              context.appColors.secondary,
+            ],
+          ),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: context.appColors.primary.withValues(alpha: 0.4),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header row
+            Row(
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: const Icon(
+                    PhosphorIconsDuotone.gift,
+                    size: 24,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.inviteFriends,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        l10n.referralRewardInfo,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white.withValues(alpha: 0.8),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withValues(alpha: 0.4),
-                blurRadius: 20,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(14),
+
+            const SizedBox(height: 20),
+
+            // Referral code display
+            if (_isLoadingReferral)
+              Center(
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white.withValues(alpha: 0.7),
+                  ),
                 ),
-                child: const Icon(
-                  PhosphorIconsDuotone.gift,
-                  size: 24,
-                  color: Colors.white,
+              )
+            else if (_referralCode != null) ...[
+              // Code card
+              GestureDetector(
+                onTap: _copyReferralCode,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      width: 1,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.yourReferralCode,
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white.withValues(alpha: 0.7),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            _referralCode!,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(
+                          PhosphorIconsDuotone.copy,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.settingsInviteFriends,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
+
+              const SizedBox(height: 12),
+
+              // Stats row
+              Row(
+                children: [
+                  // Friends joined count
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            '$_referralCount',
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            l10n.referralStats(_referralCount).replaceAll('$_referralCount ', ''),
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.white.withValues(alpha: 0.7),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      l10n.settingsGrowth,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white.withValues(alpha: 0.8),
+                  ),
+                  const SizedBox(width: 12),
+                  // Share button
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: _shareApp,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              PhosphorIconsDuotone.shareFat,
+                              size: 18,
+                              color: context.appColors.primary,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              l10n.shareInviteLink,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: context.appColors.primary,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Icon(
-                PhosphorIconsDuotone.caretRight,
-                size: 20,
-                color: Colors.white.withValues(alpha: 0.8),
+                  ),
+                ],
               ),
             ],
-          ),
+          ],
         ),
       ),
     );
@@ -263,8 +438,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _shareApp() {
     final l10n = AppLocalizations.of(context);
     HapticFeedback.mediumImpact();
-    Share.share(
-      '${l10n.settingsInviteMessage}\nhttps://play.google.com/store/apps/details?id=com.vantag.app',
+
+    // Generate referral link
+    final referralLink = _referralCode != null
+        ? DeepLinkService.generateReferralLink(_referralCode!).toString()
+        : 'https://play.google.com/store/apps/details?id=com.vantag.app';
+
+    Share.share(l10n.shareDefaultMessage(referralLink));
+  }
+
+  void _copyReferralCode() {
+    if (_referralCode == null) return;
+
+    HapticFeedback.mediumImpact();
+    Clipboard.setData(ClipboardData(text: _referralCode!));
+    soundService.playSuccess();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Icons.check_circle, color: Colors.white, size: 20),
+            const SizedBox(width: 12),
+            Text(AppLocalizations.of(context).codeCopied),
+          ],
+        ),
+        backgroundColor: context.appColors.success,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        duration: const Duration(seconds: 2),
+      ),
     );
   }
 
@@ -285,15 +488,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 1.2,
-                color: AppColors.textTertiary,
+                color: context.appColors.textTertiary,
               ),
             ),
           ),
           Container(
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: context.appColors.surface,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.cardBorder),
+              border: Border.all(color: context.appColors.cardBorder),
             ),
             child: Column(children: children),
           ),
@@ -336,7 +539,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: titleColor ?? AppColors.textPrimary,
+                    color: titleColor ?? context.appColors.textPrimary,
                   ),
                 ),
               ),
@@ -345,7 +548,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Icon(
                   PhosphorIconsDuotone.caretRight,
                   size: 18,
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                 ),
             ],
           ),
@@ -357,7 +560,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildDivider() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Divider(height: 1, color: AppColors.cardBorder),
+      child: Divider(height: 1, color: context.appColors.cardBorder),
     );
   }
 
@@ -377,7 +580,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Text(
             currency.code,
             style: TextStyle(
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
@@ -386,7 +589,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Icon(
             PhosphorIconsDuotone.caretRight,
             size: 18,
-            color: AppColors.textTertiary,
+            color: context.appColors.textTertiary,
           ),
         ],
       ),
@@ -410,7 +613,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Text(
             langName,
             style: TextStyle(
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
@@ -419,7 +622,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Icon(
             PhosphorIconsDuotone.caretRight,
             size: 18,
-            color: AppColors.textTertiary,
+            color: context.appColors.textTertiary,
           ),
         ],
       ),
@@ -431,7 +634,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showLanguageSelector(LocaleProvider localeProvider, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -444,7 +647,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               height: 4,
               margin: const EdgeInsets.only(top: 12, bottom: 20),
               decoration: BoxDecoration(
-                color: AppColors.textTertiary.withValues(alpha: 0.3),
+                color: context.appColors.textTertiary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -452,7 +655,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               leading: const Text('🇹🇷', style: TextStyle(fontSize: 24)),
               title: const Text('Türkçe'),
               trailing: localeProvider.locale?.languageCode == 'tr'
-                  ? Icon(PhosphorIconsDuotone.checkCircle, color: AppColors.primary)
+                  ? Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.primary)
                   : null,
               onTap: () {
                 localeProvider.setLocale(const Locale('tr'));
@@ -464,7 +667,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               leading: const Text('🇺🇸', style: TextStyle(fontSize: 24)),
               title: const Text('English'),
               trailing: localeProvider.locale?.languageCode == 'en'
-                  ? Icon(PhosphorIconsDuotone.checkCircle, color: AppColors.primary)
+                  ? Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.primary)
                   : null,
               onTap: () {
                 localeProvider.setLocale(const Locale('en'));
@@ -510,7 +713,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Text(
             themeName,
             style: TextStyle(
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
@@ -519,7 +722,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Icon(
             PhosphorIconsDuotone.caretRight,
             size: 18,
-            color: AppColors.textTertiary,
+            color: context.appColors.textTertiary,
           ),
         ],
       ),
@@ -531,7 +734,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showThemeSelector(ThemeProvider themeProvider, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -544,7 +747,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               height: 4,
               margin: const EdgeInsets.only(top: 12, bottom: 20),
               decoration: BoxDecoration(
-                color: AppColors.textTertiary.withValues(alpha: 0.3),
+                color: context.appColors.textTertiary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -552,10 +755,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               child: Text(
                 l10n.settingsTheme,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
             ),
@@ -571,7 +774,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               title: Text(l10n.settingsThemeDark),
               trailing: themeProvider.themeMode == AppThemeMode.dark
-                  ? Icon(PhosphorIconsDuotone.checkCircle, color: AppColors.primary)
+                  ? Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.primary)
                   : null,
               onTap: () {
                 themeProvider.setThemeMode(AppThemeMode.dark);
@@ -591,7 +794,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               title: Text(l10n.settingsThemeLight),
               trailing: themeProvider.themeMode == AppThemeMode.light
-                  ? Icon(PhosphorIconsDuotone.checkCircle, color: AppColors.primary)
+                  ? Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.primary)
                   : null,
               onTap: () {
                 themeProvider.setThemeMode(AppThemeMode.light);
@@ -615,7 +818,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               title: Text(l10n.settingsThemeSystem),
               trailing: themeProvider.themeMode == AppThemeMode.system
-                  ? Icon(PhosphorIconsDuotone.checkCircle, color: AppColors.primary)
+                  ? Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.primary)
                   : null,
               onTap: () {
                 themeProvider.setThemeMode(AppThemeMode.system);
@@ -634,11 +837,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return _buildListTile(
       icon: PhosphorIconsDuotone.bellRinging,
       iconColor: const Color(0xFFF39C12),
-      title: l10n.settingsReminders,
+      title: l10n.notificationSettings,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const NotificationSettingsScreen()),
+        );
+      },
+    );
+  }
+
+  Widget _buildSoundEffectsTile(AppLocalizations l10n) {
+    return _buildListTile(
+      icon: PhosphorIconsDuotone.speakerHigh,
+      iconColor: const Color(0xFF9B59B6),
+      title: l10n.settingsSoundEffects,
       trailing: Switch.adaptive(
-        value: _remindersEnabled,
-        onChanged: _toggleReminders,
-        activeTrackColor: AppColors.primary,
+        value: _soundEnabled,
+        onChanged: _toggleSound,
+        activeTrackColor: context.appColors.primary,
       ),
       showArrow: false,
     );
@@ -647,7 +864,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildProTile(AppLocalizations l10n, bool isPro) {
     return _buildListTile(
       icon: PhosphorIconsDuotone.lightning,
-      iconColor: isPro ? const Color(0xFFFFD700) : AppColors.textTertiary,
+      iconColor: isPro ? const Color(0xFFFFD700) : context.appColors.textTertiary,
       title: l10n.settingsVantagPro,
       trailing: isPro
           ? Container(
@@ -670,7 +887,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           : Icon(
               PhosphorIconsDuotone.caretRight,
               size: 18,
-              color: AppColors.textTertiary,
+              color: context.appColors.textTertiary,
             ),
       showArrow: false,
       onTap: () {
@@ -680,7 +897,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SnackBar(
               content: Text(l10n.proMemberToast),
               behavior: SnackBarBehavior.floating,
-              backgroundColor: AppColors.success,
+              backgroundColor: context.appColors.success,
             ),
           );
         } else {
@@ -739,7 +956,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               restored ? l10n.settingsRestoreSuccess : l10n.settingsRestoreNone,
             ),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: restored ? AppColors.success : AppColors.surfaceLight,
+            backgroundColor: restored ? context.appColors.success : context.appColors.surfaceLight,
           ),
         );
       }
@@ -767,8 +984,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppColors.primary.withValues(alpha: 0.2),
-                        AppColors.secondary.withValues(alpha: 0.2),
+                        context.appColors.primary.withValues(alpha: 0.2),
+                        context.appColors.secondary.withValues(alpha: 0.2),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(6),
@@ -778,7 +995,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
+                      color: context.appColors.primary,
                     ),
                   ),
                 )
@@ -842,9 +1059,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildDeleteAccountTile(AppLocalizations l10n) {
     return _buildListTile(
       icon: PhosphorIconsDuotone.userMinus,
-      iconColor: AppColors.error,
+      iconColor: context.appColors.error,
       title: l10n.deleteAccount,
-      titleColor: AppColors.error,
+      titleColor: context.appColors.error,
       showArrow: false,
       onTap: () => _deleteAccount(l10n),
     );
@@ -871,8 +1088,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         context: context,
         barrierDismissible: false,
         barrierColor: Colors.black.withValues(alpha: 0.9),
-        builder: (context) => const Center(
-          child: CircularProgressIndicator(color: AppColors.primary),
+        builder: (context) => Center(
+          child: CircularProgressIndicator(color: context.appColors.primary),
         ),
       );
 
@@ -886,7 +1103,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(result.errorMessage ?? l10n.deleteAccountError),
-                backgroundColor: AppColors.error,
+                backgroundColor: context.appColors.error,
               ),
             );
           }
@@ -908,7 +1125,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.deleteAccountSuccess),
-            backgroundColor: AppColors.success,
+            backgroundColor: context.appColors.success,
           ),
         );
 
@@ -923,7 +1140,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(l10n.deleteAccountError),
-              backgroundColor: AppColors.error,
+              backgroundColor: context.appColors.error,
             ),
           );
         }
@@ -939,7 +1156,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       trailing: Text(
         '1.0.0',
         style: TextStyle(
-          color: AppColors.textSecondary,
+          color: context.appColors.textSecondary,
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
@@ -1001,7 +1218,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
     final l10n = widget.l10n;
 
     return AlertDialog(
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.appColors.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
       content: Column(
@@ -1011,22 +1228,22 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             width: 64,
             height: 64,
             decoration: BoxDecoration(
-              color: AppColors.error.withValues(alpha: 0.15),
+              color: context.appColors.error.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
               PhosphorIconsDuotone.warning,
-              color: AppColors.error,
+              color: context.appColors.error,
               size: 32,
             ),
           ),
           const SizedBox(height: 20),
           Text(
             l10n.deleteAccountWarningTitle,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -1035,7 +1252,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             l10n.deleteAccountWarningMessage,
             style: TextStyle(
               fontSize: 14,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
               height: 1.5,
             ),
             textAlign: TextAlign.center,
@@ -1045,24 +1262,24 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             controller: _textController,
             decoration: InputDecoration(
               hintText: l10n.deleteAccountConfirmPlaceholder,
-              hintStyle: TextStyle(color: AppColors.textTertiary, fontSize: 14),
+              hintStyle: TextStyle(color: context.appColors.textTertiary, fontSize: 14),
               filled: true,
-              fillColor: AppColors.background,
+              fillColor: context.appColors.background,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: AppColors.cardBorder),
+                borderSide: BorderSide(color: context.appColors.cardBorder),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: AppColors.cardBorder),
+                borderSide: BorderSide(color: context.appColors.cardBorder),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: AppColors.error, width: 2),
+                borderSide: BorderSide(color: context.appColors.error, width: 2),
               ),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             ),
-            style: const TextStyle(color: AppColors.textPrimary, fontSize: 14),
+            style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
@@ -1070,7 +1287,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             '"${widget.confirmWord}"',
             style: TextStyle(
               fontSize: 12,
-              color: AppColors.textTertiary,
+              color: context.appColors.textTertiary,
               fontStyle: FontStyle.italic,
             ),
           ),
@@ -1089,7 +1306,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                   child: Text(
                     l10n.cancel,
                     style: TextStyle(
-                      color: AppColors.textSecondary,
+                      color: context.appColors.textSecondary,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
@@ -1101,9 +1318,9 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                 child: ElevatedButton(
                   onPressed: _isConfirmed ? () => Navigator.pop(context, true) : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.error,
+                    backgroundColor: context.appColors.error,
                     foregroundColor: Colors.white,
-                    disabledBackgroundColor: AppColors.error.withValues(alpha: 0.3),
+                    disabledBackgroundColor: context.appColors.error.withValues(alpha: 0.3),
                     disabledForegroundColor: Colors.white.withValues(alpha: 0.5),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(

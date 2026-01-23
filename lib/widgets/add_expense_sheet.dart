@@ -318,11 +318,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.dark(
-              primary: AppColors.primary,
-              onPrimary: AppColors.background,
-              surface: AppColors.surface,
-              onSurface: AppColors.textPrimary,
+            colorScheme: ColorScheme.dark(
+              primary: context.appColors.primary,
+              onPrimary: context.appColors.background,
+              surface: context.appColors.surface,
+              onSurface: context.appColors.textPrimary,
             ),
           ),
           child: child!,
@@ -350,7 +350,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: AppColors.error,
+        backgroundColor: context.appColors.error,
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -505,6 +505,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     );
 
     final categoryInsight = _insightService.getCategoryInsight(
+      context,
       financeProvider.expenses,
       _selectedCategory!,
       _selectedDate.month,
@@ -515,6 +516,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     String? emotionalMessage;
     if (!_isMandatory) {
       emotionalMessage = _messagesService.getCalculationMessage(
+        context,
         result.hoursRequired,
         enteredAmount,
       );
@@ -535,7 +537,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       ExpenseDecision.thinking => DecisionType.thinking,
     };
 
-    final message = _messagesService.getMessageForDecision(decisionType);
+    final message = _messagesService.getMessageForDecision(context, decisionType);
 
     if (decision == ExpenseDecision.no) {
       final rates = widget.exchangeRates;
@@ -603,6 +605,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     // Victory celebration for "passed" decision
     if (decision == ExpenseDecision.no && !isSimulation) {
       final freedomHours = expenseWithDecision.hoursRequired;
+      soundService.playVictory();
       victoryManager.showVictoryAnimation(
         context,
         amount: amount,
@@ -638,6 +641,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         ? AppLocalizations.of(context).simulationSaved
         : _getEmotionalMessage(decision, amount);
 
+    // Play success sound for expense confirmation (yes/thinking decisions)
+    if (!isSimulation && decision != ExpenseDecision.no) {
+      soundService.playSuccess();
+    }
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
@@ -670,7 +678,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.cardBackground,
+        backgroundColor: context.appColors.cardBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
@@ -698,7 +706,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           '($timeAgoText)\n\n'
           '${l10n.addAnyway}',
           style: TextStyle(
-            color: AppColors.textSecondary,
+            color: context.appColors.textSecondary,
             fontSize: 14,
           ),
         ),
@@ -707,13 +715,13 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             onPressed: () => Navigator.pop(context, false),
             child: Text(
               l10n.no,
-              style: TextStyle(color: AppColors.textSecondary),
+              style: TextStyle(color: context.appColors.textSecondary),
             ),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
+              backgroundColor: context.appColors.primary,
               foregroundColor: Colors.white,
             ),
             child: Text(l10n.yes),
@@ -748,7 +756,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
               decoration: BoxDecoration(
-                color: AppColors.gradientMid,
+                color: context.appColors.gradientMid,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                 border: Border.all(
                   color: Colors.white.withValues(alpha: 0.1),
@@ -764,7 +772,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: AppColors.textTertiary.withValues(alpha: 0.5),
+                        color: context.appColors.textTertiary.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -781,10 +789,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                           children: [
                             Text(
                               widget.isEditMode ? l10n.editExpense : l10n.newExpense,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.textPrimary,
+                                color: context.appColors.textPrimary,
                                 letterSpacing: -0.5,
                               ),
                             ),
@@ -794,15 +802,15 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                                 Icon(
                                   PhosphorIconsDuotone.calendar,
                                   size: 14,
-                                  color: AppColors.textTertiary,
+                                  color: context.appColors.textTertiary,
                                 ),
                                 const SizedBox(width: 6),
                                 Text(
                                   _formatDisplayDate(_selectedDate, l10n),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
-                                    color: AppColors.textTertiary,
+                                    color: context.appColors.textTertiary,
                                   ),
                                 ),
                               ],
@@ -815,13 +823,13 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                             width: 36,
                             height: 36,
                             decoration: BoxDecoration(
-                              color: AppColors.surfaceLight,
+                              color: context.appColors.surfaceLight,
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(
+                            child: Icon(
                               PhosphorIconsDuotone.x,
                               size: 20,
-                              color: AppColors.textSecondary,
+                              color: context.appColors.textSecondary,
                             ),
                           ),
                         ),
@@ -940,9 +948,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             onTap: _selectToday,
             child: Text(
               l10n.today,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
-                color: AppColors.primary,
+                color: context.appColors.primary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -956,9 +964,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
       decoration: BoxDecoration(
-        color: AppColors.surfaceLight,
+        color: context.appColors.surfaceLight,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(
         children: [
@@ -977,10 +985,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   autofocus: true,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [TurkishCurrencyInputFormatter()],
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                     letterSpacing: -1,
                   ),
                   textAlign: TextAlign.center,
@@ -989,7 +997,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     hintStyle: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.textTertiary.withValues(alpha: 0.5),
+                      color: context.appColors.textTertiary.withValues(alpha: 0.5),
                     ),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.zero,
@@ -1008,10 +1016,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.1),
+        color: context.appColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.3),
+          color: context.appColors.primary.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -1021,14 +1029,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           icon: Icon(
             PhosphorIconsFill.caretDown,
             size: 16,
-            color: AppColors.primary,
+            color: context.appColors.primary,
           ),
-          dropdownColor: AppColors.cardBackground,
+          dropdownColor: context.appColors.cardBackground,
           borderRadius: BorderRadius.circular(12),
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: AppColors.primary,
+            color: context.appColors.primary,
           ),
           items: _availableCurrencies.map((code) {
             return DropdownMenuItem<String>(
@@ -1041,8 +1049,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       ? FontWeight.w600
                       : FontWeight.w400,
                   color: _expenseCurrency.code == code
-                      ? AppColors.primary
-                      : AppColors.textPrimary,
+                      ? context.appColors.primary
+                      : context.appColors.textPrimary,
                 ),
               ),
             );
@@ -1065,43 +1073,43 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       enableSuggestions: true,
       autocorrect: false,
       enableIMEPersonalizedLearning: true,
-      style: const TextStyle(
-        color: AppColors.textPrimary,
+      style: TextStyle(
+        color: context.appColors.textPrimary,
         fontSize: 14,
       ),
       decoration: InputDecoration(
         labelText: l10n.descriptionLabel,
-        labelStyle: const TextStyle(
-          color: AppColors.textSecondary,
+        labelStyle: TextStyle(
+          color: context.appColors.textSecondary,
           fontSize: 14,
         ),
         hintText: l10n.descriptionHint,
-        hintStyle: const TextStyle(
-          color: AppColors.textTertiary,
+        hintStyle: TextStyle(
+          color: context.appColors.textTertiary,
           fontSize: 14,
         ),
         filled: true,
-        fillColor: AppColors.surface,
+        fillColor: context.appColors.surface,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.cardBorder),
+          borderSide: BorderSide(color: context.appColors.cardBorder),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.cardBorder),
+          borderSide: BorderSide(color: context.appColors.cardBorder),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+          borderSide: BorderSide(color: context.appColors.primary, width: 1.5),
         ),
         suffixIcon: _smartMatchActive
-            ? const Padding(
-                padding: EdgeInsets.only(right: 8),
+            ? Padding(
+                padding: const EdgeInsets.only(right: 8),
                 child: Icon(
                   PhosphorIconsDuotone.sparkle,
                   size: 18,
-                  color: AppColors.success,
+                  color: context.appColors.success,
                 ),
               )
             : null,
@@ -1125,7 +1133,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               boxShadow: _smartMatchActive
                   ? [
                       BoxShadow(
-                        color: AppColors.success.withValues(alpha: 0.3),
+                        color: context.appColors.success.withValues(alpha: 0.3),
                         blurRadius: 8,
                         spreadRadius: 1,
                       ),
@@ -1133,7 +1141,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   : _categoryValidationError
                       ? [
                           BoxShadow(
-                            color: AppColors.error.withValues(alpha: 0.3),
+                            color: context.appColors.error.withValues(alpha: 0.3),
                             blurRadius: 8,
                             spreadRadius: 1,
                           ),
@@ -1147,8 +1155,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   value: _selectedCategory,
                   hint: Text(
                     l10n.selectCategory,
-                    style: const TextStyle(
-                      color: AppColors.textTertiary,
+                    style: TextStyle(
+                      color: context.appColors.textTertiary,
                       fontSize: 14,
                     ),
                   ),
@@ -1163,36 +1171,36 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     labelText: l10n.category,
                     labelStyle: TextStyle(
                       color: _categoryValidationError
-                          ? AppColors.error
-                          : AppColors.textSecondary,
+                          ? context.appColors.error
+                          : context.appColors.textSecondary,
                       fontSize: 14,
                     ),
                     filled: true,
-                    fillColor: AppColors.surface,
+                    fillColor: context.appColors.surface,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: _categoryValidationError ? AppColors.error : AppColors.cardBorder,
+                        color: _categoryValidationError ? context.appColors.error : context.appColors.cardBorder,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
                         color: _categoryValidationError
-                            ? AppColors.error
-                            : (_smartMatchActive ? AppColors.success : AppColors.cardBorder),
+                            ? context.appColors.error
+                            : (_smartMatchActive ? context.appColors.success : context.appColors.cardBorder),
                         width: _smartMatchActive || _categoryValidationError ? 1.5 : 1,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                      borderSide: BorderSide(color: context.appColors.primary, width: 1.5),
                     ),
                   ),
-                  dropdownColor: AppColors.surface,
-                  style: const TextStyle(
-                    color: AppColors.textPrimary,
+                  dropdownColor: context.appColors.surface,
+                  style: TextStyle(
+                    color: context.appColors.textPrimary,
                     fontSize: 14,
                   ),
                 ),
@@ -1201,7 +1209,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     padding: const EdgeInsets.only(top: 6, left: 4),
                     child: Text(
                       l10n.pleaseSelectCategory,
-                      style: const TextStyle(fontSize: 12, color: AppColors.error),
+                      style: TextStyle(fontSize: 12, color: context.appColors.error),
                     ),
                   ),
                 if (_smartMatchActive && _selectedCategory != null)
@@ -1209,11 +1217,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     padding: const EdgeInsets.only(top: 6, left: 4),
                     child: Row(
                       children: [
-                        const Icon(PhosphorIconsDuotone.sparkle, size: 14, color: AppColors.success),
+                        Icon(PhosphorIconsDuotone.sparkle, size: 14, color: context.appColors.success),
                         const SizedBox(width: 4),
                         Text(
                           l10n.autoSelected(ExpenseCategory.getLocalizedName(_selectedCategory!, l10n)),
-                          style: const TextStyle(fontSize: 12, color: AppColors.success),
+                          style: TextStyle(fontSize: 12, color: context.appColors.success),
                         ),
                       ],
                     ),
@@ -1238,29 +1246,29 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           autocorrect: false,
           enableIMEPersonalizedLearning: true,
           textCapitalization: TextCapitalization.words,
-          style: const TextStyle(color: AppColors.textPrimary, fontSize: 14),
+          style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
           decoration: InputDecoration(
             hintText: l10n.subCategoryOptional,
-            hintStyle: const TextStyle(color: AppColors.textTertiary, fontSize: 14),
+            hintStyle: TextStyle(color: context.appColors.textTertiary, fontSize: 14),
             filled: true,
-            fillColor: AppColors.surface,
+            fillColor: context.appColors.surface,
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.cardBorder),
+              borderSide: BorderSide(color: context.appColors.cardBorder),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.cardBorder),
+              borderSide: BorderSide(color: context.appColors.cardBorder),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+              borderSide: BorderSide(color: context.appColors.primary, width: 1.5),
             ),
             suffixIcon: _subCategoryController.text.isNotEmpty
                 ? IconButton(
                     icon: const Icon(PhosphorIconsDuotone.x, size: 18),
-                    color: AppColors.textTertiary,
+                    color: context.appColors.textTertiary,
                     onPressed: () {
                       _subCategoryController.clear();
                       setState(() {});
@@ -1289,9 +1297,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               padding: const EdgeInsets.only(bottom: 6),
               child: Text(
                 l10n.recentlyUsed,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11,
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -1314,9 +1322,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               padding: const EdgeInsets.only(bottom: 6),
               child: Text(
                 l10n.suggestions,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11,
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -1348,7 +1356,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.3),
+              color: context.appColors.primary.withValues(alpha: 0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -1392,7 +1400,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: _isMandatory
-                ? AppColors.info.withValues(alpha: 0.5)
+                ? context.appColors.info.withValues(alpha: 0.5)
                 : Colors.white.withValues(alpha: 0.1),
           ),
         ),
@@ -1400,14 +1408,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           title: Text(
             'Zorunlu Gider',
             style: TextStyle(
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
               fontWeight: _isMandatory ? FontWeight.w600 : FontWeight.normal,
             ),
           ),
           subtitle: Text(
             'Kira, fatura, kredi ödemesi gibi sabit giderler',
             style: TextStyle(
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
               fontSize: 12,
             ),
           ),
@@ -1415,11 +1423,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             _isMandatory
                 ? PhosphorIconsFill.lockKey
                 : PhosphorIconsDuotone.lockKeyOpen,
-            color: _isMandatory ? AppColors.info : AppColors.textTertiary,
+            color: _isMandatory ? context.appColors.info : context.appColors.textTertiary,
           ),
           value: _isMandatory,
           onChanged: (value) => setState(() => _isMandatory = value),
-          activeTrackColor: AppColors.info,
+          activeTrackColor: context.appColors.info,
         ),
       ),
     );
@@ -1439,7 +1447,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: _expenseType == ExpenseType.installment
-                    ? AppColors.warning.withValues(alpha: 0.5)
+                    ? context.appColors.warning.withValues(alpha: 0.5)
                     : Colors.white.withValues(alpha: 0.1),
               ),
             ),
@@ -1447,7 +1455,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               title: Text(
                 'Taksitli Alım',
                 style: TextStyle(
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                   fontWeight: _expenseType == ExpenseType.installment
                       ? FontWeight.w600
                       : FontWeight.normal,
@@ -1456,15 +1464,15 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               subtitle: Text(
                 'Kredi kartı veya mağaza taksiti',
                 style: TextStyle(
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                   fontSize: 12,
                 ),
               ),
               secondary: Icon(
                 PhosphorIconsDuotone.creditCard,
                 color: _expenseType == ExpenseType.installment
-                    ? AppColors.warning
-                    : AppColors.textTertiary,
+                    ? context.appColors.warning
+                    : context.appColors.textTertiary,
               ),
               value: _expenseType == ExpenseType.installment,
               onChanged: (value) {
@@ -1478,7 +1486,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   }
                 });
               },
-              activeTrackColor: AppColors.warning,
+              activeTrackColor: context.appColors.warning,
             ),
           ),
         ),
@@ -1502,9 +1510,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       margin: const EdgeInsets.only(top: 8, bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.warning.withValues(alpha: 0.1),
+        color: context.appColors.warning.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
+        border: Border.all(color: context.appColors.warning.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1512,12 +1520,12 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           // Başlık
           Row(
             children: [
-              Icon(PhosphorIconsDuotone.info, color: AppColors.warning, size: 18),
+              Icon(PhosphorIconsDuotone.info, color: context.appColors.warning, size: 18),
               const SizedBox(width: 8),
               Text(
                 'Taksit Bilgileri',
                 style: TextStyle(
-                  color: AppColors.warning,
+                  color: context.appColors.warning,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -1530,24 +1538,24 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             controller: _cashPriceController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [TurkishCurrencyInputFormatter()],
-            style: const TextStyle(color: AppColors.textPrimary),
+            style: TextStyle(color: context.appColors.textPrimary),
             decoration: InputDecoration(
               labelText: 'Peşin Fiyat',
-              labelStyle: TextStyle(color: AppColors.textSecondary),
+              labelStyle: TextStyle(color: context.appColors.textSecondary),
               hintText: 'Ürünün peşin fiyatı',
-              hintStyle: TextStyle(color: AppColors.textTertiary),
+              hintStyle: TextStyle(color: context.appColors.textTertiary),
               prefixText: '${_expenseCurrency.symbol} ',
-              prefixStyle: const TextStyle(color: AppColors.textPrimary),
+              prefixStyle: TextStyle(color: context.appColors.textPrimary),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: AppColors.cardBorder),
+                borderSide: BorderSide(color: context.appColors.cardBorder),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(color: AppColors.warning),
+                borderSide: BorderSide(color: context.appColors.warning),
               ),
               filled: true,
-              fillColor: AppColors.surface,
+              fillColor: context.appColors.surface,
             ),
             onChanged: (_) => _updateInstallmentSummary(),
           ),
@@ -1556,21 +1564,21 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           // Taksit sayısı
           DropdownButtonFormField<int>(
             value: int.tryParse(_installmentCountController.text),
-            dropdownColor: AppColors.cardBackground,
-            style: const TextStyle(color: AppColors.textPrimary),
+            dropdownColor: context.appColors.cardBackground,
+            style: TextStyle(color: context.appColors.textPrimary),
             decoration: InputDecoration(
               labelText: 'Taksit Sayısı',
-              labelStyle: TextStyle(color: AppColors.textSecondary),
+              labelStyle: TextStyle(color: context.appColors.textSecondary),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: AppColors.cardBorder),
+                borderSide: BorderSide(color: context.appColors.cardBorder),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(color: AppColors.warning),
+                borderSide: BorderSide(color: context.appColors.warning),
               ),
               filled: true,
-              fillColor: AppColors.surface,
+              fillColor: context.appColors.surface,
             ),
             items: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 18, 24, 36]
                 .map((n) => DropdownMenuItem(
@@ -1590,24 +1598,24 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             controller: _installmentTotalController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [TurkishCurrencyInputFormatter()],
-            style: const TextStyle(color: AppColors.textPrimary),
+            style: TextStyle(color: context.appColors.textPrimary),
             decoration: InputDecoration(
               labelText: 'Taksitli Toplam Fiyat',
-              labelStyle: TextStyle(color: AppColors.textSecondary),
+              labelStyle: TextStyle(color: context.appColors.textSecondary),
               hintText: 'Vade farkı dahil toplam',
-              hintStyle: TextStyle(color: AppColors.textTertiary),
+              hintStyle: TextStyle(color: context.appColors.textTertiary),
               prefixText: '${_expenseCurrency.symbol} ',
-              prefixStyle: const TextStyle(color: AppColors.textPrimary),
+              prefixStyle: TextStyle(color: context.appColors.textPrimary),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: AppColors.cardBorder),
+                borderSide: BorderSide(color: context.appColors.cardBorder),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(color: AppColors.warning),
+                borderSide: BorderSide(color: context.appColors.warning),
               ),
               filled: true,
-              fillColor: AppColors.surface,
+              fillColor: context.appColors.surface,
             ),
             onChanged: (_) => _updateInstallmentSummary(),
           ),
@@ -1655,7 +1663,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           Text(
             'TAKSİT ÖZETİ',
             style: TextStyle(
-              color: AppColors.warning,
+              color: context.appColors.warning,
               fontSize: 12,
               fontWeight: FontWeight.w600,
               letterSpacing: 1,
@@ -1667,7 +1675,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               'Aylık taksit:',
               '${_expenseCurrency.symbol}${formatTurkishCurrency(monthlyPayment, decimalDigits: 0)}'),
           _summaryRow('Taksit sayısı:', '$installmentCount ay'),
-          Divider(color: AppColors.cardBorder, height: 16),
+          Divider(color: context.appColors.cardBorder, height: 16),
           _summaryRow(
             'Vade farkı:',
             '${_expenseCurrency.symbol}${formatTurkishCurrency(interestAmount, decimalDigits: 0)} (%${interestRate.toStringAsFixed(1)})',
@@ -1686,18 +1694,18 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppColors.error.withValues(alpha: 0.15),
+                color: context.appColors.error.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Row(
                 children: [
-                  Icon(PhosphorIconsFill.warning, color: AppColors.error, size: 18),
+                  Icon(PhosphorIconsFill.warning, color: context.appColors.error, size: 18),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       'Peşin alsaydın ${interestHours.toStringAsFixed(0)} saat kazanırdın!',
                       style: TextStyle(
-                        color: AppColors.error,
+                        color: context.appColors.error,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
@@ -1721,14 +1729,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           Text(
             label,
             style: TextStyle(
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
               fontSize: 13,
             ),
           ),
           Text(
             value,
             style: TextStyle(
-              color: isHighlight ? AppColors.warning : AppColors.textPrimary,
+              color: isHighlight ? context.appColors.warning : context.appColors.textPrimary,
               fontSize: 13,
               fontWeight: isHighlight ? FontWeight.w600 : FontWeight.normal,
             ),
@@ -1753,19 +1761,19 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             padding: const EdgeInsets.all(12),
             margin: const EdgeInsets.only(bottom: 16),
             decoration: BoxDecoration(
-              color: AppColors.info.withValues(alpha: 0.1),
+              color: context.appColors.info.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: AppColors.info.withValues(alpha: 0.3)),
+              border: Border.all(color: context.appColors.info.withValues(alpha: 0.3)),
             ),
             child: Row(
               children: [
-                Icon(PhosphorIconsDuotone.info, color: AppColors.info, size: 20),
+                Icon(PhosphorIconsDuotone.info, color: context.appColors.info, size: 20),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     'Zorunlu gider olarak kaydedilecek',
                     style: TextStyle(
-                      color: AppColors.info,
+                      color: context.appColors.info,
                       fontSize: 13,
                     ),
                   ),
@@ -1780,14 +1788,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [AppColors.info, AppColors.info.withValues(alpha: 0.8)],
+                  colors: [context.appColors.info, context.appColors.info.withValues(alpha: 0.8)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.info.withValues(alpha: 0.3),
+                    color: context.appColors.info.withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -1817,7 +1825,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             onPressed: _cancelDecision,
             child: Text(
               l10n.cancel,
-              style: TextStyle(color: AppColors.textSecondary),
+              style: TextStyle(color: context.appColors.textSecondary),
             ),
           ),
         ],
@@ -1843,7 +1851,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.updateExpense),
-          backgroundColor: AppColors.success,
+          backgroundColor: context.appColors.success,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -1874,10 +1882,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     widget.onExpenseAdded?.call();
 
     if (mounted) {
+      soundService.playSuccess();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('Zorunlu gider kaydedildi'),
-          backgroundColor: AppColors.info,
+          backgroundColor: context.appColors.info,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -1916,7 +1925,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             child: TextButton(
               onPressed: _cancelDecision,
               style: TextButton.styleFrom(
-                foregroundColor: AppColors.textSecondary,
+                foregroundColor: context.appColors.textSecondary,
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
               child: Text(
@@ -1950,7 +1959,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.3),
+                    color: context.appColors.primary.withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -1980,7 +1989,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             onPressed: _cancelDecision,
             child: Text(
               l10n.cancel,
-              style: TextStyle(color: AppColors.textSecondary),
+              style: TextStyle(color: context.appColors.textSecondary),
             ),
           ),
         ],
@@ -2029,7 +2038,7 @@ class _DateChip extends StatelessWidget {
               Icon(
                 icon,
                 size: 14,
-                color: isSelected ? Colors.white : AppColors.textSecondary,
+                color: isSelected ? Colors.white : context.appColors.textSecondary,
               ),
             if (icon != null && label != null) const SizedBox(width: 6),
             if (label != null)
@@ -2038,7 +2047,7 @@ class _DateChip extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  color: isSelected ? Colors.white : AppColors.textSecondary,
+                  color: isSelected ? Colors.white : context.appColors.textSecondary,
                 ),
               ),
           ],
@@ -2069,12 +2078,12 @@ class _SubCategoryChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isRecent
-              ? AppColors.primary.withValues(alpha: 0.15)
+              ? context.appColors.primary.withValues(alpha: 0.15)
               : Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isRecent
-                ? AppColors.primary.withValues(alpha: 0.5)
+                ? context.appColors.primary.withValues(alpha: 0.5)
                 : Colors.white.withValues(alpha: 0.1),
             width: 1,
           ),
@@ -2088,7 +2097,7 @@ class _SubCategoryChip extends StatelessWidget {
                 child: Icon(
                   PhosphorIconsDuotone.clockCounterClockwise,
                   size: 12,
-                  color: AppColors.primary,
+                  color: context.appColors.primary,
                 ),
               ),
             Text(
@@ -2096,7 +2105,7 @@ class _SubCategoryChip extends StatelessWidget {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: isRecent ? FontWeight.w500 : FontWeight.w400,
-                color: isRecent ? AppColors.primary : AppColors.textSecondary,
+                color: isRecent ? context.appColors.primary : context.appColors.textSecondary,
               ),
             ),
           ],

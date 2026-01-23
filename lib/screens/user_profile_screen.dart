@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
+import '../services/referral_service.dart';
+import '../services/deep_link_service.dart';
 import '../providers/providers.dart';
 import '../widgets/widgets.dart';
 import '../theme/theme.dart';
@@ -28,12 +30,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final _dailyHoursController = TextEditingController();
   final _budgetController = TextEditingController();
   final _savingsGoalController = TextEditingController();
+  final _referralCodeController = TextEditingController();
   final _profileService = ProfileService();
   final _authService = AuthService();
+  final _referralService = ReferralService();
   int _workDaysPerWeek = 6;
   bool _isSaving = false;
   bool _isLinkingGoogle = false;
   List<IncomeSource> _incomeSources = [];
+  bool _hasPrefilledReferral = false;
 
   bool get _isEditMode => widget.existingProfile != null;
   bool get _hasIncomeSources => _incomeSources.isNotEmpty;
@@ -43,7 +48,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: AppColors.error,
+        backgroundColor: context.appColors.error,
       ),
     );
   }
@@ -52,7 +57,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: AppColors.success,
+        backgroundColor: context.appColors.success,
       ),
     );
   }
@@ -117,6 +122,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           showDecimals: false,
         );
       }
+    } else {
+      // New user - check for pending referral code from deep link
+      _checkPendingReferralCode();
+    }
+  }
+
+  Future<void> _checkPendingReferralCode() async {
+    final pendingCode = await DeepLinkService.getPendingReferralCode();
+    if (pendingCode != null && pendingCode.isNotEmpty && mounted) {
+      setState(() {
+        _referralCodeController.text = pendingCode;
+        _hasPrefilledReferral = true;
+      });
     }
   }
 
@@ -126,6 +144,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _dailyHoursController.dispose();
     _budgetController.dispose();
     _savingsGoalController.dispose();
+    _referralCodeController.dispose();
     super.dispose();
   }
 
@@ -222,6 +241,26 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     final financeProvider = context.read<FinanceProvider>();
     financeProvider.setUserProfile(profile);
 
+    // Apply referral code if provided (new users only)
+    if (!_isEditMode) {
+      final referralCode = _referralCodeController.text.trim().toUpperCase();
+      if (referralCode.isNotEmpty) {
+        final result = await _referralService.applyReferralCode(referralCode);
+        if (result.success && mounted) {
+          // Clear the pending referral code
+          await DeepLinkService.clearPendingReferralCode();
+          // Show success message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(l10n.welcomeReferred),
+              backgroundColor: context.appColors.success,
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+      }
+    }
+
     HapticFeedback.mediumImpact();
 
     if (_isEditMode) {
@@ -244,7 +283,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       barrierDismissible: false,
       barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: context.appColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
         content: Column(
@@ -254,31 +293,31 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.1),
+                color: context.appColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
                 PhosphorIconsDuotone.link,
-                color: AppColors.primary,
+                color: context.appColors.primary,
                 size: 32,
               ),
             ),
             const SizedBox(height: 20),
             Text(
               l10n.linkWithGoogleTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
             Text(
               l10n.linkWithGoogleDescription,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
                 height: 1.4,
               ),
               textAlign: TextAlign.center,
@@ -322,9 +361,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               onPressed: () => Navigator.pop(context, false),
               child: Text(
                 l10n.skipForNow,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                 ),
               ),
             ),
@@ -339,20 +378,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       appBar: _isEditMode
           ? AppBar(
-              backgroundColor: AppColors.background,
+              backgroundColor: context.appColors.background,
               leading: IconButton(
-                icon: Icon(PhosphorIconsDuotone.arrowLeft, color: AppColors.textPrimary),
+                icon: Icon(PhosphorIconsDuotone.arrowLeft, color: context.appColors.textPrimary),
                 onPressed: () => Navigator.pop(context),
               ),
               title: Text(
                 l10n.editProfile,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
             )
@@ -371,31 +410,31 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     width: 64,
                     height: 64,
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
+                      color: context.appColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(18),
                     ),
                     child: Icon(
                       PhosphorIconsDuotone.user,
                       size: 32,
-                      color: AppColors.primary,
+                      color: context.appColors.primary,
                     ),
                   ),
                   const SizedBox(height: 24),
                   Text(
                     l10n.welcome,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
+                      color: context.appColors.textPrimary,
                       letterSpacing: -0.5,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     l10n.welcomeSubtitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
-                      color: AppColors.textSecondary,
+                      color: context.appColors.textSecondary,
                       height: 1.4,
                     ),
                   ),
@@ -418,8 +457,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     padding: const EdgeInsets.only(right: 16),
                     child: Text(
                       l10n.hours,
-                      style: const TextStyle(
-                        color: AppColors.textSecondary,
+                      style: TextStyle(
+                        color: context.appColors.textSecondary,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -430,10 +469,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 // Çalışma Günü
                 Text(
                   l10n.weeklyWorkDays,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.textSecondary,
+                    color: context.appColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -442,9 +481,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: context.appColors.surface,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.cardBorder),
+                    border: Border.all(color: context.appColors.cardBorder),
                   ),
                   child: Row(
                     children: List.generate(7, (index) {
@@ -456,7 +495,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             decoration: BoxDecoration(
-                              color: isSelected ? AppColors.primary : Colors.transparent,
+                              color: isSelected ? context.appColors.primary : Colors.transparent,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
@@ -465,7 +504,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
-                                color: isSelected ? AppColors.background : AppColors.textSecondary,
+                                color: isSelected ? context.appColors.background : context.appColors.textSecondary,
                               ),
                             ),
                           ),
@@ -477,9 +516,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 const SizedBox(height: 8),
                 Text(
                   l10n.workingDaysPerWeek(_workDaysPerWeek),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
-                    color: AppColors.textTertiary,
+                    color: context.appColors.textTertiary,
                   ),
                 ),
 
@@ -493,6 +532,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 // Bütçe Ayarları Bölümü
                 _buildBudgetSection(l10n),
 
+                // Referral Code Section (only for new users)
+                if (!_isEditMode) ...[
+                  const SizedBox(height: 32),
+                  _buildReferralCodeSection(l10n),
+                ],
+
                 const SizedBox(height: 32),
 
                 // Save button
@@ -501,21 +546,21 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   child: ElevatedButton(
                     onPressed: _isSaving ? null : _saveProfile,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: AppColors.background,
-                      disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.5),
+                      backgroundColor: context.appColors.primary,
+                      foregroundColor: context.appColors.background,
+                      disabledBackgroundColor: context.appColors.primary.withValues(alpha: 0.5),
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
                     child: _isSaving
-                        ? const SizedBox(
+                        ? SizedBox(
                             height: 22,
                             width: 22,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(AppColors.background),
+                              valueColor: AlwaysStoppedAnimation<Color>(context.appColors.background),
                             ),
                           )
                         : Text(
@@ -544,10 +589,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       children: [
         Text(
           l10n.additionalIncomeQuestion,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: AppColors.textSecondary,
+            color: context.appColors.textSecondary,
           ),
         ),
         const SizedBox(height: 12),
@@ -606,9 +651,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             icon: Icon(PhosphorIconsDuotone.plusCircle, size: 20),
             label: Text(l10n.addAdditionalIncome),
             style: OutlinedButton.styleFrom(
-              foregroundColor: AppColors.primary,
+              foregroundColor: context.appColors.primary,
               side: BorderSide(
-                color: AppColors.primary.withValues(alpha: 0.5),
+                color: context.appColors.primary.withValues(alpha: 0.5),
               ),
               padding: const EdgeInsets.symmetric(vertical: 14),
               shape: RoundedRectangleBorder(
@@ -631,12 +676,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         // Bölüm başlığı
         Row(
           children: [
-            Icon(PhosphorIconsDuotone.chartPieSlice, color: AppColors.secondary, size: 20),
+            Icon(PhosphorIconsDuotone.chartPieSlice, color: context.appColors.secondary, size: 20),
             const SizedBox(width: 8),
             Text(
               l10n.budgetSettings,
-              style: const TextStyle(
-                color: AppColors.textPrimary,
+              style: TextStyle(
+                color: context.appColors.textPrimary,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
@@ -647,7 +692,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         Text(
           l10n.budgetSettingsHint,
           style: TextStyle(
-            color: AppColors.textTertiary,
+            color: context.appColors.textTertiary,
             fontSize: 13,
           ),
         ),
@@ -656,37 +701,37 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         // Aylık bütçe
         Container(
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.appColors.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.cardBorder),
+            border: Border.all(color: context.appColors.cardBorder),
           ),
           child: TextField(
             controller: _budgetController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [TurkishCurrencyInputFormatter()],
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
             decoration: InputDecoration(
               labelText: l10n.monthlySpendingLimit,
-              labelStyle: TextStyle(color: AppColors.textSecondary),
+              labelStyle: TextStyle(color: context.appColors.textSecondary),
               hintText: '30.000',
-              hintStyle: TextStyle(color: AppColors.textTertiary.withValues(alpha: 0.5)),
+              hintStyle: TextStyle(color: context.appColors.textTertiary.withValues(alpha: 0.5)),
               prefixIcon: Container(
                 margin: const EdgeInsets.only(left: 16, right: 12),
                 child: Icon(
                   PhosphorIconsDuotone.wallet,
-                  color: AppColors.secondary,
+                  color: context.appColors.secondary,
                   size: 22,
                 ),
               ),
               prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
               suffixText: currencyProvider.code,
-              suffixStyle: const TextStyle(
+              suffixStyle: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
               ),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -697,7 +742,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         Text(
           l10n.monthlySpendingLimitHint,
           style: TextStyle(
-            color: AppColors.textTertiary,
+            color: context.appColors.textTertiary,
             fontSize: 12,
           ),
         ),
@@ -707,37 +752,37 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         // Tasarruf hedefi
         Container(
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.appColors.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.cardBorder),
+            border: Border.all(color: context.appColors.cardBorder),
           ),
           child: TextField(
             controller: _savingsGoalController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [TurkishCurrencyInputFormatter()],
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
             decoration: InputDecoration(
               labelText: l10n.monthlySavingsGoal,
-              labelStyle: TextStyle(color: AppColors.textSecondary),
+              labelStyle: TextStyle(color: context.appColors.textSecondary),
               hintText: '5.000',
-              hintStyle: TextStyle(color: AppColors.textTertiary.withValues(alpha: 0.5)),
+              hintStyle: TextStyle(color: context.appColors.textTertiary.withValues(alpha: 0.5)),
               prefixIcon: Container(
                 margin: const EdgeInsets.only(left: 16, right: 12),
                 child: Icon(
                   PhosphorIconsDuotone.piggyBank,
-                  color: AppColors.success,
+                  color: context.appColors.success,
                   size: 22,
                 ),
               ),
               prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
               suffixText: currencyProvider.code,
-              suffixStyle: const TextStyle(
+              suffixStyle: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
               ),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -748,7 +793,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         Text(
           l10n.monthlySavingsGoalHint,
           style: TextStyle(
-            color: AppColors.textTertiary,
+            color: context.appColors.textTertiary,
             fontSize: 12,
           ),
         ),
@@ -758,24 +803,98 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: AppColors.info.withValues(alpha: 0.1),
+            color: context.appColors.info.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: AppColors.info.withValues(alpha: 0.3)),
+            border: Border.all(color: context.appColors.info.withValues(alpha: 0.3)),
           ),
           child: Row(
             children: [
-              Icon(PhosphorIconsDuotone.lightbulb, color: AppColors.info, size: 20),
+              Icon(PhosphorIconsDuotone.lightbulb, color: context.appColors.info, size: 20),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   l10n.budgetInfoMessage,
                   style: TextStyle(
-                    color: AppColors.info,
+                    color: context.appColors.info,
                     fontSize: 12,
                   ),
                 ),
               ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Referral code input section (for new users)
+  Widget _buildReferralCodeSection(AppLocalizations l10n) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.haveReferralCode,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: context.appColors.textSecondary,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Container(
+          decoration: BoxDecoration(
+            color: context.appColors.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: _hasPrefilledReferral
+                  ? context.appColors.success.withValues(alpha: 0.5)
+                  : context.appColors.cardBorder,
+            ),
+          ),
+          child: TextField(
+            controller: _referralCodeController,
+            textCapitalization: TextCapitalization.characters,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 1.2,
+              color: context.appColors.textPrimary,
+            ),
+            decoration: InputDecoration(
+              hintText: l10n.referralCodePlaceholder,
+              hintStyle: TextStyle(
+                color: context.appColors.textSecondary.withValues(alpha: 0.5),
+                letterSpacing: 1.2,
+              ),
+              prefixIcon: Container(
+                margin: const EdgeInsets.only(left: 16, right: 12),
+                child: Icon(
+                  PhosphorIconsDuotone.gift,
+                  color: _hasPrefilledReferral
+                      ? context.appColors.success
+                      : context.appColors.secondary,
+                  size: 22,
+                ),
+              ),
+              prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+              suffixIcon: _hasPrefilledReferral
+                  ? Icon(
+                      PhosphorIconsBold.checkCircle,
+                      color: context.appColors.success,
+                      size: 20,
+                    )
+                  : null,
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            ),
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          l10n.referralCodeHint,
+          style: TextStyle(
+            color: context.appColors.textTertiary,
+            fontSize: 12,
           ),
         ),
       ],
@@ -789,10 +908,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       children: [
         Text(
           l10n.incomeInfo,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: AppColors.textSecondary,
+            color: context.appColors.textSecondary,
           ),
         ),
         const SizedBox(height: 12),
@@ -813,9 +932,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     final currencyProvider = context.watch<CurrencyProvider>();
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: TextField(
         controller: _incomeController,
@@ -823,30 +942,30 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         inputFormatters: [
           TurkishCurrencyInputFormatter(),
         ],
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          color: AppColors.textPrimary,
+          color: context.appColors.textPrimary,
         ),
         decoration: InputDecoration(
           hintText: '25.000',
           hintStyle: TextStyle(
-            color: AppColors.textSecondary.withValues(alpha: 0.5),
+            color: context.appColors.textSecondary.withValues(alpha: 0.5),
           ),
           prefixIcon: Container(
             margin: const EdgeInsets.only(left: 16, right: 12),
             child: Icon(
               PhosphorIconsDuotone.wallet,
-              color: AppColors.primary,
+              color: context.appColors.primary,
               size: 24,
             ),
           ),
           prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
           suffixText: currencyProvider.code,
-          suffixStyle: const TextStyle(
+          suffixStyle: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: AppColors.textSecondary,
+            color: context.appColors.textSecondary,
           ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
@@ -862,9 +981,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+          border: Border.all(color: context.appColors.primary.withValues(alpha: 0.3)),
         ),
         child: Column(
           children: [
@@ -878,12 +997,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.1),
+                        color: context.appColors.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
                         PhosphorIconsDuotone.wallet,
-                        color: AppColors.primary,
+                        color: context.appColors.primary,
                         size: 20,
                       ),
                     ),
@@ -893,18 +1012,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       children: [
                         Text(
                           l10n.totalIncome,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.textSecondary,
+                            color: context.appColors.textSecondary,
                           ),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           '${formatTurkishCurrency(_totalIncome, decimalDigits: 0, showDecimals: false)} TL',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.primary,
+                            color: context.appColors.primary,
                           ),
                         ),
                       ],
@@ -914,15 +1033,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.1),
+                    color: context.appColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     l10n.incomeSources(_incomeSources.length),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
+                      color: context.appColors.primary,
                     ),
                   ),
                 ),
@@ -932,7 +1051,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             // Kaynak listesi (kısa özet)
             if (_incomeSources.length <= 3) ...[
               const SizedBox(height: 16),
-              const Divider(height: 1, color: AppColors.cardBorder),
+              Divider(height: 1, color: context.appColors.cardBorder),
               const SizedBox(height: 12),
               ...(_incomeSources.map((source) => Padding(
                 padding: const EdgeInsets.only(bottom: 8),
@@ -947,19 +1066,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     Expanded(
                       child: Text(
                         source.title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
-                          color: AppColors.textSecondary,
+                          color: context.appColors.textSecondary,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Text(
                       '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} TL',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.textPrimary,
+                        color: context.appColors.textPrimary,
                       ),
                     ),
                   ],

@@ -25,3 +25,4 @@ export 'credit_purchase_screen.dart';
 export 'pursuit_list_screen.dart';
 // Onboarding
 export 'onboarding_try_screen.dart';
+export 'onboarding_pursuit_screen.dart';

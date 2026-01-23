@@ -114,7 +114,7 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
-                color: AppColors.surface.withValues(alpha: 0.9),
+                color: context.appColors.surface.withValues(alpha: 0.9),
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
@@ -177,7 +177,7 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                                   _buildDescription(l10n),
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: AppColors.textSecondary,
+                                    color: context.appColors.textSecondary,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -223,7 +223,7 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                               child: Icon(
                                 PhosphorIconsDuotone.x,
                                 size: 18,
-                                color: AppColors.textTertiary,
+                                color: context.appColors.textTertiary,
                               ),
                             ),
                           ],
@@ -421,7 +421,7 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
-            color: AppColors.surface.withValues(alpha: 0.8),
+            color: context.appColors.surface.withValues(alpha: 0.8),
             child: Material(
               color: Colors.transparent,
               child: InkWell(
@@ -464,7 +464,7 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
                               _stats!.statusText,
                               style: TextStyle(
                                 fontSize: 11,
-                                color: AppColors.textTertiary,
+                                color: context.appColors.textTertiary,
                               ),
                             ),
                           ],
@@ -475,14 +475,14 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
+                          color: context.appColors.textPrimary,
                         ),
                       ),
                       const SizedBox(width: 8),
                       Icon(
                         PhosphorIconsDuotone.caretRight,
                         size: 14,
-                        color: AppColors.textTertiary,
+                        color: context.appColors.textTertiary,
                       ),
                     ],
                   ),

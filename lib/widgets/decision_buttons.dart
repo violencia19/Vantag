@@ -22,10 +22,10 @@ class DecisionButtons extends StatelessWidget {
       children: [
         Text(
           l10n.whatIsYourDecision,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w500,
-            color: AppColors.textSecondary,
+            color: context.appColors.textSecondary,
           ),
           textAlign: TextAlign.center,
         ),
@@ -36,7 +36,7 @@ class DecisionButtons extends StatelessWidget {
               child: _AnimatedDecisionButton(
                 label: l10n.bought,
                 icon: PhosphorIconsDuotone.check,
-                color: AppColors.decisionYes,
+                color: context.appColors.decisionYes,
                 decision: ExpenseDecision.yes,
                 onTap: enabled ? () => onDecision(ExpenseDecision.yes) : null,
               ),
@@ -46,7 +46,7 @@ class DecisionButtons extends StatelessWidget {
               child: _AnimatedDecisionButton(
                 label: l10n.thinking,
                 icon: PhosphorIconsDuotone.clock,
-                color: AppColors.decisionThinking,
+                color: context.appColors.decisionThinking,
                 decision: ExpenseDecision.thinking,
                 onTap: enabled ? () => onDecision(ExpenseDecision.thinking) : null,
               ),
@@ -56,7 +56,7 @@ class DecisionButtons extends StatelessWidget {
               child: _AnimatedDecisionButton(
                 label: l10n.passed,
                 icon: PhosphorIconsDuotone.x,
-                color: AppColors.decisionNo,
+                color: context.appColors.decisionNo,
                 decision: ExpenseDecision.no,
                 onTap: enabled ? () => onDecision(ExpenseDecision.no) : null,
                 isEmphasis: true, // Passed button with heavier animation
@@ -189,6 +189,8 @@ class _AnimatedDecisionButtonState extends State<_AnimatedDecisionButton>
                 opacity: isEnabled ? 1.0 : AppAnimations.disabledOpacity,
                 duration: AppAnimations.short,
                 child: Container(
+                  // Ensure minimum 44px touch target for accessibility
+                  constraints: const BoxConstraints(minHeight: 88),
                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                   decoration: BoxDecoration(
                     color: widget.color.withValues(alpha: _colorAnimation.value),
@@ -327,6 +329,8 @@ class _SingleDecisionButtonState extends State<SingleDecisionButton>
               child: AnimatedContainer(
                 duration: AppAnimations.short,
                 curve: AppAnimations.standardCurve,
+                // Ensure minimum 44px touch target for accessibility
+                constraints: const BoxConstraints(minHeight: 44),
                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 decoration: BoxDecoration(
                   color: widget.isSelected

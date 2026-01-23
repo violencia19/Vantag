@@ -156,7 +156,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                 decoration: BoxDecoration(
                   color: _isExpanded
                       ? const Color(0xFFFFD700).withValues(alpha: 0.1)
-                      : AppColors.surface.withValues(alpha: 0.8),
+                      : context.appColors.surface.withValues(alpha: 0.8),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: _isExpanded
@@ -184,7 +184,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                               decoration: BoxDecoration(
                                 color: _isExpanded
                                     ? const Color(0xFFFFD700).withValues(alpha: 0.2)
-                                    : AppColors.surfaceLight,
+                                    : context.appColors.surfaceLight,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Icon(
@@ -193,7 +193,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                     : PhosphorIconsDuotone.lightbulb,
                                 color: _isExpanded
                                     ? const Color(0xFFFFD700)
-                                    : AppColors.textSecondary,
+                                    : context.appColors.textSecondary,
                                 size: 22,
                               ),
                             ),
@@ -213,7 +213,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                           fontWeight: FontWeight.w600,
                                           color: _isExpanded
                                               ? const Color(0xFFFFD700)
-                                              : AppColors.textPrimary,
+                                              : context.appColors.textPrimary,
                                         ),
                                       ),
                                       const SizedBox(height: 2),
@@ -223,7 +223,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                             : l10n.mindfulChoiceCollapsedDesc,
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: AppColors.textSecondary,
+                                          color: context.appColors.textSecondary,
                                         ),
                                       ),
                                     ],
@@ -239,7 +239,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                 PhosphorIconsDuotone.caretDown,
                                 color: _isExpanded
                                     ? const Color(0xFFFFD700)
-                                    : AppColors.textTertiary,
+                                    : context.appColors.textTertiary,
                               ),
                             ),
                           ],
@@ -267,24 +267,24 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                 return TextField(
                                   controller: _alternativeController,
                                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                  style: const TextStyle(
-                                    color: AppColors.textPrimary,
+                                  style: TextStyle(
+                                    color: context.appColors.textPrimary,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   decoration: InputDecoration(
                                     labelText: l10n.mindfulChoiceAmountLabel,
                                     labelStyle: TextStyle(
-                                      color: AppColors.textSecondary,
+                                      color: context.appColors.textSecondary,
                                       fontSize: 13,
                                     ),
                                     hintText: l10n.mindfulChoiceAmountHint(formatTurkishCurrency(CategoryThresholds.getDefault(widget.selectedCategory ?? 'Diğer'))),
                                     hintStyle: TextStyle(
-                                      color: AppColors.textTertiary,
+                                      color: context.appColors.textTertiary,
                                       fontSize: 14,
                                     ),
                                     filled: true,
-                                    fillColor: AppColors.background.withValues(alpha: 0.5),
+                                    fillColor: context.appColors.background.withValues(alpha: 0.5),
                                     contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 16,
                                       vertical: 14,
@@ -295,7 +295,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                     ),
                                     prefixIcon: Icon(
                                       PhosphorIconsDuotone.shoppingBag,
-                                      color: AppColors.textTertiary,
+                                      color: context.appColors.textTertiary,
                                       size: 20,
                                     ),
                                   ),
@@ -377,7 +377,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                   l10n.mindfulChoiceSavingsDesc,
                   style: TextStyle(
                     fontSize: 11,
-                    color: AppColors.textSecondary,
+                    color: context.appColors.textSecondary,
                   ),
                 ),
               ],

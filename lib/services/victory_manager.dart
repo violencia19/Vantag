@@ -238,7 +238,7 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                     borderRadius: BorderRadius.circular(28),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.4),
+                        color: context.appColors.primary.withValues(alpha: 0.4),
                         blurRadius: 30,
                         spreadRadius: 5,
                         offset: const Offset(0, 10),

@@ -196,7 +196,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
         ),
         child: Row(
           children: [
-            Icon(icon, size: 20, color: AppColors.primary),
+            Icon(icon, size: 20, color: context.appColors.primary),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
@@ -217,7 +217,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
               Switch(
                 value: value,
                 onChanged: onChanged,
-                activeTrackColor: AppColors.primary,
+                activeTrackColor: context.appColors.primary,
                 inactiveThumbColor: Colors.white54,
                 inactiveTrackColor: Colors.white.withValues(alpha: 0.1),
               ),

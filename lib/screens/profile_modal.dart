@@ -11,7 +11,7 @@ import 'onboarding_screen.dart';
 
 /// Profile Modal - Shows user profile information
 /// Displayed when user taps on avatar in header
-class ProfileModal extends StatelessWidget {
+class ProfileModal extends StatefulWidget {
   const ProfileModal({super.key});
 
   static Future<void> show(BuildContext context) {
@@ -22,6 +22,19 @@ class ProfileModal extends StatelessWidget {
       barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => const ProfileModal(),
     );
+  }
+
+  @override
+  State<ProfileModal> createState() => _ProfileModalState();
+}
+
+class _ProfileModalState extends State<ProfileModal> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<FinanceProvider>().refreshAchievements(context);
+    });
   }
 
   @override
@@ -57,7 +70,7 @@ class ProfileModal extends StatelessWidget {
       builder: (context, scrollController) {
         return Container(
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.appColors.surface,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             border: Border.all(
               color: Colors.white.withValues(alpha: 0.2),
@@ -72,7 +85,7 @@ class ProfileModal extends StatelessWidget {
                 height: 4,
                 margin: const EdgeInsets.only(top: 12),
                 decoration: BoxDecoration(
-                  color: AppColors.textTertiary.withValues(alpha: 0.3),
+                  color: context.appColors.textTertiary.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -141,12 +154,12 @@ class ProfileModal extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    AppColors.primary.withValues(alpha: 0.3),
-                    AppColors.secondary.withValues(alpha: 0.3),
+                    context.appColors.primary.withValues(alpha: 0.3),
+                    context.appColors.secondary.withValues(alpha: 0.3),
                   ],
                 ),
                 border: Border.all(
-                  color: isPro ? const Color(0xFFFFD700) : AppColors.primary,
+                  color: isPro ? const Color(0xFFFFD700) : context.appColors.primary,
                   width: isPro ? 3 : 2,
                 ),
                 boxShadow: isPro
@@ -206,10 +219,10 @@ class ProfileModal extends StatelessWidget {
         // Name
         Text(
           displayName,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
           ),
         ),
 
@@ -219,7 +232,7 @@ class ProfileModal extends StatelessWidget {
             email,
             style: TextStyle(
               fontSize: 14,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
             ),
           ),
         ],
@@ -229,11 +242,11 @@ class ProfileModal extends StatelessWidget {
 
   Widget _defaultAvatar() {
     return Container(
-      color: AppColors.surfaceLight,
+      color: context.appColors.surfaceLight,
       child: Icon(
         PhosphorIconsDuotone.user,
         size: 50,
-        color: AppColors.textTertiary,
+        color: context.appColors.textTertiary,
       ),
     );
   }
@@ -251,13 +264,13 @@ class ProfileModal extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.primary.withValues(alpha: 0.25),
-            AppColors.secondary.withValues(alpha: 0.25),
+            context.appColors.primary.withValues(alpha: 0.25),
+            context.appColors.secondary.withValues(alpha: 0.25),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.4),
+          color: context.appColors.primary.withValues(alpha: 0.4),
           width: 1,
         ),
       ),
@@ -266,7 +279,7 @@ class ProfileModal extends StatelessWidget {
           Icon(
             PhosphorIconsDuotone.clock,
             size: 32,
-            color: AppColors.primary,
+            color: context.appColors.primary,
           ),
           const SizedBox(height: 12),
           Text(
@@ -274,16 +287,16 @@ class ProfileModal extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             l10n.profileHours(savedHours.toStringAsFixed(1)),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.w800,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
               letterSpacing: -1,
             ),
           ),
@@ -327,20 +340,20 @@ class ProfileModal extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surfaceLight,
+        color: context.appColors.surfaceLight,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(
         children: [
-          Icon(icon, size: 24, color: AppColors.primary),
+          Icon(icon, size: 24, color: context.appColors.primary),
           const SizedBox(height: 8),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
           ),
           const SizedBox(height: 4),
@@ -348,7 +361,7 @@ class ProfileModal extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 12,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -367,9 +380,9 @@ class ProfileModal extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surfaceLight,
+        color: context.appColors.surfaceLight,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Row(
         children: [
@@ -378,14 +391,14 @@ class ProfileModal extends StatelessWidget {
             height: 40,
             decoration: BoxDecoration(
               color: isLinked
-                  ? AppColors.success.withValues(alpha: 0.15)
-                  : AppColors.textTertiary.withValues(alpha: 0.15),
+                  ? context.appColors.success.withValues(alpha: 0.15)
+                  : context.appColors.textTertiary.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               isLinked ? PhosphorIconsDuotone.googleLogo : PhosphorIconsDuotone.link,
               size: 20,
-              color: isLinked ? AppColors.success : AppColors.textTertiary,
+              color: isLinked ? context.appColors.success : context.appColors.textTertiary,
             ),
           ),
           const SizedBox(width: 14),
@@ -395,14 +408,14 @@ class ProfileModal extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: isLinked ? AppColors.success : AppColors.textSecondary,
+                color: isLinked ? context.appColors.success : context.appColors.textSecondary,
               ),
             ),
           ),
           Icon(
             isLinked ? PhosphorIconsDuotone.checkCircle : PhosphorIconsDuotone.xCircle,
             size: 20,
-            color: isLinked ? AppColors.success : AppColors.textTertiary,
+            color: isLinked ? context.appColors.success : context.appColors.textTertiary,
           ),
         ],
       ),
@@ -420,7 +433,7 @@ class ProfileModal extends StatelessWidget {
         onPressed: () => _confirmSignOut(context, authService, l10n),
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16),
-          side: BorderSide(color: AppColors.error.withValues(alpha: 0.5)),
+          side: BorderSide(color: context.appColors.error.withValues(alpha: 0.5)),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),
@@ -428,14 +441,14 @@ class ProfileModal extends StatelessWidget {
         icon: Icon(
           PhosphorIconsDuotone.signOut,
           size: 20,
-          color: AppColors.error,
+          color: context.appColors.error,
         ),
         label: Text(
           l10n.profileSignOut,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: AppColors.error,
+            color: context.appColors.error,
           ),
         ),
       ),
@@ -451,31 +464,31 @@ class ProfileModal extends StatelessWidget {
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: context.appColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           l10n.profileSignOut,
-          style: const TextStyle(
-            color: AppColors.textPrimary,
+          style: TextStyle(
+            color: context.appColors.textPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),
         content: Text(
           l10n.profileSignOutConfirm,
-          style: TextStyle(color: AppColors.textSecondary),
+          style: TextStyle(color: context.appColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
             child: Text(
               l10n.cancel,
-              style: TextStyle(color: AppColors.textSecondary),
+              style: TextStyle(color: context.appColors.textSecondary),
             ),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
+              backgroundColor: context.appColors.error,
               foregroundColor: Colors.white,
             ),
             child: Text(l10n.profileSignOut),

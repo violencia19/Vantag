@@ -161,13 +161,13 @@ class _OfflineBannerState extends State<OfflineBanner>
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: isBackOnline
-                ? [AppColors.success.withValues(alpha: 0.9), AppColors.success]
+                ? [context.appColors.success.withValues(alpha: 0.9), context.appColors.success]
                 : [const Color(0xFFFF6B6B), const Color(0xFFEE5A5A)],
           ),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: (isBackOnline ? AppColors.success : const Color(0xFFFF6B6B))
+              color: (isBackOnline ? context.appColors.success : const Color(0xFFFF6B6B))
                   .withValues(alpha: 0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),

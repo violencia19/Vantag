@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/models.dart';
 import '../services/services.dart';
 
@@ -55,7 +57,6 @@ class FinanceProvider extends ChangeNotifier {
       await Future.wait([
         _loadExpenses(),
         _loadStreakData(),
-        _loadAchievements(),
         _loadProfile(),
       ]);
       _isInitialized = true;
@@ -140,6 +141,9 @@ class FinanceProvider extends ChangeNotifier {
   // ============================================
 
   Future<void> addExpense(Expense expense) async {
+    // Check if this is the first expense (before adding)
+    final isFirstExpense = _expenses.isEmpty;
+
     _expenses.insert(0, expense);
 
     // Enforce cache limit - keep only the most recent expenses in memory
@@ -151,6 +155,30 @@ class FinanceProvider extends ChangeNotifier {
     notifyListeners();
     await _expenseService.addExpense(expense);
     if (expense.isReal) await _updateStreakAfterEntry();
+
+    // First expense celebration and referral reward
+    if (isFirstExpense && expense.isReal) {
+      _handleFirstExpense(expense);
+    }
+  }
+
+  /// Handle first expense - schedule celebration notification and reward referrer
+  Future<void> _handleFirstExpense(Expense expense) async {
+    try {
+      // Schedule first expense celebration notification
+      final savedHours = expense.hoursRequired.toStringAsFixed(1);
+      await NotificationService().scheduleFirstExpenseCelebration(
+        savedHours: savedHours,
+      );
+      debugPrint('[FinanceProvider] First expense celebration scheduled');
+
+      // Reward referrer if this user was referred
+      await ReferralService().rewardReferrerOnFirstExpense(
+        FirebaseAuth.instance.currentUser?.uid ?? '',
+      );
+    } catch (e) {
+      debugPrint('[FinanceProvider] Error handling first expense: $e');
+    }
   }
 
   Future<void> updateExpense(int index, Expense expense) async {
@@ -313,6 +341,87 @@ class FinanceProvider extends ChangeNotifier {
   }
 
   // ============================================
+  // HOME SCREEN WIDGET SYNC
+  // ============================================
+
+  /// Sync data to home screen widgets
+  /// Call this after expenses change, or on app launch
+  Future<void> syncWidgetData({
+    required String currencySymbol,
+    required String locale,
+    String? pursuitName,
+    double? pursuitProgress,
+    double? pursuitTarget,
+  }) async {
+    try {
+      // Calculate today's spending
+      final todayData = getTodaySpendingData();
+
+      // Calculate spending level
+      final spendingLevel = WidgetService.calculateSpendingLevel(
+        todaySpending: todayData.amount,
+        dailyAverage: dailyAverageSpending,
+      );
+
+      // Update widget
+      await widgetService.updateWidgetData(
+        todayHours: todayData.hours,
+        todayMinutes: todayData.minutes,
+        todayAmount: todayData.amount,
+        currencySymbol: currencySymbol,
+        spendingLevel: spendingLevel,
+        pursuitName: pursuitName,
+        pursuitProgress: pursuitProgress,
+        pursuitTarget: pursuitTarget,
+        locale: locale,
+      );
+    } catch (e) {
+      debugPrint('[FinanceProvider] Widget sync error: $e');
+    }
+  }
+
+  /// Get today's spending data for widgets
+  TodaySpendingData getTodaySpendingData() {
+    final now = DateTime.now();
+    final todayExpenses = _expenses.where((e) =>
+        e.date.year == now.year &&
+        e.date.month == now.month &&
+        e.date.day == now.day &&
+        e.decision == ExpenseDecision.yes
+    ).toList();
+
+    final totalAmount = todayExpenses.fold(0.0, (sum, e) => sum + e.amount);
+    final totalHoursDecimal = todayExpenses.fold(0.0, (sum, e) => sum + e.hoursRequired);
+
+    // Convert decimal hours to hours and minutes
+    final hours = totalHoursDecimal.floor().toDouble();
+    final minutes = ((totalHoursDecimal - hours) * 60).round();
+
+    return TodaySpendingData(
+      amount: totalAmount,
+      hours: hours,
+      minutes: minutes,
+      expenseCount: todayExpenses.length,
+    );
+  }
+
+  /// Calculate daily average spending (last 30 days)
+  double get dailyAverageSpending {
+    final now = DateTime.now();
+    final thirtyDaysAgo = now.subtract(const Duration(days: 30));
+
+    final recentExpenses = _expenses.where((e) =>
+        e.date.isAfter(thirtyDaysAgo) &&
+        e.decision == ExpenseDecision.yes
+    ).toList();
+
+    if (recentExpenses.isEmpty) return 0;
+
+    final totalAmount = recentExpenses.fold(0.0, (sum, e) => sum + e.amount);
+    return totalAmount / 30;
+  }
+
+  // ============================================
   // DİĞER SERVİSLER
   // ============================================
   Future<void> _updateStreakAfterEntry() async {
@@ -322,7 +431,12 @@ class FinanceProvider extends ChangeNotifier {
   }
 
   Future<void> _loadStreakData() async => _streakData = await _streakService.getStreakData();
-  Future<void> _loadAchievements() async => _achievements = await _achievementsService.getAchievements();
+
+  /// Refresh achievements with localized titles (requires BuildContext)
+  Future<void> refreshAchievements(BuildContext context) async {
+    _achievements = await _achievementsService.getAchievements(context);
+    notifyListeners();
+  }
 
   // ============================================
   // TAM SIFIRLAMA (WIPE)
@@ -402,5 +516,28 @@ class FinanceProvider extends ChangeNotifier {
 
       await addExpense(expense);
     }
+  }
+}
+
+/// Data class for today's spending information
+class TodaySpendingData {
+  final double amount;
+  final double hours;
+  final int minutes;
+  final int expenseCount;
+
+  const TodaySpendingData({
+    required this.amount,
+    required this.hours,
+    required this.minutes,
+    required this.expenseCount,
+  });
+
+  /// Total time in decimal hours
+  double get totalHours => hours + (minutes / 60);
+
+  /// Formatted time string (e.g., "2h 45m")
+  String formattedTime(String hourAbbrev, String minAbbrev) {
+    return '${hours.toInt()}$hourAbbrev ${minutes}$minAbbrev';
   }
 }

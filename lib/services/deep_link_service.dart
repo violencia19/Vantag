@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/models.dart';
 import 'voice_parser_service.dart';
 
@@ -33,6 +34,14 @@ class DeepLinkService {
   bool _shouldAutoStartVoice = false;
   bool get shouldAutoStartVoice => _shouldAutoStartVoice;
   void consumeAutoStartFlag() => _shouldAutoStartVoice = false;
+
+  /// Pending referral code from deep link
+  String? _pendingReferralCode;
+  String? get pendingReferralCode => _pendingReferralCode;
+  void consumePendingReferralCode() => _pendingReferralCode = null;
+
+  /// SharedPreferences key for pending referral code
+  static const String _pendingReferralKey = 'pendingReferralCode';
 
   /// Simple initialization with navigator key (from main.dart)
   void init(GlobalKey<NavigatorState> navigatorKey) {
@@ -95,7 +104,14 @@ class DeepLinkService {
   void _handleDeepLink(Uri uri) {
     debugPrint('[DeepLink] Received: $uri');
 
-    // Validate scheme
+    // Handle HTTPS referral links (https://vantag.app/r/CODE)
+    if ((uri.scheme == 'https' || uri.scheme == 'http') &&
+        uri.host == 'vantag.app') {
+      _handleWebDeepLink(uri);
+      return;
+    }
+
+    // Validate scheme for app-specific deep links
     if (uri.scheme != 'vantag') {
       debugPrint('[DeepLink] Invalid scheme: ${uri.scheme}');
       return;
@@ -103,6 +119,13 @@ class DeepLinkService {
 
     // Route based on host/path
     switch (uri.host) {
+      case 'referral':
+      case 'r':
+        final code = uri.queryParameters['code'] ?? uri.pathSegments.lastOrNull;
+        if (code != null && code.isNotEmpty) {
+          _handleReferralCode(code);
+        }
+        break;
       case 'add-expense':
       case 'add':
         _handleAddExpense(uri);
@@ -471,6 +494,108 @@ class DeepLinkService {
       default:
         _handleNavigate('home');
     }
+  }
+
+  /// Handle web deep links (https://vantag.app/...)
+  void _handleWebDeepLink(Uri uri) {
+    final pathSegments = uri.pathSegments;
+    debugPrint('[DeepLink] Web link path segments: $pathSegments');
+
+    if (pathSegments.isEmpty) return;
+
+    // Check for referral link: /r/CODE
+    if (pathSegments.first == 'r' && pathSegments.length >= 2) {
+      final code = pathSegments[1];
+      _handleReferralCode(code);
+      return;
+    }
+
+    // Handle other web paths as needed
+    switch (pathSegments.first) {
+      case 'invite':
+      case 'referral':
+        if (pathSegments.length >= 2) {
+          _handleReferralCode(pathSegments[1]);
+        }
+        break;
+      case 'share':
+        _handleNavigate('home');
+        break;
+      default:
+        debugPrint('[DeepLink] Unknown web path: ${pathSegments.first}');
+    }
+  }
+
+  /// Handle referral code from deep link
+  Future<void> _handleReferralCode(String code) async {
+    debugPrint('[DeepLink] Referral code received: $code');
+
+    // Store pending referral code for after signup/login
+    _pendingReferralCode = code;
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_pendingReferralKey, code);
+      debugPrint('[DeepLink] Stored pending referral code: $code');
+    } catch (e) {
+      debugPrint('[DeepLink] Error storing referral code: $e');
+    }
+
+    // Show welcome message
+    _showReferralWelcome(code);
+  }
+
+  /// Show welcome message for referral
+  void _showReferralWelcome(String code) {
+    final context = _navigatorKey?.currentContext;
+    if (context == null || !context.mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Icons.card_giftcard, color: Colors.white),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'Davet kodu uygulandı: $code',
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: const Color(0xFF6C63FF),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
+  /// Get stored pending referral code (called during signup)
+  static Future<String?> getPendingReferralCode() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString(_pendingReferralKey);
+    } catch (e) {
+      debugPrint('[DeepLink] Error getting pending referral code: $e');
+      return null;
+    }
+  }
+
+  /// Clear pending referral code after it's been applied
+  static Future<void> clearPendingReferralCode() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_pendingReferralKey);
+    } catch (e) {
+      debugPrint('[DeepLink] Error clearing pending referral code: $e');
+    }
+  }
+
+  /// Generate referral link for sharing
+  static Uri generateReferralLink(String referralCode) {
+    return Uri.parse('https://vantag.app/r/$referralCode');
   }
 
   /// Get all supported URL schemes for documentation

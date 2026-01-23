@@ -648,7 +648,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: AppColors.error,
+        backgroundColor: context.appColors.error,
       ),
     );
   }
@@ -675,7 +675,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -685,10 +685,10 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
             // Title
             Text(
               _isEditMode ? l10n.editSubscription : l10n.newSubscription,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
               ),
             ),
             const SizedBox(height: 24),
@@ -696,10 +696,10 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
             // Name
             Text(
               l10n.subscriptionName,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
               ),
             ),
             const SizedBox(height: 8),
@@ -708,13 +708,13 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
               decoration: InputDecoration(
                 hintText: l10n.subscriptionNameHint,
                 filled: true,
-                fillColor: AppColors.surfaceLight,
+                fillColor: context.appColors.surfaceLight,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none,
                 ),
               ),
-              style: const TextStyle(color: AppColors.textPrimary),
+              style: TextStyle(color: context.appColors.textPrimary),
             ),
             const SizedBox(height: 16),
 
@@ -727,10 +727,10 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                     children: [
                       Text(
                         l10n.monthlyAmount,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.textSecondary,
+                          color: context.appColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -741,13 +741,13 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                           hintText: '0',
                           suffixText: currencyProvider.code,
                           filled: true,
-                          fillColor: AppColors.surfaceLight,
+                          fillColor: context.appColors.surfaceLight,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide.none,
                           ),
                         ),
-                        style: const TextStyle(color: AppColors.textPrimary),
+                        style: TextStyle(color: context.appColors.textPrimary),
                       ),
                     ],
                   ),
@@ -759,31 +759,31 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                     children: [
                       Text(
                         l10n.renewalDay,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.textSecondary,
+                          color: context.appColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 8),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceLight,
+                          color: context.appColors.surfaceLight,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<int>(
                             value: _renewalDay,
                             isExpanded: true,
-                            dropdownColor: AppColors.surface,
+                            dropdownColor: context.appColors.surface,
                             items: List.generate(31, (i) => i + 1)
                                 .map((day) => DropdownMenuItem(
                                       value: day,
                                       child: Text(
                                         l10n.dayOfMonth(day),
-                                        style: const TextStyle(
-                                          color: AppColors.textPrimary,
+                                        style: TextStyle(
+                                          color: context.appColors.textPrimary,
                                           fontSize: 14,
                                         ),
                                       ),
@@ -805,31 +805,31 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
             // Category
             Text(
               l10n.category,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
               ),
             ),
             const SizedBox(height: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                color: AppColors.surfaceLight,
+                color: context.appColors.surfaceLight,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   value: _category,
                   isExpanded: true,
-                  dropdownColor: AppColors.surface,
+                  dropdownColor: context.appColors.surface,
                   items: ExpenseCategory.all
                       .map((cat) => DropdownMenuItem(
                             value: cat,
                             child: Text(
                               ExpenseCategory.getLocalizedName(cat, l10n),
-                              style: const TextStyle(
-                                color: AppColors.textPrimary,
+                              style: TextStyle(
+                                color: context.appColors.textPrimary,
                               ),
                             ),
                           ))
@@ -864,21 +864,21 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
               child: ElevatedButton(
                 onPressed: _isSaving ? null : _save,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: AppColors.background,
-                  disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.5),
+                  backgroundColor: context.appColors.primary,
+                  foregroundColor: context.appColors.background,
+                  disabledBackgroundColor: context.appColors.primary.withValues(alpha: 0.5),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
                 child: _isSaving
-                    ? const SizedBox(
+                    ? SizedBox(
                         height: 20,
                         width: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(AppColors.background),
+                          valueColor: AlwaysStoppedAnimation<Color>(context.appColors.background),
                         ),
                       )
                     : Text(
@@ -905,7 +905,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.surfaceLight,
+        color: context.appColors.surfaceLight,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -916,18 +916,18 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
-                    color: AppColors.textTertiary,
+                    color: context.appColors.textTertiary,
                   ),
                 ),
               ],
@@ -936,8 +936,8 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeTrackColor: AppColors.primary,
-            activeThumbColor: AppColors.textPrimary,
+            activeTrackColor: context.appColors.primary,
+            activeThumbColor: context.appColors.textPrimary,
           ),
         ],
       ),

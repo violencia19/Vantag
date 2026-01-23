@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/providers.dart';
+import '../services/referral_service.dart';
+import '../services/deep_link_service.dart';
 import '../theme/quiet_luxury.dart';
 import '../theme/theme.dart';
 import '../widgets/widgets.dart';
@@ -299,6 +302,19 @@ class _PursuitListScreenState extends State<PursuitListScreen>
 
   Future<void> _createPursuit() async {
     HapticFeedback.selectionClick();
+
+    // Check pursuit limit for free users
+    final proProvider = context.read<ProProvider>();
+    final pursuitProvider = context.read<PursuitProvider>();
+    final isPremium = proProvider.isPro;
+
+    final canCreate = await pursuitProvider.canCreatePursuit(isPremium);
+    if (!canCreate && mounted) {
+      final l10n = AppLocalizations.of(context);
+      UpgradeDialog.show(context, l10n.pursuitLimitReachedFree);
+      return;
+    }
+
     final result = await showCreatePursuitSheet(context);
     if (result == true && mounted) {
       // Refresh
@@ -313,19 +329,17 @@ class _PursuitListScreenState extends State<PursuitListScreen>
     );
 
     if (reachedTarget == true && mounted) {
-      // Show completion modal
+      // Show completion celebration
       final updatedPursuit =
           context.read<PursuitProvider>().getPursuitById(pursuit.id);
       if (updatedPursuit != null) {
         await context.read<PursuitProvider>().completePursuit(pursuit.id);
         if (mounted) {
-          await showPursuitCompletionModal(
+          showPursuitCelebration(
             context,
-            pursuit: updatedPursuit,
-            formatAmount: (amount) => _formatAmount(
-              amount,
-              context.read<CurrencyProvider>().currency.symbol,
-            ),
+            updatedPursuit,
+            onShare: () => _sharePursuitCompletion(updatedPursuit),
+            onNewGoal: () => _openCreatePursuit(),
           );
         }
       }
@@ -400,6 +414,36 @@ class _PursuitListScreenState extends State<PursuitListScreen>
         ],
       ),
     );
+  }
+
+  /// Share pursuit completion achievement
+  Future<void> _sharePursuitCompletion(Pursuit pursuit) async {
+    final l10n = AppLocalizations.of(context);
+    final currencyProvider = context.read<CurrencyProvider>();
+    final symbol = currencyProvider.currency.symbol;
+
+    // Get referral link for sharing
+    String shareLink = 'vantag.app';
+    try {
+      final referralCode = await ReferralService().getOrCreateReferralCode();
+      if (referralCode != null) {
+        final referralLink = DeepLinkService.generateReferralLink(referralCode);
+        shareLink = referralLink.toString();
+      }
+    } catch (_) {
+      // Use default link if referral fails
+    }
+
+    final shareText = '🎉 ${l10n.pursuitCompleted}: ${pursuit.name}!\n'
+        '💰 $symbol${pursuit.targetAmount.toStringAsFixed(0)} ${l10n.saved}\n\n'
+        '${l10n.shareDefaultMessage(shareLink)}';
+
+    await Share.share(shareText);
+  }
+
+  /// Open create pursuit sheet for new goal
+  void _openCreatePursuit() {
+    showCreatePursuitSheet(context);
   }
 }
 

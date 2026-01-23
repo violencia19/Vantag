@@ -311,7 +311,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               ),
             ],
           ),
-          backgroundColor: AppColors.success,
+          backgroundColor: context.appColors.success,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -334,7 +334,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: AppColors.error,
+        backgroundColor: context.appColors.error,
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -353,9 +353,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.cardBorder),
+          border: Border.all(color: context.appColors.cardBorder),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -367,10 +367,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             const SizedBox(width: 12),
             Text(
               '${currency.code} - ${currency.name}',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
               ),
             ),
             const Spacer(),
@@ -379,14 +379,14 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: AppColors.primary,
+                color: context.appColors.primary,
               ),
             ),
             const SizedBox(width: 4),
             Icon(
               PhosphorIconsDuotone.caretRight,
               size: 18,
-              color: AppColors.primary,
+              color: context.appColors.primary,
             ),
           ],
         ),
@@ -401,7 +401,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
     showModalBottomSheet(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.95),
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -416,7 +416,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.textTertiary,
+                  color: context.appColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -425,10 +425,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               // Title
               Text(
                 l10n.selectCurrency,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 24),
@@ -447,11 +447,11 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? AppColors.primary.withValues(alpha: 0.1)
-                          : AppColors.surfaceLight,
+                          ? context.appColors.primary.withValues(alpha: 0.1)
+                          : context.appColors.surfaceLight,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: isSelected ? AppColors.primary : AppColors.cardBorder,
+                        color: isSelected ? context.appColors.primary : context.appColors.cardBorder,
                         width: isSelected ? 2 : 1,
                       ),
                     ),
@@ -471,14 +471,14 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
-                                  color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                                  color: isSelected ? context.appColors.primary : context.appColors.textPrimary,
                                 ),
                               ),
                               Text(
                                 currency.name,
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColors.textSecondary,
+                                  color: context.appColors.textSecondary,
                                 ),
                               ),
                             ],
@@ -489,7 +489,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
-                            color: isSelected ? AppColors.primary : AppColors.textSecondary,
+                            color: isSelected ? context.appColors.primary : context.appColors.textSecondary,
                           ),
                         ),
                         if (isSelected) ...[
@@ -497,7 +497,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                           Icon(
                             PhosphorIconsDuotone.checkCircle,
                             size: 22,
-                            color: AppColors.primary,
+                            color: context.appColors.primary,
                           ),
                         ],
                       ],
@@ -518,7 +518,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -574,8 +574,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                     height: 4,
                     decoration: BoxDecoration(
                       color: isActive
-                          ? AppColors.primary
-                          : AppColors.surfaceLight,
+                          ? context.appColors.primary
+                          : context.appColors.surfaceLight,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -607,7 +607,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.1),
+                color: context.appColors.primary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: const Center(
@@ -622,10 +622,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
           Center(
             child: Text(
               l10n.whatIsYourSalary,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
               ),
             ),
           ),
@@ -637,7 +637,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               l10n.enterNetAmount,
               style: TextStyle(
                 fontSize: 14,
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
               ),
             ),
           ),
@@ -651,10 +651,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             inputFormatters: [
               TurkishCurrencyInputFormatter(),
             ],
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.w700,
-              color: AppColors.primary,
+              color: context.appColors.primary,
             ),
             textAlign: TextAlign.center,
             decoration: InputDecoration(
@@ -662,20 +662,20 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               hintStyle: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textTertiary.withValues(alpha: 0.5),
+                color: context.appColors.textTertiary.withValues(alpha: 0.5),
               ),
               suffixText: getCurrencyByCode(_primaryCurrencyCode).code,
-              suffixStyle: const TextStyle(
+              suffixStyle: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textSecondary,
+                color: context.appColors.textSecondary,
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide.none,
               ),
               filled: true,
-              fillColor: AppColors.surface,
+              fillColor: context.appColors.surface,
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 24,
                 vertical: 20,
@@ -699,19 +699,19 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: context.appColors.surface,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.cardBorder),
+              border: Border.all(color: context.appColors.cardBorder),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   l10n.dailyWork,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -746,7 +746,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                           vertical: 12,
                         ),
                         decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.cardBorder),
+                          border: Border.all(color: context.appColors.cardBorder),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: DropdownButtonHideUnderline(
@@ -781,7 +781,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             child: ElevatedButton(
               onPressed: _saveSalary,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
+                backgroundColor: context.appColors.primary,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -820,8 +820,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  AppColors.success.withValues(alpha: 0.2),
-                  AppColors.primary.withValues(alpha: 0.1),
+                  context.appColors.success.withValues(alpha: 0.2),
+                  context.appColors.primary.withValues(alpha: 0.1),
                 ],
               ),
               shape: BoxShape.circle,
@@ -836,10 +836,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
           Text(
             l10n.doYouHaveOtherIncome,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
               height: 1.2,
             ),
           ),
@@ -851,7 +851,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 15,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
               height: 1.4,
             ),
           ),
@@ -865,7 +865,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             child: ElevatedButton(
               onPressed: _nextStep,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
+                backgroundColor: context.appColors.primary,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -906,17 +906,17 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 );
               },
               style: OutlinedButton.styleFrom(
-                side: BorderSide(color: AppColors.cardBorder),
+                side: BorderSide(color: context.appColors.cardBorder),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
               child: Text(
                 l10n.noOnlySalary,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                 ),
               ),
             ),
@@ -940,10 +940,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
         children: [
           Text(
             l10n.addAdditionalIncome,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
           ),
 
@@ -952,10 +952,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
           // Category selection
           Text(
             l10n.incomeType,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
             ),
           ),
           const SizedBox(height: 12),
@@ -980,13 +980,13 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                   ),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? AppColors.primary.withValues(alpha: 0.1)
-                        : AppColors.surface,
+                        ? context.appColors.primary.withValues(alpha: 0.1)
+                        : context.appColors.surface,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: isSelected
-                          ? AppColors.primary
-                          : AppColors.cardBorder,
+                          ? context.appColors.primary
+                          : context.appColors.cardBorder,
                       width: isSelected ? 2 : 1,
                     ),
                   ),
@@ -996,7 +996,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                       Icon(
                         category.icon,
                         size: 22,
-                        color: isSelected ? category.color : AppColors.textSecondary,
+                        color: isSelected ? category.color : context.appColors.textSecondary,
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -1007,8 +1007,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                               ? FontWeight.w600
                               : FontWeight.w500,
                           color: isSelected
-                              ? AppColors.primary
-                              : AppColors.textPrimary,
+                              ? context.appColors.primary
+                              : context.appColors.textPrimary,
                         ),
                       ),
                     ],
@@ -1084,7 +1084,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               icon: Icon(PhosphorIconsDuotone.plus),
               label: Text(l10n.addIncome),
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.success,
+                backgroundColor: context.appColors.success,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
@@ -1099,10 +1099,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             const SizedBox(height: 32),
             Text(
               l10n.addedIncomes,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
               ),
             ),
             const SizedBox(height: 12),
@@ -1111,9 +1111,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 margin: const EdgeInsets.only(bottom: 12),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: context.appColors.surface,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.cardBorder),
+                  border: Border.all(color: context.appColors.cardBorder),
                 ),
                 child: Row(
                   children: [
@@ -1129,17 +1129,17 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                         children: [
                           Text(
                             source.title,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
+                              color: context.appColors.textPrimary,
                             ),
                           ),
                           Text(
                             source.category.label,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
-                              color: AppColors.textSecondary,
+                              color: context.appColors.textSecondary,
                             ),
                           ),
                         ],
@@ -1147,16 +1147,16 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                     ),
                     Text(
                       '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} ${getCurrencyByCode(source.currencyCode).symbol}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.success,
+                        color: context.appColors.success,
                       ),
                     ),
                     const SizedBox(width: 8),
                     IconButton(
                       icon: Icon(PhosphorIconsDuotone.x, size: 20),
-                      color: AppColors.error,
+                      color: context.appColors.error,
                       onPressed: () => _removeIncome(source.id),
                     ),
                   ],
@@ -1185,7 +1185,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 _nextStep();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
+                backgroundColor: context.appColors.primary,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -1236,13 +1236,13 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: AppColors.success.withValues(alpha: 0.1),
+              color: context.appColors.success.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
               PhosphorIconsDuotone.checkCircle,
               size: 48,
-              color: AppColors.success,
+              color: context.appColors.success,
             ),
           ),
 
@@ -1250,10 +1250,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
 
           Text(
             l10n.incomeSummary,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
           ),
 
@@ -1268,14 +1268,14 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  AppColors.primary,
-                  AppColors.primaryDark,
+                  context.appColors.primary,
+                  context.appColors.primaryDark,
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.3),
+                  color: context.appColors.primary.withValues(alpha: 0.3),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -1322,9 +1322,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               margin: const EdgeInsets.only(bottom: 12),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: context.appColors.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.cardBorder),
+                border: Border.all(color: context.appColors.cardBorder),
               ),
               child: Row(
                 children: [
@@ -1333,8 +1333,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                     height: 44,
                     decoration: BoxDecoration(
                       color: source.isPrimary
-                          ? AppColors.primary.withValues(alpha: 0.1)
-                          : AppColors.success.withValues(alpha: 0.1),
+                          ? context.appColors.primary.withValues(alpha: 0.1)
+                          : context.appColors.success.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(
@@ -1352,17 +1352,17 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                       children: [
                         Text(
                           source.title,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
+                            color: context.appColors.textPrimary,
                           ),
                         ),
                         Text(
                           source.category.label,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.textSecondary,
+                            color: context.appColors.textSecondary,
                           ),
                         ),
                       ],
@@ -1373,17 +1373,17 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                     children: [
                       Text(
                         '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} ${getCurrencyByCode(source.currencyCode).symbol}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary,
+                          color: context.appColors.textPrimary,
                         ),
                       ),
                       Text(
                         '%${percentage.toStringAsFixed(0)}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
-                          color: AppColors.textSecondary,
+                          color: context.appColors.textSecondary,
                         ),
                       ),
                     ],
@@ -1402,7 +1402,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             child: ElevatedButton(
               onPressed: _isLoading ? null : _complete,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.success,
+                backgroundColor: context.appColors.success,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
