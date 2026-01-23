@@ -58,34 +58,39 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
-    _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
   }
 
   void _initVideo() {
     debugPrint('[Splash] Video init starting...');
     try {
-      _videoController = VideoPlayerController.asset('lib/assets/videos/splash_video.mp4')
-        ..setVolume(0) // Muted
-        ..setLooping(false);
+      _videoController =
+          VideoPlayerController.asset('lib/assets/videos/splash_video.mp4')
+            ..setVolume(0) // Muted
+            ..setLooping(false);
 
-      _videoController!.initialize().then((_) {
-        debugPrint('[Splash] Video initialized!');
-        if (mounted) {
-          setState(() {
-            _videoInitialized = true;
+      _videoController!
+          .initialize()
+          .then((_) {
+            debugPrint('[Splash] Video initialized!');
+            if (mounted) {
+              setState(() {
+                _videoInitialized = true;
+              });
+              _videoController!.play();
+              _startVideoEndListener();
+            }
+          })
+          .catchError((error) {
+            debugPrint('[Splash] Video init error: $error');
+            // Video couldn't load, navigate directly
+            if (mounted) {
+              _onVideoEnded();
+            }
           });
-          _videoController!.play();
-          _startVideoEndListener();
-        }
-      }).catchError((error) {
-        debugPrint('[Splash] Video init error: $error');
-        // Video couldn't load, navigate directly
-        if (mounted) {
-          _onVideoEnded();
-        }
-      });
     } catch (e) {
       debugPrint('[Splash] Video catch error: $e');
       // Video couldn't create, navigate directly
@@ -157,7 +162,10 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
     await notificationService.requestPermission();
 
     // Schedule subscription renewal notifications
-    _scheduleSubscriptionNotifications(subscriptionService, notificationService);
+    _scheduleSubscriptionNotifications(
+      subscriptionService,
+      notificationService,
+    );
 
     debugPrint('[Splash] ✓ App initialization complete');
     _initComplete = true;
@@ -167,7 +175,8 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
     SubscriptionService subscriptionService,
     NotificationService notificationService,
   ) async {
-    final tomorrow = await subscriptionService.getSubscriptionsRenewingTomorrow();
+    final tomorrow = await subscriptionService
+        .getSubscriptionsRenewingTomorrow();
 
     if (tomorrow.isNotEmpty) {
       final subscriptionData = tomorrow
@@ -220,10 +229,7 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
       body: AnimatedBuilder(
         animation: _fadeController,
         builder: (context, child) {
-          return Opacity(
-            opacity: _fadeAnimation.value,
-            child: child,
-          );
+          return Opacity(opacity: _fadeAnimation.value, child: child);
         },
         child: _videoInitialized && _videoController != null
             ? SizedBox.expand(

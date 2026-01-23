@@ -47,36 +47,17 @@ class LottieAnimations {
   }
 
   /// Coin/money animation for savings, rewards
-  static Widget coin({
-    double size = 60,
-    bool repeat = true,
-  }) {
-    return Lottie.asset(
-      _coin,
-      width: size,
-      height: size,
-      repeat: repeat,
-    );
+  static Widget coin({double size = 60, bool repeat = true}) {
+    return Lottie.asset(_coin, width: size, height: size, repeat: repeat);
   }
 
   /// Empty state animation when no data
-  static Widget emptyState({
-    double size = 150,
-    bool repeat = true,
-  }) {
-    return Lottie.asset(
-      _empty,
-      width: size,
-      height: size,
-      repeat: repeat,
-    );
+  static Widget emptyState({double size = 150, bool repeat = true}) {
+    return Lottie.asset(_empty, width: size, height: size, repeat: repeat);
   }
 
   /// Loading animation for async operations
-  static Widget loading({
-    double size = 50,
-    Color? color,
-  }) {
+  static Widget loading({double size = 50, Color? color}) {
     final widget = Lottie.asset(
       _loading,
       width: size,
@@ -124,15 +105,9 @@ class LottieAnimations {
   }
 
   /// Full-screen celebration overlay
-  static Widget celebrationOverlay({
-    bool repeat = false,
-  }) {
+  static Widget celebrationOverlay({bool repeat = false}) {
     return IgnorePointer(
-      child: Lottie.asset(
-        _celebration,
-        repeat: repeat,
-        fit: BoxFit.cover,
-      ),
+      child: Lottie.asset(_celebration, repeat: repeat, fit: BoxFit.cover),
     );
   }
 }

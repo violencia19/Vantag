@@ -102,7 +102,10 @@ class CategoryLearningService {
   /// Öğrenilen kategorileri SharedPreferences'a kaydet
   static Future<void> _save() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_keyLearnedCategories, jsonEncode(_learnedCategories));
+    await prefs.setString(
+      _keyLearnedCategories,
+      jsonEncode(_learnedCategories),
+    );
   }
 
   /// Tüm öğrenmeleri sıfırla (debug için)
@@ -116,5 +119,6 @@ class CategoryLearningService {
   static int get learnedCount => _learnedCategories.length;
 
   /// Debug: Tüm öğrenilmiş kategorileri göster
-  static Map<String, String> get learnedCategories => Map.unmodifiable(_learnedCategories);
+  static Map<String, String> get learnedCategories =>
+      Map.unmodifiable(_learnedCategories);
 }

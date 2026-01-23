@@ -54,9 +54,7 @@ class PremiumDecorations {
   }
 
   /// Glass Card with gradient border
-  static BoxDecoration glassCardGradient({
-    double borderRadius = 16,
-  }) {
+  static BoxDecoration glassCardGradient({double borderRadius = 16}) {
     return BoxDecoration(
       color: Colors.white.withValues(alpha: 0.08),
       borderRadius: BorderRadius.circular(borderRadius),
@@ -138,14 +136,8 @@ class PremiumShadows {
   /// Icon halo - drop shadow for icons (Design System: enhanced)
   static List<Shadow> iconHalo(Color color) {
     return [
-      Shadow(
-        color: color.withValues(alpha: 0.6),
-        blurRadius: 16,
-      ),
-      Shadow(
-        color: color.withValues(alpha: 0.4),
-        blurRadius: 32,
-      ),
+      Shadow(color: color.withValues(alpha: 0.6), blurRadius: 16),
+      Shadow(color: color.withValues(alpha: 0.4), blurRadius: 32),
     ];
   }
 
@@ -189,7 +181,8 @@ class GradientBorder extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
-        gradient: gradient ??
+        gradient:
+            gradient ??
             LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -252,7 +245,8 @@ class GlassCard extends StatelessWidget {
           padding: padding ?? const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: backgroundGradient == null
-                ? (backgroundColor ?? const Color(0xFF2D1B4E).withValues(alpha: 0.6))
+                ? (backgroundColor ??
+                      const Color(0xFF2D1B4E).withValues(alpha: 0.6))
                 : null,
             gradient: backgroundGradient,
             borderRadius: BorderRadius.circular(borderRadius),
@@ -300,10 +294,8 @@ class _ShimmerEffectState extends State<ShimmerEffect>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    )..repeat();
+    _controller = AnimationController(vsync: this, duration: widget.duration)
+      ..repeat();
   }
 
   @override
@@ -379,18 +371,13 @@ class _BreatheGlowState extends State<BreatheGlow>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    )..repeat(reverse: true);
+    _controller = AnimationController(vsync: this, duration: widget.duration)
+      ..repeat(reverse: true);
 
     _animation = Tween<double>(
       begin: widget.minOpacity,
       end: widget.maxOpacity,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -452,26 +439,18 @@ class _SparkleFloatState extends State<SparkleFloat>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    )..repeat(reverse: true);
+    _controller = AnimationController(vsync: this, duration: widget.duration)
+      ..repeat(reverse: true);
 
     _floatAnimation = Tween<double>(
       begin: 0,
       end: -widget.floatHeight,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     _scaleAnimation = Tween<double>(
       begin: 1.0,
       end: 1.0 + widget.scaleRange,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -528,10 +507,8 @@ class _RotatingGradientBorderState extends State<RotatingGradientBorder>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    )..repeat();
+    _controller = AnimationController(vsync: this, duration: widget.duration)
+      ..repeat();
   }
 
   @override
@@ -552,7 +529,8 @@ class _RotatingGradientBorderState extends State<RotatingGradientBorder>
             shape: BoxShape.circle,
             gradient: SweepGradient(
               transform: GradientRotation(_controller.value * 2 * math.pi),
-              colors: widget.colors ??
+              colors:
+                  widget.colors ??
                   [
                     PremiumColors.purple,
                     PremiumColors.gradientEnd,
@@ -649,7 +627,9 @@ class _PremiumButtonState extends State<PremiumButton>
                   color: Colors.white.withValues(alpha: 0.12),
                   width: 1,
                 ),
-                boxShadow: widget.showGlow ? PremiumShadows.glowPurple : PremiumShadows.shadowPremium,
+                boxShadow: widget.showGlow
+                    ? PremiumShadows.glowPurple
+                    : PremiumShadows.shadowPremium,
               ),
               child: widget.child,
             ),
@@ -736,11 +716,7 @@ class SmartBadge extends StatelessWidget {
   final String text;
   final bool showShimmer;
 
-  const SmartBadge({
-    super.key,
-    this.text = 'Smart',
-    this.showShimmer = true,
-  });
+  const SmartBadge({super.key, this.text = 'Smart', this.showShimmer = true});
 
   @override
   Widget build(BuildContext context) {
@@ -749,10 +725,7 @@ class SmartBadge extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         gradient: const LinearGradient(
-          colors: [
-            PremiumColors.purple,
-            PremiumColors.gradientEnd,
-          ],
+          colors: [PremiumColors.purple, PremiumColors.gradientEnd],
         ),
         boxShadow: [
           BoxShadow(
@@ -812,7 +785,9 @@ class RadialGradientOverlay extends StatelessWidget {
                   center: Alignment.center,
                   radius: radius,
                   colors: [
-                    (centerColor ?? PremiumColors.purple).withValues(alpha: 0.15),
+                    (centerColor ?? PremiumColors.purple).withValues(
+                      alpha: 0.15,
+                    ),
                     Colors.transparent,
                   ],
                 ),
@@ -852,10 +827,7 @@ class AnimatedCountUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
-      tween: Tween<double>(
-        begin: previousValue ?? 0,
-        end: value,
-      ),
+      tween: Tween<double>(begin: previousValue ?? 0, end: value),
       duration: duration,
       curve: curve,
       builder: (context, animatedValue, child) {
@@ -913,14 +885,8 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
-    _animation = CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-    );
+    _controller = AnimationController(duration: widget.duration, vsync: this);
+    _animation = CurvedAnimation(parent: _controller, curve: widget.curve);
 
     // Start after delay
     Future.delayed(widget.delay, () {
@@ -947,7 +913,8 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
 
   @override
   Widget build(BuildContext context) {
-    final radius = widget.borderRadius ?? BorderRadius.circular(widget.height / 2);
+    final radius =
+        widget.borderRadius ?? BorderRadius.circular(widget.height / 2);
 
     return AnimatedBuilder(
       animation: _animation,
@@ -957,7 +924,8 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
         return Container(
           height: widget.height,
           decoration: BoxDecoration(
-            color: widget.backgroundColor ?? Colors.white.withValues(alpha: 0.1),
+            color:
+                widget.backgroundColor ?? Colors.white.withValues(alpha: 0.1),
             borderRadius: radius,
           ),
           child: Stack(
@@ -1022,26 +990,17 @@ class _StaggeredSlideUpState extends State<StaggeredSlideUp>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
+    _controller = AnimationController(duration: widget.duration, vsync: this);
 
     _slideAnimation = Tween<double>(
       begin: widget.slideOffset,
       end: 0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
 
     _fadeAnimation = Tween<double>(
       begin: 0,
       end: 1,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
 
     if (widget.animate) {
       final delay = widget.staggerDelay * widget.index;
@@ -1066,10 +1025,7 @@ class _StaggeredSlideUpState extends State<StaggeredSlideUp>
       builder: (context, child) {
         return Transform.translate(
           offset: Offset(0, _slideAnimation.value),
-          child: Opacity(
-            opacity: _fadeAnimation.value,
-            child: widget.child,
-          ),
+          child: Opacity(opacity: _fadeAnimation.value, child: widget.child),
         );
       },
     );
@@ -1114,26 +1070,17 @@ class _ScaleFadeInState extends State<ScaleFadeIn>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
+    _controller = AnimationController(duration: widget.duration, vsync: this);
 
     _scaleAnimation = Tween<double>(
       begin: widget.startScale,
       end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
 
     _fadeAnimation = Tween<double>(
       begin: 0,
       end: 1,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     if (widget.animate) {
       final delay = widget.staggerDelay * widget.index;
@@ -1158,10 +1105,7 @@ class _ScaleFadeInState extends State<ScaleFadeIn>
       builder: (context, child) {
         return Transform.scale(
           scale: _scaleAnimation.value,
-          child: Opacity(
-            opacity: _fadeAnimation.value,
-            child: widget.child,
-          ),
+          child: Opacity(opacity: _fadeAnimation.value, child: widget.child),
         );
       },
     );
@@ -1201,14 +1145,12 @@ class _PulseGlowState extends State<PulseGlow>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
+    _controller = AnimationController(duration: widget.duration, vsync: this);
 
-    _animation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     if (widget.animate) {
       _controller.repeat(reverse: true);
@@ -1232,7 +1174,9 @@ class _PulseGlowState extends State<PulseGlow>
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: widget.glowColor.withValues(alpha: 0.3 * _animation.value),
+                color: widget.glowColor.withValues(
+                  alpha: 0.3 * _animation.value,
+                ),
                 blurRadius: widget.maxBlurRadius * _animation.value,
                 spreadRadius: 2 * _animation.value,
               ),
@@ -1327,7 +1271,9 @@ class GlassModalSheet extends StatelessWidget {
           padding: padding,
           decoration: BoxDecoration(
             color: backgroundColor.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(topRadius)),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(topRadius),
+            ),
             border: Border(
               top: BorderSide(
                 color: Colors.white.withValues(alpha: 0.1),
@@ -1385,9 +1331,10 @@ class _GlassButtonState extends State<GlassButton>
       vsync: this,
       duration: const Duration(milliseconds: 100),
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.96).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.96,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -1413,14 +1360,23 @@ class _GlassButtonState extends State<GlassButton>
             child: ClipRRect(
               borderRadius: BorderRadius.circular(widget.borderRadius),
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: widget.blur, sigmaY: widget.blur),
+                filter: ImageFilter.blur(
+                  sigmaX: widget.blur,
+                  sigmaY: widget.blur,
+                ),
                 child: Container(
-                  padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding:
+                      widget.padding ??
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   decoration: BoxDecoration(
-                    color: widget.backgroundColor ?? Colors.white.withValues(alpha: 0.1),
+                    color:
+                        widget.backgroundColor ??
+                        Colors.white.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(widget.borderRadius),
                     border: Border.all(
-                      color: widget.borderColor ?? Colors.white.withValues(alpha: 0.2),
+                      color:
+                          widget.borderColor ??
+                          Colors.white.withValues(alpha: 0.2),
                       width: 1,
                     ),
                     boxShadow: widget.boxShadow,
@@ -1614,9 +1570,6 @@ class AnimatedPageContentState extends State<AnimatedPageContent> {
 
   @override
   Widget build(BuildContext context) {
-    return KeyedSubtree(
-      key: _contentKey,
-      child: widget.child,
-    );
+    return KeyedSubtree(key: _contentKey, child: widget.child);
   }
 }

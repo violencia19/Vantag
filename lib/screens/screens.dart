@@ -26,3 +26,4 @@ export 'pursuit_list_screen.dart';
 // Onboarding
 export 'onboarding_try_screen.dart';
 export 'onboarding_pursuit_screen.dart';
+export 'onboarding_salary_day_screen.dart';

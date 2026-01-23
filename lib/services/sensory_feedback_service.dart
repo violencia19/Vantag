@@ -3,11 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Wealth Coach: Risk Seviyeleri
 enum RiskLevel {
-  none,      // %0-10 - Risk yok
-  low,       // %10-15 - Düşük risk
-  medium,    // %15-25 - Orta risk
-  high,      // %25+ - Yüksek risk
-  extreme;   // %50+ - Ekstrem risk
+  none, // %0-10 - Risk yok
+  low, // %10-15 - Düşük risk
+  medium, // %15-25 - Orta risk
+  high, // %25+ - Yüksek risk
+  extreme; // %50+ - Ekstrem risk
 
   String get label {
     switch (this) {
@@ -74,7 +74,8 @@ enum RiskLevel {
 /// Wealth Coach: Sensory Feedback Manager
 /// Haptic, ses ve görsel feedback merkezi yönetimi
 class SensoryFeedbackManager {
-  static final SensoryFeedbackManager _instance = SensoryFeedbackManager._internal();
+  static final SensoryFeedbackManager _instance =
+      SensoryFeedbackManager._internal();
   factory SensoryFeedbackManager() => _instance;
   SensoryFeedbackManager._internal();
 
@@ -119,7 +120,8 @@ class SensoryFeedbackManager {
 
     // Basamak kontrolü (performans için)
     final digits = amount.toInt().toString().length;
-    if (digits == _lastTriggeredDigits && (amount - _lastTriggeredAmount).abs() < 50) {
+    if (digits == _lastTriggeredDigits &&
+        (amount - _lastTriggeredAmount).abs() < 50) {
       return; // Aynı basamakta küçük değişiklik, tetikleme
     }
 
@@ -235,7 +237,10 @@ class SensoryFeedbackManager {
   // ==================== GÖRSEL FEEDBACK ====================
 
   /// Blood-Pressure arka plan rengi hesapla
-  Color getBackgroundColor(double amount, {Color baseColor = const Color(0xFF1A1A2E)}) {
+  Color getBackgroundColor(
+    double amount, {
+    Color baseColor = const Color(0xFF1A1A2E),
+  }) {
     if (!_visualFeedbackEnabled) return baseColor;
 
     final riskLevel = getRiskLevel(amount);

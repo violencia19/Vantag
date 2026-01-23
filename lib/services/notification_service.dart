@@ -11,10 +11,10 @@ import '../utils/currency_utils.dart';
 // ============================================
 
 enum NotificationType {
-  delayedAwareness,    // Gecikmiş farkındalık (aldım sonrası)
-  reinforceDecision,   // Vazgeçmeyi güçlendirme
-  streakReminder,      // Streak hatırlatma
-  weeklyInsight,       // Haftalık içgörü
+  delayedAwareness, // Gecikmiş farkındalık (aldım sonrası)
+  reinforceDecision, // Vazgeçmeyi güçlendirme
+  streakReminder, // Streak hatırlatma
+  weeklyInsight, // Haftalık içgörü
   subscriptionReminder, // Abonelik yenileme hatırlatma
 }
 
@@ -84,10 +84,27 @@ class NotificationMessages {
   ];
 
   static String getSubscriptionReminderMessage(String name, double amount) {
-    final template = subscriptionReminder[_random.nextInt(subscriptionReminder.length)];
+    final template =
+        subscriptionReminder[_random.nextInt(subscriptionReminder.length)];
     return template
         .replaceAll('{name}', name)
-        .replaceAll('{amount}', formatTurkishCurrency(amount, decimalDigits: 2));
+        .replaceAll(
+          '{amount}',
+          formatTurkishCurrency(amount, decimalDigits: 2),
+        );
+  }
+
+  // Maaş Günü (Payday) - Kutlama mesajları
+  static const paydayMessages = [
+    'Bugün maaş günü! 💰 Bütçeni kontrol etmek için harika bir gün.',
+    'Maaş yattı mı? Bütçeni planlamak için uygulamayı ziyaret et!',
+    'Günaydın! Bugün hesabını kontrol etmeyi unutma. 💳',
+    'Aylık gelirin hesabında! Hedeflerine yatırım yapmayı düşün.',
+    'Maaş gününde küçük bir hatırlatma: Tasarruf hedefini gözden geçir!',
+  ];
+
+  static String getPaydayMessage() {
+    return paydayMessages[_random.nextInt(paydayMessages.length)];
   }
 
   // Haftalık Mini İçgörü - 10-20 kelime
@@ -116,12 +133,16 @@ class NotificationMessages {
     double? avgHours,
     int? totalCount,
   }) {
-    final template = weeklyInsightTemplates[_random.nextInt(weeklyInsightTemplates.length)];
+    final template =
+        weeklyInsightTemplates[_random.nextInt(weeklyInsightTemplates.length)];
 
     return template
         .replaceAll('{category}', topCategory ?? 'genel')
         .replaceAll('{count}', (savedCount ?? 0).toString())
-        .replaceAll('{amount}', formatTurkishCurrency(savedAmount ?? 0, decimalDigits: 2))
+        .replaceAll(
+          '{amount}',
+          formatTurkishCurrency(savedAmount ?? 0, decimalDigits: 2),
+        )
         .replaceAll('{days}', (streakDays ?? 0).toString())
         .replaceAll('{hours}', (avgHours ?? 0).toStringAsFixed(1));
   }
@@ -136,7 +157,8 @@ class NotificationService {
   factory NotificationService() => _instance;
   NotificationService._internal();
 
-  final FlutterLocalNotificationsPlugin _notifications = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _notifications =
+      FlutterLocalNotificationsPlugin();
   bool _isInitialized = false;
 
   // Bildirim ID'leri
@@ -152,6 +174,8 @@ class NotificationService {
   static const _idFirstExpense = 9;
   // Daily reminder
   static const _idDailyReminder = 10;
+  // Payday notification
+  static const _idPayday = 11;
   static const _idSubscriptionBase = 100; // Abonelikler için 100+ ID
 
   // Pref keys
@@ -169,6 +193,8 @@ class NotificationService {
   static const _keyDailyReminderMinute = 'notif_daily_reminder_minute';
   static const _keyTrialStartDate = 'notif_trial_start_date';
   static const _keyTrialDays = 'notif_trial_days';
+  // Payday notification
+  static const _keyPaydayReminderEnabled = 'notif_payday_reminder';
 
   /// Servisi başlat
   Future<void> initialize() async {
@@ -178,7 +204,9 @@ class NotificationService {
     tz_data.initializeTimeZones();
 
     // Android ayarları
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings = AndroidInitializationSettings(
+      '@mipmap/ic_launcher',
+    );
 
     // iOS ayarları
     const darwinSettings = DarwinInitializationSettings(
@@ -217,12 +245,16 @@ class NotificationService {
   Future<bool> requestPermission() async {
     if (Platform.isAndroid) {
       final androidPlugin = _notifications
-          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
       final granted = await androidPlugin?.requestNotificationsPermission();
       return granted ?? false;
     } else if (Platform.isIOS) {
       final iosPlugin = _notifications
-          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+          .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin
+          >();
       final granted = await iosPlugin?.requestPermissions(
         alert: true,
         badge: true,
@@ -241,10 +273,22 @@ class NotificationService {
   DateTime _getNextAvailableTime(DateTime desiredTime) {
     if (desiredTime.hour >= 22) {
       // Ertesi gün 08:00
-      return DateTime(desiredTime.year, desiredTime.month, desiredTime.day + 1, 8, 0);
+      return DateTime(
+        desiredTime.year,
+        desiredTime.month,
+        desiredTime.day + 1,
+        8,
+        0,
+      );
     } else if (desiredTime.hour < 8) {
       // Aynı gün 08:00
-      return DateTime(desiredTime.year, desiredTime.month, desiredTime.day, 8, 0);
+      return DateTime(
+        desiredTime.year,
+        desiredTime.month,
+        desiredTime.day,
+        8,
+        0,
+      );
     }
     return desiredTime;
   }
@@ -511,7 +555,13 @@ class NotificationService {
 
     // Midpoint reminder (trial'ın yarısında)
     if (midpoint.isAfter(now)) {
-      final midpointTime = DateTime(midpoint.year, midpoint.month, midpoint.day, 12, 0);
+      final midpointTime = DateTime(
+        midpoint.year,
+        midpoint.month,
+        midpoint.day,
+        12,
+        0,
+      );
       await _scheduleNotification(
         id: _idTrialMidpoint,
         title: 'Yarı yoldasın! ⏳',
@@ -524,7 +574,13 @@ class NotificationService {
 
     // 1 day before end
     if (oneDayBefore.isAfter(now)) {
-      final oneDayBeforeTime = DateTime(oneDayBefore.year, oneDayBefore.month, oneDayBefore.day, 10, 0);
+      final oneDayBeforeTime = DateTime(
+        oneDayBefore.year,
+        oneDayBefore.month,
+        oneDayBefore.day,
+        10,
+        0,
+      );
       await _scheduleNotification(
         id: _idTrialOneDayLeft,
         title: 'Denemen yarın bitiyor ⏰',
@@ -537,7 +593,13 @@ class NotificationService {
 
     // Trial end day
     if (trialEndDate.isAfter(now)) {
-      final endDayTime = DateTime(trialEndDate.year, trialEndDate.month, trialEndDate.day, 10, 0);
+      final endDayTime = DateTime(
+        trialEndDate.year,
+        trialEndDate.month,
+        trialEndDate.day,
+        10,
+        0,
+      );
       await _scheduleNotification(
         id: _idTrialEndsToday,
         title: 'Denemenin son günü! 🎁',
@@ -550,7 +612,13 @@ class NotificationService {
 
     // 1 day after (win-back)
     if (oneDayAfter.isAfter(now)) {
-      final dayAfterTime = DateTime(oneDayAfter.year, oneDayAfter.month, oneDayAfter.day, 18, 0);
+      final dayAfterTime = DateTime(
+        oneDayAfter.year,
+        oneDayAfter.month,
+        oneDayAfter.day,
+        18,
+        0,
+      );
       await _scheduleNotification(
         id: _idTrialExpired,
         title: 'Seni özledik! 💜',
@@ -679,6 +747,83 @@ class NotificationService {
     await cancel(_idDailyReminder);
   }
 
+  // ============================================
+  // 9. MAAŞ GÜNÜ HATIRLATMASI
+  // ============================================
+
+  /// Maaş günü bildirimi planla
+  /// [salaryDay]: Ayın günü (1-31)
+  Future<void> schedulePaydayNotification({required int salaryDay}) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Ayar kontrolü
+    if (!(prefs.getBool(_keyNotificationsEnabled) ?? true)) return;
+    if (!(prefs.getBool(_keyPaydayReminderEnabled) ?? true)) return;
+
+    // Windows ve Linux'ta desteklenmiyor
+    if (Platform.isWindows || Platform.isLinux) return;
+
+    // Sonraki maaş gününü hesapla
+    final now = DateTime.now();
+    DateTime nextPayday;
+
+    if (now.day < salaryDay) {
+      // Bu ayın maaş günü henüz gelmedi
+      nextPayday = DateTime(now.year, now.month, salaryDay, 9, 0);
+    } else {
+      // Gelecek ayın maaş günü
+      nextPayday = DateTime(now.year, now.month + 1, salaryDay, 9, 0);
+    }
+
+    // Gece kontrolü - sabah 09:00'da gönder
+    nextPayday = _getNextAvailableTime(nextPayday);
+
+    final message = NotificationMessages.getPaydayMessage();
+
+    final androidDetails = AndroidNotificationDetails(
+      'payday_channel',
+      'Maaş Günü',
+      channelDescription: 'Maaş günü hatırlatmaları',
+      importance: Importance.high,
+      priority: Priority.high,
+    );
+
+    const darwinDetails = DarwinNotificationDetails();
+
+    final details = NotificationDetails(
+      android: androidDetails,
+      iOS: darwinDetails,
+      macOS: darwinDetails,
+    );
+
+    try {
+      // Her ay aynı günde tekrarlayan bildirim
+      await _notifications.zonedSchedule(
+        _idPayday,
+        'Maaş Günü! 💰',
+        message,
+        tz.TZDateTime.from(nextPayday, tz.local),
+        details,
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        matchDateTimeComponents:
+            DateTimeComponents.dayOfMonthAndTime, // Ayın aynı gününde
+      );
+    } on UnimplementedError {
+      // Platform desteklemiyor
+    }
+  }
+
+  /// Maaş günü bildirimini iptal et
+  Future<void> cancelPaydayNotification() async {
+    await cancel(_idPayday);
+  }
+
+  /// Maaş günü hatırlatması aktif mi?
+  Future<bool> isPaydayReminderEnabled() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_keyPaydayReminderEnabled) ?? true;
+  }
+
   /// Günlük hatırlatma saatini al
   Future<({int hour, int minute})?> getDailyReminderTime() async {
     final prefs = await SharedPreferences.getInstance();
@@ -800,9 +945,11 @@ class NotificationService {
       'reinforce': prefs.getBool(_keyReinforceEnabled) ?? true,
       'streakReminder': prefs.getBool(_keyStreakReminderEnabled) ?? true,
       'weeklyInsight': prefs.getBool(_keyWeeklyInsightEnabled) ?? true,
-      'subscriptionReminder': prefs.getBool(_keySubscriptionReminderEnabled) ?? true,
+      'subscriptionReminder':
+          prefs.getBool(_keySubscriptionReminderEnabled) ?? true,
       'trialReminder': prefs.getBool(_keyTrialReminderEnabled) ?? true,
       'dailyReminder': prefs.getBool(_keyDailyReminderEnabled) ?? false,
+      'paydayReminder': prefs.getBool(_keyPaydayReminderEnabled) ?? true,
     };
   }
 
@@ -819,6 +966,7 @@ class NotificationService {
       'subscriptionReminder' => _keySubscriptionReminderEnabled,
       'trialReminder' => _keyTrialReminderEnabled,
       'dailyReminder' => _keyDailyReminderEnabled,
+      'paydayReminder' => _keyPaydayReminderEnabled,
       _ => null,
     };
 
@@ -838,6 +986,8 @@ class NotificationService {
           hour: time?.hour ?? 20,
           minute: time?.minute ?? 0,
         );
+      } else if (key == 'paydayReminder' && !value) {
+        await cancelPaydayNotification();
       }
     }
   }
@@ -854,6 +1004,7 @@ class NotificationService {
       await prefs.setBool(_keyWeeklyInsightEnabled, true);
       await prefs.setBool(_keySubscriptionReminderEnabled, true);
       await prefs.setBool(_keyTrialReminderEnabled, true);
+      await prefs.setBool(_keyPaydayReminderEnabled, true);
       await prefs.setBool(_keyDailyReminderEnabled, false); // Off by default
     }
   }

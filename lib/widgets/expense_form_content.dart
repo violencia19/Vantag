@@ -71,7 +71,10 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
       vsync: this,
     );
     _smartMatchScale = Tween<double>(begin: 1.0, end: 1.05).animate(
-      CurvedAnimation(parent: _smartMatchAnimController, curve: Curves.easeOutBack),
+      CurvedAnimation(
+        parent: _smartMatchAnimController,
+        curve: Curves.easeOutBack,
+      ),
     );
 
     // Editing mode
@@ -121,7 +124,8 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
   }
 
   void _checkDirty() {
-    final isDirty = _amountController.text != _initialAmount ||
+    final isDirty =
+        _amountController.text != _initialAmount ||
         _descriptionController.text != _initialDescription ||
         _selectedCategory != _initialCategory;
     if (isDirty != _isDirty) {
@@ -137,7 +141,9 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
       if (mounted) setState(() => _subCategorySuggestions = null);
       return;
     }
-    final suggestions = await SubCategoryService().getSuggestions(_selectedCategory!);
+    final suggestions = await SubCategoryService().getSuggestions(
+      _selectedCategory!,
+    );
     if (mounted) setState(() => _subCategorySuggestions = suggestions);
   }
 
@@ -238,20 +244,23 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
 
     HapticFeedback.mediumImpact();
 
-    widget.onSubmit(ExpenseFormData(
-      amount: amount,
-      category: _selectedCategory!,
-      currencyCode: _selectedCurrencyCode,
-      subCategory: _subCategoryController.text.trim().isEmpty
-          ? null
-          : SubCategoryService.normalize(_subCategoryController.text.trim()),
-      description: _descriptionController.text.trim().isEmpty
-          ? null
-          : _descriptionController.text.trim(),
-      date: _selectedDate,
-      savedFrom: _smartChoiceSavedFrom,
-      isSmartChoice: _smartChoiceSavedFrom != null && _smartChoiceSavedFrom! > amount,
-    ));
+    widget.onSubmit(
+      ExpenseFormData(
+        amount: amount,
+        category: _selectedCategory!,
+        currencyCode: _selectedCurrencyCode,
+        subCategory: _subCategoryController.text.trim().isEmpty
+            ? null
+            : SubCategoryService.normalize(_subCategoryController.text.trim()),
+        description: _descriptionController.text.trim().isEmpty
+            ? null
+            : _descriptionController.text.trim(),
+        date: _selectedDate,
+        savedFrom: _smartChoiceSavedFrom,
+        isSmartChoice:
+            _smartChoiceSavedFrom != null && _smartChoiceSavedFrom! > amount,
+      ),
+    );
   }
 
   void _showError(String message) {
@@ -274,9 +283,18 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
     if (dateOnly == yesterday) return l10n.yesterday;
 
     final months = [
-      l10n.monthJan, l10n.monthFeb, l10n.monthMar, l10n.monthApr,
-      l10n.monthMay, l10n.monthJun, l10n.monthJul, l10n.monthAug,
-      l10n.monthSep, l10n.monthOct, l10n.monthNov, l10n.monthDec
+      l10n.monthJan,
+      l10n.monthFeb,
+      l10n.monthMar,
+      l10n.monthApr,
+      l10n.monthMay,
+      l10n.monthJun,
+      l10n.monthJul,
+      l10n.monthAug,
+      l10n.monthSep,
+      l10n.monthOct,
+      l10n.monthNov,
+      l10n.monthDec,
     ];
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
@@ -348,7 +366,9 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
               child: LabeledTextField(
                 controller: _amountController,
                 label: l10n.amount,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 hint: '0,00',
                 inputFormatters: [TurkishCurrencyInputFormatter()],
               ),
@@ -377,10 +397,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
           enableSuggestions: true,
           autocorrect: false,
           enableIMEPersonalizedLearning: true,
-          style: TextStyle(
-            color: context.appColors.textPrimary,
-            fontSize: 14,
-          ),
+          style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
           decoration: InputDecoration(
             labelText: l10n.descriptionLabel,
             labelStyle: TextStyle(
@@ -408,7 +425,10 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: context.appColors.primary, width: 1.5),
+              borderSide: BorderSide(
+                color: context.appColors.primary,
+                width: 1.5,
+              ),
             ),
             suffixIcon: _smartMatchActive
                 ? Padding(
@@ -438,26 +458,33 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                   boxShadow: _smartMatchActive
                       ? [
                           BoxShadow(
-                            color: context.appColors.success.withValues(alpha: 0.3),
+                            color: context.appColors.success.withValues(
+                              alpha: 0.3,
+                            ),
                             blurRadius: 8,
                             spreadRadius: 1,
                           ),
                         ]
                       : _categoryValidationError
-                          ? [
-                              BoxShadow(
-                                color: context.appColors.error.withValues(alpha: 0.3),
-                                blurRadius: 8,
-                                spreadRadius: 1,
-                              ),
-                            ]
-                          : null,
+                      ? [
+                          BoxShadow(
+                            color: context.appColors.error.withValues(
+                              alpha: 0.3,
+                            ),
+                            blurRadius: 8,
+                            spreadRadius: 1,
+                          ),
+                        ]
+                      : null,
                 ),
                 child: DropdownButtonFormField<String>(
                   value: _selectedCategory,
                   hint: Text(
                     l10n.selectCategory,
-                    style: TextStyle(color: context.appColors.textTertiary, fontSize: 14),
+                    style: TextStyle(
+                      color: context.appColors.textTertiary,
+                      fontSize: 14,
+                    ),
                   ),
                   items: ExpenseCategory.all.map((category) {
                     return DropdownMenuItem(
@@ -470,7 +497,9 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                             color: ExpenseCategory.getColor(category),
                           ),
                           const SizedBox(width: 8),
-                          Text(ExpenseCategory.getLocalizedName(category, l10n)),
+                          Text(
+                            ExpenseCategory.getLocalizedName(category, l10n),
+                          ),
                         ],
                       ),
                     );
@@ -503,8 +532,12 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                       borderSide: BorderSide(
                         color: _categoryValidationError
                             ? context.appColors.error
-                            : (_smartMatchActive ? context.appColors.success : context.appColors.cardBorder),
-                        width: _smartMatchActive || _categoryValidationError ? 1.5 : 1,
+                            : (_smartMatchActive
+                                  ? context.appColors.success
+                                  : context.appColors.cardBorder),
+                        width: _smartMatchActive || _categoryValidationError
+                            ? 1.5
+                            : 1,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
@@ -539,7 +572,9 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  l10n.autoSelected(ExpenseCategory.getLocalizedName(_selectedCategory!, l10n)),
+                  l10n.autoSelected(
+                    ExpenseCategory.getLocalizedName(_selectedCategory!, l10n),
+                  ),
                   style: TextStyle(
                     fontSize: 12,
                     color: context.appColors.success,
@@ -559,10 +594,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
           enableSuggestions: true,
           autocorrect: false,
           enableIMEPersonalizedLearning: true,
-          style: TextStyle(
-            color: context.appColors.textPrimary,
-            fontSize: 14,
-          ),
+          style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
           decoration: InputDecoration(
             hintText: l10n.subCategoryOptional,
             hintStyle: TextStyle(
@@ -585,14 +617,19 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: context.appColors.primary, width: 1.5),
+              borderSide: BorderSide(
+                color: context.appColors.primary,
+                width: 1.5,
+              ),
             ),
           ),
           onTap: () => setState(() => _showSubCategorySuggestions = true),
         ),
 
         // Sub category suggestions
-        if (_showSubCategorySuggestions && _subCategorySuggestions != null && !_subCategorySuggestions!.isEmpty)
+        if (_showSubCategorySuggestions &&
+            _subCategorySuggestions != null &&
+            !_subCategorySuggestions!.isEmpty)
           _buildSubCategoryChips(),
 
         const SizedBox(height: 16),
@@ -665,10 +702,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
             ),
             child: Text(
               widget.submitLabel,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ),
         ),
@@ -701,16 +735,20 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
         spacing: 8,
         runSpacing: 6,
         children: [
-          ...suggestions.recent.map((s) => _SubCatChip(
-                label: s,
-                isRecent: true,
-                onTap: () => _selectSubCategory(s),
-              )),
-          ...suggestions.fixed.map((s) => _SubCatChip(
-                label: s,
-                isRecent: false,
-                onTap: () => _selectSubCategory(s),
-              )),
+          ...suggestions.recent.map(
+            (s) => _SubCatChip(
+              label: s,
+              isRecent: true,
+              onTap: () => _selectSubCategory(s),
+            ),
+          ),
+          ...suggestions.fixed.map(
+            (s) => _SubCatChip(
+              label: s,
+              isRecent: false,
+              onTap: () => _selectSubCategory(s),
+            ),
+          ),
         ],
       ),
     );
@@ -759,7 +797,9 @@ class _SubCatChip extends StatelessWidget {
               label,
               style: TextStyle(
                 fontSize: 13,
-                color: isRecent ? context.appColors.primary : context.appColors.textSecondary,
+                color: isRecent
+                    ? context.appColors.primary
+                    : context.appColors.textSecondary,
               ),
             ),
           ],

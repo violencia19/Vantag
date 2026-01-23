@@ -72,9 +72,9 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Fotoğraf seçilemedi')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Fotoğraf seçilemedi')));
       }
     }
   }
@@ -179,7 +179,9 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
             children: [
               Icon(
                 icon,
-                color: isDestructive ? context.appColors.error : context.appColors.textSecondary,
+                color: isDestructive
+                    ? context.appColors.error
+                    : context.appColors.textSecondary,
                 size: 24,
               ),
               const SizedBox(width: 16),
@@ -188,7 +190,9 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: isDestructive ? context.appColors.error : context.appColors.textPrimary,
+                  color: isDestructive
+                      ? context.appColors.error
+                      : context.appColors.textPrimary,
                 ),
               ),
             ],
@@ -221,28 +225,30 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                   ? Center(
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(context.appColors.primary),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          context.appColors.primary,
+                        ),
                       ),
                     )
                   : _photoPath != null
-                      ? Image.file(
-                          File(_photoPath!),
-                          fit: BoxFit.cover,
-                          width: widget.size,
-                          height: widget.size,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Icon(
-                              PhosphorIconsDuotone.user,
-                              size: widget.size * 0.48,
-                              color: context.appColors.primary,
-                            );
-                          },
-                        )
-                      : Icon(
+                  ? Image.file(
+                      File(_photoPath!),
+                      fit: BoxFit.cover,
+                      width: widget.size,
+                      height: widget.size,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(
                           PhosphorIconsDuotone.user,
                           size: widget.size * 0.48,
                           color: context.appColors.primary,
-                        ),
+                        );
+                      },
+                    )
+                  : Icon(
+                      PhosphorIconsDuotone.user,
+                      size: widget.size * 0.48,
+                      color: context.appColors.primary,
+                    ),
             ),
           ),
           // Düzenleme ikonu
@@ -278,10 +284,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
 class SmallProfilePhoto extends StatefulWidget {
   final double size;
 
-  const SmallProfilePhoto({
-    super.key,
-    this.size = 24,
-  });
+  const SmallProfilePhoto({super.key, this.size = 24});
 
   @override
   State<SmallProfilePhoto> createState() => _SmallProfilePhotoState();

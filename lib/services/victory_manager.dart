@@ -113,11 +113,17 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
     );
     _scaleAnimation = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween(begin: 0.0, end: 1.15).chain(CurveTween(curve: Curves.easeOut)),
+        tween: Tween(
+          begin: 0.0,
+          end: 1.15,
+        ).chain(CurveTween(curve: Curves.easeOut)),
         weight: 60,
       ),
       TweenSequenceItem(
-        tween: Tween(begin: 1.15, end: 1.0).chain(CurveTween(curve: Curves.easeInOut)),
+        tween: Tween(
+          begin: 1.15,
+          end: 1.0,
+        ).chain(CurveTween(curve: Curves.easeInOut)),
         weight: 40,
       ),
     ]).animate(_scaleController);
@@ -127,9 +133,10 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
 
     _startAnimation();
   }
@@ -189,9 +196,7 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                 await _fadeController.forward();
                 widget.onComplete();
               },
-              child: Container(
-                color: Colors.black.withValues(alpha: 0.3),
-              ),
+              child: Container(color: Colors.black.withValues(alpha: 0.3)),
             ),
 
             // Confetti - Ekranın üstünden

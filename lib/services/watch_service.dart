@@ -14,7 +14,9 @@ class WatchService {
   static const MethodChannel _channel = MethodChannel('com.vantag.app/watch');
 
   // Event channel for receiving messages from Watch
-  static const EventChannel _eventChannel = EventChannel('com.vantag.app/watch_events');
+  static const EventChannel _eventChannel = EventChannel(
+    'com.vantag.app/watch_events',
+  );
 
   StreamSubscription? _eventSubscription;
   bool _isReachable = false;
@@ -59,7 +61,9 @@ class WatchService {
         _isPaired = result['isPaired'] ?? false;
         _isInstalled = result['isInstalled'] ?? false;
         _isReachable = result['isReachable'] ?? false;
-        debugPrint('[Watch] Status: paired=$_isPaired, installed=$_isInstalled, reachable=$_isReachable');
+        debugPrint(
+          '[Watch] Status: paired=$_isPaired, installed=$_isInstalled, reachable=$_isReachable',
+        );
       }
     } catch (e) {
       debugPrint('[Watch] Status check error: $e');
@@ -101,9 +105,7 @@ class WatchService {
     if (!Platform.isIOS) return;
 
     try {
-      await _channel.invokeMethod('sendUserInfo', {
-        'info': json.encode(info),
-      });
+      await _channel.invokeMethod('sendUserInfo', {'info': json.encode(info)});
     } catch (e) {
       debugPrint('[Watch] User info error: $e');
     }
@@ -125,7 +127,9 @@ class WatchService {
         case 'messageReceived':
           final messageData = data['data'] as Map?;
           if (messageData != null) {
-            final message = WatchMessage.fromJson(Map<String, dynamic>.from(messageData));
+            final message = WatchMessage.fromJson(
+              Map<String, dynamic>.from(messageData),
+            );
             onMessageReceived?.call(message);
             debugPrint('[Watch] Message received: ${message.type}');
           }
@@ -167,12 +171,12 @@ class WatchData {
   });
 
   Map<String, dynamic> toJson() => {
-        'savedAmount': savedAmount,
-        'streakDays': streakDays,
-        'hourlyRate': hourlyRate,
-        'currencySymbol': currencySymbol,
-        'lastUpdate': lastUpdate.toIso8601String(),
-      };
+    'savedAmount': savedAmount,
+    'streakDays': streakDays,
+    'hourlyRate': hourlyRate,
+    'currencySymbol': currencySymbol,
+    'lastUpdate': lastUpdate.toIso8601String(),
+  };
 
   factory WatchData.fromJson(Map<String, dynamic> json) {
     return WatchData(
@@ -202,11 +206,11 @@ class ComplicationData {
   });
 
   Map<String, dynamic> toJson() => {
-        'savedAmount': savedAmount,
-        'streakDays': streakDays,
-        'shortText': shortText,
-        'longText': longText,
-      };
+    'savedAmount': savedAmount,
+    'streakDays': streakDays,
+    'shortText': shortText,
+    'longText': longText,
+  };
 }
 
 /// Message received from watch
@@ -215,16 +219,14 @@ class WatchMessage {
   final Map<String, dynamic>? data;
   final DateTime timestamp;
 
-  WatchMessage({
-    required this.type,
-    this.data,
-    required this.timestamp,
-  });
+  WatchMessage({required this.type, this.data, required this.timestamp});
 
   factory WatchMessage.fromJson(Map<String, dynamic> json) {
     return WatchMessage(
       type: json['type'] as String? ?? '',
-      data: json['data'] != null ? Map<String, dynamic>.from(json['data']) : null,
+      data: json['data'] != null
+          ? Map<String, dynamic>.from(json['data'])
+          : null,
       timestamp: json['timestamp'] != null
           ? DateTime.parse(json['timestamp'] as String)
           : DateTime.now(),

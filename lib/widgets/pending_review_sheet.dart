@@ -74,61 +74,61 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
 
   // Category options
   List<_CategoryOption> get _categories => [
-        _CategoryOption(
-          id: 'Yiyecek',
-          label: AppLocalizations.of(context).categoryFood,
-          icon: PhosphorIconsDuotone.hamburger,
-          color: const Color(0xFFE74C3C),
-        ),
-        _CategoryOption(
-          id: 'Ulaşım',
-          label: AppLocalizations.of(context).categoryTransport,
-          icon: PhosphorIconsDuotone.car,
-          color: const Color(0xFF3498DB),
-        ),
-        _CategoryOption(
-          id: 'Giyim',
-          label: AppLocalizations.of(context).categoryClothing,
-          icon: PhosphorIconsDuotone.tShirt,
-          color: const Color(0xFF9B59B6),
-        ),
-        _CategoryOption(
-          id: 'Elektronik',
-          label: AppLocalizations.of(context).categoryElectronics,
-          icon: PhosphorIconsDuotone.devices,
-          color: const Color(0xFF1ABC9C),
-        ),
-        _CategoryOption(
-          id: 'Eğlence',
-          label: AppLocalizations.of(context).categoryEntertainment,
-          icon: PhosphorIconsDuotone.gameController,
-          color: const Color(0xFFF39C12),
-        ),
-        _CategoryOption(
-          id: 'Sağlık',
-          label: AppLocalizations.of(context).categoryHealth,
-          icon: PhosphorIconsDuotone.heartbeat,
-          color: const Color(0xFFE91E63),
-        ),
-        _CategoryOption(
-          id: 'Eğitim',
-          label: AppLocalizations.of(context).categoryEducation,
-          icon: PhosphorIconsDuotone.graduationCap,
-          color: const Color(0xFF2ECC71),
-        ),
-        _CategoryOption(
-          id: 'Faturalar',
-          label: AppLocalizations.of(context).categoryBills,
-          icon: PhosphorIconsDuotone.receipt,
-          color: const Color(0xFF95A5A6),
-        ),
-        _CategoryOption(
-          id: 'Diğer',
-          label: AppLocalizations.of(context).categoryOther,
-          icon: PhosphorIconsDuotone.dotsThree,
-          color: const Color(0xFF7F8C8D),
-        ),
-      ];
+    _CategoryOption(
+      id: 'Yiyecek',
+      label: AppLocalizations.of(context).categoryFood,
+      icon: PhosphorIconsDuotone.hamburger,
+      color: const Color(0xFFE74C3C),
+    ),
+    _CategoryOption(
+      id: 'Ulaşım',
+      label: AppLocalizations.of(context).categoryTransport,
+      icon: PhosphorIconsDuotone.car,
+      color: const Color(0xFF3498DB),
+    ),
+    _CategoryOption(
+      id: 'Giyim',
+      label: AppLocalizations.of(context).categoryClothing,
+      icon: PhosphorIconsDuotone.tShirt,
+      color: const Color(0xFF9B59B6),
+    ),
+    _CategoryOption(
+      id: 'Elektronik',
+      label: AppLocalizations.of(context).categoryElectronics,
+      icon: PhosphorIconsDuotone.devices,
+      color: const Color(0xFF1ABC9C),
+    ),
+    _CategoryOption(
+      id: 'Eğlence',
+      label: AppLocalizations.of(context).categoryEntertainment,
+      icon: PhosphorIconsDuotone.gameController,
+      color: const Color(0xFFF39C12),
+    ),
+    _CategoryOption(
+      id: 'Sağlık',
+      label: AppLocalizations.of(context).categoryHealth,
+      icon: PhosphorIconsDuotone.heartbeat,
+      color: const Color(0xFFE91E63),
+    ),
+    _CategoryOption(
+      id: 'Eğitim',
+      label: AppLocalizations.of(context).categoryEducation,
+      icon: PhosphorIconsDuotone.graduationCap,
+      color: const Color(0xFF2ECC71),
+    ),
+    _CategoryOption(
+      id: 'Faturalar',
+      label: AppLocalizations.of(context).categoryBills,
+      icon: PhosphorIconsDuotone.receipt,
+      color: const Color(0xFF95A5A6),
+    ),
+    _CategoryOption(
+      id: 'Diğer',
+      label: AppLocalizations.of(context).categoryOther,
+      icon: PhosphorIconsDuotone.dotsThree,
+      color: const Color(0xFF7F8C8D),
+    ),
+  ];
 
   @override
   void initState() {
@@ -248,7 +248,10 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
 
                 // Progress indicator
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: context.appColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
@@ -500,7 +503,11 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                           ),
                         ),
                         child: expense.rememberMerchant
-                            ? const Icon(Icons.check, size: 16, color: Colors.white)
+                            ? const Icon(
+                                Icons.check,
+                                size: 16,
+                                color: Colors.white,
+                              )
                             : null,
                       ),
                       const SizedBox(width: 10),
@@ -591,7 +598,9 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
             PhosphorIcon(
               category.icon,
               size: 28,
-              color: isSuggested ? category.color : context.appColors.textSecondary,
+              color: isSuggested
+                  ? category.color
+                  : context.appColors.textSecondary,
             ),
             const SizedBox(height: 6),
             Text(
@@ -599,7 +608,9 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: isSuggested ? FontWeight.w600 : FontWeight.w500,
-                color: isSuggested ? category.color : context.appColors.textSecondary,
+                color: isSuggested
+                    ? category.color
+                    : context.appColors.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),

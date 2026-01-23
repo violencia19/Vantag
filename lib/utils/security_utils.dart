@@ -23,7 +23,9 @@ class SecurityUtils {
   /// Parse amount safely
   static double? parseAmount(String input) {
     if (input.isEmpty) return null;
-    final normalized = input.replaceAll(',', '.').replaceAll(RegExp(r'[^\d.]'), '');
+    final normalized = input
+        .replaceAll(',', '.')
+        .replaceAll(RegExp(r'[^\d.]'), '');
     return double.tryParse(normalized);
   }
 

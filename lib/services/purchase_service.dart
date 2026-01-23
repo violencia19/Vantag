@@ -30,7 +30,8 @@ class PurchaseService {
   static const int freeHistoryDays = 30;
 
   // Pro credit limits (monthly reset)
-  static const int proSubscriptionMonthlyLimit = 500; // Monthly/Yearly subscribers
+  static const int proSubscriptionMonthlyLimit =
+      500; // Monthly/Yearly subscribers
   static const int proLifetimeMonthlyLimit = 200; // Lifetime users
 
   // Credit pack product identifiers
@@ -143,13 +144,17 @@ class PurchaseService {
           await NotificationService().cancelTrialNotifications();
           debugPrint('[PurchaseService] Trial notifications cancelled');
         } catch (e) {
-          debugPrint('[PurchaseService] Error cancelling trial notifications: $e');
+          debugPrint(
+            '[PurchaseService] Error cancelling trial notifications: $e',
+          );
         }
       }
 
       return PurchaseResult(
         success: isPro,
-        message: isPro ? 'Purchase successful!' : 'Purchase completed but entitlement not found',
+        message: isPro
+            ? 'Purchase successful!'
+            : 'Purchase completed but entitlement not found',
       );
     } on PurchasesErrorCode catch (e) {
       String message;
@@ -193,15 +198,21 @@ class PurchaseService {
       if (isPro) {
         try {
           await NotificationService().cancelTrialNotifications();
-          debugPrint('[PurchaseService] Trial notifications cancelled after restore');
+          debugPrint(
+            '[PurchaseService] Trial notifications cancelled after restore',
+          );
         } catch (e) {
-          debugPrint('[PurchaseService] Error cancelling trial notifications: $e');
+          debugPrint(
+            '[PurchaseService] Error cancelling trial notifications: $e',
+          );
         }
       }
 
       return PurchaseResult(
         success: true,
-        message: isPro ? 'Pro subscription restored!' : 'No active subscription found',
+        message: isPro
+            ? 'Pro subscription restored!'
+            : 'No active subscription found',
         isPro: isPro,
       );
     } catch (e) {
@@ -342,14 +353,17 @@ class PurchaseService {
     final lastResetStr = prefs.getString(_keyLastMonthlyReset);
 
     // Reset on 1st of each month
-    if (lastResetStr == null || !_isSameMonth(DateTime.parse(lastResetStr), now)) {
+    if (lastResetStr == null ||
+        !_isSameMonth(DateTime.parse(lastResetStr), now)) {
       await prefs.setInt(_keyMonthlyAiUsage, 0);
       await prefs.setString(_keyLastMonthlyReset, now.toIso8601String());
       return isLifetime ? proLifetimeMonthlyLimit : proSubscriptionMonthlyLimit;
     }
 
     final usage = prefs.getInt(_keyMonthlyAiUsage) ?? 0;
-    final limit = isLifetime ? proLifetimeMonthlyLimit : proSubscriptionMonthlyLimit;
+    final limit = isLifetime
+        ? proLifetimeMonthlyLimit
+        : proSubscriptionMonthlyLimit;
     return (limit - usage).clamp(0, limit);
   }
 
@@ -413,7 +427,10 @@ class PurchaseService {
       // Get the product from offerings
       final offerings = await Purchases.getOfferings();
       if (offerings.current == null) {
-        return PurchaseResult(success: false, message: 'No offerings available');
+        return PurchaseResult(
+          success: false,
+          message: 'No offerings available',
+        );
       }
 
       // Find the credit pack product
@@ -547,9 +564,5 @@ class PurchaseResult {
   final String message;
   final bool? isPro;
 
-  PurchaseResult({
-    required this.success,
-    required this.message,
-    this.isPro,
-  });
+  PurchaseResult({required this.success, required this.message, this.isPro});
 }

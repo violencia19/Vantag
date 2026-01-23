@@ -68,7 +68,10 @@ class SavingsPool {
       allocatedToDreams: (data['allocatedToDreams'] as num?)?.toDouble() ?? 0,
       shadowDebt: (data['shadowDebt'] as num?)?.toDouble() ?? 0,
       jokerUsedThisMonth: data['jokerUsedThisMonth'] as bool? ?? false,
-      jokerResetDate: parseDate(data['jokerResetDate'], DateTime(now.year, now.month, 1)),
+      jokerResetDate: parseDate(
+        data['jokerResetDate'],
+        DateTime(now.year, now.month, 1),
+      ),
       lastUpdated: parseDate(data['lastUpdated'], now),
     );
   }

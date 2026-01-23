@@ -15,6 +15,7 @@ class IncomeWizardScreen extends StatefulWidget {
   final UserProfile? existingProfile;
   final List<IncomeSource>? existingSources;
   final bool isEditing;
+
   /// If true, skips salary step and goes directly to additional income form
   final bool skipToAdditional;
 
@@ -93,7 +94,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   void _loadExistingData() {
     // Auto-detect currency from device locale
     final systemLocale = PlatformDispatcher.instance.locale;
-    final defaultCurrency = getDefaultCurrencyForLocale(systemLocale.languageCode);
+    final defaultCurrency = getDefaultCurrencyForLocale(
+      systemLocale.languageCode,
+    );
     _primaryCurrencyCode = defaultCurrency.code;
     _additionalCurrencyCode = defaultCurrency.code;
 
@@ -122,7 +125,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
       }
     }
     // Fallback: widget parametrelerini kontrol et
-    else if (widget.existingSources != null && widget.existingSources!.isNotEmpty) {
+    else if (widget.existingSources != null &&
+        widget.existingSources!.isNotEmpty) {
       _incomeSources = List.from(widget.existingSources!);
 
       // Ana maaşı bul
@@ -136,8 +140,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
         _primaryCurrencyCode = primary.currencyCode;
         _additionalCurrencyCode = primary.currencyCode;
       }
-    }
-    else if (widget.existingProfile != null) {
+    } else if (widget.existingProfile != null) {
       final profile = widget.existingProfile!;
       _incomeSources = List.from(profile.incomeSources);
       _dailyHours = profile.dailyHours;
@@ -203,15 +206,20 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
     final existingPrimaryIndex = _incomeSources.indexWhere((s) => s.isPrimary);
 
     if (existingPrimaryIndex >= 0) {
-      _incomeSources[existingPrimaryIndex] = _incomeSources[existingPrimaryIndex].copyWith(
-        amount: amount,
-        currencyCode: _primaryCurrencyCode,
-      );
+      _incomeSources[existingPrimaryIndex] =
+          _incomeSources[existingPrimaryIndex].copyWith(
+            amount: amount,
+            currencyCode: _primaryCurrencyCode,
+          );
     } else {
-      _incomeSources.insert(0, IncomeSource.salary(
-        amount: amount,
-        currencyCode: _primaryCurrencyCode,
-      ));
+      _incomeSources.insert(
+        0,
+        IncomeSource.salary(
+          amount: amount,
+          title: l10n.mainSalary,
+          currencyCode: _primaryCurrencyCode,
+        ),
+      );
     }
 
     // Set additional income default currency to primary currency
@@ -237,7 +245,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
     }
 
     final source = IncomeSource.additional(
-      title: title.isEmpty ? _selectedCategory!.label : title,
+      title: title.isEmpty ? _selectedCategory!.getLocalizedLabel(l10n) : title,
       amount: amount,
       category: _selectedCategory!,
       currencyCode: _additionalCurrencyCode,
@@ -302,13 +310,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
         SnackBar(
           content: Row(
             children: [
-              Icon(PhosphorIconsDuotone.checkCircle, color: Colors.white),
+              Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.textPrimary),
               const SizedBox(width: 12),
-              Text(
-                widget.isEditing
-                    ? l10n.incomesUpdated
-                    : l10n.incomesSaved,
-              ),
+              Text(widget.isEditing ? l10n.incomesUpdated : l10n.incomesSaved),
             ],
           ),
           backgroundColor: context.appColors.success,
@@ -360,10 +364,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              currency.flag,
-              style: const TextStyle(fontSize: 24),
-            ),
+            Text(currency.flag, style: const TextStyle(fontSize: 24)),
             const SizedBox(width: 12),
             Text(
               '${currency.code} - ${currency.name}',
@@ -400,7 +401,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.95),
+      barrierColor: context.appColors.background.withValues(alpha: 0.95),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -444,14 +445,19 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 8),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
                     decoration: BoxDecoration(
                       color: isSelected
                           ? context.appColors.primary.withValues(alpha: 0.1)
                           : context.appColors.surfaceLight,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: isSelected ? context.appColors.primary : context.appColors.cardBorder,
+                        color: isSelected
+                            ? context.appColors.primary
+                            : context.appColors.cardBorder,
                         width: isSelected ? 2 : 1,
                       ),
                     ),
@@ -471,7 +477,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
-                                  color: isSelected ? context.appColors.primary : context.appColors.textPrimary,
+                                  color: isSelected
+                                      ? context.appColors.primary
+                                      : context.appColors.textPrimary,
                                 ),
                               ),
                               Text(
@@ -489,7 +497,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
-                            color: isSelected ? context.appColors.primary : context.appColors.textSecondary,
+                            color: isSelected
+                                ? context.appColors.primary
+                                : context.appColors.textSecondary,
                           ),
                         ),
                         if (isSelected) ...[
@@ -528,10 +538,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
         ),
         title: Text(
           widget.isEditing ? l10n.editIncomes : l10n.addIncome,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
       ),
@@ -648,9 +655,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
           TextField(
             controller: _salaryController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              TurkishCurrencyInputFormatter(),
-            ],
+            inputFormatters: [TurkishCurrencyInputFormatter()],
             style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.w700,
@@ -746,7 +751,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                           vertical: 12,
                         ),
                         decoration: BoxDecoration(
-                          border: Border.all(color: context.appColors.cardBorder),
+                          border: Border.all(
+                            color: context.appColors.cardBorder,
+                          ),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: DropdownButtonHideUnderline(
@@ -782,7 +789,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               onPressed: _saveSalary,
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.appColors.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: context.appColors.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -866,7 +873,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               onPressed: _nextStep,
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.appColors.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: context.appColors.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -931,7 +938,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   // ============================================
   Widget _buildStep3_AddMore() {
     final l10n = AppLocalizations.of(context);
-    final additionalSources = _incomeSources.where((s) => !s.isPrimary).toList();
+    final additionalSources = _incomeSources
+        .where((s) => !s.isPrimary)
+        .toList();
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
@@ -966,56 +975,59 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             children: IncomeCategory.values
                 .where((c) => c != IncomeCategory.salary)
                 .map((category) {
-              final isSelected = _selectedCategory == category;
-              return GestureDetector(
-                onTap: () {
-                  setState(() => _selectedCategory = category);
-                  HapticFeedback.selectionClick();
-                },
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? context.appColors.primary.withValues(alpha: 0.1)
-                        : context.appColors.surface,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: isSelected
-                          ? context.appColors.primary
-                          : context.appColors.cardBorder,
-                      width: isSelected ? 2 : 1,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        category.icon,
-                        size: 22,
-                        color: isSelected ? category.color : context.appColors.textSecondary,
+                  final isSelected = _selectedCategory == category;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() => _selectedCategory = category);
+                      HapticFeedback.selectionClick();
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        category.label,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: isSelected
-                              ? FontWeight.w600
-                              : FontWeight.w500,
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? context.appColors.primary.withValues(alpha: 0.1)
+                            : context.appColors.surface,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
                           color: isSelected
                               ? context.appColors.primary
-                              : context.appColors.textPrimary,
+                              : context.appColors.cardBorder,
+                          width: isSelected ? 2 : 1,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              );
-            }).toList(),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            category.icon,
+                            size: 22,
+                            color: isSelected
+                                ? category.color
+                                : context.appColors.textSecondary,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            category.getLocalizedLabel(l10n),
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: isSelected
+                                  ? FontWeight.w600
+                                  : FontWeight.w500,
+                              color: isSelected
+                                  ? context.appColors.primary
+                                  : context.appColors.textPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                })
+                .toList(),
           ),
 
           const SizedBox(height: 24),
@@ -1030,7 +1042,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             textCapitalization: TextCapitalization.words,
             decoration: InputDecoration(
               labelText: l10n.descriptionOptional,
-              hintText: _selectedCategory?.label ?? l10n.descriptionOptionalHint,
+              hintText:
+                  _selectedCategory?.getLocalizedLabel(l10n) ??
+                  l10n.descriptionOptionalHint,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -1047,9 +1061,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
           TextField(
             controller: _additionalAmountController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              TurkishCurrencyInputFormatter(),
-            ],
+            inputFormatters: [TurkishCurrencyInputFormatter()],
             decoration: InputDecoration(
               labelText: l10n.monthlyAmount,
               hintText: '0',
@@ -1085,7 +1097,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               label: Text(l10n.addIncome),
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.appColors.success,
-                foregroundColor: Colors.white,
+                foregroundColor: context.appColors.textPrimary,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -1136,7 +1148,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                             ),
                           ),
                           Text(
-                            source.category.label,
+                            source.category.getLocalizedLabel(l10n),
                             style: TextStyle(
                               fontSize: 12,
                               color: context.appColors.textSecondary,
@@ -1174,7 +1186,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             child: ElevatedButton(
               onPressed: () {
                 // If form has filled data, add first
-                final hasAmount = parseAmount(_additionalAmountController.text) != null &&
+                final hasAmount =
+                    parseAmount(_additionalAmountController.text) != null &&
                     parseAmount(_additionalAmountController.text)! > 0;
                 final hasCategory = _selectedCategory != null;
 
@@ -1186,7 +1199,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.appColors.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: context.appColors.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -1220,10 +1233,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   // ============================================
   Widget _buildStep4_Summary() {
     final l10n = AppLocalizations.of(context);
-    final total = _incomeSources.fold<double>(
-      0,
-      (sum, s) => sum + s.amount,
-    );
+    final total = _incomeSources.fold<double>(0, (sum, s) => sum + s.amount);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
@@ -1285,27 +1295,21 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               children: [
                 Text(
                   l10n.totalMonthlyIncome,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.white70,
-                  ),
+                  style: TextStyle(fontSize: 14, color: context.appColors.textPrimary.withValues(alpha: 0.7)),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   '${formatTurkishCurrency(total, decimalDigits: 0, showDecimals: false)} ${getCurrencyByCode(_primaryCurrencyCode).symbol}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.w800,
-                    color: Colors.white,
+                    color: context.appColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   l10n.incomeSourceCount(_incomeSources.length),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.white70,
-                  ),
+                  style: TextStyle(fontSize: 14, color: context.appColors.textPrimary.withValues(alpha: 0.7)),
                 ),
               ],
             ),
@@ -1359,7 +1363,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                           ),
                         ),
                         Text(
-                          source.category.label,
+                          source.category.getLocalizedLabel(l10n),
                           style: TextStyle(
                             fontSize: 12,
                             color: context.appColors.textSecondary,
@@ -1403,19 +1407,19 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               onPressed: _isLoading ? null : _complete,
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.appColors.success,
-                foregroundColor: Colors.white,
+                foregroundColor: context.appColors.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
                 elevation: 0,
               ),
               child: _isLoading
-                  ? const SizedBox(
+                  ? SizedBox(
                       width: 24,
                       height: 24,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: Colors.white,
+                        color: context.appColors.textPrimary,
                       ),
                     )
                   : Text(

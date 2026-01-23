@@ -24,19 +24,33 @@ class InsightService {
     }
   }
 
-  String? getCategoryInsight(BuildContext context, List<Expense> expenses, String category, int month, int year) {
+  String? getCategoryInsight(
+    BuildContext context,
+    List<Expense> expenses,
+    String category,
+    int month,
+    int year,
+  ) {
     final l10n = AppLocalizations.of(context);
-    final categoryExpenses = expenses.where((e) =>
-        e.category == category &&
-        e.date.month == month &&
-        e.date.year == year).toList();
+    final categoryExpenses = expenses
+        .where(
+          (e) =>
+              e.category == category &&
+              e.date.month == month &&
+              e.date.year == year,
+        )
+        .toList();
 
     if (categoryExpenses.length < 2) return null;
 
     final totalHours = categoryExpenses.fold<double>(
-        0, (sum, e) => sum + e.hoursRequired);
+      0,
+      (sum, e) => sum + e.hoursRequired,
+    );
     final totalDays = categoryExpenses.fold<double>(
-        0, (sum, e) => sum + e.daysRequired);
+      0,
+      (sum, e) => sum + e.daysRequired,
+    );
 
     if (totalDays >= 1) {
       return l10n.insightCategoryDays(category, totalDays.toStringAsFixed(1));
@@ -45,15 +59,23 @@ class InsightService {
     }
   }
 
-  String? getMonthlyInsight(BuildContext context, List<Expense> expenses, int month, int year) {
+  String? getMonthlyInsight(
+    BuildContext context,
+    List<Expense> expenses,
+    int month,
+    int year,
+  ) {
     final l10n = AppLocalizations.of(context);
-    final monthExpenses = expenses.where((e) =>
-        e.date.month == month && e.date.year == year).toList();
+    final monthExpenses = expenses
+        .where((e) => e.date.month == month && e.date.year == year)
+        .toList();
 
     if (monthExpenses.isEmpty) return null;
 
     final totalDays = monthExpenses.fold<double>(
-        0, (sum, e) => sum + e.daysRequired);
+      0,
+      (sum, e) => sum + e.daysRequired,
+    );
 
     if (totalDays >= 20) {
       return l10n.insightMonthlyAlmost;

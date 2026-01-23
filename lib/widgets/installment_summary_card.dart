@@ -39,13 +39,15 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
       vsync: this,
     );
 
-    _slideAnimation = Tween<double>(begin: 30, end: 0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    _slideAnimation = Tween<double>(
+      begin: 30,
+      end: 0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
-    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     // Staggered delay based on index
     Future.delayed(Duration(milliseconds: 100 * widget.animationIndex), () {
@@ -74,9 +76,13 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
     final interestHours = widget.budgetService.totalInterestHours;
 
     // Currency conversion
-    final monthlyBurdenConverted = currencyProvider.convertFromTRY(monthlyBurden);
+    final monthlyBurdenConverted = currencyProvider.convertFromTRY(
+      monthlyBurden,
+    );
     final totalDebtConverted = currencyProvider.convertFromTRY(totalDebt);
-    final totalInterestConverted = currencyProvider.convertFromTRY(totalInterest);
+    final totalInterestConverted = currencyProvider.convertFromTRY(
+      totalInterest,
+    );
 
     return AnimatedBuilder(
       animation: _controller,
@@ -88,7 +94,10 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
             child: GlassCard(
               borderRadius: 20,
               padding: const EdgeInsets.all(20),
-              boxShadow: PremiumShadows.coloredGlow(Colors.orange, intensity: 0.2),
+              boxShadow: PremiumShadows.coloredGlow(
+                Colors.orange,
+                intensity: 0.2,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -104,7 +113,10 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                             decoration: BoxDecoration(
                               color: Colors.orange.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(10),
-                              boxShadow: PremiumShadows.coloredGlow(Colors.orange, intensity: 0.3),
+                              boxShadow: PremiumShadows.coloredGlow(
+                                Colors.orange,
+                                intensity: 0.3,
+                              ),
                             ),
                             child: Icon(
                               PhosphorIconsDuotone.creditCard,
@@ -125,7 +137,10 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                         ],
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.orange.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12),
@@ -148,14 +163,19 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                   const SizedBox(height: 16),
 
                   // Taksit listesi (max 3 göster) with staggered animation
-                  ...installments.take(3).toList().asMap().entries.map(
-                    (entry) => _AnimatedInstallmentRow(
-                      index: entry.key,
-                      expense: entry.value,
-                      currencyProvider: currencyProvider,
-                      l10n: l10n,
-                    ),
-                  ),
+                  ...installments
+                      .take(3)
+                      .toList()
+                      .asMap()
+                      .entries
+                      .map(
+                        (entry) => _AnimatedInstallmentRow(
+                          index: entry.key,
+                          expense: entry.value,
+                          currencyProvider: currencyProvider,
+                          l10n: l10n,
+                        ),
+                      ),
 
                   // Daha fazla varsa
                   if (installments.length > 3)
@@ -206,7 +226,9 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                       decoration: BoxDecoration(
                         color: context.appColors.error.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: context.appColors.error.withValues(alpha: 0.2)),
+                        border: Border.all(
+                          color: context.appColors.error.withValues(alpha: 0.2),
+                        ),
                       ),
                       child: Row(
                         children: [
@@ -214,7 +236,9 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                             PhosphorIconsDuotone.trendUp,
                             color: context.appColors.error,
                             size: 16,
-                            shadows: PremiumShadows.iconHalo(context.appColors.error),
+                            shadows: PremiumShadows.iconHalo(
+                              context.appColors.error,
+                            ),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
@@ -262,7 +286,8 @@ class _AnimatedInstallmentRow extends StatefulWidget {
   });
 
   @override
-  State<_AnimatedInstallmentRow> createState() => _AnimatedInstallmentRowState();
+  State<_AnimatedInstallmentRow> createState() =>
+      _AnimatedInstallmentRowState();
 }
 
 class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
@@ -316,7 +341,9 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
     final currentInstallment = widget.expense.currentInstallment ?? 1;
     final totalInstallments = widget.expense.installmentCount ?? 1;
     final progress = currentInstallment / totalInstallments;
-    final installmentAmount = widget.currencyProvider.convertFromTRY(widget.expense.installmentAmount);
+    final installmentAmount = widget.currencyProvider.convertFromTRY(
+      widget.expense.installmentAmount,
+    );
 
     return AnimatedBuilder(
       animation: _controller,
@@ -340,7 +367,9 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                           widget.expense.subCategory?.isNotEmpty == true
                               ? '${widget.expense.category} - ${widget.expense.subCategory}'
                               : widget.expense.category,
-                          style: TextStyle(color: context.appColors.textPrimary),
+                          style: TextStyle(
+                            color: context.appColors.textPrimary,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -370,14 +399,22 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: progress > 0.8
-                                      ? [context.appColors.success, context.appColors.success.withValues(alpha: 0.8)]
+                                      ? [
+                                          context.appColors.success,
+                                          context.appColors.success.withValues(
+                                            alpha: 0.8,
+                                          ),
+                                        ]
                                       : [Colors.orange, Colors.orange.shade600],
                                 ),
                                 borderRadius: BorderRadius.circular(3),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: (progress > 0.8 ? context.appColors.success : Colors.orange)
-                                        .withValues(alpha: 0.4),
+                                    color:
+                                        (progress > 0.8
+                                                ? context.appColors.success
+                                                : Colors.orange)
+                                            .withValues(alpha: 0.4),
                                     blurRadius: 6,
                                     spreadRadius: 0,
                                   ),
@@ -439,13 +476,15 @@ class _AnimatedSummaryItemState extends State<_AnimatedSummaryItem>
       vsync: this,
     );
 
-    _slideAnimation = Tween<double>(begin: 20, end: 0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    _slideAnimation = Tween<double>(
+      begin: 20,
+      end: 0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
-    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     // Staggered delay: 400ms base + 100ms per index
     Future.delayed(Duration(milliseconds: 400 + (100 * widget.index)), () {

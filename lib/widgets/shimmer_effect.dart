@@ -37,15 +37,14 @@ class ShimmerEffect extends StatefulWidget {
   }
 
   /// Yükleme placeholder için
-  factory ShimmerEffect.loading({
-    Key? key,
-    required Widget child,
-  }) {
+  factory ShimmerEffect.loading({Key? key, required Widget child}) {
     return ShimmerEffect(
       key: key,
       colors: const [
         Color(0xFF2A2A40), // AppColors.surfaceLight hardcoded for const factory
-        Color(0xFF35354D), // AppColors.surfaceLighter hardcoded for const factory
+        Color(
+          0xFF35354D,
+        ), // AppColors.surfaceLighter hardcoded for const factory
         Color(0xFF2A2A40), // AppColors.surfaceLight hardcoded for const factory
       ],
       child: child,
@@ -64,17 +63,12 @@ class _ShimmerEffectState extends State<ShimmerEffect>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
+    _controller = AnimationController(vsync: this, duration: widget.duration);
 
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
-      ),
-    );
+    _animation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     if (widget.enabled) {
       _controller.repeat();
@@ -105,12 +99,8 @@ class _ShimmerEffectState extends State<ShimmerEffect>
       return widget.child;
     }
 
-    final colors = widget.colors ??
-        const [
-          Colors.white24,
-          Colors.white54,
-          Colors.white24,
-        ];
+    final colors =
+        widget.colors ?? const [Colors.white24, Colors.white54, Colors.white24];
 
     return RepaintBoundary(
       child: AnimatedBuilder(
@@ -164,10 +154,7 @@ class _ShimmerBorderState extends State<ShimmerBorder>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
+    _controller = AnimationController(vsync: this, duration: widget.duration);
 
     _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
 
@@ -200,7 +187,8 @@ class _ShimmerBorderState extends State<ShimmerBorder>
       return widget.child;
     }
 
-    final colors = widget.colors ??
+    final colors =
+        widget.colors ??
         const [
           Color(0xFFE5E4E2),
           Color(0xFF8ED1FC),
@@ -269,10 +257,7 @@ class LockedOverlay extends StatelessWidget {
                     Colors.black.withValues(alpha: 0.3),
                     BlendMode.darken,
                   )
-                : const ColorFilter.mode(
-                    Colors.transparent,
-                    BlendMode.dst,
-                  ),
+                : const ColorFilter.mode(Colors.transparent, BlendMode.dst),
             child: child,
           ),
         ),

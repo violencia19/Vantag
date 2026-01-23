@@ -83,8 +83,9 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
     super.dispose();
   }
 
-  double get spentPercent =>
-      widget.totalIncome > 0 ? (widget.totalSpent / widget.totalIncome).clamp(0, 1) : 0;
+  double get spentPercent => widget.totalIncome > 0
+      ? (widget.totalSpent / widget.totalIncome).clamp(0, 1)
+      : 0;
 
   bool get isHealthy => widget.netBalance >= 0;
 
@@ -102,10 +103,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              context.appColors.surfaceLight,
-              context.appColors.surface,
-            ],
+            colors: [context.appColors.surfaceLight, context.appColors.surface],
           ),
           borderRadius: BorderRadius.circular(28),
           border: Border.all(
@@ -140,7 +138,10 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
                 // Sources badge
                 if (widget.incomeSourceCount > 0)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: context.appColors.primary.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(20),
@@ -178,7 +179,11 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  formatTurkishCurrency(_displayedBalance, decimalDigits: 0, showDecimals: false),
+                  formatTurkishCurrency(
+                    _displayedBalance,
+                    decimalDigits: 0,
+                    showDecimals: false,
+                  ),
                   style: GoogleFonts.inter(
                     fontSize: 44,
                     fontWeight: FontWeight.w700,
@@ -263,7 +268,11 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
                   child: _StatCard(
                     icon: PhosphorIconsDuotone.arrowDown,
                     label: l10n.income,
-                    value: formatTurkishCurrency(_displayedIncome, decimalDigits: 0, showDecimals: false),
+                    value: formatTurkishCurrency(
+                      _displayedIncome,
+                      decimalDigits: 0,
+                      showDecimals: false,
+                    ),
                     color: context.appColors.success,
                   ),
                 ),
@@ -272,7 +281,11 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
                   child: _StatCard(
                     icon: PhosphorIconsDuotone.arrowUp,
                     label: l10n.expense,
-                    value: formatTurkishCurrency(_displayedSpent, decimalDigits: 0, showDecimals: false),
+                    value: formatTurkishCurrency(
+                      _displayedSpent,
+                      decimalDigits: 0,
+                      showDecimals: false,
+                    ),
                     color: context.appColors.error,
                   ),
                 ),
@@ -335,7 +348,7 @@ class _StatCard extends StatelessWidget {
             style: GoogleFonts.inter(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: Colors.white,
+              color: context.appColors.textPrimary,
             ),
           ),
         ],
@@ -371,28 +384,16 @@ class PremiumCurrencyBand extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.appColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _CurrencyItem(
-            symbol: "USD",
-            value: usdRate ?? "-",
-            isUp: usdUp,
-          ),
+          _CurrencyItem(symbol: "USD", value: usdRate ?? "-", isUp: usdUp),
           _Divider(),
-          _CurrencyItem(
-            symbol: "EUR",
-            value: eurRate ?? "-",
-            isUp: eurUp,
-          ),
+          _CurrencyItem(symbol: "EUR", value: eurRate ?? "-", isUp: eurUp),
           _Divider(),
-          _CurrencyItem(
-            symbol: "Altın",
-            value: goldRate ?? "-",
-            isUp: goldUp,
-          ),
+          _CurrencyItem(symbol: "Altın", value: goldRate ?? "-", isUp: goldUp),
         ],
       ),
     );
@@ -430,7 +431,7 @@ class _CurrencyItem extends StatelessWidget {
               style: GoogleFonts.inter(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: context.appColors.textPrimary,
               ),
             ),
             const SizedBox(width: 4),
@@ -438,7 +439,9 @@ class _CurrencyItem extends StatelessWidget {
               isUp ? "↑" : "↓",
               style: TextStyle(
                 fontSize: 12,
-                color: isUp ? context.appColors.success : context.appColors.error,
+                color: isUp
+                    ? context.appColors.success
+                    : context.appColors.error,
               ),
             ),
           ],
@@ -454,7 +457,7 @@ class _Divider extends StatelessWidget {
     return Container(
       width: 1,
       height: 30,
-      color: Colors.white.withValues(alpha: 0.1),
+      color: context.appColors.cardBorder,
     );
   }
 }
@@ -495,7 +498,7 @@ class PremiumSectionHeader extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: context.appColors.textPrimary,
                 ),
               ),
             ],
@@ -551,7 +554,7 @@ class PremiumTransactionItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: context.appColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+          border: Border.all(color: context.appColors.cardBorder),
         ),
         child: Row(
           children: [
@@ -576,7 +579,7 @@ class PremiumTransactionItem extends StatelessWidget {
                     style: GoogleFonts.inter(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                      color: context.appColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -599,7 +602,9 @@ class PremiumTransactionItem extends StatelessWidget {
                   style: GoogleFonts.inter(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: isExpense ? context.appColors.error : context.appColors.success,
+                    color: isExpense
+                        ? context.appColors.error
+                        : context.appColors.success,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -688,7 +693,7 @@ class PremiumHeader extends StatelessWidget {
                   style: GoogleFonts.inter(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                    color: context.appColors.textPrimary,
                   ),
                 ),
               ],
@@ -714,11 +719,7 @@ class _GlassButton extends StatelessWidget {
   final VoidCallback onTap;
   final int? badge;
 
-  const _GlassButton({
-    required this.icon,
-    required this.onTap,
-    this.badge,
-  });
+  const _GlassButton({required this.icon, required this.onTap, this.badge});
 
   @override
   Widget build(BuildContext context) {
@@ -732,14 +733,18 @@ class _GlassButton extends StatelessWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.05),
+              color: context.appColors.surfaceLight.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+              border: Border.all(color: context.appColors.cardBorder),
             ),
             child: Stack(
               alignment: Alignment.center,
               children: [
-                PhosphorIcon(icon, size: 20, color: context.appColors.textSecondary),
+                PhosphorIcon(
+                  icon,
+                  size: 20,
+                  color: context.appColors.textSecondary,
+                ),
                 if (badge != null)
                   Positioned(
                     top: 6,
@@ -748,10 +753,14 @@ class _GlassButton extends StatelessWidget {
                       width: 16,
                       height: 16,
                       decoration: BoxDecoration(
-                        color: context.appColors.primary.withValues(alpha: 0.15),
+                        color: context.appColors.primary.withValues(
+                          alpha: 0.15,
+                        ),
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: context.appColors.primary.withValues(alpha: 0.3),
+                          color: context.appColors.primary.withValues(
+                            alpha: 0.3,
+                          ),
                         ),
                       ),
                       child: Center(
@@ -842,7 +851,9 @@ class PremiumFloatingNavBar extends StatelessWidget {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: context.appColors.primary.withValues(alpha: 0.4),
+                          color: context.appColors.primary.withValues(
+                            alpha: 0.4,
+                          ),
                           blurRadius: 20,
                           offset: const Offset(0, 5),
                         ),
@@ -902,7 +913,9 @@ class _NavItem extends StatelessWidget {
             PhosphorIcon(
               icon,
               size: 24,
-              color: isSelected ? context.appColors.primary : context.appColors.textTertiary,
+              color: isSelected
+                  ? context.appColors.primary
+                  : context.appColors.textTertiary,
             ),
             const SizedBox(height: 4),
             Text(
@@ -910,7 +923,9 @@ class _NavItem extends StatelessWidget {
               style: GoogleFonts.inter(
                 fontSize: 10,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected ? context.appColors.primary : context.appColors.textTertiary,
+                color: isSelected
+                    ? context.appColors.primary
+                    : context.appColors.textTertiary,
               ),
             ),
             if (isSelected)

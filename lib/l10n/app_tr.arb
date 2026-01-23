@@ -1119,6 +1119,13 @@
   "listening": "Dinleniyor...",
   "voiceNotAvailable": "Bu cihazda sesli giriş kullanılamıyor",
   "microphonePermissionDenied": "Mikrofon izni reddedildi",
+  "microphonePermissionRequired": "Mikrofon izni gerekli",
+  "networkRequired": "İnternet bağlantısı gerekli",
+  "understanding": "Anlıyorum...",
+  "couldNotUnderstandTryAgain": "Anlayamadım, tekrar dene",
+  "couldNotUnderstandSayAgain": "Anlayamadım, tekrar söyle",
+  "sayAgain": "Tekrar söyle",
+  "yesSave": "Evet, kaydet",
   "voiceExpenseAdded": "{amount}₺ {description} eklendi",
   "@voiceExpenseAdded": {
     "placeholders": {
@@ -1931,6 +1938,9 @@
     }
   },
   "pursuitLimitReachedFree": "Ücretsiz hesaplarda 1 aktif hedef olabilir. Sınırsız hedef için premium'a geç!",
+  "pursuitNameRequired": "Lütfen bir isim girin",
+  "pursuitAmountRequired": "Lütfen bir tutar girin",
+  "pursuitAmountInvalid": "Geçerli bir tutar girin",
   "exportPremiumOnly": "Dışa aktarma premium özelliği",
   "multiCurrencyPremium": "Çoklu para birimi premium özelliği. Ücretsiz kullanıcılar sadece TRY kullanabilir.",
   "reportsPremiumOnly": "Aylık ve yıllık raporlar premium özelliği",

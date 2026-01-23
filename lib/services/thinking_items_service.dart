@@ -20,15 +20,17 @@ class ThinkingStats {
   });
 
   factory ThinkingStats.fromExpenses(List<Expense> expenses) {
-    final thinkingItems = expenses.where(
-      (e) => e.decision == ExpenseDecision.thinking,
-    ).toList();
+    final thinkingItems = expenses
+        .where((e) => e.decision == ExpenseDecision.thinking)
+        .toList();
 
     final expiredItems = thinkingItems.where((e) => e.isExpired).toList();
     final pendingItems = thinkingItems.where((e) => !e.isExpired).toList();
 
     // 72 saat sonra hatırlatma gereken öğeler
-    final reminderThreshold = DateTime.now().subtract(const Duration(hours: 72));
+    final reminderThreshold = DateTime.now().subtract(
+      const Duration(hours: 72),
+    );
     final needsReminder = thinkingItems.where((e) {
       final created = e.decisionDate ?? e.date;
       return created.isBefore(reminderThreshold) && !e.isExpired;
@@ -54,7 +56,9 @@ class ThinkingItemsService {
   static const _keyExpiredItemsNotified = 'thinking_expired_notified';
 
   /// Uygulama açılışında süresi dolan öğeleri kontrol et
-  static Future<List<Expense>> checkAndExpireItems(List<Expense> expenses) async {
+  static Future<List<Expense>> checkAndExpireItems(
+    List<Expense> expenses,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
 
     // Son kontrol zamanını al
@@ -69,13 +73,20 @@ class ThinkingItemsService {
     }
 
     // Kontrol zamanını güncelle
-    await prefs.setString(_keyLastExpirationCheck, DateTime.now().toIso8601String());
+    await prefs.setString(
+      _keyLastExpirationCheck,
+      DateTime.now().toIso8601String(),
+    );
 
     // Süresi dolan thinking items'ları bul
-    final expiredItems = expenses.where((e) =>
-        e.decision == ExpenseDecision.thinking &&
-        e.isExpired &&
-        e.status != ExpenseStatus.archived).toList();
+    final expiredItems = expenses
+        .where(
+          (e) =>
+              e.decision == ExpenseDecision.thinking &&
+              e.isExpired &&
+              e.status != ExpenseStatus.archived,
+        )
+        .toList();
 
     return expiredItems;
   }
@@ -100,14 +111,14 @@ class ThinkingItemsService {
 
   /// Düşünme süresini uzat (yeni karar tarihi ile)
   static Expense extendThinkingTime(Expense expense) {
-    return expense.copyWith(
-      decisionDate: DateTime.now(),
-    );
+    return expense.copyWith(decisionDate: DateTime.now());
   }
 
   /// 72 saat sonra hatırlatma gereken öğeleri getir
   static List<Expense> getItemsForReminder(List<Expense> expenses) {
-    final reminderThreshold = DateTime.now().subtract(const Duration(hours: 72));
+    final reminderThreshold = DateTime.now().subtract(
+      const Duration(hours: 72),
+    );
 
     return expenses.where((e) {
       if (e.decision != ExpenseDecision.thinking) return false;
@@ -120,7 +131,9 @@ class ThinkingItemsService {
 
   /// Kategori bazlı kalan süreyi formatla
   static String formatRemainingTime(Duration? remaining) {
-    if (remaining == null || remaining.isNegative || remaining == Duration.zero) {
+    if (remaining == null ||
+        remaining.isNegative ||
+        remaining == Duration.zero) {
       return 'Süre doldu';
     }
 

@@ -103,8 +103,8 @@ class AppAnimations {
   /// Sayfa açılış animasyonu için toplam gecikme
   static Duration pageEntryDelay(int index) {
     return Duration(
-      milliseconds: initialDelay.inMilliseconds +
-                   staggerDelay.inMilliseconds * index,
+      milliseconds:
+          initialDelay.inMilliseconds + staggerDelay.inMilliseconds * index,
     );
   }
 }

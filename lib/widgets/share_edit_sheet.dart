@@ -40,9 +40,9 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.85,
-      decoration: const BoxDecoration(
-        color: Color(0xFF1A1A2E),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: context.appColors.background,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         children: [
@@ -52,7 +52,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: Colors.white24,
+              color: context.appColors.cardBorder,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -62,10 +62,10 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
             padding: const EdgeInsets.all(16),
             child: Text(
               l10n.editYourCard,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: context.appColors.textPrimary,
               ),
             ),
           ),
@@ -104,7 +104,9 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
                 // Amount
                 _buildToggleRow(
                   PhosphorIconsDuotone.coins,
-                  l10n.shareCardAmountLabel(_formatCurrency(widget.yearlyAmount)),
+                  l10n.shareCardAmountLabel(
+                    _formatCurrency(widget.yearlyAmount),
+                  ),
                   showAmount,
                   (val) {
                     HapticFeedback.selectionClick();
@@ -191,7 +193,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.05),
+          color: context.appColors.surfaceLight,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -201,10 +203,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
             Expanded(
               child: Text(
                 label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
+                style: TextStyle(color: context.appColors.textPrimary, fontSize: 16),
               ),
             ),
             if (locked)
@@ -219,7 +218,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
                 onChanged: onChanged,
                 activeTrackColor: context.appColors.primary,
                 inactiveThumbColor: Colors.white54,
-                inactiveTrackColor: Colors.white.withValues(alpha: 0.1),
+                inactiveTrackColor: context.appColors.surfaceLight,
               ),
           ],
         ),

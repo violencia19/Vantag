@@ -36,7 +36,9 @@ class SavingsPoolProvider extends ChangeNotifier {
       _pool = await _service.getPool();
       _isLoading = false;
       notifyListeners();
-      debugPrint('💰 [SavingsPoolProvider] Initial load: available=${_pool.available}, debt=${_pool.shadowDebt}');
+      debugPrint(
+        '💰 [SavingsPoolProvider] Initial load: available=${_pool.available}, debt=${_pool.shadowDebt}',
+      );
 
       // Aylık joker reset kontrolü
       await _service.resetMonthlyJoker();
@@ -49,7 +51,9 @@ class SavingsPoolProvider extends ChangeNotifier {
           _isLoading = false;
           _error = null;
           notifyListeners();
-          debugPrint('💰 [SavingsPoolProvider] Pool updated: available=${pool.available}, debt=${pool.shadowDebt}');
+          debugPrint(
+            '💰 [SavingsPoolProvider] Pool updated: available=${pool.available}, debt=${pool.shadowDebt}',
+          );
         },
         onError: (e) {
           // Stream hatası olsa bile local data'yı kullan, loading'i kapat
@@ -83,7 +87,11 @@ class SavingsPoolProvider extends ChangeNotifier {
 
   /// Hayale para ayır
   /// Returns true if successful, false if needs budget shift dialog
-  Future<AllocationResult> allocateToDream(double amount, String dreamId, {BudgetShiftSource? source}) async {
+  Future<AllocationResult> allocateToDream(
+    double amount,
+    String dreamId, {
+    BudgetShiftSource? source,
+  }) async {
     if (amount <= 0) {
       return AllocationResult.error('Invalid amount');
     }
@@ -100,7 +108,11 @@ class SavingsPoolProvider extends ChangeNotifier {
     }
 
     try {
-      final success = await _service.allocateToDream(amount, dreamId, source: source);
+      final success = await _service.allocateToDream(
+        amount,
+        dreamId,
+        source: source,
+      );
       if (success) {
         return AllocationResult.success();
       } else {
@@ -120,7 +132,11 @@ class SavingsPoolProvider extends ChangeNotifier {
   Future<bool> useJoker(double amount, String dreamId) async {
     if (!canUseJoker) return false;
 
-    final result = await allocateToDream(amount, dreamId, source: BudgetShiftSource.joker);
+    final result = await allocateToDream(
+      amount,
+      dreamId,
+      source: BudgetShiftSource.joker,
+    );
     return result.isSuccess;
   }
 
@@ -178,26 +194,25 @@ class AllocationResult {
     this.errorMessage,
   });
 
-  factory AllocationResult.success() => const AllocationResult._(status: AllocationStatus.success);
+  factory AllocationResult.success() =>
+      const AllocationResult._(status: AllocationStatus.success);
 
-  factory AllocationResult.needsBudgetShift(double shortfall) => AllocationResult._(
-    status: AllocationStatus.needsBudgetShift,
-    shortfall: shortfall,
-  );
+  factory AllocationResult.needsBudgetShift(double shortfall) =>
+      AllocationResult._(
+        status: AllocationStatus.needsBudgetShift,
+        shortfall: shortfall,
+      );
 
   factory AllocationResult.needsFullSource(double amount) => AllocationResult._(
     status: AllocationStatus.needsFullSource,
     shortfall: amount,
   );
 
-  factory AllocationResult.jokerAlreadyUsed() => const AllocationResult._(
-    status: AllocationStatus.jokerAlreadyUsed,
-  );
+  factory AllocationResult.jokerAlreadyUsed() =>
+      const AllocationResult._(status: AllocationStatus.jokerAlreadyUsed);
 
-  factory AllocationResult.error(String message) => AllocationResult._(
-    status: AllocationStatus.error,
-    errorMessage: message,
-  );
+  factory AllocationResult.error(String message) =>
+      AllocationResult._(status: AllocationStatus.error, errorMessage: message);
 
   bool get isSuccess => status == AllocationStatus.success;
   bool get needsBudgetShift => status == AllocationStatus.needsBudgetShift;

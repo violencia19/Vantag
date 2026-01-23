@@ -258,13 +258,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: context.appColors.textPrimary.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(14),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     PhosphorIconsDuotone.gift,
                     size: 24,
-                    color: Colors.white,
+                    color: context.appColors.textPrimary,
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -274,10 +274,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     children: [
                       Text(
                         l10n.inviteFriends,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: Colors.white,
+                          color: context.appColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -285,7 +285,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         l10n.referralRewardInfo,
                         style: TextStyle(
                           fontSize: 12,
-                          color: Colors.white.withValues(alpha: 0.8),
+                          color: context.appColors.textPrimary.withValues(alpha: 0.9),
                         ),
                       ),
                     ],
@@ -304,7 +304,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Colors.white.withValues(alpha: 0.7),
+                    color: context.appColors.textPrimary.withValues(alpha: 0.9),
                   ),
                 ),
               )
@@ -318,10 +318,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     vertical: 12,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.15),
+                    color: context.appColors.textPrimary.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: context.appColors.textPrimary.withValues(alpha: 0.2),
                       width: 1,
                     ),
                   ),
@@ -336,16 +336,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w500,
-                              color: Colors.white.withValues(alpha: 0.7),
+                              color: context.appColors.textPrimary.withValues(alpha: 0.9),
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             _referralCode!,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
-                              color: Colors.white,
+                              color: context.appColors.textPrimary,
                               letterSpacing: 1.2,
                             ),
                           ),
@@ -354,13 +354,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
+                          color: context.appColors.textPrimary.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           PhosphorIconsDuotone.copy,
                           size: 20,
-                          color: Colors.white,
+                          color: context.appColors.textPrimary,
                         ),
                       ),
                     ],
@@ -378,17 +378,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.1),
+                        color: context.appColors.textPrimary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
                         children: [
                           Text(
                             '$_referralCount',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
-                              color: Colors.white,
+                              color: context.appColors.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -398,7 +398,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 .replaceAll('$_referralCount ', ''),
                             style: TextStyle(
                               fontSize: 11,
-                              color: Colors.white.withValues(alpha: 0.7),
+                              color: context.appColors.textPrimary.withValues(alpha: 0.9),
                             ),
                           ),
                         ],
@@ -791,9 +791,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   color: const Color(0xFF1A1A2E),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(
+                child: Icon(
                   PhosphorIconsDuotone.moon,
-                  color: Colors.white,
+                  color: context.appColors.textPrimary,
                   size: 20,
                 ),
               ),
@@ -849,9 +849,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(
+                child: Icon(
                   PhosphorIconsDuotone.deviceMobile,
-                  color: Colors.white,
+                  color: context.appColors.textPrimary,
                   size: 20,
                 ),
               ),
@@ -933,12 +933,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Text(
+              child: Text(
                 'PRO',
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
-                  color: Colors.black,
+                  color: context.appColors.background,
                 ),
               ),
             )
@@ -1132,7 +1132,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     final confirmed = await showDialog<bool>(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.9),
+      barrierColor: context.appColors.background.withValues(alpha: 0.95),
       barrierDismissible: false,
       builder: (context) =>
           _DeleteAccountDialog(confirmWord: confirmWord, l10n: l10n),
@@ -1145,7 +1145,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: Colors.black.withValues(alpha: 0.9),
+        barrierColor: context.appColors.background.withValues(alpha: 0.95),
         builder: (context) => Center(
           child: CircularProgressIndicator(color: context.appColors.primary),
         ),
@@ -1391,7 +1391,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                     disabledBackgroundColor: context.appColors.error.withValues(
                       alpha: 0.3,
                     ),
-                    disabledForegroundColor: Colors.white.withValues(
+                    disabledForegroundColor: context.appColors.textPrimary.withValues(
                       alpha: 0.5,
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 14),

@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 
 enum DurationCategory {
-  short,      // 1-8 hours
-  medium,     // 1-7 days
-  long,       // 7+ days
-  simulation  // 100.000 TL+ (Special category)
+  short, // 1-8 hours
+  medium, // 1-7 days
+  long, // 7+ days
+  simulation, // 100.000 TL+ (Special category)
 }
 
 enum DecisionType {
-  yes,      // Bought
-  no,       // Passed
+  yes, // Bought
+  no, // Passed
   thinking, // Thinking
 }
 
@@ -39,7 +39,10 @@ class MessagesService {
   }
 
   /// Get messages list for duration category
-  List<String> _getMessagesForDuration(BuildContext context, DurationCategory category) {
+  List<String> _getMessagesForDuration(
+    BuildContext context,
+    DurationCategory category,
+  ) {
     final l10n = AppLocalizations.of(context);
     return switch (category) {
       DurationCategory.short => [
@@ -85,7 +88,10 @@ class MessagesService {
     };
   }
 
-  List<String> _getMessagesForDecision(BuildContext context, DecisionType decision) {
+  List<String> _getMessagesForDecision(
+    BuildContext context,
+    DecisionType decision,
+  ) {
     final l10n = AppLocalizations.of(context);
     return switch (decision) {
       DecisionType.yes => [
@@ -123,9 +129,10 @@ class MessagesService {
 
   String _selectRandomMessage(List<String> messages) {
     // Create available indices (0-7) excluding recent ones
-    final availableIndices = List.generate(messages.length, (i) => i)
-        .where((i) => !_recentMessageIndices.contains(i))
-        .toList();
+    final availableIndices = List.generate(
+      messages.length,
+      (i) => i,
+    ).where((i) => !_recentMessageIndices.contains(i)).toList();
 
     final sourceIndices = availableIndices.isEmpty
         ? List.generate(messages.length, (i) => i)
@@ -142,7 +149,11 @@ class MessagesService {
   }
 
   /// Return message based on hours and amount when showing calculation result
-  String getCalculationMessage(BuildContext context, double hours, double amount) {
+  String getCalculationMessage(
+    BuildContext context,
+    double hours,
+    double amount,
+  ) {
     final category = _getDurationCategory(hours, amount);
     final messages = _getMessagesForDuration(context, category);
     return _selectRandomMessage(messages);

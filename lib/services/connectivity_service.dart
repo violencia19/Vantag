@@ -40,7 +40,8 @@ class ConnectivityService {
     final wasConnected = _isConnected;
 
     // none dışında herhangi bir bağlantı varsa connected
-    _isConnected = results.isNotEmpty &&
+    _isConnected =
+        results.isNotEmpty &&
         !results.every((r) => r == ConnectivityResult.none);
 
     // Sadece değişiklik olduğunda bildir

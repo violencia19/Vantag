@@ -16,10 +16,7 @@ import 'onboarding_try_screen.dart';
 class UserProfileScreen extends StatefulWidget {
   final UserProfile? existingProfile;
 
-  const UserProfileScreen({
-    super.key,
-    this.existingProfile,
-  });
+  const UserProfileScreen({super.key, this.existingProfile});
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -42,7 +39,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   bool get _isEditMode => widget.existingProfile != null;
   bool get _hasIncomeSources => _incomeSources.isNotEmpty;
-  double get _totalIncome => _incomeSources.fold<double>(0, (sum, s) => sum + s.amount);
+  double get _totalIncome =>
+      _incomeSources.fold<double>(0, (sum, s) => sum + s.amount);
 
   void _showError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -95,7 +93,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     super.initState();
     if (widget.existingProfile != null) {
       _incomeSources = List.from(widget.existingProfile!.incomeSources);
-      _dailyHoursController.text = widget.existingProfile!.dailyHours.toString();
+      _dailyHoursController.text = widget.existingProfile!.dailyHours
+          .toString();
       _workDaysPerWeek = widget.existingProfile!.workDaysPerWeek;
 
       // Eğer varolan gelirler varsa, toplam geliri göster
@@ -153,9 +152,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => IncomeWizardScreen(
-          existingSources: _incomeSources,
-        ),
+        builder: (context) =>
+            IncomeWizardScreen(existingSources: _incomeSources),
       ),
     );
 
@@ -190,7 +188,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         return;
       }
       // Manuel geliri primary income olarak ekle
-      _incomeSources = [IncomeSource.salary(amount: manualIncome)];
+      _incomeSources = [
+        IncomeSource.salary(amount: manualIncome, title: l10n.mainSalary),
+      ];
     }
 
     // Çalışma saati validasyonu
@@ -269,9 +269,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       // Go to "Aha Moment" try screen before main app
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) => const OnboardingTryScreen(),
-        ),
+        MaterialPageRoute(builder: (context) => const OnboardingTryScreen()),
       );
     }
   }
@@ -281,7 +279,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return showDialog<bool>(
       context: context,
       barrierDismissible: false,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: context.appColors.background.withValues(alpha: 0.9),
       builder: (context) => AlertDialog(
         backgroundColor: context.appColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -328,8 +326,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               child: ElevatedButton.icon(
                 onPressed: () => Navigator.pop(context, true),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black87,
+                  backgroundColor: context.appColors.textPrimary,
+                  foregroundColor: context.appColors.background,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -383,7 +381,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ? AppBar(
               backgroundColor: context.appColors.background,
               leading: IconButton(
-                icon: Icon(PhosphorIconsDuotone.arrowLeft, color: context.appColors.textPrimary),
+                icon: Icon(
+                  PhosphorIconsDuotone.arrowLeft,
+                  color: context.appColors.textPrimary,
+                ),
                 onPressed: () => Navigator.pop(context),
               ),
               title: Text(
@@ -495,7 +496,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             decoration: BoxDecoration(
-                              color: isSelected ? context.appColors.primary : Colors.transparent,
+                              color: isSelected
+                                  ? context.appColors.primary
+                                  : Colors.transparent,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
@@ -504,7 +507,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
-                                color: isSelected ? context.appColors.background : context.appColors.textSecondary,
+                                color: isSelected
+                                    ? context.appColors.background
+                                    : context.appColors.textSecondary,
                               ),
                             ),
                           ),
@@ -548,7 +553,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: context.appColors.primary,
                       foregroundColor: context.appColors.background,
-                      disabledBackgroundColor: context.appColors.primary.withValues(alpha: 0.5),
+                      disabledBackgroundColor: context.appColors.primary
+                          .withValues(alpha: 0.5),
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
@@ -560,7 +566,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             width: 22,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(context.appColors.background),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                context.appColors.background,
+                              ),
                             ),
                           )
                         : Text(
@@ -608,14 +616,21 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 final hasPrimary = _incomeSources.any((s) => s.isPrimary);
                 if (!hasPrimary) {
                   // Yeni maaş ekle
-                  _incomeSources.insert(0, IncomeSource.salary(amount: currentSalary));
+                  _incomeSources.insert(
+                    0,
+                    IncomeSource.salary(
+                      amount: currentSalary,
+                      title: l10n.mainSalary,
+                    ),
+                  );
                 } else {
                   // Mevcut primary income'u güncelle
-                  final primaryIndex = _incomeSources.indexWhere((s) => s.isPrimary);
+                  final primaryIndex = _incomeSources.indexWhere(
+                    (s) => s.isPrimary,
+                  );
                   if (primaryIndex >= 0) {
-                    _incomeSources[primaryIndex] = _incomeSources[primaryIndex].copyWith(
-                      amount: currentSalary,
-                    );
+                    _incomeSources[primaryIndex] = _incomeSources[primaryIndex]
+                        .copyWith(amount: currentSalary);
                   }
                 }
               }
@@ -676,7 +691,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         // Bölüm başlığı
         Row(
           children: [
-            Icon(PhosphorIconsDuotone.chartPieSlice, color: context.appColors.secondary, size: 20),
+            Icon(
+              PhosphorIconsDuotone.chartPieSlice,
+              color: context.appColors.secondary,
+              size: 20,
+            ),
             const SizedBox(width: 8),
             Text(
               l10n.budgetSettings,
@@ -691,10 +710,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         const SizedBox(height: 8),
         Text(
           l10n.budgetSettingsHint,
-          style: TextStyle(
-            color: context.appColors.textTertiary,
-            fontSize: 13,
-          ),
+          style: TextStyle(color: context.appColors.textTertiary, fontSize: 13),
         ),
         const SizedBox(height: 16),
 
@@ -717,7 +733,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               labelText: l10n.monthlySpendingLimit,
               labelStyle: TextStyle(color: context.appColors.textSecondary),
               hintText: '30.000',
-              hintStyle: TextStyle(color: context.appColors.textTertiary.withValues(alpha: 0.5)),
+              hintStyle: TextStyle(
+                color: context.appColors.textTertiary.withValues(alpha: 0.5),
+              ),
               prefixIcon: Container(
                 margin: const EdgeInsets.only(left: 16, right: 12),
                 child: Icon(
@@ -726,7 +744,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   size: 22,
                 ),
               ),
-              prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+              prefixIconConstraints: const BoxConstraints(
+                minWidth: 0,
+                minHeight: 0,
+              ),
               suffixText: currencyProvider.code,
               suffixStyle: TextStyle(
                 fontSize: 14,
@@ -734,17 +755,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 color: context.appColors.textSecondary,
               ),
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
             ),
           ),
         ),
         const SizedBox(height: 6),
         Text(
           l10n.monthlySpendingLimitHint,
-          style: TextStyle(
-            color: context.appColors.textTertiary,
-            fontSize: 12,
-          ),
+          style: TextStyle(color: context.appColors.textTertiary, fontSize: 12),
         ),
 
         const SizedBox(height: 16),
@@ -768,7 +789,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               labelText: l10n.monthlySavingsGoal,
               labelStyle: TextStyle(color: context.appColors.textSecondary),
               hintText: '5.000',
-              hintStyle: TextStyle(color: context.appColors.textTertiary.withValues(alpha: 0.5)),
+              hintStyle: TextStyle(
+                color: context.appColors.textTertiary.withValues(alpha: 0.5),
+              ),
               prefixIcon: Container(
                 margin: const EdgeInsets.only(left: 16, right: 12),
                 child: Icon(
@@ -777,7 +800,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   size: 22,
                 ),
               ),
-              prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+              prefixIconConstraints: const BoxConstraints(
+                minWidth: 0,
+                minHeight: 0,
+              ),
               suffixText: currencyProvider.code,
               suffixStyle: TextStyle(
                 fontSize: 14,
@@ -785,17 +811,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 color: context.appColors.textSecondary,
               ),
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
             ),
           ),
         ),
         const SizedBox(height: 6),
         Text(
           l10n.monthlySavingsGoalHint,
-          style: TextStyle(
-            color: context.appColors.textTertiary,
-            fontSize: 12,
-          ),
+          style: TextStyle(color: context.appColors.textTertiary, fontSize: 12),
         ),
 
         // Bilgi kartı
@@ -805,19 +831,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           decoration: BoxDecoration(
             color: context.appColors.info.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: context.appColors.info.withValues(alpha: 0.3)),
+            border: Border.all(
+              color: context.appColors.info.withValues(alpha: 0.3),
+            ),
           ),
           child: Row(
             children: [
-              Icon(PhosphorIconsDuotone.lightbulb, color: context.appColors.info, size: 20),
+              Icon(
+                PhosphorIconsDuotone.lightbulb,
+                color: context.appColors.info,
+                size: 20,
+              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   l10n.budgetInfoMessage,
-                  style: TextStyle(
-                    color: context.appColors.info,
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: context.appColors.info, fontSize: 12),
                 ),
               ),
             ],
@@ -876,7 +905,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   size: 22,
                 ),
               ),
-              prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+              prefixIconConstraints: const BoxConstraints(
+                minWidth: 0,
+                minHeight: 0,
+              ),
               suffixIcon: _hasPrefilledReferral
                   ? Icon(
                       PhosphorIconsBold.checkCircle,
@@ -885,17 +917,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     )
                   : null,
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
             ),
           ),
         ),
         const SizedBox(height: 6),
         Text(
           l10n.referralCodeHint,
-          style: TextStyle(
-            color: context.appColors.textTertiary,
-            fontSize: 12,
-          ),
+          style: TextStyle(color: context.appColors.textTertiary, fontSize: 12),
         ),
       ],
     );
@@ -939,9 +971,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       child: TextField(
         controller: _incomeController,
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
-        inputFormatters: [
-          TurkishCurrencyInputFormatter(),
-        ],
+        inputFormatters: [TurkishCurrencyInputFormatter()],
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
@@ -960,7 +990,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               size: 24,
             ),
           ),
-          prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+          prefixIconConstraints: const BoxConstraints(
+            minWidth: 0,
+            minHeight: 0,
+          ),
           suffixText: currencyProvider.code,
           suffixStyle: TextStyle(
             fontSize: 16,
@@ -968,7 +1001,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             color: context.appColors.textSecondary,
           ),
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 18,
+          ),
         ),
       ),
     );
@@ -983,7 +1019,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         decoration: BoxDecoration(
           color: context.appColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: context.appColors.primary.withValues(alpha: 0.3)),
+          border: Border.all(
+            color: context.appColors.primary.withValues(alpha: 0.3),
+          ),
         ),
         child: Column(
           children: [
@@ -1031,7 +1069,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ],
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: context.appColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
@@ -1053,37 +1094,39 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               const SizedBox(height: 16),
               Divider(height: 1, color: context.appColors.cardBorder),
               const SizedBox(height: 12),
-              ...(_incomeSources.map((source) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(
-                  children: [
-                    Icon(
-                      source.category.icon,
-                      size: 18,
-                      color: source.category.color,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        source.title,
+              ...(_incomeSources.map(
+                (source) => Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    children: [
+                      Icon(
+                        source.category.icon,
+                        size: 18,
+                        color: source.category.color,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          source.title,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: context.appColors.textSecondary,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Text(
+                        '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} TL',
                         style: TextStyle(
                           fontSize: 13,
-                          color: context.appColors.textSecondary,
+                          fontWeight: FontWeight.w500,
+                          color: context.appColors.textPrimary,
                         ),
-                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                    Text(
-                      '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} TL',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: context.appColors.textPrimary,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ))),
+              )),
             ],
           ],
         ),

@@ -111,7 +111,9 @@ class ExpenseHistoryService {
     debugPrint("🔄 [Firestore] Yazma başlıyor... UID: $uid");
 
     if (uid == null) {
-      debugPrint("❌ [Firestore] HATA: Kullanıcı giriş yapmamış! Auth kontrolü yapın.");
+      debugPrint(
+        "❌ [Firestore] HATA: Kullanıcı giriş yapmamış! Auth kontrolü yapın.",
+      );
       return;
     }
 
@@ -131,13 +133,17 @@ class ExpenseHistoryService {
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
       });
-      debugPrint("✅ [Firestore] Yazma Başarılı! ${expense.amount} TL - ${expense.category}");
+      debugPrint(
+        "✅ [Firestore] Yazma Başarılı! ${expense.amount} TL - ${expense.category}",
+      );
     } on FirebaseException catch (e) {
       debugPrint("❌ [Firestore] Firebase Hatası!");
       debugPrint("   Code: ${e.code}");
       debugPrint("   Message: ${e.message}");
       if (e.code == 'permission-denied') {
-        debugPrint("   💡 ÇÖZÜM: Firebase Console > Firestore > Rules kısmını kontrol edin.");
+        debugPrint(
+          "   💡 ÇÖZÜM: Firebase Console > Firestore > Rules kısmını kontrol edin.",
+        );
         debugPrint("   💡 Test için şu kuralları kullanın:");
         debugPrint("   rules_version = '2';");
         debugPrint("   service cloud.firestore {");
@@ -166,7 +172,9 @@ class ExpenseHistoryService {
     if (collection == null) return;
 
     final docId = _generateExpenseId(expense);
-    debugPrint("🗑️ [Firestore] Silme başlıyor... Path: users/$uid/expenses/$docId");
+    debugPrint(
+      "🗑️ [Firestore] Silme başlıyor... Path: users/$uid/expenses/$docId",
+    );
 
     try {
       await collection.doc(docId).delete();
@@ -179,10 +187,15 @@ class ExpenseHistoryService {
   }
 
   /// Firestore'da bir expense güncelle
-  Future<void> _updateInFirestore(Expense oldExpense, Expense newExpense) async {
+  Future<void> _updateInFirestore(
+    Expense oldExpense,
+    Expense newExpense,
+  ) async {
     final uid = _userId;
     if (uid == null) {
-      debugPrint("⚠️ [Firestore] Güncelleme atlandı - kullanıcı giriş yapmamış");
+      debugPrint(
+        "⚠️ [Firestore] Güncelleme atlandı - kullanıcı giriş yapmamış",
+      );
       return;
     }
 
@@ -403,8 +416,15 @@ class ExpenseHistoryService {
 
     try {
       // Basit bir test yazması yap
-      final testDoc = _firestore.collection('users').doc(uid).collection('_test').doc('connection');
-      await testDoc.set({'test': true, 'timestamp': FieldValue.serverTimestamp()});
+      final testDoc = _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('_test')
+          .doc('connection');
+      await testDoc.set({
+        'test': true,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
       debugPrint("   ✅ Yazma testi başarılı!");
 
       // Test verisini sil
@@ -450,8 +470,10 @@ class ExpenseHistoryService {
     }
 
     try {
-      Query<Map<String, dynamic>> query = collection
-          .orderBy('date', descending: true);
+      Query<Map<String, dynamic>> query = collection.orderBy(
+        'date',
+        descending: true,
+      );
 
       // Offset için: önce offset kadar kayıt atla
       if (offset > 0) {
@@ -464,11 +486,11 @@ class ExpenseHistoryService {
 
       final snapshots = await query.limit(limit).get();
 
-      return snapshots.docs
-          .map((doc) => Expense.fromJson(doc.data()))
-          .toList();
+      return snapshots.docs.map((doc) => Expense.fromJson(doc.data())).toList();
     } on FirebaseException catch (e) {
-      debugPrint("❌ [Firestore] Archive Fetch Hatası: ${e.code} - ${e.message}");
+      debugPrint(
+        "❌ [Firestore] Archive Fetch Hatası: ${e.code} - ${e.message}",
+      );
       return [];
     } catch (e) {
       debugPrint("❌ [Firestore] Beklenmeyen Archive Fetch Hatası: $e");
@@ -488,9 +510,7 @@ class ExpenseHistoryService {
           .orderBy('date', descending: true)
           .get();
 
-      return snapshots.docs
-          .map((doc) => Expense.fromJson(doc.data()))
-          .toList();
+      return snapshots.docs.map((doc) => Expense.fromJson(doc.data())).toList();
     } catch (e) {
       return [];
     }

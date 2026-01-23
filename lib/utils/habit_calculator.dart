@@ -27,7 +27,11 @@ const List<HabitCategoryDef> _habitCategoryDefs = [
   HabitCategoryDef('coffee', PhosphorIconsFill.coffee, Color(0xFF8B4513)),
   HabitCategoryDef('smoking', PhosphorIconsFill.cigarette, Color(0xFF607D8B)),
   HabitCategoryDef('eatingOut', PhosphorIconsFill.hamburger, Color(0xFFFF6B6B)),
-  HabitCategoryDef('gaming', PhosphorIconsFill.gameController, Color(0xFFE74C3C)),
+  HabitCategoryDef(
+    'gaming',
+    PhosphorIconsFill.gameController,
+    Color(0xFFE74C3C),
+  ),
   HabitCategoryDef('clothing', PhosphorIconsFill.tShirt, Color(0xFF9B59B6)),
   HabitCategoryDef('taxi', PhosphorIconsFill.car, Color(0xFF4ECDC4)),
 ];
@@ -35,33 +39,64 @@ const List<HabitCategoryDef> _habitCategoryDefs = [
 /// Get localized category name from key
 String getLocalizedHabitCategory(String key, AppLocalizations l10n) {
   switch (key) {
-    case 'coffee': return l10n.habitCatCoffee;
-    case 'smoking': return l10n.habitCatSmoking;
-    case 'eatingOut': return l10n.habitCatEatingOut;
-    case 'gaming': return l10n.habitCatGaming;
-    case 'clothing': return l10n.habitCatClothing;
-    case 'taxi': return l10n.habitCatTaxi;
-    default: return key;
+    case 'coffee':
+      return l10n.habitCatCoffee;
+    case 'smoking':
+      return l10n.habitCatSmoking;
+    case 'eatingOut':
+      return l10n.habitCatEatingOut;
+    case 'gaming':
+      return l10n.habitCatGaming;
+    case 'clothing':
+      return l10n.habitCatClothing;
+    case 'taxi':
+      return l10n.habitCatTaxi;
+    default:
+      return key;
   }
 }
 
 /// Get localized habit categories list (call with l10n context)
 List<HabitCategory> getLocalizedHabitCategories(AppLocalizations l10n) {
-  return _habitCategoryDefs.map((def) => HabitCategory(
-    def.key,
-    getLocalizedHabitCategory(def.key, l10n),
-    def.icon,
-    def.color,
-  )).toList();
+  return _habitCategoryDefs
+      .map(
+        (def) => HabitCategory(
+          def.key,
+          getLocalizedHabitCategory(def.key, l10n),
+          def.icon,
+          def.color,
+        ),
+      )
+      .toList();
 }
 
 /// Legacy: for backward compatibility (returns Turkish names)
 const List<HabitCategory> defaultHabitCategories = [
   HabitCategory('coffee', 'Kahve', PhosphorIconsFill.coffee, Color(0xFF8B4513)),
-  HabitCategory('smoking', 'Sigara', PhosphorIconsFill.cigarette, Color(0xFF607D8B)),
-  HabitCategory('eatingOut', 'Dışarıda Yemek', PhosphorIconsFill.hamburger, Color(0xFFFF6B6B)),
-  HabitCategory('gaming', 'Oyun/Eğlence', PhosphorIconsFill.gameController, Color(0xFFE74C3C)),
-  HabitCategory('clothing', 'Kıyafet', PhosphorIconsFill.tShirt, Color(0xFF9B59B6)),
+  HabitCategory(
+    'smoking',
+    'Sigara',
+    PhosphorIconsFill.cigarette,
+    Color(0xFF607D8B),
+  ),
+  HabitCategory(
+    'eatingOut',
+    'Dışarıda Yemek',
+    PhosphorIconsFill.hamburger,
+    Color(0xFFFF6B6B),
+  ),
+  HabitCategory(
+    'gaming',
+    'Oyun/Eğlence',
+    PhosphorIconsFill.gameController,
+    Color(0xFFE74C3C),
+  ),
+  HabitCategory(
+    'clothing',
+    'Kıyafet',
+    PhosphorIconsFill.tShirt,
+    Color(0xFF9B59B6),
+  ),
   HabitCategory('taxi', 'Taksi/Uber', PhosphorIconsFill.car, Color(0xFF4ECDC4)),
 ];
 
@@ -105,19 +140,28 @@ class HabitCalculator {
   /// Get localized frequency name from key
   static String getLocalizedFrequency(String key, AppLocalizations l10n) {
     switch (key) {
-      case 'onceDaily': return l10n.freqOnceDaily;
-      case 'twiceDaily': return l10n.freqTwiceDaily;
-      case 'everyTwoDays': return l10n.freqEveryTwoDays;
-      case 'onceWeekly': return l10n.freqOnceWeekly;
-      case 'twoThreeWeekly': return l10n.freqTwoThreeWeekly;
-      case 'fewMonthly': return l10n.freqFewMonthly;
-      default: return key;
+      case 'onceDaily':
+        return l10n.freqOnceDaily;
+      case 'twiceDaily':
+        return l10n.freqTwiceDaily;
+      case 'everyTwoDays':
+        return l10n.freqEveryTwoDays;
+      case 'onceWeekly':
+        return l10n.freqOnceWeekly;
+      case 'twoThreeWeekly':
+        return l10n.freqTwoThreeWeekly;
+      case 'fewMonthly':
+        return l10n.freqFewMonthly;
+      default:
+        return key;
     }
   }
 
   /// Get list of localized frequency strings
   static List<String> getLocalizedFrequencies(AppLocalizations l10n) {
-    return frequencyKeys.map((key) => getLocalizedFrequency(key, l10n)).toList();
+    return frequencyKeys
+        .map((key) => getLocalizedFrequency(key, l10n))
+        .toList();
   }
 
   /// Legacy: for backward compatibility (Turkish names)

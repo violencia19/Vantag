@@ -2827,6 +2827,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get microphonePermissionDenied => 'Microphone permission denied';
 
   @override
+  String get microphonePermissionRequired => 'Microphone permission required';
+
+  @override
+  String get networkRequired => 'Internet connection required';
+
+  @override
+  String get understanding => 'Understanding...';
+
+  @override
+  String get couldNotUnderstandTryAgain => 'Could not understand, try again';
+
+  @override
+  String get couldNotUnderstandSayAgain => 'Could not understand, say again';
+
+  @override
+  String get sayAgain => 'Say again';
+
+  @override
+  String get yesSave => 'Yes, save';
+
+  @override
   String voiceExpenseAdded(String amount, String description) {
     return '$amount₺ $description added';
   }
@@ -4320,6 +4341,15 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get pursuitLimitReachedFree =>
       'Free accounts can have 1 active goal. Go premium for unlimited goals!';
+
+  @override
+  String get pursuitNameRequired => 'Please enter a name';
+
+  @override
+  String get pursuitAmountRequired => 'Please enter an amount';
+
+  @override
+  String get pursuitAmountInvalid => 'Please enter a valid amount';
 
   @override
   String get exportPremiumOnly => 'Export is a premium feature';

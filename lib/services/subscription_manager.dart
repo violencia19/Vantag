@@ -30,12 +30,15 @@ class SubscriptionManager {
   /// Cache geçerli mi?
   bool get _isCacheValid {
     if (_lastCacheTime == null) return false;
-    return DateTime.now().difference(_lastCacheTime!).inMinutes < _cacheValidityMinutes;
+    return DateTime.now().difference(_lastCacheTime!).inMinutes <
+        _cacheValidityMinutes;
   }
 
   /// Profil ve abonelikleri yükle (cache'li)
   Future<void> _ensureLoaded() async {
-    if (_isCacheValid && _cachedProfile != null && _cachedSubscriptions != null) {
+    if (_isCacheValid &&
+        _cachedProfile != null &&
+        _cachedSubscriptions != null) {
       return;
     }
 
@@ -83,7 +86,10 @@ class SubscriptionManager {
 
   /// Belirli bir ay için abonelikleri gün bazında grupla (takvim görünümü için)
   /// Key: Ayın günü (1-31), Value: O gün yenilenen abonelikler
-  Future<Map<int, List<Subscription>>> getSubscriptionsByDay(int year, int month) async {
+  Future<Map<int, List<Subscription>>> getSubscriptionsByDay(
+    int year,
+    int month,
+  ) async {
     final active = await getActiveSubscriptions();
     final Map<int, List<Subscription>> result = {};
 
@@ -105,7 +111,8 @@ class SubscriptionManager {
     final profile = _cachedProfile!;
 
     // Aylık çalışma saati: workDaysPerWeek * 4.33 * dailyHours
-    final monthlyWorkHours = profile.workDaysPerWeek * 4.33 * profile.dailyHours;
+    final monthlyWorkHours =
+        profile.workDaysPerWeek * 4.33 * profile.dailyHours;
     if (monthlyWorkHours <= 0) return 0;
 
     // Saatlik ücret
@@ -128,7 +135,8 @@ class SubscriptionManager {
 
     final profile = _cachedProfile!;
 
-    final monthlyWorkHours = profile.workDaysPerWeek * 4.33 * profile.dailyHours;
+    final monthlyWorkHours =
+        profile.workDaysPerWeek * 4.33 * profile.dailyHours;
     if (monthlyWorkHours <= 0) return 0;
 
     final hourlyRate = profile.monthlyIncome / monthlyWorkHours;

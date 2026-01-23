@@ -29,7 +29,12 @@ class AccessibleText {
     double minScale = 1.0,
   }) {
     return TextStyle(
-      fontSize: scaledFontSize(context, fontSize, maxScale: maxScale, minScale: minScale),
+      fontSize: scaledFontSize(
+        context,
+        fontSize,
+        maxScale: maxScale,
+        minScale: minScale,
+      ),
       fontWeight: fontWeight,
       color: color,
       height: height,
@@ -173,14 +178,9 @@ class ScalableText extends StatelessWidget {
       alignment: textAlign == TextAlign.center
           ? Alignment.center
           : textAlign == TextAlign.right
-              ? Alignment.centerRight
-              : Alignment.centerLeft,
-      child: Text(
-        text,
-        style: style,
-        textAlign: textAlign,
-        maxLines: maxLines,
-      ),
+          ? Alignment.centerRight
+          : Alignment.centerLeft,
+      child: Text(text, style: style, textAlign: textAlign, maxLines: maxLines),
     );
   }
 }
@@ -204,10 +204,7 @@ class AccessibleTouchTarget extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minWidth: minSize,
-          minHeight: minSize,
-        ),
+        constraints: BoxConstraints(minWidth: minSize, minHeight: minSize),
         child: Center(child: child),
       ),
     );

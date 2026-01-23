@@ -63,10 +63,7 @@ class PremiumTheme {
   static const LinearGradient cardGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [
-      Color(0x0DFFFFFF),
-      Color(0x05FFFFFF),
-    ],
+    colors: [Color(0x0DFFFFFF), Color(0x05FFFFFF)],
   );
 
   // ============================================
@@ -192,10 +189,7 @@ class _CountingNumberState extends State<CountingNumber>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
+    _controller = AnimationController(duration: widget.duration, vsync: this);
     _setupAnimation();
     _controller.forward();
   }
@@ -204,10 +198,7 @@ class _CountingNumberState extends State<CountingNumber>
     _animation = Tween<double>(
       begin: _previousValue,
       end: widget.value,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutCubic,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
   }
 
   @override
@@ -292,9 +283,10 @@ class _GradientButtonState extends State<GradientButton>
       duration: const Duration(milliseconds: 100),
       vsync: this,
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.97).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.97,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -414,11 +406,7 @@ class GlowingIcon extends StatelessWidget {
         ],
       ),
       child: Center(
-        child: PhosphorIcon(
-          icon,
-          color: color,
-          size: size,
-        ),
+        child: PhosphorIcon(icon, color: color, size: size),
       ),
     );
   }
@@ -453,9 +441,10 @@ class _PremiumPressableState extends State<PremiumPressable>
       duration: const Duration(milliseconds: 100),
       vsync: this,
     );
-    _animation = Tween<double>(begin: 1.0, end: widget.scaleFactor).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 1.0,
+      end: widget.scaleFactor,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -477,10 +466,7 @@ class _PremiumPressableState extends State<PremiumPressable>
       child: AnimatedBuilder(
         animation: _animation,
         builder: (context, child) {
-          return Transform.scale(
-            scale: _animation.value,
-            child: widget.child,
-          );
+          return Transform.scale(scale: _animation.value, child: widget.child);
         },
       ),
     );
@@ -626,7 +612,8 @@ class PremiumIcons {
   static PhosphorIconData get bank => PhosphorIconsDuotone.bank;
   static PhosphorIconData get piggyBank => PhosphorIconsDuotone.piggyBank;
   static PhosphorIconData get coins => PhosphorIconsDuotone.coins;
-  static PhosphorIconData get currencyDollar => PhosphorIconsDuotone.currencyDollar;
+  static PhosphorIconData get currencyDollar =>
+      PhosphorIconsDuotone.currencyDollar;
   static PhosphorIconData get trendUp => PhosphorIconsDuotone.trendUp;
   static PhosphorIconData get trendDown => PhosphorIconsDuotone.trendDown;
   static PhosphorIconData get receipt => PhosphorIconsDuotone.receipt;
@@ -645,7 +632,8 @@ class PremiumIcons {
 
   // Time & Calendar
   static PhosphorIconData get calendar => PhosphorIconsDuotone.calendar;
-  static PhosphorIconData get calendarCheck => PhosphorIconsDuotone.calendarCheck;
+  static PhosphorIconData get calendarCheck =>
+      PhosphorIconsDuotone.calendarCheck;
   static PhosphorIconData get clock => PhosphorIconsDuotone.clock;
   static PhosphorIconData get timer => PhosphorIconsDuotone.timer;
   static PhosphorIconData get hourglass => PhosphorIconsDuotone.hourglass;
@@ -654,7 +642,8 @@ class PremiumIcons {
   static PhosphorIconData get food => PhosphorIconsDuotone.forkKnife;
   static PhosphorIconData get shopping => PhosphorIconsDuotone.shoppingCart;
   static PhosphorIconData get transport => PhosphorIconsDuotone.car;
-  static PhosphorIconData get entertainment => PhosphorIconsDuotone.gameController;
+  static PhosphorIconData get entertainment =>
+      PhosphorIconsDuotone.gameController;
   static PhosphorIconData get health => PhosphorIconsDuotone.heartbeat;
   static PhosphorIconData get education => PhosphorIconsDuotone.graduationCap;
   static PhosphorIconData get home_ => PhosphorIconsDuotone.house;

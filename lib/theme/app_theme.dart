@@ -32,7 +32,9 @@ class AppColors {
   // Surface colors (glass effect)
   static const Color surface = Color(0x08FFFFFF); // rgba(255,255,255,0.03)
   static const Color surfaceLight = Color(0x0DFFFFFF); // rgba(255,255,255,0.05)
-  static const Color surfaceLighter = Color(0x14FFFFFF); // rgba(255,255,255,0.08)
+  static const Color surfaceLighter = Color(
+    0x14FFFFFF,
+  ); // rgba(255,255,255,0.08)
 
   // ═══════════════════════════════════════════════════════
   // ANA RENKLER
@@ -127,26 +129,17 @@ class AppGradients {
   static const LinearGradient primaryButton = LinearGradient(
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
-    colors: [
-      AppColors.primary,
-      AppColors.secondary,
-    ],
+    colors: [AppColors.primary, AppColors.secondary],
   );
 
   /// Progress bar gradienti
   static const LinearGradient progress = LinearGradient(
-    colors: [
-      AppColors.primary,
-      AppColors.secondary,
-    ],
+    colors: [AppColors.primary, AppColors.secondary],
   );
 
   /// Success gradienti
   static const LinearGradient success = LinearGradient(
-    colors: [
-      AppColors.secondary,
-      Color(0xFF3DBDB5),
-    ],
+    colors: [AppColors.secondary, Color(0xFF3DBDB5)],
   );
 }
 
@@ -163,38 +156,66 @@ class AppFonts {
   /// Font fallback list for Turkish character support
   /// These system fonts are used when characters (ı, ğ, ü, ş, ö, ç, İ) are missing
   static const List<String> fontFallback = [
-    'SF Pro Display',    // iOS
-    'Roboto',            // Android
-    'Segoe UI',          // Windows
+    'SF Pro Display', // iOS
+    'Roboto', // Android
+    'Segoe UI', // Windows
     'Apple Color Emoji', // Emoji support
-    'Noto Sans',         // Universal fallback
+    'Noto Sans', // Universal fallback
   ];
 
   /// Create TextStyle with Turkish character fallback
   static TextStyle withFallback(TextStyle style) {
-    return style.copyWith(
-      fontFamilyFallback: fontFallback,
-    );
+    return style.copyWith(fontFamilyFallback: fontFallback);
   }
 
   /// Apply font fallback to entire TextTheme
   static TextTheme applyFallbackToTextTheme(TextTheme textTheme) {
     return TextTheme(
-      displayLarge: textTheme.displayLarge?.copyWith(fontFamilyFallback: fontFallback),
-      displayMedium: textTheme.displayMedium?.copyWith(fontFamilyFallback: fontFallback),
-      displaySmall: textTheme.displaySmall?.copyWith(fontFamilyFallback: fontFallback),
-      headlineLarge: textTheme.headlineLarge?.copyWith(fontFamilyFallback: fontFallback),
-      headlineMedium: textTheme.headlineMedium?.copyWith(fontFamilyFallback: fontFallback),
-      headlineSmall: textTheme.headlineSmall?.copyWith(fontFamilyFallback: fontFallback),
-      titleLarge: textTheme.titleLarge?.copyWith(fontFamilyFallback: fontFallback),
-      titleMedium: textTheme.titleMedium?.copyWith(fontFamilyFallback: fontFallback),
-      titleSmall: textTheme.titleSmall?.copyWith(fontFamilyFallback: fontFallback),
-      bodyLarge: textTheme.bodyLarge?.copyWith(fontFamilyFallback: fontFallback),
-      bodyMedium: textTheme.bodyMedium?.copyWith(fontFamilyFallback: fontFallback),
-      bodySmall: textTheme.bodySmall?.copyWith(fontFamilyFallback: fontFallback),
-      labelLarge: textTheme.labelLarge?.copyWith(fontFamilyFallback: fontFallback),
-      labelMedium: textTheme.labelMedium?.copyWith(fontFamilyFallback: fontFallback),
-      labelSmall: textTheme.labelSmall?.copyWith(fontFamilyFallback: fontFallback),
+      displayLarge: textTheme.displayLarge?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      displayMedium: textTheme.displayMedium?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      displaySmall: textTheme.displaySmall?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      headlineLarge: textTheme.headlineLarge?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      headlineMedium: textTheme.headlineMedium?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      headlineSmall: textTheme.headlineSmall?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      titleLarge: textTheme.titleLarge?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      titleMedium: textTheme.titleMedium?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      titleSmall: textTheme.titleSmall?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      bodyLarge: textTheme.bodyLarge?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      bodyMedium: textTheme.bodyMedium?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      bodySmall: textTheme.bodySmall?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      labelLarge: textTheme.labelLarge?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      labelMedium: textTheme.labelMedium?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
+      labelSmall: textTheme.labelSmall?.copyWith(
+        fontFamilyFallback: fontFallback,
+      ),
     );
   }
 }
@@ -227,10 +248,7 @@ class AppTheme {
           fontWeight: FontWeight.w700,
           letterSpacing: -0.5,
         ),
-        iconTheme: IconThemeData(
-          color: AppColorsLight.textPrimary,
-          size: 24,
-        ),
+        iconTheme: IconThemeData(color: AppColorsLight.textPrimary, size: 24),
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.dark,
@@ -244,10 +262,7 @@ class AppTheme {
         shadowColor: AppColorsLight.cardShadow,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(
-            color: AppColorsLight.cardBorder,
-            width: 1,
-          ),
+          side: const BorderSide(color: AppColorsLight.cardBorder, width: 1),
         ),
         margin: EdgeInsets.zero,
       ),
@@ -271,16 +286,16 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: AppColorsLight.textSecondary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          textStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
+          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColorsLight.surfaceLight,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 18,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: const BorderSide(color: AppColorsLight.cardBorder),
@@ -315,13 +330,8 @@ class AppTheme {
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColorsLight.textPrimary,
-        contentTextStyle: const TextStyle(
-          color: Colors.white,
-          fontSize: 14,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        contentTextStyle: const TextStyle(color: Colors.white, fontSize: 14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         behavior: SnackBarBehavior.floating,
       ),
       dividerTheme: const DividerThemeData(
@@ -465,10 +475,7 @@ class AppTheme {
           fontWeight: FontWeight.w700,
           letterSpacing: -0.5,
         ),
-        iconTheme: IconThemeData(
-          color: AppColors.textPrimary,
-          size: 24,
-        ),
+        iconTheme: IconThemeData(color: AppColors.textPrimary, size: 24),
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.light,
@@ -480,10 +487,7 @@ class AppTheme {
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(
-            color: AppColors.cardBorder,
-            width: 1,
-          ),
+          side: const BorderSide(color: AppColors.cardBorder, width: 1),
         ),
         margin: EdgeInsets.zero,
       ),
@@ -507,16 +511,16 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: AppColors.textSecondary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          textStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
+          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surface,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 18,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: const BorderSide(color: AppColors.cardBorder),
@@ -538,10 +542,7 @@ class AppTheme {
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
-        hintStyle: const TextStyle(
-          color: AppColors.textTertiary,
-          fontSize: 16,
-        ),
+        hintStyle: const TextStyle(color: AppColors.textTertiary, fontSize: 16),
       ),
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: AppColors.gradientMid,
@@ -555,9 +556,7 @@ class AppTheme {
           color: AppColors.textPrimary,
           fontSize: 14,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         behavior: SnackBarBehavior.floating,
       ),
       dividerTheme: const DividerThemeData(
@@ -726,28 +725,18 @@ class _PremiumPageTransition extends StatelessWidget {
     final slideAnimation = Tween<Offset>(
       begin: const Offset(0.15, 0),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: animation,
-      curve: Curves.easeInOutCubic,
-    ));
+    ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOutCubic));
 
     // Secondary animation for existing page (slight fade)
-    final secondaryFade = Tween<double>(
-      begin: 1.0,
-      end: 0.95,
-    ).animate(CurvedAnimation(
-      parent: secondaryAnimation,
-      curve: Curves.easeInOutCubic,
-    ));
+    final secondaryFade = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: secondaryAnimation, curve: Curves.easeInOutCubic),
+    );
 
     return FadeTransition(
       opacity: fadeAnimation,
       child: SlideTransition(
         position: slideAnimation,
-        child: FadeTransition(
-          opacity: secondaryFade,
-          child: child,
-        ),
+        child: FadeTransition(opacity: secondaryFade, child: child),
       ),
     );
   }
@@ -759,29 +748,29 @@ class PremiumModalRoute<T> extends PageRouteBuilder<T> {
   final Widget page;
 
   PremiumModalRoute({required this.page})
-      : super(
-          pageBuilder: (context, animation, secondaryAnimation) => page,
-          transitionDuration: const Duration(milliseconds: 300),
-          reverseTransitionDuration: const Duration(milliseconds: 250),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            final curvedAnimation = CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeOutCubic,
-              reverseCurve: Curves.easeInCubic,
-            );
+    : super(
+        pageBuilder: (context, animation, secondaryAnimation) => page,
+        transitionDuration: const Duration(milliseconds: 300),
+        reverseTransitionDuration: const Duration(milliseconds: 250),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final curvedAnimation = CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeOutCubic,
+            reverseCurve: Curves.easeInCubic,
+          );
 
-            return FadeTransition(
-              opacity: curvedAnimation,
-              child: SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, 0.1),
-                  end: Offset.zero,
-                ).animate(curvedAnimation),
-                child: child,
-              ),
-            );
-          },
-        );
+          return FadeTransition(
+            opacity: curvedAnimation,
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 0.1),
+                end: Offset.zero,
+              ).animate(curvedAnimation),
+              child: child,
+            ),
+          );
+        },
+      );
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -811,17 +800,25 @@ class _ThemeColors {
   const _ThemeColors(this._isDark);
 
   // Backgrounds
-  Color get background => _isDark ? AppColors.background : AppColorsLight.background;
-  Color get cardBackground => _isDark ? AppColors.cardBackground : AppColorsLight.cardBackground;
-  Color get surfaceElevated => _isDark ? AppColors.surfaceElevated : AppColorsLight.surfaceElevated;
+  Color get background =>
+      _isDark ? AppColors.background : AppColorsLight.background;
+  Color get cardBackground =>
+      _isDark ? AppColors.cardBackground : AppColorsLight.cardBackground;
+  Color get surfaceElevated =>
+      _isDark ? AppColors.surfaceElevated : AppColorsLight.surfaceElevated;
   Color get surface => _isDark ? AppColors.surface : AppColorsLight.surface;
-  Color get surfaceLight => _isDark ? AppColors.surfaceLight : AppColorsLight.surfaceLight;
-  Color get surfaceLighter => _isDark ? AppColors.surfaceLighter : AppColorsLight.surfaceLighter;
+  Color get surfaceLight =>
+      _isDark ? AppColors.surfaceLight : AppColorsLight.surfaceLight;
+  Color get surfaceLighter =>
+      _isDark ? AppColors.surfaceLighter : AppColorsLight.surfaceLighter;
 
   // Gradient colors
-  Color get gradientStart => _isDark ? AppColors.gradientStart : AppColorsLight.gradientStart;
-  Color get gradientMid => _isDark ? AppColors.gradientMid : AppColorsLight.gradientMid;
-  Color get gradientEnd => _isDark ? AppColors.gradientEnd : AppColorsLight.gradientEnd;
+  Color get gradientStart =>
+      _isDark ? AppColors.gradientStart : AppColorsLight.gradientStart;
+  Color get gradientMid =>
+      _isDark ? AppColors.gradientMid : AppColorsLight.gradientMid;
+  Color get gradientEnd =>
+      _isDark ? AppColors.gradientEnd : AppColorsLight.gradientEnd;
 
   // Primary colors (same in both themes)
   Color get primary => AppColors.primary;
@@ -832,9 +829,12 @@ class _ThemeColors {
   Color get gold => AppColors.gold;
 
   // Text colors
-  Color get textPrimary => _isDark ? AppColors.textPrimary : AppColorsLight.textPrimary;
-  Color get textSecondary => _isDark ? AppColors.textSecondary : AppColorsLight.textSecondary;
-  Color get textTertiary => _isDark ? AppColors.textTertiary : AppColorsLight.textTertiary;
+  Color get textPrimary =>
+      _isDark ? AppColors.textPrimary : AppColorsLight.textPrimary;
+  Color get textSecondary =>
+      _isDark ? AppColors.textSecondary : AppColorsLight.textSecondary;
+  Color get textTertiary =>
+      _isDark ? AppColors.textTertiary : AppColorsLight.textTertiary;
 
   // Status colors
   Color get success => _isDark ? AppColors.success : AppColorsLight.success;
@@ -843,14 +843,21 @@ class _ThemeColors {
   Color get info => _isDark ? AppColors.info : AppColorsLight.info;
 
   // Decision colors
-  Color get decisionYes => _isDark ? AppColors.decisionYes : AppColorsLight.decisionYes;
-  Color get decisionThinking => _isDark ? AppColors.decisionThinking : AppColorsLight.decisionThinking;
-  Color get decisionNo => _isDark ? AppColors.decisionNo : AppColorsLight.decisionNo;
+  Color get decisionYes =>
+      _isDark ? AppColors.decisionYes : AppColorsLight.decisionYes;
+  Color get decisionThinking =>
+      _isDark ? AppColors.decisionThinking : AppColorsLight.decisionThinking;
+  Color get decisionNo =>
+      _isDark ? AppColors.decisionNo : AppColorsLight.decisionNo;
 
   // Card colors
-  Color get cardBackgroundGlass => _isDark ? AppColors.cardBackgroundGlass : AppColorsLight.cardBackgroundGlass;
-  Color get cardBorder => _isDark ? AppColors.cardBorder : AppColorsLight.cardBorder;
-  Color get cardShadow => _isDark ? AppColors.cardShadow : AppColorsLight.cardShadow;
+  Color get cardBackgroundGlass => _isDark
+      ? AppColors.cardBackgroundGlass
+      : AppColorsLight.cardBackgroundGlass;
+  Color get cardBorder =>
+      _isDark ? AppColors.cardBorder : AppColorsLight.cardBorder;
+  Color get cardShadow =>
+      _isDark ? AppColors.cardShadow : AppColorsLight.cardShadow;
 
   // Background gradient
   LinearGradient get backgroundGradient => LinearGradient(

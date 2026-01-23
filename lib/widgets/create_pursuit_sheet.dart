@@ -112,7 +112,7 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                     ),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Lütfen bir isim girin';
+                        return l10n.pursuitNameRequired;
                       }
                       return null;
                     },
@@ -139,11 +139,11 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                     ],
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Lütfen bir tutar girin';
+                        return l10n.pursuitAmountRequired;
                       }
                       final amount = _parseAmount(value);
                       if (amount <= 0) {
-                        return 'Geçerli bir tutar girin';
+                        return l10n.pursuitAmountInvalid;
                       }
                       return null;
                     },
@@ -425,7 +425,7 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Hata: $e'),
+            content: Text('${l10n.error}: $e'),
             backgroundColor: QuietLuxury.negative,
           ),
         );

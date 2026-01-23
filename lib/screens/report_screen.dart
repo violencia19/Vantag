@@ -15,10 +15,7 @@ enum TimeFilter { week, month, all }
 class ReportScreen extends StatefulWidget {
   final UserProfile userProfile;
 
-  const ReportScreen({
-    super.key,
-    required this.userProfile,
-  });
+  const ReportScreen({super.key, required this.userProfile});
 
   @override
   State<ReportScreen> createState() => _ReportScreenState();
@@ -153,7 +150,9 @@ class _ReportScreenState extends State<ReportScreen>
     final firstDayLastMonth = DateTime(now.year, now.month - 1, 1);
 
     return allExpenses.where((expense) {
-      return expense.date.isAfter(firstDayLastMonth.subtract(const Duration(days: 1))) &&
+      return expense.date.isAfter(
+            firstDayLastMonth.subtract(const Duration(days: 1)),
+          ) &&
           expense.date.isBefore(firstDayThisMonth);
     }).toList();
   }
@@ -164,7 +163,9 @@ class _ReportScreenState extends State<ReportScreen>
     final firstDayThisMonth = DateTime(now.year, now.month, 1);
 
     return allExpenses.where((expense) {
-      return expense.date.isAfter(firstDayThisMonth.subtract(const Duration(days: 1)));
+      return expense.date.isAfter(
+        firstDayThisMonth.subtract(const Duration(days: 1)),
+      );
     }).toList();
   }
 
@@ -238,7 +239,9 @@ class _ReportScreenState extends State<ReportScreen>
             if (!hasData)
               SliverFillRemaining(
                 hasScrollBody: false,
-                child: EmptyState.reports(message: l10n.notEnoughDataForReports),
+                child: EmptyState.reports(
+                  message: l10n.notEnoughDataForReports,
+                ),
               )
             else ...[
               // Summary cards with staggered animation
@@ -282,7 +285,11 @@ class _ReportScreenState extends State<ReportScreen>
                     delay: const Duration(milliseconds: 100),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: _buildSubCategoryInsightCard(expenses, allExpenses, l10n),
+                      child: _buildSubCategoryInsightCard(
+                        expenses,
+                        allExpenses,
+                        l10n,
+                      ),
                     ),
                   ),
                 ),
@@ -464,8 +471,8 @@ class _ReportScreenState extends State<ReportScreen>
                     color: isLocked
                         ? context.appColors.textTertiary
                         : isSelected
-                            ? context.appColors.background
-                            : context.appColors.textSecondary,
+                        ? context.appColors.background
+                        : context.appColors.textSecondary,
                   ),
                 ),
               ),
@@ -511,7 +518,9 @@ class _ReportScreenState extends State<ReportScreen>
                 title: l10n.totalSaved,
                 value: totalSaved,
                 suffix: ' TL',
-                subtitle: l10n.hoursRequired(stats.savedHours.toStringAsFixed(1)),
+                subtitle: l10n.hoursRequired(
+                  stats.savedHours.toStringAsFixed(1),
+                ),
                 color: context.appColors.decisionNo,
                 icon: PhosphorIconsDuotone.shieldCheck,
               ),
@@ -540,8 +549,12 @@ class _ReportScreenState extends State<ReportScreen>
                 value: savingsRate,
                 prefix: '%',
                 isInteger: true,
-                subtitle: savingsRate >= 50 ? l10n.doingGreat : l10n.canDoBetter,
-                color: savingsRate >= 50 ? context.appColors.success : context.appColors.warning,
+                subtitle: savingsRate >= 50
+                    ? l10n.doingGreat
+                    : l10n.canDoBetter,
+                color: savingsRate >= 50
+                    ? context.appColors.success
+                    : context.appColors.warning,
                 icon: PhosphorIconsDuotone.trendUp,
               ),
             ),
@@ -568,7 +581,10 @@ class _ReportScreenState extends State<ReportScreen>
   // NEW: MONTH COMPARISON CARD (This Month vs Last Month)
   // ═══════════════════════════════════════════════════════════════════════════
 
-  Widget _buildMonthComparisonCard(List<Expense> allExpenses, AppLocalizations l10n) {
+  Widget _buildMonthComparisonCard(
+    List<Expense> allExpenses,
+    AppLocalizations l10n,
+  ) {
     final thisMonthExpenses = _getThisMonthExpenses(allExpenses);
     final lastMonthExpenses = _getLastMonthExpenses(allExpenses);
 
@@ -666,13 +682,18 @@ class _ReportScreenState extends State<ReportScreen>
               ),
               // VS Arrow and Percentage
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: isNoChange
                       ? context.appColors.surfaceLight
                       : (isDecrease
-                          ? context.appColors.success.withValues(alpha: 0.15)
-                          : context.appColors.warning.withValues(alpha: 0.15)),
+                            ? context.appColors.success.withValues(alpha: 0.15)
+                            : context.appColors.warning.withValues(
+                                alpha: 0.15,
+                              )),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
@@ -691,14 +712,20 @@ class _ReportScreenState extends State<ReportScreen>
                         isNoChange
                             ? l10n.noChange
                             : (isDecrease
-                                ? l10n.decreasedBy(percentChange.abs().toStringAsFixed(0))
-                                : l10n.increasedBy(percentChange.abs().toStringAsFixed(0))),
+                                  ? l10n.decreasedBy(
+                                      percentChange.abs().toStringAsFixed(0),
+                                    )
+                                  : l10n.increasedBy(
+                                      percentChange.abs().toStringAsFixed(0),
+                                    )),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: isNoChange
                               ? context.appColors.textSecondary
-                              : (isDecrease ? context.appColors.success : context.appColors.warning),
+                              : (isDecrease
+                                    ? context.appColors.success
+                                    : context.appColors.warning),
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -708,7 +735,9 @@ class _ReportScreenState extends State<ReportScreen>
                             : (isDecrease ? l10n.greatProgress : l10n.watchOut),
                         style: TextStyle(
                           fontSize: 10,
-                          color: isDecrease ? context.appColors.success : context.appColors.warning,
+                          color: isDecrease
+                              ? context.appColors.success
+                              : context.appColors.warning,
                         ),
                       ),
                     ],
@@ -754,7 +783,10 @@ class _ReportScreenState extends State<ReportScreen>
   // NEW: WORK HOURS BAR CHART
   // ═══════════════════════════════════════════════════════════════════════════
 
-  Widget _buildWorkHoursBarChart(List<Expense> expenses, AppLocalizations l10n) {
+  Widget _buildWorkHoursBarChart(
+    List<Expense> expenses,
+    AppLocalizations l10n,
+  ) {
     final hourlyRate = _calculateHourlyRate();
 
     // Calculate work hours per category
@@ -864,11 +896,7 @@ class _ReportScreenState extends State<ReportScreen>
                     children: [
                       Row(
                         children: [
-                          Icon(
-                            categoryIcon,
-                            size: 18,
-                            color: color,
-                          ),
+                          Icon(categoryIcon, size: 18, color: color),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
@@ -923,10 +951,7 @@ class _ReportScreenState extends State<ReportScreen>
                           child: Container(
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                colors: [
-                                  color,
-                                  color.withValues(alpha: 0.7),
-                                ],
+                                colors: [color, color.withValues(alpha: 0.7)],
                               ),
                               borderRadius: BorderRadius.circular(4),
                               boxShadow: [
@@ -965,7 +990,11 @@ class _ReportScreenState extends State<ReportScreen>
   // NEW: SMART INSIGHT CARDS
   // ═══════════════════════════════════════════════════════════════════════════
 
-  Widget _buildSmartInsightCards(List<Expense> expenses, List<Expense> allExpenses, AppLocalizations l10n) {
+  Widget _buildSmartInsightCards(
+    List<Expense> expenses,
+    List<Expense> allExpenses,
+    AppLocalizations l10n,
+  ) {
     final hourlyRate = _calculateHourlyRate();
 
     // 1. Most Expensive Day
@@ -984,7 +1013,9 @@ class _ReportScreenState extends State<ReportScreen>
       final dayAverages = dayTotals.map((day, amounts) {
         return MapEntry(day, amounts.reduce((a, b) => a + b) / amounts.length);
       });
-      final maxEntry = dayAverages.entries.reduce((a, b) => a.value > b.value ? a : b);
+      final maxEntry = dayAverages.entries.reduce(
+        (a, b) => a.value > b.value ? a : b,
+      );
       mostExpensiveDay = _getDayName(maxEntry.key, l10n);
       mostExpensiveDayAvg = maxEntry.value;
     }
@@ -993,13 +1024,16 @@ class _ReportScreenState extends State<ReportScreen>
     final passedCounts = <String, int>{};
     for (final expense in expenses) {
       if (expense.decision == ExpenseDecision.no) {
-        passedCounts[expense.category] = (passedCounts[expense.category] ?? 0) + 1;
+        passedCounts[expense.category] =
+            (passedCounts[expense.category] ?? 0) + 1;
       }
     }
     String? mostPassedCategory;
     int mostPassedCount = 0;
     if (passedCounts.isNotEmpty) {
-      final maxEntry = passedCounts.entries.reduce((a, b) => a.value > b.value ? a : b);
+      final maxEntry = passedCounts.entries.reduce(
+        (a, b) => a.value > b.value ? a : b,
+      );
       mostPassedCategory = maxEntry.key;
       mostPassedCount = maxEntry.value;
     }
@@ -1015,7 +1049,9 @@ class _ReportScreenState extends State<ReportScreen>
     String? highestCategory;
     double savingsHours = 0;
     if (categoryTotals.isNotEmpty) {
-      final maxEntry = categoryTotals.entries.reduce((a, b) => a.value > b.value ? a : b);
+      final maxEntry = categoryTotals.entries.reduce(
+        (a, b) => a.value > b.value ? a : b,
+      );
       highestCategory = maxEntry.key;
       // 20% savings in hours
       savingsHours = hourlyRate > 0 ? (maxEntry.value * 0.2) / hourlyRate : 0.0;
@@ -1028,10 +1064,12 @@ class _ReportScreenState extends State<ReportScreen>
       final weekStart = now.subtract(Duration(days: 7 * (i + 1)));
       final weekEnd = now.subtract(Duration(days: 7 * i));
       final weekTotal = allExpenses
-          .where((e) =>
-              e.decision == ExpenseDecision.yes &&
-              e.date.isAfter(weekStart) &&
-              e.date.isBefore(weekEnd))
+          .where(
+            (e) =>
+                e.decision == ExpenseDecision.yes &&
+                e.date.isAfter(weekStart) &&
+                e.date.isBefore(weekEnd),
+          )
           .fold<double>(0, (sum, e) => sum + e.amount);
       weeklyTotals[i] = weekTotal;
     }
@@ -1111,7 +1149,10 @@ class _ReportScreenState extends State<ReportScreen>
                   value: mostExpensiveDay != null
                       ? l10n.mostExpensiveDayValue(
                           mostExpensiveDay,
-                          formatTurkishCurrency(mostExpensiveDayAvg, decimalDigits: 0),
+                          formatTurkishCurrency(
+                            mostExpensiveDayAvg,
+                            decimalDigits: 0,
+                          ),
                         )
                       : '-',
                 ),
@@ -1123,7 +1164,13 @@ class _ReportScreenState extends State<ReportScreen>
                   iconColor: context.appColors.success,
                   title: l10n.mostPassedCategory,
                   value: mostPassedCategory != null
-                      ? l10n.mostPassedCategoryValue(CategoryUtils.getLocalizedName(context, mostPassedCategory), mostPassedCount)
+                      ? l10n.mostPassedCategoryValue(
+                          CategoryUtils.getLocalizedName(
+                            context,
+                            mostPassedCategory,
+                          ),
+                          mostPassedCount,
+                        )
                       : '-',
                 ),
               ),
@@ -1139,7 +1186,10 @@ class _ReportScreenState extends State<ReportScreen>
                   title: l10n.savingsOpportunity,
                   value: highestCategory != null
                       ? l10n.savingsOpportunityValue(
-                          CategoryUtils.getLocalizedName(context, highestCategory),
+                          CategoryUtils.getLocalizedName(
+                            context,
+                            highestCategory,
+                          ),
                           savingsHours.toStringAsFixed(1),
                         )
                       : '-',
@@ -1193,7 +1243,11 @@ class _ReportScreenState extends State<ReportScreen>
     final dailyTotals = <DateTime, double>{};
     for (final expense in allExpenses) {
       if (expense.decision == ExpenseDecision.yes) {
-        final day = DateTime(expense.date.year, expense.date.month, expense.date.day);
+        final day = DateTime(
+          expense.date.year,
+          expense.date.month,
+          expense.date.day,
+        );
         dailyTotals[day] = (dailyTotals[day] ?? 0) + expense.amount;
       }
     }
@@ -1221,7 +1275,8 @@ class _ReportScreenState extends State<ReportScreen>
       final week = <DateTime?>[];
       for (int i = 0; i < 7; i++) {
         if (currentDate.isAfter(startDate.subtract(const Duration(days: 1))) &&
-            (currentDate.isBefore(today) || currentDate.isAtSameMomentAs(today))) {
+            (currentDate.isBefore(today) ||
+                currentDate.isAtSameMomentAs(today))) {
           week.add(currentDate);
         } else {
           week.add(null);
@@ -1236,13 +1291,16 @@ class _ReportScreenState extends State<ReportScreen>
     if (_selectedHeatmapDay != null) {
       final amount = dailyTotals[_selectedHeatmapDay] ?? 0;
       final count = allExpenses
-          .where((e) =>
-              e.decision == ExpenseDecision.yes &&
-              e.date.year == _selectedHeatmapDay!.year &&
-              e.date.month == _selectedHeatmapDay!.month &&
-              e.date.day == _selectedHeatmapDay!.day)
+          .where(
+            (e) =>
+                e.decision == ExpenseDecision.yes &&
+                e.date.year == _selectedHeatmapDay!.year &&
+                e.date.month == _selectedHeatmapDay!.month &&
+                e.date.day == _selectedHeatmapDay!.day,
+          )
           .length;
-      final dateStr = '${_selectedHeatmapDay!.day}/${_selectedHeatmapDay!.month}';
+      final dateStr =
+          '${_selectedHeatmapDay!.day}/${_selectedHeatmapDay!.month}';
       selectedDayInfo = l10n.selectedDayExpenses(
         dateStr,
         formatTurkishCurrency(amount, decimalDigits: 0),
@@ -1320,8 +1378,11 @@ class _ReportScreenState extends State<ReportScreen>
                     }
 
                     final amount = dailyTotals[day] ?? 0;
-                    final intensity = maxAmount > 0 ? (amount / maxAmount) : 0.0;
-                    final isSelected = _selectedHeatmapDay != null &&
+                    final intensity = maxAmount > 0
+                        ? (amount / maxAmount)
+                        : 0.0;
+                    final isSelected =
+                        _selectedHeatmapDay != null &&
                         day.year == _selectedHeatmapDay!.year &&
                         day.month == _selectedHeatmapDay!.month &&
                         day.day == _selectedHeatmapDay!.day;
@@ -1342,7 +1403,10 @@ class _ReportScreenState extends State<ReportScreen>
                               : _getHeatmapColor(intensity),
                           borderRadius: BorderRadius.circular(2),
                           border: isSelected
-                              ? Border.all(color: context.appColors.textPrimary, width: 1)
+                              ? Border.all(
+                                  color: context.appColors.textPrimary,
+                                  width: 1,
+                                )
                               : null,
                         ),
                       ),
@@ -1437,7 +1501,10 @@ class _ReportScreenState extends State<ReportScreen>
     }
   }
 
-  Widget _buildAnimatedCategoryChart(List<Expense> expenses, AppLocalizations l10n) {
+  Widget _buildAnimatedCategoryChart(
+    List<Expense> expenses,
+    AppLocalizations l10n,
+  ) {
     final categoryTotals = <String, double>{};
     for (final expense in expenses) {
       if (expense.decision == ExpenseDecision.yes) {
@@ -1521,12 +1588,16 @@ class _ReportScreenState extends State<ReportScreen>
                               ? sortedCategories.asMap().entries.map((entry) {
                                   final index = entry.key;
                                   final value = entry.value.value;
-                                  final percentage = total > 0 ? (value / total * 100) : 0.0;
+                                  final percentage = total > 0
+                                      ? (value / total * 100)
+                                      : 0.0;
                                   final isTop = index == 0;
 
                                   return PieChartSectionData(
                                     value: value,
-                                    title: isTop ? '%${percentage.toStringAsFixed(0)}' : '',
+                                    title: isTop
+                                        ? '%${percentage.toStringAsFixed(0)}'
+                                        : '',
                                     color: colors[index % colors.length],
                                     radius: isTop ? 50 : 40,
                                     titleStyle: const TextStyle(
@@ -1553,79 +1624,111 @@ class _ReportScreenState extends State<ReportScreen>
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: sortedCategories.take(5).toList().asMap().entries.map((entry) {
-                        final index = entry.key;
-                        final category = entry.value.key;
-                        final value = entry.value.value;
-                        final percentage = total > 0 ? (value / total * 100) : 0.0;
-                        final isTop = index == 0;
+                      children: sortedCategories
+                          .take(5)
+                          .toList()
+                          .asMap()
+                          .entries
+                          .map((entry) {
+                            final index = entry.key;
+                            final category = entry.value.key;
+                            final value = entry.value.value;
+                            final percentage = total > 0
+                                ? (value / total * 100)
+                                : 0.0;
+                            final isTop = index == 0;
 
-                        return TweenAnimationBuilder<double>(
-                          tween: Tween<double>(begin: 0, end: _showCharts ? 1.0 : 0),
-                          duration: Duration(
-                            milliseconds: 300 + (index * 50),
-                          ),
-                          curve: AppAnimations.standardCurve,
-                          builder: (context, animValue, child) {
-                            return Opacity(
-                              opacity: animValue,
-                              child: Transform.translate(
-                                offset: Offset(20 * (1 - animValue), 0),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 4),
-                                  child: Row(
-                                    children: [
-                                      // Soft glow for top category
-                                      Container(
-                                        width: 10,
-                                        height: 10,
-                                        decoration: BoxDecoration(
-                                          color: colors[index % colors.length],
-                                          borderRadius: BorderRadius.circular(2),
-                                          boxShadow: isTop
-                                              ? [
-                                                  BoxShadow(
-                                                    color: colors[index % colors.length]
-                                                        .withValues(alpha: 0.5),
-                                                    blurRadius: 6,
-                                                    spreadRadius: 1,
-                                                  ),
-                                                ]
-                                              : null,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: Text(
-                                          CategoryUtils.getLocalizedName(context, category),
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: isTop ? FontWeight.w600 : FontWeight.w400,
-                                            color: isTop
-                                                ? context.appColors.textPrimary
-                                                : context.appColors.textSecondary,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      Text(
-                                        '%${percentage.toStringAsFixed(0)}',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          color: isTop
-                                              ? colors[index % colors.length]
-                                              : context.appColors.textTertiary,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                            return TweenAnimationBuilder<double>(
+                              tween: Tween<double>(
+                                begin: 0,
+                                end: _showCharts ? 1.0 : 0,
                               ),
+                              duration: Duration(
+                                milliseconds: 300 + (index * 50),
+                              ),
+                              curve: AppAnimations.standardCurve,
+                              builder: (context, animValue, child) {
+                                return Opacity(
+                                  opacity: animValue,
+                                  child: Transform.translate(
+                                    offset: Offset(20 * (1 - animValue), 0),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 4,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          // Soft glow for top category
+                                          Container(
+                                            width: 10,
+                                            height: 10,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  colors[index % colors.length],
+                                              borderRadius:
+                                                  BorderRadius.circular(2),
+                                              boxShadow: isTop
+                                                  ? [
+                                                      BoxShadow(
+                                                        color:
+                                                            colors[index %
+                                                                    colors
+                                                                        .length]
+                                                                .withValues(
+                                                                  alpha: 0.5,
+                                                                ),
+                                                        blurRadius: 6,
+                                                        spreadRadius: 1,
+                                                      ),
+                                                    ]
+                                                  : null,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Expanded(
+                                            child: Text(
+                                              CategoryUtils.getLocalizedName(
+                                                context,
+                                                category,
+                                              ),
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: isTop
+                                                    ? FontWeight.w600
+                                                    : FontWeight.w400,
+                                                color: isTop
+                                                    ? context
+                                                          .appColors
+                                                          .textPrimary
+                                                    : context
+                                                          .appColors
+                                                          .textSecondary,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          Text(
+                                            '%${percentage.toStringAsFixed(0)}',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,
+                                              color: isTop
+                                                  ? colors[index %
+                                                        colors.length]
+                                                  : context
+                                                        .appColors
+                                                        .textTertiary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             );
-                          },
-                        );
-                      }).toList(),
+                          })
+                          .toList(),
                     ),
                   ),
                 ],
@@ -1648,8 +1751,11 @@ class _ReportScreenState extends State<ReportScreen>
   }
 
   /// Alt kategori karşılaştırmalı insight
-  ({String subCategory, double changePercent, bool isIncrease})? _getSubCategoryComparisonInsight(
-      List<Expense> currentExpenses, List<Expense> previousExpenses) {
+  ({String subCategory, double changePercent, bool isIncrease})?
+  _getSubCategoryComparisonInsight(
+    List<Expense> currentExpenses,
+    List<Expense> previousExpenses,
+  ) {
     if (_selectedFilter == TimeFilter.all) return null;
     if (previousExpenses.isEmpty) return null;
 
@@ -1657,7 +1763,8 @@ class _ReportScreenState extends State<ReportScreen>
       final totals = <String, double>{};
       for (final expense in expenses) {
         if (expense.decision != ExpenseDecision.yes) continue;
-        if (expense.subCategory == null || expense.subCategory!.isEmpty) continue;
+        if (expense.subCategory == null || expense.subCategory!.isEmpty)
+          continue;
         totals[expense.subCategory!] =
             (totals[expense.subCategory!] ?? 0) + expense.amount;
       }
@@ -1679,7 +1786,8 @@ class _ReportScreenState extends State<ReportScreen>
       final previousAmount = previousTotals[subCat] ?? 0;
 
       if (previousAmount > 0) {
-        final changePercent = ((currentAmount - previousAmount) / previousAmount) * 100;
+        final changePercent =
+            ((currentAmount - previousAmount) / previousAmount) * 100;
         if (changePercent.abs() > bestChangePercent.abs()) {
           bestSubCategory = subCat;
           bestChangePercent = changePercent;
@@ -1697,9 +1805,16 @@ class _ReportScreenState extends State<ReportScreen>
     );
   }
 
-  Widget _buildSubCategoryInsightCard(List<Expense> expenses, List<Expense> allExpenses, AppLocalizations l10n) {
+  Widget _buildSubCategoryInsightCard(
+    List<Expense> expenses,
+    List<Expense> allExpenses,
+    AppLocalizations l10n,
+  ) {
     final previousExpenses = _getPreviousPeriodExpenses(allExpenses);
-    final insight = _getSubCategoryComparisonInsight(expenses, previousExpenses);
+    final insight = _getSubCategoryComparisonInsight(
+      expenses,
+      previousExpenses,
+    );
     if (insight == null) return const SizedBox.shrink();
 
     final periodLabel = switch (_selectedFilter) {
@@ -1715,7 +1830,9 @@ class _ReportScreenState extends State<ReportScreen>
     };
 
     final changeText = insight.isIncrease ? l10n.increased : l10n.decreased;
-    final accentColor = insight.isIncrease ? context.appColors.warning : context.appColors.success;
+    final accentColor = insight.isIncrease
+        ? context.appColors.warning
+        : context.appColors.success;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -1729,9 +1846,7 @@ class _ReportScreenState extends State<ReportScreen>
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: accentColor.withValues(alpha: 0.15),
-        ),
+        border: Border.all(color: accentColor.withValues(alpha: 0.15)),
       ),
       child: Row(
         children: [
@@ -1756,7 +1871,13 @@ class _ReportScreenState extends State<ReportScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  l10n.subCategoryChange(periodLabel, insight.subCategory, changeText, insight.changePercent.toStringAsFixed(0), previousLabel),
+                  l10n.subCategoryChange(
+                    periodLabel,
+                    insight.subCategory,
+                    changeText,
+                    insight.changePercent.toStringAsFixed(0),
+                    previousLabel,
+                  ),
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -1769,7 +1890,9 @@ class _ReportScreenState extends State<ReportScreen>
                   l10n.comparedToPrevious,
                   style: TextStyle(
                     fontSize: 12,
-                    color: context.appColors.textTertiary.withValues(alpha: 0.8),
+                    color: context.appColors.textTertiary.withValues(
+                      alpha: 0.8,
+                    ),
                   ),
                 ),
               ],
@@ -1780,20 +1903,28 @@ class _ReportScreenState extends State<ReportScreen>
     );
   }
 
-  bool _hasComparisonInsight(List<Expense> expenses, List<Expense> allExpenses) {
+  bool _hasComparisonInsight(
+    List<Expense> expenses,
+    List<Expense> allExpenses,
+  ) {
     if (_selectedFilter == TimeFilter.all) return false;
     final previousExpenses = _getPreviousPeriodExpenses(allExpenses);
     return _getSubCategoryComparisonInsight(expenses, previousExpenses) != null;
   }
 
   bool _hasSubCategories(List<Expense> expenses) {
-    return expenses.any((e) =>
-        e.subCategory != null &&
-        e.subCategory!.isNotEmpty &&
-        e.decision == ExpenseDecision.yes);
+    return expenses.any(
+      (e) =>
+          e.subCategory != null &&
+          e.subCategory!.isNotEmpty &&
+          e.decision == ExpenseDecision.yes,
+    );
   }
 
-  Widget _buildSubCategoryBreakdown(List<Expense> expenses, AppLocalizations l10n) {
+  Widget _buildSubCategoryBreakdown(
+    List<Expense> expenses,
+    AppLocalizations l10n,
+  ) {
     final Map<String, Map<String, double>> categoryBreakdown = {};
 
     for (final expense in expenses) {
@@ -1877,7 +2008,10 @@ class _ReportScreenState extends State<ReportScreen>
             final sortedSubs = subCategories.entries.toList()
               ..sort((a, b) => b.value.compareTo(a.value));
 
-            final mainTotal = subCategories.values.fold<double>(0, (s, v) => s + v);
+            final mainTotal = subCategories.values.fold<double>(
+              0,
+              (s, v) => s + v,
+            );
 
             return Padding(
               padding: EdgeInsets.only(
@@ -1986,7 +2120,9 @@ class _ReportScreenState extends State<ReportScreen>
   }
 
   Widget _buildStatistics(List<Expense> expenses, AppLocalizations l10n) {
-    final yesExpenses = expenses.where((e) => e.decision == ExpenseDecision.yes).toList();
+    final yesExpenses = expenses
+        .where((e) => e.decision == ExpenseDecision.yes)
+        .toList();
     final totalSpent = yesExpenses.fold<double>(0, (sum, e) => sum + e.amount);
 
     int dayCount;
@@ -2013,10 +2149,13 @@ class _ReportScreenState extends State<ReportScreen>
         ? yesExpenses.reduce((a, b) => a.amount > b.amount ? a : b)
         : null;
 
-    final noExpenses = expenses.where((e) => e.decision == ExpenseDecision.no).toList();
+    final noExpenses = expenses
+        .where((e) => e.decision == ExpenseDecision.no)
+        .toList();
     final noCategoryCounts = <String, int>{};
     for (final expense in noExpenses) {
-      noCategoryCounts[expense.category] = (noCategoryCounts[expense.category] ?? 0) + 1;
+      noCategoryCounts[expense.category] =
+          (noCategoryCounts[expense.category] ?? 0) + 1;
     }
     String? mostDeclinedCategory;
     int mostDeclinedCount = 0;
@@ -2049,7 +2188,8 @@ class _ReportScreenState extends State<ReportScreen>
           _buildStatRow(
             icon: PhosphorIconsDuotone.calendar,
             label: l10n.avgDailyExpense,
-            value: '${formatTurkishCurrency(dailyAverage, decimalDigits: 2)} TL',
+            value:
+                '${formatTurkishCurrency(dailyAverage, decimalDigits: 2)} TL',
           ),
           const SizedBox(height: 12),
           _buildStatRow(
@@ -2108,7 +2248,11 @@ class _ReportScreenState extends State<ReportScreen>
     );
   }
 
-  Widget _buildTrendCard(List<Expense> expenses, List<Expense> allExpenses, AppLocalizations l10n) {
+  Widget _buildTrendCard(
+    List<Expense> expenses,
+    List<Expense> allExpenses,
+    AppLocalizations l10n,
+  ) {
     final previousExpenses = _getPreviousPeriodExpenses(allExpenses);
 
     final currentSpent = expenses
@@ -2128,11 +2272,16 @@ class _ReportScreenState extends State<ReportScreen>
         : 0.0;
 
     final isPositive = difference <= 0;
-    final periodLabel = _selectedFilter == TimeFilter.week ? l10n.periodWeek : l10n.periodMonth;
+    final periodLabel = _selectedFilter == TimeFilter.week
+        ? l10n.periodWeek
+        : l10n.periodMonth;
 
     String message;
     if (previousSpent == 0) {
-      message = l10n.trendSpentThisPeriod(formatTurkishCurrency(currentSpent, decimalDigits: 2), periodLabel);
+      message = l10n.trendSpentThisPeriod(
+        formatTurkishCurrency(currentSpent, decimalDigits: 2),
+        periodLabel,
+      );
     } else if (difference == 0) {
       message = l10n.trendSameAsPrevious(periodLabel);
     } else {
@@ -2167,8 +2316,12 @@ class _ReportScreenState extends State<ReportScreen>
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(
-              isPositive ? PhosphorIconsDuotone.trendDown : PhosphorIconsDuotone.trendUp,
-              color: isPositive ? context.appColors.success : context.appColors.warning,
+              isPositive
+                  ? PhosphorIconsDuotone.trendDown
+                  : PhosphorIconsDuotone.trendUp,
+              color: isPositive
+                  ? context.appColors.success
+                  : context.appColors.warning,
               size: 22,
             ),
           ),
@@ -2190,7 +2343,9 @@ class _ReportScreenState extends State<ReportScreen>
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: isPositive ? context.appColors.success : context.appColors.warning,
+                    color: isPositive
+                        ? context.appColors.success
+                        : context.appColors.warning,
                   ),
                 ),
               ],
@@ -2276,11 +2431,7 @@ class _InsightMiniCard extends StatelessWidget {
                   color: iconColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Icon(
-                  icon,
-                  size: 14,
-                  color: iconColor,
-                ),
+                child: Icon(icon, size: 14, color: iconColor),
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -2319,10 +2470,7 @@ class _AnimatedSlideIn extends StatefulWidget {
   final Widget child;
   final Duration delay;
 
-  const _AnimatedSlideIn({
-    required this.child,
-    this.delay = Duration.zero,
-  });
+  const _AnimatedSlideIn({required this.child, this.delay = Duration.zero});
 
   @override
   State<_AnimatedSlideIn> createState() => _AnimatedSlideInState();
@@ -2367,10 +2515,7 @@ class _AnimatedSlideInState extends State<_AnimatedSlideIn>
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _fadeAnimation,
-      child: SlideTransition(
-        position: _slideAnimation,
-        child: widget.child,
-      ),
+      child: SlideTransition(position: _slideAnimation, child: widget.child),
     );
   }
 }
@@ -2419,10 +2564,7 @@ class _AnimatedSummaryCardState extends State<_AnimatedSummaryCard>
     );
 
     _scaleAnimation = Tween<double>(begin: 0.95, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: AppAnimations.standardCurve,
-      ),
+      CurvedAnimation(parent: _controller, curve: AppAnimations.standardCurve),
     );
 
     Future.delayed(widget.delay, () {
@@ -2483,9 +2625,11 @@ class _AnimatedSummaryCardState extends State<_AnimatedSummaryCard>
                 builder: (context, animValue, child) {
                   String text;
                   if (widget.isInteger) {
-                    text = '${widget.prefix ?? ''}${animValue.toInt()}${widget.suffix ?? ''}';
+                    text =
+                        '${widget.prefix ?? ''}${animValue.toInt()}${widget.suffix ?? ''}';
                   } else {
-                    text = '${widget.prefix ?? ''}${animValue.toStringAsFixed(0)}${widget.suffix ?? ''}';
+                    text =
+                        '${widget.prefix ?? ''}${animValue.toStringAsFixed(0)}${widget.suffix ?? ''}';
                   }
                   return Text(
                     text,

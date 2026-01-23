@@ -3,17 +3,15 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'notification_service.dart';
 
 /// Push notification service for Firebase Cloud Messaging
 /// Only active on iOS and Android platforms
 /// On desktop platforms (Windows, macOS, Linux), this service is a no-op
 class PushNotificationService {
-  static final PushNotificationService _instance = PushNotificationService._internal();
+  static final PushNotificationService _instance =
+      PushNotificationService._internal();
   factory PushNotificationService() => _instance;
   PushNotificationService._internal();
-
-  final NotificationService _localNotifications = NotificationService();
 
   String? _fcmToken;
   String? get fcmToken => _fcmToken;
@@ -39,9 +37,10 @@ class PushNotificationService {
     debugPrint('[Push] Service initialized (mobile implementation required)');
   }
 
-  /// Save FCM token
-  Future<void> _saveToken(String? token) async {
+  /// Save FCM token (will be used when Firebase Messaging is integrated)
+  Future<void> saveToken(String? token) async {
     if (token == null) return;
+    _fcmToken = token;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_keyFcmToken, token);
   }

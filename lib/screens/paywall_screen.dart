@@ -38,10 +38,10 @@ class _PaywallScreenState extends State<PaywallScreen>
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
     );
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOut));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero).animate(
+          CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+        );
     _loadOfferings();
     _animationController.forward();
   }
@@ -66,7 +66,9 @@ class _PaywallScreenState extends State<PaywallScreen>
           _offerings = offerings;
           // Select yearly by default (best value)
           _selectedPackage = offerings.current!.availablePackages.firstWhere(
-            (p) => p.identifier.contains('yearly') || p.identifier.contains('annual'),
+            (p) =>
+                p.identifier.contains('yearly') ||
+                p.identifier.contains('annual'),
             orElse: () => offerings.current!.availablePackages.first,
           );
           _isLoading = false;
@@ -126,7 +128,9 @@ class _PaywallScreenState extends State<PaywallScreen>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(result.message),
-          backgroundColor: result.isPro == true ? context.appColors.success : context.appColors.textSecondary,
+          backgroundColor: result.isPro == true
+              ? context.appColors.success
+              : context.appColors.textSecondary,
         ),
       );
 
@@ -142,9 +146,7 @@ class _PaywallScreenState extends State<PaywallScreen>
 
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: AppGradients.background,
-        ),
+        decoration: const BoxDecoration(gradient: AppGradients.background),
         child: SafeArea(
           child: Column(
             children: [
@@ -182,9 +184,8 @@ class _PaywallScreenState extends State<PaywallScreen>
                       // Title
                       Text(
                         l10n.paywallTitle,
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 8),
@@ -219,7 +220,8 @@ class _PaywallScreenState extends State<PaywallScreen>
                       const SizedBox(height: 24),
 
                       // Purchase button
-                      if (!_isLoading && _error == null) _buildPurchaseButton(l10n),
+                      if (!_isLoading && _error == null)
+                        _buildPurchaseButton(l10n),
                       const SizedBox(height: 16),
 
                       // Trust indicators
@@ -231,7 +233,9 @@ class _PaywallScreenState extends State<PaywallScreen>
                         onPressed: _isPurchasing ? null : _restorePurchases,
                         child: Text(
                           l10n.restorePurchases,
-                          style: TextStyle(color: context.appColors.textSecondary),
+                          style: TextStyle(
+                            color: context.appColors.textSecondary,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -254,7 +258,9 @@ class _PaywallScreenState extends State<PaywallScreen>
                           ),
                           Text(
                             ' • ',
-                            style: TextStyle(color: context.appColors.textTertiary),
+                            style: TextStyle(
+                              color: context.appColors.textTertiary,
+                            ),
                           ),
                           TextButton(
                             onPressed: () {
@@ -301,12 +307,12 @@ class _PaywallScreenState extends State<PaywallScreen>
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(LucideIcons.crown, color: Colors.white, size: 24),
+          Icon(LucideIcons.crown, color: context.appColors.textPrimary, size: 24),
           const SizedBox(width: 8),
           Text(
             'VANTAG PRO',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Colors.white,
+              color: context.appColors.textPrimary,
               fontWeight: FontWeight.bold,
               letterSpacing: 2,
             ),
@@ -354,12 +360,12 @@ class _PaywallScreenState extends State<PaywallScreen>
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(LucideIcons.gift, color: Colors.white, size: 18),
+                Icon(LucideIcons.gift, color: context.appColors.textPrimary, size: 18),
                 const SizedBox(width: 8),
                 Text(
                   l10n.freeTrialBanner,
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: context.appColors.textPrimary,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1,
@@ -417,8 +423,16 @@ class _PaywallScreenState extends State<PaywallScreen>
 
   Widget _buildFeatureComparison(AppLocalizations l10n) {
     final features = [
-      _Feature(l10n.featureAiChat, l10n.featureAiChatFree, l10n.featureUnlimited),
-      _Feature(l10n.featureHistory, l10n.featureHistory30Days, l10n.featureUnlimited),
+      _Feature(
+        l10n.featureAiChat,
+        l10n.featureAiChatFree,
+        l10n.featureUnlimited,
+      ),
+      _Feature(
+        l10n.featureHistory,
+        l10n.featureHistory30Days,
+        l10n.featureUnlimited,
+      ),
       _Feature(l10n.featureExport, l10n.featureNo, l10n.featureYes),
       _Feature(l10n.featureWidgets, l10n.featureNo, l10n.featureYes),
       _Feature(l10n.featureAds, l10n.featureYes, l10n.featureNo),
@@ -453,13 +467,16 @@ class _PaywallScreenState extends State<PaywallScreen>
               Expanded(
                 child: ShaderMask(
                   shaderCallback: (bounds) => LinearGradient(
-                    colors: [context.appColors.primary, context.appColors.secondary],
+                    colors: [
+                      context.appColors.primary,
+                      context.appColors.secondary,
+                    ],
                   ).createShader(bounds),
                   child: Text(
                     'Pro',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: Colors.white,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelLarge?.copyWith(color: context.appColors.textPrimary),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -498,20 +515,25 @@ class _PaywallScreenState extends State<PaywallScreen>
             ),
           ),
           Expanded(
-            child: feature.pro.toLowerCase() == 'yes' ||
+            child:
+                feature.pro.toLowerCase() == 'yes' ||
                     feature.pro.toLowerCase() == 'evet' ||
                     feature.pro == AppLocalizations.of(context).featureUnlimited
-                ? Icon(LucideIcons.check, color: context.appColors.success, size: 20)
+                ? Icon(
+                    LucideIcons.check,
+                    color: context.appColors.success,
+                    size: 20,
+                  )
                 : feature.pro.toLowerCase() == 'no' ||
-                        feature.pro.toLowerCase() == 'hayır'
-                    ? Icon(LucideIcons.x, color: context.appColors.error, size: 20)
-                    : Text(
-                        feature.pro,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: context.appColors.success,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                      feature.pro.toLowerCase() == 'hayır'
+                ? Icon(LucideIcons.x, color: context.appColors.error, size: 20)
+                : Text(
+                    feature.pro,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: context.appColors.success,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
           ),
         ],
       ),
@@ -541,16 +563,15 @@ class _PaywallScreenState extends State<PaywallScreen>
             decoration: BoxDecoration(
               gradient: isSelected
                   ? const LinearGradient(
-                      colors: [
-                        Color(0xFF2D2440),
-                        Color(0xFF1A1625),
-                      ],
+                      colors: [Color(0xFF2D2440), Color(0xFF1A1625)],
                     )
                   : null,
               color: isSelected ? null : context.appColors.cardBackground,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: isSelected ? context.appColors.primary : context.appColors.cardBorder,
+                color: isSelected
+                    ? context.appColors.primary
+                    : context.appColors.cardBorder,
                 width: isSelected ? 2 : 1,
               ),
               boxShadow: isSelected
@@ -575,7 +596,9 @@ class _PaywallScreenState extends State<PaywallScreen>
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: isSelected ? context.appColors.primary : context.appColors.textTertiary,
+                          color: isSelected
+                              ? context.appColors.primary
+                              : context.appColors.textTertiary,
                           width: 2,
                         ),
                       ),
@@ -587,7 +610,10 @@ class _PaywallScreenState extends State<PaywallScreen>
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   gradient: LinearGradient(
-                                    colors: [context.appColors.primary, context.appColors.secondary],
+                                    colors: [
+                                      context.appColors.primary,
+                                      context.appColors.secondary,
+                                    ],
                                   ),
                                 ),
                               ),
@@ -603,16 +629,16 @@ class _PaywallScreenState extends State<PaywallScreen>
                         children: [
                           Text(
                             _getPackageTitle(package),
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             _getPackageSubtitle(package),
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: context.appColors.textSecondary,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: context.appColors.textSecondary,
+                                ),
                           ),
                         ],
                       ),
@@ -624,15 +650,13 @@ class _PaywallScreenState extends State<PaywallScreen>
                       children: [
                         Text(
                           package.storeProduct.priceString,
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
                           _getPricePeriod(package),
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: context.appColors.textTertiary,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: context.appColors.textTertiary),
                         ),
                       ],
                     ),
@@ -645,7 +669,10 @@ class _PaywallScreenState extends State<PaywallScreen>
                     top: -8,
                     right: -8,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [Color(0xFF9C27B0), Color(0xFF7B1FA2)],
@@ -653,7 +680,9 @@ class _PaywallScreenState extends State<PaywallScreen>
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF9C27B0).withValues(alpha: 0.4),
+                            color: const Color(
+                              0xFF9C27B0,
+                            ).withValues(alpha: 0.4),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -662,12 +691,16 @@ class _PaywallScreenState extends State<PaywallScreen>
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(LucideIcons.infinity, size: 10, color: Colors.white),
+                          Icon(
+                            LucideIcons.infinity,
+                            size: 10,
+                            color: context.appColors.textPrimary,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             l10n.forever,
-                            style: const TextStyle(
-                              color: Colors.white,
+                            style: TextStyle(
+                              color: context.appColors.textPrimary,
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                             ),
@@ -683,15 +716,23 @@ class _PaywallScreenState extends State<PaywallScreen>
                     top: -10,
                     left: 40,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [context.appColors.gold, const Color(0xFFFFB800)],
+                          colors: [
+                            context.appColors.gold,
+                            const Color(0xFFFFB800),
+                          ],
                         ),
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(
-                            color: context.appColors.gold.withValues(alpha: 0.4),
+                            color: context.appColors.gold.withValues(
+                              alpha: 0.4,
+                            ),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -699,8 +740,8 @@ class _PaywallScreenState extends State<PaywallScreen>
                       ),
                       child: Text(
                         l10n.mostPopular,
-                        style: const TextStyle(
-                          color: Colors.black,
+                        style: TextStyle(
+                          color: context.appColors.background,
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
@@ -752,9 +793,15 @@ class _PaywallScreenState extends State<PaywallScreen>
     // Check if selected package has a trial
     final id = _selectedPackage?.identifier.toLowerCase() ?? '';
     final isMonthlyWithTrial = id.contains('monthly');
-    final buttonText = isMonthlyWithTrial ? l10n.startFreeTrial : l10n.subscribeToPro;
-    final buttonColor = isMonthlyWithTrial ? context.appColors.success : context.appColors.primary;
-    final buttonColorEnd = isMonthlyWithTrial ? const Color(0xFF00C853) : context.appColors.secondary;
+    final buttonText = isMonthlyWithTrial
+        ? l10n.startFreeTrial
+        : l10n.subscribeToPro;
+    final buttonColor = isMonthlyWithTrial
+        ? context.appColors.success
+        : context.appColors.primary;
+    final buttonColorEnd = isMonthlyWithTrial
+        ? const Color(0xFF00C853)
+        : context.appColors.secondary;
 
     return SizedBox(
       width: double.infinity,
@@ -769,9 +816,7 @@ class _PaywallScreenState extends State<PaywallScreen>
         ),
         child: Ink(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [buttonColor, buttonColorEnd],
-            ),
+            gradient: LinearGradient(colors: [buttonColor, buttonColorEnd]),
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
@@ -784,11 +829,11 @@ class _PaywallScreenState extends State<PaywallScreen>
           child: Container(
             alignment: Alignment.center,
             child: _isPurchasing
-                ? const SizedBox(
+                ? SizedBox(
                     width: 24,
                     height: 24,
                     child: CircularProgressIndicator(
-                      color: Colors.white,
+                      color: context.appColors.textPrimary,
                       strokeWidth: 2,
                     ),
                   )
@@ -796,13 +841,17 @@ class _PaywallScreenState extends State<PaywallScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       if (isMonthlyWithTrial) ...[
-                        const Icon(LucideIcons.gift, color: Colors.white, size: 20),
+                        Icon(
+                          LucideIcons.gift,
+                          color: context.appColors.textPrimary,
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                       ],
                       Text(
                         buttonText,
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: context.appColors.textPrimary,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -821,18 +870,9 @@ class _PaywallScreenState extends State<PaywallScreen>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildTrustItem(
-            LucideIcons.shieldCheck,
-            l10n.securePayment,
-          ),
-          _buildTrustItem(
-            LucideIcons.lock,
-            l10n.encrypted,
-          ),
-          _buildTrustItem(
-            LucideIcons.refreshCcw,
-            l10n.cancelAnytime,
-          ),
+          _buildTrustItem(LucideIcons.shieldCheck, l10n.securePayment),
+          _buildTrustItem(LucideIcons.lock, l10n.encrypted),
+          _buildTrustItem(LucideIcons.refreshCcw, l10n.cancelAnytime),
         ],
       ),
     );
@@ -841,11 +881,7 @@ class _PaywallScreenState extends State<PaywallScreen>
   Widget _buildTrustItem(IconData icon, String label) {
     return Column(
       children: [
-        Icon(
-          icon,
-          color: context.appColors.textTertiary,
-          size: 20,
-        ),
+        Icon(icon, color: context.appColors.textTertiary, size: 20),
         const SizedBox(height: 6),
         Text(
           label,
@@ -867,7 +903,11 @@ class _PaywallScreenState extends State<PaywallScreen>
       ),
       child: Column(
         children: [
-          Icon(LucideIcons.alertCircle, color: context.appColors.error, size: 48),
+          Icon(
+            LucideIcons.alertCircle,
+            color: context.appColors.error,
+            size: 48,
+          ),
           const SizedBox(height: 16),
           Text(
             _error ?? 'An error occurred',
@@ -906,7 +946,10 @@ class _PaywallScreenState extends State<PaywallScreen>
                 height: 24,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: context.appColors.textTertiary, width: 2),
+                  border: Border.all(
+                    color: context.appColors.textTertiary,
+                    width: 2,
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
@@ -966,9 +1009,10 @@ class _ShimmerBoxState extends State<_ShimmerBox>
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     )..repeat();
-    _animation = Tween<double>(begin: 0.3, end: 0.6).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0.3,
+      end: 0.6,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -986,7 +1030,9 @@ class _ShimmerBoxState extends State<_ShimmerBox>
           width: widget.width,
           height: widget.height,
           decoration: BoxDecoration(
-            color: context.appColors.textTertiary.withValues(alpha: _animation.value),
+            color: context.appColors.textTertiary.withValues(
+              alpha: _animation.value,
+            ),
             borderRadius: BorderRadius.circular(4),
           ),
         );

@@ -24,7 +24,11 @@ class SavingsPoolService {
   DocumentReference<Map<String, dynamic>>? get _docRef {
     final user = _auth.currentUser;
     if (user == null) return null;
-    return _firestore.collection('users').doc(user.uid).collection('savings_pool').doc('current');
+    return _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('savings_pool')
+        .doc('current');
   }
 
   /// Havuz verisi stream'i (hybrid - tries Firestore, falls back to local)
@@ -43,22 +47,27 @@ class SavingsPoolService {
     }
 
     // Try Firestore first, fall back to local on error
-    return ref.snapshots().handleError((e) {
-      debugPrint('⚠️ [SavingsPoolService] Firestore error, switching to local: $e');
-      _useLocalOnly = true;
-      _loadLocalPool().then((pool) {
-        _cachedPool = pool;
-        _localStreamController.add(pool);
-      });
-    }).map((snapshot) {
-      if (!snapshot.exists || snapshot.data() == null) {
-        return _cachedPool;
-      }
-      _cachedPool = SavingsPool.fromFirestore(snapshot.data()!);
-      // Also save locally as backup
-      _saveLocalPool(_cachedPool);
-      return _cachedPool;
-    });
+    return ref
+        .snapshots()
+        .handleError((e) {
+          debugPrint(
+            '⚠️ [SavingsPoolService] Firestore error, switching to local: $e',
+          );
+          _useLocalOnly = true;
+          _loadLocalPool().then((pool) {
+            _cachedPool = pool;
+            _localStreamController.add(pool);
+          });
+        })
+        .map((snapshot) {
+          if (!snapshot.exists || snapshot.data() == null) {
+            return _cachedPool;
+          }
+          _cachedPool = SavingsPool.fromFirestore(snapshot.data()!);
+          // Also save locally as backup
+          _saveLocalPool(_cachedPool);
+          return _cachedPool;
+        });
   }
 
   /// Mevcut havuzu getir
@@ -75,7 +84,9 @@ class SavingsPoolService {
             return _cachedPool;
           }
         } catch (e) {
-          debugPrint('⚠️ [SavingsPoolService] Firestore getPool error, using local: $e');
+          debugPrint(
+            '⚠️ [SavingsPoolService] Firestore getPool error, using local: $e',
+          );
           _useLocalOnly = true;
         }
       }
@@ -106,7 +117,10 @@ class SavingsPoolService {
   Future<void> _saveLocalPool(SavingsPool pool) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(_localKey, jsonEncode(pool.toFirestore(forLocalStorage: true)));
+      await prefs.setString(
+        _localKey,
+        jsonEncode(pool.toFirestore(forLocalStorage: true)),
+      );
     } catch (e) {
       debugPrint('❌ [SavingsPoolService] Local save error: $e');
     }
@@ -129,7 +143,9 @@ class SavingsPoolService {
           debugPrint('✅ [SavingsPoolService] Pool updated (Firestore): $pool');
           return;
         } catch (e) {
-          debugPrint('⚠️ [SavingsPoolService] Firestore update failed, local only: $e');
+          debugPrint(
+            '⚠️ [SavingsPoolService] Firestore update failed, local only: $e',
+          );
           _useLocalOnly = true;
         }
       }
@@ -153,12 +169,16 @@ class SavingsPoolService {
         // Borç tamamen kapanıyor
         remainingAmount = amount - pool.shadowDebt;
         newDebt = 0;
-        debugPrint('💰 [SavingsPoolService] Debt fully paid: ${pool.shadowDebt}');
+        debugPrint(
+          '💰 [SavingsPoolService] Debt fully paid: ${pool.shadowDebt}',
+        );
       } else {
         // Borç kısmen ödeniyor
         newDebt = pool.shadowDebt - amount;
         remainingAmount = 0;
-        debugPrint('💰 [SavingsPoolService] Debt partially paid: $amount, remaining debt: $newDebt');
+        debugPrint(
+          '💰 [SavingsPoolService] Debt partially paid: $amount, remaining debt: $newDebt',
+        );
       }
     }
 
@@ -171,7 +191,11 @@ class SavingsPoolService {
   }
 
   /// Hayale para ayır
-  Future<bool> allocateToDream(double amount, String dreamId, {BudgetShiftSource? source}) async {
+  Future<bool> allocateToDream(
+    double amount,
+    String dreamId, {
+    BudgetShiftSource? source,
+  }) async {
     if (amount <= 0) return false;
 
     final pool = await getPool();
@@ -189,7 +213,9 @@ class SavingsPoolService {
         jokerUsedThisMonth: true,
       );
       await updatePool(newPool);
-      debugPrint('🃏 [SavingsPoolService] Joker used for $amount to dream $dreamId');
+      debugPrint(
+        '🃏 [SavingsPoolService] Joker used for $amount to dream $dreamId',
+      );
       return true;
     }
 
@@ -200,7 +226,9 @@ class SavingsPoolService {
         allocatedToDreams: pool.allocatedToDreams + amount,
       );
       await updatePool(newPool);
-      debugPrint('💰 [SavingsPoolService] Extra income $amount added to dream $dreamId');
+      debugPrint(
+        '💰 [SavingsPoolService] Extra income $amount added to dream $dreamId',
+      );
       return true;
     }
 
@@ -221,12 +249,16 @@ class SavingsPoolService {
         allocatedToDreams: pool.allocatedToDreams + amount,
       );
       await updatePool(newPool);
-      debugPrint('📊 [SavingsPoolService] Budget shift from ${source.name}: $amount to dream $dreamId');
+      debugPrint(
+        '📊 [SavingsPoolService] Budget shift from ${source.name}: $amount to dream $dreamId',
+      );
       return true;
     }
 
     // Yetersiz bakiye ve kaynak belirtilmemiş
-    debugPrint('❌ [SavingsPoolService] Insufficient funds: available ${pool.available}, requested $amount');
+    debugPrint(
+      '❌ [SavingsPoolService] Insufficient funds: available ${pool.available}, requested $amount',
+    );
     return false;
   }
 
@@ -240,7 +272,9 @@ class SavingsPoolService {
       shadowDebt: pool.shadowDebt + amount,
     );
     await updatePool(newPool);
-    debugPrint('🔴 [SavingsPoolService] Shadow debt created: $amount for dream $dreamId');
+    debugPrint(
+      '🔴 [SavingsPoolService] Shadow debt created: $amount for dream $dreamId',
+    );
   }
 
   /// Borç öde
@@ -253,7 +287,9 @@ class SavingsPoolService {
     final newDebt = (pool.shadowDebt - amount).clamp(0.0, double.infinity);
     final newPool = pool.copyWith(shadowDebt: newDebt);
     await updatePool(newPool);
-    debugPrint('💳 [SavingsPoolService] Debt repaid: $amount, remaining: $newDebt');
+    debugPrint(
+      '💳 [SavingsPoolService] Debt repaid: $amount, remaining: $newDebt',
+    );
   }
 
   /// Aylık joker reset (ay değişince çağrılır)
@@ -282,7 +318,10 @@ class SavingsPoolService {
 
     final pool = await getPool();
     final newPool = pool.copyWith(
-      allocatedToDreams: (pool.allocatedToDreams - amount).clamp(0.0, double.infinity),
+      allocatedToDreams: (pool.allocatedToDreams - amount).clamp(
+        0.0,
+        double.infinity,
+      ),
     );
     await updatePool(newPool);
     debugPrint('↩️ [SavingsPoolService] Deallocated $amount from dreams');

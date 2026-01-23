@@ -23,13 +23,13 @@ class QueuedOperation {
   });
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'type': type,
-        'action': action,
-        'data': data,
-        'createdAt': createdAt.toIso8601String(),
-        'retryCount': retryCount,
-      };
+    'id': id,
+    'type': type,
+    'action': action,
+    'data': data,
+    'createdAt': createdAt.toIso8601String(),
+    'retryCount': retryCount,
+  };
 
   factory QueuedOperation.fromJson(Map<String, dynamic> json) {
     return QueuedOperation(
@@ -54,7 +54,7 @@ class OfflineQueueService extends ChangeNotifier {
   StreamSubscription<bool>? _connectivitySubscription;
 
   OfflineQueueService({ConnectivityService? connectivityService})
-      : _connectivityService = connectivityService ?? ConnectivityService();
+    : _connectivityService = connectivityService ?? ConnectivityService();
 
   List<QueuedOperation> get queue => List.unmodifiable(_queue);
   int get pendingCount => _queue.length;
@@ -67,12 +67,12 @@ class OfflineQueueService extends ChangeNotifier {
     await _connectivityService.initialize();
 
     // Listen for connectivity changes
-    _connectivitySubscription =
-        _connectivityService.onConnectivityChanged.listen((isConnected) {
-      if (isConnected && hasPending) {
-        syncQueue();
-      }
-    });
+    _connectivitySubscription = _connectivityService.onConnectivityChanged
+        .listen((isConnected) {
+          if (isConnected && hasPending) {
+            syncQueue();
+          }
+        });
 
     // Initial sync attempt if online
     if (_connectivityService.isConnected && hasPending) {
@@ -134,7 +134,9 @@ class OfflineQueueService extends ChangeNotifier {
         } else {
           // Remove after max retries
           await dequeue(operation.id);
-          debugPrint('Removed operation ${operation.id} after $_maxRetries retries');
+          debugPrint(
+            'Removed operation ${operation.id} after $_maxRetries retries',
+          );
         }
       }
     }
@@ -152,7 +154,8 @@ class OfflineQueueService extends ChangeNotifier {
     // This is a placeholder - actual implementation depends on the operation type
     // Each service should register its sync handlers
     debugPrint(
-        'Processing ${operation.type}:${operation.action} - ${operation.id}');
+      'Processing ${operation.type}:${operation.action} - ${operation.id}',
+    );
 
     // Simulate network delay for now
     await Future.delayed(const Duration(milliseconds: 100));
@@ -172,8 +175,9 @@ class OfflineQueueService extends ChangeNotifier {
       if (jsonString != null) {
         final List<dynamic> jsonList = json.decode(jsonString) as List;
         _queue = jsonList
-            .map((item) =>
-                QueuedOperation.fromJson(item as Map<String, dynamic>))
+            .map(
+              (item) => QueuedOperation.fromJson(item as Map<String, dynamic>),
+            )
             .toList();
       }
     } catch (e) {

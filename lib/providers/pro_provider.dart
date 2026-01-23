@@ -42,13 +42,14 @@ class ProProvider extends ChangeNotifier {
       }
 
       // Listen to RevenueCat status changes
-      _proStatusSubscription = PurchaseService().proStatusStream.listen((isPro) {
+      _proStatusSubscription = PurchaseService().proStatusStream.listen((
+        isPro,
+      ) {
         _setPro(isPro);
       });
 
       // Listen to Firestore promo_users changes
       _listenToPromoStatus();
-
     } catch (e) {
       debugPrint('ProProvider initialization error: $e');
       // Fallback to local storage
@@ -79,7 +80,9 @@ class ProProvider extends ChangeNotifier {
       if (doc.exists) {
         _isPromo = true;
         _promoType = doc.data()?['type'] as String?;
-        debugPrint('✅ [ProProvider] Promo user found: ${user.uid}, type: $_promoType');
+        debugPrint(
+          '✅ [ProProvider] Promo user found: ${user.uid}, type: $_promoType',
+        );
 
         // Persist locally
         final prefs = await SharedPreferences.getInstance();
@@ -104,25 +107,28 @@ class ProProvider extends ChangeNotifier {
         .collection('promo_users')
         .doc(user.uid)
         .snapshots()
-        .listen((snapshot) {
-      final wasPromo = _isPromo;
+        .listen(
+          (snapshot) {
+            final wasPromo = _isPromo;
 
-      if (snapshot.exists) {
-        _isPromo = true;
-        _promoType = snapshot.data()?['type'] as String?;
-      } else {
-        _isPromo = false;
-        _promoType = null;
-      }
+            if (snapshot.exists) {
+              _isPromo = true;
+              _promoType = snapshot.data()?['type'] as String?;
+            } else {
+              _isPromo = false;
+              _promoType = null;
+            }
 
-      if (wasPromo != _isPromo) {
-        debugPrint('🔄 [ProProvider] Promo status changed: $_isPromo');
-        notifyListeners();
-        _persistPromoStatus(_isPromo);
-      }
-    }, onError: (e) {
-      debugPrint('❌ [ProProvider] Promo listener error: $e');
-    });
+            if (wasPromo != _isPromo) {
+              debugPrint('🔄 [ProProvider] Promo status changed: $_isPromo');
+              notifyListeners();
+              _persistPromoStatus(_isPromo);
+            }
+          },
+          onError: (e) {
+            debugPrint('❌ [ProProvider] Promo listener error: $e');
+          },
+        );
   }
 
   /// Persist promo status to local storage

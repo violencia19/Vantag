@@ -26,14 +26,14 @@ class FirebaseUserProfile {
   });
 
   Map<String, dynamic> toJson() => {
-        'uid': uid,
-        'displayName': displayName,
-        'email': email,
-        'photoUrl': photoUrl,
-        'isAnonymous': isAnonymous,
-        'createdAt': createdAt.toIso8601String(),
-        'lastLoginAt': lastLoginAt.toIso8601String(),
-      };
+    'uid': uid,
+    'displayName': displayName,
+    'email': email,
+    'photoUrl': photoUrl,
+    'isAnonymous': isAnonymous,
+    'createdAt': createdAt.toIso8601String(),
+    'lastLoginAt': lastLoginAt.toIso8601String(),
+  };
 
   factory FirebaseUserProfile.fromJson(Map<String, dynamic> json) =>
       FirebaseUserProfile(
@@ -46,7 +46,8 @@ class FirebaseUserProfile {
         lastLoginAt: DateTime.parse(json['lastLoginAt'] as String),
       );
 
-  factory FirebaseUserProfile.fromFirebaseUser(User user) => FirebaseUserProfile(
+  factory FirebaseUserProfile.fromFirebaseUser(User user) =>
+      FirebaseUserProfile(
         uid: user.uid,
         displayName: user.displayName,
         email: user.email,
@@ -71,16 +72,11 @@ class AuthResult {
     this.wasLinked = false,
   });
 
-  factory AuthResult.success(User user, {bool wasLinked = false}) => AuthResult(
-        success: true,
-        user: user,
-        wasLinked: wasLinked,
-      );
+  factory AuthResult.success(User user, {bool wasLinked = false}) =>
+      AuthResult(success: true, user: user, wasLinked: wasLinked);
 
-  factory AuthResult.failure(String message) => AuthResult(
-        success: false,
-        errorMessage: message,
-      );
+  factory AuthResult.failure(String message) =>
+      AuthResult(success: false, errorMessage: message);
 }
 
 /// Authentication Service
@@ -90,9 +86,7 @@ class AuthService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // GoogleSignIn instance - scopes ile birlikte
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: ['email', 'profile'],
-  );
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
 
   // Singleton pattern
   static final AuthService _instance = AuthService._internal();
@@ -196,15 +190,20 @@ class AuthService {
         // Anonim hesabı Google ile birleştir
         debugPrint("🔗 [Auth] Anonim hesap Google ile birleştiriliyor...");
         try {
-          final linkedCredential =
-              await existingUser.linkWithCredential(credential);
+          final linkedCredential = await existingUser.linkWithCredential(
+            credential,
+          );
           user = linkedCredential.user;
           wasLinked = true;
-          debugPrint("✅ [Auth] Hesaplar birleştirildi! UID korundu: ${user?.uid}");
+          debugPrint(
+            "✅ [Auth] Hesaplar birleştirildi! UID korundu: ${user?.uid}",
+          );
         } on FirebaseAuthException catch (e) {
           if (e.code == 'credential-already-in-use') {
             // Bu Google hesabı başka bir hesaba bağlı
-            debugPrint("⚠️ [Auth] Google hesabı zaten kullanımda, yeni hesapla giriş yapılıyor...");
+            debugPrint(
+              "⚠️ [Auth] Google hesabı zaten kullanımda, yeni hesapla giriş yapılıyor...",
+            );
             await existingUser.delete();
             final signInResult = await _auth.signInWithCredential(credential);
             user = signInResult.user;
@@ -237,7 +236,9 @@ class AuthService {
       return AuthResult.failure(_getAuthErrorMessage(e.code));
     } catch (e) {
       debugPrint("❌ [Auth] Beklenmeyen Hata: $e");
-      return AuthResult.failure("Google ile giriş sırasında bir hata oluştu: $e");
+      return AuthResult.failure(
+        "Google ile giriş sırasında bir hata oluştu: $e",
+      );
     }
   }
 
@@ -287,7 +288,8 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
         return AuthResult.failure(
-            "Bu işlem için yeniden giriş yapmanız gerekiyor");
+          "Bu işlem için yeniden giriş yapmanız gerekiyor",
+        );
       }
       return AuthResult.failure(_getAuthErrorMessage(e.code));
     } catch (e) {
@@ -424,7 +426,9 @@ class AuthService {
     debugPrint("   Google bağlı: ${isLinkedWithGoogle ? 'Evet' : 'Hayır'}");
     debugPrint("   Email: ${user?.email ?? 'Yok'}");
     debugPrint("   İsim: ${user?.displayName ?? 'Yok'}");
-    debugPrint("   Providers: ${user?.providerData.map((p) => p.providerId).join(', ') ?? 'Yok'}");
+    debugPrint(
+      "   Providers: ${user?.providerData.map((p) => p.providerId).join(', ') ?? 'Yok'}",
+    );
     debugPrint("═══════════════════════════════════════════════════════════");
   }
 }

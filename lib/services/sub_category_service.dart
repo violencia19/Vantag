@@ -37,19 +37,67 @@ class SubCategoryService {
 
     // Türkçe karakter haritası
     const lowerToUpper = {
-      'a': 'A', 'b': 'B', 'c': 'C', 'ç': 'Ç', 'd': 'D', 'e': 'E',
-      'f': 'F', 'g': 'G', 'ğ': 'Ğ', 'h': 'H', 'ı': 'I', 'i': 'İ',
-      'j': 'J', 'k': 'K', 'l': 'L', 'm': 'M', 'n': 'N', 'o': 'O',
-      'ö': 'Ö', 'p': 'P', 'r': 'R', 's': 'S', 'ş': 'Ş', 't': 'T',
-      'u': 'U', 'ü': 'Ü', 'v': 'V', 'y': 'Y', 'z': 'Z',
+      'a': 'A',
+      'b': 'B',
+      'c': 'C',
+      'ç': 'Ç',
+      'd': 'D',
+      'e': 'E',
+      'f': 'F',
+      'g': 'G',
+      'ğ': 'Ğ',
+      'h': 'H',
+      'ı': 'I',
+      'i': 'İ',
+      'j': 'J',
+      'k': 'K',
+      'l': 'L',
+      'm': 'M',
+      'n': 'N',
+      'o': 'O',
+      'ö': 'Ö',
+      'p': 'P',
+      'r': 'R',
+      's': 'S',
+      'ş': 'Ş',
+      't': 'T',
+      'u': 'U',
+      'ü': 'Ü',
+      'v': 'V',
+      'y': 'Y',
+      'z': 'Z',
     };
 
     const upperToLower = {
-      'A': 'a', 'B': 'b', 'C': 'c', 'Ç': 'ç', 'D': 'd', 'E': 'e',
-      'F': 'f', 'G': 'g', 'Ğ': 'ğ', 'H': 'h', 'I': 'ı', 'İ': 'i',
-      'J': 'j', 'K': 'k', 'L': 'l', 'M': 'm', 'N': 'n', 'O': 'o',
-      'Ö': 'ö', 'P': 'p', 'R': 'r', 'S': 's', 'Ş': 'ş', 'T': 't',
-      'U': 'u', 'Ü': 'ü', 'V': 'v', 'Y': 'y', 'Z': 'z',
+      'A': 'a',
+      'B': 'b',
+      'C': 'c',
+      'Ç': 'ç',
+      'D': 'd',
+      'E': 'e',
+      'F': 'f',
+      'G': 'g',
+      'Ğ': 'ğ',
+      'H': 'h',
+      'I': 'ı',
+      'İ': 'i',
+      'J': 'j',
+      'K': 'k',
+      'L': 'l',
+      'M': 'm',
+      'N': 'n',
+      'O': 'o',
+      'Ö': 'ö',
+      'P': 'p',
+      'R': 'r',
+      'S': 's',
+      'Ş': 'ş',
+      'T': 't',
+      'U': 'u',
+      'Ü': 'ü',
+      'V': 'v',
+      'Y': 'y',
+      'Z': 'z',
     };
 
     final buffer = StringBuffer();
@@ -91,7 +139,10 @@ class SubCategoryService {
   }
 
   /// Ana kategori için yeni alt kategori ekle (en son kullanılana taşı)
-  Future<void> addRecentSubCategory(String mainCategory, String subCategory) async {
+  Future<void> addRecentSubCategory(
+    String mainCategory,
+    String subCategory,
+  ) async {
     final normalized = normalize(subCategory);
     if (normalized.isEmpty) return;
 
@@ -124,10 +175,7 @@ class SubCategoryService {
         .where((f) => !recent.any((r) => isSame(r, f)))
         .toList();
 
-    return SubCategorySuggestions(
-      recent: recent,
-      fixed: filteredFixed,
-    );
+    return SubCategorySuggestions(recent: recent, fixed: filteredFixed);
   }
 
   /// Key'i sanitize et (SharedPreferences için güvenli)
@@ -153,12 +201,9 @@ class SubCategoryService {
 /// Alt kategori önerileri
 class SubCategorySuggestions {
   final List<String> recent; // Son kullanılanlar (outline stil)
-  final List<String> fixed;  // Sabit öneriler (normal stil)
+  final List<String> fixed; // Sabit öneriler (normal stil)
 
-  const SubCategorySuggestions({
-    required this.recent,
-    required this.fixed,
-  });
+  const SubCategorySuggestions({required this.recent, required this.fixed});
 
   bool get isEmpty => recent.isEmpty && fixed.isEmpty;
   bool get hasRecent => recent.isNotEmpty;

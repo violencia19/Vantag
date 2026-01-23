@@ -10,10 +10,7 @@ import 'package:vantag/theme/app_theme.dart';
 class OfflineBanner extends StatefulWidget {
   final Widget child;
 
-  const OfflineBanner({
-    super.key,
-    required this.child,
-  });
+  const OfflineBanner({super.key, required this.child});
 
   @override
   State<OfflineBanner> createState() => _OfflineBannerState();
@@ -41,13 +38,15 @@ class _OfflineBannerState extends State<OfflineBanner>
       vsync: this,
     );
 
-    _slideAnimation = Tween<double>(begin: -1.0, end: 0.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    _slideAnimation = Tween<double>(
+      begin: -1.0,
+      end: 0.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
-    _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
+    _opacityAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     _initConnectivity();
   }
@@ -67,7 +66,9 @@ class _OfflineBannerState extends State<OfflineBanner>
       _controller.forward();
     }
 
-    _subscription = _connectivityService.onConnectivityChanged.listen((isConnected) {
+    _subscription = _connectivityService.onConnectivityChanged.listen((
+      isConnected,
+    ) {
       if (!isConnected && !_isOffline) {
         // Just went offline
         setState(() {
@@ -161,14 +162,20 @@ class _OfflineBannerState extends State<OfflineBanner>
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: isBackOnline
-                ? [context.appColors.success.withValues(alpha: 0.9), context.appColors.success]
+                ? [
+                    context.appColors.success.withValues(alpha: 0.9),
+                    context.appColors.success,
+                  ]
                 : [const Color(0xFFFF6B6B), const Color(0xFFEE5A5A)],
           ),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: (isBackOnline ? context.appColors.success : const Color(0xFFFF6B6B))
-                  .withValues(alpha: 0.3),
+              color:
+                  (isBackOnline
+                          ? context.appColors.success
+                          : const Color(0xFFFF6B6B))
+                      .withValues(alpha: 0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -178,7 +185,9 @@ class _OfflineBannerState extends State<OfflineBanner>
           children: [
             // Icon with pulse animation
             _PulsingIcon(
-              icon: isSyncing ? LucideIcons.refreshCw : (isBackOnline ? LucideIcons.wifi : LucideIcons.wifiOff),
+              icon: isSyncing
+                  ? LucideIcons.refreshCw
+                  : (isBackOnline ? LucideIcons.wifi : LucideIcons.wifiOff),
               color: Colors.white,
               isPulsing: !isBackOnline || isSyncing,
             ),
@@ -288,9 +297,10 @@ class _PulsingIconState extends State<_PulsingIcon>
       vsync: this,
     );
 
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.15).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.15,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     if (widget.isPulsing) {
       _controller.repeat(reverse: true);
@@ -327,11 +337,7 @@ class _PulsingIconState extends State<_PulsingIcon>
               color: Colors.white.withValues(alpha: 0.2),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              widget.icon,
-              color: widget.color,
-              size: 20,
-            ),
+            child: Icon(widget.icon, color: widget.color, size: 20),
           ),
         );
       },
@@ -362,7 +368,9 @@ class _OfflineIndicatorState extends State<OfflineIndicator> {
     await _connectivityService.initialize();
     _isOffline = !_connectivityService.isConnected;
 
-    _subscription = _connectivityService.onConnectivityChanged.listen((isConnected) {
+    _subscription = _connectivityService.onConnectivityChanged.listen((
+      isConnected,
+    ) {
       if (mounted) {
         setState(() => _isOffline = !isConnected);
       }
@@ -389,11 +397,7 @@ class _OfflineIndicatorState extends State<OfflineIndicator> {
           color: const Color(0xFFFF6B6B),
           borderRadius: BorderRadius.circular(4),
         ),
-        child: const Icon(
-          LucideIcons.wifiOff,
-          color: Colors.white,
-          size: 12,
-        ),
+        child: const Icon(LucideIcons.wifiOff, color: Colors.white, size: 12),
       ),
     );
   }

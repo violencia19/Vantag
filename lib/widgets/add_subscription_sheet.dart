@@ -12,10 +12,7 @@ import 'turkish_currency_input.dart';
 class AddSubscriptionSheet extends StatefulWidget {
   final Function(Subscription) onAdd;
 
-  const AddSubscriptionSheet({
-    super.key,
-    required this.onAdd,
-  });
+  const AddSubscriptionSheet({super.key, required this.onAdd});
 
   @override
   State<AddSubscriptionSheet> createState() => _AddSubscriptionSheetState();
@@ -84,9 +81,9 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
 
     final amount = parseTurkishCurrency(_amountController.text);
     if (amount == null || amount <= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.pleaseEnterValidAmount)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.pleaseEnterValidAmount)));
       return;
     }
 
@@ -163,9 +160,16 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                           enableSuggestions: true,
                           autocorrect: false,
                           enableIMEPersonalizedLearning: true,
-                          style: TextStyle(color: context.appColors.textPrimary),
-                          decoration: _inputDecoration(l10n.subscriptionName, l10n.subscriptionNameHint),
-                          validator: (v) => v?.trim().isEmpty == true ? l10n.nameRequired : null,
+                          style: TextStyle(
+                            color: context.appColors.textPrimary,
+                          ),
+                          decoration: _inputDecoration(
+                            l10n.subscriptionName,
+                            l10n.subscriptionNameHint,
+                          ),
+                          validator: (v) => v?.trim().isEmpty == true
+                              ? l10n.nameRequired
+                              : null,
                           textCapitalization: TextCapitalization.words,
                         ),
                         const SizedBox(height: 16),
@@ -173,11 +177,19 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                         // Monthly amount
                         TextFormField(
                           controller: _amountController,
-                          style: TextStyle(color: context.appColors.textPrimary),
-                          decoration: _inputDecoration(l10n.monthlyAmountLabel, l10n.subscriptionPriceHint),
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          style: TextStyle(
+                            color: context.appColors.textPrimary,
+                          ),
+                          decoration: _inputDecoration(
+                            l10n.monthlyAmountLabel,
+                            l10n.subscriptionPriceHint,
+                          ),
+                          keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true,
+                          ),
                           inputFormatters: [TurkishCurrencyInputFormatter()],
-                          validator: (v) => v?.isEmpty == true ? l10n.amountRequired : null,
+                          validator: (v) =>
+                              v?.isEmpty == true ? l10n.amountRequired : null,
                         ),
                         const SizedBox(height: 16),
 
@@ -198,26 +210,42 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                   ),
                                   const SizedBox(height: 8),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                    ),
                                     decoration: BoxDecoration(
-                                      color: context.appColors.surface.withValues(alpha: 0.5),
+                                      color: context.appColors.surface
+                                          .withValues(alpha: 0.5),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<String>(
                                         value: _selectedCategory,
                                         isExpanded: true,
-                                        dropdownColor: context.appColors.gradientMid,
+                                        dropdownColor:
+                                            context.appColors.gradientMid,
                                         style: TextStyle(
                                           color: context.appColors.textPrimary,
                                           fontSize: 14,
                                         ),
-                                        items: _categoryKeys.map((key) => DropdownMenuItem(
-                                          value: key,
-                                          child: Text(_getLocalizedCategory(key, l10n)),
-                                        )).toList(),
+                                        items: _categoryKeys
+                                            .map(
+                                              (key) => DropdownMenuItem(
+                                                value: key,
+                                                child: Text(
+                                                  _getLocalizedCategory(
+                                                    key,
+                                                    l10n,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                            .toList(),
                                         onChanged: (v) {
-                                          if (v != null) setState(() => _selectedCategory = v);
+                                          if (v != null)
+                                            setState(
+                                              () => _selectedCategory = v,
+                                            );
                                         },
                                       ),
                                     ),
@@ -240,28 +268,35 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                   ),
                                   const SizedBox(height: 8),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                    ),
                                     decoration: BoxDecoration(
-                                      color: context.appColors.surface.withValues(alpha: 0.5),
+                                      color: context.appColors.surface
+                                          .withValues(alpha: 0.5),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<int>(
                                         value: _selectedDay,
                                         isExpanded: true,
-                                        dropdownColor: context.appColors.gradientMid,
+                                        dropdownColor:
+                                            context.appColors.gradientMid,
                                         style: TextStyle(
                                           color: context.appColors.textPrimary,
                                           fontSize: 14,
                                         ),
                                         items: List.generate(31, (i) => i + 1)
-                                            .map((d) => DropdownMenuItem(
-                                                  value: d,
-                                                  child: Text('$d'),
-                                                ))
+                                            .map(
+                                              (d) => DropdownMenuItem(
+                                                value: d,
+                                                child: Text('$d'),
+                                              ),
+                                            )
                                             .toList(),
                                         onChanged: (v) {
-                                          if (v != null) setState(() => _selectedDay = v);
+                                          if (v != null)
+                                            setState(() => _selectedDay = v);
                                         },
                                       ),
                                     ),
@@ -299,12 +334,17 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                   color: SubscriptionColors.get(index),
                                   shape: BoxShape.circle,
                                   border: _selectedColorIndex == index
-                                      ? Border.all(color: Colors.white, width: 2.5)
+                                      ? Border.all(
+                                          color: Colors.white,
+                                          width: 2.5,
+                                        )
                                       : null,
                                   boxShadow: _selectedColorIndex == index
                                       ? [
                                           BoxShadow(
-                                            color: SubscriptionColors.get(index).withValues(alpha: 0.5),
+                                            color: SubscriptionColors.get(
+                                              index,
+                                            ).withValues(alpha: 0.5),
                                             blurRadius: 10,
                                             spreadRadius: 2,
                                           ),
@@ -321,7 +361,9 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                         Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: context.appColors.surface.withValues(alpha: 0.4),
+                            color: context.appColors.surface.withValues(
+                              alpha: 0.4,
+                            ),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
@@ -329,7 +371,9 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                               Icon(
                                 PhosphorIconsDuotone.sparkle,
                                 size: 20,
-                                color: _autoRecord ? context.appColors.primary : context.appColors.textTertiary,
+                                color: _autoRecord
+                                    ? context.appColors.primary
+                                    : context.appColors.textTertiary,
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -356,7 +400,8 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                               ),
                               Switch(
                                 value: _autoRecord,
-                                onChanged: (v) => setState(() => _autoRecord = v),
+                                onChanged: (v) =>
+                                    setState(() => _autoRecord = v),
                                 activeTrackColor: context.appColors.primary,
                               ),
                             ],
@@ -412,7 +457,10 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
     return InputDecoration(
       labelText: label,
       hintText: hint,
-      labelStyle: TextStyle(color: context.appColors.textSecondary, fontSize: 14),
+      labelStyle: TextStyle(
+        color: context.appColors.textSecondary,
+        fontSize: 14,
+      ),
       hintStyle: TextStyle(color: context.appColors.textTertiary, fontSize: 14),
       filled: true,
       fillColor: context.appColors.surface.withValues(alpha: 0.5),

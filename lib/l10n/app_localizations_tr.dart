@@ -2825,6 +2825,27 @@ class AppLocalizationsTr extends AppLocalizations {
   String get microphonePermissionDenied => 'Mikrofon izni reddedildi';
 
   @override
+  String get microphonePermissionRequired => 'Mikrofon izni gerekli';
+
+  @override
+  String get networkRequired => 'İnternet bağlantısı gerekli';
+
+  @override
+  String get understanding => 'Anlıyorum...';
+
+  @override
+  String get couldNotUnderstandTryAgain => 'Anlayamadım, tekrar dene';
+
+  @override
+  String get couldNotUnderstandSayAgain => 'Anlayamadım, tekrar söyle';
+
+  @override
+  String get sayAgain => 'Tekrar söyle';
+
+  @override
+  String get yesSave => 'Evet, kaydet';
+
+  @override
   String voiceExpenseAdded(String amount, String description) {
     return '$amount₺ $description eklendi';
   }
@@ -4312,6 +4333,15 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get pursuitLimitReachedFree =>
       'Ücretsiz hesaplarda 1 aktif hedef olabilir. Sınırsız hedef için premium\'a geç!';
+
+  @override
+  String get pursuitNameRequired => 'Lütfen bir isim girin';
+
+  @override
+  String get pursuitAmountRequired => 'Lütfen bir tutar girin';
+
+  @override
+  String get pursuitAmountInvalid => 'Geçerli bir tutar girin';
 
   @override
   String get exportPremiumOnly => 'Dışa aktarma premium özelliği';

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 
 /// Gelir kategorileri
 enum IncomeCategory {
@@ -10,20 +11,8 @@ enum IncomeCategory {
   passive,
   other;
 
-  String get label {
-    switch (this) {
-      case IncomeCategory.salary:
-        return 'Maaş';
-      case IncomeCategory.freelance:
-        return 'Freelance';
-      case IncomeCategory.rental:
-        return 'Kira Geliri';
-      case IncomeCategory.passive:
-        return 'Pasif Gelir';
-      case IncomeCategory.other:
-        return 'Diğer';
-    }
-  }
+  /// Internal label for debugging/logging only - use getLocalizedLabel for UI
+  String get label => name;
 
   IconData get icon {
     switch (this) {
@@ -55,18 +44,35 @@ enum IncomeCategory {
     }
   }
 
-  String get description {
+  /// Get localized label for UI display
+  String getLocalizedLabel(AppLocalizations l10n) {
     switch (this) {
       case IncomeCategory.salary:
-        return 'Aylık düzenli maaş';
+        return l10n.incomeCategorySalary;
       case IncomeCategory.freelance:
-        return 'Serbest çalışma gelirleri';
+        return l10n.incomeCategoryFreelance;
       case IncomeCategory.rental:
-        return 'Ev, araba vb. kira gelirleri';
+        return l10n.incomeCategoryRental;
       case IncomeCategory.passive:
-        return 'Yatırım, temettü, faiz vb.';
+        return l10n.incomeCategoryPassive;
       case IncomeCategory.other:
-        return 'Diğer gelir kaynakları';
+        return l10n.incomeCategoryOther;
+    }
+  }
+
+  /// Get localized description for UI display
+  String getLocalizedDescription(AppLocalizations l10n) {
+    switch (this) {
+      case IncomeCategory.salary:
+        return l10n.incomeCategorySalaryDesc;
+      case IncomeCategory.freelance:
+        return l10n.incomeCategoryFreelanceDesc;
+      case IncomeCategory.rental:
+        return l10n.incomeCategoryRentalDesc;
+      case IncomeCategory.passive:
+        return l10n.incomeCategoryPassiveDesc;
+      case IncomeCategory.other:
+        return l10n.incomeCategoryOtherDesc;
     }
   }
 
@@ -82,15 +88,16 @@ enum IncomeCategory {
 class IncomeSource {
   final String id;
   final String title;
-  final double amount;             // Gösterilen tutar (display currency'de)
-  final String currencyCode;       // Gösterilen para birimi kodu (TRY, USD, EUR, etc.)
+  final double amount; // Gösterilen tutar (display currency'de)
+  final String
+  currencyCode; // Gösterilen para birimi kodu (TRY, USD, EUR, etc.)
   final IncomeCategory category;
   final DateTime createdAt;
-  final bool isPrimary;            // Ana gelir mi?
+  final bool isPrimary; // Ana gelir mi?
 
   // Orijinal değerler (para birimi değişse bile bunlar sabit kalır)
-  final double originalAmount;           // İlk girilen tutar
-  final String originalCurrencyCode;     // İlk girilen para birimi
+  final double originalAmount; // İlk girilen tutar
+  final String originalCurrencyCode; // İlk girilen para birimi
 
   const IncomeSource({
     required this.id,
@@ -111,20 +118,21 @@ class IncomeSource {
   }
 
   /// Ana maaş için factory
+  /// [title] should be localized using l10n.mainSalary
   factory IncomeSource.salary({
     required double amount,
-    String? title,
+    required String title,
     String currencyCode = 'TRY',
   }) {
     return IncomeSource(
       id: generateId(),
-      title: title ?? 'Ana Maaş',
+      title: title,
       amount: amount,
       currencyCode: currencyCode,
       category: IncomeCategory.salary,
       createdAt: DateTime.now(),
       isPrimary: true,
-      originalAmount: amount,           // İlk girişte orijinal = mevcut
+      originalAmount: amount,
       originalCurrencyCode: currencyCode,
     );
   }
@@ -187,7 +195,7 @@ class IncomeSource {
       category: category,
       createdAt: createdAt,
       isPrimary: isPrimary,
-      originalAmount: originalAmount,           // Orijinal değişmez!
+      originalAmount: originalAmount, // Orijinal değişmez!
       originalCurrencyCode: originalCurrencyCode, // Orijinal değişmez!
     );
   }
@@ -220,7 +228,8 @@ class IncomeSource {
       isPrimary: json['isPrimary'] as bool? ?? false,
       // Eski veriler için fallback: mevcut değerleri orijinal olarak kullan
       originalAmount: (json['originalAmount'] as num?)?.toDouble() ?? amount,
-      originalCurrencyCode: json['originalCurrencyCode'] as String? ?? currencyCode,
+      originalCurrencyCode:
+          json['originalCurrencyCode'] as String? ?? currencyCode,
     );
   }
 
@@ -230,9 +239,12 @@ class IncomeSource {
 
   static List<IncomeSource> decodeList(String json) {
     final list = jsonDecode(json) as List;
-    return list.map((item) => IncomeSource.fromJson(item as Map<String, dynamic>)).toList();
+    return list
+        .map((item) => IncomeSource.fromJson(item as Map<String, dynamic>))
+        .toList();
   }
 
   @override
-  String toString() => 'IncomeSource(title: $title, amount: $amount, category: ${category.label})';
+  String toString() =>
+      'IncomeSource(title: $title, amount: $amount, category: ${category.label})';
 }

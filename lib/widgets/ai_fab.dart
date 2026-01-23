@@ -24,9 +24,10 @@ class _AIFloatingButtonState extends State<AIFloatingButton>
       vsync: this,
     )..repeat(reverse: true);
 
-    _animation = Tween<double>(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0.8,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -60,7 +61,9 @@ class _AIFloatingButtonState extends State<AIFloatingButton>
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: context.appColors.primary.withValues(alpha: 0.4 * _animation.value),
+                  color: context.appColors.primary.withValues(
+                    alpha: 0.4 * _animation.value,
+                  ),
                   blurRadius: 16 * _animation.value,
                   spreadRadius: 2 * _animation.value,
                 ),

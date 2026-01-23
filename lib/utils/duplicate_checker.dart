@@ -25,10 +25,7 @@ class DuplicateChecker {
 
       // Eşleşme bulundu
       final timeDiff = DateTime.now().difference(expense.date);
-      matches.add(DuplicateMatch(
-        expense: expense,
-        timeSinceEntry: timeDiff,
-      ));
+      matches.add(DuplicateMatch(expense: expense, timeSinceEntry: timeDiff));
     }
 
     // En yeni eşleşme önce
@@ -47,8 +44,5 @@ class DuplicateMatch {
   final Expense expense;
   final Duration timeSinceEntry;
 
-  const DuplicateMatch({
-    required this.expense,
-    required this.timeSinceEntry,
-  });
+  const DuplicateMatch({required this.expense, required this.timeSinceEntry});
 }

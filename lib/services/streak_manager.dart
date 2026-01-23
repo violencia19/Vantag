@@ -67,7 +67,10 @@ class StreakManager {
     await prefs.setDouble(_keyTotalSavedHours, _totalSavedHours);
 
     if (_lastVictoryDate != null) {
-      await prefs.setString(_keyLastVictoryDate, _lastVictoryDate!.toIso8601String());
+      await prefs.setString(
+        _keyLastVictoryDate,
+        _lastVictoryDate!.toIso8601String(),
+      );
     }
   }
 
@@ -175,10 +178,10 @@ class StreakManager {
 
 /// Streak seviyesi (aura rengi için)
 enum StreakLevel {
-  none,   // 0-2 streak
-  blue,   // 3-4 streak
+  none, // 0-2 streak
+  blue, // 3-4 streak
   purple, // 5-9 streak
-  gold;   // 10+ streak
+  gold; // 10+ streak
 
   Color get auraColor {
     switch (this) {

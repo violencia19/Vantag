@@ -30,7 +30,8 @@ class AIService {
   AIService._internal();
 
   // Cloud Function URL - europe-west1 region
-  static const String _baseUrl = 'https://europe-west1-flutter-ai-playground-b188b.cloudfunctions.net/aiChat';
+  static const String _baseUrl =
+      'https://europe-west1-flutter-ai-playground-b188b.cloudfunctions.net/aiChat';
 
   final AIMemoryService _memory = AIMemoryService();
   bool _isInitialized = false;
@@ -47,7 +48,9 @@ class AIService {
     try {
       await _memory.initialize();
       _isInitialized = true;
-      debugPrint('✅ [AIService] Cloud Function tabanlı AI başarıyla başlatıldı!');
+      debugPrint(
+        '✅ [AIService] Cloud Function tabanlı AI başarıyla başlatıldı!',
+      );
     } catch (e, stack) {
       debugPrint('❌ [AIService] Hata: $e');
       debugPrint('Stack: $stack');
@@ -113,11 +116,13 @@ class AIService {
       List<Map<String, dynamic>> toolResults = [];
 
       while (response['requiresToolExecution'] == true &&
-             response['toolCalls'] != null &&
-             iteration < maxIterations) {
+          response['toolCalls'] != null &&
+          iteration < maxIterations) {
         iteration++;
         final toolCalls = response['toolCalls'] as List<dynamic>;
-        debugPrint('🔧 [AIService] Tool çağrısı algılandı (iteration $iteration): ${toolCalls.length} adet');
+        debugPrint(
+          '🔧 [AIService] Tool çağrısı algılandı (iteration $iteration): ${toolCalls.length} adet',
+        );
 
         // Assistant message with tool calls
         toolResults.add({
@@ -129,7 +134,9 @@ class AIService {
         // Her tool call için sonuç al
         for (final toolCall in toolCalls) {
           final functionName = toolCall['function']['name'] as String;
-          final arguments = jsonDecode(toolCall['function']['arguments'] as String) as Map<String, dynamic>;
+          final arguments =
+              jsonDecode(toolCall['function']['arguments'] as String)
+                  as Map<String, dynamic>;
 
           debugPrint('📞 [AIService] Tool: $functionName');
           debugPrint('📋 [AIService] Args: $arguments');
@@ -174,9 +181,10 @@ class AIService {
       await _memory.saveMessage('user', message);
       await _memory.saveMessage('assistant', responseText);
 
-      debugPrint('✅ [AIService] Cevap: ${responseText.substring(0, responseText.length.clamp(0, 100))}...');
+      debugPrint(
+        '✅ [AIService] Cevap: ${responseText.substring(0, responseText.length.clamp(0, 100))}...',
+      );
       return responseText;
-
     } on AILimitExceededException {
       rethrow; // UI'da handle edilecek
     } catch (e, stack) {
@@ -210,13 +218,13 @@ class AIService {
 
     debugPrint('📤 [AIService] Cloud Function\'a istek gönderiliyor...');
 
-    final response = await http.post(
-      Uri.parse(_baseUrl),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: body,
-    ).timeout(const Duration(seconds: 60));
+    final response = await http
+        .post(
+          Uri.parse(_baseUrl),
+          headers: {'Content-Type': 'application/json'},
+          body: body,
+        )
+        .timeout(const Duration(seconds: 60));
 
     debugPrint('📥 [AIService] HTTP Status: ${response.statusCode}');
 
@@ -231,7 +239,9 @@ class AIService {
         final limitType = json['limitType'] as String? ?? 'daily';
 
         throw AILimitExceededException(
-          resetDate: resetDateStr != null ? DateTime.parse(resetDateStr) : DateTime.now().add(const Duration(days: 1)),
+          resetDate: resetDateStr != null
+              ? DateTime.parse(resetDateStr)
+              : DateTime.now().add(const Duration(days: 1)),
           remainingQuota: remainingQuota,
           limitType: limitType,
         );
@@ -243,7 +253,9 @@ class AIService {
       debugPrint('❌ [AIService] HTTP Error: ${response.statusCode}');
       debugPrint('❌ [AIService] Body: ${response.body}');
       final errorMsg = json['message'] ?? json['error'] ?? 'Unknown error';
-      throw Exception('Cloud Function error: ${response.statusCode} - $errorMsg');
+      throw Exception(
+        'Cloud Function error: ${response.statusCode} - $errorMsg',
+      );
     }
 
     return json;

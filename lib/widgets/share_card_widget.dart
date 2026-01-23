@@ -32,10 +32,7 @@ class ShareCardWidget extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF1A1A2E),
-            Color(0xFF6C63FF),
-          ],
+          colors: [Color(0xFF1A1A2E), Color(0xFF6C63FF)],
         ),
         borderRadius: BorderRadius.circular(24),
       ),
@@ -52,11 +49,7 @@ class ShareCardWidget extends StatelessWidget {
               color: iconColor.withValues(alpha: 0.2),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              size: 52,
-              color: iconColor,
-            ),
+            child: Icon(icon, size: 52, color: iconColor),
           ),
           const SizedBox(height: 20),
 
@@ -75,9 +68,9 @@ class ShareCardWidget extends StatelessWidget {
           Text(
             l10n.shareCardDescription(categoryName),
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
-              color: Colors.white.withValues(alpha: 0.8),
+              color: Color(0xCCFFFFFF),
             ),
           ),
 
@@ -86,10 +79,7 @@ class ShareCardWidget extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               '\$${_formatCurrency(yearlyAmount!)}',
-              style: const TextStyle(
-                fontSize: 16,
-                color: Color(0x88FFFFFF),
-              ),
+              style: const TextStyle(fontSize: 16, color: Color(0x88FFFFFF)),
             ),
           ],
 
@@ -98,21 +88,14 @@ class ShareCardWidget extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               frequency!,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Color(0x60FFFFFF),
-              ),
+              style: const TextStyle(fontSize: 14, color: Color(0x60FFFFFF)),
             ),
           ],
 
           const SizedBox(height: 32),
 
           // Divider
-          Container(
-            width: 100,
-            height: 1,
-            color: const Color(0x40FFFFFF),
-          ),
+          Container(width: 100, height: 1, color: const Color(0x40FFFFFF)),
           const SizedBox(height: 16),
 
           // CTA

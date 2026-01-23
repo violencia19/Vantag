@@ -5,13 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Sound effect types available in the app
 enum SoundType {
   celebration, // Pursuit completed, achievement unlocked
-  success,     // Expense added, settings saved
-  coin,        // Quick add expense, money-related
-  tap,         // Button taps (optional)
-  warning,     // Spending exceeds threshold
-  cashOut,     // Expense confirmation
-  victory,     // "Vazgectim" decision
-  countdown,   // Timer tick
+  success, // Expense added, settings saved
+  coin, // Quick add expense, money-related
+  tap, // Button taps (optional)
+  warning, // Spending exceeds threshold
+  cashOut, // Expense confirmation
+  victory, // "Vazgectim" decision
+  countdown, // Timer tick
 }
 
 /// Sound effects service for key moments in the app
@@ -55,7 +55,9 @@ class SoundService {
       await _player.setReleaseMode(ReleaseMode.stop);
 
       _isInitialized = true;
-      debugPrint('[Sound] Service initialized. Enabled: $_isEnabled, Volume: $_volume');
+      debugPrint(
+        '[Sound] Service initialized. Enabled: $_isEnabled, Volume: $_volume',
+      );
     } catch (e) {
       debugPrint('[Sound] Initialization error: $e');
       _isInitialized = true; // Mark as initialized to avoid retry loops

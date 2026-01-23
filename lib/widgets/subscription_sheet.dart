@@ -13,10 +13,7 @@ import '../utils/currency_utils.dart';
 class SubscriptionSheet extends StatefulWidget {
   final VoidCallback? onChanged;
 
-  const SubscriptionSheet({
-    super.key,
-    this.onChanged,
-  });
+  const SubscriptionSheet({super.key, this.onChanged});
 
   @override
   State<SubscriptionSheet> createState() => _SubscriptionSheetState();
@@ -39,7 +36,8 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
     final total = await _subscriptionService.getTotalMonthlyAmount();
     if (mounted) {
       setState(() {
-        _subscriptions = subs..sort((a, b) => a.daysUntilRenewal.compareTo(b.daysUntilRenewal));
+        _subscriptions = subs
+          ..sort((a, b) => a.daysUntilRenewal.compareTo(b.daysUntilRenewal));
         _totalMonthly = total;
         _isLoading = false;
       });
@@ -83,10 +81,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
         decoration: BoxDecoration(
           color: QuietLuxury.background,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-          border: Border.all(
-            color: QuietLuxury.cardBorder,
-            width: 0.5,
-          ),
+          border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
         ),
         child: Column(
           children: [
@@ -130,13 +125,15 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          l10n.subscriptions,
-                          style: QuietLuxury.heading,
-                        ),
+                        Text(l10n.subscriptions, style: QuietLuxury.heading),
                         const SizedBox(height: 2),
                         Text(
-                          l10n.monthlyTotalAmount(formatTurkishCurrency(_totalMonthly, decimalDigits: 2)),
+                          l10n.monthlyTotalAmount(
+                            formatTurkishCurrency(
+                              _totalMonthly,
+                              decimalDigits: 2,
+                            ),
+                          ),
                           style: QuietLuxury.label,
                         ),
                       ],
@@ -175,7 +172,9 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                   Navigator.pop(context); // Sheet'i kapat
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => const SubscriptionScreen()),
+                    MaterialPageRoute(
+                      builder: (_) => const SubscriptionScreen(),
+                    ),
                   );
                 },
               ),
@@ -194,20 +193,20 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                       ),
                     )
                   : _subscriptions.isEmpty
-                      ? _buildEmptyState(l10n)
-                      : ListView.builder(
-                          controller: scrollController,
-                          padding: QuietLuxury.pagePadding,
-                          itemCount: _subscriptions.length,
-                          itemBuilder: (context, index) {
-                            final sub = _subscriptions[index];
-                            return _SubscriptionCard(
-                              subscription: sub,
-                              onEdit: () => _showAddEditDialog(existing: sub),
-                              onDelete: () => _deleteSubscription(sub.id),
-                            );
-                          },
-                        ),
+                  ? _buildEmptyState(l10n)
+                  : ListView.builder(
+                      controller: scrollController,
+                      padding: QuietLuxury.pagePadding,
+                      itemCount: _subscriptions.length,
+                      itemBuilder: (context, index) {
+                        final sub = _subscriptions[index];
+                        return _SubscriptionCard(
+                          subscription: sub,
+                          onEdit: () => _showAddEditDialog(existing: sub),
+                          onDelete: () => _deleteSubscription(sub.id),
+                        );
+                      },
+                    ),
             ),
           ],
         ),
@@ -226,10 +225,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
             decoration: BoxDecoration(
               color: QuietLuxury.cardBackground,
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(
-                color: QuietLuxury.cardBorder,
-                width: 0.5,
-              ),
+              border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
             ),
             child: Icon(
               PhosphorIconsDuotone.repeat,
@@ -243,10 +239,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
             style: QuietLuxury.heading.copyWith(fontSize: 18),
           ),
           const SizedBox(height: 8),
-          Text(
-            l10n.addSubscriptionsLikeNetflix,
-            style: QuietLuxury.subheading,
-          ),
+          Text(l10n.addSubscriptionsLikeNetflix, style: QuietLuxury.subheading),
           const SizedBox(height: 24),
           Pressable(
             onTap: () => _showAddEditDialog(),
@@ -341,10 +334,7 @@ class _SubscriptionCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: QuietLuxury.cardBackground,
             borderRadius: QuietLuxury.cardRadius,
-            border: Border.all(
-              color: QuietLuxury.cardBorder,
-              width: 0.5,
-            ),
+            border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
           ),
           child: Row(
             children: [
@@ -362,10 +352,7 @@ class _SubscriptionCard extends StatelessWidget {
                     ],
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: QuietLuxury.cardBorder,
-                    width: 0.5,
-                  ),
+                  border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
                 ),
                 child: Center(
                   child: Text(
@@ -394,9 +381,14 @@ class _SubscriptionCard extends StatelessWidget {
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
                           decoration: BoxDecoration(
-                            color: QuietLuxury.textTertiary.withValues(alpha: 0.1),
+                            color: QuietLuxury.textTertiary.withValues(
+                              alpha: 0.1,
+                            ),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
@@ -439,10 +431,7 @@ class _SubscriptionCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 2),
-                  Text(
-                    l10n.perMonth,
-                    style: QuietLuxury.label,
-                  ),
+                  Text(l10n.perMonth, style: QuietLuxury.label),
                 ],
               ),
             ],
@@ -534,10 +523,7 @@ class _SubscriptionCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: color.withValues(alpha: 0.2),
-            width: 0.5,
-          ),
+          border: Border.all(color: color.withValues(alpha: 0.2), width: 0.5),
         ),
         child: Row(
           children: [
@@ -562,13 +548,11 @@ class _AddEditSubscriptionSheet extends StatefulWidget {
   final Subscription? existing;
   final VoidCallback onSaved;
 
-  const _AddEditSubscriptionSheet({
-    this.existing,
-    required this.onSaved,
-  });
+  const _AddEditSubscriptionSheet({this.existing, required this.onSaved});
 
   @override
-  State<_AddEditSubscriptionSheet> createState() => _AddEditSubscriptionSheetState();
+  State<_AddEditSubscriptionSheet> createState() =>
+      _AddEditSubscriptionSheetState();
 }
 
 class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
@@ -589,7 +573,10 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
     super.initState();
     if (widget.existing != null) {
       _nameController.text = widget.existing!.name;
-      _amountController.text = formatTurkishCurrency(widget.existing!.amount, decimalDigits: 2);
+      _amountController.text = formatTurkishCurrency(
+        widget.existing!.amount,
+        decimalDigits: 2,
+      );
       _renewalDay = widget.existing!.renewalDay;
       _category = widget.existing!.category;
       _isActive = widget.existing!.isActive;
@@ -633,7 +620,10 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
     );
 
     if (_isEditMode) {
-      await _subscriptionService.updateSubscription(widget.existing!.id, subscription);
+      await _subscriptionService.updateSubscription(
+        widget.existing!.id,
+        subscription,
+      );
     } else {
       await _subscriptionService.addSubscription(subscription);
     }
@@ -778,19 +768,22 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                             isExpanded: true,
                             dropdownColor: context.appColors.surface,
                             items: List.generate(31, (i) => i + 1)
-                                .map((day) => DropdownMenuItem(
-                                      value: day,
-                                      child: Text(
-                                        l10n.dayOfMonth(day),
-                                        style: TextStyle(
-                                          color: context.appColors.textPrimary,
-                                          fontSize: 14,
-                                        ),
+                                .map(
+                                  (day) => DropdownMenuItem(
+                                    value: day,
+                                    child: Text(
+                                      l10n.dayOfMonth(day),
+                                      style: TextStyle(
+                                        color: context.appColors.textPrimary,
+                                        fontSize: 14,
                                       ),
-                                    ))
+                                    ),
+                                  ),
+                                )
                                 .toList(),
                             onChanged: (val) {
-                              if (val != null) setState(() => _renewalDay = val);
+                              if (val != null)
+                                setState(() => _renewalDay = val);
                             },
                           ),
                         ),
@@ -824,15 +817,17 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                   isExpanded: true,
                   dropdownColor: context.appColors.surface,
                   items: ExpenseCategory.all
-                      .map((cat) => DropdownMenuItem(
-                            value: cat,
-                            child: Text(
-                              ExpenseCategory.getLocalizedName(cat, l10n),
-                              style: TextStyle(
-                                color: context.appColors.textPrimary,
-                              ),
+                      .map(
+                        (cat) => DropdownMenuItem(
+                          value: cat,
+                          child: Text(
+                            ExpenseCategory.getLocalizedName(cat, l10n),
+                            style: TextStyle(
+                              color: context.appColors.textPrimary,
                             ),
-                          ))
+                          ),
+                        ),
+                      )
                       .toList(),
                   onChanged: (val) {
                     if (val != null) setState(() => _category = val);
@@ -866,7 +861,9 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: context.appColors.primary,
                   foregroundColor: context.appColors.background,
-                  disabledBackgroundColor: context.appColors.primary.withValues(alpha: 0.5),
+                  disabledBackgroundColor: context.appColors.primary.withValues(
+                    alpha: 0.5,
+                  ),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -878,7 +875,9 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                         width: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(context.appColors.background),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            context.appColors.background,
+                          ),
                         ),
                       )
                     : Text(
@@ -953,7 +952,8 @@ class _SubscriptionManageButton extends StatefulWidget {
   const _SubscriptionManageButton({required this.onTap});
 
   @override
-  State<_SubscriptionManageButton> createState() => _SubscriptionManageButtonState();
+  State<_SubscriptionManageButton> createState() =>
+      _SubscriptionManageButtonState();
 }
 
 class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
@@ -1005,11 +1005,7 @@ class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
         child: Row(
           children: [
             // Icon
-            Icon(
-              PhosphorIconsDuotone.calendar,
-              size: 20,
-              color: accentColor,
-            ),
+            Icon(PhosphorIconsDuotone.calendar, size: 20, color: accentColor),
             const SizedBox(width: 12),
 
             // Text
@@ -1031,8 +1027,11 @@ class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
                     _isLoading
                         ? l10n.loading
                         : _stats != null && _stats!.totalCount > 0
-                            ? l10n.subscriptionCount(_stats!.totalCount, _stats!.totalMonthlyCost.toStringAsFixed(0))
-                            : l10n.viewSubscriptionsInCalendar,
+                        ? l10n.subscriptionCount(
+                            _stats!.totalCount,
+                            _stats!.totalMonthlyCost.toStringAsFixed(0),
+                          )
+                        : l10n.viewSubscriptionsInCalendar,
                     style: QuietLuxury.label,
                   ),
                 ],

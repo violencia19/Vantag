@@ -90,10 +90,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                 const SizedBox(height: 24),
 
                 // Title
-                Text(
-                  l10n.addSavings,
-                  style: QuietLuxury.heading,
-                ),
+                Text(l10n.addSavings, style: QuietLuxury.heading),
                 const SizedBox(height: 16),
 
                 // Amount input
@@ -133,9 +130,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                     ),
                   ),
                   keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   autofocus: widget.prefilledAmount == null,
                 ),
                 const SizedBox(height: 16),
@@ -222,8 +217,9 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      disabledBackgroundColor:
-                          QuietLuxury.positive.withValues(alpha: 0.5),
+                      disabledBackgroundColor: QuietLuxury.positive.withValues(
+                        alpha: 0.5,
+                      ),
                     ),
                     child: _isLoading
                         ? const SizedBox(
@@ -231,8 +227,9 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                             height: 20,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
                             ),
                           )
                         : Row(
@@ -410,10 +407,7 @@ class _QuickAmountChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: QuietLuxury.cardBackground,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: QuietLuxury.cardBorder,
-            width: 0.5,
-          ),
+          border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
         ),
         child: Text(
           '+$currencySymbol${amount.toStringAsFixed(0)}',

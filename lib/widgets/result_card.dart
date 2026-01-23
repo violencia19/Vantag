@@ -45,7 +45,9 @@ class ResultCard extends StatelessWidget {
           // Time display - Two blocks side by side
           Builder(
             builder: (context) {
-              final timeDisplay = getSimulationTimeDisplay(result.hoursRequired);
+              final timeDisplay = getSimulationTimeDisplay(
+                result.hoursRequired,
+              );
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -192,7 +194,10 @@ class ResultCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCurrencyAlternatives(BuildContext context, AppLocalizations l10n) {
+  Widget _buildCurrencyAlternatives(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) {
     if (amount == null || exchangeRates == null) return const SizedBox.shrink();
 
     final usdAmount = amount! / exchangeRates!.usdRate;
@@ -222,7 +227,9 @@ class ResultCard extends StatelessWidget {
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
-                  l10n.withThisAmountYouCouldBuy(_formatCurrency(amount!, decimals: 2)),
+                  l10n.withThisAmountYouCouldBuy(
+                    _formatCurrency(amount!, decimals: 2),
+                  ),
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
@@ -239,9 +246,21 @@ class ResultCard extends StatelessWidget {
             spacing: 16,
             runSpacing: 8,
             children: [
-              _buildCurrencyItem(context, '💵', '${_formatCurrency(usdAmount)} USD'),
-              _buildCurrencyItem(context, '💶', '${_formatCurrency(eurAmount)} EUR'),
-              _buildCurrencyItem(context, '🥇', l10n.goldGrams(_formatCurrency(goldGrams, decimals: 1))),
+              _buildCurrencyItem(
+                context,
+                '💵',
+                '${_formatCurrency(usdAmount)} USD',
+              ),
+              _buildCurrencyItem(
+                context,
+                '💶',
+                '${_formatCurrency(eurAmount)} EUR',
+              ),
+              _buildCurrencyItem(
+                context,
+                '🥇',
+                l10n.goldGrams(_formatCurrency(goldGrams, decimals: 1)),
+              ),
             ],
           ),
         ],
@@ -275,11 +294,7 @@ class ResultCard extends StatelessWidget {
   }) {
     return Column(
       children: [
-        Icon(
-          icon,
-          size: 20,
-          color: context.appColors.textTertiary,
-        ),
+        Icon(icon, size: 20, color: context.appColors.textTertiary),
         const SizedBox(height: 8),
         Text(
           value,

@@ -112,7 +112,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.95),
+      barrierColor: context.appColors.background.withValues(alpha: 0.95),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => StatefulBuilder(
@@ -123,7 +123,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
           decoration: BoxDecoration(
             color: context.appColors.background,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+            border: Border.all(color: context.appColors.cardBorder),
           ),
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -180,9 +180,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                               : context.appColors.surfaceLight,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: isSelected
-                                ? tempColor
-                                : Colors.transparent,
+                            color: isSelected ? tempColor : Colors.transparent,
                             width: 2,
                           ),
                         ),
@@ -190,7 +188,9 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           child: Icon(
                             iconData,
                             size: 24,
-                            color: isSelected ? tempColor : context.appColors.textSecondary,
+                            color: isSelected
+                                ? tempColor
+                                : context.appColors.textSecondary,
                           ),
                         ),
                       ),
@@ -216,15 +216,26 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           color: color,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: isSelected ? Colors.white : Colors.transparent,
+                            color: isSelected
+                                ? context.appColors.textPrimary
+                                : Colors.transparent,
                             width: 2,
                           ),
                           boxShadow: isSelected
-                              ? [BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 8)]
+                              ? [
+                                  BoxShadow(
+                                    color: color.withValues(alpha: 0.5),
+                                    blurRadius: 8,
+                                  ),
+                                ]
                               : null,
                         ),
                         child: isSelected
-                            ? const Icon(PhosphorIconsBold.check, color: Colors.white, size: 18)
+                            ? Icon(
+                                PhosphorIconsBold.check,
+                                color: context.appColors.textPrimary,
+                                size: 18,
+                              )
                             : null,
                       ),
                     );
@@ -240,10 +251,14 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                   ),
                   decoration: InputDecoration(
                     labelText: AppLocalizations.of(context).categoryName,
-                    labelStyle: TextStyle(color: context.appColors.textSecondary),
+                    labelStyle: TextStyle(
+                      color: context.appColors.textSecondary,
+                    ),
                     hintText: AppLocalizations.of(context).categoryNameHint,
                     hintStyle: TextStyle(
-                      color: context.appColors.textTertiary.withValues(alpha: 0.5),
+                      color: context.appColors.textTertiary.withValues(
+                        alpha: 0.5,
+                      ),
                     ),
                     filled: true,
                     fillColor: context.appColors.surfaceLight,
@@ -283,7 +298,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                         : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: context.appColors.primary,
-                      foregroundColor: Colors.white,
+                      foregroundColor: context.appColors.textPrimary,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -499,9 +514,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
             decoration: BoxDecoration(
               color: context.appColors.surface,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.1),
-              ),
+              border: Border.all(color: context.appColors.cardBorder),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -513,11 +526,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     color: category.color.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    category.icon,
-                    size: 40,
-                    color: category.color,
-                  ),
+                  child: Icon(category.icon, size: 40, color: category.color),
                 ),
                 const SizedBox(height: 12),
                 Text(
@@ -583,13 +592,18 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                         width: 80,
                         height: 80,
                         decoration: BoxDecoration(
-                          color: (_selectedCategory?.color ?? context.appColors.primary).withValues(alpha: 0.15),
+                          color:
+                              (_selectedCategory?.color ??
+                                      context.appColors.primary)
+                                  .withValues(alpha: 0.15),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           _selectedCategory?.icon ?? PhosphorIconsFill.sparkle,
                           size: 44,
-                          color: _selectedCategory?.color ?? context.appColors.primary,
+                          color:
+                              _selectedCategory?.color ??
+                              context.appColors.primary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -618,7 +632,9 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           activeTrackColor: context.appColors.primary,
                           inactiveTrackColor: context.appColors.surfaceLight,
                           thumbColor: context.appColors.primary,
-                          overlayColor: context.appColors.primary.withValues(alpha: 0.2),
+                          overlayColor: context.appColors.primary.withValues(
+                            alpha: 0.2,
+                          ),
                           trackHeight: 6,
                         ),
                         child: Slider(
@@ -661,7 +677,9 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: context.appColors.primary),
+                            borderSide: BorderSide(
+                              color: context.appColors.primary,
+                            ),
                           ),
                         ),
                         onChanged: (value) {
@@ -697,7 +715,12 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                       return Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: ChoiceChip(
-                          label: Text(HabitCalculator.getLocalizedFrequency(freqKey, l10n)),
+                          label: Text(
+                            HabitCalculator.getLocalizedFrequency(
+                              freqKey,
+                              l10n,
+                            ),
+                          ),
                           selected: isSelected,
                           onSelected: (selected) {
                             HapticFeedback.selectionClick();
@@ -709,7 +732,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           backgroundColor: context.appColors.surfaceLight,
                           labelStyle: TextStyle(
                             color: isSelected
-                                ? Colors.white
+                                ? context.appColors.textPrimary
                                 : context.appColors.textSecondary,
                             fontWeight: isSelected
                                 ? FontWeight.w600
@@ -739,7 +762,9 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     Expanded(
                       child: TextField(
                         controller: _incomeController,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
                         enabled: !_dontWantToSay,
                         inputFormatters: [
                           PremiumCurrencyFormatter(
@@ -756,7 +781,9 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                         decoration: InputDecoration(
                           hintText: l10n.exampleAmount,
                           hintStyle: TextStyle(
-                            color: context.appColors.textTertiary.withValues(alpha: 0.5),
+                            color: context.appColors.textTertiary.withValues(
+                              alpha: 0.5,
+                            ),
                           ),
                           filled: true,
                           fillColor: _dontWantToSay
@@ -772,7 +799,9 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: context.appColors.primary),
+                            borderSide: BorderSide(
+                              color: context.appColors.primary,
+                            ),
                           ),
                         ),
                         onChanged: (value) {
@@ -854,10 +883,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     decoration: BoxDecoration(
                       gradient: _isValid
                           ? const LinearGradient(
-                              colors: [
-                                Color(0xFF6C63FF),
-                                Color(0xFF4ECDC4),
-                              ],
+                              colors: [Color(0xFF6C63FF), Color(0xFF4ECDC4)],
                             )
                           : null,
                       color: _isValid ? null : context.appColors.surfaceLight,
@@ -867,7 +893,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                       onPressed: _isValid ? _calculate : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
-                        foregroundColor: Colors.white,
+                        foregroundColor: context.appColors.textPrimary,
                         shadowColor: Colors.transparent,
                         padding: const EdgeInsets.symmetric(vertical: 18),
                         shape: RoundedRectangleBorder(
@@ -894,7 +920,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                             PhosphorIconsDuotone.arrowRight,
                             size: 20,
                             color: _isValid
-                                ? Colors.white
+                                ? context.appColors.textPrimary
                                 : context.appColors.textTertiary,
                           ),
                         ],
@@ -938,10 +964,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
       builder: (context, animValue, child) {
         return Opacity(
           opacity: animValue,
-          child: Transform.scale(
-            scale: 0.9 + (0.1 * animValue),
-            child: child,
-          ),
+          child: Transform.scale(scale: 0.9 + (0.1 * animValue), child: child),
         );
       },
       child: SingleChildScrollView(
@@ -954,7 +977,8 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
               width: 120,
               height: 120,
               decoration: BoxDecoration(
-                color: (_selectedCategory?.color ?? context.appColors.primary).withValues(alpha: 0.15),
+                color: (_selectedCategory?.color ?? context.appColors.primary)
+                    .withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -972,10 +996,10 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
               builder: (context, value, child) {
                 return Text(
                   l10n.resultDays(value.toString()),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 64,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: context.appColors.textPrimary,
                   ),
                 );
               },
@@ -991,10 +1015,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
             ),
             const SizedBox(height: 32),
             // Divider
-            Container(
-              height: 1,
-              color: Colors.white.withValues(alpha: 0.2),
-            ),
+            Container(height: 1, color: context.appColors.textPrimary.withValues(alpha: 0.2)),
             const SizedBox(height: 24),
             // Detail row
             Text(
@@ -1077,14 +1098,14 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 22, color: Colors.white),
+            Icon(icon, size: 22, color: context.appColors.textPrimary),
             const SizedBox(width: 8),
             Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: context.appColors.textPrimary,
               ),
             ),
           ],
@@ -1103,7 +1124,10 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
       categoryName: _selectedCategory!.name,
       yearlyDays: _result!.yearlyDays,
       yearlyAmount: _result!.yearlyAmount,
-      frequency: HabitCalculator.getLocalizedFrequency(_selectedFrequency!, l10n),
+      frequency: HabitCalculator.getLocalizedFrequency(
+        _selectedFrequency!,
+        l10n,
+      ),
     );
   }
 

@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 /// Abonelik renk paleti
 class SubscriptionColors {
   static const List<Color> palette = [
-    Color(0xFFFF6B6B),  // 0: Kırmızı
-    Color(0xFF4ECDC4),  // 1: Turkuaz
-    Color(0xFF6C63FF),  // 2: Mor
-    Color(0xFFFFD93D),  // 3: Sarı
-    Color(0xFFFF8C42),  // 4: Turuncu
-    Color(0xFF95E1D3),  // 5: Mint
-    Color(0xFFF38181),  // 6: Pembe
-    Color(0xFF3D5A80),  // 7: Lacivert
+    Color(0xFFFF6B6B), // 0: Kırmızı
+    Color(0xFF4ECDC4), // 1: Turkuaz
+    Color(0xFF6C63FF), // 2: Mor
+    Color(0xFFFFD93D), // 3: Sarı
+    Color(0xFFFF8C42), // 4: Turuncu
+    Color(0xFF95E1D3), // 5: Mint
+    Color(0xFFF38181), // 6: Pembe
+    Color(0xFF3D5A80), // 7: Lacivert
   ];
 
   /// Index'e göre renk döndür (mod 8 ile sınırla)
@@ -52,7 +52,11 @@ class Subscription {
   /// Sonraki yenileme tarihini hesapla
   DateTime get nextRenewalDate {
     final now = DateTime.now();
-    final thisMonth = DateTime(now.year, now.month, _clampDay(now.year, now.month));
+    final thisMonth = DateTime(
+      now.year,
+      now.month,
+      _clampDay(now.year, now.month),
+    );
 
     if (thisMonth.isAfter(now) || thisMonth.isAtSameMomentAs(now)) {
       return thisMonth;
@@ -146,30 +150,30 @@ class Subscription {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'amount': amount,
-        'renewalDay': renewalDay,
-        'category': category,
-        'isActive': isActive,
-        'autoRecord': autoRecord,
-        'createdAt': createdAt.toIso8601String(),
-        'colorIndex': colorIndex,
-        'notes': notes,
-      };
+    'id': id,
+    'name': name,
+    'amount': amount,
+    'renewalDay': renewalDay,
+    'category': category,
+    'isActive': isActive,
+    'autoRecord': autoRecord,
+    'createdAt': createdAt.toIso8601String(),
+    'colorIndex': colorIndex,
+    'notes': notes,
+  };
 
   factory Subscription.fromJson(Map<String, dynamic> json) => Subscription(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        amount: (json['amount'] as num).toDouble(),
-        renewalDay: json['renewalDay'] as int,
-        category: json['category'] as String,
-        isActive: json['isActive'] as bool? ?? true,
-        autoRecord: json['autoRecord'] as bool? ?? true,
-        createdAt: DateTime.parse(json['createdAt'] as String),
-        colorIndex: json['colorIndex'] as int? ?? 0,
-        notes: json['notes'] as String?,
-      );
+    id: json['id'] as String,
+    name: json['name'] as String,
+    amount: (json['amount'] as num).toDouble(),
+    renewalDay: json['renewalDay'] as int,
+    category: json['category'] as String,
+    isActive: json['isActive'] as bool? ?? true,
+    autoRecord: json['autoRecord'] as bool? ?? true,
+    createdAt: DateTime.parse(json['createdAt'] as String),
+    colorIndex: json['colorIndex'] as int? ?? 0,
+    notes: json['notes'] as String?,
+  );
 
   static String encodeList(List<Subscription> subs) =>
       jsonEncode(subs.map((s) => s.toJson()).toList());

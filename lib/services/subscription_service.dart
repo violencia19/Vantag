@@ -75,7 +75,9 @@ class SubscriptionService {
   }
 
   /// Yaklaşan abonelikleri getir (önümüzdeki X gün içinde)
-  Future<List<Subscription>> getUpcomingSubscriptions({int withinDays = 3}) async {
+  Future<List<Subscription>> getUpcomingSubscriptions({
+    int withinDays = 3,
+  }) async {
     final active = await getActiveSubscriptions();
     return active.where((s) => s.daysUntilRenewal <= withinDays).toList()
       ..sort((a, b) => a.daysUntilRenewal.compareTo(b.daysUntilRenewal));
@@ -147,7 +149,10 @@ class SubscriptionService {
   }
 
   /// Belirli bir ay için abonelikleri gün bazında grupla (takvim görünümü için)
-  Future<Map<int, List<Subscription>>> getSubscriptionsByDay(int year, int month) async {
+  Future<Map<int, List<Subscription>>> getSubscriptionsByDay(
+    int year,
+    int month,
+  ) async {
     final active = await getActiveSubscriptions();
     final Map<int, List<Subscription>> result = {};
 

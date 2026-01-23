@@ -1,5 +1,5 @@
-/// Stub implementation for platforms that don't support Firebase Messaging
-/// (Windows, macOS, Linux, Web)
+// Stub implementation for platforms that don't support Firebase Messaging
+// (Windows, macOS, Linux, Web)
 
 typedef MessageCallback = Future<void> Function(Map<String, dynamic> message);
 typedef TokenCallback = void Function(String token);

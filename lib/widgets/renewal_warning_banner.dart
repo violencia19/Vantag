@@ -92,18 +92,18 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: (isUrgent
-                      ? const Color(0xFFFF8C42)
-                      : const Color(0xFF4ECDC4))
-                  .withValues(alpha: 0.5 * _pulseAnimation.value),
+              color:
+                  (isUrgent ? const Color(0xFFFF8C42) : const Color(0xFF4ECDC4))
+                      .withValues(alpha: 0.5 * _pulseAnimation.value),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: (isUrgent
-                        ? const Color(0xFFFF8C42)
-                        : const Color(0xFF4ECDC4))
-                    .withValues(alpha: 0.2 * _pulseAnimation.value),
+                color:
+                    (isUrgent
+                            ? const Color(0xFFFF8C42)
+                            : const Color(0xFF4ECDC4))
+                        .withValues(alpha: 0.2 * _pulseAnimation.value),
                 blurRadius: 16,
                 spreadRadius: 2,
               ),
@@ -193,10 +193,11 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: (isUrgent
-                                      ? const Color(0xFFFF8C42)
-                                      : const Color(0xFF4ECDC4))
-                                  .withValues(alpha: 0.15),
+                              color:
+                                  (isUrgent
+                                          ? const Color(0xFFFF8C42)
+                                          : const Color(0xFF4ECDC4))
+                                      .withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
@@ -341,11 +342,7 @@ class RenewalBadgeLoader extends StatelessWidget {
   final int withinDays;
   final VoidCallback? onTap;
 
-  const RenewalBadgeLoader({
-    super.key,
-    this.withinDays = 1,
-    this.onTap,
-  });
+  const RenewalBadgeLoader({super.key, this.withinDays = 1, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -376,7 +373,8 @@ class SubscriptionSummaryCard extends StatefulWidget {
   const SubscriptionSummaryCard({super.key, this.onTap});
 
   @override
-  State<SubscriptionSummaryCard> createState() => _SubscriptionSummaryCardState();
+  State<SubscriptionSummaryCard> createState() =>
+      _SubscriptionSummaryCardState();
 }
 
 class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
@@ -412,9 +410,7 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: _stats!.statusColor.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: _stats!.statusColor.withValues(alpha: 0.3)),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
@@ -471,7 +467,9 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
                         ),
                       ),
                       Text(
-                        l10n.amountPerMonth(_stats!.totalMonthlyCost.toStringAsFixed(0)),
+                        l10n.amountPerMonth(
+                          _stats!.totalMonthlyCost.toStringAsFixed(0),
+                        ),
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,

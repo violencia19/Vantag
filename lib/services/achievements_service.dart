@@ -19,81 +19,412 @@ class AchievementsService {
   // ========== ACHIEVEMENT DEFINITIONS (ID, category, tier, target only) ==========
 
   static const _streakAchievements = <_AchievementDef>[
-    _AchievementDef(id: 'streak_b1', category: AchievementCategory.streak, tier: AchievementTier.bronze, subTier: 1, target: 3),
-    _AchievementDef(id: 'streak_b2', category: AchievementCategory.streak, tier: AchievementTier.bronze, subTier: 2, target: 7),
-    _AchievementDef(id: 'streak_b3', category: AchievementCategory.streak, tier: AchievementTier.bronze, subTier: 3, target: 14),
-    _AchievementDef(id: 'streak_s1', category: AchievementCategory.streak, tier: AchievementTier.silver, subTier: 1, target: 30),
-    _AchievementDef(id: 'streak_s2', category: AchievementCategory.streak, tier: AchievementTier.silver, subTier: 2, target: 60),
-    _AchievementDef(id: 'streak_s3', category: AchievementCategory.streak, tier: AchievementTier.silver, subTier: 3, target: 90),
-    _AchievementDef(id: 'streak_g1', category: AchievementCategory.streak, tier: AchievementTier.gold, subTier: 1, target: 150),
-    _AchievementDef(id: 'streak_g2', category: AchievementCategory.streak, tier: AchievementTier.gold, subTier: 2, target: 250),
-    _AchievementDef(id: 'streak_g3', category: AchievementCategory.streak, tier: AchievementTier.gold, subTier: 3, target: 365),
-    _AchievementDef(id: 'streak_p', category: AchievementCategory.streak, tier: AchievementTier.platinum, subTier: 1, target: 730),
+    _AchievementDef(
+      id: 'streak_b1',
+      category: AchievementCategory.streak,
+      tier: AchievementTier.bronze,
+      subTier: 1,
+      target: 3,
+    ),
+    _AchievementDef(
+      id: 'streak_b2',
+      category: AchievementCategory.streak,
+      tier: AchievementTier.bronze,
+      subTier: 2,
+      target: 7,
+    ),
+    _AchievementDef(
+      id: 'streak_b3',
+      category: AchievementCategory.streak,
+      tier: AchievementTier.bronze,
+      subTier: 3,
+      target: 14,
+    ),
+    _AchievementDef(
+      id: 'streak_s1',
+      category: AchievementCategory.streak,
+      tier: AchievementTier.silver,
+      subTier: 1,
+      target: 30,
+    ),
+    _AchievementDef(
+      id: 'streak_s2',
+      category: AchievementCategory.streak,
+      tier: AchievementTier.silver,
+      subTier: 2,
+      target: 60,
+    ),
+    _AchievementDef(
+      id: 'streak_s3',
+      category: AchievementCategory.streak,
+      tier: AchievementTier.silver,
+      subTier: 3,
+      target: 90,
+    ),
+    _AchievementDef(
+      id: 'streak_g1',
+      category: AchievementCategory.streak,
+      tier: AchievementTier.gold,
+      subTier: 1,
+      target: 150,
+    ),
+    _AchievementDef(
+      id: 'streak_g2',
+      category: AchievementCategory.streak,
+      tier: AchievementTier.gold,
+      subTier: 2,
+      target: 250,
+    ),
+    _AchievementDef(
+      id: 'streak_g3',
+      category: AchievementCategory.streak,
+      tier: AchievementTier.gold,
+      subTier: 3,
+      target: 365,
+    ),
+    _AchievementDef(
+      id: 'streak_p',
+      category: AchievementCategory.streak,
+      tier: AchievementTier.platinum,
+      subTier: 1,
+      target: 730,
+    ),
   ];
 
   static const _savingsAchievements = <_AchievementDef>[
-    _AchievementDef(id: 'savings_b1', category: AchievementCategory.savings, tier: AchievementTier.bronze, subTier: 1, target: 250),
-    _AchievementDef(id: 'savings_b2', category: AchievementCategory.savings, tier: AchievementTier.bronze, subTier: 2, target: 500),
-    _AchievementDef(id: 'savings_b3', category: AchievementCategory.savings, tier: AchievementTier.bronze, subTier: 3, target: 1000),
-    _AchievementDef(id: 'savings_s1', category: AchievementCategory.savings, tier: AchievementTier.silver, subTier: 1, target: 2500),
-    _AchievementDef(id: 'savings_s2', category: AchievementCategory.savings, tier: AchievementTier.silver, subTier: 2, target: 5000),
-    _AchievementDef(id: 'savings_s3', category: AchievementCategory.savings, tier: AchievementTier.silver, subTier: 3, target: 10000),
-    _AchievementDef(id: 'savings_g1', category: AchievementCategory.savings, tier: AchievementTier.gold, subTier: 1, target: 25000),
-    _AchievementDef(id: 'savings_g2', category: AchievementCategory.savings, tier: AchievementTier.gold, subTier: 2, target: 50000),
-    _AchievementDef(id: 'savings_g3', category: AchievementCategory.savings, tier: AchievementTier.gold, subTier: 3, target: 100000),
-    _AchievementDef(id: 'savings_p1', category: AchievementCategory.savings, tier: AchievementTier.platinum, subTier: 1, target: 250000),
-    _AchievementDef(id: 'savings_p2', category: AchievementCategory.savings, tier: AchievementTier.platinum, subTier: 2, target: 500000),
-    _AchievementDef(id: 'savings_p3', category: AchievementCategory.savings, tier: AchievementTier.platinum, subTier: 3, target: 1000000),
+    _AchievementDef(
+      id: 'savings_b1',
+      category: AchievementCategory.savings,
+      tier: AchievementTier.bronze,
+      subTier: 1,
+      target: 250,
+    ),
+    _AchievementDef(
+      id: 'savings_b2',
+      category: AchievementCategory.savings,
+      tier: AchievementTier.bronze,
+      subTier: 2,
+      target: 500,
+    ),
+    _AchievementDef(
+      id: 'savings_b3',
+      category: AchievementCategory.savings,
+      tier: AchievementTier.bronze,
+      subTier: 3,
+      target: 1000,
+    ),
+    _AchievementDef(
+      id: 'savings_s1',
+      category: AchievementCategory.savings,
+      tier: AchievementTier.silver,
+      subTier: 1,
+      target: 2500,
+    ),
+    _AchievementDef(
+      id: 'savings_s2',
+      category: AchievementCategory.savings,
+      tier: AchievementTier.silver,
+      subTier: 2,
+      target: 5000,
+    ),
+    _AchievementDef(
+      id: 'savings_s3',
+      category: AchievementCategory.savings,
+      tier: AchievementTier.silver,
+      subTier: 3,
+      target: 10000,
+    ),
+    _AchievementDef(
+      id: 'savings_g1',
+      category: AchievementCategory.savings,
+      tier: AchievementTier.gold,
+      subTier: 1,
+      target: 25000,
+    ),
+    _AchievementDef(
+      id: 'savings_g2',
+      category: AchievementCategory.savings,
+      tier: AchievementTier.gold,
+      subTier: 2,
+      target: 50000,
+    ),
+    _AchievementDef(
+      id: 'savings_g3',
+      category: AchievementCategory.savings,
+      tier: AchievementTier.gold,
+      subTier: 3,
+      target: 100000,
+    ),
+    _AchievementDef(
+      id: 'savings_p1',
+      category: AchievementCategory.savings,
+      tier: AchievementTier.platinum,
+      subTier: 1,
+      target: 250000,
+    ),
+    _AchievementDef(
+      id: 'savings_p2',
+      category: AchievementCategory.savings,
+      tier: AchievementTier.platinum,
+      subTier: 2,
+      target: 500000,
+    ),
+    _AchievementDef(
+      id: 'savings_p3',
+      category: AchievementCategory.savings,
+      tier: AchievementTier.platinum,
+      subTier: 3,
+      target: 1000000,
+    ),
   ];
 
   static const _decisionAchievements = <_AchievementDef>[
-    _AchievementDef(id: 'decision_b1', category: AchievementCategory.decision, tier: AchievementTier.bronze, subTier: 1, target: 3),
-    _AchievementDef(id: 'decision_b2', category: AchievementCategory.decision, tier: AchievementTier.bronze, subTier: 2, target: 7),
-    _AchievementDef(id: 'decision_b3', category: AchievementCategory.decision, tier: AchievementTier.bronze, subTier: 3, target: 15),
-    _AchievementDef(id: 'decision_s1', category: AchievementCategory.decision, tier: AchievementTier.silver, subTier: 1, target: 30),
-    _AchievementDef(id: 'decision_s2', category: AchievementCategory.decision, tier: AchievementTier.silver, subTier: 2, target: 60),
-    _AchievementDef(id: 'decision_s3', category: AchievementCategory.decision, tier: AchievementTier.silver, subTier: 3, target: 100),
-    _AchievementDef(id: 'decision_g1', category: AchievementCategory.decision, tier: AchievementTier.gold, subTier: 1, target: 200),
-    _AchievementDef(id: 'decision_g2', category: AchievementCategory.decision, tier: AchievementTier.gold, subTier: 2, target: 400),
-    _AchievementDef(id: 'decision_g3', category: AchievementCategory.decision, tier: AchievementTier.gold, subTier: 3, target: 700),
-    _AchievementDef(id: 'decision_p', category: AchievementCategory.decision, tier: AchievementTier.platinum, subTier: 1, target: 1000),
+    _AchievementDef(
+      id: 'decision_b1',
+      category: AchievementCategory.decision,
+      tier: AchievementTier.bronze,
+      subTier: 1,
+      target: 3,
+    ),
+    _AchievementDef(
+      id: 'decision_b2',
+      category: AchievementCategory.decision,
+      tier: AchievementTier.bronze,
+      subTier: 2,
+      target: 7,
+    ),
+    _AchievementDef(
+      id: 'decision_b3',
+      category: AchievementCategory.decision,
+      tier: AchievementTier.bronze,
+      subTier: 3,
+      target: 15,
+    ),
+    _AchievementDef(
+      id: 'decision_s1',
+      category: AchievementCategory.decision,
+      tier: AchievementTier.silver,
+      subTier: 1,
+      target: 30,
+    ),
+    _AchievementDef(
+      id: 'decision_s2',
+      category: AchievementCategory.decision,
+      tier: AchievementTier.silver,
+      subTier: 2,
+      target: 60,
+    ),
+    _AchievementDef(
+      id: 'decision_s3',
+      category: AchievementCategory.decision,
+      tier: AchievementTier.silver,
+      subTier: 3,
+      target: 100,
+    ),
+    _AchievementDef(
+      id: 'decision_g1',
+      category: AchievementCategory.decision,
+      tier: AchievementTier.gold,
+      subTier: 1,
+      target: 200,
+    ),
+    _AchievementDef(
+      id: 'decision_g2',
+      category: AchievementCategory.decision,
+      tier: AchievementTier.gold,
+      subTier: 2,
+      target: 400,
+    ),
+    _AchievementDef(
+      id: 'decision_g3',
+      category: AchievementCategory.decision,
+      tier: AchievementTier.gold,
+      subTier: 3,
+      target: 700,
+    ),
+    _AchievementDef(
+      id: 'decision_p',
+      category: AchievementCategory.decision,
+      tier: AchievementTier.platinum,
+      subTier: 1,
+      target: 1000,
+    ),
   ];
 
   static const _recordAchievements = <_AchievementDef>[
-    _AchievementDef(id: 'record_b1', category: AchievementCategory.record, tier: AchievementTier.bronze, subTier: 1, target: 5),
-    _AchievementDef(id: 'record_b2', category: AchievementCategory.record, tier: AchievementTier.bronze, subTier: 2, target: 15),
-    _AchievementDef(id: 'record_b3', category: AchievementCategory.record, tier: AchievementTier.bronze, subTier: 3, target: 30),
-    _AchievementDef(id: 'record_s1', category: AchievementCategory.record, tier: AchievementTier.silver, subTier: 1, target: 60),
-    _AchievementDef(id: 'record_s2', category: AchievementCategory.record, tier: AchievementTier.silver, subTier: 2, target: 120),
-    _AchievementDef(id: 'record_s3', category: AchievementCategory.record, tier: AchievementTier.silver, subTier: 3, target: 200),
-    _AchievementDef(id: 'record_g1', category: AchievementCategory.record, tier: AchievementTier.gold, subTier: 1, target: 350),
-    _AchievementDef(id: 'record_g2', category: AchievementCategory.record, tier: AchievementTier.gold, subTier: 2, target: 600),
-    _AchievementDef(id: 'record_g3', category: AchievementCategory.record, tier: AchievementTier.gold, subTier: 3, target: 1000),
-    _AchievementDef(id: 'record_p', category: AchievementCategory.record, tier: AchievementTier.platinum, subTier: 1, target: 2000),
+    _AchievementDef(
+      id: 'record_b1',
+      category: AchievementCategory.record,
+      tier: AchievementTier.bronze,
+      subTier: 1,
+      target: 5,
+    ),
+    _AchievementDef(
+      id: 'record_b2',
+      category: AchievementCategory.record,
+      tier: AchievementTier.bronze,
+      subTier: 2,
+      target: 15,
+    ),
+    _AchievementDef(
+      id: 'record_b3',
+      category: AchievementCategory.record,
+      tier: AchievementTier.bronze,
+      subTier: 3,
+      target: 30,
+    ),
+    _AchievementDef(
+      id: 'record_s1',
+      category: AchievementCategory.record,
+      tier: AchievementTier.silver,
+      subTier: 1,
+      target: 60,
+    ),
+    _AchievementDef(
+      id: 'record_s2',
+      category: AchievementCategory.record,
+      tier: AchievementTier.silver,
+      subTier: 2,
+      target: 120,
+    ),
+    _AchievementDef(
+      id: 'record_s3',
+      category: AchievementCategory.record,
+      tier: AchievementTier.silver,
+      subTier: 3,
+      target: 200,
+    ),
+    _AchievementDef(
+      id: 'record_g1',
+      category: AchievementCategory.record,
+      tier: AchievementTier.gold,
+      subTier: 1,
+      target: 350,
+    ),
+    _AchievementDef(
+      id: 'record_g2',
+      category: AchievementCategory.record,
+      tier: AchievementTier.gold,
+      subTier: 2,
+      target: 600,
+    ),
+    _AchievementDef(
+      id: 'record_g3',
+      category: AchievementCategory.record,
+      tier: AchievementTier.gold,
+      subTier: 3,
+      target: 1000,
+    ),
+    _AchievementDef(
+      id: 'record_p',
+      category: AchievementCategory.record,
+      tier: AchievementTier.platinum,
+      subTier: 1,
+      target: 2000,
+    ),
   ];
 
   static const _hiddenAchievements = <_HiddenAchievementDef>[
     // EASY
-    _HiddenAchievementDef(id: 'hidden_night', difficulty: HiddenDifficulty.easy, checkType: HiddenCheckType.nightRecord),
-    _HiddenAchievementDef(id: 'hidden_early', difficulty: HiddenDifficulty.easy, checkType: HiddenCheckType.earlyRecord),
-    _HiddenAchievementDef(id: 'hidden_weekend', difficulty: HiddenDifficulty.easy, checkType: HiddenCheckType.weekendRecords, target: 5),
-    _HiddenAchievementDef(id: 'hidden_first_scan', difficulty: HiddenDifficulty.easy, checkType: HiddenCheckType.firstOcrScan),
-    _HiddenAchievementDef(id: 'curious_cat', difficulty: HiddenDifficulty.easy, checkType: HiddenCheckType.manualUnlock),
+    _HiddenAchievementDef(
+      id: 'hidden_night',
+      difficulty: HiddenDifficulty.easy,
+      checkType: HiddenCheckType.nightRecord,
+    ),
+    _HiddenAchievementDef(
+      id: 'hidden_early',
+      difficulty: HiddenDifficulty.easy,
+      checkType: HiddenCheckType.earlyRecord,
+    ),
+    _HiddenAchievementDef(
+      id: 'hidden_weekend',
+      difficulty: HiddenDifficulty.easy,
+      checkType: HiddenCheckType.weekendRecords,
+      target: 5,
+    ),
+    _HiddenAchievementDef(
+      id: 'hidden_first_scan',
+      difficulty: HiddenDifficulty.easy,
+      checkType: HiddenCheckType.firstOcrScan,
+    ),
+    _HiddenAchievementDef(
+      id: 'curious_cat',
+      difficulty: HiddenDifficulty.easy,
+      checkType: HiddenCheckType.manualUnlock,
+    ),
     // MEDIUM
-    _HiddenAchievementDef(id: 'hidden_balanced_week', difficulty: HiddenDifficulty.medium, checkType: HiddenCheckType.balancedWeek, target: 7),
-    _HiddenAchievementDef(id: 'hidden_all_categories', difficulty: HiddenDifficulty.medium, checkType: HiddenCheckType.allCategories, target: 6),
-    _HiddenAchievementDef(id: 'hidden_gold_equiv', difficulty: HiddenDifficulty.medium, checkType: HiddenCheckType.goldEquivalent, target: 1),
-    _HiddenAchievementDef(id: 'hidden_usd_equiv', difficulty: HiddenDifficulty.medium, checkType: HiddenCheckType.usdEquivalent, target: 100),
-    _HiddenAchievementDef(id: 'hidden_subscriptions', difficulty: HiddenDifficulty.medium, checkType: HiddenCheckType.subscriptionCount, target: 5),
+    _HiddenAchievementDef(
+      id: 'hidden_balanced_week',
+      difficulty: HiddenDifficulty.medium,
+      checkType: HiddenCheckType.balancedWeek,
+      target: 7,
+    ),
+    _HiddenAchievementDef(
+      id: 'hidden_all_categories',
+      difficulty: HiddenDifficulty.medium,
+      checkType: HiddenCheckType.allCategories,
+      target: 6,
+    ),
+    _HiddenAchievementDef(
+      id: 'hidden_gold_equiv',
+      difficulty: HiddenDifficulty.medium,
+      checkType: HiddenCheckType.goldEquivalent,
+      target: 1,
+    ),
+    _HiddenAchievementDef(
+      id: 'hidden_usd_equiv',
+      difficulty: HiddenDifficulty.medium,
+      checkType: HiddenCheckType.usdEquivalent,
+      target: 100,
+    ),
+    _HiddenAchievementDef(
+      id: 'hidden_subscriptions',
+      difficulty: HiddenDifficulty.medium,
+      checkType: HiddenCheckType.subscriptionCount,
+      target: 5,
+    ),
     // HARD
-    _HiddenAchievementDef(id: 'hidden_no_spend_month', difficulty: HiddenDifficulty.hard, checkType: HiddenCheckType.noSpendMonth, target: 30),
-    _HiddenAchievementDef(id: 'hidden_gold_kg', difficulty: HiddenDifficulty.hard, checkType: HiddenCheckType.goldKgEquivalent, target: 1000),
-    _HiddenAchievementDef(id: 'hidden_usd_10k', difficulty: HiddenDifficulty.hard, checkType: HiddenCheckType.usd10kEquivalent, target: 10000),
-    _HiddenAchievementDef(id: 'hidden_anniversary', difficulty: HiddenDifficulty.hard, checkType: HiddenCheckType.usageAnniversary, target: 365),
+    _HiddenAchievementDef(
+      id: 'hidden_no_spend_month',
+      difficulty: HiddenDifficulty.hard,
+      checkType: HiddenCheckType.noSpendMonth,
+      target: 30,
+    ),
+    _HiddenAchievementDef(
+      id: 'hidden_gold_kg',
+      difficulty: HiddenDifficulty.hard,
+      checkType: HiddenCheckType.goldKgEquivalent,
+      target: 1000,
+    ),
+    _HiddenAchievementDef(
+      id: 'hidden_usd_10k',
+      difficulty: HiddenDifficulty.hard,
+      checkType: HiddenCheckType.usd10kEquivalent,
+      target: 10000,
+    ),
+    _HiddenAchievementDef(
+      id: 'hidden_anniversary',
+      difficulty: HiddenDifficulty.hard,
+      checkType: HiddenCheckType.usageAnniversary,
+      target: 365,
+    ),
     // LEGENDARY
-    _HiddenAchievementDef(id: 'hidden_early_adopter', difficulty: HiddenDifficulty.legendary, checkType: HiddenCheckType.earlyAdopter, target: 730),
-    _HiddenAchievementDef(id: 'hidden_ultimate', difficulty: HiddenDifficulty.legendary, checkType: HiddenCheckType.ultimateCombo),
-    _HiddenAchievementDef(id: 'hidden_collector', difficulty: HiddenDifficulty.legendary, checkType: HiddenCheckType.collector),
+    _HiddenAchievementDef(
+      id: 'hidden_early_adopter',
+      difficulty: HiddenDifficulty.legendary,
+      checkType: HiddenCheckType.earlyAdopter,
+      target: 730,
+    ),
+    _HiddenAchievementDef(
+      id: 'hidden_ultimate',
+      difficulty: HiddenDifficulty.legendary,
+      checkType: HiddenCheckType.ultimateCombo,
+    ),
+    _HiddenAchievementDef(
+      id: 'hidden_collector',
+      difficulty: HiddenDifficulty.legendary,
+      checkType: HiddenCheckType.collector,
+    ),
   ];
 
   // ========== LOCALIZATION HELPERS ==========
@@ -280,7 +611,12 @@ class AchievementsService {
     ];
 
     for (final def in allDefs) {
-      final currentValue = _getCurrentValue(def, streakData, stats, expenses.length);
+      final currentValue = _getCurrentValue(
+        def,
+        streakData,
+        stats,
+        expenses.length,
+      );
       final progress = (currentValue / def.target).clamp(0.0, 1.0);
       final isComplete = currentValue >= def.target;
 
@@ -291,21 +627,26 @@ class AchievementsService {
         unlockedAt = DateTime.tryParse(savedDate);
       } else if (isComplete) {
         unlockedAt = DateTime.now();
-        await prefs.setString('$_keyPrefix${def.id}', unlockedAt.toIso8601String());
+        await prefs.setString(
+          '$_keyPrefix${def.id}',
+          unlockedAt.toIso8601String(),
+        );
       }
 
-      achievements.add(Achievement(
-        id: def.id,
-        title: _getAchievementTitle(l10n, def.id),
-        description: _getAchievementDescription(l10n, def.id),
-        category: def.category,
-        tier: def.tier,
-        subTier: def.subTier,
-        progress: progress,
-        currentValue: currentValue,
-        targetValue: def.target,
-        unlockedAt: unlockedAt,
-      ));
+      achievements.add(
+        Achievement(
+          id: def.id,
+          title: _getAchievementTitle(l10n, def.id),
+          description: _getAchievementDescription(l10n, def.id),
+          category: def.category,
+          tier: def.tier,
+          subTier: def.subTier,
+          progress: progress,
+          currentValue: currentValue,
+          targetValue: def.target,
+          unlockedAt: unlockedAt,
+        ),
+      );
     }
 
     // Hidden achievements
@@ -329,23 +670,28 @@ class AchievementsService {
         unlockedAt = DateTime.tryParse(savedDate);
       } else if (checkResult.isComplete) {
         unlockedAt = DateTime.now();
-        await prefs.setString('$_keyPrefix${def.id}', unlockedAt.toIso8601String());
+        await prefs.setString(
+          '$_keyPrefix${def.id}',
+          unlockedAt.toIso8601String(),
+        );
       }
 
-      achievements.add(Achievement(
-        id: def.id,
-        title: _getAchievementTitle(l10n, def.id),
-        description: _getAchievementDescription(l10n, def.id),
-        category: AchievementCategory.hidden,
-        tier: _difficultyToTier(def.difficulty),
-        subTier: 1,
-        progress: checkResult.progress,
-        currentValue: checkResult.currentValue,
-        targetValue: def.target ?? 1,
-        unlockedAt: unlockedAt,
-        isHidden: true,
-        hiddenDifficulty: def.difficulty,
-      ));
+      achievements.add(
+        Achievement(
+          id: def.id,
+          title: _getAchievementTitle(l10n, def.id),
+          description: _getAchievementDescription(l10n, def.id),
+          category: AchievementCategory.hidden,
+          tier: _difficultyToTier(def.difficulty),
+          subTier: 1,
+          progress: checkResult.progress,
+          currentValue: checkResult.currentValue,
+          targetValue: def.target ?? 1,
+          unlockedAt: unlockedAt,
+          isHidden: true,
+          hiddenDifficulty: def.difficulty,
+        ),
+      );
     }
 
     return achievements;
@@ -451,7 +797,11 @@ class AchievementsService {
 
       case HiddenCheckType.goldEquivalent:
         if (goldGramRate == null || goldGramRate <= 0) {
-          return _HiddenCheckResult(isComplete: false, currentValue: 0, progress: 0.0);
+          return _HiddenCheckResult(
+            isComplete: false,
+            currentValue: 0,
+            progress: 0.0,
+          );
         }
         final goldGrams = stats.savedAmount / goldGramRate;
         final target = def.target ?? 1;
@@ -463,7 +813,11 @@ class AchievementsService {
 
       case HiddenCheckType.usdEquivalent:
         if (usdRate == null || usdRate <= 0) {
-          return _HiddenCheckResult(isComplete: false, currentValue: 0, progress: 0.0);
+          return _HiddenCheckResult(
+            isComplete: false,
+            currentValue: 0,
+            progress: 0.0,
+          );
         }
         final usdAmount = stats.savedAmount / usdRate;
         final target = def.target ?? 100;
@@ -492,7 +846,11 @@ class AchievementsService {
 
       case HiddenCheckType.goldKgEquivalent:
         if (goldGramRate == null || goldGramRate <= 0) {
-          return _HiddenCheckResult(isComplete: false, currentValue: 0, progress: 0.0);
+          return _HiddenCheckResult(
+            isComplete: false,
+            currentValue: 0,
+            progress: 0.0,
+          );
         }
         final goldGrams = stats.savedAmount / goldGramRate;
         final target = def.target ?? 1000;
@@ -504,7 +862,11 @@ class AchievementsService {
 
       case HiddenCheckType.usd10kEquivalent:
         if (usdRate == null || usdRate <= 0) {
-          return _HiddenCheckResult(isComplete: false, currentValue: 0, progress: 0.0);
+          return _HiddenCheckResult(
+            isComplete: false,
+            currentValue: 0,
+            progress: 0.0,
+          );
         }
         final usdAmount = stats.savedAmount / usdRate;
         final target = def.target ?? 10000;
@@ -517,11 +879,19 @@ class AchievementsService {
       case HiddenCheckType.usageAnniversary:
         final firstInstall = prefs.getString(_keyFirstInstall);
         if (firstInstall == null) {
-          return _HiddenCheckResult(isComplete: false, currentValue: 0, progress: 0.0);
+          return _HiddenCheckResult(
+            isComplete: false,
+            currentValue: 0,
+            progress: 0.0,
+          );
         }
         final installDate = DateTime.tryParse(firstInstall);
         if (installDate == null) {
-          return _HiddenCheckResult(isComplete: false, currentValue: 0, progress: 0.0);
+          return _HiddenCheckResult(
+            isComplete: false,
+            currentValue: 0,
+            progress: 0.0,
+          );
         }
         final daysSinceInstall = DateTime.now().difference(installDate).inDays;
         final target = def.target ?? 365;
@@ -534,11 +904,19 @@ class AchievementsService {
       case HiddenCheckType.earlyAdopter:
         final firstInstall = prefs.getString(_keyFirstInstall);
         if (firstInstall == null) {
-          return _HiddenCheckResult(isComplete: false, currentValue: 0, progress: 0.0);
+          return _HiddenCheckResult(
+            isComplete: false,
+            currentValue: 0,
+            progress: 0.0,
+          );
         }
         final installDate = DateTime.tryParse(firstInstall);
         if (installDate == null) {
-          return _HiddenCheckResult(isComplete: false, currentValue: 0, progress: 0.0);
+          return _HiddenCheckResult(
+            isComplete: false,
+            currentValue: 0,
+            progress: 0.0,
+          );
         }
         final daysSinceInstall = DateTime.now().difference(installDate).inDays;
         final target = def.target ?? 730;
@@ -565,15 +943,20 @@ class AchievementsService {
         );
 
       case HiddenCheckType.collector:
-        final nonPlatinumNonHidden = currentAchievements.where((a) =>
-            a.tier != AchievementTier.platinum && !a.isHidden).toList();
-        final unlockedCount = nonPlatinumNonHidden.where((a) => a.isUnlocked).length;
+        final nonPlatinumNonHidden = currentAchievements
+            .where((a) => a.tier != AchievementTier.platinum && !a.isHidden)
+            .toList();
+        final unlockedCount = nonPlatinumNonHidden
+            .where((a) => a.isUnlocked)
+            .length;
         final totalCount = nonPlatinumNonHidden.length;
         final isComplete = unlockedCount >= totalCount && totalCount > 0;
         return _HiddenCheckResult(
           isComplete: isComplete,
           currentValue: unlockedCount,
-          progress: totalCount > 0 ? (unlockedCount / totalCount).clamp(0.0, 1.0) : 0.0,
+          progress: totalCount > 0
+              ? (unlockedCount / totalCount).clamp(0.0, 1.0)
+              : 0.0,
         );
 
       case HiddenCheckType.manualUnlock:
@@ -643,7 +1026,9 @@ class AchievementsService {
       _recordAchievements.length;
 
   /// Check for newly unlocked achievements (unlocked today)
-  Future<List<Achievement>> getNewlyUnlockedAchievements(BuildContext context) async {
+  Future<List<Achievement>> getNewlyUnlockedAchievements(
+    BuildContext context,
+  ) async {
     final achievements = await getAchievements(context);
     return achievements.where((a) => a.isNewlyUnlocked).toList();
   }

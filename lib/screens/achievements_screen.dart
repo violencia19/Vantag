@@ -451,10 +451,10 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                         child: Center(
                           child: Text(
                             '$level',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
-                              color: Colors.white,
+                              color: context.appColors.textPrimary,
                             ),
                           ),
                         ),
@@ -734,7 +734,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                       fontSize: 9,
                       fontWeight: FontWeight.bold,
                       color: isUnlocked
-                          ? (isPlatinum ? Colors.black87 : Colors.black87)
+                          ? context.appColors.background
                           : context.appColors.surface,
                     ),
                   ),
@@ -957,7 +957,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                       fontSize: 9,
                       fontWeight: FontWeight.bold,
                       color: isUnlocked
-                          ? Colors.white
+                          ? context.appColors.textPrimary
                           : context.appColors.surface,
                     ),
                   ),

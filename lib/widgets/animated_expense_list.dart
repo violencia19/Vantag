@@ -40,7 +40,9 @@ class AnimatedExpenseListState extends State<AnimatedExpenseList> {
 
     // Yeni eklenen itemları bul
     final newItems = widget.expenses.where((e) => !_items.contains(e)).toList();
-    final removedItems = _items.where((e) => !widget.expenses.contains(e)).toList();
+    final removedItems = _items
+        .where((e) => !widget.expenses.contains(e))
+        .toList();
 
     // Önce silinen itemları kaldır
     for (final item in removedItems) {
@@ -58,10 +60,7 @@ class AnimatedExpenseListState extends State<AnimatedExpenseList> {
 
   void _insertItem(int index, Expense item) {
     _items.insert(index, item);
-    _listKey.currentState?.insertItem(
-      index,
-      duration: AppAnimations.medium,
-    );
+    _listKey.currentState?.insertItem(index, duration: AppAnimations.medium);
   }
 
   void _removeItem(int index) {
@@ -94,13 +93,13 @@ class AnimatedExpenseListState extends State<AnimatedExpenseList> {
     final expense = _items[index];
 
     return SlideTransition(
-      position: Tween<Offset>(
-        begin: const Offset(0, 0.5),
-        end: Offset.zero,
-      ).animate(CurvedAnimation(
-        parent: animation,
-        curve: AppAnimations.standardCurve,
-      )),
+      position: Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero)
+          .animate(
+            CurvedAnimation(
+              parent: animation,
+              curve: AppAnimations.standardCurve,
+            ),
+          ),
       child: FadeTransition(
         opacity: animation,
         child: RepaintBoundary(
@@ -123,13 +122,10 @@ class AnimatedExpenseListState extends State<AnimatedExpenseList> {
 
   Widget _buildRemovedItem(Expense expense, Animation<double> animation) {
     return SlideTransition(
-      position: Tween<Offset>(
-        begin: Offset.zero,
-        end: const Offset(-1, 0),
-      ).animate(CurvedAnimation(
-        parent: animation,
-        curve: AppAnimations.exitCurve,
-      )),
+      position: Tween<Offset>(begin: Offset.zero, end: const Offset(-1, 0))
+          .animate(
+            CurvedAnimation(parent: animation, curve: AppAnimations.exitCurve),
+          ),
       child: FadeTransition(
         opacity: animation,
         child: SizeTransition(
@@ -199,25 +195,22 @@ class _StaggeredFadeListState extends State<StaggeredFadeList>
   void _initAnimations() {
     _controllers = List.generate(
       widget.children.length,
-      (index) => AnimationController(
-        vsync: this,
-        duration: widget.itemDuration,
-      ),
+      (index) =>
+          AnimationController(vsync: this, duration: widget.itemDuration),
     );
 
     _fadeAnimations = _controllers.map((controller) {
-      return Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(parent: controller, curve: widget.curve),
-      );
+      return Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(CurvedAnimation(parent: controller, curve: widget.curve));
     }).toList();
 
     _slideAnimations = _controllers.map((controller) {
       return Tween<Offset>(
         begin: widget.slideOffset,
         end: Offset.zero,
-      ).animate(
-        CurvedAnimation(parent: controller, curve: widget.curve),
-      );
+      ).animate(CurvedAnimation(parent: controller, curve: widget.curve));
     }).toList();
 
     _startAnimations();
@@ -304,10 +297,8 @@ class _StaggeredFadeGridState extends State<StaggeredFadeGrid>
   void _initAnimations() {
     _controllers = List.generate(
       widget.children.length,
-      (index) => AnimationController(
-        vsync: this,
-        duration: AppAnimations.medium,
-      ),
+      (index) =>
+          AnimationController(vsync: this, duration: AppAnimations.medium),
     );
 
     _animations = _controllers.map((controller) {
@@ -356,7 +347,10 @@ class _StaggeredFadeGridState extends State<StaggeredFadeGrid>
         return FadeTransition(
           opacity: _animations[index],
           child: ScaleTransition(
-            scale: Tween<double>(begin: 0.8, end: 1.0).animate(_animations[index]),
+            scale: Tween<double>(
+              begin: 0.8,
+              end: 1.0,
+            ).animate(_animations[index]),
             child: widget.children[index],
           ),
         );

@@ -49,10 +49,7 @@ class PursuitProgressVisual extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: QuietLuxury.cardBackground,
-            border: Border.all(
-              color: QuietLuxury.cardBorder,
-              width: 1,
-            ),
+            border: Border.all(color: QuietLuxury.cardBorder, width: 1),
           ),
         ),
         // Filled part with ShaderMask
@@ -105,10 +102,7 @@ class PursuitProgressVisual extends StatelessWidget {
   }
 
   Widget _buildEmoji() {
-    return Text(
-      emoji,
-      style: TextStyle(fontSize: size * 0.4),
-    );
+    return Text(emoji, style: TextStyle(fontSize: size * 0.4));
   }
 }
 
@@ -174,10 +168,7 @@ class PursuitCircularProgress extends StatelessWidget {
             },
           ),
           // Emoji
-          Text(
-            emoji,
-            style: TextStyle(fontSize: size * 0.35),
-          ),
+          Text(emoji, style: TextStyle(fontSize: size * 0.35)),
         ],
       ),
     );

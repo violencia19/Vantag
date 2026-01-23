@@ -40,7 +40,9 @@ class CurrencyRateWidget extends StatelessWidget {
 
   String _formatRate(double rate, int decimals) {
     if (rate >= 1000) {
-      return rate.toStringAsFixed(0).replaceAllMapped(
+      return rate
+          .toStringAsFixed(0)
+          .replaceAllMapped(
             RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
             (Match m) => '${m[1]},',
           );
@@ -78,7 +80,11 @@ class CurrencyRateWidget extends StatelessWidget {
   }
 
   /// Build currency item for ticker
-  _RateItem _buildCurrencyItem(String targetCode, Currency base, ExchangeRates rates) {
+  _RateItem _buildCurrencyItem(
+    String targetCode,
+    Currency base,
+    ExchangeRates rates,
+  ) {
     final target = getCurrencyByCode(targetCode);
     final rate = _calculateRate(targetCode, base, rates);
 
@@ -92,7 +98,11 @@ class CurrencyRateWidget extends StatelessWidget {
   }
 
   /// Build gold item for ticker
-  _RateItem _buildGoldItem(Currency base, ExchangeRates rates, AppLocalizations l10n) {
+  _RateItem _buildGoldItem(
+    Currency base,
+    ExchangeRates rates,
+    AppLocalizations l10n,
+  ) {
     final goldOzUsd = rates.goldOzUsd;
     final usdTry = rates.usdRate;
     final showWarning = !rates.goldFromApi;
@@ -128,7 +138,11 @@ class CurrencyRateWidget extends StatelessWidget {
 
   /// Get rate items based on selected currency - DYNAMIC!
   /// Removes selected currency from list, shows remaining + gold
-  List<_RateItem> _getRateItems(Currency selected, ExchangeRates rates, AppLocalizations l10n) {
+  List<_RateItem> _getRateItems(
+    Currency selected,
+    ExchangeRates rates,
+    AppLocalizations l10n,
+  ) {
     final items = <_RateItem>[];
 
     // Filter out selected currency from main list
@@ -176,7 +190,11 @@ class CurrencyRateWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(BuildContext context, AppLocalizations l10n, Currency selectedCurrency) {
+  Widget _buildContent(
+    BuildContext context,
+    AppLocalizations l10n,
+    Currency selectedCurrency,
+  ) {
     // Loading state
     if (isLoading) {
       return Row(
@@ -265,7 +283,11 @@ class CurrencyRateWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildRateItem(BuildContext context, _RateItem item, AppLocalizations l10n) {
+  Widget _buildRateItem(
+    BuildContext context,
+    _RateItem item,
+    AppLocalizations l10n,
+  ) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [

@@ -62,10 +62,7 @@ class PremiumCard extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return GestureDetector(
-        onTap: onTap,
-        child: cardContent,
-      );
+      return GestureDetector(onTap: onTap, child: cardContent);
     }
     return cardContent;
   }
@@ -134,11 +131,7 @@ class _PremiumButtonState extends State<PremiumButton> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (widget.icon != null) ...[
-                      Icon(
-                        widget.icon,
-                        color: Colors.white,
-                        size: 20,
-                      ),
+                      Icon(widget.icon, color: Colors.white, size: 20),
                       const SizedBox(width: 8),
                     ],
                     Text(
@@ -251,7 +244,9 @@ class PremiumChip extends StatelessWidget {
               Icon(
                 icon,
                 size: 16,
-                color: isSelected ? Colors.white : context.appColors.textSecondary,
+                color: isSelected
+                    ? Colors.white
+                    : context.appColors.textSecondary,
               ),
             if (icon != null && label != null) const SizedBox(width: 6),
             if (label != null)
@@ -260,7 +255,9 @@ class PremiumChip extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  color: isSelected ? Colors.white : context.appColors.textSecondary,
+                  color: isSelected
+                      ? Colors.white
+                      : context.appColors.textSecondary,
                 ),
               ),
           ],
@@ -292,11 +289,7 @@ class PremiumIconBadge extends StatelessWidget {
         color: color.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(size / 3),
       ),
-      child: Icon(
-        icon,
-        size: size * 0.5,
-        color: color,
-      ),
+      child: Icon(icon, size: size * 0.5, color: color),
     );
   }
 }
@@ -318,17 +311,16 @@ class PremiumBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final badgeColor = isGold ? context.appColors.gold : (color ?? context.appColors.primary);
+    final badgeColor = isGold
+        ? context.appColors.gold
+        : (color ?? context.appColors.primary);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
         color: badgeColor.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: badgeColor.withValues(alpha: 0.3),
-          width: 1,
-        ),
+        border: Border.all(color: badgeColor.withValues(alpha: 0.3), width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -355,17 +347,12 @@ class PremiumBadge extends StatelessWidget {
 class PremiumBackground extends StatelessWidget {
   final Widget child;
 
-  const PremiumBackground({
-    super.key,
-    required this.child,
-  });
+  const PremiumBackground({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        gradient: AppGradients.background,
-      ),
+      decoration: const BoxDecoration(gradient: AppGradients.background),
       child: child,
     );
   }
@@ -406,10 +393,7 @@ class PremiumSectionTitle extends StatelessWidget {
             color: context.appColors.textPrimary,
           ),
         ),
-        if (trailing != null) ...[
-          const Spacer(),
-          trailing!,
-        ],
+        if (trailing != null) ...[const Spacer(), trailing!],
       ],
     );
   }
@@ -420,11 +404,7 @@ class PremiumLabel extends StatelessWidget {
   final String text;
   final bool uppercase;
 
-  const PremiumLabel({
-    super.key,
-    required this.text,
-    this.uppercase = true,
-  });
+  const PremiumLabel({super.key, required this.text, this.uppercase = true});
 
   @override
   Widget build(BuildContext context) {
@@ -493,11 +473,7 @@ class PulsingDot extends StatefulWidget {
   final Color color;
   final double size;
 
-  const PulsingDot({
-    super.key,
-    required this.color,
-    this.size = 8,
-  });
+  const PulsingDot({super.key, required this.color, this.size = 8});
 
   @override
   State<PulsingDot> createState() => _PulsingDotState();
@@ -515,9 +491,10 @@ class _PulsingDotState extends State<PulsingDot>
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     )..repeat(reverse: true);
-    _animation = Tween<double>(begin: 0.4, end: 0.8).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0.4,
+      end: 0.8,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -623,32 +600,29 @@ class AIFinanceTheme {
   );
 
   static BoxDecoration get cardDecoration => BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.03),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.08),
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.3),
-            blurRadius: 30,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      );
+    color: Colors.white.withValues(alpha: 0.03),
+    borderRadius: BorderRadius.circular(20),
+    border: Border.all(color: Colors.white.withValues(alpha: 0.08), width: 1),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.3),
+        blurRadius: 30,
+        offset: const Offset(0, 10),
+      ),
+    ],
+  );
 
   static BoxDecoration get gradientButtonDecoration => BoxDecoration(
-        gradient: AppGradients.primaryButton,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.4),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      );
+    gradient: AppGradients.primaryButton,
+    borderRadius: BorderRadius.circular(16),
+    boxShadow: [
+      BoxShadow(
+        color: AppColors.primary.withValues(alpha: 0.4),
+        blurRadius: 20,
+        offset: const Offset(0, 8),
+      ),
+    ],
+  );
 }
 
 // Legacy AIGradientButton - use PremiumButton instead
@@ -732,7 +706,9 @@ class _AIGradientButtonState extends State<AIGradientButton>
                   // Secondary glow for depth
                   BoxShadow(
                     color: context.appColors.secondary.withValues(
-                      alpha: widget.enablePulse ? _pulseAnimation.value * 0.5 : 0.2,
+                      alpha: widget.enablePulse
+                          ? _pulseAnimation.value * 0.5
+                          : 0.2,
                     ),
                     blurRadius: 30,
                     spreadRadius: -5,
@@ -747,7 +723,9 @@ class _AIGradientButtonState extends State<AIGradientButton>
                         height: 24,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.white,
+                          ),
                         ),
                       ),
                     )

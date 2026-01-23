@@ -133,40 +133,27 @@ class QuietLuxury {
 
   /// Glassmorphism kart dekorasyonu
   static BoxDecoration get cardDecoration => BoxDecoration(
-        color: cardBackground,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: cardBorder,
-          width: 0.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: shadowColor,
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      );
+    color: cardBackground,
+    borderRadius: BorderRadius.circular(16),
+    border: Border.all(color: cardBorder, width: 0.5),
+    boxShadow: [
+      BoxShadow(color: shadowColor, blurRadius: 20, offset: const Offset(0, 8)),
+    ],
+  );
 
   /// Subtle kart dekorasyonu (gölgesiz)
   static BoxDecoration get subtleCardDecoration => BoxDecoration(
-        color: cardBackground,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: cardBorder,
-          width: 0.5,
-        ),
-      );
+    color: cardBackground,
+    borderRadius: BorderRadius.circular(16),
+    border: Border.all(color: cardBorder, width: 0.5),
+  );
 
   /// Vurgulu kart dekorasyonu (pozitif)
   static BoxDecoration positiveCardDecoration({double glowOpacity = 0.1}) =>
       BoxDecoration(
         color: cardBackground,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: positive.withValues(alpha: 0.3),
-          width: 0.5,
-        ),
+        border: Border.all(color: positive.withValues(alpha: 0.3), width: 0.5),
         boxShadow: [
           BoxShadow(
             color: positive.withValues(alpha: glowOpacity),
@@ -217,20 +204,14 @@ class AnimatedNumber extends StatelessWidget {
   final String value;
   final TextStyle? style;
 
-  const AnimatedNumber({
-    super.key,
-    required this.value,
-    this.style,
-  });
+  const AnimatedNumber({super.key, required this.value, this.style});
 
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
       duration: QuietLuxury.numberTransition,
-      transitionBuilder: (child, animation) => FadeTransition(
-        opacity: animation,
-        child: child,
-      ),
+      transitionBuilder: (child, animation) =>
+          FadeTransition(opacity: animation, child: child),
       child: Text(
         value,
         key: ValueKey(value),
@@ -245,11 +226,7 @@ class Pressable extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;
 
-  const Pressable({
-    super.key,
-    required this.child,
-    this.onTap,
-  });
+  const Pressable({super.key, required this.child, this.onTap});
 
   @override
   State<Pressable> createState() => _PressableState();

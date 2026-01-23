@@ -21,7 +21,8 @@ class IncomeSummaryWidget extends StatelessWidget {
   });
 
   double get netBalance => totalIncome - totalSpent;
-  double get spendingRate => totalIncome > 0 ? (totalSpent / totalIncome * 100) : 0;
+  double get spendingRate =>
+      totalIncome > 0 ? (totalSpent / totalIncome * 100) : 0;
   bool get isPositive => netBalance >= 0;
 
   @override
@@ -43,7 +44,9 @@ class IncomeSummaryWidget extends StatelessWidget {
           color: context.appColors.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: context.appColors.cardBorder.withValues(alpha: 0.5 + (0.3 * expandRatio)),
+            color: context.appColors.cardBorder.withValues(
+              alpha: 0.5 + (0.3 * expandRatio),
+            ),
           ),
         ),
         child: Row(
@@ -75,7 +78,11 @@ class IncomeSummaryWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      formatTurkishCurrency(totalIncome, decimalDigits: 0, showDecimals: false),
+                      formatTurkishCurrency(
+                        totalIncome,
+                        decimalDigits: 0,
+                        showDecimals: false,
+                      ),
                       style: TextStyle(
                         fontSize: mainFontSize,
                         fontWeight: FontWeight.w700,
@@ -98,7 +105,9 @@ class IncomeSummaryWidget extends StatelessWidget {
                           vertical: 1 + expandRatio,
                         ),
                         decoration: BoxDecoration(
-                          color: context.appColors.success.withValues(alpha: 0.1),
+                          color: context.appColors.success.withValues(
+                            alpha: 0.1,
+                          ),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -119,9 +128,13 @@ class IncomeSummaryWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      isPositive ? PhosphorIconsDuotone.trendUp : PhosphorIconsDuotone.trendDown,
+                      isPositive
+                          ? PhosphorIconsDuotone.trendUp
+                          : PhosphorIconsDuotone.trendDown,
                       size: subFontSize + 2,
-                      color: isPositive ? context.appColors.success : context.appColors.error,
+                      color: isPositive
+                          ? context.appColors.success
+                          : context.appColors.error,
                     ),
                     const SizedBox(width: 4),
                     Text(
@@ -129,7 +142,9 @@ class IncomeSummaryWidget extends StatelessWidget {
                       style: TextStyle(
                         fontSize: subFontSize,
                         fontWeight: FontWeight.w600,
-                        color: isPositive ? context.appColors.success : context.appColors.error,
+                        color: isPositive
+                            ? context.appColors.success
+                            : context.appColors.error,
                       ),
                     ),
                   ],
@@ -168,7 +183,8 @@ class CompactIncomeIndicator extends StatelessWidget {
 
   double get netBalance => totalIncome - totalSpent;
   bool get isPositive => netBalance >= 0;
-  double get spendingRate => totalIncome > 0 ? (totalSpent / totalIncome * 100) : 0;
+  double get spendingRate =>
+      totalIncome > 0 ? (totalSpent / totalIncome * 100) : 0;
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +205,9 @@ class CompactIncomeIndicator extends StatelessWidget {
               width: 6,
               height: 6,
               decoration: BoxDecoration(
-                color: isPositive ? context.appColors.success : context.appColors.error,
+                color: isPositive
+                    ? context.appColors.success
+                    : context.appColors.error,
                 shape: BoxShape.circle,
               ),
             ),
@@ -229,7 +247,8 @@ class IncomeProgressBar extends StatelessWidget {
     this.height = 6,
   });
 
-  double get progress => totalIncome > 0 ? (totalSpent / totalIncome).clamp(0.0, 1.5) : 0;
+  double get progress =>
+      totalIncome > 0 ? (totalSpent / totalIncome).clamp(0.0, 1.5) : 0;
 
   @override
   Widget build(BuildContext context) {
@@ -250,9 +269,7 @@ class IncomeProgressBar extends StatelessWidget {
                 width: progressWidth,
                 height: height,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: _getGradientColors(context),
-                  ),
+                  gradient: LinearGradient(colors: _getGradientColors(context)),
                   borderRadius: BorderRadius.circular(height / 2),
                 ),
               ),
@@ -283,13 +300,19 @@ class IncomeProgressBar extends StatelessWidget {
 
   List<Color> _getGradientColors(BuildContext context) {
     if (progress < 0.5) {
-      return [context.appColors.success, context.appColors.success.withValues(alpha: 0.8)];
+      return [
+        context.appColors.success,
+        context.appColors.success.withValues(alpha: 0.8),
+      ];
     } else if (progress < 0.75) {
       return [context.appColors.success, context.appColors.warning];
     } else if (progress < 1.0) {
       return [context.appColors.warning, context.appColors.error];
     } else {
-      return [context.appColors.error, context.appColors.error.withValues(alpha: 0.8)];
+      return [
+        context.appColors.error,
+        context.appColors.error.withValues(alpha: 0.8),
+      ];
     }
   }
 }

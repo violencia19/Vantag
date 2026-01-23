@@ -36,10 +36,7 @@ class AnimatedCounter extends StatelessWidget {
       duration: duration,
       curve: curve,
       builder: (context, animatedValue, child) {
-        return Text(
-          _formatValue(animatedValue),
-          style: style,
-        );
+        return Text(_formatValue(animatedValue), style: style);
       },
     );
   }
@@ -147,17 +144,11 @@ class _DelayedAnimatedCounterState extends State<DelayedAnimatedCounter> {
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
       key: ValueKey(_displayValue),
-      tween: Tween<double>(
-        begin: _started ? null : 0,
-        end: _displayValue,
-      ),
+      tween: Tween<double>(begin: _started ? null : 0, end: _displayValue),
       duration: widget.duration,
       curve: widget.curve,
       builder: (context, animatedValue, child) {
-        return Text(
-          _formatValue(animatedValue),
-          style: widget.style,
-        );
+        return Text(_formatValue(animatedValue), style: widget.style);
       },
     );
   }
@@ -243,19 +234,23 @@ class AnimatedTimeCounter extends StatelessWidget {
             children: [
               TextSpan(
                 text: formattedValue,
-                style: valueStyle ?? TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
-                ),
+                style:
+                    valueStyle ??
+                    TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w700,
+                      color: context.appColors.textPrimary,
+                    ),
               ),
               TextSpan(
                 text: unit,
-                style: unitStyle ?? TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: context.appColors.textSecondary,
-                ),
+                style:
+                    unitStyle ??
+                    TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: context.appColors.textSecondary,
+                    ),
               ),
             ],
           ),
@@ -363,7 +358,8 @@ class _NumberTickerState extends State<NumberTicker> {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveStyle = widget.style ?? Theme.of(context).textTheme.headlineMedium;
+    final effectiveStyle =
+        widget.style ?? Theme.of(context).textTheme.headlineMedium;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -382,7 +378,8 @@ class _NumberTickerState extends State<NumberTicker> {
           if (digit == -1) {
             // Separator (dot or comma)
             return Text(
-              widget.decimalPlaces > 0 && index == _digits.length - widget.decimalPlaces - 1
+              widget.decimalPlaces > 0 &&
+                      index == _digits.length - widget.decimalPlaces - 1
                   ? ','
                   : '.',
               style: effectiveStyle,
@@ -443,15 +440,9 @@ class _TickerDigitState extends State<_TickerDigit>
     _currentDigit = widget.oldDigit;
     _targetDigit = widget.digit;
 
-    _controller = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
+    _controller = AnimationController(duration: widget.duration, vsync: this);
 
-    _animation = CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-    );
+    _animation = CurvedAnimation(parent: _controller, curve: widget.curve);
 
     _startAnimation();
   }
@@ -499,7 +490,11 @@ class _TickerDigitState extends State<_TickerDigit>
               children: [
                 // Old digit sliding out
                 Positioned(
-                  top: -widget.style.fontSize! * 1.2 * progress * (diff > 0 ? 1 : -1),
+                  top:
+                      -widget.style.fontSize! *
+                      1.2 *
+                      progress *
+                      (diff > 0 ? 1 : -1),
                   left: 0,
                   right: 0,
                   child: Opacity(
@@ -513,7 +508,11 @@ class _TickerDigitState extends State<_TickerDigit>
                 ),
                 // New digit sliding in
                 Positioned(
-                  top: widget.style.fontSize! * 1.2 * (1 - progress) * (diff > 0 ? 1 : -1),
+                  top:
+                      widget.style.fontSize! *
+                      1.2 *
+                      (1 - progress) *
+                      (diff > 0 ? 1 : -1),
                   left: 0,
                   right: 0,
                   child: Opacity(
@@ -597,10 +596,11 @@ class _FlipNumberTickerState extends State<FlipNumberTicker> {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveStyle = widget.style ??
-        Theme.of(context).textTheme.headlineLarge?.copyWith(
-          fontWeight: FontWeight.bold,
-        );
+    final effectiveStyle =
+        widget.style ??
+        Theme.of(
+          context,
+        ).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold);
     final bgColor = widget.backgroundColor ?? context.appColors.cardBackground;
 
     // Pad to same length
@@ -671,10 +671,7 @@ class _FlipCardState extends State<_FlipCard>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
+    _controller = AnimationController(duration: widget.duration, vsync: this);
 
     _flipAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOutQuart),
@@ -743,10 +740,7 @@ class _FlipCardState extends State<_FlipCard>
                 child: ClipRect(
                   child: Align(
                     alignment: Alignment.topCenter,
-                    child: Text(
-                      widget.newValue,
-                      style: widget.style,
-                    ),
+                    child: Text(widget.newValue, style: widget.style),
                   ),
                 ),
               ),
@@ -769,10 +763,7 @@ class _FlipCardState extends State<_FlipCard>
                     child: ClipRect(
                       child: Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text(
-                          widget.oldValue,
-                          style: widget.style,
-                        ),
+                        child: Text(widget.oldValue, style: widget.style),
                       ),
                     ),
                   ),
@@ -800,10 +791,7 @@ class _FlipCardState extends State<_FlipCard>
                       child: ClipRect(
                         child: Align(
                           alignment: Alignment.topCenter,
-                          child: Text(
-                            widget.newValue,
-                            style: widget.style,
-                          ),
+                          child: Text(widget.newValue, style: widget.style),
                         ),
                       ),
                     ),

@@ -118,7 +118,9 @@ class ImportService {
       final columnIndices = _detectColumns(header);
 
       if (columnIndices == null) {
-        errors.add('Could not detect required columns (date, description, amount)');
+        errors.add(
+          'Could not detect required columns (date, description, amount)',
+        );
         return ImportResult(
           recognized: recognized,
           suggestions: suggestions,
@@ -133,15 +135,23 @@ class ImportService {
 
         try {
           // Skip empty rows
-          if (row.isEmpty || row.every((cell) => cell.toString().trim().isEmpty)) {
+          if (row.isEmpty ||
+              row.every((cell) => cell.toString().trim().isEmpty)) {
             continue;
           }
 
           final date = _parseDate(row[columnIndices.dateIndex].toString());
-          final description = row[columnIndices.descriptionIndex].toString().trim();
-          final amount = _parseAmount(row[columnIndices.amountIndex].toString());
+          final description = row[columnIndices.descriptionIndex]
+              .toString()
+              .trim();
+          final amount = _parseAmount(
+            row[columnIndices.amountIndex].toString(),
+          );
 
-          if (date == null || amount == null || amount <= 0 || description.isEmpty) {
+          if (date == null ||
+              amount == null ||
+              amount <= 0 ||
+              description.isEmpty) {
             errors.add('Row ${i + 1}: Invalid data');
             continue;
           }

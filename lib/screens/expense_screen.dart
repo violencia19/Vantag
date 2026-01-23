@@ -72,7 +72,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   }
 
   Future<void> _loadUpcomingSubscriptions() async {
-    final upcoming = await _subscriptionService.getUpcomingSubscriptions(withinDays: 3);
+    final upcoming = await _subscriptionService.getUpcomingSubscriptions(
+      withinDays: 3,
+    );
     if (mounted) {
       setState(() => _upcomingSubscriptionCount = upcoming.length);
     }
@@ -114,9 +116,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.03),
+              color: context.appColors.surfaceLight.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+              border: Border.all(color: context.appColors.cardBorder),
             ),
             child: Stack(
               alignment: Alignment.center,
@@ -249,12 +251,12 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             decoration: BoxDecoration(
               color: isPro
                   ? const Color(0xFFFFD700).withValues(alpha: 0.15)
-                  : Colors.white.withValues(alpha: 0.03),
+                  : context.appColors.surfaceLight.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
                 color: isPro
                     ? const Color(0xFFFFD700).withValues(alpha: 0.5)
-                    : Colors.white.withValues(alpha: 0.08),
+                    : context.appColors.cardBorder,
               ),
               boxShadow: isPro
                   ? [
@@ -269,7 +271,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             child: Icon(
               PhosphorIconsDuotone.lightning,
               size: 20,
-              color: isPro ? const Color(0xFFFFD700) : context.appColors.textTertiary,
+              color: isPro
+                  ? const Color(0xFFFFD700)
+                  : context.appColors.textTertiary,
             ),
           ),
         ),
@@ -305,11 +309,11 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.15),
+                  color: context.appColors.textPrimary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: context.appColors.textPrimary.withValues(alpha: 0.2),
                       blurRadius: 8,
                       spreadRadius: -2,
                     ),
@@ -319,8 +323,8 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   child: PhosphorIcon(
                     PhosphorIconsDuotone.lightning,
                     size: 28,
-                    color: Colors.white,
-                    duotoneSecondaryColor: Colors.white.withValues(alpha: 0.5),
+                    color: context.appColors.textPrimary,
+                    duotoneSecondaryColor: context.appColors.textPrimary.withValues(alpha: 0.5),
                   ),
                 ),
               ),
@@ -334,10 +338,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                       children: [
                         Text(
                           l10n.habitQuestion,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: context.appColors.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 2),
@@ -345,7 +349,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                           l10n.calculateAndShock,
                           style: TextStyle(
                             fontSize: 13,
-                            color: Colors.white.withValues(alpha: 0.8),
+                            color: context.appColors.textPrimary.withValues(alpha: 0.9),
                           ),
                         ),
                       ],
@@ -355,7 +359,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               ),
               Icon(
                 PhosphorIconsDuotone.caretRight,
-                color: Colors.white.withValues(alpha: 0.8),
+                color: context.appColors.textPrimary.withValues(alpha: 0.9),
                 size: 24,
               ),
             ],
@@ -396,9 +400,11 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     final l10n = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(decision == ExpenseDecision.yes
-          ? l10n.decisionUpdatedBought
-          : l10n.moneySavedInPocket),
+        content: Text(
+          decision == ExpenseDecision.yes
+              ? l10n.decisionUpdatedBought
+              : l10n.moneySavedInPocket,
+        ),
         duration: const Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
       ),
@@ -431,9 +437,11 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   color: context.appColors.gradientMid,
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(24),
+                  ),
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.1),
+                    color: context.appColors.textPrimary.withValues(alpha: 0.1),
                     width: 1,
                   ),
                 ),
@@ -446,7 +454,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                         width: 40,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: context.appColors.textTertiary.withValues(alpha: 0.5),
+                          color: context.appColors.textTertiary.withValues(
+                            alpha: 0.5,
+                          ),
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -454,7 +464,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
 
                     // Header
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 8,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -474,7 +487,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                               Text(
                                 isPro
                                     ? l10n.recordCount(totalCount)
-                                    : l10n.recordCountLimited(visibleExpenses.length, totalCount),
+                                    : l10n.recordCountLimited(
+                                        visibleExpenses.length,
+                                        totalCount,
+                                      ),
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
@@ -510,11 +526,16 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                       child: ListView.builder(
                         controller: scrollController,
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        itemCount: visibleExpenses.length + (hasMoreLocked ? 1 : 0),
+                        itemCount:
+                            visibleExpenses.length + (hasMoreLocked ? 1 : 0),
                         itemBuilder: (context, index) {
                           // Pro upsell at end
-                          if (hasMoreLocked && index == visibleExpenses.length) {
-                            return _buildProUpsell(l10n, totalCount - visibleExpenses.length);
+                          if (hasMoreLocked &&
+                              index == visibleExpenses.length) {
+                            return _buildProUpsell(
+                              l10n,
+                              totalCount - visibleExpenses.length,
+                            );
                           }
 
                           return Padding(
@@ -563,7 +584,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.primary.withValues(alpha: 0.3)),
+        border: Border.all(
+          color: context.appColors.primary.withValues(alpha: 0.3),
+        ),
       ),
       child: Column(
         children: [
@@ -617,10 +640,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               ),
               child: Text(
                 l10n.upgradeToPro,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: context.appColors.textPrimary,
                 ),
               ),
             ),
@@ -653,9 +676,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: colors.backgroundGradient,
-        ),
+        decoration: BoxDecoration(gradient: colors.backgroundGradient),
         child: SafeArea(
           bottom: false,
           child: CustomScrollView(
@@ -736,7 +757,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                             targetBorderRadius: BorderRadius.circular(14),
                             child: _buildHeaderAction(
                               icon: PhosphorIconsDuotone.calendar,
-                              badge: _upcomingSubscriptionCount > 0 ? _upcomingSubscriptionCount : null,
+                              badge: _upcomingSubscriptionCount > 0
+                                  ? _upcomingSubscriptionCount
+                                  : null,
                               onTap: _showSubscriptionSheet,
                             ),
                           ),
@@ -780,9 +803,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               const SliverToBoxAdapter(child: SizedBox(height: 12)),
 
               // Habit Calculator Banner
-              SliverToBoxAdapter(
-                child: _buildHabitCalculatorBanner(),
-              ),
+              SliverToBoxAdapter(child: _buildHabitCalculatorBanner()),
 
               const SliverToBoxAdapter(child: SizedBox(height: 12)),
 
@@ -823,18 +844,14 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
 
               // Budget Breakdown Card
               SliverToBoxAdapter(
-                child: BudgetBreakdownCard(
-                  budgetService: budgetService,
-                ),
+                child: BudgetBreakdownCard(budgetService: budgetService),
               ),
 
               const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
               // Installment Summary Card
               SliverToBoxAdapter(
-                child: InstallmentSummaryCard(
-                  budgetService: budgetService,
-                ),
+                child: InstallmentSummaryCard(budgetService: budgetService),
               ),
 
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
@@ -900,12 +917,19 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                         GestureDetector(
                           onTap: () => _showFullHistory(expenses),
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
                             decoration: BoxDecoration(
-                              color: context.appColors.primary.withValues(alpha: 0.15),
+                              color: context.appColors.primary.withValues(
+                                alpha: 0.15,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: context.appColors.primary.withValues(alpha: 0.3),
+                                color: context.appColors.primary.withValues(
+                                  alpha: 0.3,
+                                ),
                               ),
                             ),
                             child: Row(
@@ -947,30 +971,25 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   : SliverPadding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return ExpenseHistoryCard(
-                              expense: recentExpenses[index],
-                              onDelete: () => _deleteExpense(index),
-                              onEdit: () => _editExpense(index),
-                              onDecisionUpdate: (decision) => _updateDecision(index, decision),
-                              showHint: _showSwipeHint && index == 0,
-                            )
-                                .animate()
-                                .fadeIn(
-                                  duration: 300.ms,
-                                  delay: (index * 100).ms,
-                                )
-                                .slideX(
-                                  begin: 0.2,
-                                  end: 0,
-                                  duration: 300.ms,
-                                  delay: (index * 100).ms,
-                                  curve: Curves.easeOutCubic,
-                                );
-                          },
-                          childCount: recentExpenses.length,
-                        ),
+                        delegate: SliverChildBuilderDelegate((context, index) {
+                          return ExpenseHistoryCard(
+                                expense: recentExpenses[index],
+                                onDelete: () => _deleteExpense(index),
+                                onEdit: () => _editExpense(index),
+                                onDecisionUpdate: (decision) =>
+                                    _updateDecision(index, decision),
+                                showHint: _showSwipeHint && index == 0,
+                              )
+                              .animate()
+                              .fadeIn(duration: 300.ms, delay: (index * 100).ms)
+                              .slideX(
+                                begin: 0.2,
+                                end: 0,
+                                duration: 300.ms,
+                                delay: (index * 100).ms,
+                                curve: Curves.easeOutCubic,
+                              );
+                        }, childCount: recentExpenses.length),
                       ),
                     ),
 
@@ -987,11 +1006,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.03),
+        color: context.appColors.surfaceLight.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.08),
-        ),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

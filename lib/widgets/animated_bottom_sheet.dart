@@ -101,7 +101,8 @@ class _AnimatedBottomSheetWrapper extends StatefulWidget {
       _AnimatedBottomSheetWrapperState();
 }
 
-class _AnimatedBottomSheetWrapperState extends State<_AnimatedBottomSheetWrapper>
+class _AnimatedBottomSheetWrapperState
+    extends State<_AnimatedBottomSheetWrapper>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _slideAnimation;
@@ -117,37 +118,29 @@ class _AnimatedBottomSheetWrapperState extends State<_AnimatedBottomSheetWrapper
       duration: AppAnimations.medium,
     );
 
-    _slideAnimation = Tween<double>(
-      begin: 1.0,
-      end: 0.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: AppAnimations.standardCurve,
-    ));
+    _slideAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(parent: _controller, curve: AppAnimations.standardCurve),
+    );
 
-    _scaleAnimation = Tween<double>(
-      begin: 0.98,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: AppAnimations.standardCurve,
-    ));
+    _scaleAnimation = Tween<double>(begin: 0.98, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: AppAnimations.standardCurve),
+    );
 
-    _blurAnimation = Tween<double>(
-      begin: 0.0,
-      end: AppAnimations.backdropBlur,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: AppAnimations.standardCurve,
-    ));
+    _blurAnimation = Tween<double>(begin: 0.0, end: AppAnimations.backdropBlur)
+        .animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: AppAnimations.standardCurve,
+          ),
+        );
 
-    _backdropAnimation = Tween<double>(
-      begin: 0.0,
-      end: AppAnimations.backdropOpacity,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: AppAnimations.standardCurve,
-    ));
+    _backdropAnimation =
+        Tween<double>(begin: 0.0, end: AppAnimations.backdropOpacity).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: AppAnimations.standardCurve,
+          ),
+        );
 
     _controller.forward();
   }
@@ -274,7 +267,10 @@ class _AnimatedModalState extends State<AnimatedModal> {
             Align(
               alignment: Alignment.topRight,
               child: IconButton(
-                icon: Icon(PhosphorIconsDuotone.x, color: context.appColors.textSecondary),
+                icon: Icon(
+                  PhosphorIconsDuotone.x,
+                  color: context.appColors.textSecondary,
+                ),
                 onPressed: widget.onClose ?? () => Navigator.of(context).pop(),
               ),
             ),
@@ -319,7 +315,8 @@ class _AnimatedModalWrapper extends StatelessWidget {
                   ),
                   child: Container(
                     color: Colors.black.withValues(
-                      alpha: curvedAnimation.value * AppAnimations.backdropOpacity,
+                      alpha:
+                          curvedAnimation.value * AppAnimations.backdropOpacity,
                     ),
                   ),
                 ),

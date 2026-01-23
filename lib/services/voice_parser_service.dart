@@ -13,44 +13,167 @@ class VoiceParserService {
   /// Category keywords for regex matching
   static const Map<String, List<String>> _categoryKeywords = {
     'food': [
-      'kahve', 'coffee', 'yemek', 'food', 'restoran', 'restaurant',
-      'market', 'migros', 'bim', 'a101', 'şok', 'carrefour',
-      'starbucks', 'mcdonalds', 'burger', 'pizza', 'döner', 'kebap',
-      'lokanta', 'cafe', 'kafe', 'çay', 'su', 'içecek', 'atıştırmalık',
-      'kahvaltı', 'öğle', 'akşam', 'yemeği', 'getir', 'yemeksepeti',
-      'trendyol yemek', 'glovo',
+      'kahve',
+      'coffee',
+      'yemek',
+      'food',
+      'restoran',
+      'restaurant',
+      'market',
+      'migros',
+      'bim',
+      'a101',
+      'şok',
+      'carrefour',
+      'starbucks',
+      'mcdonalds',
+      'burger',
+      'pizza',
+      'döner',
+      'kebap',
+      'lokanta',
+      'cafe',
+      'kafe',
+      'çay',
+      'su',
+      'içecek',
+      'atıştırmalık',
+      'kahvaltı',
+      'öğle',
+      'akşam',
+      'yemeği',
+      'getir',
+      'yemeksepeti',
+      'trendyol yemek',
+      'glovo',
     ],
     'transport': [
-      'uber', 'taksi', 'taxi', 'benzin', 'akaryakıt', 'shell', 'opet', 'bp',
-      'otobüs', 'metro', 'metrobüs', 'tramvay', 'vapur', 'ferry',
-      'uçak', 'bilet', 'thy', 'pegasus', 'ulaşım', 'yol', 'otopark',
-      'parking', 'bitaksi', 'bolt', 'grab',
+      'uber',
+      'taksi',
+      'taxi',
+      'benzin',
+      'akaryakıt',
+      'shell',
+      'opet',
+      'bp',
+      'otobüs',
+      'metro',
+      'metrobüs',
+      'tramvay',
+      'vapur',
+      'ferry',
+      'uçak',
+      'bilet',
+      'thy',
+      'pegasus',
+      'ulaşım',
+      'yol',
+      'otopark',
+      'parking',
+      'bitaksi',
+      'bolt',
+      'grab',
     ],
     'entertainment': [
-      'netflix', 'spotify', 'youtube', 'prime', 'disney', 'eğlence',
-      'sinema', 'film', 'konser', 'tiyatro', 'oyun', 'game', 'steam',
-      'playstation', 'xbox', 'twitch', 'müzik', 'kitap', 'dergi',
+      'netflix',
+      'spotify',
+      'youtube',
+      'prime',
+      'disney',
+      'eğlence',
+      'sinema',
+      'film',
+      'konser',
+      'tiyatro',
+      'oyun',
+      'game',
+      'steam',
+      'playstation',
+      'xbox',
+      'twitch',
+      'müzik',
+      'kitap',
+      'dergi',
     ],
     'shopping': [
-      'amazon', 'trendyol', 'hepsiburada', 'n11', 'alışveriş',
-      'giyim', 'ayakkabı', 'çanta', 'saat', 'aksesuar', 'elektronik',
-      'telefon', 'bilgisayar', 'laptop', 'tablet', 'kulaklık',
-      'zara', 'h&m', 'lcw', 'defacto', 'koton', 'mavi',
+      'amazon',
+      'trendyol',
+      'hepsiburada',
+      'n11',
+      'alışveriş',
+      'giyim',
+      'ayakkabı',
+      'çanta',
+      'saat',
+      'aksesuar',
+      'elektronik',
+      'telefon',
+      'bilgisayar',
+      'laptop',
+      'tablet',
+      'kulaklık',
+      'zara',
+      'h&m',
+      'lcw',
+      'defacto',
+      'koton',
+      'mavi',
     ],
     'health': [
-      'eczane', 'pharmacy', 'ilaç', 'medicine', 'doktor', 'doctor',
-      'hastane', 'hospital', 'klinik', 'clinic', 'sağlık', 'health',
-      'diş', 'göz', 'check-up', 'muayene', 'tedavi', 'sigorta',
+      'eczane',
+      'pharmacy',
+      'ilaç',
+      'medicine',
+      'doktor',
+      'doctor',
+      'hastane',
+      'hospital',
+      'klinik',
+      'clinic',
+      'sağlık',
+      'health',
+      'diş',
+      'göz',
+      'check-up',
+      'muayene',
+      'tedavi',
+      'sigorta',
     ],
     'bills': [
-      'fatura', 'bill', 'elektrik', 'su', 'doğalgaz', 'internet',
-      'telefon', 'cep', 'turkcell', 'vodafone', 'türk telekom',
-      'aidat', 'kira', 'rent', 'abonelik', 'subscription',
+      'fatura',
+      'bill',
+      'elektrik',
+      'su',
+      'doğalgaz',
+      'internet',
+      'telefon',
+      'cep',
+      'turkcell',
+      'vodafone',
+      'türk telekom',
+      'aidat',
+      'kira',
+      'rent',
+      'abonelik',
+      'subscription',
     ],
     'education': [
-      'kurs', 'course', 'eğitim', 'education', 'okul', 'school',
-      'üniversite', 'university', 'kitap', 'book', 'udemy', 'coursera',
-      'özel ders', 'dershane', 'sınav', 'exam',
+      'kurs',
+      'course',
+      'eğitim',
+      'education',
+      'okul',
+      'school',
+      'üniversite',
+      'university',
+      'kitap',
+      'book',
+      'udemy',
+      'coursera',
+      'özel ders',
+      'dershane',
+      'sınav',
+      'exam',
     ],
   };
 
@@ -64,7 +187,10 @@ class VoiceParserService {
     RegExp(r'^(\d+(?:[.,]\d+)?)\b'),
     RegExp(r'\b(\d+(?:[.,]\d+)?)$'),
     // Numbers with currency context
-    RegExp(r'(\d+(?:[.,]\d+)?)\s*(?:para|tutar|ücret|fiyat)', caseSensitive: false),
+    RegExp(
+      r'(\d+(?:[.,]\d+)?)\s*(?:para|tutar|ücret|fiyat)',
+      caseSensitive: false,
+    ),
   ];
 
   /// Main parse function - tries regex first, then GPT
@@ -126,7 +252,13 @@ class VoiceParserService {
 
     // Extract description (remove amount and currency markers)
     String description = text
-        .replaceAll(RegExp(r'\d+(?:[.,]\d+)?\s*(?:lira|tl|₺|liralık)?', caseSensitive: false), '')
+        .replaceAll(
+          RegExp(
+            r'\d+(?:[.,]\d+)?\s*(?:lira|tl|₺|liralık)?',
+            caseSensitive: false,
+          ),
+          '',
+        )
         .replaceAll(RegExp(r'\s+'), ' ')
         .trim();
 
@@ -137,17 +269,33 @@ class VoiceParserService {
     // Try to extract merchant name
     String? merchantName;
     final knownMerchants = [
-      'starbucks', 'mcdonalds', 'burger king', 'kfc', 'dominos',
-      'migros', 'bim', 'a101', 'şok', 'carrefour',
-      'uber', 'bolt', 'bitaksi',
-      'netflix', 'spotify', 'youtube', 'amazon',
-      'trendyol', 'hepsiburada', 'getir', 'yemeksepeti',
+      'starbucks',
+      'mcdonalds',
+      'burger king',
+      'kfc',
+      'dominos',
+      'migros',
+      'bim',
+      'a101',
+      'şok',
+      'carrefour',
+      'uber',
+      'bolt',
+      'bitaksi',
+      'netflix',
+      'spotify',
+      'youtube',
+      'amazon',
+      'trendyol',
+      'hepsiburada',
+      'getir',
+      'yemeksepeti',
     ];
 
     for (final merchant in knownMerchants) {
       if (lowerText.contains(merchant)) {
-        merchantName = merchant.substring(0, 1).toUpperCase() +
-                       merchant.substring(1);
+        merchantName =
+            merchant.substring(0, 1).toUpperCase() + merchant.substring(1);
         break;
       }
     }
@@ -168,7 +316,8 @@ class VoiceParserService {
       throw Exception('OpenAI API key not configured');
     }
 
-    final prompt = '''
+    final prompt =
+        '''
 Sen Türkçe finansal asistansın. Sesli komuttan harcama bilgisi çıkar.
 
 INPUT: "$text"
@@ -205,7 +354,10 @@ KURALLAR:
         body: jsonEncode({
           'model': 'gpt-4o-mini',
           'messages': [
-            {'role': 'system', 'content': 'Sen JSON dönen bir finansal parser\'sın.'},
+            {
+              'role': 'system',
+              'content': 'Sen JSON dönen bir finansal parser\'sın.',
+            },
             {'role': 'user', 'content': prompt},
           ],
           'temperature': 0.1,
@@ -223,7 +375,9 @@ KURALLAR:
       // Extract JSON from response (handle markdown code blocks)
       String jsonStr = content;
       if (content.contains('```')) {
-        final jsonMatch = RegExp(r'```(?:json)?\s*([\s\S]*?)```').firstMatch(content);
+        final jsonMatch = RegExp(
+          r'```(?:json)?\s*([\s\S]*?)```',
+        ).firstMatch(content);
         if (jsonMatch != null) {
           jsonStr = jsonMatch.group(1)!.trim();
         }
@@ -251,7 +405,10 @@ KURALLAR:
   }
 
   /// Get category display name
-  static String getCategoryDisplayName(String? category, {bool turkish = true}) {
+  static String getCategoryDisplayName(
+    String? category, {
+    bool turkish = true,
+  }) {
     if (category == null) return turkish ? 'Diğer' : 'Other';
 
     final names = turkish

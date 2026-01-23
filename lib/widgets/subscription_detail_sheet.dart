@@ -23,7 +23,8 @@ class SubscriptionDetailSheet extends StatefulWidget {
   });
 
   @override
-  State<SubscriptionDetailSheet> createState() => _SubscriptionDetailSheetState();
+  State<SubscriptionDetailSheet> createState() =>
+      _SubscriptionDetailSheetState();
 }
 
 class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
@@ -100,8 +101,12 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
   }
 
   Future<void> _loadWorkTime() async {
-    final hours = await _subscriptionManager.calculateWorkHours(widget.subscription.amount);
-    final days = await _subscriptionManager.calculateWorkDays(widget.subscription.amount);
+    final hours = await _subscriptionManager.calculateWorkHours(
+      widget.subscription.amount,
+    );
+    final days = await _subscriptionManager.calculateWorkDays(
+      widget.subscription.amount,
+    );
 
     if (mounted) {
       setState(() {
@@ -208,14 +213,16 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                   height: 4,
                   margin: const EdgeInsets.only(top: 12),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: context.appColors.cardBorder,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
 
                 Padding(
                   padding: const EdgeInsets.all(24),
-                  child: _isEditing ? _buildEditView(l10n) : _buildDetailView(sub, l10n),
+                  child: _isEditing
+                      ? _buildEditView(l10n)
+                      : _buildDetailView(sub, l10n),
                 ),
               ],
             ),
@@ -326,7 +333,10 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: context.appColors.surface.withValues(alpha: 0.8),
                   borderRadius: BorderRadius.circular(10),
@@ -359,33 +369,45 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         // Statistics
         Row(
           children: [
-            Expanded(child: _buildStatCard(
-              l10n.subscriptionDuration,
-              l10n.daysCount(sub.daysSinceSubscription),
-              PhosphorIconsDuotone.calendar,
-            )),
+            Expanded(
+              child: _buildStatCard(
+                l10n.subscriptionDuration,
+                l10n.daysCount(sub.daysSinceSubscription),
+                PhosphorIconsDuotone.calendar,
+              ),
+            ),
             const SizedBox(width: 12),
-            Expanded(child: _buildStatCard(
-              l10n.totalPaid,
-              '${formatTurkishCurrency(sub.totalPaid, decimalDigits: 0)} ₺',
-              PhosphorIconsDuotone.creditCard,
-            )),
+            Expanded(
+              child: _buildStatCard(
+                l10n.totalPaid,
+                '${formatTurkishCurrency(sub.totalPaid, decimalDigits: 0)} ₺',
+                PhosphorIconsDuotone.creditCard,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 12),
         Row(
           children: [
-            Expanded(child: _buildStatCard(
-              l10n.workHours,
-              _workHours != null ? l10n.hoursCount(_workHours!.toStringAsFixed(1)) : '-',
-              PhosphorIconsDuotone.clock,
-            )),
+            Expanded(
+              child: _buildStatCard(
+                l10n.workHours,
+                _workHours != null
+                    ? l10n.hoursCount(_workHours!.toStringAsFixed(1))
+                    : '-',
+                PhosphorIconsDuotone.clock,
+              ),
+            ),
             const SizedBox(width: 12),
-            Expanded(child: _buildStatCard(
-              l10n.workDays,
-              _workDays != null ? l10n.daysCountDecimal(_workDays!.toStringAsFixed(2)) : '-',
-              PhosphorIconsDuotone.briefcase,
-            )),
+            Expanded(
+              child: _buildStatCard(
+                l10n.workDays,
+                _workDays != null
+                    ? l10n.daysCountDecimal(_workDays!.toStringAsFixed(2))
+                    : '-',
+                PhosphorIconsDuotone.briefcase,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 16),
@@ -400,16 +422,18 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           child: Row(
             children: [
               Icon(
-                sub.autoRecord ? PhosphorIconsDuotone.checkCircle : PhosphorIconsDuotone.xCircle,
+                sub.autoRecord
+                    ? PhosphorIconsDuotone.checkCircle
+                    : PhosphorIconsDuotone.xCircle,
                 size: 20,
-                color: sub.autoRecord ? const Color(0xFF2ECC71) : context.appColors.textTertiary,
+                color: sub.autoRecord
+                    ? const Color(0xFF2ECC71)
+                    : context.appColors.textTertiary,
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  sub.autoRecord
-                      ? l10n.autoRecordOn
-                      : l10n.autoRecordOff,
+                  sub.autoRecord ? l10n.autoRecordOn : l10n.autoRecordOff,
                   style: TextStyle(
                     fontSize: 13,
                     color: context.appColors.textSecondary,
@@ -530,13 +554,9 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         // Category and renewal day
         Row(
           children: [
-            Expanded(
-              child: _buildCategoryDropdown(l10n),
-            ),
+            Expanded(child: _buildCategoryDropdown(l10n)),
             const SizedBox(width: 16),
-            Expanded(
-              child: _buildDayDropdown(l10n),
-            ),
+            Expanded(child: _buildDayDropdown(l10n)),
           ],
         ),
         const SizedBox(height: 20),
@@ -588,7 +608,9 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               Icon(
                 PhosphorIconsDuotone.sparkle,
                 size: 20,
-                color: _autoRecord ? context.appColors.primary : context.appColors.textTertiary,
+                color: _autoRecord
+                    ? context.appColors.primary
+                    : context.appColors.textTertiary,
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -625,10 +647,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
             ),
             child: Text(
               l10n.saveChanges,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ),
         ),
@@ -643,7 +662,10 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
       children: [
         Text(
           l10n.category,
-          style: TextStyle(fontSize: 12, color: context.appColors.textSecondary),
+          style: TextStyle(
+            fontSize: 12,
+            color: context.appColors.textSecondary,
+          ),
         ),
         const SizedBox(height: 8),
         Container(
@@ -657,11 +679,18 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               value: _selectedCategory,
               isExpanded: true,
               dropdownColor: context.appColors.gradientMid,
-              style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
-              items: _categoryKeys.map((key) => DropdownMenuItem(
-                value: key,
-                child: Text(_getLocalizedCategory(key, l10n)),
-              )).toList(),
+              style: TextStyle(
+                color: context.appColors.textPrimary,
+                fontSize: 14,
+              ),
+              items: _categoryKeys
+                  .map(
+                    (key) => DropdownMenuItem(
+                      value: key,
+                      child: Text(_getLocalizedCategory(key, l10n)),
+                    ),
+                  )
+                  .toList(),
               onChanged: (v) {
                 if (v != null) setState(() => _selectedCategory = v);
               },
@@ -678,7 +707,10 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
       children: [
         Text(
           l10n.renewalDay,
-          style: TextStyle(fontSize: 12, color: context.appColors.textSecondary),
+          style: TextStyle(
+            fontSize: 12,
+            color: context.appColors.textSecondary,
+          ),
         ),
         const SizedBox(height: 8),
         Container(
@@ -692,7 +724,10 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               value: _selectedDay,
               isExpanded: true,
               dropdownColor: context.appColors.gradientMid,
-              style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
+              style: TextStyle(
+                color: context.appColors.textPrimary,
+                fontSize: 14,
+              ),
               items: List.generate(31, (i) => i + 1)
                   .map((d) => DropdownMenuItem(value: d, child: Text('$d')))
                   .toList(),
@@ -709,7 +744,10 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
   InputDecoration _inputDecoration(String label) {
     return InputDecoration(
       labelText: label,
-      labelStyle: TextStyle(color: context.appColors.textSecondary, fontSize: 14),
+      labelStyle: TextStyle(
+        color: context.appColors.textSecondary,
+        fontSize: 14,
+      ),
       filled: true,
       fillColor: context.appColors.surface.withValues(alpha: 0.5),
       border: OutlineInputBorder(

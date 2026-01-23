@@ -60,7 +60,10 @@ void showCurrencySelector(BuildContext context) {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: context.appColors.warning.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8),
@@ -91,8 +94,12 @@ void showCurrencySelector(BuildContext context) {
               ),
             // Currency options
             ...supportedCurrencies.map((currency) {
-              final isSelected = currencyProvider.currency.code == currency.code;
-              final isLocked = !freeTierService.isCurrencyAvailable(isPremium, currency.code);
+              final isSelected =
+                  currencyProvider.currency.code == currency.code;
+              final isLocked = !freeTierService.isCurrencyAvailable(
+                isPremium,
+                currency.code,
+              );
 
               return ListTile(
                 leading: Text(
@@ -107,7 +114,9 @@ void showCurrencySelector(BuildContext context) {
                         color: isLocked
                             ? context.appColors.textTertiary
                             : context.appColors.textPrimary,
-                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                        fontWeight: isSelected
+                            ? FontWeight.w600
+                            : FontWeight.w500,
                         fontSize: 16,
                       ),
                     ),
@@ -116,7 +125,9 @@ void showCurrencySelector(BuildContext context) {
                       currency.symbol,
                       style: TextStyle(
                         color: isLocked
-                            ? context.appColors.textTertiary.withValues(alpha: 0.5)
+                            ? context.appColors.textTertiary.withValues(
+                                alpha: 0.5,
+                              )
                             : context.appColors.textSecondary,
                         fontSize: 16,
                       ),
@@ -139,8 +150,11 @@ void showCurrencySelector(BuildContext context) {
                         color: context.appColors.textTertiary,
                       )
                     : isSelected
-                        ? Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.primary)
-                        : null,
+                    ? Icon(
+                        PhosphorIconsDuotone.checkCircle,
+                        color: context.appColors.primary,
+                      )
+                    : null,
                 onTap: () async {
                   if (isLocked) {
                     Navigator.pop(context);
@@ -195,6 +209,8 @@ Future<void> _convertIncomeSources(
     await financeProvider.updateIncomeSourcesWithConversion(convertedSources);
   } else {
     // Conversion failed - log for debugging
-    debugPrint('[CurrencySelector] Income conversion failed - rates not available');
+    debugPrint(
+      '[CurrencySelector] Income conversion failed - rates not available',
+    );
   }
 }

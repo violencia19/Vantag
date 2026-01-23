@@ -3,8 +3,8 @@ import 'package:uuid/uuid.dart';
 
 /// Source of a savings transaction
 enum TransactionSource {
-  manual,           // User manually added savings
-  pool,             // Transferred from savings pool
+  manual, // User manually added savings
+  pool, // Transferred from savings pool
   expenseCancelled; // Redirected from a cancelled expense (Vazgeçtim)
 
   String get labelTr {

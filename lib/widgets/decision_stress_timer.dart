@@ -57,7 +57,8 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
 
     if (!_canConfirm) {
       _startCountdown();
-      if (widget.riskLevel == RiskLevel.high || widget.riskLevel == RiskLevel.extreme) {
+      if (widget.riskLevel == RiskLevel.high ||
+          widget.riskLevel == RiskLevel.extreme) {
         _pulseController.repeat(reverse: true);
       }
     }
@@ -164,11 +165,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
                     color: _riskColor.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(
-                    _getWarningIcon(),
-                    color: _riskColor,
-                    size: 24,
-                  ),
+                  child: Icon(_getWarningIcon(), color: _riskColor, size: 24),
                 ),
                 const SizedBox(width: 12),
                 // Message
@@ -241,9 +238,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
       decoration: BoxDecoration(
         color: _riskColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: _riskColor.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: _riskColor.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
@@ -271,7 +266,8 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
             child: ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: LinearProgressIndicator(
-                value: 1 - (_remainingSeconds / widget.riskLevel.countdownSeconds),
+                value:
+                    1 - (_remainingSeconds / widget.riskLevel.countdownSeconds),
                 backgroundColor: _riskColor.withValues(alpha: 0.2),
                 valueColor: AlwaysStoppedAnimation<Color>(_riskColor),
                 minHeight: 6,
@@ -314,10 +310,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
             const SizedBox(width: 10),
             Text(
               widget.confirmLabel ?? l10n.confirm,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ],
         ),
@@ -331,11 +324,7 @@ class RiskBadge extends StatelessWidget {
   final RiskLevel riskLevel;
   final bool showLabel;
 
-  const RiskBadge({
-    super.key,
-    required this.riskLevel,
-    this.showLabel = true,
-  });
+  const RiskBadge({super.key, required this.riskLevel, this.showLabel = true});
 
   Color _getColor(BuildContext context) {
     switch (riskLevel) {
@@ -381,17 +370,12 @@ class RiskBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: color.withValues(alpha: 0.4),
-        ),
+        border: Border.all(color: color.withValues(alpha: 0.4)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            riskLevel.emoji,
-            style: const TextStyle(fontSize: 12),
-          ),
+          Text(riskLevel.emoji, style: const TextStyle(fontSize: 12)),
           if (showLabel) ...[
             const SizedBox(width: 4),
             Text(

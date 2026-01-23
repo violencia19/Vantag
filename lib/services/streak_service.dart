@@ -14,7 +14,8 @@ class StreakData {
   });
 
   bool get hasStreak => displayStreak > 0;
-  bool get isNewRecord => !isStale && currentStreak > 0 && currentStreak >= longestStreak;
+  bool get isNewRecord =>
+      !isStale && currentStreak > 0 && currentStreak >= longestStreak;
 
   /// Gösterilecek streak değeri (kırılmışsa 0)
   int get displayStreak => isStale ? 0 : currentStreak;

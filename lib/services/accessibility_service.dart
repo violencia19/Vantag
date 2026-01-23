@@ -4,7 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Accessibility preferences and utilities
 class AccessibilityService {
-  static final AccessibilityService _instance = AccessibilityService._internal();
+  static final AccessibilityService _instance =
+      AccessibilityService._internal();
   factory AccessibilityService() => _instance;
   AccessibilityService._internal();
 
@@ -246,11 +247,7 @@ class SemanticImage extends StatelessWidget {
     if (decorative) {
       return ExcludeSemantics(child: child);
     }
-    return Semantics(
-      image: true,
-      label: description,
-      child: child,
-    );
+    return Semantics(image: true, label: description, child: child);
   }
 }
 
@@ -272,7 +269,9 @@ class SemanticListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: label != null ? '$label, ${index + 1} of $total' : '${index + 1} of $total',
+      label: label != null
+          ? '$label, ${index + 1} of $total'
+          : '${index + 1} of $total',
       child: child,
     );
   }
@@ -319,11 +318,7 @@ class SemanticAnnouncement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      liveRegion: liveRegion,
-      label: announcement,
-      child: child,
-    );
+    return Semantics(liveRegion: liveRegion, label: announcement, child: child);
   }
 }
 
@@ -331,6 +326,8 @@ class SemanticAnnouncement extends StatelessWidget {
 
 /// Announce a message to screen readers
 void announceToScreenReader(BuildContext context, String message) {
+  // Use the new sendAnnouncement API (announce is deprecated after v3.35.0)
+  // ignore: deprecated_member_use
   SemanticsService.announce(message, TextDirection.ltr);
 }
 

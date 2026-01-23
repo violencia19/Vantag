@@ -26,7 +26,9 @@ class Currency {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Currency && runtimeType == other.runtimeType && code == other.code;
+      other is Currency &&
+          runtimeType == other.runtimeType &&
+          code == other.code;
 
   @override
   int get hashCode => code.hashCode;
@@ -36,15 +38,44 @@ class Currency {
 /// YENİ CURRENCY EKLEMEK = 1 SATIR - Başka hiçbir yere dokunma!
 const List<Currency> supportedCurrencies = [
   // Turkish Lira - symbol after, Turkish separators, gold in grams
-  Currency(code: 'TRY', symbol: '₺', name: 'Türk Lirası', flag: '🇹🇷', symbolBefore: false, thousandSeparator: '.', decimalSeparator: ',', goldUnit: 'gr', defaultLocale: 'tr'),
+  Currency(
+    code: 'TRY',
+    symbol: '₺',
+    name: 'Türk Lirası',
+    flag: '🇹🇷',
+    symbolBefore: false,
+    thousandSeparator: '.',
+    decimalSeparator: ',',
+    goldUnit: 'gr',
+    defaultLocale: 'tr',
+  ),
   // US Dollar - symbol before, standard separators, gold in ounces
-  Currency(code: 'USD', symbol: '\$', name: 'US Dollar', flag: '🇺🇸', defaultLocale: 'en'),
+  Currency(
+    code: 'USD',
+    symbol: '\$',
+    name: 'US Dollar',
+    flag: '🇺🇸',
+    defaultLocale: 'en',
+  ),
   // Euro - symbol before, standard separators
-  Currency(code: 'EUR', symbol: '€', name: 'Euro', flag: '🇪🇺', defaultLocale: 'de'),
+  Currency(
+    code: 'EUR',
+    symbol: '€',
+    name: 'Euro',
+    flag: '🇪🇺',
+    defaultLocale: 'de',
+  ),
   // British Pound
   Currency(code: 'GBP', symbol: '£', name: 'British Pound', flag: '🇬🇧'),
   // Saudi Riyal - symbol after
-  Currency(code: 'SAR', symbol: '﷼', name: 'Saudi Riyal', flag: '🇸🇦', symbolBefore: false, defaultLocale: 'ar'),
+  Currency(
+    code: 'SAR',
+    symbol: '﷼',
+    name: 'Saudi Riyal',
+    flag: '🇸🇦',
+    symbolBefore: false,
+    defaultLocale: 'ar',
+  ),
 
   // ═══════════════════════════════════════════════════════════════════
   // İLERİDE EKLEMEK İÇİN - Sadece bu satırları uncomment et:
@@ -72,7 +103,9 @@ Currency getCurrencyByCode(String code) {
 /// Get default currency for locale - no switch case, data-driven!
 Currency getDefaultCurrencyForLocale(String languageCode) {
   // Find currency that has this locale as default
-  final match = supportedCurrencies.where((c) => c.defaultLocale == languageCode).firstOrNull;
+  final match = supportedCurrencies
+      .where((c) => c.defaultLocale == languageCode)
+      .firstOrNull;
   if (match != null) return match;
 
   // Fallback to USD
@@ -80,4 +113,5 @@ Currency getDefaultCurrencyForLocale(String languageCode) {
 }
 
 /// Get all currency codes
-List<String> get allCurrencyCodes => supportedCurrencies.map((c) => c.code).toList();
+List<String> get allCurrencyCodes =>
+    supportedCurrencies.map((c) => c.code).toList();

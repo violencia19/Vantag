@@ -41,7 +41,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
 
       if (mounted) {
         setState(() {
-          _subscriptions = subs..sort((a, b) => a.renewalDay.compareTo(b.renewalDay));
+          _subscriptions = subs
+            ..sort((a, b) => a.renewalDay.compareTo(b.renewalDay));
           _stats = stats;
           _isLoading = false;
         });
@@ -62,7 +63,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.95),
+      barrierColor: context.appColors.background.withValues(alpha: 0.95),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => AddSubscriptionSheet(
@@ -79,13 +80,16 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.95),
+      barrierColor: context.appColors.background.withValues(alpha: 0.95),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => SubscriptionDetailSheet(
         subscription: subscription,
         onUpdate: (updated) async {
-          await _subscriptionService.updateSubscription(subscription.id, updated);
+          await _subscriptionService.updateSubscription(
+            subscription.id,
+            updated,
+          );
           _subscriptionManager.clearCache();
           _loadData();
         },
@@ -115,10 +119,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             ),
             title: Text(
               AppLocalizations.of(context).subscriptions,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             actions: [
               // View toggle
@@ -148,13 +149,13 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           if (_isLoading)
             SliverFillRemaining(
               child: Center(
-                child: CircularProgressIndicator(color: context.appColors.primary),
+                child: CircularProgressIndicator(
+                  color: context.appColors.primary,
+                ),
               ),
             )
           else if (_subscriptions.isEmpty)
-            SliverFillRemaining(
-              child: _buildEmptyState(),
-            )
+            SliverFillRemaining(child: _buildEmptyState())
           else if (_isCalendarView)
             SliverToBoxAdapter(
               child: Padding(
@@ -169,18 +170,15 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    if (index == _subscriptions.length) {
-                      return const SizedBox(height: 100); // Space for FAB
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: _buildSubscriptionCard(_subscriptions[index]),
-                    );
-                  },
-                  childCount: _subscriptions.length + 1,
-                ),
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  if (index == _subscriptions.length) {
+                    return const SizedBox(height: 100); // Space for FAB
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: _buildSubscriptionCard(_subscriptions[index]),
+                  );
+                }, childCount: _subscriptions.length + 1),
               ),
             ),
         ],
@@ -189,7 +187,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddSheet,
         backgroundColor: context.appColors.primary,
-        child: Icon(PhosphorIconsDuotone.plus, color: Colors.white),
+        child: Icon(PhosphorIconsDuotone.plus, color: context.appColors.textPrimary),
       ),
     );
   }
@@ -205,7 +203,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         color: context.appColors.surface.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.1),
+          color: context.appColors.textPrimary.withValues(alpha: 0.1),
           width: 0.5,
         ),
       ),
@@ -243,7 +241,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               Container(
                 width: 1,
                 height: 50,
-                color: Colors.white.withValues(alpha: 0.1),
+                color: context.appColors.textPrimary.withValues(alpha: 0.1),
               ),
               const SizedBox(width: 20),
               // Subscription count and work days
@@ -357,7 +355,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  AppLocalizations.of(context).everyMonthDay(subscription.renewalDay),
+                  AppLocalizations.of(
+                    context,
+                  ).everyMonthDay(subscription.renewalDay),
                   style: TextStyle(
                     fontSize: 11,
                     color: context.appColors.textTertiary,
@@ -424,7 +424,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.95),
+      barrierColor: context.appColors.background.withValues(alpha: 0.95),
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         margin: const EdgeInsets.all(16),
@@ -441,7 +441,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               height: 4,
               margin: const EdgeInsets.only(top: 12),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: context.appColors.textPrimary.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -459,45 +459,47 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  ...subs.map((sub) => Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                        _showDetailSheet(sub);
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 10,
-                            height: 10,
-                            decoration: BoxDecoration(
-                              color: sub.color,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              sub.name,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: context.appColors.textPrimary,
+                  ...subs.map(
+                    (sub) => Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          _showDetailSheet(sub);
+                        },
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                color: sub.color,
+                                shape: BoxShape.circle,
                               ),
                             ),
-                          ),
-                          Text(
-                            '${formatTurkishCurrency(sub.amount, decimalDigits: 0)} ₺',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: context.appColors.textSecondary,
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                sub.name,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: context.appColors.textPrimary,
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
+                            Text(
+                              '${formatTurkishCurrency(sub.amount, decimalDigits: 0)} ₺',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: context.appColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  )),
+                  ),
                   const SizedBox(height: 8),
                 ],
               ),

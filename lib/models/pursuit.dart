@@ -3,14 +3,14 @@ import 'package:uuid/uuid.dart';
 
 /// Pursuit categories with emoji representation
 enum PursuitCategory {
-  tech,      // 📱 Teknoloji
-  travel,    // ✈️ Seyahat
-  home,      // 🏠 Ev
-  fashion,   // 👗 Moda
-  vehicle,   // 🚗 Araç
+  tech, // 📱 Teknoloji
+  travel, // ✈️ Seyahat
+  home, // 🏠 Ev
+  fashion, // 👗 Moda
+  vehicle, // 🚗 Araç
   education, // 📚 Eğitim
-  health,    // 💊 Sağlık
-  other;     // 📦 Diğer
+  health, // 💊 Sağlık
+  other; // 📦 Diğer
 
   String get emoji {
     switch (this) {
@@ -109,9 +109,8 @@ class Pursuit {
   });
 
   /// Progress percentage (0.0 to 1.0)
-  double get progressPercent => targetAmount > 0
-      ? (savedAmount / targetAmount).clamp(0.0, 1.0)
-      : 0.0;
+  double get progressPercent =>
+      targetAmount > 0 ? (savedAmount / targetAmount).clamp(0.0, 1.0) : 0.0;
 
   /// Progress percentage for display (0 to 100)
   int get progressPercentDisplay => (progressPercent * 100).round();
@@ -127,8 +126,7 @@ class Pursuit {
   bool get hasReachedTarget => savedAmount >= targetAmount;
 
   /// Days since creation
-  int get daysSinceCreation =>
-      DateTime.now().difference(createdAt).inDays;
+  int get daysSinceCreation => DateTime.now().difference(createdAt).inDays;
 
   /// Factory to create a new pursuit with UUID
   factory Pursuit.create({
@@ -240,13 +238,12 @@ class Pursuit {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Pursuit &&
-          runtimeType == other.runtimeType &&
-          id == other.id;
+      other is Pursuit && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;
 
   @override
-  String toString() => 'Pursuit(id: $id, name: $name, progress: $progressPercentDisplay%)';
+  String toString() =>
+      'Pursuit(id: $id, name: $name, progress: $progressPercentDisplay%)';
 }

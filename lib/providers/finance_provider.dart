@@ -39,6 +39,11 @@ class FinanceProvider extends ChangeNotifier {
   double get totalMonthlyIncome => _userProfile?.monthlyIncome ?? 0;
   int get incomeSourceCount => _userProfile?.incomeSourceCount ?? 0;
 
+  // Getters - Salary & Balance
+  int? get salaryDay => _userProfile?.salaryDay;
+  double? get currentBalance => _userProfile?.currentBalance;
+  bool get hasBalanceTracking => _userProfile?.currentBalance != null;
+
   // Getters - Abonelikler (AI Context için)
   Future<List<Subscription>> getSubscriptions() async {
     return await _subscriptionService.getSubscriptions();
@@ -54,11 +59,7 @@ class FinanceProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      await Future.wait([
-        _loadExpenses(),
-        _loadStreakData(),
-        _loadProfile(),
-      ]);
+      await Future.wait([_loadExpenses(), _loadStreakData(), _loadProfile()]);
       _isInitialized = true;
 
       // Otomatik abonelik kayıtlarını işle
@@ -81,7 +82,8 @@ class FinanceProvider extends ChangeNotifier {
       if (lastProcessedDate == todayKey) return;
 
       // Bugün yenilenecek ve autoRecord açık olan abonelikleri getir
-      final todayRenewals = await _subscriptionService.getAutoRecordSubscriptionsForToday();
+      final todayRenewals = await _subscriptionService
+          .getAutoRecordSubscriptionsForToday();
       if (todayRenewals.isEmpty) {
         await prefs.setString(_keyAutoRecordedDate, todayKey);
         return;
@@ -91,11 +93,9 @@ class FinanceProvider extends ChangeNotifier {
       for (final sub in todayRenewals) {
         // Hesaplama yap
         final result = _calculationService.calculateExpense(
-          userProfile: _userProfile ?? UserProfile(
-            incomeSources: [],
-            dailyHours: 8,
-            workDaysPerWeek: 5,
-          ),
+          userProfile:
+              _userProfile ??
+              UserProfile(incomeSources: [], dailyHours: 8, workDaysPerWeek: 5),
           expenseAmount: sub.amount,
           month: today.month,
           year: today.year,
@@ -148,7 +148,9 @@ class FinanceProvider extends ChangeNotifier {
 
     // Enforce cache limit - keep only the most recent expenses in memory
     if (_expenses.length > ExpenseHistoryService.maxLocalExpenses) {
-      _expenses = _expenses.take(ExpenseHistoryService.maxLocalExpenses).toList();
+      _expenses = _expenses
+          .take(ExpenseHistoryService.maxLocalExpenses)
+          .toList();
     }
 
     _calculateStats();
@@ -199,12 +201,18 @@ class FinanceProvider extends ChangeNotifier {
 
   Future<void> updateDecision(int index, ExpenseDecision decision) async {
     if (index < 0 || index >= _expenses.length) return;
-    final updated = _expenses[index].copyWith(decision: decision, decisionDate: DateTime.now());
+    final updated = _expenses[index].copyWith(
+      decision: decision,
+      decisionDate: DateTime.now(),
+    );
     await updateExpense(index, updated);
   }
 
   /// Alias for updateDecision - for backwards compatibility
-  Future<void> updateExpenseDecision(int index, ExpenseDecision decision) async {
+  Future<void> updateExpenseDecision(
+    int index,
+    ExpenseDecision decision,
+  ) async {
     await updateDecision(index, decision);
   }
 
@@ -219,8 +227,9 @@ class FinanceProvider extends ChangeNotifier {
   }
 
   Future<void> setIncomeSources(List<IncomeSource> sources) async {
-    final updatedProfile = (_userProfile ?? UserProfile(dailyHours: 8, workDaysPerWeek: 5))
-        .copyWith(incomeSources: List<IncomeSource>.from(sources));
+    final updatedProfile =
+        (_userProfile ?? UserProfile(dailyHours: 8, workDaysPerWeek: 5))
+            .copyWith(incomeSources: List<IncomeSource>.from(sources));
 
     _userProfile = updatedProfile;
     _calculateStats();
@@ -230,12 +239,12 @@ class FinanceProvider extends ChangeNotifier {
 
   /// Para birimi değiştiğinde tüm gelir kaynaklarını yeni para birimine convert et
   /// [convertedSources] - CurrencyProvider.convertIncomeSources() ile convert edilmiş liste
-  Future<void> updateIncomeSourcesWithConversion(List<IncomeSource> convertedSources) async {
+  Future<void> updateIncomeSourcesWithConversion(
+    List<IncomeSource> convertedSources,
+  ) async {
     if (_userProfile == null) return;
 
-    _userProfile = _userProfile!.copyWith(
-      incomeSources: convertedSources,
-    );
+    _userProfile = _userProfile!.copyWith(incomeSources: convertedSources);
 
     _calculateStats();
     notifyListeners();
@@ -267,9 +276,15 @@ class FinanceProvider extends ChangeNotifier {
     await setIncomeSources(sources);
   }
 
-  Future<void> updateWorkSchedule({double? dailyHours, int? workDaysPerWeek}) async {
+  Future<void> updateWorkSchedule({
+    double? dailyHours,
+    int? workDaysPerWeek,
+  }) async {
     if (_userProfile == null) return;
-    _userProfile = _userProfile!.copyWith(dailyHours: dailyHours, workDaysPerWeek: workDaysPerWeek);
+    _userProfile = _userProfile!.copyWith(
+      dailyHours: dailyHours,
+      workDaysPerWeek: workDaysPerWeek,
+    );
     notifyListeners();
     await _profileService.saveProfile(_userProfile!);
   }
@@ -294,6 +309,82 @@ class FinanceProvider extends ChangeNotifier {
     await _profileService.saveProfile(_userProfile!);
   }
 
+  // ============================================
+  // MAAŞ GÜNÜ VE BAKİYE YÖNETİMİ
+  // ============================================
+
+  /// Maaş gününü güncelle (1-31)
+  Future<void> updateSalaryDay(int? day) async {
+    if (_userProfile == null) return;
+    _userProfile = _userProfile!.copyWith(salaryDay: day);
+    notifyListeners();
+    await _profileService.saveProfile(_userProfile!);
+
+    // Schedule payday notification
+    if (day != null) {
+      await NotificationService().schedulePaydayNotification(salaryDay: day);
+    } else {
+      await NotificationService().cancelPaydayNotification();
+    }
+  }
+
+  /// Güncel bakiyeyi güncelle
+  Future<void> updateCurrentBalance(double? balance) async {
+    if (_userProfile == null) return;
+    _userProfile = _userProfile!.copyWith(currentBalance: balance);
+    notifyListeners();
+    await _profileService.saveProfile(_userProfile!);
+  }
+
+  /// Bakiyeden harcama düş
+  Future<void> deductFromBalance(double amount) async {
+    if (_userProfile == null) return;
+
+    final currentBalance = _userProfile!.currentBalance ?? 0;
+    final newBalance = currentBalance - amount;
+
+    _userProfile = _userProfile!.copyWith(currentBalance: newBalance);
+    notifyListeners();
+    await _profileService.saveProfile(_userProfile!);
+  }
+
+  /// Bakiyeye gelir ekle
+  Future<void> addToBalance(double amount) async {
+    if (_userProfile == null) return;
+
+    final currentBalance = _userProfile!.currentBalance ?? 0;
+    final newBalance = currentBalance + amount;
+
+    _userProfile = _userProfile!.copyWith(currentBalance: newBalance);
+    notifyListeners();
+    await _profileService.saveProfile(_userProfile!);
+  }
+
+  /// Maaş alındığını onayla
+  Future<void> confirmSalaryReceived({double? newBalance}) async {
+    if (_userProfile == null) return;
+
+    final balance =
+        newBalance ??
+        ((_userProfile!.currentBalance ?? 0) + _userProfile!.monthlyIncome);
+
+    _userProfile = _userProfile!.copyWith(
+      lastSalaryConfirmedDate: DateTime.now(),
+      currentBalance: balance,
+    );
+    notifyListeners();
+    await _profileService.saveProfile(_userProfile!);
+  }
+
+  /// Bugün maaş günü mü ve henüz onaylanmamış mı kontrol et
+  bool get shouldShowPaydayDialog {
+    if (_userProfile == null) return false;
+    return _userProfile!.isPayday && !_userProfile!.isSalaryConfirmedThisMonth;
+  }
+
+  /// Maaşa kaç gün kaldı
+  int get daysUntilPayday => _userProfile?.daysUntilPayday ?? -1;
+
   /// Saatlik ücret (fallback ile)
   double get hourlyRate {
     if (_userProfile == null) return 0;
@@ -312,32 +403,32 @@ class FinanceProvider extends ChangeNotifier {
   /// Bu ayki harcamalar
   List<Expense> get currentMonthExpenses {
     final now = DateTime.now();
-    return _expenses.where((e) =>
-      e.date.year == now.year &&
-      e.date.month == now.month
-    ).toList();
+    return _expenses
+        .where((e) => e.date.year == now.year && e.date.month == now.month)
+        .toList();
   }
 
   /// Aktif taksitler listesi
   List<Expense> get activeInstallments {
-    return _expenses.where((e) =>
-      e.type == ExpenseType.installment &&
-      !e.isInstallmentCompleted
-    ).toList();
+    return _expenses
+        .where(
+          (e) => e.type == ExpenseType.installment && !e.isInstallmentCompleted,
+        )
+        .toList();
   }
 
   /// Bu ayki zorunlu giderler toplamı
   double get mandatoryExpensesTotal {
     return currentMonthExpenses
-      .where((e) => e.isMandatory)
-      .fold(0.0, (sum, e) => sum + e.amount);
+        .where((e) => e.isMandatory)
+        .fold(0.0, (sum, e) => sum + e.amount);
   }
 
   /// Bu ayki isteğe bağlı giderler toplamı
   double get discretionaryExpensesTotal {
     return currentMonthExpenses
-      .where((e) => !e.isMandatory)
-      .fold(0.0, (sum, e) => sum + e.amount);
+        .where((e) => !e.isMandatory)
+        .fold(0.0, (sum, e) => sum + e.amount);
   }
 
   // ============================================
@@ -383,15 +474,21 @@ class FinanceProvider extends ChangeNotifier {
   /// Get today's spending data for widgets
   TodaySpendingData getTodaySpendingData() {
     final now = DateTime.now();
-    final todayExpenses = _expenses.where((e) =>
-        e.date.year == now.year &&
-        e.date.month == now.month &&
-        e.date.day == now.day &&
-        e.decision == ExpenseDecision.yes
-    ).toList();
+    final todayExpenses = _expenses
+        .where(
+          (e) =>
+              e.date.year == now.year &&
+              e.date.month == now.month &&
+              e.date.day == now.day &&
+              e.decision == ExpenseDecision.yes,
+        )
+        .toList();
 
     final totalAmount = todayExpenses.fold(0.0, (sum, e) => sum + e.amount);
-    final totalHoursDecimal = todayExpenses.fold(0.0, (sum, e) => sum + e.hoursRequired);
+    final totalHoursDecimal = todayExpenses.fold(
+      0.0,
+      (sum, e) => sum + e.hoursRequired,
+    );
 
     // Convert decimal hours to hours and minutes
     final hours = totalHoursDecimal.floor().toDouble();
@@ -410,10 +507,13 @@ class FinanceProvider extends ChangeNotifier {
     final now = DateTime.now();
     final thirtyDaysAgo = now.subtract(const Duration(days: 30));
 
-    final recentExpenses = _expenses.where((e) =>
-        e.date.isAfter(thirtyDaysAgo) &&
-        e.decision == ExpenseDecision.yes
-    ).toList();
+    final recentExpenses = _expenses
+        .where(
+          (e) =>
+              e.date.isAfter(thirtyDaysAgo) &&
+              e.decision == ExpenseDecision.yes,
+        )
+        .toList();
 
     if (recentExpenses.isEmpty) return 0;
 
@@ -430,7 +530,8 @@ class FinanceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _loadStreakData() async => _streakData = await _streakService.getStreakData();
+  Future<void> _loadStreakData() async =>
+      _streakData = await _streakService.getStreakData();
 
   /// Refresh achievements with localized titles (requires BuildContext)
   Future<void> refreshAchievements(BuildContext context) async {
@@ -469,8 +570,14 @@ class FinanceProvider extends ChangeNotifier {
   }
 
   /// Firestore'dan arşivlenmiş expense'leri getir (Pro kullanıcılar için)
-  Future<List<Expense>> fetchArchivedExpenses({int offset = 0, int limit = 50}) async {
-    return await _expenseService.fetchArchivedExpenses(offset: offset, limit: limit);
+  Future<List<Expense>> fetchArchivedExpenses({
+    int offset = 0,
+    int limit = 50,
+  }) async {
+    return await _expenseService.fetchArchivedExpenses(
+      offset: offset,
+      limit: limit,
+    );
   }
 
   /// Firestore'dan TÜM expense'leri getir (Pro export için)
@@ -484,7 +591,14 @@ class FinanceProvider extends ChangeNotifier {
 
   /// Debug: Toplu test expense'leri ekle
   Future<void> addTestExpenses(int count) async {
-    final categories = ['Yiyecek', 'Dijital', 'Ulaşım', 'Giyim', 'Eğlence', 'Sağlık'];
+    final categories = [
+      'Yiyecek',
+      'Dijital',
+      'Ulaşım',
+      'Giyim',
+      'Eğlence',
+      'Sağlık',
+    ];
     final random = DateTime.now().millisecondsSinceEpoch;
 
     for (int i = 0; i < count; i++) {
@@ -493,11 +607,9 @@ class FinanceProvider extends ChangeNotifier {
       final daysAgo = i;
 
       final result = _calculationService.calculateExpense(
-        userProfile: _userProfile ?? UserProfile(
-          incomeSources: [],
-          dailyHours: 8,
-          workDaysPerWeek: 5,
-        ),
+        userProfile:
+            _userProfile ??
+            UserProfile(incomeSources: [], dailyHours: 8, workDaysPerWeek: 5),
         expenseAmount: amount,
         month: DateTime.now().month,
         year: DateTime.now().year,

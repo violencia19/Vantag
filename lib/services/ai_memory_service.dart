@@ -65,7 +65,8 @@ class AIMemoryService {
 
       if (recentMessages.isEmpty) return;
 
-      final prompt = '''
+      final prompt =
+          '''
 Aşağıdaki konuşmadan kullanıcı hakkında önemli ve kalıcı bilgileri çıkar.
 
 KURALLAR:
@@ -85,11 +86,14 @@ $recentMessages
 YENİ BİLGİLER (her satıra bir bilgi, yoksa BOŞ yaz):
 ''';
 
-      final response = await _extractorModel.generateContent([Content.text(prompt)]);
+      final response = await _extractorModel.generateContent([
+        Content.text(prompt),
+      ]);
       final text = response.text?.trim() ?? '';
 
       if (text.isNotEmpty && text.toUpperCase() != 'BOŞ') {
-        final newFacts = text.split('\n')
+        final newFacts = text
+            .split('\n')
             .map((f) => f.trim())
             .where((f) => f.isNotEmpty && !f.toUpperCase().contains('BOŞ'))
             .where((f) => !_userFacts.contains(f)) // Duplicate'leri atla
@@ -125,15 +129,16 @@ ${_userFacts.map((f) => '- $f').join('\n')}
       final allMessages = _messagesBox.values.toList();
       if (allMessages.isEmpty) return [];
 
-      return allMessages
-          .reversed
+      return allMessages.reversed
           .take(count)
           .toList()
           .reversed // Kronolojik sıraya çevir
-          .map((m) => {
-            'role': (m['role'] as String?) ?? '',
-            'content': (m['content'] as String?) ?? '',
-          })
+          .map(
+            (m) => {
+              'role': (m['role'] as String?) ?? '',
+              'content': (m['content'] as String?) ?? '',
+            },
+          )
           .where((m) => m['content']!.isNotEmpty)
           .toList();
     } catch (e) {

@@ -29,7 +29,8 @@ class ExchangeRateService {
   static const _lastFetchKey = 'exchange_rates_last_fetch';
 
   // Fallback API URLs (used when Firestore is unavailable)
-  static const _exchangeRateApiUrl = 'https://api.exchangerate-api.com/v4/latest/USD';
+  static const _exchangeRateApiUrl =
+      'https://api.exchangerate-api.com/v4/latest/USD';
   static const _goldApiUrl = 'https://api.metals.live/v1/spot/gold';
   static const _truncgilGoldUrl = 'https://finans.truncgil.com/v4/today.json';
 
@@ -238,10 +239,12 @@ class ExchangeRateService {
   /// Fetch exchange rates from API
   Future<void> _fetchExchangeRates() async {
     try {
-      final response = await http.get(
-        Uri.parse(_exchangeRateApiUrl),
-        headers: {'Accept': 'application/json'},
-      ).timeout(const Duration(seconds: 10));
+      final response = await http
+          .get(
+            Uri.parse(_exchangeRateApiUrl),
+            headers: {'Accept': 'application/json'},
+          )
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
@@ -267,10 +270,9 @@ class ExchangeRateService {
   Future<void> _fetchGoldPrice() async {
     // Try metals.live API first
     try {
-      final response = await http.get(
-        Uri.parse(_goldApiUrl),
-        headers: {'Accept': 'application/json'},
-      ).timeout(const Duration(seconds: 5));
+      final response = await http
+          .get(Uri.parse(_goldApiUrl), headers: {'Accept': 'application/json'})
+          .timeout(const Duration(seconds: 5));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -294,10 +296,12 @@ class ExchangeRateService {
   /// Fallback: Fetch gold from Truncgil and convert to USD
   Future<void> _fetchGoldFromTruncgil() async {
     try {
-      final response = await http.get(
-        Uri.parse(_truncgilGoldUrl),
-        headers: {'Accept': 'application/json'},
-      ).timeout(const Duration(seconds: 5));
+      final response = await http
+          .get(
+            Uri.parse(_truncgilGoldUrl),
+            headers: {'Accept': 'application/json'},
+          )
+          .timeout(const Duration(seconds: 5));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
@@ -415,7 +419,9 @@ class ExchangeRateService {
     final targetUnit = unit ?? currency.goldUnit;
 
     // For TRY with gram unit, use direct price if available
-    if (currencyCode == 'TRY' && targetUnit == 'gr' && _goldTRYPerGram != null) {
+    if (currencyCode == 'TRY' &&
+        targetUnit == 'gr' &&
+        _goldTRYPerGram != null) {
       return _goldTRYPerGram;
     }
 
@@ -531,7 +537,9 @@ class RateItem {
       // Gold: show as integer if > 100, otherwise 2 decimals
       if (value >= 1000) {
         // Add thousand separators for large gold values
-        formatted = value.toStringAsFixed(0).replaceAllMapped(
+        formatted = value
+            .toStringAsFixed(0)
+            .replaceAllMapped(
               RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
               (Match m) => '${m[1]},',
             );
@@ -558,7 +566,9 @@ class RateItem {
   String get formattedNumber {
     if (isGold) {
       if (value >= 1000) {
-        return value.toStringAsFixed(0).replaceAllMapped(
+        return value
+            .toStringAsFixed(0)
+            .replaceAllMapped(
               RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
               (Match m) => '${m[1]},',
             );

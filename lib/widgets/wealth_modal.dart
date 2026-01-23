@@ -133,7 +133,7 @@ class _WealthModalState extends State<WealthModal>
                       ]
                     : [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.3),
+                          color: context.appColors.cardShadow,
                           blurRadius: 20,
                           offset: const Offset(0, -5),
                         ),
@@ -376,7 +376,7 @@ Future<T?> showWealthModal<T>({
     isDismissible: true,
     enableDrag: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withValues(alpha: 0.7),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     transitionAnimationController: AnimationController(
       vsync: Navigator.of(context),
       duration: const Duration(milliseconds: 350),

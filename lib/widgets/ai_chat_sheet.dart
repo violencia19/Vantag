@@ -356,12 +356,12 @@ SADECE karşılama cümlesini yaz:
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Vantag AI',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                      color: context.appColors.textPrimary,
                     ),
                   ),
                   Text(
@@ -877,7 +877,7 @@ SADECE karşılama cümlesini yaz:
                         _showPaywall(context);
                       }
                     },
-                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                    style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
                     decoration: InputDecoration(
                       hintText: isPremium
                           ? l10n.aiInputPlaceholder

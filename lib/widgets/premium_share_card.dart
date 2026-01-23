@@ -15,7 +15,7 @@ import '../services/deep_link_service.dart';
 
 /// Premium Share Card Format
 enum ShareCardFormat {
-  story,  // 1080x1920 (9:16) - Instagram/TikTok Story
+  story, // 1080x1920 (9:16) - Instagram/TikTok Story
   square, // 1080x1080 (1:1) - Instagram Post / Twitter
 }
 
@@ -29,6 +29,7 @@ class PremiumShareCard extends StatefulWidget {
   final String currencySymbol;
   final ShareCardFormat format;
   final ExpenseDecision? decision;
+
   /// Whether to show a watermark (for free users)
   final bool showWatermark;
 
@@ -89,9 +90,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
     return Container(
       width: size.width,
       height: size.height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),
         child: Stack(
@@ -128,9 +127,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
         decoration: BoxDecoration(
           color: Colors.black.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(6),
-          border: Border.all(
-            color: Colors.white.withValues(alpha: 0.2),
-          ),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -203,8 +200,12 @@ class _PremiumShareCardState extends State<PremiumShareCard>
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    context.appColors.primary.withValues(alpha: _glowAnimation.value * 0.4),
-                    context.appColors.primary.withValues(alpha: _glowAnimation.value * 0.2),
+                    context.appColors.primary.withValues(
+                      alpha: _glowAnimation.value * 0.4,
+                    ),
+                    context.appColors.primary.withValues(
+                      alpha: _glowAnimation.value * 0.2,
+                    ),
                     context.appColors.primary.withValues(alpha: 0.0),
                   ],
                   stops: const [0.0, 0.5, 1.0],
@@ -315,7 +316,9 @@ class _PremiumShareCardState extends State<PremiumShareCard>
 
   Widget _buildHeroSection(AppLocalizations l10n) {
     final hours = widget.hoursRequired;
-    final displayHours = hours < 1 ? hours * 60 : hours; // Convert to minutes if < 1 hour
+    final displayHours = hours < 1
+        ? hours * 60
+        : hours; // Convert to minutes if < 1 hour
     final isMinutes = hours < 1;
     final unit = isMinutes ? 'dk' : 'saat';
 
@@ -338,11 +341,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
         ShaderMask(
           shaderCallback: (bounds) {
             return const LinearGradient(
-              colors: [
-                Color(0xFFFFFFFF),
-                Color(0xFFE8E4FF),
-                Color(0xFFB8B0FF),
-              ],
+              colors: [Color(0xFFFFFFFF), Color(0xFFE8E4FF), Color(0xFFB8B0FF)],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ).createShader(bounds);
@@ -350,7 +349,9 @@ class _PremiumShareCardState extends State<PremiumShareCard>
           child: Text(
             isMinutes
                 ? displayHours.toStringAsFixed(0)
-                : (hours >= 10 ? hours.toStringAsFixed(0) : hours.toStringAsFixed(1)),
+                : (hours >= 10
+                      ? hours.toStringAsFixed(0)
+                      : hours.toStringAsFixed(1)),
             style: TextStyle(
               fontSize: widget.format == ShareCardFormat.story ? 96 : 72,
               fontWeight: FontWeight.w800,
@@ -449,9 +450,21 @@ class _PremiumShareCardState extends State<PremiumShareCard>
   Widget _buildDecisionIndicator() {
     final decision = widget.decision!;
     final (icon, color, label) = switch (decision) {
-      ExpenseDecision.yes => (PhosphorIconsFill.checkCircle, context.appColors.error, 'Aldım'),
-      ExpenseDecision.no => (PhosphorIconsFill.prohibit, context.appColors.success, 'Vazgeçtim'),
-      ExpenseDecision.thinking => (PhosphorIconsFill.clock, context.appColors.warning, 'Düşünüyorum'),
+      ExpenseDecision.yes => (
+        PhosphorIconsFill.checkCircle,
+        context.appColors.error,
+        'Aldım',
+      ),
+      ExpenseDecision.no => (
+        PhosphorIconsFill.prohibit,
+        context.appColors.success,
+        'Vazgeçtim',
+      ),
+      ExpenseDecision.thinking => (
+        PhosphorIconsFill.clock,
+        context.appColors.warning,
+        'Düşünüyorum',
+      ),
     };
 
     return Container(
@@ -529,7 +542,10 @@ class _PremiumShareCardState extends State<PremiumShareCard>
             height: 24,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [context.appColors.primary, context.appColors.primaryLight],
+                colors: [
+                  context.appColors.primary,
+                  context.appColors.primaryLight,
+                ],
               ),
               borderRadius: BorderRadius.circular(6),
             ),
@@ -561,8 +577,18 @@ class _PremiumShareCardState extends State<PremiumShareCard>
 
   String _formatDate(DateTime date) {
     final months = [
-      'Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz',
-      'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'
+      'Oca',
+      'Şub',
+      'Mar',
+      'Nis',
+      'May',
+      'Haz',
+      'Tem',
+      'Ağu',
+      'Eyl',
+      'Eki',
+      'Kas',
+      'Ara',
     ];
     return '${date.day} ${months[date.month - 1]}';
   }
@@ -713,7 +739,10 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
 
               // Header
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 8,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -745,14 +774,18 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                       label: 'Story',
                       icon: PhosphorIconsRegular.deviceMobile,
                       isSelected: _selectedFormat == ShareCardFormat.story,
-                      onTap: () => setState(() => _selectedFormat = ShareCardFormat.story),
+                      onTap: () => setState(
+                        () => _selectedFormat = ShareCardFormat.story,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     _FormatButton(
                       label: 'Post',
                       icon: PhosphorIconsRegular.squareLogo,
                       isSelected: _selectedFormat == ShareCardFormat.square,
-                      onTap: () => setState(() => _selectedFormat = ShareCardFormat.square),
+                      onTap: () => setState(
+                        () => _selectedFormat = ShareCardFormat.square,
+                      ),
                     ),
                   ],
                 ),
@@ -867,7 +900,9 @@ class _FormatButton extends StatelessWidget {
             Icon(
               icon,
               size: 18,
-              color: isSelected ? context.appColors.primary : Colors.white.withValues(alpha: 0.6),
+              color: isSelected
+                  ? context.appColors.primary
+                  : Colors.white.withValues(alpha: 0.6),
             ),
             const SizedBox(width: 8),
             Text(
@@ -875,7 +910,9 @@ class _FormatButton extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                color: isSelected ? context.appColors.primary : Colors.white.withValues(alpha: 0.6),
+                color: isSelected
+                    ? context.appColors.primary
+                    : Colors.white.withValues(alpha: 0.6),
               ),
             ),
           ],
@@ -907,10 +944,7 @@ class _ShareButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: color.withValues(alpha: 0.3),
-            width: 1,
-          ),
+          border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
         ),
         child: Column(
           children: [
@@ -1001,9 +1035,7 @@ class _HabitShareCardState extends State<HabitShareCard>
     return Container(
       width: size.width,
       height: size.height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),
         child: Stack(
@@ -1034,11 +1066,7 @@ class _HabitShareCardState extends State<HabitShareCard>
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF0D0B14),
-            Color(0xFF1A1625),
-            Color(0xFF0F0D18),
-          ],
+          colors: [Color(0xFF0D0B14), Color(0xFF1A1625), Color(0xFF0F0D18)],
           stops: [0.0, 0.5, 1.0],
         ),
       ),
@@ -1075,8 +1103,12 @@ class _HabitShareCardState extends State<HabitShareCard>
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    widget.iconColor.withValues(alpha: _glowAnimation.value * 0.4),
-                    widget.iconColor.withValues(alpha: _glowAnimation.value * 0.2),
+                    widget.iconColor.withValues(
+                      alpha: _glowAnimation.value * 0.4,
+                    ),
+                    widget.iconColor.withValues(
+                      alpha: _glowAnimation.value * 0.2,
+                    ),
                     widget.iconColor.withValues(alpha: 0.0),
                   ],
                   stops: const [0.0, 0.5, 1.0],
@@ -1369,7 +1401,10 @@ class _HabitShareCardState extends State<HabitShareCard>
             height: 24,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [context.appColors.primary, context.appColors.primaryLight],
+                colors: [
+                  context.appColors.primary,
+                  context.appColors.primaryLight,
+                ],
               ),
               borderRadius: BorderRadius.circular(6),
             ),
@@ -1496,7 +1531,10 @@ class _HabitShareCardPreviewSheetState
 
               // Header
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 8,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1528,16 +1566,18 @@ class _HabitShareCardPreviewSheetState
                       label: 'Story',
                       icon: PhosphorIconsRegular.deviceMobile,
                       isSelected: _selectedFormat == ShareCardFormat.story,
-                      onTap: () =>
-                          setState(() => _selectedFormat = ShareCardFormat.story),
+                      onTap: () => setState(
+                        () => _selectedFormat = ShareCardFormat.story,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     _FormatButton(
                       label: 'Post',
                       icon: PhosphorIconsRegular.squareLogo,
                       isSelected: _selectedFormat == ShareCardFormat.square,
-                      onTap: () =>
-                          setState(() => _selectedFormat = ShareCardFormat.square),
+                      onTap: () => setState(
+                        () => _selectedFormat = ShareCardFormat.square,
+                      ),
                     ),
                   ],
                 ),
@@ -1553,9 +1593,11 @@ class _HabitShareCardPreviewSheetState
                         _ToggleChip(
                           label: l10n.amount,
                           isSelected: _showAmount,
-                          onTap: () => setState(() => _showAmount = !_showAmount),
+                          onTap: () =>
+                              setState(() => _showAmount = !_showAmount),
                         ),
-                      if (widget.yearlyAmount != null && widget.frequency != null)
+                      if (widget.yearlyAmount != null &&
+                          widget.frequency != null)
                         const SizedBox(width: 8),
                       if (widget.frequency != null)
                         _ToggleChip(
@@ -1584,10 +1626,10 @@ class _HabitShareCardPreviewSheetState
                           iconColor: widget.iconColor,
                           categoryName: widget.categoryName,
                           yearlyDays: widget.yearlyDays,
-                          yearlyAmount:
-                              _showAmount ? widget.yearlyAmount : null,
-                          frequency:
-                              _showFrequency ? widget.frequency : null,
+                          yearlyAmount: _showAmount
+                              ? widget.yearlyAmount
+                              : null,
+                          frequency: _showFrequency ? widget.frequency : null,
                           format: _selectedFormat,
                         ),
                       ),
@@ -1686,17 +1728,16 @@ class _HabitShareCardPreviewSheetState
       try {
         final referralCode = await ReferralService().getOrCreateReferralCode();
         if (referralCode != null) {
-          final referralLink = DeepLinkService.generateReferralLink(referralCode);
+          final referralLink = DeepLinkService.generateReferralLink(
+            referralCode,
+          );
           shareText = 'Senin alışkanlıkların kaç gün? 👀 $referralLink';
         }
       } catch (_) {
         // Use default text if referral fails
       }
 
-      await Share.shareXFiles(
-        [XFile(filePath)],
-        text: shareText,
-      );
+      await Share.shareXFiles([XFile(filePath)], text: shareText);
 
       // Cleanup after 5 minutes
       Future.delayed(const Duration(minutes: 5), () {

@@ -3,6 +3,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/pursuit.dart';
 import '../theme/quiet_luxury.dart';
+import '../theme/accessible_text.dart';
 import 'pursuit_progress_visual.dart';
 
 /// Card widget for displaying a pursuit in a list
@@ -38,115 +39,138 @@ class PursuitCard extends StatelessWidget {
       child: Pressable(
         onTap: onTap,
         child: GlassCard(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Top row: Emoji + Name + Progress badge
-            Row(
-              children: [
-                // Emoji with progress visual
-                PursuitProgressVisual(
-                  progress: pursuit.progressPercent,
-                  emoji: pursuit.emoji,
-                  imageUrl: pursuit.imageUrl,
-                  size: 48,
-                ),
-                const SizedBox(width: 12),
-                // Name and category
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        pursuit.name,
-                        style: QuietLuxury.heading.copyWith(fontSize: 16),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        _getCategoryLabel(context, pursuit.category),
-                        style: QuietLuxury.label,
-                      ),
-                    ],
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Top row: Emoji + Name + Progress badge
+              Row(
+                children: [
+                  // Emoji with progress visual
+                  PursuitProgressVisual(
+                    progress: pursuit.progressPercent,
+                    emoji: pursuit.emoji,
+                    imageUrl: pursuit.imageUrl,
+                    size: 48,
                   ),
-                ),
-                // Progress badge
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: _getProgressColor(pursuit.progressPercent)
-                        .withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: _getProgressColor(pursuit.progressPercent)
-                          .withValues(alpha: 0.4),
-                      width: 0.5,
-                    ),
-                  ),
-                  child: Text(
-                    '${pursuit.progressPercentDisplay}%',
-                    style: QuietLuxury.label.copyWith(
-                      color: _getProgressColor(pursuit.progressPercent),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            // Progress bar
-            PursuitLinearProgress(
-              progress: pursuit.progressPercent,
-              height: 6,
-              progressColor: _getProgressColor(pursuit.progressPercent),
-            ),
-            const SizedBox(height: 12),
-            // Bottom row: Amounts + Add button
-            Row(
-              children: [
-                // Saved / Target
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            formatAmount(pursuit.savedAmount),
-                            style: QuietLuxury.amount.copyWith(
-                              color: QuietLuxury.positive,
-                            ),
-                          ),
-                          Text(
-                            ' / ${formatAmount(pursuit.targetAmount)}',
-                            style: QuietLuxury.body,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        l10n.remainingAmount(
-                          formatAmount(pursuit.remainingAmount),
+                  const SizedBox(width: 12),
+                  // Name and category
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          pursuit.name,
+                          style: QuietLuxury.heading.copyWith(fontSize: 16),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        style: QuietLuxury.label,
-                      ),
-                    ],
+                        const SizedBox(height: 2),
+                        Text(
+                          _getCategoryLabel(context, pursuit.category),
+                          style: QuietLuxury.label,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                // Add savings button
-                if (!pursuit.isCompleted && onAddSavings != null)
-                  _AddSavingsButton(onTap: onAddSavings!),
-              ],
-            ),
-          ],
+                  // Progress badge
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: _getProgressColor(
+                        pursuit.progressPercent,
+                      ).withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: _getProgressColor(
+                          pursuit.progressPercent,
+                        ).withValues(alpha: 0.4),
+                        width: 0.5,
+                      ),
+                    ),
+                    child: Text(
+                      '${pursuit.progressPercentDisplay}%',
+                      style: AccessibleText.scaled(
+                        context,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: _getProgressColor(pursuit.progressPercent),
+                        maxScale: 1.3,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              // Progress bar
+              PursuitLinearProgress(
+                progress: pursuit.progressPercent,
+                height: 6,
+                progressColor: _getProgressColor(pursuit.progressPercent),
+              ),
+              const SizedBox(height: 12),
+              // Bottom row: Amounts + Add button
+              Row(
+                children: [
+                  // Saved / Target
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Text(
+                                formatAmount(pursuit.savedAmount),
+                                style: AccessibleText.scaled(
+                                  context,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: QuietLuxury.positive,
+                                  maxScale: 1.3,
+                                ).copyWith(letterSpacing: 0.5),
+                              ),
+                              Text(
+                                ' / ${formatAmount(pursuit.targetAmount)}',
+                                style: AccessibleText.scaled(
+                                  context,
+                                  fontSize: 14,
+                                  color: QuietLuxury.textSecondary,
+                                  maxScale: 1.3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          l10n.remainingAmount(
+                            formatAmount(pursuit.remainingAmount),
+                          ),
+                          style: AccessibleText.scaled(
+                            context,
+                            fontSize: 12,
+                            color: QuietLuxury.textTertiary,
+                            maxScale: 1.4,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Add savings button
+                  if (!pursuit.isCompleted && onAddSavings != null)
+                    _AddSavingsButton(onTap: onAddSavings!),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 

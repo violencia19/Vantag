@@ -13,7 +13,10 @@ class AIToolHandler {
   AIToolHandler(this._financeProvider);
 
   /// Tool çağrısını işle ve sonucu döndür
-  Future<Map<String, dynamic>> handleToolCall(String toolName, Map<String, dynamic> args) async {
+  Future<Map<String, dynamic>> handleToolCall(
+    String toolName,
+    Map<String, dynamic> args,
+  ) async {
     switch (toolName) {
       // OKUMA
       case 'get_expenses_summary':
@@ -58,18 +61,24 @@ class AIToolHandler {
     final user = _financeProvider.userProfile;
 
     // Bu ay - sadece ALDIM olanlar
-    final thisMonth = expenses.where((e) =>
-      e.date.month == now.month &&
-      e.date.year == now.year &&
-      e.decision == ExpenseDecision.yes
-    ).toList();
+    final thisMonth = expenses
+        .where(
+          (e) =>
+              e.date.month == now.month &&
+              e.date.year == now.year &&
+              e.decision == ExpenseDecision.yes,
+        )
+        .toList();
 
     // Geçen ay
-    final lastMonth = expenses.where((e) =>
-      e.date.month == (now.month == 1 ? 12 : now.month - 1) &&
-      e.date.year == (now.month == 1 ? now.year - 1 : now.year) &&
-      e.decision == ExpenseDecision.yes
-    ).toList();
+    final lastMonth = expenses
+        .where(
+          (e) =>
+              e.date.month == (now.month == 1 ? 12 : now.month - 1) &&
+              e.date.year == (now.month == 1 ? now.year - 1 : now.year) &&
+              e.decision == ExpenseDecision.yes,
+        )
+        .toList();
 
     final thisMonthTotal = thisMonth.fold(0.0, (sum, e) => sum + e.amount);
     final lastMonthTotal = lastMonth.fold(0.0, (sum, e) => sum + e.amount);
@@ -98,19 +107,26 @@ class AIToolHandler {
     final now = DateTime.now();
     final expenses = _financeProvider.expenses;
 
-    final categoryExpenses = expenses.where((e) =>
-      e.date.month == now.month &&
-      e.date.year == now.year &&
-      e.category == category &&
-      e.decision == ExpenseDecision.yes
-    ).toList();
+    final categoryExpenses = expenses
+        .where(
+          (e) =>
+              e.date.month == now.month &&
+              e.date.year == now.year &&
+              e.category == category &&
+              e.decision == ExpenseDecision.yes,
+        )
+        .toList();
 
     final total = categoryExpenses.fold(0.0, (sum, e) => sum + e.amount);
-    final items = categoryExpenses.map((e) => {
-      'amount': e.amount,
-      'description': e.subCategory ?? e.category,
-      'date': e.date.day,
-    }).toList();
+    final items = categoryExpenses
+        .map(
+          (e) => {
+            'amount': e.amount,
+            'description': e.subCategory ?? e.category,
+            'date': e.date.day,
+          },
+        )
+        .toList();
 
     return {
       'category': category,
@@ -124,12 +140,16 @@ class AIToolHandler {
     final subscriptions = await _financeProvider.getActiveSubscriptions();
     final total = subscriptions.fold(0.0, (sum, s) => sum + s.amount);
 
-    final items = subscriptions.map((s) => {
-      'name': s.name,
-      'amount': s.amount,
-      'renewal_day': s.renewalDay,
-      'days_until_renewal': s.daysUntilRenewal,
-    }).toList();
+    final items = subscriptions
+        .map(
+          (s) => {
+            'name': s.name,
+            'amount': s.amount,
+            'renewal_day': s.renewalDay,
+            'days_until_renewal': s.daysUntilRenewal,
+          },
+        )
+        .toList();
 
     return {
       'total_monthly': total,
@@ -143,11 +163,14 @@ class AIToolHandler {
     final now = DateTime.now();
     final expenses = _financeProvider.expenses;
 
-    final thisMonthTotal = expenses.where((e) =>
-      e.date.month == now.month &&
-      e.date.year == now.year &&
-      e.decision == ExpenseDecision.yes
-    ).fold(0.0, (sum, e) => sum + e.amount);
+    final thisMonthTotal = expenses
+        .where(
+          (e) =>
+              e.date.month == now.month &&
+              e.date.year == now.year &&
+              e.decision == ExpenseDecision.yes,
+        )
+        .fold(0.0, (sum, e) => sum + e.amount);
 
     final income = user?.monthlyIncome ?? 0;
     final remaining = income - thisMonthTotal;
@@ -164,7 +187,11 @@ class AIToolHandler {
       'remaining': remaining,
       'used_percent': usedPercent.roundToDouble(),
       'hourly_rate': hourlyRate.roundToDouble(),
-      'status': usedPercent > 80 ? 'critical' : usedPercent > 50 ? 'warning' : 'healthy',
+      'status': usedPercent > 80
+          ? 'critical'
+          : usedPercent > 50
+          ? 'warning'
+          : 'healthy',
     };
   }
 
@@ -172,24 +199,27 @@ class AIToolHandler {
     final now = DateTime.now();
     final expenses = _financeProvider.expenses;
 
-    final thinking = expenses.where((e) =>
-      e.date.month == now.month &&
-      e.date.year == now.year &&
-      e.decision == ExpenseDecision.thinking
-    ).toList();
+    final thinking = expenses
+        .where(
+          (e) =>
+              e.date.month == now.month &&
+              e.date.year == now.year &&
+              e.decision == ExpenseDecision.thinking,
+        )
+        .toList();
 
     final total = thinking.fold(0.0, (sum, e) => sum + e.amount);
-    final items = thinking.map((e) => {
-      'amount': e.amount,
-      'category': e.category,
-      'description': e.subCategory ?? e.category,
-    }).toList();
+    final items = thinking
+        .map(
+          (e) => {
+            'amount': e.amount,
+            'category': e.category,
+            'description': e.subCategory ?? e.category,
+          },
+        )
+        .toList();
 
-    return {
-      'total': total,
-      'count': thinking.length,
-      'items': items,
-    };
+    return {'total': total, 'count': thinking.length, 'items': items};
   }
 
   Map<String, dynamic> _getSavedItems() {
@@ -197,22 +227,31 @@ class AIToolHandler {
     final expenses = _financeProvider.expenses;
 
     // Vazgeçilenler
-    final rejected = expenses.where((e) =>
-      e.date.month == now.month &&
-      e.date.year == now.year &&
-      e.decision == ExpenseDecision.no
-    ).toList();
+    final rejected = expenses
+        .where(
+          (e) =>
+              e.date.month == now.month &&
+              e.date.year == now.year &&
+              e.decision == ExpenseDecision.no,
+        )
+        .toList();
 
     // Smart Choice tasarrufları
-    final smartChoice = expenses.where((e) =>
-      e.date.month == now.month &&
-      e.date.year == now.year &&
-      e.isSmartChoice &&
-      e.savedAmount > 0
-    ).toList();
+    final smartChoice = expenses
+        .where(
+          (e) =>
+              e.date.month == now.month &&
+              e.date.year == now.year &&
+              e.isSmartChoice &&
+              e.savedAmount > 0,
+        )
+        .toList();
 
     final rejectedTotal = rejected.fold(0.0, (sum, e) => sum + e.amount);
-    final smartChoiceTotal = smartChoice.fold(0.0, (sum, e) => sum + e.savedAmount);
+    final smartChoiceTotal = smartChoice.fold(
+      0.0,
+      (sum, e) => sum + e.savedAmount,
+    );
 
     return {
       'rejected_total': rejectedTotal,
@@ -291,7 +330,8 @@ class AIToolHandler {
           'existing_amount': match.expense.amount,
           'existing_category': match.expense.category,
           'time_ago': timeAgo,
-          'message': 'Similar expense found: ${match.expense.amount.toStringAsFixed(0)} $category ($timeAgo). Add anyway?',
+          'message':
+              'Similar expense found: ${match.expense.amount.toStringAsFixed(0)} $category ($timeAgo). Add anyway?',
         };
       }
     }
@@ -353,7 +393,12 @@ class AIToolHandler {
   }
 
   /// Convert amount between currencies using exchange rates
-  double _convertCurrency(double amount, String from, String to, ExchangeRates rates) {
+  double _convertCurrency(
+    double amount,
+    String from,
+    String to,
+    ExchangeRates rates,
+  ) {
     // Get TRY values for each currency
     double getTryValue(String code) {
       switch (code) {
@@ -380,7 +425,9 @@ class AIToolHandler {
     return amountInTry / toTry;
   }
 
-  Future<Map<String, dynamic>> _updateExpenseDecision(Map<String, dynamic> args) async {
+  Future<Map<String, dynamic>> _updateExpenseDecision(
+    Map<String, dynamic> args,
+  ) async {
     final expenseDesc = args['expense_description'] as String;
     final newDecisionStr = args['new_decision'] as String;
 
@@ -398,10 +445,12 @@ class AIToolHandler {
 
     // Düşünüyorum listesinde ara
     final expenses = _financeProvider.expenses;
-    final index = expenses.indexWhere((e) =>
-      e.decision == ExpenseDecision.thinking &&
-      (e.subCategory?.toLowerCase().contains(expenseDesc.toLowerCase()) == true ||
-       e.category.toLowerCase().contains(expenseDesc.toLowerCase()))
+    final index = expenses.indexWhere(
+      (e) =>
+          e.decision == ExpenseDecision.thinking &&
+          (e.subCategory?.toLowerCase().contains(expenseDesc.toLowerCase()) ==
+                  true ||
+              e.category.toLowerCase().contains(expenseDesc.toLowerCase())),
     );
 
     if (index == -1) {
@@ -414,7 +463,9 @@ class AIToolHandler {
       'success': true,
       'expense': expenseDesc,
       'new_decision': newDecisionStr,
-      'message': newDecisionStr == 'no' ? 'İrade zaferi! Tebrikler!' : 'Karar güncellendi',
+      'message': newDecisionStr == 'no'
+          ? 'İrade zaferi! Tebrikler!'
+          : 'Karar güncellendi',
     };
   }
 
@@ -431,15 +482,20 @@ class AIToolHandler {
     final income = user?.monthlyIncome ?? 0;
 
     final monthlySavingNeeded = targetAmount / targetMonths;
-    final percentOfIncome = income > 0 ? (monthlySavingNeeded / income * 100) : 0;
+    final percentOfIncome = income > 0
+        ? (monthlySavingNeeded / income * 100)
+        : 0;
 
     // Mevcut harcamaları kontrol et
     final now = DateTime.now();
-    final thisMonthSpent = _financeProvider.expenses.where((e) =>
-      e.date.month == now.month &&
-      e.date.year == now.year &&
-      e.decision == ExpenseDecision.yes
-    ).fold(0.0, (sum, e) => sum + e.amount);
+    final thisMonthSpent = _financeProvider.expenses
+        .where(
+          (e) =>
+              e.date.month == now.month &&
+              e.date.year == now.year &&
+              e.decision == ExpenseDecision.yes,
+        )
+        .fold(0.0, (sum, e) => sum + e.amount);
 
     final currentMonthlySavings = income - thisMonthSpent;
     final isRealistic = currentMonthlySavings >= monthlySavingNeeded;
@@ -482,7 +538,8 @@ class AIToolHandler {
       'hours': hours.roundToDouble(),
       'days': days.roundToDouble(),
       'weeks': weeks.roundToDouble(),
-      'description': '${amount.toStringAsFixed(0)} TL = ${hours.toStringAsFixed(1)} saat çalışman',
+      'description':
+          '${amount.toStringAsFixed(0)} TL = ${hours.toStringAsFixed(1)} saat çalışman',
     };
   }
 
@@ -525,7 +582,8 @@ class AIToolHandler {
       'profit': profit.roundToDouble(),
       'total_return_percent': totalReturnPercent.roundToDouble(),
       'monthly_return_percent': (returnRate * 100).roundToDouble(),
-      'description': '$periodMonths ay sonra ${futureValue.toStringAsFixed(0)} TL olur, ${profit.toStringAsFixed(0)} TL kar',
+      'description':
+          '$periodMonths ay sonra ${futureValue.toStringAsFixed(0)} TL olur, ${profit.toStringAsFixed(0)} TL kar',
     };
   }
 }

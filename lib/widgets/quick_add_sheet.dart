@@ -1371,7 +1371,7 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
               : _isPressed
               ? [
                   BoxShadow(
-                    color: Colors.white.withValues(alpha: 0.1),
+                    color: context.appColors.textPrimary.withValues(alpha: 0.1),
                     blurRadius: 8,
                   ),
                 ]
@@ -1390,7 +1390,7 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
               shadows: widget.isSelected || _isPressed
                   ? [
                       Shadow(
-                        color: Colors.white.withValues(alpha: 0.5),
+                        color: context.appColors.textPrimary.withValues(alpha: 0.5),
                         blurRadius: 8,
                       ),
                     ]

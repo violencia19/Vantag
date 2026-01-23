@@ -29,7 +29,10 @@ class OnboardingPageData {
 }
 
 /// Build localized onboarding pages
-List<OnboardingPageData> _buildOnboardingPages(AppLocalizations l10n, BuildContext context) {
+List<OnboardingPageData> _buildOnboardingPages(
+  AppLocalizations l10n,
+  BuildContext context,
+) {
   return [
     // Slide 1: Hook - Coffee to Clock animation
     OnboardingPageData(
@@ -173,11 +176,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             ),
 
             // Skip button (top right)
-            Positioned(
-              top: 16,
-              right: 16,
-              child: _SkipButton(l10n: l10n),
-            ),
+            Positioned(top: 16, right: 16, child: _SkipButton(l10n: l10n)),
 
             // Page indicators (bottom)
             Positioned(
@@ -217,9 +216,10 @@ class _SkipButton extends StatelessWidget {
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 const UserProfileScreen(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              return FadeTransition(opacity: animation, child: child);
-            },
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
             transitionDuration: const Duration(milliseconds: 400),
           ),
         );
@@ -241,10 +241,7 @@ class _PageIndicators extends StatelessWidget {
   final int pageCount;
   final int currentPage;
 
-  const _PageIndicators({
-    required this.pageCount,
-    required this.currentPage,
-  });
+  const _PageIndicators({required this.pageCount, required this.currentPage});
 
   @override
   Widget build(BuildContext context) {
@@ -298,11 +295,13 @@ class _OnboardingPage extends StatelessWidget {
               width: 140,
               height: 140,
               decoration: BoxDecoration(
-                color: data.iconColor?.withValues(alpha: 0.1) ??
+                color:
+                    data.iconColor?.withValues(alpha: 0.1) ??
                     context.appColors.primary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: data.iconColor?.withValues(alpha: 0.2) ??
+                  color:
+                      data.iconColor?.withValues(alpha: 0.2) ??
                       context.appColors.primary.withValues(alpha: 0.2),
                   width: 2,
                 ),
@@ -370,7 +369,9 @@ class _OnboardingPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: context.appColors.primary.withValues(alpha: 0.3),
+                          color: context.appColors.primary.withValues(
+                            alpha: 0.3,
+                          ),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
@@ -439,10 +440,7 @@ class _CoffeeClockAnimation extends StatelessWidget {
         transitionBuilder: (child, animation) {
           return ScaleTransition(
             scale: animation,
-            child: FadeTransition(
-              opacity: animation,
-              child: child,
-            ),
+            child: FadeTransition(opacity: animation, child: child),
           );
         },
         child: showClock
@@ -516,16 +514,9 @@ class _DecisionButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: color.withValues(alpha: 0.3),
-              width: 2,
-            ),
+            border: Border.all(color: color.withValues(alpha: 0.3), width: 2),
           ),
-          child: Icon(
-            icon,
-            size: 28,
-            color: color,
-          ),
+          child: Icon(icon, size: 28, color: color),
         ),
         const SizedBox(height: 8),
         Text(
@@ -555,7 +546,9 @@ class _PageIndicator extends StatelessWidget {
       width: isActive ? 24 : 8,
       height: 8,
       decoration: BoxDecoration(
-        color: isActive ? context.appColors.primary : context.appColors.surfaceLight,
+        color: isActive
+            ? context.appColors.primary
+            : context.appColors.surfaceLight,
         borderRadius: BorderRadius.circular(4),
       ),
     );

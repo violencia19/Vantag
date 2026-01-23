@@ -30,12 +30,9 @@ class AITools {
     'type': 'function',
     'function': {
       'name': 'get_expenses_summary',
-      'description': 'Bu ayki harcamaların özetini getirir: toplam harcama, kategori dağılımı, geçen ayla karşılaştırma',
-      'parameters': {
-        'type': 'object',
-        'properties': {},
-        'required': [],
-      },
+      'description':
+          'Bu ayki harcamaların özetini getirir: toplam harcama, kategori dağılımı, geçen ayla karşılaştırma',
+      'parameters': {'type': 'object', 'properties': {}, 'required': []},
     },
   };
 
@@ -49,7 +46,8 @@ class AITools {
         'properties': {
           'category': {
             'type': 'string',
-            'description': 'Kategori adı: Yiyecek, Ulaşım, Giyim, Elektronik, Eğlence, Sağlık, Eğitim, Faturalar, Abonelik, Diğer',
+            'description':
+                'Kategori adı: Yiyecek, Ulaşım, Giyim, Elektronik, Eğlence, Sağlık, Eğitim, Faturalar, Abonelik, Diğer',
           },
         },
         'required': ['category'],
@@ -61,12 +59,9 @@ class AITools {
     'type': 'function',
     'function': {
       'name': 'get_subscriptions',
-      'description': 'Tüm aktif abonelikleri listeler: isim, tutar, yenileme günü',
-      'parameters': {
-        'type': 'object',
-        'properties': {},
-        'required': [],
-      },
+      'description':
+          'Tüm aktif abonelikleri listeler: isim, tutar, yenileme günü',
+      'parameters': {'type': 'object', 'properties': {}, 'required': []},
     },
   };
 
@@ -75,11 +70,7 @@ class AITools {
     'function': {
       'name': 'get_budget_status',
       'description': 'Bütçe durumunu getirir: gelir, harcama, kalan, yüzde',
-      'parameters': {
-        'type': 'object',
-        'properties': {},
-        'required': [],
-      },
+      'parameters': {'type': 'object', 'properties': {}, 'required': []},
     },
   };
 
@@ -88,11 +79,7 @@ class AITools {
     'function': {
       'name': 'get_thinking_items',
       'description': 'Düşünüyorum listesindeki bekleyen harcamaları getirir',
-      'parameters': {
-        'type': 'object',
-        'properties': {},
-        'required': [],
-      },
+      'parameters': {'type': 'object', 'properties': {}, 'required': []},
     },
   };
 
@@ -100,12 +87,9 @@ class AITools {
     'type': 'function',
     'function': {
       'name': 'get_saved_items',
-      'description': 'Vazgeçilen harcamaları (irade zaferleri) ve Smart Choice tasarruflarını getirir',
-      'parameters': {
-        'type': 'object',
-        'properties': {},
-        'required': [],
-      },
+      'description':
+          'Vazgeçilen harcamaları (irade zaferleri) ve Smart Choice tasarruflarını getirir',
+      'parameters': {'type': 'object', 'properties': {}, 'required': []},
     },
   };
 
@@ -117,17 +101,16 @@ class AITools {
     'type': 'function',
     'function': {
       'name': 'add_expense',
-      'description': 'Yeni harcama kaydı ekler. Kullanıcı bir harcama yaptığını söylediğinde bu tool kullanılır. Eğer duplicate_found: true dönerse, kullanıcıya sor ve onaylarsa force: true ile tekrar çağır.',
+      'description':
+          'Yeni harcama kaydı ekler. Kullanıcı bir harcama yaptığını söylediğinde bu tool kullanılır. Eğer duplicate_found: true dönerse, kullanıcıya sor ve onaylarsa force: true ile tekrar çağır.',
       'parameters': {
         'type': 'object',
         'properties': {
-          'amount': {
-            'type': 'number',
-            'description': 'Harcama tutarı',
-          },
+          'amount': {'type': 'number', 'description': 'Harcama tutarı'},
           'category': {
             'type': 'string',
-            'description': 'Kategori: Yiyecek, Ulaşım, Giyim, Elektronik, Eğlence, Sağlık, Eğitim, Faturalar, Abonelik, Diğer',
+            'description':
+                'Kategori: Yiyecek, Ulaşım, Giyim, Elektronik, Eğlence, Sağlık, Eğitim, Faturalar, Abonelik, Diğer',
           },
           'description': {
             'type': 'string',
@@ -135,15 +118,18 @@ class AITools {
           },
           'decision': {
             'type': 'string',
-            'description': 'Karar: yes (aldım), thinking (düşünüyorum), no (vazgeçtim)',
+            'description':
+                'Karar: yes (aldım), thinking (düşünüyorum), no (vazgeçtim)',
           },
           'currency': {
             'type': 'string',
-            'description': 'Para birimi kodu: TRY, USD, EUR, GBP. Belirtilmezse varsayılan kullanıcı para birimi kullanılır.',
+            'description':
+                'Para birimi kodu: TRY, USD, EUR, GBP. Belirtilmezse varsayılan kullanıcı para birimi kullanılır.',
           },
           'force': {
             'type': 'boolean',
-            'description': 'Duplicate uyarısını görmezden gel ve ekle (kullanıcı onayladıysa true yap)',
+            'description':
+                'Duplicate uyarısını görmezden gel ve ekle (kullanıcı onayladıysa true yap)',
           },
         },
         'required': ['amount', 'category', 'decision'],
@@ -155,7 +141,8 @@ class AITools {
     'type': 'function',
     'function': {
       'name': 'update_expense_decision',
-      'description': 'Düşünüyorum listesindeki bir harcamanın kararını günceller',
+      'description':
+          'Düşünüyorum listesindeki bir harcamanın kararını günceller',
       'parameters': {
         'type': 'object',
         'properties': {
@@ -207,7 +194,8 @@ class AITools {
     'type': 'function',
     'function': {
       'name': 'calculate_hourly_equivalent',
-      'description': 'Bir tutarın kaç saatlik çalışmaya denk geldiğini hesaplar',
+      'description':
+          'Bir tutarın kaç saatlik çalışmaya denk geldiğini hesaplar',
       'parameters': {
         'type': 'object',
         'properties': {
@@ -225,7 +213,8 @@ class AITools {
     'type': 'function',
     'function': {
       'name': 'compare_with_alternative',
-      'description': 'Bir harcamayı alternatif yatırım seçenekleriyle karşılaştırır (altın, faiz, vb.)',
+      'description':
+          'Bir harcamayı alternatif yatırım seçenekleriyle karşılaştırır (altın, faiz, vb.)',
       'parameters': {
         'type': 'object',
         'properties': {
@@ -235,7 +224,8 @@ class AITools {
           },
           'alternative': {
             'type': 'string',
-            'description': 'Alternatif: gold (altın), interest (faiz), savings (birikim)',
+            'description':
+                'Alternatif: gold (altın), interest (faiz), savings (birikim)',
           },
           'period_months': {
             'type': 'integer',

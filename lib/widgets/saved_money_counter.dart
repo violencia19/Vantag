@@ -15,11 +15,7 @@ class SavedMoneyCounter extends StatelessWidget {
   final DecisionStats stats;
   final ExchangeRates? exchangeRates;
 
-  const SavedMoneyCounter({
-    super.key,
-    required this.stats,
-    this.exchangeRates,
-  });
+  const SavedMoneyCounter({super.key, required this.stats, this.exchangeRates});
 
   String _formatCurrency(double amount, {int decimals = 2}) {
     return formatTurkishCurrency(amount, decimalDigits: decimals);
@@ -30,7 +26,10 @@ class SavedMoneyCounter extends StatelessWidget {
     final days = stats.savedDays;
 
     if (days >= 1) {
-      return l10n.savedTimeHoursDays(hours.toStringAsFixed(0), days.toStringAsFixed(1));
+      return l10n.savedTimeHoursDays(
+        hours.toStringAsFixed(0),
+        days.toStringAsFixed(1),
+      );
     } else if (hours >= 1) {
       return l10n.savedTimeHours(hours.toStringAsFixed(1));
     } else {
@@ -66,7 +65,9 @@ class SavedMoneyCounter extends StatelessWidget {
     // USD message
     final usdAmount = savedTL / exchangeRates!.usdRate;
     if (usdAmount >= 10) {
-      messages.add(l10n.savedDollars(formatTurkishCurrency(usdAmount, decimalDigits: 2)));
+      messages.add(
+        l10n.savedDollars(formatTurkishCurrency(usdAmount, decimalDigits: 2)),
+      );
     }
 
     if (messages.isEmpty) return null;
@@ -221,10 +222,7 @@ class SavedMoneyCounter extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    '💡',
-                    style: TextStyle(fontSize: 12),
-                  ),
+                  const Text('💡', style: TextStyle(fontSize: 12)),
                   const SizedBox(width: 8),
                   Flexible(
                     child: Text(
@@ -246,7 +244,10 @@ class SavedMoneyCounter extends StatelessWidget {
     );
   }
 
-  Widget _buildCurrencyAlternatives(BuildContext context, AppLocalizations l10n) {
+  Widget _buildCurrencyAlternatives(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) {
     if (exchangeRates == null) return const SizedBox.shrink();
 
     final savedTL = stats.savedAmount;
@@ -261,7 +262,11 @@ class SavedMoneyCounter extends StatelessWidget {
       children: [
         _buildCurrencyItem(context, '💵', '${_formatCurrency(usdAmount)} USD'),
         _buildCurrencyItem(context, '💶', '${_formatCurrency(eurAmount)} EUR'),
-        _buildCurrencyItem(context, '🥇', l10n.goldGramsShort(_formatCurrency(goldGrams, decimals: 1))),
+        _buildCurrencyItem(
+          context,
+          '🥇',
+          l10n.goldGramsShort(_formatCurrency(goldGrams, decimals: 1)),
+        ),
       ],
     );
   }
@@ -270,10 +275,7 @@ class SavedMoneyCounter extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          emoji,
-          style: const TextStyle(fontSize: 14),
-        ),
+        Text(emoji, style: const TextStyle(fontSize: 14)),
         const SizedBox(width: 4),
         Text(
           text,

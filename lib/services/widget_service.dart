@@ -54,24 +54,45 @@ class WidgetService {
       await HomeWidget.saveWidgetData<String>('currencySymbol', currencySymbol);
       await HomeWidget.saveWidgetData<String>('spendingLevel', spendingLevel);
       await HomeWidget.saveWidgetData<String>('pursuitName', pursuitName ?? '');
-      await HomeWidget.saveWidgetData<double>('pursuitProgress', pursuitProgress ?? 0.0);
-      await HomeWidget.saveWidgetData<double>('pursuitTarget', pursuitTarget ?? 0.0);
+      await HomeWidget.saveWidgetData<double>(
+        'pursuitProgress',
+        pursuitProgress ?? 0.0,
+      );
+      await HomeWidget.saveWidgetData<double>(
+        'pursuitTarget',
+        pursuitTarget ?? 0.0,
+      );
       await HomeWidget.saveWidgetData<String>('locale', locale);
-      await HomeWidget.saveWidgetData<String>('lastUpdate', DateTime.now().toIso8601String());
+      await HomeWidget.saveWidgetData<String>(
+        'lastUpdate',
+        DateTime.now().toIso8601String(),
+      );
 
       // Format time strings for widgets (avoids computation on widget side)
       final hourAbbrev = locale == 'tr' ? 's' : 'h';
       final minAbbrev = locale == 'tr' ? 'dk' : 'm';
-      final formattedTime = '${todayHours.toInt()}$hourAbbrev ${todayMinutes}$minAbbrev';
-      final formattedAmount = '$currencySymbol${todayAmount.toStringAsFixed(0)}';
+      final formattedTime =
+          '${todayHours.toInt()}$hourAbbrev $todayMinutes$minAbbrev';
+      final formattedAmount =
+          '$currencySymbol${todayAmount.toStringAsFixed(0)}';
 
       await HomeWidget.saveWidgetData<String>('formattedTime', formattedTime);
-      await HomeWidget.saveWidgetData<String>('formattedAmount', formattedAmount);
+      await HomeWidget.saveWidgetData<String>(
+        'formattedAmount',
+        formattedAmount,
+      );
 
       // Pursuit formatted string
-      if (pursuitName != null && pursuitName.isNotEmpty && pursuitTarget != null && pursuitTarget > 0) {
-        final pursuitProgressStr = '${pursuitProgress?.toInt() ?? 0}/${pursuitTarget.toInt()} $hourAbbrev';
-        await HomeWidget.saveWidgetData<String>('pursuitProgressText', pursuitProgressStr);
+      if (pursuitName != null &&
+          pursuitName.isNotEmpty &&
+          pursuitTarget != null &&
+          pursuitTarget > 0) {
+        final pursuitProgressStr =
+            '${pursuitProgress?.toInt() ?? 0}/${pursuitTarget.toInt()} $hourAbbrev';
+        await HomeWidget.saveWidgetData<String>(
+          'pursuitProgressText',
+          pursuitProgressStr,
+        );
         await HomeWidget.saveWidgetData<bool>('hasPursuit', true);
       } else {
         await HomeWidget.saveWidgetData<String>('pursuitProgressText', '');
@@ -81,7 +102,9 @@ class WidgetService {
       // Trigger widget update on both platforms
       await _updateWidgets();
 
-      debugPrint('[Widget] Data updated: $formattedTime, $formattedAmount, level: $spendingLevel');
+      debugPrint(
+        '[Widget] Data updated: $formattedTime, $formattedAmount, level: $spendingLevel',
+      );
     } catch (e) {
       debugPrint('[Widget] Error updating widget data: $e');
     }

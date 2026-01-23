@@ -7,14 +7,13 @@ import '../theme/theme.dart';
 class CurrencyDetailScreen extends StatelessWidget {
   final ExchangeRates rates;
 
-  const CurrencyDetailScreen({
-    super.key,
-    required this.rates,
-  });
+  const CurrencyDetailScreen({super.key, required this.rates});
 
   String _formatRate(double rate) {
     if (rate >= 1000) {
-      return rate.toStringAsFixed(2).replaceAllMapped(
+      return rate
+          .toStringAsFixed(2)
+          .replaceAllMapped(
             RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
             (Match m) => '${m[1]},',
           );
@@ -49,7 +48,10 @@ class CurrencyDetailScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: context.appColors.background,
         leading: IconButton(
-          icon: Icon(PhosphorIconsDuotone.arrowLeft, color: context.appColors.textPrimary),
+          icon: Icon(
+            PhosphorIconsDuotone.arrowLeft,
+            color: context.appColors.textPrimary,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -203,7 +205,9 @@ class CurrencyDetailScreen extends StatelessWidget {
                   Icon(
                     PhosphorIconsDuotone.info,
                     size: 18,
-                    color: context.appColors.textTertiary.withValues(alpha: 0.8),
+                    color: context.appColors.textTertiary.withValues(
+                      alpha: 0.8,
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -297,17 +301,13 @@ class CurrencyDetailScreen extends StatelessWidget {
           // Bottom section - buy/sell
           Row(
             children: [
-              Expanded(
-                child: _buildPriceColumn(context, l10n.buy, buying),
-              ),
+              Expanded(child: _buildPriceColumn(context, l10n.buy, buying)),
               Container(
                 width: 1,
                 height: 40,
                 color: context.appColors.cardBorder,
               ),
-              Expanded(
-                child: _buildPriceColumn(context, l10n.sell, selling),
-              ),
+              Expanded(child: _buildPriceColumn(context, l10n.sell, selling)),
             ],
           ),
         ],
@@ -320,10 +320,7 @@ class CurrencyDetailScreen extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(
-            fontSize: 11,
-            color: context.appColors.textTertiary,
-          ),
+          style: TextStyle(fontSize: 11, color: context.appColors.textTertiary),
         ),
         const SizedBox(height: 4),
         Text(

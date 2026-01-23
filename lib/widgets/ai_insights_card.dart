@@ -42,10 +42,12 @@ class AIInsightsCard extends StatelessWidget {
         const SizedBox(height: 16),
 
         // Insight cards
-        ...insights.map((insight) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: _InsightCard(insight: insight),
-            )),
+        ...insights.map(
+          (insight) => Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: _InsightCard(insight: insight),
+          ),
+        ),
       ],
     );
   }
@@ -56,38 +58,44 @@ class AIInsightsCard extends StatelessWidget {
     // 1. Peak Spending Day
     final peakDay = _findPeakSpendingDay();
     if (peakDay != null) {
-      insights.add(_Insight(
-        icon: PhosphorIconsBold.calendarBlank,
-        iconColor: const Color(0xFF8B5CF6),
-        title: 'En Çok Harcama Günü',
-        subtitle: peakDay,
-      ));
+      insights.add(
+        _Insight(
+          icon: PhosphorIconsBold.calendarBlank,
+          iconColor: const Color(0xFF8B5CF6),
+          title: 'En Çok Harcama Günü',
+          subtitle: peakDay,
+        ),
+      );
     }
 
     // 2. Top Category
     final topCategory = _findTopCategory();
     if (topCategory != null) {
-      insights.add(_Insight(
-        icon: PhosphorIconsBold.target,
-        iconColor: const Color(0xFF06B6D4),
-        title: 'En Büyük Kategori',
-        subtitle: topCategory,
-      ));
+      insights.add(
+        _Insight(
+          icon: PhosphorIconsBold.target,
+          iconColor: const Color(0xFF06B6D4),
+          title: 'En Büyük Kategori',
+          subtitle: topCategory,
+        ),
+      );
     }
 
     // 3. Month Comparison
     final comparison = _calculateMonthComparison();
     if (comparison != null) {
-      insights.add(_Insight(
-        icon: comparison.isDown
-            ? PhosphorIconsBold.trendDown
-            : PhosphorIconsBold.trendUp,
-        iconColor: comparison.isDown
-            ? const Color(0xFF10B981)
-            : const Color(0xFFEF4444),
-        title: 'Bu Ay vs Geçen Ay',
-        subtitle: comparison.text,
-      ));
+      insights.add(
+        _Insight(
+          icon: comparison.isDown
+              ? PhosphorIconsBold.trendDown
+              : PhosphorIconsBold.trendUp,
+          iconColor: comparison.isDown
+              ? const Color(0xFF10B981)
+              : const Color(0xFFEF4444),
+          title: 'Bu Ay vs Geçen Ay',
+          subtitle: comparison.text,
+        ),
+      );
     }
 
     return insights;
@@ -208,9 +216,10 @@ class _InsightCardState extends State<_InsightCard>
       vsync: this,
       duration: const Duration(milliseconds: 100),
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.95,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -263,7 +272,9 @@ class _InsightCardState extends State<_InsightCard>
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                            color: widget.insight.iconColor.withValues(alpha: 0.3),
+                            color: widget.insight.iconColor.withValues(
+                              alpha: 0.3,
+                            ),
                             blurRadius: 12,
                             spreadRadius: 0,
                           ),
@@ -273,7 +284,9 @@ class _InsightCardState extends State<_InsightCard>
                         widget.insight.icon,
                         color: widget.insight.iconColor,
                         size: 22,
-                        shadows: PremiumShadows.iconHalo(widget.insight.iconColor),
+                        shadows: PremiumShadows.iconHalo(
+                          widget.insight.iconColor,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 14),

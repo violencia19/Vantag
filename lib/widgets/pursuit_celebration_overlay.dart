@@ -31,10 +31,7 @@ void showPursuitCelebration(
       );
     },
     transitionBuilder: (context, animation, secondaryAnimation, child) {
-      return FadeTransition(
-        opacity: animation,
-        child: child,
-      );
+      return FadeTransition(opacity: animation, child: child);
     },
   );
 }
@@ -89,13 +86,17 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
 
     _iconScale = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween(begin: 0.0, end: 1.3)
-            .chain(CurveTween(curve: Curves.easeOut)),
+        tween: Tween(
+          begin: 0.0,
+          end: 1.3,
+        ).chain(CurveTween(curve: Curves.easeOut)),
         weight: 60,
       ),
       TweenSequenceItem(
-        tween: Tween(begin: 1.3, end: 1.0)
-            .chain(CurveTween(curve: Curves.elasticOut)),
+        tween: Tween(
+          begin: 1.3,
+          end: 1.0,
+        ).chain(CurveTween(curve: Curves.elasticOut)),
         weight: 40,
       ),
     ]).animate(_iconController);
@@ -161,7 +162,8 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
   String get _savedHoursFormatted {
     // Calculate hours based on saved amount
     // This is simplified - in real implementation you'd calculate based on hourly rate
-    final hours = widget.completedPursuit.savedAmount / 100; // Placeholder calculation
+    final hours =
+        widget.completedPursuit.savedAmount / 100; // Placeholder calculation
     return hours.toStringAsFixed(1);
   }
 
@@ -228,10 +230,7 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                             gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: [
-                                AppColors.primary,
-                                AppColors.secondary,
-                              ],
+                              colors: [AppColors.primary, AppColors.secondary],
                             ),
                             shape: BoxShape.circle,
                             boxShadow: [
@@ -256,13 +255,16 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                     // Title
                     if (_showTitle)
                       Text(
-                        '🎉 ${l10n.celebrationTitle}',
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: colors.textPrimary,
-                        ),
-                      ).animate().fadeIn(duration: 300.ms).slideY(
+                            '🎉 ${l10n.celebrationTitle}',
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: colors.textPrimary,
+                            ),
+                          )
+                          .animate()
+                          .fadeIn(duration: 300.ms)
+                          .slideY(
                             begin: 0.2,
                             end: 0,
                             duration: 300.ms,
@@ -274,13 +276,18 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                     // Subtitle
                     if (_showSubtitle)
                       Text(
-                        l10n.celebrationSubtitle(widget.completedPursuit.name),
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: colors.textSecondary,
-                        ),
-                        textAlign: TextAlign.center,
-                      ).animate().fadeIn(duration: 300.ms).slideY(
+                            l10n.celebrationSubtitle(
+                              widget.completedPursuit.name,
+                            ),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: colors.textSecondary,
+                            ),
+                            textAlign: TextAlign.center,
+                          )
+                          .animate()
+                          .fadeIn(duration: 300.ms)
+                          .slideY(
                             begin: 0.2,
                             end: 0,
                             duration: 300.ms,
@@ -292,31 +299,42 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                     // Stats Card
                     if (_showStats)
                       Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: colors.surface,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: colors.cardBorder,
-                            width: 1,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            _buildStatRow(
-                              icon: PhosphorIcons.clock(PhosphorIconsStyle.fill),
-                              label: l10n.celebrationTotalSaved(_savedHoursFormatted),
-                              colors: colors,
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: colors.surface,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: colors.cardBorder,
+                                width: 1,
+                              ),
                             ),
-                            const SizedBox(height: 12),
-                            _buildStatRow(
-                              icon: PhosphorIcons.calendar(PhosphorIconsStyle.fill),
-                              label: l10n.celebrationDuration(_durationDays),
-                              colors: colors,
+                            child: Column(
+                              children: [
+                                _buildStatRow(
+                                  icon: PhosphorIcons.clock(
+                                    PhosphorIconsStyle.fill,
+                                  ),
+                                  label: l10n.celebrationTotalSaved(
+                                    _savedHoursFormatted,
+                                  ),
+                                  colors: colors,
+                                ),
+                                const SizedBox(height: 12),
+                                _buildStatRow(
+                                  icon: PhosphorIcons.calendar(
+                                    PhosphorIconsStyle.fill,
+                                  ),
+                                  label: l10n.celebrationDuration(
+                                    _durationDays,
+                                  ),
+                                  colors: colors,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ).animate().fadeIn(duration: 300.ms).slideY(
+                          )
+                          .animate()
+                          .fadeIn(duration: 300.ms)
+                          .slideY(
                             begin: 0.3,
                             end: 0,
                             duration: 400.ms,
@@ -329,41 +347,46 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                     if (_showButtons) ...[
                       // Share Button (Primary)
                       SizedBox(
-                        width: double.infinity,
-                        height: 56,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            haptics.buttonPress();
-                            widget.onDismiss();
-                            widget.onShare();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            elevation: 0,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                PhosphorIcons.shareFat(PhosphorIconsStyle.fill),
-                                size: 20,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                l10n.celebrationShare,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                            width: double.infinity,
+                            height: 56,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                haptics.buttonPress();
+                                widget.onDismiss();
+                                widget.onShare();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
+                                elevation: 0,
                               ),
-                            ],
-                          ),
-                        ),
-                      ).animate().fadeIn(duration: 300.ms).slideY(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    PhosphorIcons.shareFat(
+                                      PhosphorIconsStyle.fill,
+                                    ),
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    l10n.celebrationShare,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                          .animate()
+                          .fadeIn(duration: 300.ms)
+                          .slideY(
                             begin: 0.2,
                             end: 0,
                             duration: 300.ms,
@@ -374,43 +397,48 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
 
                       // New Goal Button (Secondary)
                       SizedBox(
-                        width: double.infinity,
-                        height: 56,
-                        child: OutlinedButton(
-                          onPressed: () {
-                            haptics.buttonPress();
-                            widget.onDismiss();
-                            widget.onNewGoal();
-                          },
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: colors.textPrimary,
-                            side: BorderSide(
-                              color: colors.cardBorder,
-                              width: 1.5,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                PhosphorIcons.target(PhosphorIconsStyle.fill),
-                                size: 20,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                l10n.celebrationNewGoal,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                            width: double.infinity,
+                            height: 56,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                haptics.buttonPress();
+                                widget.onDismiss();
+                                widget.onNewGoal();
+                              },
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: colors.textPrimary,
+                                side: BorderSide(
+                                  color: colors.cardBorder,
+                                  width: 1.5,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ).animate().fadeIn(duration: 300.ms, delay: 100.ms).slideY(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    PhosphorIcons.target(
+                                      PhosphorIconsStyle.fill,
+                                    ),
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    l10n.celebrationNewGoal,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                          .animate()
+                          .fadeIn(duration: 300.ms, delay: 100.ms)
+                          .slideY(
                             begin: 0.2,
                             end: 0,
                             duration: 300.ms,
@@ -459,11 +487,7 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
             color: AppColors.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(
-            icon,
-            color: AppColors.primary,
-            size: 20,
-          ),
+          child: Icon(icon, color: AppColors.primary, size: 20),
         ),
         const SizedBox(width: 12),
         Text(

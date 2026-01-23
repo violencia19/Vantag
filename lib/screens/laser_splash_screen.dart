@@ -163,7 +163,8 @@ m-46 -98 c-4 -5 -12 -9 -18 -8 -9 0 -8 2 1 6 6 2 9 10 6 15 -4 7 -2 8 5 4 6
     await notificationService.requestPermission();
 
     // Yarın yenilenecek aboneliklerin bildirimlerini planla
-    final tomorrow = await subscriptionService.getSubscriptionsRenewingTomorrow();
+    final tomorrow = await subscriptionService
+        .getSubscriptionsRenewingTomorrow();
     if (tomorrow.isNotEmpty) {
       final subscriptionData = tomorrow
           .map((s) => (id: s.id, name: s.name, amount: s.amount))
@@ -314,7 +315,9 @@ m-46 -98 c-4 -5 -12 -9 -18 -8 -9 0 -8 2 1 6 6 2 9 10 6 15 -4 7 -2 8 5 4 6
                               borderRadius: BorderRadius.circular(28),
                               boxShadow: [
                                 BoxShadow(
-                                  color: context.appColors.primary.withValues(alpha: 0.3),
+                                  color: context.appColors.primary.withValues(
+                                    alpha: 0.3,
+                                  ),
                                   blurRadius: 30,
                                   spreadRadius: 5,
                                 ),
@@ -327,19 +330,20 @@ m-46 -98 c-4 -5 -12 -9 -18 -8 -9 0 -8 2 1 6 6 2 9 10 6 15 -4 7 -2 8 5 4 6
                                 width: 140,
                                 height: 140,
                                 fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => Container(
-                                  width: 140,
-                                  height: 140,
-                                  decoration: BoxDecoration(
-                                    gradient: AppGradients.primaryButton,
-                                    borderRadius: BorderRadius.circular(28),
-                                  ),
-                                  child: const Icon(
-                                    Icons.account_balance_wallet,
-                                    size: 60,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Container(
+                                      width: 140,
+                                      height: 140,
+                                      decoration: BoxDecoration(
+                                        gradient: AppGradients.primaryButton,
+                                        borderRadius: BorderRadius.circular(28),
+                                      ),
+                                      child: Icon(
+                                        Icons.account_balance_wallet,
+                                        size: 60,
+                                        color: context.appColors.textPrimary,
+                                      ),
+                                    ),
                               ),
                             ),
                           ),
@@ -383,7 +387,8 @@ m-46 -98 c-4 -5 -12 -9 -18 -8 -9 0 -8 2 1 6 6 2 9 10 6 15 -4 7 -2 8 5 4 6
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
                                   letterSpacing: 6,
-                                  color: context.appColors.textSecondary.withValues(alpha: 0.8),
+                                  color: context.appColors.textSecondary
+                                      .withValues(alpha: 0.8),
                                 ),
                               ),
                             ],
@@ -434,10 +439,7 @@ class _LaserPathPainter extends CustomPainter {
     // Merkeze taşı ve ölçekle
     canvas.translate(size.width / 2, size.height / 2);
     canvas.scale(scale, scale);
-    canvas.translate(
-      -pathBounds.center.dx,
-      -pathBounds.center.dy,
-    );
+    canvas.translate(-pathBounds.center.dx, -pathBounds.center.dy);
 
     // Hedef uzunluk
     final targetLength = totalLength * progress;

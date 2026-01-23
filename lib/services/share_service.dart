@@ -31,13 +31,11 @@ class ShareService {
   /// Widget'ı image'a çevirip paylaş
   /// [key] - RepaintBoundary'nin GlobalKey'i
   /// [shareText] - Paylaşım metni (opsiyonel, referral link otomatik eklenir)
-  static Future<bool> shareWidget(
-    GlobalKey key, {
-    String? shareText,
-  }) async {
+  static Future<bool> shareWidget(GlobalKey key, {String? shareText}) async {
     try {
       // Widget'ı image'a çevir
-      final boundary = key.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+      final boundary =
+          key.currentContext?.findRenderObject() as RenderRepaintBoundary?;
       if (boundary == null) {
         return false;
       }
@@ -46,7 +44,9 @@ class ShareService {
       final ui.Image image = await boundary.toImage(pixelRatio: 3.0);
 
       // PNG'ye çevir
-      final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      final ByteData? byteData = await image.toByteData(
+        format: ui.ImageByteFormat.png,
+      );
       if (byteData == null) {
         return false;
       }
@@ -64,10 +64,7 @@ class ShareService {
       final finalShareText = shareText ?? await getShareTextWithReferral();
 
       // Paylaş
-      await Share.shareXFiles(
-        [XFile(filePath)],
-        text: finalShareText,
-      );
+      await Share.shareXFiles([XFile(filePath)], text: finalShareText);
 
       // Temp dosyayı 5 dakika sonra sil
       Future.delayed(const Duration(minutes: 5), () {

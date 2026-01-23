@@ -48,7 +48,9 @@ class DecisionButtons extends StatelessWidget {
                 icon: PhosphorIconsDuotone.clock,
                 color: context.appColors.decisionThinking,
                 decision: ExpenseDecision.thinking,
-                onTap: enabled ? () => onDecision(ExpenseDecision.thinking) : null,
+                onTap: enabled
+                    ? () => onDecision(ExpenseDecision.thinking)
+                    : null,
               ),
             ),
             const SizedBox(width: 10),
@@ -87,7 +89,8 @@ class _AnimatedDecisionButton extends StatefulWidget {
   });
 
   @override
-  State<_AnimatedDecisionButton> createState() => _AnimatedDecisionButtonState();
+  State<_AnimatedDecisionButton> createState() =>
+      _AnimatedDecisionButtonState();
 }
 
 class _AnimatedDecisionButtonState extends State<_AnimatedDecisionButton>
@@ -108,21 +111,17 @@ class _AnimatedDecisionButtonState extends State<_AnimatedDecisionButton>
           : AppAnimations.short,
     );
 
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: AppAnimations.buttonPressScale,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: AppAnimations.standardCurve,
-    ));
+    _scaleAnimation =
+        Tween<double>(begin: 1.0, end: AppAnimations.buttonPressScale).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: AppAnimations.standardCurve,
+          ),
+        );
 
-    _colorAnimation = Tween<double>(
-      begin: 0.1,
-      end: 0.25,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: AppAnimations.standardCurve,
-    ));
+    _colorAnimation = Tween<double>(begin: 0.1, end: 0.25).animate(
+      CurvedAnimation(parent: _controller, curve: AppAnimations.standardCurve),
+    );
   }
 
   @override
@@ -191,9 +190,14 @@ class _AnimatedDecisionButtonState extends State<_AnimatedDecisionButton>
                 child: Container(
                   // Ensure minimum 44px touch target for accessibility
                   constraints: const BoxConstraints(minHeight: 88),
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 12,
+                  ),
                   decoration: BoxDecoration(
-                    color: widget.color.withValues(alpha: _colorAnimation.value),
+                    color: widget.color.withValues(
+                      alpha: _colorAnimation.value,
+                    ),
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(
                       color: widget.color.withValues(
@@ -225,11 +229,7 @@ class _AnimatedDecisionButtonState extends State<_AnimatedDecisionButton>
                           ),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Icon(
-                          widget.icon,
-                          size: 22,
-                          color: widget.color,
-                        ),
+                        child: Icon(widget.icon, size: 22, color: widget.color),
                       ),
                       const SizedBox(height: 10),
                       // Label
@@ -288,13 +288,13 @@ class _SingleDecisionButtonState extends State<SingleDecisionButton>
       duration: AppAnimations.micro,
     );
 
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: AppAnimations.buttonPressScale,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: AppAnimations.standardCurve,
-    ));
+    _scaleAnimation =
+        Tween<double>(begin: 1.0, end: AppAnimations.buttonPressScale).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: AppAnimations.standardCurve,
+          ),
+        );
   }
 
   @override
@@ -331,7 +331,10 @@ class _SingleDecisionButtonState extends State<SingleDecisionButton>
                 curve: AppAnimations.standardCurve,
                 // Ensure minimum 44px touch target for accessibility
                 constraints: const BoxConstraints(minHeight: 44),
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 16,
+                ),
                 decoration: BoxDecoration(
                   color: widget.isSelected
                       ? widget.color.withValues(alpha: 0.2)
@@ -347,11 +350,7 @@ class _SingleDecisionButtonState extends State<SingleDecisionButton>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      widget.icon,
-                      size: 18,
-                      color: widget.color,
-                    ),
+                    Icon(widget.icon, size: 18, color: widget.color),
                     const SizedBox(width: 8),
                     Text(
                       widget.label,

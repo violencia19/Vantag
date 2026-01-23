@@ -46,9 +46,9 @@ class BloodPressureBackground extends StatelessWidget {
         boxShadow: enableGlow && riskLevel.backgroundIntensity > 0.2
             ? [
                 BoxShadow(
-                  color: const Color(0xFFE74C3C).withValues(
-                    alpha: riskLevel.backgroundIntensity * 0.3,
-                  ),
+                  color: const Color(
+                    0xFFE74C3C,
+                  ).withValues(alpha: riskLevel.backgroundIntensity * 0.3),
                   blurRadius: 20,
                   spreadRadius: 2,
                 ),
@@ -102,14 +102,18 @@ class PremiumModalBackground extends StatelessWidget {
                   gradientColors[1].withValues(alpha: 0.98),
                 ],
               ),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(24),
+              ),
               border: Border.all(
                 color: showGoldenGlow
                     ? const Color(0xFFFFD700)
                     : riskLevel.backgroundIntensity > 0.3
-                        ? const Color(0xFFE74C3C).withValues(alpha: 0.5)
-                        : Colors.white.withValues(alpha: 0.1),
-                width: showGoldenGlow || riskLevel.backgroundIntensity > 0.3 ? 2 : 1,
+                    ? const Color(0xFFE74C3C).withValues(alpha: 0.5)
+                    : Colors.white.withValues(alpha: 0.1),
+                width: showGoldenGlow || riskLevel.backgroundIntensity > 0.3
+                    ? 2
+                    : 1,
               ),
               boxShadow: [
                 if (showGoldenGlow)
@@ -120,9 +124,9 @@ class PremiumModalBackground extends StatelessWidget {
                   )
                 else if (riskLevel.backgroundIntensity > 0.2)
                   BoxShadow(
-                    color: const Color(0xFFE74C3C).withValues(
-                      alpha: riskLevel.backgroundIntensity * 0.3,
-                    ),
+                    color: const Color(
+                      0xFFE74C3C,
+                    ).withValues(alpha: riskLevel.backgroundIntensity * 0.3),
                     blurRadius: 20,
                     spreadRadius: 2,
                   ),
@@ -187,11 +191,7 @@ class RiskIndicatorBar extends StatelessWidget {
   final double amount;
   final double height;
 
-  const RiskIndicatorBar({
-    super.key,
-    required this.amount,
-    this.height = 4,
-  });
+  const RiskIndicatorBar({super.key, required this.amount, this.height = 4});
 
   @override
   Widget build(BuildContext context) {

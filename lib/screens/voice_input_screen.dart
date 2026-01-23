@@ -14,10 +14,7 @@ class VoiceInputScreen extends StatefulWidget {
   /// If true, auto-start listening when screen opens
   final bool autoStart;
 
-  const VoiceInputScreen({
-    super.key,
-    this.autoStart = true,
-  });
+  const VoiceInputScreen({super.key, this.autoStart = true});
 
   @override
   State<VoiceInputScreen> createState() => _VoiceInputScreenState();
@@ -103,12 +100,14 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
   }
 
   String _getErrorMessage(String error) {
+    if (!mounted) return '';
+    final l10n = AppLocalizations.of(context);
     if (error.contains('network')) {
-      return 'Internet bağlantısı gerekli';
+      return l10n.networkRequired;
     } else if (error.contains('permission')) {
-      return 'Mikrofon izni gerekli';
+      return l10n.microphonePermissionRequired;
     }
-    return 'Bir hata oluştu, tekrar dene';
+    return l10n.errorTryAgain;
   }
 
   Future<void> _startListening() async {
@@ -188,9 +187,10 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
     _stopListening();
 
     if (mounted) {
+      final l10n = AppLocalizations.of(context);
       setState(() {
         _isProcessing = true;
-        _statusText = 'Anlıyorum...';
+        _statusText = l10n.understanding;
       });
     }
 
@@ -213,9 +213,10 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
     } catch (e) {
       debugPrint('[Voice] Parse error: $e');
       if (mounted) {
+        final l10n = AppLocalizations.of(context);
         setState(() {
           _isProcessing = false;
-          _statusText = 'Anlayamadım, tekrar dene';
+          _statusText = l10n.couldNotUnderstandTryAgain;
         });
       }
     }
@@ -262,8 +263,11 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
           SnackBar(
             content: Row(
               children: [
-                const Icon(PhosphorIconsDuotone.checkCircle,
-                    color: Colors.white, size: 20),
+                const Icon(
+                  PhosphorIconsDuotone.checkCircle,
+                  color: Colors.white,
+                  size: 20,
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
@@ -274,7 +278,9 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
             ),
             backgroundColor: context.appColors.success,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
       }
@@ -317,7 +323,10 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
             if (result.category != null) ...[
               const SizedBox(height: 12),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: context.appColors.primary.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(8),
@@ -340,7 +349,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               _startListening();
             },
             child: Text(
-              'Tekrar söyle',
+              l10n.sayAgain,
               style: TextStyle(color: context.appColors.textSecondary),
             ),
           ),
@@ -355,7 +364,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: const Text('Evet, kaydet'),
+            child: Text(l10n.yesSave),
           ),
         ],
       ),
@@ -364,7 +373,8 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
 
   void _showRetryOption() {
     if (mounted) {
-      setState(() => _statusText = 'Anlayamadım, tekrar söyle');
+      final l10n = AppLocalizations.of(context);
+      setState(() => _statusText = l10n.couldNotUnderstandSayAgain);
       Future.delayed(const Duration(seconds: 1), () {
         if (mounted && !_isListening) {
           _startListening();
@@ -404,8 +414,10 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(PhosphorIconsDuotone.x,
-                        color: context.appColors.textSecondary),
+                    icon: Icon(
+                      PhosphorIconsDuotone.x,
+                      color: context.appColors.textSecondary,
+                    ),
                     onPressed: () => Navigator.pop(context),
                   ),
                   const Spacer(),
@@ -433,7 +445,9 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 return Transform.scale(
                   scale: scale,
                   child: GestureDetector(
-                    onTap: _isListening || _isProcessing ? null : _startListening,
+                    onTap: _isListening || _isProcessing
+                        ? null
+                        : _startListening,
                     child: Container(
                       width: 140,
                       height: 140,
@@ -443,15 +457,24 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: _isListening
-                              ? [const Color(0xFFE74C3C), const Color(0xFFC0392B)]
-                              : [context.appColors.primary, context.appColors.secondary],
+                              ? [
+                                  const Color(0xFFE74C3C),
+                                  const Color(0xFFC0392B),
+                                ]
+                              : [
+                                  context.appColors.primary,
+                                  context.appColors.secondary,
+                                ],
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: (_isListening
-                                    ? const Color(0xFFE74C3C)
-                                    : context.appColors.primary)
-                                .withValues(alpha: _isListening ? 0.6 : 0.4),
+                            color:
+                                (_isListening
+                                        ? const Color(0xFFE74C3C)
+                                        : context.appColors.primary)
+                                    .withValues(
+                                      alpha: _isListening ? 0.6 : 0.4,
+                                    ),
                             blurRadius: _isListening ? 50 : 25,
                             spreadRadius: _isListening ? 10 : 0,
                           ),
@@ -459,11 +482,11 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                       ),
                       child: Center(
                         child: _isProcessing
-                            ? const SizedBox(
+                            ? SizedBox(
                                 width: 40,
                                 height: 40,
                                 child: CircularProgressIndicator(
-                                  color: Colors.white,
+                                  color: context.appColors.textPrimary,
                                   strokeWidth: 3,
                                 ),
                               )
@@ -471,7 +494,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                                 _isListening
                                     ? PhosphorIconsFill.stop
                                     : PhosphorIconsFill.microphone,
-                                color: Colors.white,
+                                color: context.appColors.textPrimary,
                                 size: 56,
                               ),
                       ),
@@ -498,7 +521,10 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [context.appColors.primary, context.appColors.secondary],
+                        colors: [
+                          context.appColors.primary,
+                          context.appColors.secondary,
+                        ],
                       ),
                       borderRadius: BorderRadius.circular(2),
                     ),
@@ -552,7 +578,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               margin: const EdgeInsets.all(24),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: context.appColors.surfaceLight.withValues(alpha: 0.5),
+                color: context.appColors.surfaceLight,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(

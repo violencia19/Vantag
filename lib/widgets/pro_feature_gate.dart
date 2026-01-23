@@ -8,12 +8,7 @@ import 'package:vantag/services/purchase_service.dart';
 import 'package:vantag/theme/app_theme.dart';
 
 /// Types of Pro features that can be gated
-enum ProFeature {
-  aiChat,
-  fullHistory,
-  export,
-  widgets,
-}
+enum ProFeature { aiChat, fullHistory, export, widgets }
 
 /// A widget that gates Pro features with soft paywall
 class ProFeatureGate extends StatelessWidget {
@@ -113,7 +108,10 @@ class ProFeatureGate extends StatelessWidget {
   }
 
   /// Show paywall screen
-  static Future<bool> showPaywall(BuildContext context, {ProFeature? feature}) async {
+  static Future<bool> showPaywall(
+    BuildContext context, {
+    ProFeature? feature,
+  }) async {
     final result = await Navigator.of(context).push<bool>(
       MaterialPageRoute(
         builder: (_) => PaywallScreen(featureName: feature?.name),
@@ -174,7 +172,10 @@ class ProFeatureGate extends StatelessWidget {
           ],
         ),
         content: Text(
-          l10n.aiLimitMessage(PurchaseService.freeAiChatLimit, PurchaseService.freeAiChatLimit),
+          l10n.aiLimitMessage(
+            PurchaseService.freeAiChatLimit,
+            PurchaseService.freeAiChatLimit,
+          ),
         ),
         actions: [
           TextButton(
@@ -308,13 +309,17 @@ class AiUsageIndicator extends StatelessWidget {
               Icon(
                 LucideIcons.sparkles,
                 size: 14,
-                color: remaining <= 3 ? context.appColors.error : context.appColors.textSecondary,
+                color: remaining <= 3
+                    ? context.appColors.error
+                    : context.appColors.textSecondary,
               ),
               const SizedBox(width: 6),
               Text(
                 l10n.remainingAiUses(remaining),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: remaining <= 3 ? context.appColors.error : context.appColors.textSecondary,
+                  color: remaining <= 3
+                      ? context.appColors.error
+                      : context.appColors.textSecondary,
                 ),
               ),
             ],

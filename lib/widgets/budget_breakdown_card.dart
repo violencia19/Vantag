@@ -39,13 +39,15 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
       vsync: this,
     );
 
-    _slideAnimation = Tween<double>(begin: 30, end: 0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    _slideAnimation = Tween<double>(
+      begin: 30,
+      end: 0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
-    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     // Staggered delay based on index
     Future.delayed(Duration(milliseconds: 100 * widget.animationIndex), () {
@@ -74,12 +76,18 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
     if (total <= 0) return const SizedBox.shrink();
 
     final mandatoryPercent = total > 0 ? (mandatory / total * 100) : 0.0;
-    final discretionaryPercent = total > 0 ? (discretionary / total * 100) : 0.0;
+    final discretionaryPercent = total > 0
+        ? (discretionary / total * 100)
+        : 0.0;
 
     // Currency conversion
     final mandatoryConverted = currencyProvider.convertFromTRY(mandatory);
-    final discretionaryConverted = currencyProvider.convertFromTRY(discretionary);
-    final remainingConverted = currencyProvider.convertFromTRY(widget.budgetService.remainingBudget.abs());
+    final discretionaryConverted = currencyProvider.convertFromTRY(
+      discretionary,
+    );
+    final remainingConverted = currencyProvider.convertFromTRY(
+      widget.budgetService.remainingBudget.abs(),
+    );
 
     return AnimatedBuilder(
       animation: _controller,
@@ -105,15 +113,22 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           width: 36,
                           height: 36,
                           decoration: BoxDecoration(
-                            color: context.appColors.primary.withValues(alpha: 0.15),
+                            color: context.appColors.primary.withValues(
+                              alpha: 0.15,
+                            ),
                             borderRadius: BorderRadius.circular(10),
-                            boxShadow: PremiumShadows.coloredGlow(context.appColors.primary, intensity: 0.3),
+                            boxShadow: PremiumShadows.coloredGlow(
+                              context.appColors.primary,
+                              intensity: 0.3,
+                            ),
                           ),
                           child: Icon(
                             PhosphorIconsDuotone.chartPie,
                             color: context.appColors.primary,
                             size: 18,
-                            shadows: PremiumShadows.iconHalo(context.appColors.primary),
+                            shadows: PremiumShadows.iconHalo(
+                              context.appColors.primary,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -178,10 +193,14 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color: context.appColors.success.withValues(alpha: 0.08),
+                          color: context.appColors.success.withValues(
+                            alpha: 0.08,
+                          ),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: context.appColors.success.withValues(alpha: 0.2),
+                            color: context.appColors.success.withValues(
+                              alpha: 0.2,
+                            ),
                             width: 1,
                           ),
                         ),
@@ -191,13 +210,16 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                               PhosphorIconsDuotone.checkCircle,
                               color: context.appColors.success,
                               size: 20,
-                              shadows: PremiumShadows.iconHalo(context.appColors.success),
+                              shadows: PremiumShadows.iconHalo(
+                                context.appColors.success,
+                              ),
                             ),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
                                 l10n.remainingHoursToSpend(
-                                  widget.budgetService.remainingHours.toStringAsFixed(0),
+                                  widget.budgetService.remainingHours
+                                      .toStringAsFixed(0),
                                 ),
                                 style: TextStyle(
                                   color: context.appColors.success,
@@ -217,10 +239,14 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color: context.appColors.error.withValues(alpha: 0.08),
+                          color: context.appColors.error.withValues(
+                            alpha: 0.08,
+                          ),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: context.appColors.error.withValues(alpha: 0.2),
+                            color: context.appColors.error.withValues(
+                              alpha: 0.2,
+                            ),
                             width: 1,
                           ),
                         ),
@@ -230,7 +256,9 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                               PhosphorIconsDuotone.warning,
                               color: context.appColors.error,
                               size: 20,
-                              shadows: PremiumShadows.iconHalo(context.appColors.error),
+                              shadows: PremiumShadows.iconHalo(
+                                context.appColors.error,
+                              ),
                             ),
                             const SizedBox(width: 10),
                             Expanded(
@@ -275,7 +303,8 @@ class _AnimatedStackedProgress extends StatefulWidget {
   });
 
   @override
-  State<_AnimatedStackedProgress> createState() => _AnimatedStackedProgressState();
+  State<_AnimatedStackedProgress> createState() =>
+      _AnimatedStackedProgressState();
 }
 
 class _AnimatedStackedProgressState extends State<_AnimatedStackedProgress>
@@ -313,7 +342,8 @@ class _AnimatedStackedProgressState extends State<_AnimatedStackedProgress>
       animation: _animation,
       builder: (context, child) {
         final animatedMandatory = widget.mandatoryPercent * _animation.value;
-        final animatedDiscretionary = widget.discretionaryPercent * _animation.value;
+        final animatedDiscretionary =
+            widget.discretionaryPercent * _animation.value;
 
         return Container(
           decoration: BoxDecoration(
@@ -366,7 +396,9 @@ class _AnimatedStackedProgressState extends State<_AnimatedStackedProgress>
                   // Kalan boşluk
                   if (animatedMandatory + animatedDiscretionary < 100)
                     Expanded(
-                      flex: (100 - animatedMandatory - animatedDiscretionary).round().clamp(1, 100),
+                      flex: (100 - animatedMandatory - animatedDiscretionary)
+                          .round()
+                          .clamp(1, 100),
                       child: const SizedBox(),
                     ),
                 ],
@@ -421,13 +453,15 @@ class _AnimatedStatItemState extends State<_AnimatedStatItem>
       vsync: this,
     );
 
-    _slideAnimation = Tween<double>(begin: 20, end: 0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    _slideAnimation = Tween<double>(
+      begin: 20,
+      end: 0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
-    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     // Staggered delay: 300ms base + 100ms per index
     Future.delayed(Duration(milliseconds: 300 + (100 * widget.index)), () {

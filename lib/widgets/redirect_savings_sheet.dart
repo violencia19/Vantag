@@ -161,8 +161,8 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        disabledBackgroundColor:
-                            QuietLuxury.positive.withValues(alpha: 0.3),
+                        disabledBackgroundColor: QuietLuxury.positive
+                            .withValues(alpha: 0.3),
                       ),
                       child: _isLoading
                           ? const SizedBox(
@@ -170,13 +170,16 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
                               height: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
                               ),
                             )
                           : Text(
                               l10n.addSavings,
-                              style: const TextStyle(fontWeight: FontWeight.w600),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                     ),
                   ),
@@ -195,10 +198,7 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
       decoration: BoxDecoration(
         color: QuietLuxury.cardBackground,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: QuietLuxury.cardBorder,
-          width: 0.5,
-        ),
+        border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
       ),
       child: Column(
         children: [
@@ -210,9 +210,7 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
           const SizedBox(height: 12),
           Text(
             l10n.emptyPursuitsTitle,
-            style: QuietLuxury.body.copyWith(
-              color: QuietLuxury.textPrimary,
-            ),
+            style: QuietLuxury.body.copyWith(color: QuietLuxury.textPrimary),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 4),
@@ -362,8 +360,9 @@ class _PursuitSelectionTile extends StatelessWidget {
               emoji: pursuit.emoji,
               size: 44,
               strokeWidth: 3,
-              progressColor:
-                  isSelected ? QuietLuxury.positive : QuietLuxury.textTertiary,
+              progressColor: isSelected
+                  ? QuietLuxury.positive
+                  : QuietLuxury.textTertiary,
             ),
             const SizedBox(width: 12),
             // Info
@@ -375,7 +374,9 @@ class _PursuitSelectionTile extends StatelessWidget {
                     pursuit.name,
                     style: QuietLuxury.body.copyWith(
                       color: QuietLuxury.textPrimary,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w400,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -424,9 +425,6 @@ Future<bool?> showRedirectSavingsSheet(
     context: context,
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
-    builder: (_) => RedirectSavingsSheet(
-      amount: amount,
-      currency: currency,
-    ),
+    builder: (_) => RedirectSavingsSheet(amount: amount, currency: currency),
   );
 }

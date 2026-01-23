@@ -10,21 +10,18 @@ class UpgradeDialog extends StatelessWidget {
   final String message;
   final VoidCallback? onUpgrade;
 
-  const UpgradeDialog({
-    super.key,
-    required this.message,
-    this.onUpgrade,
-  });
+  const UpgradeDialog({super.key, required this.message, this.onUpgrade});
 
   /// Show the upgrade dialog
-  static void show(BuildContext context, String message, {VoidCallback? onUpgrade}) {
+  static void show(
+    BuildContext context,
+    String message, {
+    VoidCallback? onUpgrade,
+  }) {
     HapticFeedback.mediumImpact();
     showDialog(
       context: context,
-      builder: (_) => UpgradeDialog(
-        message: message,
-        onUpgrade: onUpgrade,
-      ),
+      builder: (_) => UpgradeDialog(message: message, onUpgrade: onUpgrade),
     );
   }
 
@@ -89,12 +86,36 @@ class UpgradeDialog extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          _buildBenefitRow(context, PhosphorIconsDuotone.chatCircle, l10n.unlimitedAiChat),
-          _buildBenefitRow(context, PhosphorIconsDuotone.target, l10n.unlimitedPursuits),
-          _buildBenefitRow(context, PhosphorIconsDuotone.export, l10n.exportFeature),
-          _buildBenefitRow(context, PhosphorIconsDuotone.currencyCircleDollar, l10n.allCurrencies),
-          _buildBenefitRow(context, PhosphorIconsDuotone.chartBar, l10n.fullReports),
-          _buildBenefitRow(context, PhosphorIconsDuotone.shareFat, l10n.cleanShareCards),
+          _buildBenefitRow(
+            context,
+            PhosphorIconsDuotone.chatCircle,
+            l10n.unlimitedAiChat,
+          ),
+          _buildBenefitRow(
+            context,
+            PhosphorIconsDuotone.target,
+            l10n.unlimitedPursuits,
+          ),
+          _buildBenefitRow(
+            context,
+            PhosphorIconsDuotone.export,
+            l10n.exportFeature,
+          ),
+          _buildBenefitRow(
+            context,
+            PhosphorIconsDuotone.currencyCircleDollar,
+            l10n.allCurrencies,
+          ),
+          _buildBenefitRow(
+            context,
+            PhosphorIconsDuotone.chartBar,
+            l10n.fullReports,
+          ),
+          _buildBenefitRow(
+            context,
+            PhosphorIconsDuotone.shareFat,
+            l10n.cleanShareCards,
+          ),
         ],
       ),
       actionsPadding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
@@ -112,7 +133,10 @@ class UpgradeDialog extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [context.appColors.primary, context.appColors.primaryDark],
+              colors: [
+                context.appColors.primary,
+                context.appColors.primaryDark,
+              ],
             ),
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
@@ -143,9 +167,7 @@ class UpgradeDialog extends StatelessWidget {
             ),
             child: Text(
               l10n.seePremium,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.w600),
             ),
           ),
         ),
@@ -158,11 +180,7 @@ class UpgradeDialog extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          Icon(
-            icon,
-            size: 18,
-            color: context.appColors.success,
-          ),
+          Icon(icon, size: 18, color: context.appColors.success),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -184,11 +202,7 @@ class UpgradeBanner extends StatelessWidget {
   final String message;
   final VoidCallback? onTap;
 
-  const UpgradeBanner({
-    super.key,
-    required this.message,
-    this.onTap,
-  });
+  const UpgradeBanner({super.key, required this.message, this.onTap});
 
   @override
   Widget build(BuildContext context) {

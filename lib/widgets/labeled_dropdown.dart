@@ -61,7 +61,8 @@ class LabeledDropdown<T> extends StatelessWidget {
               onChanged: onChanged,
               selectedItemBuilder: shortLabelBuilder != null
                   ? (context) => items
-                      .map((item) => Align(
+                        .map(
+                          (item) => Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               shortLabelBuilder!(item),
@@ -71,21 +72,24 @@ class LabeledDropdown<T> extends StatelessWidget {
                                 color: context.appColors.textPrimary,
                               ),
                             ),
-                          ))
-                      .toList()
+                          ),
+                        )
+                        .toList()
                   : null,
               items: items
-                  .map((item) => DropdownMenuItem<T>(
-                        value: item,
-                        child: Text(
-                          labelBuilder(item),
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                            color: context.appColors.textPrimary,
-                          ),
+                  .map(
+                    (item) => DropdownMenuItem<T>(
+                      value: item,
+                      child: Text(
+                        labelBuilder(item),
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          color: context.appColors.textPrimary,
                         ),
-                      ))
+                      ),
+                    ),
+                  )
                   .toList(),
             ),
           ),

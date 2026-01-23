@@ -7,13 +7,19 @@ class UserProfile {
   final int workDaysPerWeek;
 
   // Bütçe ayarları
-  final double? monthlyBudget;        // Kullanıcının belirlediği harcama limiti
-  final double? monthlySavingsGoal;   // Aylık tasarruf hedefi
+  final double? monthlyBudget; // Kullanıcının belirlediği harcama limiti
+  final double? monthlySavingsGoal; // Aylık tasarruf hedefi
 
   // Referral system
-  final String? referralCode;         // User's unique referral code (VANTAG-XXXXX)
-  final String? referredBy;           // Code used when signing up (if any)
-  final int referralCount;            // How many people used their code
+  final String? referralCode; // User's unique referral code (VANTAG-XXXXX)
+  final String? referredBy; // Code used when signing up (if any)
+  final int referralCount; // How many people used their code
+
+  // Salary & Balance Management
+  final int? salaryDay; // Day of month salary is received (1-31)
+  final double? currentBalance; // Current bank balance
+  final DateTime?
+  lastSalaryConfirmedDate; // Last time user confirmed salary received
 
   const UserProfile({
     this.incomeSources = const [],
@@ -24,6 +30,9 @@ class UserProfile {
     this.referralCode,
     this.referredBy,
     this.referralCount = 0,
+    this.salaryDay,
+    this.currentBalance,
+    this.lastSalaryConfirmedDate,
   });
 
   /// Generate a unique referral code (VANTAG-XXXXX)
@@ -31,7 +40,10 @@ class UserProfile {
   static String generateReferralCode() {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     final random = Random();
-    final code = List.generate(5, (_) => chars[random.nextInt(chars.length)]).join();
+    final code = List.generate(
+      5,
+      (_) => chars[random.nextInt(chars.length)],
+    ).join();
     return 'VANTAG-$code';
   }
 
@@ -93,6 +105,44 @@ class UserProfile {
     return budget - savings;
   }
 
+  /// Bugün maaş günü mü?
+  bool get isPayday {
+    if (salaryDay == null) return false;
+    final today = DateTime.now();
+    return today.day == salaryDay;
+  }
+
+  /// Maaş bu ay onaylandı mı?
+  bool get isSalaryConfirmedThisMonth {
+    if (lastSalaryConfirmedDate == null) return false;
+    final now = DateTime.now();
+    return lastSalaryConfirmedDate!.year == now.year &&
+        lastSalaryConfirmedDate!.month == now.month;
+  }
+
+  /// Maaş günü geçti mi (bu ay)?
+  bool get hasPaydayPassedThisMonth {
+    if (salaryDay == null) return false;
+    final now = DateTime.now();
+    return now.day > salaryDay!;
+  }
+
+  /// Sonraki maaş gününe kaç gün kaldı?
+  int get daysUntilPayday {
+    if (salaryDay == null) return -1;
+    final now = DateTime.now();
+    final thisMonth = DateTime(now.year, now.month, salaryDay!);
+
+    if (now.day < salaryDay!) {
+      // Bu ayın maaş günü henüz gelmedi
+      return thisMonth.difference(now).inDays;
+    } else {
+      // Gelecek ayın maaş günü
+      final nextMonth = DateTime(now.year, now.month + 1, salaryDay!);
+      return nextMonth.difference(now).inDays;
+    }
+  }
+
   UserProfile copyWith({
     List<IncomeSource>? incomeSources,
     double? dailyHours,
@@ -102,6 +152,9 @@ class UserProfile {
     String? referralCode,
     String? referredBy,
     int? referralCount,
+    int? salaryDay,
+    double? currentBalance,
+    DateTime? lastSalaryConfirmedDate,
   }) {
     return UserProfile(
       incomeSources: incomeSources ?? this.incomeSources,
@@ -112,6 +165,10 @@ class UserProfile {
       referralCode: referralCode ?? this.referralCode,
       referredBy: referredBy ?? this.referredBy,
       referralCount: referralCount ?? this.referralCount,
+      salaryDay: salaryDay ?? this.salaryDay,
+      currentBalance: currentBalance ?? this.currentBalance,
+      lastSalaryConfirmedDate:
+          lastSalaryConfirmedDate ?? this.lastSalaryConfirmedDate,
     );
   }
 
@@ -142,7 +199,10 @@ class UserProfile {
     required int workDaysPerWeek,
   }) {
     // Eski format: tek maaş kaynağı oluştur
-    final salarySource = IncomeSource.salary(amount: monthlyIncome);
+    final salarySource = IncomeSource.salary(
+      amount: monthlyIncome,
+      title: 'Main Salary',
+    );
     return UserProfile(
       incomeSources: [salarySource],
       dailyHours: dailyHours,

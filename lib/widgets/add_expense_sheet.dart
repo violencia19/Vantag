@@ -120,7 +120,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       vsync: this,
     );
     _smartMatchScale = Tween<double>(begin: 1.0, end: 1.05).animate(
-      CurvedAnimation(parent: _smartMatchAnimController, curve: Curves.easeOutBack),
+      CurvedAnimation(
+        parent: _smartMatchAnimController,
+        curve: Curves.easeOutBack,
+      ),
     );
 
     _attentionAnimController = AnimationController(
@@ -128,7 +131,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       vsync: this,
     );
     _attentionPulse = Tween<double>(begin: 1.0, end: 1.03).animate(
-      CurvedAnimation(parent: _attentionAnimController, curve: Curves.easeInOut),
+      CurvedAnimation(
+        parent: _attentionAnimController,
+        curve: Curves.easeInOut,
+      ),
     );
 
     _subCategoryFocusNode.addListener(() {
@@ -161,7 +167,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
     // Pre-fill amount (use original amount if available, otherwise converted amount)
     final displayAmount = expense.originalAmount ?? expense.amount;
-    _amountController.text = formatTurkishCurrency(displayAmount, decimalDigits: 2);
+    _amountController.text = formatTurkishCurrency(
+      displayAmount,
+      decimalDigits: 2,
+    );
 
     // Pre-fill category
     _selectedCategory = expense.category;
@@ -191,10 +200,16 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         _installmentCountController.text = expense.installmentCount.toString();
       }
       if (expense.cashPrice != null) {
-        _cashPriceController.text = formatTurkishCurrency(expense.cashPrice!, decimalDigits: 2);
+        _cashPriceController.text = formatTurkishCurrency(
+          expense.cashPrice!,
+          decimalDigits: 2,
+        );
       }
       if (expense.installmentTotal != null) {
-        _installmentTotalController.text = formatTurkishCurrency(expense.installmentTotal!, decimalDigits: 2);
+        _installmentTotalController.text = formatTurkishCurrency(
+          expense.installmentTotal!,
+          decimalDigits: 2,
+        );
       }
     }
   }
@@ -219,7 +234,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       if (mounted) setState(() => _subCategorySuggestions = null);
       return;
     }
-    final suggestions = await _subCategoryService.getSuggestions(_selectedCategory!);
+    final suggestions = await _subCategoryService.getSuggestions(
+      _selectedCategory!,
+    );
     if (mounted) setState(() => _subCategorySuggestions = suggestions);
   }
 
@@ -451,7 +468,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     }
 
     // Convert to income currency if different
-    final amountInIncomeCurrency = _convertToIncomeCurrency(amountForCalculation, _expenseCurrency);
+    final amountInIncomeCurrency = _convertToIncomeCurrency(
+      amountForCalculation,
+      _expenseCurrency,
+    );
     final isDifferentCurrency = _expenseCurrency != _incomeCurrency;
 
     // Taksit bilgilerini de currency'e çevir
@@ -463,7 +483,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         : null;
 
     final financeProvider = context.read<FinanceProvider>();
-    final userProfile = financeProvider.userProfile ??
+    final userProfile =
+        financeProvider.userProfile ??
         UserProfile(incomeSources: [], dailyHours: 8, workDaysPerWeek: 5);
 
     final result = _calculationService.calculateExpense(
@@ -473,14 +494,19 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       year: _selectedDate.year,
     );
 
-    final recordType = Expense.detectRecordType(amountInIncomeCurrency, result.hoursRequired);
+    final recordType = Expense.detectRecordType(
+      amountInIncomeCurrency,
+      result.hoursRequired,
+    );
 
     final rawSubCat = _subCategoryController.text.trim();
     final normalizedSubCat = rawSubCat.isEmpty
         ? null
         : SubCategoryService.normalize(rawSubCat);
 
-    final isSmartChoice = _smartChoiceSavedFrom != null && _smartChoiceSavedFrom! > amountInIncomeCurrency;
+    final isSmartChoice =
+        _smartChoiceSavedFrom != null &&
+        _smartChoiceSavedFrom! > amountInIncomeCurrency;
 
     final expense = Expense(
       amount: amountInIncomeCurrency,
@@ -501,7 +527,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       currentInstallment: installmentCount != null ? 1 : null,
       cashPrice: cashPriceConverted,
       installmentTotal: installmentTotalConverted,
-      installmentStartDate: _expenseType == ExpenseType.installment ? _selectedDate : null,
+      installmentStartDate: _expenseType == ExpenseType.installment
+          ? _selectedDate
+          : null,
     );
 
     final categoryInsight = _insightService.getCategoryInsight(
@@ -537,7 +565,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       ExpenseDecision.thinking => DecisionType.thinking,
     };
 
-    final message = _messagesService.getMessageForDecision(context, decisionType);
+    final message = _messagesService.getMessageForDecision(
+      context,
+      decisionType,
+    );
 
     if (decision == ExpenseDecision.no) {
       final rates = widget.exchangeRates;
@@ -552,7 +583,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     return message;
   }
 
-  Future<void> _onDecision(ExpenseDecision decision, {bool force = false}) async {
+  Future<void> _onDecision(
+    ExpenseDecision decision, {
+    bool force = false,
+  }) async {
     if (_pendingExpense == null) return;
 
     final amount = _pendingExpense!.amount;
@@ -599,7 +633,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         !isSimulation) {
       final savingsPoolProvider = context.read<SavingsPoolProvider>();
       await savingsPoolProvider.addSavings(expenseWithDecision.savedAmount);
-      debugPrint('💰 [AddExpenseSheet] Smart Choice savings added: ${expenseWithDecision.savedAmount}');
+      debugPrint(
+        '💰 [AddExpenseSheet] Smart Choice savings added: ${expenseWithDecision.savedAmount}',
+      );
     }
 
     // Victory celebration for "passed" decision
@@ -682,11 +718,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            Icon(
-              PhosphorIconsFill.warning,
-              color: Colors.amber,
-              size: 24,
-            ),
+            Icon(PhosphorIconsFill.warning, color: Colors.amber, size: 24),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -757,7 +789,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             child: Container(
               decoration: BoxDecoration(
                 color: context.appColors.gradientMid,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(24),
+                ),
                 border: Border.all(
                   color: Colors.white.withValues(alpha: 0.1),
                   width: 1,
@@ -772,7 +806,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: context.appColors.textTertiary.withValues(alpha: 0.5),
+                        color: context.appColors.textTertiary.withValues(
+                          alpha: 0.5,
+                        ),
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -788,7 +824,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.isEditMode ? l10n.editExpense : l10n.newExpense,
+                              widget.isEditMode
+                                  ? l10n.editExpense
+                                  : l10n.newExpense,
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
@@ -983,7 +1021,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 child: TextField(
                   controller: _amountController,
                   autofocus: true,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                   inputFormatters: [TurkishCurrencyInputFormatter()],
                   style: TextStyle(
                     fontSize: 32,
@@ -997,7 +1037,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     hintStyle: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: context.appColors.textTertiary.withValues(alpha: 0.5),
+                      color: context.appColors.textTertiary.withValues(
+                        alpha: 0.5,
+                      ),
                     ),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.zero,
@@ -1073,10 +1115,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       enableSuggestions: true,
       autocorrect: false,
       enableIMEPersonalizedLearning: true,
-      style: TextStyle(
-        color: context.appColors.textPrimary,
-        fontSize: 14,
-      ),
+      style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
       decoration: InputDecoration(
         labelText: l10n.descriptionLabel,
         labelStyle: TextStyle(
@@ -1090,7 +1129,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         ),
         filled: true,
         fillColor: context.appColors.surface,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: context.appColors.cardBorder),
@@ -1120,7 +1162,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
   Widget _buildCategoryDropdown(AppLocalizations l10n) {
     return AnimatedBuilder(
-      animation: Listenable.merge([_smartMatchAnimController, _attentionAnimController]),
+      animation: Listenable.merge([
+        _smartMatchAnimController,
+        _attentionAnimController,
+      ]),
       builder: (context, child) {
         final scale = _smartMatchActive
             ? _smartMatchScale.value
@@ -1139,14 +1184,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       ),
                     ]
                   : _categoryValidationError
-                      ? [
-                          BoxShadow(
-                            color: context.appColors.error.withValues(alpha: 0.3),
-                            blurRadius: 8,
-                            spreadRadius: 1,
-                          ),
-                        ]
-                      : null,
+                  ? [
+                      BoxShadow(
+                        color: context.appColors.error.withValues(alpha: 0.3),
+                        blurRadius: 8,
+                        spreadRadius: 1,
+                      ),
+                    ]
+                  : null,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1163,7 +1208,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   items: ExpenseCategory.all.map((category) {
                     return DropdownMenuItem(
                       value: category,
-                      child: Text(ExpenseCategory.getLocalizedName(category, l10n)),
+                      child: Text(
+                        ExpenseCategory.getLocalizedName(category, l10n),
+                      ),
                     );
                   }).toList(),
                   onChanged: _onCategoryManuallySelected,
@@ -1177,11 +1224,16 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     ),
                     filled: true,
                     fillColor: context.appColors.surface,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: _categoryValidationError ? context.appColors.error : context.appColors.cardBorder,
+                        color: _categoryValidationError
+                            ? context.appColors.error
+                            : context.appColors.cardBorder,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
@@ -1189,13 +1241,20 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       borderSide: BorderSide(
                         color: _categoryValidationError
                             ? context.appColors.error
-                            : (_smartMatchActive ? context.appColors.success : context.appColors.cardBorder),
-                        width: _smartMatchActive || _categoryValidationError ? 1.5 : 1,
+                            : (_smartMatchActive
+                                  ? context.appColors.success
+                                  : context.appColors.cardBorder),
+                        width: _smartMatchActive || _categoryValidationError
+                            ? 1.5
+                            : 1,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: context.appColors.primary, width: 1.5),
+                      borderSide: BorderSide(
+                        color: context.appColors.primary,
+                        width: 1.5,
+                      ),
                     ),
                   ),
                   dropdownColor: context.appColors.surface,
@@ -1209,7 +1268,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     padding: const EdgeInsets.only(top: 6, left: 4),
                     child: Text(
                       l10n.pleaseSelectCategory,
-                      style: TextStyle(fontSize: 12, color: context.appColors.error),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.appColors.error,
+                      ),
                     ),
                   ),
                 if (_smartMatchActive && _selectedCategory != null)
@@ -1217,11 +1279,23 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     padding: const EdgeInsets.only(top: 6, left: 4),
                     child: Row(
                       children: [
-                        Icon(PhosphorIconsDuotone.sparkle, size: 14, color: context.appColors.success),
+                        Icon(
+                          PhosphorIconsDuotone.sparkle,
+                          size: 14,
+                          color: context.appColors.success,
+                        ),
                         const SizedBox(width: 4),
                         Text(
-                          l10n.autoSelected(ExpenseCategory.getLocalizedName(_selectedCategory!, l10n)),
-                          style: TextStyle(fontSize: 12, color: context.appColors.success),
+                          l10n.autoSelected(
+                            ExpenseCategory.getLocalizedName(
+                              _selectedCategory!,
+                              l10n,
+                            ),
+                          ),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: context.appColors.success,
+                          ),
                         ),
                       ],
                     ),
@@ -1249,10 +1323,16 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
           decoration: InputDecoration(
             hintText: l10n.subCategoryOptional,
-            hintStyle: TextStyle(color: context.appColors.textTertiary, fontSize: 14),
+            hintStyle: TextStyle(
+              color: context.appColors.textTertiary,
+              fontSize: 14,
+            ),
             filled: true,
             fillColor: context.appColors.surface,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: context.appColors.cardBorder),
@@ -1263,7 +1343,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: context.appColors.primary, width: 1.5),
+              borderSide: BorderSide(
+                color: context.appColors.primary,
+                width: 1.5,
+              ),
             ),
             suffixIcon: _subCategoryController.text.isNotEmpty
                 ? IconButton(
@@ -1279,7 +1362,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           onChanged: (_) => setState(() {}),
           onTap: () => setState(() => _showSubCategorySuggestions = true),
         ),
-        if (_showSubCategorySuggestions && _subCategorySuggestions != null && !_subCategorySuggestions!.isEmpty)
+        if (_showSubCategorySuggestions &&
+            _subCategorySuggestions != null &&
+            !_subCategorySuggestions!.isEmpty)
           _buildSubCategoryChips(l10n),
       ],
     );
@@ -1423,7 +1508,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             _isMandatory
                 ? PhosphorIconsFill.lockKey
                 : PhosphorIconsDuotone.lockKeyOpen,
-            color: _isMandatory ? context.appColors.info : context.appColors.textTertiary,
+            color: _isMandatory
+                ? context.appColors.info
+                : context.appColors.textTertiary,
           ),
           value: _isMandatory,
           onChanged: (value) => setState(() => _isMandatory = value),
@@ -1477,11 +1564,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               value: _expenseType == ExpenseType.installment,
               onChanged: (value) {
                 setState(() {
-                  _expenseType =
-                      value ? ExpenseType.installment : ExpenseType.single;
+                  _expenseType = value
+                      ? ExpenseType.installment
+                      : ExpenseType.single;
                   _showInstallmentDetails = value;
                   // Auto-copy amount to installment total when toggle is enabled
-                  if (value && _installmentTotalController.text.isEmpty && _amountController.text.isNotEmpty) {
+                  if (value &&
+                      _installmentTotalController.text.isEmpty &&
+                      _amountController.text.isNotEmpty) {
                     _installmentTotalController.text = _amountController.text;
                   }
                 });
@@ -1512,7 +1602,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       decoration: BoxDecoration(
         color: context.appColors.warning.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: context.appColors.warning.withValues(alpha: 0.3)),
+        border: Border.all(
+          color: context.appColors.warning.withValues(alpha: 0.3),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1520,7 +1612,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           // Başlık
           Row(
             children: [
-              Icon(PhosphorIconsDuotone.info, color: context.appColors.warning, size: 18),
+              Icon(
+                PhosphorIconsDuotone.info,
+                color: context.appColors.warning,
+                size: 18,
+              ),
               const SizedBox(width: 8),
               Text(
                 'Taksit Bilgileri',
@@ -1581,10 +1677,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               fillColor: context.appColors.surface,
             ),
             items: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 18, 24, 36]
-                .map((n) => DropdownMenuItem(
-                      value: n,
-                      child: Text('$n taksit'),
-                    ))
+                .map(
+                  (n) => DropdownMenuItem(value: n, child: Text('$n taksit')),
+                )
                 .toList(),
             onChanged: (value) {
               _installmentCountController.text = value?.toString() ?? '';
@@ -1630,11 +1725,15 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
   /// Taksit özet kartı
   Widget _buildInstallmentSummary() {
     final cashPrice = parseTurkishCurrency(_cashPriceController.text);
-    final installmentTotal = parseTurkishCurrency(_installmentTotalController.text);
+    final installmentTotal = parseTurkishCurrency(
+      _installmentTotalController.text,
+    );
     final installmentCount = int.tryParse(_installmentCountController.text);
 
     // Hesaplama yapılamıyorsa boş döndür
-    if (cashPrice == null || installmentTotal == null || installmentCount == null) {
+    if (cashPrice == null ||
+        installmentTotal == null ||
+        installmentCount == null) {
       return const SizedBox.shrink();
     }
     if (cashPrice <= 0 || installmentTotal <= 0 || installmentCount <= 0) {
@@ -1672,8 +1771,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           const SizedBox(height: 12),
 
           _summaryRow(
-              'Aylık taksit:',
-              '${_expenseCurrency.symbol}${formatTurkishCurrency(monthlyPayment, decimalDigits: 0)}'),
+            'Aylık taksit:',
+            '${_expenseCurrency.symbol}${formatTurkishCurrency(monthlyPayment, decimalDigits: 0)}',
+          ),
           _summaryRow('Taksit sayısı:', '$installmentCount ay'),
           Divider(color: context.appColors.cardBorder, height: 16),
           _summaryRow(
@@ -1699,7 +1799,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               ),
               child: Row(
                 children: [
-                  Icon(PhosphorIconsFill.warning, color: context.appColors.error, size: 18),
+                  Icon(
+                    PhosphorIconsFill.warning,
+                    color: context.appColors.error,
+                    size: 18,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -1736,7 +1840,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           Text(
             value,
             style: TextStyle(
-              color: isHighlight ? context.appColors.warning : context.appColors.textPrimary,
+              color: isHighlight
+                  ? context.appColors.warning
+                  : context.appColors.textPrimary,
               fontSize: 13,
               fontWeight: isHighlight ? FontWeight.w600 : FontWeight.normal,
             ),
@@ -1763,11 +1869,17 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             decoration: BoxDecoration(
               color: context.appColors.info.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: context.appColors.info.withValues(alpha: 0.3)),
+              border: Border.all(
+                color: context.appColors.info.withValues(alpha: 0.3),
+              ),
             ),
             child: Row(
               children: [
-                Icon(PhosphorIconsDuotone.info, color: context.appColors.info, size: 20),
+                Icon(
+                  PhosphorIconsDuotone.info,
+                  color: context.appColors.info,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -1788,7 +1900,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [context.appColors.info, context.appColors.info.withValues(alpha: 0.8)],
+                  colors: [
+                    context.appColors.info,
+                    context.appColors.info.withValues(alpha: 0.8),
+                  ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -1875,7 +1990,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     // Alt kategori kaydet (varsa)
     final subCategory = _subCategoryController.text.trim();
     if (subCategory.isNotEmpty && _selectedCategory != null) {
-      await _subCategoryService.addRecentSubCategory(_selectedCategory!, subCategory);
+      await _subCategoryService.addRecentSubCategory(
+        _selectedCategory!,
+        subCategory,
+      );
     }
 
     // Callback ve kapat
@@ -1926,7 +2044,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               onPressed: _cancelDecision,
               style: TextButton.styleFrom(
                 foregroundColor: context.appColors.textSecondary,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
               ),
               child: Text(
                 l10n.cancel,
@@ -2027,7 +2148,9 @@ class _DateChip extends StatelessWidget {
           color: isSelected ? null : Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? Colors.transparent : Colors.white.withValues(alpha: 0.1),
+            color: isSelected
+                ? Colors.transparent
+                : Colors.white.withValues(alpha: 0.1),
             width: 1,
           ),
         ),
@@ -2038,7 +2161,9 @@ class _DateChip extends StatelessWidget {
               Icon(
                 icon,
                 size: 14,
-                color: isSelected ? Colors.white : context.appColors.textSecondary,
+                color: isSelected
+                    ? Colors.white
+                    : context.appColors.textSecondary,
               ),
             if (icon != null && label != null) const SizedBox(width: 6),
             if (label != null)
@@ -2047,7 +2172,9 @@ class _DateChip extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  color: isSelected ? Colors.white : context.appColors.textSecondary,
+                  color: isSelected
+                      ? Colors.white
+                      : context.appColors.textSecondary,
                 ),
               ),
           ],
@@ -2105,7 +2232,9 @@ class _SubCategoryChip extends StatelessWidget {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: isRecent ? FontWeight.w500 : FontWeight.w400,
-                color: isRecent ? context.appColors.primary : context.appColors.textSecondary,
+                color: isRecent
+                    ? context.appColors.primary
+                    : context.appColors.textSecondary,
               ),
             ),
           ],

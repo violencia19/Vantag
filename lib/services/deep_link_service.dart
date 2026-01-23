@@ -76,7 +76,6 @@ class DeepLinkService {
 
   /// Initialize link listening
   Future<void> _initLinks() async {
-
     // Handle initial link (app opened via link)
     try {
       final initialLink = await _appLinks.getInitialLink();
@@ -199,10 +198,8 @@ class DeepLinkService {
     final mappedCategory = VoiceParserService.mapToAppCategory(category);
 
     // Get description
-    final description = params['description'] ??
-                        params['desc'] ??
-                        params['note'] ??
-                        '';
+    final description =
+        params['description'] ?? params['desc'] ?? params['note'] ?? '';
 
     // If we have enough data, add directly
     if (amount != null && amount > 0) {
@@ -264,7 +261,8 @@ class DeepLinkService {
     HapticFeedback.mediumImpact();
 
     // Calculate work time using actual hourly rate from user profile
-    final hourlyRate = _getHourlyRate?.call() ?? 50.0; // Fallback to 50 TL/hr if not set
+    final hourlyRate =
+        _getHourlyRate?.call() ?? 50.0; // Fallback to 50 TL/hr if not set
     final hoursRequired = hourlyRate > 0 ? amount / hourlyRate : 0.0;
     final daysRequired = hoursRequired / 8.0;
 
@@ -374,7 +372,9 @@ class DeepLinkService {
               if (result.amount != null) {
                 _addExpenseDirectly(
                   amount: result.amount!,
-                  category: VoiceParserService.mapToAppCategory(result.category),
+                  category: VoiceParserService.mapToAppCategory(
+                    result.category,
+                  ),
                   description: result.description,
                 );
               }
@@ -601,7 +601,8 @@ class DeepLinkService {
   /// Get all supported URL schemes for documentation
   static Map<String, String> getSupportedSchemes() {
     return {
-      'vantag://add-expense?amount=50&category=food&description=kahve': 'Add expense with details',
+      'vantag://add-expense?amount=50&category=food&description=kahve':
+          'Add expense with details',
       'vantag://quick-add?text=50 lira kahve': 'Quick add with voice text',
       'vantag://quick-add': 'Open voice input screen',
       'vantag://summary': 'Open reports/summary screen',

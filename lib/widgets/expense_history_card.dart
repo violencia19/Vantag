@@ -30,9 +30,18 @@ class ExpenseHistoryCard extends StatelessWidget {
   String _formatDate(BuildContext context, DateTime date) {
     final l10n = AppLocalizations.of(context);
     final months = [
-      l10n.monthJan, l10n.monthFeb, l10n.monthMar, l10n.monthApr,
-      l10n.monthMay, l10n.monthJun, l10n.monthJul, l10n.monthAug,
-      l10n.monthSep, l10n.monthOct, l10n.monthNov, l10n.monthDec
+      l10n.monthJan,
+      l10n.monthFeb,
+      l10n.monthMar,
+      l10n.monthApr,
+      l10n.monthMay,
+      l10n.monthJun,
+      l10n.monthJul,
+      l10n.monthAug,
+      l10n.monthSep,
+      l10n.monthOct,
+      l10n.monthNov,
+      l10n.monthDec,
     ];
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
@@ -296,186 +305,195 @@ class ExpenseHistoryCard extends StatelessWidget {
       label: semanticLabel,
       button: isThinking,
       child: Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: isThinking ? () => _showDecisionDialog(context) : null,
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(16),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                // Decision indicator
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: decisionColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: context.appColors.cardBorder),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: isThinking ? () => _showDecisionDialog(context) : null,
+            borderRadius: BorderRadius.circular(16),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  // Decision indicator
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: decisionColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      _getDecisionIcon(expense.decision),
+                      size: 22,
+                      color: decisionColor,
+                    ),
                   ),
-                  child: Icon(
-                    _getDecisionIcon(expense.decision),
-                    size: 22,
-                    color: decisionColor,
-                  ),
-                ),
-                const SizedBox(width: 16),
+                  const SizedBox(width: 16),
 
-                // Content
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Flexible(
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                '${formatTurkishCurrency(expense.amount, decimalDigits: 2)} TL',
-                                style: AccessibleText.scaled(
-                                  context,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: context.appColors.textPrimary,
-                                  maxScale: 1.4,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Flexible(
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: context.appColors.surfaceLight,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                CategoryUtils.getLocalizedName(context, expense.category),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: context.appColors.textSecondary,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                          // Simulation badge - icon + text
-                          if (expense.isSimulation) ...[
-                            const SizedBox(width: 6),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: context.appColors.warning.withValues(alpha: 0.15),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    PhosphorIconsDuotone.lightning,
-                                    size: 12,
-                                    color: context.appColors.warning,
+                  // Content
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Flexible(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  '${formatTurkishCurrency(expense.amount, decimalDigits: 2)} TL',
+                                  style: AccessibleText.scaled(
+                                    context,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    color: context.appColors.textPrimary,
+                                    maxScale: 1.4,
                                   ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    'Sim',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: context.appColors.surfaceLight,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  CategoryUtils.getLocalizedName(
+                                    context,
+                                    expense.category,
+                                  ),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: context.appColors.textSecondary,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                            // Simulation badge - icon + text
+                            if (expense.isSimulation) ...[
+                              const SizedBox(width: 6),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: context.appColors.warning.withValues(
+                                    alpha: 0.15,
+                                  ),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      PhosphorIconsDuotone.lightning,
+                                      size: 12,
                                       color: context.appColors.warning,
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      'Sim',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w600,
+                                        color: context.appColors.warning,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
+                            ],
                           ],
-                        ],
-                      ),
-                      const SizedBox(height: 6),
-                      Row(
-                        children: [
-                          Icon(
-                            PhosphorIconsDuotone.clock,
-                            size: 14,
-                            color: context.appColors.textTertiary,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            '${expense.hoursRequired.toStringAsFixed(1)}s / ${expense.daysRequired.toStringAsFixed(1)}g',
-                            style: TextStyle(
-                              fontSize: 13,
+                        ),
+                        const SizedBox(height: 6),
+                        Row(
+                          children: [
+                            Icon(
+                              PhosphorIconsDuotone.clock,
+                              size: 14,
                               color: context.appColors.textTertiary,
                             ),
-                          ),
-                          if (isThinking) ...[
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 4),
                             Text(
-                              l10n.tapToUpdate,
+                              '${expense.hoursRequired.toStringAsFixed(1)}s / ${expense.daysRequired.toStringAsFixed(1)}g',
                               style: TextStyle(
-                                fontSize: 11,
-                                color: context.appColors.decisionThinking.withValues(alpha: 0.8),
-                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
+                                color: context.appColors.textTertiary,
                               ),
                             ),
+                            if (isThinking) ...[
+                              const SizedBox(width: 12),
+                              Text(
+                                l10n.tapToUpdate,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: context.appColors.decisionThinking
+                                      .withValues(alpha: 0.8),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
                           ],
-                        ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Right side
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        _formatDate(context, expense.date),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: context.appColors.textTertiary,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      GestureDetector(
+                        onTap: () => _showOptionsMenu(context),
+                        behavior: HitTestBehavior.opaque,
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: context.appColors.surfaceLight,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            PhosphorIconsDuotone.dotsThree,
+                            size: 20,
+                            color: context.appColors.textSecondary,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                ),
-
-                // Right side
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      _formatDate(context, expense.date),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: context.appColors.textTertiary,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    GestureDetector(
-                      onTap: () => _showOptionsMenu(context),
-                      behavior: HitTestBehavior.opaque,
-                      child: Container(
-                        width: 44,
-                        height: 44,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: context.appColors.surfaceLight,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Icon(
-                          PhosphorIconsDuotone.dotsThree,
-                          size: 20,
-                          color: context.appColors.textSecondary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
-    ),
     );
 
     // Swipe actions with flutter_slidable
@@ -505,7 +523,9 @@ class ExpenseHistoryCard extends StatelessWidget {
             ),
           ),
         Slidable(
-          key: ValueKey('expense_${expense.amount}_${expense.date.toIso8601String()}'),
+          key: ValueKey(
+            'expense_${expense.amount}_${expense.date.toIso8601String()}',
+          ),
 
           // Swipe right → Edit (Blue)
           startActionPane: ActionPane(
@@ -589,45 +609,44 @@ class ExpenseHistoryCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: context.appColors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        title: Text(
-          l10n.deleteExpense,
-          style: TextStyle(
-            color: context.appColors.textPrimary,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        content: Text(
-          l10n.deleteExpenseConfirm,
-          style: TextStyle(
-            color: context.appColors.textSecondary,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(
-              l10n.cancel,
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: context.appColors.surface,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            title: Text(
+              l10n.deleteExpense,
+              style: TextStyle(
+                color: context.appColors.textPrimary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            content: Text(
+              l10n.deleteExpenseConfirm,
               style: TextStyle(color: context.appColors.textSecondary),
             ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(
+                  l10n.cancel,
+                  style: TextStyle(color: context.appColors.textSecondary),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  HapticFeedback.mediumImpact();
+                  Navigator.pop(context, true);
+                },
+                style: TextButton.styleFrom(
+                  foregroundColor: context.appColors.error,
+                ),
+                child: Text(l10n.delete),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              HapticFeedback.mediumImpact();
-              Navigator.pop(context, true);
-            },
-            style: TextButton.styleFrom(
-              foregroundColor: context.appColors.error,
-            ),
-            child: Text(l10n.delete),
-          ),
-        ],
-      ),
-    ) ?? false;
+        ) ??
+        false;
   }
 }

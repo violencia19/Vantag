@@ -25,26 +25,26 @@ class ExchangeRates {
   });
 
   Map<String, dynamic> toJson() => {
-        'usdBuying': usdBuying,
-        'usdSelling': usdSelling,
-        'eurBuying': eurBuying,
-        'eurSelling': eurSelling,
-        'goldBuying': goldBuying,
-        'goldSelling': goldSelling,
-        'lastUpdated': lastUpdated.toIso8601String(),
-        'goldFromApi': goldFromApi,
-      };
+    'usdBuying': usdBuying,
+    'usdSelling': usdSelling,
+    'eurBuying': eurBuying,
+    'eurSelling': eurSelling,
+    'goldBuying': goldBuying,
+    'goldSelling': goldSelling,
+    'lastUpdated': lastUpdated.toIso8601String(),
+    'goldFromApi': goldFromApi,
+  };
 
   factory ExchangeRates.fromJson(Map<String, dynamic> json) => ExchangeRates(
-        usdBuying: (json['usdBuying'] as num).toDouble(),
-        usdSelling: (json['usdSelling'] as num).toDouble(),
-        eurBuying: (json['eurBuying'] as num).toDouble(),
-        eurSelling: (json['eurSelling'] as num).toDouble(),
-        goldBuying: (json['goldBuying'] as num).toDouble(),
-        goldSelling: (json['goldSelling'] as num).toDouble(),
-        lastUpdated: DateTime.parse(json['lastUpdated'] as String),
-        goldFromApi: json['goldFromApi'] as bool? ?? true,
-      );
+    usdBuying: (json['usdBuying'] as num).toDouble(),
+    usdSelling: (json['usdSelling'] as num).toDouble(),
+    eurBuying: (json['eurBuying'] as num).toDouble(),
+    eurSelling: (json['eurSelling'] as num).toDouble(),
+    goldBuying: (json['goldBuying'] as num).toDouble(),
+    goldSelling: (json['goldSelling'] as num).toDouble(),
+    lastUpdated: DateTime.parse(json['lastUpdated'] as String),
+    goldFromApi: json['goldFromApi'] as bool? ?? true,
+  );
 
   // Ortalama kurlar
   double get usdRate => (usdBuying + usdSelling) / 2;
@@ -73,13 +73,12 @@ class CurrencyService {
   Future<ExchangeRates?> fetchRates() async {
     try {
       // TCMB'den döviz kurlarını al
-      final tcmbResponse = await http.get(
-        Uri.parse(_tcmbUrl),
-        headers: {
-          'Accept': 'application/xml',
-          'User-Agent': 'Mozilla/5.0',
-        },
-      ).timeout(const Duration(seconds: 10));
+      final tcmbResponse = await http
+          .get(
+            Uri.parse(_tcmbUrl),
+            headers: {'Accept': 'application/xml', 'User-Agent': 'Mozilla/5.0'},
+          )
+          .timeout(const Duration(seconds: 10));
 
       if (tcmbResponse.statusCode != 200) {
         return null;
@@ -107,13 +106,15 @@ class CurrencyService {
         return cachedGold;
       }
 
-      final response = await http.get(
-        Uri.parse(_truncgilUrl),
-        headers: {
-          'Accept': 'application/json',
-          'User-Agent': 'Mozilla/5.0',
-        },
-      ).timeout(const Duration(seconds: 10));
+      final response = await http
+          .get(
+            Uri.parse(_truncgilUrl),
+            headers: {
+              'Accept': 'application/json',
+              'User-Agent': 'Mozilla/5.0',
+            },
+          )
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode != 200) {
         return await _getLastCachedGoldPrice();

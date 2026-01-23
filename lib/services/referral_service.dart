@@ -23,9 +23,9 @@ class ReferralService {
   /// Get current user's IP address
   Future<String?> _getIPAddress() async {
     try {
-      final response = await http.get(
-        Uri.parse('https://api.ipify.org?format=json'),
-      ).timeout(const Duration(seconds: 5));
+      final response = await http
+          .get(Uri.parse('https://api.ipify.org?format=json'))
+          .timeout(const Duration(seconds: 5));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -93,7 +93,9 @@ class ReferralService {
       debugPrint('[ReferralService] Accounts with same IP: $accountCount');
 
       if (accountCount >= _maxAccountsPerIP) {
-        debugPrint('[ReferralService] IP abuse detected: $accountCount accounts from same IP');
+        debugPrint(
+          '[ReferralService] IP abuse detected: $accountCount accounts from same IP',
+        );
         return false;
       }
 
@@ -110,10 +112,7 @@ class ReferralService {
   Future<ReferralResult> applyReferralCode(String referralCode) async {
     final user = _auth.currentUser;
     if (user == null) {
-      return ReferralResult(
-        success: false,
-        message: 'User not logged in',
-      );
+      return ReferralResult(success: false, message: 'User not logged in');
     }
 
     // Check if user already used a referral code
@@ -143,10 +142,7 @@ class ReferralService {
         .get();
 
     if (referrerQuery.docs.isEmpty) {
-      return ReferralResult(
-        success: false,
-        message: 'Invalid referral code',
-      );
+      return ReferralResult(success: false, message: 'Invalid referral code');
     }
 
     final referrerId = referrerQuery.docs.first.id;
@@ -187,9 +183,13 @@ class ReferralService {
           trialStartDate: DateTime.now(),
           trialDays: 7,
         );
-        debugPrint('[ReferralService] Trial notifications scheduled for 7 days');
+        debugPrint(
+          '[ReferralService] Trial notifications scheduled for 7 days',
+        );
       } catch (e) {
-        debugPrint('[ReferralService] Error scheduling trial notifications: $e');
+        debugPrint(
+          '[ReferralService] Error scheduling trial notifications: $e',
+        );
       }
 
       // Referrer gets bonus when referee adds first expense
@@ -201,10 +201,7 @@ class ReferralService {
       );
     } catch (e) {
       debugPrint('[ReferralService] Error applying referral: $e');
-      return ReferralResult(
-        success: false,
-        message: 'Error applying referral',
-      );
+      return ReferralResult(success: false, message: 'Error applying referral');
     }
   }
 
@@ -265,7 +262,10 @@ class ReferralService {
   Future<void> rewardReferrerOnFirstExpense(String refereeId) async {
     try {
       // Check if referee was referred by someone
-      final refereeDoc = await _firestore.collection('users').doc(refereeId).get();
+      final refereeDoc = await _firestore
+          .collection('users')
+          .doc(refereeId)
+          .get();
       if (!refereeDoc.exists) return;
 
       final referrerId = refereeDoc.data()?['referredBy'] as String?;
@@ -303,7 +303,9 @@ class ReferralService {
         await doc.reference.update({'referrerBonusGranted': true});
       }
 
-      debugPrint('[ReferralService] Referrer $referrerId rewarded for referral');
+      debugPrint(
+        '[ReferralService] Referrer $referrerId rewarded for referral',
+      );
     } catch (e) {
       debugPrint('[ReferralService] Error rewarding referrer: $e');
     }
@@ -368,8 +370,5 @@ class ReferralStats {
   final int totalReferrals;
   final int bonusDaysEarned;
 
-  ReferralStats({
-    required this.totalReferrals,
-    required this.bonusDaysEarned,
-  });
+  ReferralStats({required this.totalReferrals, required this.bonusDaysEarned});
 }

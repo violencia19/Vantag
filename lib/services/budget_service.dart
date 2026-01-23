@@ -97,12 +97,13 @@ class BudgetService extends ChangeNotifier {
   /// Her taksit için: toplam vade farkı / taksit sayısı
   double get totalInterestPaid {
     return _currentMonthExpenses
-        .where((e) =>
-            e.type == ExpenseType.installment &&
-            e.installmentCount != null &&
-            e.installmentCount! > 0)
-        .fold(
-            0.0, (sum, e) => sum + (e.interestAmount / e.installmentCount!));
+        .where(
+          (e) =>
+              e.type == ExpenseType.installment &&
+              e.installmentCount != null &&
+              e.installmentCount! > 0,
+        )
+        .fold(0.0, (sum, e) => sum + (e.interestAmount / e.installmentCount!));
   }
 
   // ═══════════════════════════════════════════════════════════════
@@ -200,8 +201,7 @@ class BudgetService extends ChangeNotifier {
 
   /// Aylık toplam taksit yükü
   double get monthlyInstallmentBurden {
-    return activeInstallments.fold(
-        0.0, (sum, e) => sum + e.installmentAmount);
+    return activeInstallments.fold(0.0, (sum, e) => sum + e.installmentAmount);
   }
 
   /// Toplam kalan taksit borcu
@@ -214,8 +214,7 @@ class BudgetService extends ChangeNotifier {
 
   /// Toplam vade farkı (tüm aktif taksitler)
   double get totalInterestAmount {
-    return activeInstallments.fold(
-        0.0, (sum, e) => sum + e.interestAmount);
+    return activeInstallments.fold(0.0, (sum, e) => sum + e.interestAmount);
   }
 
   /// Toplam vade farkının saat karşılığı
@@ -241,16 +240,16 @@ class BudgetService extends ChangeNotifier {
 
   /// Özet bilgi (debug/logging için)
   Map<String, dynamic> get summary => {
-        'totalBudget': totalBudget,
-        'savingsGoal': savingsGoal,
-        'mandatoryExpenses': mandatoryExpenses,
-        'discretionaryExpenses': discretionaryExpenses,
-        'availableBudget': availableBudget,
-        'remainingBudget': remainingBudget,
-        'budgetUsagePercent': budgetUsagePercent,
-        'hourlyRate': hourlyRate,
-        'remainingHours': remainingHours,
-        'activeInstallments': activeInstallmentCount,
-        'monthlyInstallmentBurden': monthlyInstallmentBurden,
-      };
+    'totalBudget': totalBudget,
+    'savingsGoal': savingsGoal,
+    'mandatoryExpenses': mandatoryExpenses,
+    'discretionaryExpenses': discretionaryExpenses,
+    'availableBudget': availableBudget,
+    'remainingBudget': remainingBudget,
+    'budgetUsagePercent': budgetUsagePercent,
+    'hourlyRate': hourlyRate,
+    'remainingHours': remainingHours,
+    'activeInstallments': activeInstallmentCount,
+    'monthlyInstallmentBurden': monthlyInstallmentBurden,
+  };
 }

@@ -78,7 +78,8 @@ class OnboardingPursuitScreen extends StatefulWidget {
   const OnboardingPursuitScreen({super.key});
 
   @override
-  State<OnboardingPursuitScreen> createState() => _OnboardingPursuitScreenState();
+  State<OnboardingPursuitScreen> createState() =>
+      _OnboardingPursuitScreenState();
 }
 
 class _OnboardingPursuitScreenState extends State<OnboardingPursuitScreen>
@@ -109,7 +110,10 @@ class _OnboardingPursuitScreenState extends State<OnboardingPursuitScreen>
     super.dispose();
   }
 
-  Future<void> _savePendingPursuit(_PresetGoal goal, AppLocalizations l10n) async {
+  Future<void> _savePendingPursuit(
+    _PresetGoal goal,
+    AppLocalizations l10n,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(PendingPursuitKeys.hasPending, true);
     await prefs.setString(PendingPursuitKeys.goalId, goal.id);
@@ -132,7 +136,9 @@ class _OnboardingPursuitScreenState extends State<OnboardingPursuitScreen>
     HapticFeedback.mediumImpact();
 
     final l10n = AppLocalizations.of(context);
-    final selectedGoal = _presetGoals.firstWhere((g) => g.id == _selectedGoalId);
+    final selectedGoal = _presetGoals.firstWhere(
+      (g) => g.id == _selectedGoalId,
+    );
 
     // Save pending pursuit for MainScreen to create
     await _savePendingPursuit(selectedGoal, l10n);
@@ -255,7 +261,9 @@ class _OnboardingPursuitScreenState extends State<OnboardingPursuitScreen>
                         boxShadow: _selectedGoalId != null
                             ? [
                                 BoxShadow(
-                                  color: context.appColors.primary.withValues(alpha: 0.3),
+                                  color: context.appColors.primary.withValues(
+                                    alpha: 0.3,
+                                  ),
                                   blurRadius: 20,
                                   offset: const Offset(0, 8),
                                 ),
@@ -362,7 +370,9 @@ class _GoalCard extends StatelessWidget {
                         height: 56,
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? context.appColors.primary.withValues(alpha: 0.15)
+                              ? context.appColors.primary.withValues(
+                                  alpha: 0.15,
+                                )
                               : context.appColors.surfaceLight,
                           borderRadius: BorderRadius.circular(16),
                         ),

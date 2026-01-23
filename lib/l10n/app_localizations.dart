@@ -5240,6 +5240,48 @@ abstract class AppLocalizations {
   /// **'Microphone permission denied'**
   String get microphonePermissionDenied;
 
+  /// No description provided for @microphonePermissionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone permission required'**
+  String get microphonePermissionRequired;
+
+  /// No description provided for @networkRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Internet connection required'**
+  String get networkRequired;
+
+  /// No description provided for @understanding.
+  ///
+  /// In en, this message translates to:
+  /// **'Understanding...'**
+  String get understanding;
+
+  /// No description provided for @couldNotUnderstandTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not understand, try again'**
+  String get couldNotUnderstandTryAgain;
+
+  /// No description provided for @couldNotUnderstandSayAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not understand, say again'**
+  String get couldNotUnderstandSayAgain;
+
+  /// No description provided for @sayAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Say again'**
+  String get sayAgain;
+
+  /// No description provided for @yesSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, save'**
+  String get yesSave;
+
   /// No description provided for @voiceExpenseAdded.
   ///
   /// In en, this message translates to:
@@ -7839,6 +7881,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Free accounts can have 1 active goal. Go premium for unlimited goals!'**
   String get pursuitLimitReachedFree;
+
+  /// No description provided for @pursuitNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a name'**
+  String get pursuitNameRequired;
+
+  /// No description provided for @pursuitAmountRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter an amount'**
+  String get pursuitAmountRequired;
+
+  /// No description provided for @pursuitAmountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid amount'**
+  String get pursuitAmountInvalid;
 
   /// No description provided for @exportPremiumOnly.
   ///

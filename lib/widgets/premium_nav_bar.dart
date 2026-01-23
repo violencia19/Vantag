@@ -42,14 +42,12 @@ class PremiumNavBar extends StatelessWidget {
                   : const Color(0xF2FFFFFF), // Light: rgba(255,255,255,0.95)
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: isDark
-                    ? Colors.white.withValues(alpha: 0.05)
-                    : Colors.black.withValues(alpha: 0.08),
+                color: context.appColors.cardBorder,
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.15),
+                  color: context.appColors.cardShadow,
                   blurRadius: 25,
                   offset: const Offset(0, 8),
                 ),
@@ -135,50 +133,50 @@ class _NavItem extends StatelessWidget {
         },
         behavior: HitTestBehavior.opaque,
         child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOutCubic,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: isActive
-              ? colors.primary.withValues(alpha: 0.15)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: isActive
-              ? [
-                  BoxShadow(
-                    color: colors.primary.withValues(alpha: 0.3),
-                    blurRadius: 12,
-                    spreadRadius: -2,
-                  ),
-                ]
-              : null,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            PhosphorIcon(
-              icon,
-              size: 24,
-              color: isActive ? colors.primary : colors.textTertiary,
-              duotoneSecondaryColor: isActive
-                  ? colors.primary.withValues(alpha: 0.4)
-                  : colors.textTertiary.withValues(alpha: 0.3),
-            ),
-            const SizedBox(height: 4),
-            AnimatedDefaultTextStyle(
-              duration: const Duration(milliseconds: 200),
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: isActive
+                ? colors.primary.withValues(alpha: 0.15)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: isActive
+                ? [
+                    BoxShadow(
+                      color: colors.primary.withValues(alpha: 0.3),
+                      blurRadius: 12,
+                      spreadRadius: -2,
+                    ),
+                  ]
+                : null,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PhosphorIcon(
+                icon,
+                size: 24,
                 color: isActive ? colors.primary : colors.textTertiary,
-                letterSpacing: 0.3,
+                duotoneSecondaryColor: isActive
+                    ? colors.primary.withValues(alpha: 0.4)
+                    : colors.textTertiary.withValues(alpha: 0.3),
               ),
-              child: Text(label),
-            ),
-          ],
+              const SizedBox(height: 4),
+              AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 200),
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+                  color: isActive ? colors.primary : colors.textTertiary,
+                  letterSpacing: 0.3,
+                ),
+                child: Text(label),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }
@@ -205,9 +203,10 @@ class _CenterAddButtonState extends State<_CenterAddButton>
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.92).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.92,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -252,7 +251,9 @@ class _CenterAddButtonState extends State<_CenterAddButton>
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: context.appColors.primary.withValues(alpha: _isPressed ? 0.3 : 0.5),
+                    color: context.appColors.primary.withValues(
+                      alpha: _isPressed ? 0.3 : 0.5,
+                    ),
                     blurRadius: _isPressed ? 15 : 25,
                     offset: Offset(0, _isPressed ? 4 : 8),
                   ),
@@ -340,7 +341,9 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                       boxShadow: widget.isActive
                           ? [
                               BoxShadow(
-                                color: context.appColors.primary.withValues(alpha: 0.3),
+                                color: context.appColors.primary.withValues(
+                                  alpha: 0.3,
+                                ),
                                 blurRadius: 8,
                               ),
                             ]
@@ -380,8 +383,9 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: widget.isActive ? FontWeight.w600 : FontWeight.w500,
-                color:
-                    widget.isActive ? context.appColors.primary : context.appColors.textTertiary,
+                color: widget.isActive
+                    ? context.appColors.primary
+                    : context.appColors.textTertiary,
               ),
               child: Text(widget.label),
             ),
@@ -426,14 +430,12 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   : const Color(0xF2FFFFFF), // Light: rgba(255,255,255,0.95)
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: isDark
-                    ? Colors.white.withValues(alpha: 0.05)
-                    : Colors.black.withValues(alpha: 0.08),
+                color: context.appColors.cardBorder,
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.15),
+                  color: context.appColors.cardShadow,
                   blurRadius: 25,
                   offset: const Offset(0, 8),
                 ),

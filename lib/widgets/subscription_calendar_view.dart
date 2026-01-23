@@ -18,7 +18,8 @@ class SubscriptionCalendarView extends StatefulWidget {
   });
 
   @override
-  State<SubscriptionCalendarView> createState() => _SubscriptionCalendarViewState();
+  State<SubscriptionCalendarView> createState() =>
+      _SubscriptionCalendarViewState();
 }
 
 class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
@@ -26,14 +27,29 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
   late Map<int, List<Subscription>> _subscriptionsByDay;
 
   List<String> _getWeekDays(AppLocalizations l10n) => [
-    l10n.weekdayMon, l10n.weekdayTue, l10n.weekdayWed, l10n.weekdayThu,
-    l10n.weekdayFri, l10n.weekdaySat, l10n.weekdaySun
+    l10n.weekdayMon,
+    l10n.weekdayTue,
+    l10n.weekdayWed,
+    l10n.weekdayThu,
+    l10n.weekdayFri,
+    l10n.weekdaySat,
+    l10n.weekdaySun,
   ];
 
   List<String> _getMonthNames(AppLocalizations l10n) => [
-    '', l10n.monthJan, l10n.monthFeb, l10n.monthMar, l10n.monthApr,
-    l10n.monthMay, l10n.monthJun, l10n.monthJul, l10n.monthAug,
-    l10n.monthSep, l10n.monthOct, l10n.monthNov, l10n.monthDec
+    '',
+    l10n.monthJan,
+    l10n.monthFeb,
+    l10n.monthMar,
+    l10n.monthApr,
+    l10n.monthMay,
+    l10n.monthJun,
+    l10n.monthJul,
+    l10n.monthAug,
+    l10n.monthSep,
+    l10n.monthOct,
+    l10n.monthNov,
+    l10n.monthDec,
   ];
 
   @override
@@ -81,7 +97,11 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final daysInMonth = DateTime(_currentMonth.year, _currentMonth.month + 1, 0).day;
+    final daysInMonth = DateTime(
+      _currentMonth.year,
+      _currentMonth.month + 1,
+      0,
+    ).day;
     final firstDayOfWeek = _currentMonth.weekday; // 1 = Monday
     final weekDays = _getWeekDays(l10n);
     final monthNames = _getMonthNames(l10n);
@@ -119,18 +139,22 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
 
         // Weekday headers
         Row(
-          children: weekDays.map((day) => Expanded(
-            child: Center(
-              child: Text(
-                day,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: context.appColors.textTertiary,
+          children: weekDays
+              .map(
+                (day) => Expanded(
+                  child: Center(
+                    child: Text(
+                      day,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: context.appColors.textTertiary,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          )).toList(),
+              )
+              .toList(),
         ),
         const SizedBox(height: 12),
 
@@ -142,7 +166,8 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
 
   Widget _buildCalendarGrid(int daysInMonth, int firstDayOfWeek) {
     final now = DateTime.now();
-    final isCurrentMonth = _currentMonth.year == now.year && _currentMonth.month == now.month;
+    final isCurrentMonth =
+        _currentMonth.year == now.year && _currentMonth.month == now.month;
 
     // Toplam hücre sayısı: önceki aydan boşluklar + bu ayın günleri
     final totalCells = firstDayOfWeek - 1 + daysInMonth;
@@ -165,9 +190,7 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
               final isToday = isCurrentMonth && dayNumber == now.day;
               final subs = _subscriptionsByDay[dayNumber] ?? [];
 
-              return Expanded(
-                child: _buildDayCell(dayNumber, isToday, subs),
-              );
+              return Expanded(child: _buildDayCell(dayNumber, isToday, subs));
             }),
           ),
         );
@@ -179,10 +202,12 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
     final hasSubscriptions = subs.isNotEmpty;
 
     return GestureDetector(
-      onTap: hasSubscriptions ? () {
-        HapticFeedback.lightImpact();
-        widget.onDayTap(day, subs);
-      } : null,
+      onTap: hasSubscriptions
+          ? () {
+              HapticFeedback.lightImpact();
+              widget.onDayTap(day, subs);
+            }
+          : null,
       child: Container(
         height: 56,
         margin: const EdgeInsets.symmetric(horizontal: 2),
@@ -190,8 +215,8 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
           color: isToday
               ? context.appColors.primary.withValues(alpha: 0.2)
               : hasSubscriptions
-                  ? context.appColors.surface.withValues(alpha: 0.5)
-                  : Colors.transparent,
+              ? context.appColors.surface.withValues(alpha: 0.5)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
           border: isToday
               ? Border.all(color: context.appColors.primary, width: 1.5)
@@ -205,12 +230,14 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
               '$day',
               style: TextStyle(
                 fontSize: 14,
-                fontWeight: isToday || hasSubscriptions ? FontWeight.w600 : FontWeight.w400,
+                fontWeight: isToday || hasSubscriptions
+                    ? FontWeight.w600
+                    : FontWeight.w400,
                 color: isToday
                     ? context.appColors.primary
                     : hasSubscriptions
-                        ? context.appColors.textPrimary
-                        : context.appColors.textTertiary,
+                    ? context.appColors.textPrimary
+                    : context.appColors.textTertiary,
               ),
             ),
             if (hasSubscriptions) ...[
@@ -232,15 +259,14 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ...displaySubs.map((sub) => Container(
-          width: 6,
-          height: 6,
-          margin: const EdgeInsets.symmetric(horizontal: 1),
-          decoration: BoxDecoration(
-            color: sub.color,
-            shape: BoxShape.circle,
+        ...displaySubs.map(
+          (sub) => Container(
+            width: 6,
+            height: 6,
+            margin: const EdgeInsets.symmetric(horizontal: 1),
+            decoration: BoxDecoration(color: sub.color, shape: BoxShape.circle),
           ),
-        )),
+        ),
         if (hasMore)
           Container(
             width: 6,
@@ -253,11 +279,7 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
             child: const Center(
               child: Text(
                 '+',
-                style: TextStyle(
-                  fontSize: 6,
-                  color: Colors.white,
-                  height: 1,
-                ),
+                style: TextStyle(fontSize: 6, color: Colors.white, height: 1),
               ),
             ),
           ),

@@ -43,11 +43,9 @@ class TurkishCurrencyTextField extends StatelessWidget {
           maxIntegerDigits: maxIntegerDigits,
         ),
       ],
-      decoration: decoration ??
-          InputDecoration(
-            labelText: label,
-            hintText: hint ?? 'Tutar (₺)',
-          ),
+      decoration:
+          decoration ??
+          InputDecoration(labelText: label, hintText: hint ?? 'Tutar (₺)'),
       onChanged: (value) {
         if (onChanged != null) {
           onChanged!(parseAmount(value));
@@ -137,10 +135,7 @@ class _PremiumAmountInputState extends State<PremiumAmountInput> {
       enabled: widget.enabled,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [
-        PremiumCurrencyFormatter(
-          maxIntegerDigits: 12,
-          allowDecimals: true,
-        ),
+        PremiumCurrencyFormatter(maxIntegerDigits: 12, allowDecimals: true),
       ],
       style: TextStyle(
         fontSize: 24,
@@ -172,7 +167,10 @@ class _PremiumAmountInputState extends State<PremiumAmountInput> {
         ),
         filled: true,
         fillColor: accentColor.withValues(alpha: 0.05),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 16,
+        ),
       ),
       onChanged: (value) {
         widget.onChanged?.call(parseAmount(value));

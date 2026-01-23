@@ -88,15 +88,15 @@ enum ExpenseStatus {
 /// Wealth Coach: Kategori bazlı eşik değerleri (Smart Choice için varsayılan tutarlar)
 class CategoryThresholds {
   static const Map<String, double> defaults = {
-    'Yiyecek': 150.0,      // Kahve yerine evde demle
-    'Ulaşım': 100.0,       // Taksi yerine toplu taşıma
-    'Giyim': 500.0,        // Marka yerine alternatif
-    'Elektronik': 2000.0,  // Yeni model yerine eski
-    'Eğlence': 200.0,      // Sinema yerine evde film
-    'Sağlık': 100.0,       // Vitamin vs
-    'Eğitim': 300.0,       // Kurs alternatifleri
-    'Faturalar': 200.0,    // Paket downgrade
-    'Abonelik': 100.0,     // Abonelik harcaması
+    'Yiyecek': 150.0, // Kahve yerine evde demle
+    'Ulaşım': 100.0, // Taksi yerine toplu taşıma
+    'Giyim': 500.0, // Marka yerine alternatif
+    'Elektronik': 2000.0, // Yeni model yerine eski
+    'Eğlence': 200.0, // Sinema yerine evde film
+    'Sağlık': 100.0, // Vitamin vs
+    'Eğitim': 300.0, // Kurs alternatifleri
+    'Faturalar': 200.0, // Paket downgrade
+    'Abonelik': 100.0, // Abonelik harcaması
     'Diğer': 150.0,
   };
 
@@ -108,16 +108,16 @@ class CategoryThresholds {
 /// Wealth Coach: Kategori bazlı düşünme süreleri (saat cinsinden)
 class ThinkingDurations {
   static const Map<String, int> hours = {
-    'Yiyecek': 24,         // 1 gün - hızlı karar
-    'Ulaşım': 48,          // 2 gün
-    'Giyim': 72,           // 3 gün
-    'Elektronik': 168,     // 7 gün - büyük alım
-    'Eğlence': 48,         // 2 gün
-    'Sağlık': 24,          // 1 gün - acil olabilir
-    'Eğitim': 120,         // 5 gün
-    'Faturalar': 72,       // 3 gün
-    'Abonelik': 24,        // 1 gün - otomatik kayıt
-    'Diğer': 48,           // 2 gün
+    'Yiyecek': 24, // 1 gün - hızlı karar
+    'Ulaşım': 48, // 2 gün
+    'Giyim': 72, // 3 gün
+    'Elektronik': 168, // 7 gün - büyük alım
+    'Eğlence': 48, // 2 gün
+    'Sağlık': 24, // 1 gün - acil olabilir
+    'Eğitim': 120, // 5 gün
+    'Faturalar': 72, // 3 gün
+    'Abonelik': 24, // 1 gün - otomatik kayıt
+    'Diğer': 48, // 2 gün
   };
 
   static int getHours(String category) {
@@ -142,13 +142,13 @@ class Expense {
 
   // Wealth Coach: Yeni alanlar
   final ExpenseStatus status;
-  final double? savedFrom;        // Smart Choice için alternatif tutar
-  final bool isSmartChoice;       // Smart Choice toggle kullanıldı mı
-  final DateTime? archivedAt;     // Arşivlenme tarihi
-  final String? archiveReason;    // Arşivlenme nedeni
+  final double? savedFrom; // Smart Choice için alternatif tutar
+  final bool isSmartChoice; // Smart Choice toggle kullanıldı mı
+  final DateTime? archivedAt; // Arşivlenme tarihi
+  final String? archiveReason; // Arşivlenme nedeni
 
   // Multi-currency: Orijinal para birimi bilgisi
-  final double? originalAmount;   // Girilen tutar (farklı para biriminde)
+  final double? originalAmount; // Girilen tutar (farklı para biriminde)
   final String? originalCurrency; // Girilen para birimi kodu (USD, EUR, vb.)
 
   // Gider tipi ve zorunluluk
@@ -156,10 +156,10 @@ class Expense {
   final bool isMandatory; // Zorunlu gider mi? (kira, fatura, kredi)
 
   // Taksit bilgileri
-  final int? installmentCount;        // Toplam taksit sayısı
-  final int? currentInstallment;      // Şu anki taksit (1, 2, 3...)
-  final double? cashPrice;            // Peşin fiyat
-  final double? installmentTotal;     // Taksitli toplam (vade farkı dahil)
+  final int? installmentCount; // Toplam taksit sayısı
+  final int? currentInstallment; // Şu anki taksit (1, 2, 3...)
+  final double? cashPrice; // Peşin fiyat
+  final double? installmentTotal; // Taksitli toplam (vade farkı dahil)
   final DateTime? installmentStartDate; // Taksit başlangıç tarihi
 
   const Expense({
@@ -197,7 +197,9 @@ class Expense {
   // Taksit getter'ları
   /// Aylık taksit tutarı
   double get installmentAmount {
-    if (installmentTotal != null && installmentCount != null && installmentCount! > 0) {
+    if (installmentTotal != null &&
+        installmentCount != null &&
+        installmentCount! > 0) {
       return installmentTotal! / installmentCount!;
     }
     return amount;
@@ -327,90 +329,90 @@ class Expense {
   }
 
   Map<String, dynamic> toJson() => {
-        'amount': amount,
-        'category': category,
-        if (subCategory != null) 'subCategory': subCategory,
-        'date': date.toIso8601String(),
-        'hoursRequired': hoursRequired,
-        'daysRequired': daysRequired,
-        'decision': decision?.name,
-        'decisionDate': decisionDate?.toIso8601String(),
-        'recordType': recordType.name,
-        // Wealth Coach: Yeni alanlar
-        'status': status.name,
-        if (savedFrom != null) 'savedFrom': savedFrom,
-        'isSmartChoice': isSmartChoice,
-        if (archivedAt != null) 'archivedAt': archivedAt!.toIso8601String(),
-        if (archiveReason != null) 'archiveReason': archiveReason,
-        // Multi-currency
-        if (originalAmount != null) 'originalAmount': originalAmount,
-        if (originalCurrency != null) 'originalCurrency': originalCurrency,
-        // Gider tipi ve taksit
-        'type': type.name,
-        'isMandatory': isMandatory,
-        if (installmentCount != null) 'installmentCount': installmentCount,
-        if (currentInstallment != null) 'currentInstallment': currentInstallment,
-        if (cashPrice != null) 'cashPrice': cashPrice,
-        if (installmentTotal != null) 'installmentTotal': installmentTotal,
-        if (installmentStartDate != null)
-          'installmentStartDate': installmentStartDate!.toIso8601String(),
-      };
+    'amount': amount,
+    'category': category,
+    if (subCategory != null) 'subCategory': subCategory,
+    'date': date.toIso8601String(),
+    'hoursRequired': hoursRequired,
+    'daysRequired': daysRequired,
+    'decision': decision?.name,
+    'decisionDate': decisionDate?.toIso8601String(),
+    'recordType': recordType.name,
+    // Wealth Coach: Yeni alanlar
+    'status': status.name,
+    if (savedFrom != null) 'savedFrom': savedFrom,
+    'isSmartChoice': isSmartChoice,
+    if (archivedAt != null) 'archivedAt': archivedAt!.toIso8601String(),
+    if (archiveReason != null) 'archiveReason': archiveReason,
+    // Multi-currency
+    if (originalAmount != null) 'originalAmount': originalAmount,
+    if (originalCurrency != null) 'originalCurrency': originalCurrency,
+    // Gider tipi ve taksit
+    'type': type.name,
+    'isMandatory': isMandatory,
+    if (installmentCount != null) 'installmentCount': installmentCount,
+    if (currentInstallment != null) 'currentInstallment': currentInstallment,
+    if (cashPrice != null) 'cashPrice': cashPrice,
+    if (installmentTotal != null) 'installmentTotal': installmentTotal,
+    if (installmentStartDate != null)
+      'installmentStartDate': installmentStartDate!.toIso8601String(),
+  };
 
   factory Expense.fromJson(Map<String, dynamic> json) => Expense(
-        amount: (json['amount'] as num).toDouble(),
-        category: json['category'] as String,
-        // Eski kayıtlar için null (backward compatible)
-        subCategory: json['subCategory'] as String?,
-        date: DateTime.parse(json['date'] as String),
-        hoursRequired: (json['hoursRequired'] as num).toDouble(),
-        daysRequired: (json['daysRequired'] as num).toDouble(),
-        decision: json['decision'] != null
-            ? ExpenseDecision.values.byName(json['decision'] as String)
-            : null,
-        decisionDate: json['decisionDate'] != null
-            ? DateTime.parse(json['decisionDate'] as String)
-            : null,
-        // Eski kayıtlar için varsayılan: real
-        recordType: json['recordType'] != null
-            ? RecordType.values.byName(json['recordType'] as String)
-            : RecordType.real,
-        // Wealth Coach: Yeni alanlar (backward compatible)
-        status: json['status'] != null
-            ? ExpenseStatus.values.byName(json['status'] as String)
-            : ExpenseStatus.active,
-        savedFrom: json['savedFrom'] != null
-            ? (json['savedFrom'] as num).toDouble()
-            : null,
-        isSmartChoice: json['isSmartChoice'] as bool? ?? false,
-        archivedAt: json['archivedAt'] != null
-            ? DateTime.parse(json['archivedAt'] as String)
-            : null,
-        archiveReason: json['archiveReason'] as String?,
-        // Multi-currency (backward compatible)
-        originalAmount: json['originalAmount'] != null
-            ? (json['originalAmount'] as num).toDouble()
-            : null,
-        originalCurrency: json['originalCurrency'] as String?,
-        // Gider tipi ve taksit (backward compatible)
-        type: json['type'] != null
-            ? ExpenseType.values.firstWhere(
-                (e) => e.name == json['type'],
-                orElse: () => ExpenseType.single,
-              )
-            : ExpenseType.single,
-        isMandatory: json['isMandatory'] as bool? ?? false,
-        installmentCount: json['installmentCount'] as int?,
-        currentInstallment: json['currentInstallment'] as int?,
-        cashPrice: json['cashPrice'] != null
-            ? (json['cashPrice'] as num).toDouble()
-            : null,
-        installmentTotal: json['installmentTotal'] != null
-            ? (json['installmentTotal'] as num).toDouble()
-            : null,
-        installmentStartDate: json['installmentStartDate'] != null
-            ? DateTime.parse(json['installmentStartDate'] as String)
-            : null,
-      );
+    amount: (json['amount'] as num).toDouble(),
+    category: json['category'] as String,
+    // Eski kayıtlar için null (backward compatible)
+    subCategory: json['subCategory'] as String?,
+    date: DateTime.parse(json['date'] as String),
+    hoursRequired: (json['hoursRequired'] as num).toDouble(),
+    daysRequired: (json['daysRequired'] as num).toDouble(),
+    decision: json['decision'] != null
+        ? ExpenseDecision.values.byName(json['decision'] as String)
+        : null,
+    decisionDate: json['decisionDate'] != null
+        ? DateTime.parse(json['decisionDate'] as String)
+        : null,
+    // Eski kayıtlar için varsayılan: real
+    recordType: json['recordType'] != null
+        ? RecordType.values.byName(json['recordType'] as String)
+        : RecordType.real,
+    // Wealth Coach: Yeni alanlar (backward compatible)
+    status: json['status'] != null
+        ? ExpenseStatus.values.byName(json['status'] as String)
+        : ExpenseStatus.active,
+    savedFrom: json['savedFrom'] != null
+        ? (json['savedFrom'] as num).toDouble()
+        : null,
+    isSmartChoice: json['isSmartChoice'] as bool? ?? false,
+    archivedAt: json['archivedAt'] != null
+        ? DateTime.parse(json['archivedAt'] as String)
+        : null,
+    archiveReason: json['archiveReason'] as String?,
+    // Multi-currency (backward compatible)
+    originalAmount: json['originalAmount'] != null
+        ? (json['originalAmount'] as num).toDouble()
+        : null,
+    originalCurrency: json['originalCurrency'] as String?,
+    // Gider tipi ve taksit (backward compatible)
+    type: json['type'] != null
+        ? ExpenseType.values.firstWhere(
+            (e) => e.name == json['type'],
+            orElse: () => ExpenseType.single,
+          )
+        : ExpenseType.single,
+    isMandatory: json['isMandatory'] as bool? ?? false,
+    installmentCount: json['installmentCount'] as int?,
+    currentInstallment: json['currentInstallment'] as int?,
+    cashPrice: json['cashPrice'] != null
+        ? (json['cashPrice'] as num).toDouble()
+        : null,
+    installmentTotal: json['installmentTotal'] != null
+        ? (json['installmentTotal'] as num).toDouble()
+        : null,
+    installmentStartDate: json['installmentStartDate'] != null
+        ? DateTime.parse(json['installmentStartDate'] as String)
+        : null,
+  );
 
   static String encodeList(List<Expense> expenses) =>
       jsonEncode(expenses.map((e) => e.toJson()).toList());
@@ -525,8 +527,8 @@ class DecisionStats {
   final double savedHours;
   final double savedDays;
   // Wealth Coach: Yeni istatistikler
-  final double smartChoiceSaved;  // Smart Choice ile tasarruf
-  final int smartChoiceCount;     // Smart Choice kullanan harcama sayısı
+  final double smartChoiceSaved; // Smart Choice ile tasarruf
+  final int smartChoiceCount; // Smart Choice kullanan harcama sayısı
 
   const DecisionStats({
     this.yesCount = 0,

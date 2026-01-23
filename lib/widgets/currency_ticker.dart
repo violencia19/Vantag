@@ -24,11 +24,7 @@ class CurrencyTicker extends StatelessWidget {
   final ExchangeRates? rates;
   final bool isLoading;
 
-  const CurrencyTicker({
-    super.key,
-    this.rates,
-    this.isLoading = false,
-  });
+  const CurrencyTicker({super.key, this.rates, this.isLoading = false});
 
   /// Get ticker items based on selected currency
   List<_TickerData> _getTickerItems(Currency selected, ExchangeRates? rates) {
@@ -95,14 +91,18 @@ class CurrencyTicker extends StatelessWidget {
           _TickerData(
             flag: '🪙',
             code: 'GOLD',
-            value: goldOzUsd != null ? '${_formatNumber(goldOzUsd, 0)} \$/oz' : '-',
+            value: goldOzUsd != null
+                ? '${_formatNumber(goldOzUsd, 0)} \$/oz'
+                : '-',
           ),
         ];
 
       case 'EUR':
         // EUR selected → USD/EUR, TRY/EUR, GOLD (€/oz)
         final tryEur = eurTry > 0 ? 1 / eurTry : 0.0;
-        final goldOzEur = goldOzUsd != null && eurUsd > 0 ? goldOzUsd / eurUsd : null;
+        final goldOzEur = goldOzUsd != null && eurUsd > 0
+            ? goldOzUsd / eurUsd
+            : null;
         return [
           _TickerData(
             flag: '🇺🇸',
@@ -117,7 +117,9 @@ class CurrencyTicker extends StatelessWidget {
           _TickerData(
             flag: '🪙',
             code: 'GOLD',
-            value: goldOzEur != null ? '${_formatNumber(goldOzEur, 0)} €/oz' : '-',
+            value: goldOzEur != null
+                ? '${_formatNumber(goldOzEur, 0)} €/oz'
+                : '-',
           ),
         ];
 
@@ -140,7 +142,9 @@ class CurrencyTicker extends StatelessWidget {
           _TickerData(
             flag: '🪙',
             code: 'GOLD',
-            value: goldOzGbp != null ? '${_formatNumber(goldOzGbp, 0)} £/oz' : '-',
+            value: goldOzGbp != null
+                ? '${_formatNumber(goldOzGbp, 0)} £/oz'
+                : '-',
           ),
         ];
 
@@ -162,7 +166,9 @@ class CurrencyTicker extends StatelessWidget {
           _TickerData(
             flag: '🪙',
             code: 'GOLD',
-            value: goldOzSar != null ? '${_formatNumber(goldOzSar, 0)} ﷼/oz' : '-',
+            value: goldOzSar != null
+                ? '${_formatNumber(goldOzSar, 0)} ﷼/oz'
+                : '-',
           ),
         ];
 
@@ -190,7 +196,9 @@ class CurrencyTicker extends StatelessWidget {
 
   String _formatNumber(double value, int decimals) {
     if (value >= 1000) {
-      return value.toStringAsFixed(0).replaceAllMapped(
+      return value
+          .toStringAsFixed(0)
+          .replaceAllMapped(
             RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
             (Match m) => '${m[1]},',
           );
@@ -256,10 +264,7 @@ class CurrencyTicker extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          item.flag,
-          style: const TextStyle(fontSize: 14),
-        ),
+        Text(item.flag, style: const TextStyle(fontSize: 14)),
         const SizedBox(width: 4),
         Text(
           item.value,

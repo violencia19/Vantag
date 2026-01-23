@@ -124,11 +124,14 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
 
     if (result.isSuccess) {
       HapticFeedback.mediumImpact();
-      Navigator.pop(context, BudgetShiftResult(
-        success: true,
-        source: _selectedSource!,
-        amount: widget.shortfall,
-      ));
+      Navigator.pop(
+        context,
+        BudgetShiftResult(
+          success: true,
+          source: _selectedSource!,
+          amount: widget.shortfall,
+        ),
+      );
     } else if (result.isJokerAlreadyUsed) {
       _showError(AppLocalizations.of(context).jokerUsed);
     } else {
@@ -157,12 +160,15 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
     setState(() => _isLoading = false);
 
     HapticFeedback.heavyImpact();
-    Navigator.pop(context, BudgetShiftResult(
-      success: true,
-      source: null,
-      amount: widget.shortfall,
-      isDebt: true,
-    ));
+    Navigator.pop(
+      context,
+      BudgetShiftResult(
+        success: true,
+        source: null,
+        amount: widget.shortfall,
+        isDebt: true,
+      ),
+    );
   }
 
   @override
@@ -271,17 +277,26 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 12,
+                      ),
                       decoration: BoxDecoration(
                         color: isSelected
                             ? (option.isJoker
-                                ? context.appColors.warning.withValues(alpha: 0.15)
-                                : context.appColors.primary.withValues(alpha: 0.15))
+                                  ? context.appColors.warning.withValues(
+                                      alpha: 0.15,
+                                    )
+                                  : context.appColors.primary.withValues(
+                                      alpha: 0.15,
+                                    ))
                             : context.appColors.surfaceLight,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: isSelected
-                              ? (option.isJoker ? context.appColors.warning : context.appColors.primary)
+                              ? (option.isJoker
+                                    ? context.appColors.warning
+                                    : context.appColors.primary)
                               : context.appColors.cardBorder,
                           width: isSelected ? 2 : 1,
                         ),
@@ -289,15 +304,22 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(option.emoji, style: const TextStyle(fontSize: 18)),
+                          Text(
+                            option.emoji,
+                            style: const TextStyle(fontSize: 18),
+                          ),
                           const SizedBox(width: 8),
                           Text(
                             option.label,
                             style: TextStyle(
                               fontSize: 14,
-                              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                              fontWeight: isSelected
+                                  ? FontWeight.w600
+                                  : FontWeight.w500,
                               color: isSelected
-                                  ? (option.isJoker ? context.appColors.warning : context.appColors.primary)
+                                  ? (option.isJoker
+                                        ? context.appColors.warning
+                                        : context.appColors.primary)
                                   : context.appColors.textPrimary,
                             ),
                           ),
@@ -314,7 +336,9 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _selectedSource != null && !_isLoading ? _confirm : null,
+                  onPressed: _selectedSource != null && !_isLoading
+                      ? _confirm
+                      : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: context.appColors.primary,
                     foregroundColor: Colors.white,

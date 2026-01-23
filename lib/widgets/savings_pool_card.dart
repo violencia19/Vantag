@@ -10,10 +10,7 @@ import '../utils/currency_utils.dart';
 class SavingsPoolCard extends StatelessWidget {
   final bool compact;
 
-  const SavingsPoolCard({
-    super.key,
-    this.compact = false,
-  });
+  const SavingsPoolCard({super.key, this.compact = false});
 
   @override
   Widget build(BuildContext context) {
@@ -126,15 +123,21 @@ class SavingsPoolCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: hasDebt ? context.appColors.error : context.appColors.textPrimary,
+                        color: hasDebt
+                            ? context.appColors.error
+                            : context.appColors.textPrimary,
                       ),
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      hasDebt ? l10n.savingsPoolDebt : l10n.savingsPoolAvailable,
+                      hasDebt
+                          ? l10n.savingsPoolDebt
+                          : l10n.savingsPoolAvailable,
                       style: TextStyle(
                         fontSize: 13,
-                        color: hasDebt ? context.appColors.error : context.appColors.textSecondary,
+                        color: hasDebt
+                            ? context.appColors.error
+                            : context.appColors.textSecondary,
                       ),
                     ),
                   ],
@@ -195,10 +198,7 @@ class SavingsPoolCard extends StatelessWidget {
           // Header
           Row(
             children: [
-              Text(
-                hasDebt ? '🔴' : '💰',
-                style: const TextStyle(fontSize: 24),
-              ),
+              Text(hasDebt ? '🔴' : '💰', style: const TextStyle(fontSize: 24)),
               const SizedBox(width: 12),
               Text(
                 l10n.savingsPool,
@@ -211,11 +211,16 @@ class SavingsPoolCard extends StatelessWidget {
               const Spacer(),
               if (pool.canUseJoker)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: context.appColors.warning.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: context.appColors.warning.withValues(alpha: 0.3)),
+                    border: Border.all(
+                      color: context.appColors.warning.withValues(alpha: 0.3),
+                    ),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,

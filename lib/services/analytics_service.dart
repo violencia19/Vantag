@@ -57,10 +57,7 @@ class AnalyticsService {
   }) async {
     await _analytics.logEvent(
       name: 'subscription_added',
-      parameters: {
-        'name': name,
-        'amount': amount,
-      },
+      parameters: {'name': name, 'amount': amount},
     );
   }
 
@@ -75,10 +72,7 @@ class AnalyticsService {
   }) async {
     await _analytics.logEvent(
       name: 'pursuit_created',
-      parameters: {
-        'category': category,
-        'target_amount': targetAmount,
-      },
+      parameters: {'category': category, 'target_amount': targetAmount},
     );
   }
 
@@ -89,10 +83,7 @@ class AnalyticsService {
   }) async {
     await _analytics.logEvent(
       name: 'savings_added',
-      parameters: {
-        'amount': amount,
-        'source': source,
-      },
+      parameters: {'amount': amount, 'source': source},
     );
   }
 
@@ -103,10 +94,7 @@ class AnalyticsService {
   }) async {
     await _analytics.logEvent(
       name: 'pursuit_completed',
-      parameters: {
-        'pursuit_id': pursuitId,
-        'target_amount': targetAmount,
-      },
+      parameters: {'pursuit_id': pursuitId, 'target_amount': targetAmount},
     );
   }
 
@@ -115,14 +103,10 @@ class AnalyticsService {
   // ─────────────────────────────────────────────────────────────────
 
   /// Track AI chat message sent
-  Future<void> logAIChatMessage({
-    required bool isPremium,
-  }) async {
+  Future<void> logAIChatMessage({required bool isPremium}) async {
     await _analytics.logEvent(
       name: 'ai_chat_message',
-      parameters: {
-        'is_premium': isPremium ? 1 : 0,
-      },
+      parameters: {'is_premium': isPremium ? 1 : 0},
     );
   }
 
@@ -131,14 +115,10 @@ class AnalyticsService {
   // ─────────────────────────────────────────────────────────────────
 
   /// Track premium purchase started
-  Future<void> logPurchaseStarted({
-    required String productId,
-  }) async {
+  Future<void> logPurchaseStarted({required String productId}) async {
     await _analytics.logEvent(
       name: 'purchase_started',
-      parameters: {
-        'product_id': productId,
-      },
+      parameters: {'product_id': productId},
     );
   }
 
@@ -161,14 +141,10 @@ class AnalyticsService {
   }
 
   /// Track paywall viewed
-  Future<void> logPaywallViewed({
-    String? source,
-  }) async {
+  Future<void> logPaywallViewed({String? source}) async {
     await _analytics.logEvent(
       name: 'paywall_viewed',
-      parameters: {
-        'source': source ?? 'unknown',
-      },
+      parameters: {'source': source ?? 'unknown'},
     );
   }
 
@@ -177,12 +153,8 @@ class AnalyticsService {
   // ─────────────────────────────────────────────────────────────────
 
   /// Track screen view
-  Future<void> logScreenView({
-    required String screenName,
-  }) async {
-    await _analytics.logScreenView(
-      screenName: screenName,
-    );
+  Future<void> logScreenView({required String screenName}) async {
+    await _analytics.logScreenView(screenName: screenName);
   }
 
   // ─────────────────────────────────────────────────────────────────
@@ -190,14 +162,10 @@ class AnalyticsService {
   // ─────────────────────────────────────────────────────────────────
 
   /// Track onboarding step completed
-  Future<void> logOnboardingStep({
-    required int step,
-  }) async {
+  Future<void> logOnboardingStep({required int step}) async {
     await _analytics.logEvent(
       name: 'onboarding_step',
-      parameters: {
-        'step': step,
-      },
+      parameters: {'step': step},
     );
   }
 
@@ -211,9 +179,7 @@ class AnalyticsService {
   // ─────────────────────────────────────────────────────────────────
 
   /// Track achievement unlocked
-  Future<void> logAchievementUnlocked({
-    required String achievementId,
-  }) async {
+  Future<void> logAchievementUnlocked({required String achievementId}) async {
     await _analytics.logUnlockAchievement(id: achievementId);
   }
 
@@ -222,14 +188,10 @@ class AnalyticsService {
   // ─────────────────────────────────────────────────────────────────
 
   /// Track streak milestone
-  Future<void> logStreakMilestone({
-    required int days,
-  }) async {
+  Future<void> logStreakMilestone({required int days}) async {
     await _analytics.logEvent(
       name: 'streak_milestone',
-      parameters: {
-        'days': days,
-      },
+      parameters: {'days': days},
     );
   }
 
@@ -247,17 +209,11 @@ class AnalyticsService {
 
   /// Set user preferred currency
   Future<void> setUserCurrency(String currency) async {
-    await _analytics.setUserProperty(
-      name: 'currency',
-      value: currency,
-    );
+    await _analytics.setUserProperty(name: 'currency', value: currency);
   }
 
   /// Set user preferred language
   Future<void> setUserLanguage(String language) async {
-    await _analytics.setUserProperty(
-      name: 'language',
-      value: language,
-    );
+    await _analytics.setUserProperty(name: 'language', value: language);
   }
 }

@@ -185,11 +185,7 @@ class LazyWidget extends StatefulWidget {
   final WidgetBuilder builder;
   final Widget? placeholder;
 
-  const LazyWidget({
-    super.key,
-    required this.builder,
-    this.placeholder,
-  });
+  const LazyWidget({super.key, required this.builder, this.placeholder});
 
   @override
   State<LazyWidget> createState() => _LazyWidgetState();
@@ -315,24 +311,18 @@ class CachedSliverList<T> extends StatelessWidget {
     if (itemExtent != null) {
       return SliverFixedExtentList(
         itemExtent: itemExtent!,
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final item = itemBuilder(context, items[index], index);
-            return addRepaintBoundary ? RepaintBoundary(child: item) : item;
-          },
-          childCount: items.length,
-        ),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          final item = itemBuilder(context, items[index], index);
+          return addRepaintBoundary ? RepaintBoundary(child: item) : item;
+        }, childCount: items.length),
       );
     }
 
     return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          final item = itemBuilder(context, items[index], index);
-          return addRepaintBoundary ? RepaintBoundary(child: item) : item;
-        },
-        childCount: items.length,
-      ),
+      delegate: SliverChildBuilderDelegate((context, index) {
+        final item = itemBuilder(context, items[index], index);
+        return addRepaintBoundary ? RepaintBoundary(child: item) : item;
+      }, childCount: items.length),
     );
   }
 }
@@ -386,9 +376,7 @@ class OptimizedNetworkImage extends StatelessWidget {
       width: width,
       height: height,
       color: Colors.grey[800],
-      child: const Center(
-        child: CircularProgressIndicator(strokeWidth: 2),
-      ),
+      child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
     );
   }
 

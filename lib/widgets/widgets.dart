@@ -41,6 +41,10 @@ export 'premium_share_card.dart';
 // Expense Entry
 export 'add_expense_sheet.dart';
 
+// Income Entry
+export 'add_income_sheet.dart';
+export 'payday_confirmation_dialog.dart';
+
 // AI Chat
 export 'ai_fab.dart';
 export 'ai_chat_sheet.dart';

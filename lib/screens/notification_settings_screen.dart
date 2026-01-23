@@ -8,10 +8,12 @@ class NotificationSettingsScreen extends StatefulWidget {
   const NotificationSettingsScreen({super.key});
 
   @override
-  State<NotificationSettingsScreen> createState() => _NotificationSettingsScreenState();
+  State<NotificationSettingsScreen> createState() =>
+      _NotificationSettingsScreenState();
 }
 
-class _NotificationSettingsScreenState extends State<NotificationSettingsScreen> {
+class _NotificationSettingsScreenState
+    extends State<NotificationSettingsScreen> {
   final _notificationService = NotificationService();
   Map<String, bool> _settings = {};
   bool _isLoading = true;
@@ -49,7 +51,10 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
   Future<void> _selectDailyReminderTime() async {
     final picked = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay(hour: _dailyReminderHour, minute: _dailyReminderMinute),
+      initialTime: TimeOfDay(
+        hour: _dailyReminderHour,
+        minute: _dailyReminderMinute,
+      ),
     );
 
     if (picked != null && mounted) {
@@ -78,7 +83,10 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
       appBar: AppBar(
         backgroundColor: context.appColors.background,
         leading: IconButton(
-          icon: Icon(PhosphorIconsDuotone.arrowLeft, color: context.appColors.textPrimary),
+          icon: Icon(
+            PhosphorIconsDuotone.arrowLeft,
+            color: context.appColors.textPrimary,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -168,7 +176,8 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                     const SizedBox(height: 12),
 
                     // Trial days remaining indicator
-                    if (_trialDaysRemaining != null && _trialDaysRemaining! > 0) ...[
+                    if (_trialDaysRemaining != null &&
+                        _trialDaysRemaining! > 0) ...[
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
@@ -179,7 +188,11 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                             ],
                           ),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: context.appColors.primary.withValues(alpha: 0.3)),
+                          border: Border.all(
+                            color: context.appColors.primary.withValues(
+                              alpha: 0.3,
+                            ),
+                          ),
                         ),
                         child: Row(
                           children: [
@@ -292,9 +305,13 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
-              isEnabled ? PhosphorIconsDuotone.bellRinging : PhosphorIconsDuotone.bellSlash,
+              isEnabled
+                  ? PhosphorIconsDuotone.bellRinging
+                  : PhosphorIconsDuotone.bellSlash,
               size: 24,
-              color: isEnabled ? context.appColors.primary : context.appColors.textTertiary,
+              color: isEnabled
+                  ? context.appColors.primary
+                  : context.appColors.textTertiary,
             ),
           ),
           const SizedBox(width: 16),
@@ -315,7 +332,9 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   isEnabled ? l10n.on : l10n.off,
                   style: TextStyle(
                     fontSize: 13,
-                    color: isEnabled ? context.appColors.primary : context.appColors.textTertiary,
+                    color: isEnabled
+                        ? context.appColors.primary
+                        : context.appColors.textTertiary,
                   ),
                 ),
               ],
@@ -419,7 +438,9 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
             child: Icon(
               icon,
               size: 20,
-              color: isEnabled ? context.appColors.textSecondary : context.appColors.textTertiary,
+              color: isEnabled
+                  ? context.appColors.textSecondary
+                  : context.appColors.textTertiary,
             ),
           ),
           const SizedBox(width: 12),
@@ -432,7 +453,9 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: isEnabled ? context.appColors.textPrimary : context.appColors.textTertiary,
+                    color: isEnabled
+                        ? context.appColors.textPrimary
+                        : context.appColors.textTertiary,
                   ),
                 ),
                 const SizedBox(height: 2),

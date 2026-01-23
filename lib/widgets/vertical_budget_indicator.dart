@@ -75,7 +75,7 @@ class _VerticalBudgetIndicatorState extends State<VerticalBudgetIndicator>
       width: widget.width,
       height: widget.height,
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.1),
+        color: context.appColors.textPrimary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(widget.width / 2),
       ),
       child: Stack(
@@ -112,14 +112,8 @@ class _VerticalBudgetIndicatorState extends State<VerticalBudgetIndicator>
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: isRed
-                  ? [
-                      errorColor,
-                      errorColor.withValues(alpha: 0.8),
-                    ]
-                  : [
-                      PremiumColors.purple,
-                      PremiumColors.purpleLight,
-                    ],
+                  ? [errorColor, errorColor.withValues(alpha: 0.8)]
+                  : [PremiumColors.purple, PremiumColors.purpleLight],
             ),
             boxShadow: widget.showGlow
                 ? [
@@ -129,7 +123,9 @@ class _VerticalBudgetIndicatorState extends State<VerticalBudgetIndicator>
                       spreadRadius: 0,
                     ),
                     BoxShadow(
-                      color: color.withValues(alpha: _breatheAnimation.value * 0.5),
+                      color: color.withValues(
+                        alpha: _breatheAnimation.value * 0.5,
+                      ),
                       blurRadius: 40,
                       spreadRadius: 0,
                     ),
@@ -190,7 +186,7 @@ class _ShimmerOverlayState extends State<_ShimmerOverlay>
               end: Alignment.bottomCenter,
               colors: [
                 Colors.transparent,
-                Colors.white.withValues(alpha: 0.4),
+                Colors.white.withValues(alpha: 0.35),
                 Colors.transparent,
               ],
               stops: [
@@ -281,7 +277,7 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
           width: totalWidth,
           height: widget.height,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.1),
+            color: context.appColors.textPrimary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(widget.height / 2),
           ),
           child: Stack(
@@ -294,10 +290,20 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
                       duration: widget.animationDuration,
                       curve: Curves.easeOutCubic,
                       builder: (context, value, child) {
-                        return _buildFillBar(value, fillColor, totalWidth, errorColor);
+                        return _buildFillBar(
+                          value,
+                          fillColor,
+                          totalWidth,
+                          errorColor,
+                        );
                       },
                     )
-                  : _buildFillBar(clampedProgress, fillColor, totalWidth, errorColor),
+                  : _buildFillBar(
+                      clampedProgress,
+                      fillColor,
+                      totalWidth,
+                      errorColor,
+                    ),
             ],
           ),
         );
@@ -305,7 +311,12 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
     );
   }
 
-  Widget _buildFillBar(double value, Color color, double totalWidth, Color errorColor) {
+  Widget _buildFillBar(
+    double value,
+    Color color,
+    double totalWidth,
+    Color errorColor,
+  ) {
     final isRed = color == errorColor;
 
     Widget bar = AnimatedBuilder(

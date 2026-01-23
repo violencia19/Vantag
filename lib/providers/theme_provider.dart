@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Theme modes supported by the app
-enum AppThemeMode {
-  dark,
-  light,
-  system,
-}
+enum AppThemeMode { dark, light, system }
 
 /// Provider for managing app theme (dark/light mode)
 class ThemeProvider extends ChangeNotifier {

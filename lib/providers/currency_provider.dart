@@ -72,12 +72,20 @@ class CurrencyProvider extends ChangeNotifier {
 
   /// Format amount with decimals
   String formatWithDecimals(double amount, {int decimalDigits = 2}) {
-    return CurrencyPreferenceService.format(_currency, amount, decimalDigits: decimalDigits);
+    return CurrencyPreferenceService.format(
+      _currency,
+      amount,
+      decimalDigits: decimalDigits,
+    );
   }
 
   /// Format without symbol
   String formatWithoutSymbol(double amount, {int decimalDigits = 0}) {
-    return CurrencyPreferenceService.formatWithoutSymbol(_currency, amount, decimalDigits: decimalDigits);
+    return CurrencyPreferenceService.formatWithoutSymbol(
+      _currency,
+      amount,
+      decimalDigits: decimalDigits,
+    );
   }
 
   /// Get just the symbol
@@ -153,14 +161,22 @@ class CurrencyProvider extends ChangeNotifier {
   /// If rates not available, returns the original amount
   double convertFromTRY(double amountTRY) {
     if (_currency.code == 'TRY') return amountTRY;
-    final converted = _exchangeService.convert(amountTRY, 'TRY', _currency.code);
+    final converted = _exchangeService.convert(
+      amountTRY,
+      'TRY',
+      _currency.code,
+    );
     return converted ?? amountTRY;
   }
 
   /// Format amount converting from TRY if needed
   String formatFromTRY(double amountTRY, {int decimalDigits = 0}) {
     final converted = convertFromTRY(amountTRY);
-    return CurrencyPreferenceService.format(_currency, converted, decimalDigits: decimalDigits);
+    return CurrencyPreferenceService.format(
+      _currency,
+      converted,
+      decimalDigits: decimalDigits,
+    );
   }
 
   // ═══════════════════════════════════════════════════════════════════
@@ -169,7 +185,10 @@ class CurrencyProvider extends ChangeNotifier {
 
   /// Convert a single income source to target currency
   /// Returns a new IncomeSource with converted amount, preserving original values
-  IncomeSource? convertIncomeSource(IncomeSource source, String targetCurrency) {
+  IncomeSource? convertIncomeSource(
+    IncomeSource source,
+    String targetCurrency,
+  ) {
     if (source.originalCurrencyCode == targetCurrency) {
       // Same as original - return with original amount
       return source.convertedTo(

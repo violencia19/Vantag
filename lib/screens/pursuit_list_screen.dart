@@ -8,7 +8,6 @@ import '../models/models.dart';
 import '../providers/providers.dart';
 import '../services/referral_service.dart';
 import '../services/deep_link_service.dart';
-import '../theme/quiet_luxury.dart';
 import '../theme/theme.dart';
 import '../widgets/widgets.dart';
 
@@ -62,12 +61,12 @@ class _PursuitListScreenState extends State<PursuitListScreen>
         : pursuitProvider.activePursuits;
 
     return Scaffold(
-      backgroundColor: QuietLuxury.background,
+      backgroundColor: context.appColors.background,
       body: CustomScrollView(
         slivers: [
           // App bar
           SliverAppBar(
-            backgroundColor: QuietLuxury.background,
+            backgroundColor: context.appColors.background,
             surfaceTintColor: Colors.transparent,
             pinned: true,
             floating: false,
@@ -76,7 +75,11 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               titlePadding: const EdgeInsets.only(left: 20, bottom: 16),
               title: Text(
                 l10n.myPursuits,
-                style: QuietLuxury.heading.copyWith(fontSize: 20),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: context.appColors.textPrimary,
+                ),
               ),
               background: Container(
                 decoration: BoxDecoration(
@@ -84,8 +87,8 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      QuietLuxury.background.withValues(alpha: 0.0),
-                      QuietLuxury.background,
+                      context.appColors.background.withValues(alpha: 0.0),
+                      context.appColors.background,
                     ],
                   ),
                 ),
@@ -99,14 +102,18 @@ class _PursuitListScreenState extends State<PursuitListScreen>
             delegate: _TabBarDelegate(
               TabBar(
                 controller: _tabController,
-                indicatorColor: QuietLuxury.positive,
+                indicatorColor: context.appColors.success,
                 indicatorWeight: 2,
-                labelColor: QuietLuxury.positive,
-                unselectedLabelColor: QuietLuxury.textTertiary,
-                labelStyle: QuietLuxury.body.copyWith(
+                labelColor: context.appColors.success,
+                unselectedLabelColor: context.appColors.textTertiary,
+                labelStyle: TextStyle(
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
-                unselectedLabelStyle: QuietLuxury.body,
+                unselectedLabelStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
                 tabs: [
                   Tab(
                     child: Row(
@@ -117,7 +124,9 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                         Text(l10n.activePursuits),
                         if (pursuitProvider.activePursuitCount > 0) ...[
                           const SizedBox(width: 6),
-                          _CountBadge(count: pursuitProvider.activePursuitCount),
+                          _CountBadge(
+                            count: pursuitProvider.activePursuitCount,
+                          ),
                         ],
                       ],
                     ),
@@ -155,46 +164,44 @@ class _PursuitListScreenState extends State<PursuitListScreen>
 
           // Content
           if (pursuitProvider.isLoading)
-            const SliverFillRemaining(
+            SliverFillRemaining(
               child: Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(QuietLuxury.positive),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    context.appColors.success,
+                  ),
                 ),
               ),
             )
           else if (pursuits.isEmpty)
-            SliverFillRemaining(
-              child: _buildEmptyState(l10n),
-            )
+            SliverFillRemaining(child: _buildEmptyState(l10n))
           else
             SliverPadding(
               padding: const EdgeInsets.all(16),
               sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final pursuit = pursuits[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: Dismissible(
-                        key: Key(pursuit.id),
-                        direction: DismissDirection.endToStart,
-                        confirmDismiss: (_) => _confirmDelete(pursuit),
-                        background: _buildDismissBackground(),
-                        child: PursuitCard(
-                          pursuit: pursuit,
-                          formatAmount: (amount) => _formatAmount(
-                            amount,
-                            currencyProvider.currency.symbol,
-                          ),
-                          onTap: () => _showPursuitDetail(pursuit),
-                          onAddSavings:
-                              pursuit.isCompleted ? null : () => _addSavings(pursuit),
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final pursuit = pursuits[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Dismissible(
+                      key: Key(pursuit.id),
+                      direction: DismissDirection.endToStart,
+                      confirmDismiss: (_) => _confirmDelete(pursuit),
+                      background: _buildDismissBackground(),
+                      child: PursuitCard(
+                        pursuit: pursuit,
+                        formatAmount: (amount) => _formatAmount(
+                          amount,
+                          currencyProvider.currency.symbol,
                         ),
+                        onTap: () => _showPursuitDetail(pursuit),
+                        onAddSavings: pursuit.isCompleted
+                            ? null
+                            : () => _addSavings(pursuit),
                       ),
-                    );
-                  },
-                  childCount: pursuits.length,
-                ),
+                    ),
+                  );
+                }, childCount: pursuits.length),
               ),
             ),
         ],
@@ -203,8 +210,8 @@ class _PursuitListScreenState extends State<PursuitListScreen>
           ? null
           : FloatingActionButton(
               onPressed: _createPursuit,
-              backgroundColor: QuietLuxury.positive,
-              foregroundColor: Colors.white,
+              backgroundColor: context.appColors.success,
+              foregroundColor: context.appColors.textPrimary,
               child: Icon(PhosphorIconsBold.plus),
             ),
     );
@@ -221,9 +228,9 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: QuietLuxury.cardBackground,
+                color: context.appColors.surfaceLight,
                 border: Border.all(
-                  color: QuietLuxury.cardBorder,
+                  color: context.appColors.cardBorder,
                   width: 0.5,
                 ),
               ),
@@ -232,23 +239,26 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                     ? PhosphorIconsDuotone.trophy
                     : PhosphorIconsDuotone.star,
                 size: 64,
-                color: QuietLuxury.textTertiary,
+                color: context.appColors.textTertiary,
               ),
             ),
             const SizedBox(height: 24),
             Text(
-              _showCompleted
-                  ? l10n.completedPursuits
-                  : l10n.emptyPursuitsTitle,
-              style: QuietLuxury.heading.copyWith(fontSize: 18),
+              _showCompleted ? l10n.completedPursuits : l10n.emptyPursuitsTitle,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: context.appColors.textPrimary,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
-              _showCompleted
-                  ? l10n.noTransactions
-                  : l10n.emptyPursuitsMessage,
-              style: QuietLuxury.body,
+              _showCompleted ? l10n.noTransactions : l10n.emptyPursuitsMessage,
+              style: TextStyle(
+                fontSize: 14,
+                color: context.appColors.textSecondary,
+              ),
               textAlign: TextAlign.center,
             ),
             if (!_showCompleted) ...[
@@ -256,8 +266,8 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               ElevatedButton.icon(
                 onPressed: _createPursuit,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: QuietLuxury.positive,
-                  foregroundColor: Colors.white,
+                  backgroundColor: context.appColors.success,
+                  foregroundColor: context.appColors.textPrimary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,
                     vertical: 12,
@@ -281,13 +291,10 @@ class _PursuitListScreenState extends State<PursuitListScreen>
       alignment: Alignment.centerRight,
       padding: const EdgeInsets.only(right: 20),
       decoration: BoxDecoration(
-        color: QuietLuxury.negative.withValues(alpha: 0.2),
+        color: context.appColors.error.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Icon(
-        PhosphorIconsBold.trash,
-        color: QuietLuxury.negative,
-      ),
+      child: Icon(PhosphorIconsBold.trash, color: context.appColors.error),
     );
   }
 
@@ -323,15 +330,13 @@ class _PursuitListScreenState extends State<PursuitListScreen>
 
   Future<void> _addSavings(Pursuit pursuit) async {
     HapticFeedback.selectionClick();
-    final reachedTarget = await showAddSavingsSheet(
-      context,
-      pursuit: pursuit,
-    );
+    final reachedTarget = await showAddSavingsSheet(context, pursuit: pursuit);
 
     if (reachedTarget == true && mounted) {
       // Show completion celebration
-      final updatedPursuit =
-          context.read<PursuitProvider>().getPursuitById(pursuit.id);
+      final updatedPursuit = context.read<PursuitProvider>().getPursuitById(
+        pursuit.id,
+      );
       if (updatedPursuit != null) {
         await context.read<PursuitProvider>().completePursuit(pursuit.id);
         if (mounted) {
@@ -381,35 +386,35 @@ class _PursuitListScreenState extends State<PursuitListScreen>
 
   Future<bool?> _confirmDelete(Pursuit pursuit) async {
     final l10n = AppLocalizations.of(context);
+    final colors = context.appColors;
     return showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: QuietLuxury.background,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: colors.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
           l10n.deletePursuit,
-          style: QuietLuxury.heading,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: colors.textPrimary,
+          ),
         ),
         content: Text(
           l10n.deletePursuitConfirm,
-          style: QuietLuxury.body,
+          style: TextStyle(fontSize: 14, color: colors.textSecondary),
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
+            onPressed: () => Navigator.of(dialogContext).pop(false),
             child: Text(
               l10n.cancel,
-              style: TextStyle(color: QuietLuxury.textSecondary),
+              style: TextStyle(color: colors.textSecondary),
             ),
           ),
           TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text(
-              l10n.delete,
-              style: TextStyle(color: QuietLuxury.negative),
-            ),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(l10n.delete, style: TextStyle(color: colors.error)),
           ),
         ],
       ),
@@ -434,7 +439,8 @@ class _PursuitListScreenState extends State<PursuitListScreen>
       // Use default link if referral fails
     }
 
-    final shareText = '🎉 ${l10n.pursuitCompleted}: ${pursuit.name}!\n'
+    final shareText =
+        '🎉 ${l10n.pursuitCompleted}: ${pursuit.name}!\n'
         '💰 $symbol${pursuit.targetAmount.toStringAsFixed(0)} ${l10n.saved}\n\n'
         '${l10n.shareDefaultMessage(shareLink)}';
 
@@ -451,14 +457,11 @@ class _CountBadge extends StatelessWidget {
   final int count;
   final Color? color;
 
-  const _CountBadge({
-    required this.count,
-    this.color,
-  });
+  const _CountBadge({required this.count, this.color});
 
   @override
   Widget build(BuildContext context) {
-    final effectiveColor = color ?? QuietLuxury.positive;
+    final effectiveColor = color ?? context.appColors.success;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
@@ -467,7 +470,7 @@ class _CountBadge extends StatelessWidget {
       ),
       child: Text(
         count.toString(),
-        style: QuietLuxury.label.copyWith(
+        style: TextStyle(
           color: effectiveColor,
           fontWeight: FontWeight.w600,
           fontSize: 10,
@@ -488,10 +491,7 @@ class _TabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Container(
-      color: QuietLuxury.background,
-      child: tabBar,
-    );
+    return Container(color: context.appColors.background, child: tabBar);
   }
 
   @override
@@ -524,11 +524,13 @@ class _PursuitDetailSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final colors = context.appColors;
+    final goldColor = const Color(0xFFFFD700);
 
     return Container(
-      decoration: const BoxDecoration(
-        color: QuietLuxury.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: SafeArea(
         child: Padding(
@@ -542,7 +544,7 @@ class _PursuitDetailSheet extends StatelessWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: QuietLuxury.cardBorder,
+                    color: colors.cardBorder,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -555,15 +557,18 @@ class _PursuitDetailSheet extends StatelessWidget {
                 emoji: pursuit.emoji,
                 imageUrl: pursuit.imageUrl,
                 size: 80,
-                fillColor:
-                    pursuit.isCompleted ? QuietLuxury.gold : QuietLuxury.positive,
+                fillColor: pursuit.isCompleted ? goldColor : colors.success,
               ),
               const SizedBox(height: 16),
 
               // Name
               Text(
                 pursuit.name,
-                style: QuietLuxury.heading,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: colors.textPrimary,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
@@ -571,17 +576,16 @@ class _PursuitDetailSheet extends StatelessWidget {
               // Progress text
               Text(
                 '${formatAmount(pursuit.savedAmount)} / ${formatAmount(pursuit.targetAmount)}',
-                style: QuietLuxury.subheading,
+                style: TextStyle(fontSize: 16, color: colors.textSecondary),
               ),
               const SizedBox(height: 4),
 
               // Progress percentage
               Text(
                 l10n.pursuitProgress(pursuit.progressPercentDisplay),
-                style: QuietLuxury.label.copyWith(
-                  color: pursuit.isCompleted
-                      ? QuietLuxury.gold
-                      : QuietLuxury.positive,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: pursuit.isCompleted ? goldColor : colors.success,
                 ),
               ),
               const SizedBox(height: 24),
@@ -590,8 +594,7 @@ class _PursuitDetailSheet extends StatelessWidget {
               PursuitLinearProgress(
                 progress: pursuit.progressPercent,
                 height: 8,
-                progressColor:
-                    pursuit.isCompleted ? QuietLuxury.gold : QuietLuxury.positive,
+                progressColor: pursuit.isCompleted ? goldColor : colors.success,
               ),
               const SizedBox(height: 24),
 
@@ -603,8 +606,8 @@ class _PursuitDetailSheet extends StatelessWidget {
                       child: ElevatedButton.icon(
                         onPressed: onAddSavings,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: QuietLuxury.positive,
-                          foregroundColor: Colors.white,
+                          backgroundColor: colors.success,
+                          foregroundColor: context.appColors.textPrimary,
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -620,15 +623,15 @@ class _PursuitDetailSheet extends StatelessWidget {
                   IconButton(
                     onPressed: onEdit,
                     style: IconButton.styleFrom(
-                      backgroundColor: QuietLuxury.cardBackground,
+                      backgroundColor: colors.surfaceLight,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
-                        side: BorderSide(color: QuietLuxury.cardBorder),
+                        side: BorderSide(color: colors.cardBorder),
                       ),
                     ),
                     icon: Icon(
                       PhosphorIconsRegular.pencilSimple,
-                      color: QuietLuxury.textSecondary,
+                      color: colors.textSecondary,
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -636,18 +639,15 @@ class _PursuitDetailSheet extends StatelessWidget {
                   IconButton(
                     onPressed: onDelete,
                     style: IconButton.styleFrom(
-                      backgroundColor: QuietLuxury.negative.withValues(alpha: 0.1),
+                      backgroundColor: colors.error.withValues(alpha: 0.1),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                         side: BorderSide(
-                          color: QuietLuxury.negative.withValues(alpha: 0.3),
+                          color: colors.error.withValues(alpha: 0.3),
                         ),
                       ),
                     ),
-                    icon: Icon(
-                      PhosphorIconsRegular.trash,
-                      color: QuietLuxury.negative,
-                    ),
+                    icon: Icon(PhosphorIconsRegular.trash, color: colors.error),
                   ),
                 ],
               ),

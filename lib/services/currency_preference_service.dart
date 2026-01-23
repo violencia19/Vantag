@@ -25,7 +25,11 @@ class CurrencyPreferenceService {
 
   /// Format amount with currency
   /// Supports both integer format and decimal format
-  static String format(Currency currency, double amount, {int decimalDigits = 0}) {
+  static String format(
+    Currency currency,
+    double amount, {
+    int decimalDigits = 0,
+  }) {
     final isNegative = amount < 0;
     final absAmount = amount.abs();
 
@@ -33,12 +37,18 @@ class CurrencyPreferenceService {
     if (decimalDigits > 0) {
       // With decimals
       final parts = absAmount.toStringAsFixed(decimalDigits).split('.');
-      final intPart = _addThousandSeparators(parts[0], currency.thousandSeparator);
+      final intPart = _addThousandSeparators(
+        parts[0],
+        currency.thousandSeparator,
+      );
       final decPart = parts.length > 1 ? parts[1] : '0' * decimalDigits;
       formatted = '$intPart${currency.decimalSeparator}$decPart';
     } else {
       // Integer only
-      formatted = _addThousandSeparators(absAmount.truncate().toString(), currency.thousandSeparator);
+      formatted = _addThousandSeparators(
+        absAmount.truncate().toString(),
+        currency.thousandSeparator,
+      );
     }
 
     // Add negative sign if needed
@@ -55,18 +65,28 @@ class CurrencyPreferenceService {
   }
 
   /// Format amount without symbol
-  static String formatWithoutSymbol(Currency currency, double amount, {int decimalDigits = 0}) {
+  static String formatWithoutSymbol(
+    Currency currency,
+    double amount, {
+    int decimalDigits = 0,
+  }) {
     final isNegative = amount < 0;
     final absAmount = amount.abs();
 
     String formatted;
     if (decimalDigits > 0) {
       final parts = absAmount.toStringAsFixed(decimalDigits).split('.');
-      final intPart = _addThousandSeparators(parts[0], currency.thousandSeparator);
+      final intPart = _addThousandSeparators(
+        parts[0],
+        currency.thousandSeparator,
+      );
       final decPart = parts.length > 1 ? parts[1] : '0' * decimalDigits;
       formatted = '$intPart${currency.decimalSeparator}$decPart';
     } else {
-      formatted = _addThousandSeparators(absAmount.truncate().toString(), currency.thousandSeparator);
+      formatted = _addThousandSeparators(
+        absAmount.truncate().toString(),
+        currency.thousandSeparator,
+      );
     }
 
     return isNegative ? '-$formatted' : formatted;

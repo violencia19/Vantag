@@ -1485,6 +1485,13 @@
   "listening": "Listening...",
   "voiceNotAvailable": "Voice input is not available on this device",
   "microphonePermissionDenied": "Microphone permission denied",
+  "microphonePermissionRequired": "Microphone permission required",
+  "networkRequired": "Internet connection required",
+  "understanding": "Understanding...",
+  "couldNotUnderstandTryAgain": "Could not understand, try again",
+  "couldNotUnderstandSayAgain": "Could not understand, say again",
+  "sayAgain": "Say again",
+  "yesSave": "Yes, save",
   "voiceExpenseAdded": "{amount}₺ {description} added",
   "@voiceExpenseAdded": {
     "placeholders": {
@@ -2297,6 +2304,9 @@
     }
   },
   "pursuitLimitReachedFree": "Free accounts can have 1 active goal. Go premium for unlimited goals!",
+  "pursuitNameRequired": "Please enter a name",
+  "pursuitAmountRequired": "Please enter an amount",
+  "pursuitAmountInvalid": "Please enter a valid amount",
   "exportPremiumOnly": "Export is a premium feature",
   "multiCurrencyPremium": "Multiple currencies is a premium feature. Free users can only use TRY.",
   "reportsPremiumOnly": "Monthly and yearly reports are premium features",

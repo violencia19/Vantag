@@ -25,9 +25,11 @@ class CollapsibleSavedHeader extends StatelessWidget {
     final currencyProvider = context.watch<CurrencyProvider>();
 
     // Animasyon değerleri
-    final opacity = AppAnimations.headerMinOpacity +
+    final opacity =
+        AppAnimations.headerMinOpacity +
         ((1.0 - AppAnimations.headerMinOpacity) * expandRatio);
-    final scale = AppAnimations.headerMinScale +
+    final scale =
+        AppAnimations.headerMinScale +
         ((1.0 - AppAnimations.headerMinScale) * expandRatio);
 
     // Boyutları expandRatio'ya göre hesapla
@@ -77,12 +79,16 @@ class CollapsibleSavedHeader extends StatelessWidget {
                   color: context.appColors.surface,
                   borderRadius: BorderRadius.circular(12 + (4 * expandRatio)),
                   border: Border.all(
-                    color: context.appColors.primary.withValues(alpha: 0.2 + (0.1 * expandRatio)),
+                    color: context.appColors.primary.withValues(
+                      alpha: 0.2 + (0.1 * expandRatio),
+                    ),
                     width: 1,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: context.appColors.primary.withValues(alpha: 0.05 * expandRatio),
+                      color: context.appColors.primary.withValues(
+                        alpha: 0.05 * expandRatio,
+                      ),
                       blurRadius: 20 * expandRatio,
                       spreadRadius: 0,
                     ),
@@ -119,7 +125,10 @@ class CollapsibleSavedHeader extends StatelessWidget {
                           curve: Curves.easeOutCubic,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 2 + (2 * expandRatio), bottom: 2),
+                          padding: EdgeInsets.only(
+                            left: 2 + (2 * expandRatio),
+                            bottom: 2,
+                          ),
                           child: Text(
                             currencyProvider.symbol,
                             style: TextStyle(
@@ -153,7 +162,11 @@ class CollapsibleSavedHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState(BuildContext context, double expandRatio, AppLocalizations l10n) {
+  Widget _buildEmptyState(
+    BuildContext context,
+    double expandRatio,
+    AppLocalizations l10n,
+  ) {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 12 + (8 * expandRatio),
@@ -162,10 +175,7 @@ class CollapsibleSavedHeader extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.appColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: context.appColors.cardBorder,
-          width: 1,
-        ),
+        border: Border.all(color: context.appColors.cardBorder, width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -220,10 +230,7 @@ class _AnimatedSavingsIconState extends State<_AnimatedSavingsIcon>
     );
 
     _pulseAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(
-      CurvedAnimation(
-        parent: _pulseController,
-        curve: Curves.easeInOut,
-      ),
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
 
     // Sürekli yumuşak pulse
@@ -251,7 +258,9 @@ class _AnimatedSavingsIconState extends State<_AnimatedSavingsIcon>
             height: widget.size,
             decoration: BoxDecoration(
               color: context.appColors.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12 + (8 * widget.expandRatio)),
+              borderRadius: BorderRadius.circular(
+                12 + (8 * widget.expandRatio),
+              ),
             ),
             child: Icon(
               PhosphorIconsDuotone.shieldCheck,
@@ -283,15 +292,13 @@ class CollapsibleSavedHeaderDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    final expandRatio = 1.0 - (shrinkOffset / (maxHeight - minHeight)).clamp(0.0, 1.0);
+    final expandRatio =
+        1.0 - (shrinkOffset / (maxHeight - minHeight)).clamp(0.0, 1.0);
 
     return Container(
       color: context.appColors.background,
       alignment: Alignment.center,
-      child: CollapsibleSavedHeader(
-        stats: stats,
-        expandRatio: expandRatio,
-      ),
+      child: CollapsibleSavedHeader(stats: stats, expandRatio: expandRatio),
     );
   }
 

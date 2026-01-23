@@ -42,7 +42,9 @@ class AppClipService {
       if (result != null) {
         _isAppClip = result['isAppClip'] ?? false;
         _hasFullApp = result['hasFullApp'] ?? false;
-        debugPrint('[AppClip] Status: isClip=$_isAppClip, hasFullApp=$_hasFullApp');
+        debugPrint(
+          '[AppClip] Status: isClip=$_isAppClip, hasFullApp=$_hasFullApp',
+        );
       }
 
       // Get invocation URL if launched from clip
@@ -242,9 +244,7 @@ class AppClipInvocation {
 
   /// Get description if provided
   String? get description =>
-      parameters['description'] ??
-      parameters['desc'] ??
-      parameters['note'];
+      parameters['description'] ?? parameters['desc'] ?? parameters['note'];
 }
 
 /// Features available in App Clip

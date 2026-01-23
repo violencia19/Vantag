@@ -23,7 +23,10 @@ class EmptyState extends StatefulWidget {
   });
 
   /// Empty state for expense list with Lottie animation
-  factory EmptyState.expenses({required String message, bool useLottie = true}) {
+  factory EmptyState.expenses({
+    required String message,
+    bool useLottie = true,
+  }) {
     return EmptyState(
       icon: PhosphorIconsDuotone.receipt,
       message: message,
@@ -33,30 +36,24 @@ class EmptyState extends StatefulWidget {
 
   /// Empty state for achievements list
   factory EmptyState.achievements({required String message}) {
-    return EmptyState(
-      icon: PhosphorIconsDuotone.trophy,
-      message: message,
-    );
+    return EmptyState(icon: PhosphorIconsDuotone.trophy, message: message);
   }
 
   /// Empty state for reports
   factory EmptyState.reports({required String message}) {
-    return EmptyState(
-      icon: PhosphorIconsDuotone.chartBar,
-      message: message,
-    );
+    return EmptyState(icon: PhosphorIconsDuotone.chartBar, message: message);
   }
 
   /// Empty state for subscription list
   factory EmptyState.subscriptions({required String message}) {
-    return EmptyState(
-      icon: PhosphorIconsDuotone.calendar,
-      message: message,
-    );
+    return EmptyState(icon: PhosphorIconsDuotone.calendar, message: message);
   }
 
   /// Empty state for pursuits with Lottie animation
-  factory EmptyState.pursuits({required String message, bool useLottie = true}) {
+  factory EmptyState.pursuits({
+    required String message,
+    bool useLottie = true,
+  }) {
     return EmptyState(
       icon: PhosphorIconsDuotone.target,
       message: message,
@@ -68,8 +65,7 @@ class EmptyState extends StatefulWidget {
   State<EmptyState> createState() => _EmptyStateState();
 }
 
-class _EmptyStateState extends State<EmptyState>
-    with TickerProviderStateMixin {
+class _EmptyStateState extends State<EmptyState> with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late AnimationController _pulseController;
   late Animation<double> _fadeAnimation;
@@ -96,13 +92,9 @@ class _EmptyStateState extends State<EmptyState>
       duration: const Duration(milliseconds: 1500),
     );
 
-    _pulseAnimation = Tween<double>(
-      begin: 1.0,
-      end: 1.08,
-    ).animate(CurvedAnimation(
-      parent: _pulseController,
-      curve: Curves.easeInOut,
-    ));
+    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.08).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
 
     // Animasyonları başlat
     Future.delayed(AppAnimations.initialDelay, () {
@@ -234,12 +226,10 @@ class _LoadingPlaceholderState extends State<LoadingPlaceholder>
       duration: const Duration(milliseconds: 1500),
     );
 
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
-      ),
-    );
+    _animation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     _controller.repeat(reverse: true);
   }
@@ -269,11 +259,7 @@ class _LoadingPlaceholderState extends State<LoadingPlaceholder>
                   context.appColors.surfaceLighter,
                   context.appColors.surfaceLight,
                 ],
-                stops: [
-                  0.0,
-                  _animation.value,
-                  1.0,
-                ],
+                stops: [0.0, _animation.value, 1.0],
               ),
             ),
           );

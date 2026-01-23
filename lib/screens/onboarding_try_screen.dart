@@ -41,10 +41,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
       duration: const Duration(milliseconds: 800),
     );
     _pulseAnimation = Tween<double>(begin: 0.98, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _pulseController,
-        curve: Curves.easeInOut,
-      ),
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
   }
 
@@ -115,13 +112,18 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
       body: SafeArea(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 400),
-          child: _showResult ? _buildResultView(l10n, currencyProvider) : _buildInputView(l10n, currencyProvider),
+          child: _showResult
+              ? _buildResultView(l10n, currencyProvider)
+              : _buildInputView(l10n, currencyProvider),
         ),
       ),
     );
   }
 
-  Widget _buildInputView(AppLocalizations l10n, CurrencyProvider currencyProvider) {
+  Widget _buildInputView(
+    AppLocalizations l10n,
+    CurrencyProvider currencyProvider,
+  ) {
     return Padding(
       key: const ValueKey('input'),
       padding: const EdgeInsets.all(24),
@@ -143,10 +145,10 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 ),
               ],
             ),
-            child: const Icon(
+            child: Icon(
               PhosphorIconsDuotone.target,
               size: 40,
-              color: Colors.white,
+              color: context.appColors.textPrimary,
             ),
           ),
           const SizedBox(height: 32),
@@ -183,10 +185,10 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
               child: Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.08),
+                  color: context.appColors.surfaceLight,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.15),
+                    color: context.appColors.cardBorder,
                   ),
                 ),
                 child: Column(
@@ -203,7 +205,9 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                     const SizedBox(height: 12),
                     TextField(
                       controller: _amountController,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.w600,
@@ -267,10 +271,10 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                   children: [
                     Text(
                       l10n.onboardingTryButton,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: context.appColors.textPrimary,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -299,7 +303,10 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
     );
   }
 
-  Widget _buildResultView(AppLocalizations l10n, CurrencyProvider currencyProvider) {
+  Widget _buildResultView(
+    AppLocalizations l10n,
+    CurrencyProvider currencyProvider,
+  ) {
     return Padding(
       key: const ValueKey('result'),
       padding: const EdgeInsets.all(24),
@@ -314,7 +321,8 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
               return Transform.scale(
                 scale: _pulseAnimation.value,
                 child: Opacity(
-                  opacity: 0.7 + (_pulseAnimation.value - 0.98) * 15, // 0.7 to 1.0
+                  opacity:
+                      0.7 + (_pulseAnimation.value - 0.98) * 15, // 0.7 to 1.0
                   child: child,
                 ),
               );
@@ -350,11 +358,9 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.05),
+              color: context.appColors.surfaceLight,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.1),
-              ),
+              border: Border.all(color: context.appColors.cardBorder),
             ),
             child: Column(
               children: [
@@ -435,10 +441,10 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                   children: [
                     Text(
                       l10n.onboardingContinue,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: context.appColors.textPrimary,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -454,7 +460,10 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
     );
   }
 
-  Widget _buildResultCard(AppLocalizations l10n, CurrencyProvider currencyProvider) {
+  Widget _buildResultCard(
+    AppLocalizations l10n,
+    CurrencyProvider currencyProvider,
+  ) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(24),
       child: BackdropFilter(

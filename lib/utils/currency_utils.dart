@@ -25,7 +25,10 @@ double? parseAmount(String? text) {
   normalized = normalized.replaceAll(' ', '');
 
   // TL, ₺ gibi sembolleri kaldır
-  normalized = normalized.replaceAll(RegExp(r'[TL₺\$€]', caseSensitive: false), '');
+  normalized = normalized.replaceAll(
+    RegExp(r'[TL₺\$€]', caseSensitive: false),
+    '',
+  );
 
   // Eğer hem nokta hem virgül varsa, hangisinin ondalık olduğunu belirle
   final hasComma = normalized.contains(',');
@@ -77,7 +80,8 @@ double? parseAmount(String? text) {
   final dotCount = '.'.allMatches(normalized).length;
   if (dotCount > 1) {
     final firstDot = normalized.indexOf('.');
-    normalized = normalized.substring(0, firstDot + 1) +
+    normalized =
+        normalized.substring(0, firstDot + 1) +
         normalized.substring(firstDot + 1).replaceAll('.', '');
   }
 
@@ -95,7 +99,11 @@ double? parseTurkishCurrency(String text) => parseAmount(text);
 /// Double'ı Türkçe para formatına çevir
 /// 1234567.89 → "1.234.567,89"
 /// Yuvarlama yapmaz, sadece truncate eder
-String formatTurkishCurrency(double value, {int decimalDigits = 2, bool showDecimals = true}) {
+String formatTurkishCurrency(
+  double value, {
+  int decimalDigits = 2,
+  bool showDecimals = true,
+}) {
   if (value.isNaN || value.isInfinite) return '0';
 
   final isNegative = value < 0;
@@ -114,7 +122,9 @@ String formatTurkishCurrency(double value, {int decimalDigits = 2, bool showDeci
     final truncated = (absValue * multiplier).truncate() / multiplier;
     final parts = truncated.toString().split('.');
     final integerPart = int.parse(parts[0]);
-    final decimalPart = parts.length > 1 ? parts[1].padRight(decimalDigits, '0').substring(0, decimalDigits) : '0'.padRight(decimalDigits, '0');
+    final decimalPart = parts.length > 1
+        ? parts[1].padRight(decimalDigits, '0').substring(0, decimalDigits)
+        : '0'.padRight(decimalDigits, '0');
 
     result = '${_formatInteger(integerPart)},$decimalPart';
   }
@@ -135,18 +145,24 @@ String formatCompact(double value) {
   if (absValue >= 1000000000) {
     // Milyar için: 2 ondalık basamak
     final multiplier = 100;
-    final truncated = ((absValue / 1000000000) * multiplier).truncate() / multiplier;
+    final truncated =
+        ((absValue / 1000000000) * multiplier).truncate() / multiplier;
     final parts = truncated.toString().split('.');
     final integerPart = parts[0];
-    final decimalPart = parts.length > 1 ? parts[1].padRight(2, '0').substring(0, 2) : '00';
+    final decimalPart = parts.length > 1
+        ? parts[1].padRight(2, '0').substring(0, 2)
+        : '00';
     result = '$integerPart,${decimalPart}B';
   } else if (absValue >= 1000000) {
     // Milyon için: 2 ondalık basamak
     final multiplier = 100;
-    final truncated = ((absValue / 1000000) * multiplier).truncate() / multiplier;
+    final truncated =
+        ((absValue / 1000000) * multiplier).truncate() / multiplier;
     final parts = truncated.toString().split('.');
     final integerPart = parts[0];
-    final decimalPart = parts.length > 1 ? parts[1].padRight(2, '0').substring(0, 2) : '00';
+    final decimalPart = parts.length > 1
+        ? parts[1].padRight(2, '0').substring(0, 2)
+        : '00';
     result = '$integerPart,${decimalPart}M';
   } else if (absValue >= 1000) {
     // Bin için: 1 ondalık basamak
@@ -167,7 +183,11 @@ String formatCompact(double value) {
 /// 1234567.89 → "1.234.567 TL"
 /// Yuvarlama yapmaz, sadece truncate eder
 String formatCurrencyShort(double value, {bool showSymbol = true}) {
-  final formatted = formatTurkishCurrency(value.truncateToDouble(), decimalDigits: 0, showDecimals: false);
+  final formatted = formatTurkishCurrency(
+    value.truncateToDouble(),
+    decimalDigits: 0,
+    showDecimals: false,
+  );
   return showSymbol ? '$formatted TL' : formatted;
 }
 
@@ -243,7 +263,8 @@ class PremiumCurrencyFormatter extends TextInputFormatter {
       } else {
         // Birden fazla virgül varsa sadece ilkini tut
         final firstComma = text.indexOf(',');
-        text = text.substring(0, firstComma + 1) +
+        text =
+            text.substring(0, firstComma + 1) +
             text.substring(firstComma + 1).replaceAll(',', '');
 
         // Ondalık kısmı sınırla
@@ -343,12 +364,15 @@ class PremiumCurrencyFormatter extends TextInputFormatter {
 
 class TurkishCurrencyInputFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     if (newValue.text.isEmpty) return newValue;
 
     // 1. Binlik noktalarını temizle, her şeyi saf sayıya çek
     String cleanText = newValue.text.replaceAll('.', '');
-    
+
     // 2. Noktayı virgüle çevir (Kullanıcı hangisine basarsa bassın kuruşa geçsin)
     cleanText = cleanText.replaceAll(',', '.');
 
@@ -371,11 +395,14 @@ class TurkishCurrencyInputFormatter extends TextInputFormatter {
     // int.parse hata vermesin diye kontrol (çok büyük sayılar için)
     int? parsedBefore = int.tryParse(beforeDecimal);
     if (parsedBefore == null) return oldValue;
-    
-    String formattedBefore = formatter.format(parsedBefore).replaceAll(',', '.');
+
+    String formattedBefore = formatter
+        .format(parsedBefore)
+        .replaceAll(',', '.');
 
     // 5. Sonucu birleştir (Virgül ile kuruşu ayır)
-    String finalString = formattedBefore + (afterDecimal != null ? ',$afterDecimal' : '');
+    String finalString =
+        formattedBefore + (afterDecimal != null ? ',$afterDecimal' : '');
 
     return TextEditingValue(
       text: finalString,
@@ -383,6 +410,7 @@ class TurkishCurrencyInputFormatter extends TextInputFormatter {
     );
   }
 }
+
 /// Simülasyon zamanı için iki bloklu sonuç
 /// UI'da yan yana iki kutucuk göstermek için kullanılır
 class SimulationTimeDisplay {
@@ -428,7 +456,11 @@ SimulationTimeDisplay getSimulationTimeDisplay(double totalHours) {
     return SimulationTimeDisplay(
       value1: totalYears.toStringAsFixed(1),
       unit1: 'Yıl',
-      value2: formatTurkishCurrency(totalDays, decimalDigits: 0, showDecimals: false),
+      value2: formatTurkishCurrency(
+        totalDays,
+        decimalDigits: 0,
+        showDecimals: false,
+      ),
       unit2: 'Gün',
       isYearMode: true,
     );

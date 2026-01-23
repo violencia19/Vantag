@@ -56,18 +56,13 @@ class ShadowDashboard extends StatelessWidget {
                       // Time - large, light font, breathing space
                       AnimatedNumber(
                         value: totalTime,
-                        style: QuietLuxury.displayLarge.copyWith(
-                          fontSize: 26,
-                        ),
+                        style: QuietLuxury.displayLarge.copyWith(fontSize: 26),
                       ),
                       const SizedBox(height: 6),
                       // Sub text
                       Row(
                         children: [
-                          Text(
-                            l10n.freedTime,
-                            style: QuietLuxury.label,
-                          ),
+                          Text(l10n.freedTime, style: QuietLuxury.label),
                           // Streak badge - gold only at milestones
                           if (currentStreak > 0) ...[
                             const SizedBox(width: 10),
@@ -92,10 +87,7 @@ class ShadowDashboard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      l10n.savedAmountLabel,
-                      style: QuietLuxury.label,
-                    ),
+                    Text(l10n.savedAmountLabel, style: QuietLuxury.label),
                   ],
                 ),
               ],
@@ -115,9 +107,9 @@ class _StreakChip extends StatelessWidget {
 
   // Gold only at milestones (10+), others subtle
   Color get _chipColor {
-    if (streak >= 10) return QuietLuxury.gold;      // Milestone - Gold
-    if (streak >= 5) return QuietLuxury.positive;   // Good - Subtle green
-    return QuietLuxury.textTertiary;                // Normal - Subtle grey
+    if (streak >= 10) return QuietLuxury.gold; // Milestone - Gold
+    if (streak >= 5) return QuietLuxury.positive; // Good - Subtle green
+    return QuietLuxury.textTertiary; // Normal - Subtle grey
   }
 
   @override
@@ -135,11 +127,7 @@ class _StreakChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            PhosphorIconsDuotone.flame,
-            size: 12,
-            color: _chipColor,
-          ),
+          Icon(PhosphorIconsDuotone.flame, size: 12, color: _chipColor),
           const SizedBox(width: 4),
           Text(
             '$streak',
@@ -160,11 +148,7 @@ class StreakChip extends StatelessWidget {
   final int streak;
   final bool showLabel;
 
-  const StreakChip({
-    super.key,
-    required this.streak,
-    this.showLabel = false,
-  });
+  const StreakChip({super.key, required this.streak, this.showLabel = false});
 
   Color get _chipColor {
     if (streak >= 10) return QuietLuxury.gold;
@@ -192,11 +176,7 @@ class StreakChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            PhosphorIconsDuotone.flame,
-            size: 14,
-            color: _chipColor,
-          ),
+          Icon(PhosphorIconsDuotone.flame, size: 14, color: _chipColor),
           const SizedBox(width: 4),
           Text(
             '$streak',

@@ -49,10 +49,7 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
     );
 
     _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.elasticOut,
-      ),
+      CurvedAnimation(parent: _animationController, curve: Curves.elasticOut),
     );
 
     _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -90,7 +87,9 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
           child: AnimatedBuilder(
             animation: _opacityAnimation,
             builder: (context, child) => Container(
-              color: Colors.black.withValues(alpha: 0.7 * _opacityAnimation.value),
+              color: Colors.black.withValues(
+                alpha: 0.7 * _opacityAnimation.value,
+              ),
             ),
           ),
         ),
@@ -124,10 +123,7 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
             animation: _scaleAnimation,
             builder: (context, child) => Transform.scale(
               scale: _scaleAnimation.value,
-              child: Opacity(
-                opacity: _opacityAnimation.value,
-                child: child,
-              ),
+              child: Opacity(opacity: _opacityAnimation.value, child: child),
             ),
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -240,9 +236,7 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
                           },
                           style: OutlinedButton.styleFrom(
                             foregroundColor: QuietLuxury.textPrimary,
-                            side: BorderSide(
-                              color: QuietLuxury.cardBorder,
-                            ),
+                            side: BorderSide(color: QuietLuxury.cardBorder),
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),

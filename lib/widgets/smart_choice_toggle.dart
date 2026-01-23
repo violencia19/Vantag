@@ -64,7 +64,8 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
     // Form temizlendiğinde toggle'ı kapat ve sıfırla
     // currentAmount 0 olduğunda veya kategori null olduğunda
     if ((oldWidget.currentAmount > 0 && widget.currentAmount == 0) ||
-        (oldWidget.selectedCategory != null && widget.selectedCategory == null)) {
+        (oldWidget.selectedCategory != null &&
+            widget.selectedCategory == null)) {
       if (_isExpanded) {
         _isExpanded = false;
         _animController.reverse();
@@ -78,8 +79,11 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
   }
 
   void _updateDefaultThreshold() {
-    if (widget.selectedCategory != null && _alternativeController.text.isEmpty) {
-      final defaultThreshold = CategoryThresholds.getDefault(widget.selectedCategory!);
+    if (widget.selectedCategory != null &&
+        _alternativeController.text.isEmpty) {
+      final defaultThreshold = CategoryThresholds.getDefault(
+        widget.selectedCategory!,
+      );
       // Varsayılan değeri sadece şu anki tutardan büyükse öner
       if (defaultThreshold > widget.currentAmount && widget.currentAmount > 0) {
         _alternativeController.text = formatTurkishCurrency(defaultThreshold);
@@ -141,7 +145,9 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
             boxShadow: _isExpanded
                 ? [
                     BoxShadow(
-                      color: const Color(0xFFFFD700).withValues(alpha: 0.3 * _glowAnimation.value),
+                      color: const Color(
+                        0xFFFFD700,
+                      ).withValues(alpha: 0.3 * _glowAnimation.value),
                       blurRadius: 20,
                       spreadRadius: 2,
                     ),
@@ -161,7 +167,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                   border: Border.all(
                     color: _isExpanded
                         ? const Color(0xFFFFD700).withValues(alpha: 0.5)
-                        : Colors.white.withValues(alpha: 0.1),
+                        : context.appColors.cardBorder,
                     width: 1,
                   ),
                 ),
@@ -183,7 +189,9 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                               height: 40,
                               decoration: BoxDecoration(
                                 color: _isExpanded
-                                    ? const Color(0xFFFFD700).withValues(alpha: 0.2)
+                                    ? const Color(
+                                        0xFFFFD700,
+                                      ).withValues(alpha: 0.2)
                                     : context.appColors.surfaceLight,
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -204,7 +212,8 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                 builder: (context) {
                                   final l10n = AppLocalizations.of(context);
                                   return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         l10n.mindfulChoice,
@@ -223,7 +232,8 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                             : l10n.mindfulChoiceCollapsedDesc,
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: context.appColors.textSecondary,
+                                          color:
+                                              context.appColors.textSecondary,
                                         ),
                                       ),
                                     ],
@@ -257,7 +267,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                             // Divider
                             Container(
                               height: 1,
-                              color: Colors.white.withValues(alpha: 0.1),
+                              color: context.appColors.cardBorder,
                             ),
                             const SizedBox(height: 16),
                             // Alternative amount input
@@ -266,7 +276,10 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                 final l10n = AppLocalizations.of(context);
                                 return TextField(
                                   controller: _alternativeController,
-                                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                        decimal: true,
+                                      ),
                                   style: TextStyle(
                                     color: context.appColors.textPrimary,
                                     fontSize: 16,
@@ -278,13 +291,20 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                       color: context.appColors.textSecondary,
                                       fontSize: 13,
                                     ),
-                                    hintText: l10n.mindfulChoiceAmountHint(formatTurkishCurrency(CategoryThresholds.getDefault(widget.selectedCategory ?? 'Diğer'))),
+                                    hintText: l10n.mindfulChoiceAmountHint(
+                                      formatTurkishCurrency(
+                                        CategoryThresholds.getDefault(
+                                          widget.selectedCategory ?? 'Diğer',
+                                        ),
+                                      ),
+                                    ),
                                     hintStyle: TextStyle(
                                       color: context.appColors.textTertiary,
                                       fontSize: 14,
                                     ),
                                     filled: true,
-                                    fillColor: context.appColors.background.withValues(alpha: 0.5),
+                                    fillColor: context.appColors.background
+                                        .withValues(alpha: 0.5),
                                     contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 16,
                                       vertical: 14,
@@ -365,7 +385,9 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  l10n.mindfulChoiceSavings(formatTurkishCurrency(saved, decimalDigits: 0)),
+                  l10n.mindfulChoiceSavings(
+                    formatTurkishCurrency(saved, decimalDigits: 0),
+                  ),
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,

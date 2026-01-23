@@ -19,17 +19,17 @@ class PursuitProvider extends ChangeNotifier {
   List<Pursuit> get allPursuits => List.unmodifiable(_pursuits);
 
   /// Active pursuits (not archived, not completed)
-  List<Pursuit> get activePursuits => _pursuits
-      .where((p) => !p.isArchived && !p.isCompleted)
-      .toList()
-    ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+  List<Pursuit> get activePursuits =>
+      _pursuits.where((p) => !p.isArchived && !p.isCompleted).toList()
+        ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
 
   /// Completed pursuits
-  List<Pursuit> get completedPursuits => _pursuits
-      .where((p) => p.isCompleted)
-      .toList()
-    ..sort((a, b) =>
-        (b.completedAt ?? b.updatedAt).compareTo(a.completedAt ?? a.updatedAt));
+  List<Pursuit> get completedPursuits =>
+      _pursuits.where((p) => p.isCompleted).toList()..sort(
+        (a, b) => (b.completedAt ?? b.updatedAt).compareTo(
+          a.completedAt ?? a.updatedAt,
+        ),
+      );
 
   /// Total saved amount across all active pursuits
   double get totalSaved =>

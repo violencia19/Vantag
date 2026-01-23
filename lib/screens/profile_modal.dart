@@ -19,7 +19,7 @@ class ProfileModal extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: context.appColors.background.withValues(alpha: 0.9),
       builder: (context) => const ProfileModal(),
     );
   }
@@ -211,10 +211,10 @@ class _ProfileModalState extends State<ProfileModal> {
                   ),
                   child: Text(
                     'PRO',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w800,
-                      color: Colors.black,
+                      color: context.appColors.background,
                     ),
                   ),
                 ),
@@ -484,7 +484,7 @@ class _ProfileModalState extends State<ProfileModal> {
   ) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: context.appColors.background.withValues(alpha: 0.9),
       builder: (context) => AlertDialog(
         backgroundColor: context.appColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -511,7 +511,7 @@ class _ProfileModalState extends State<ProfileModal> {
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(
               backgroundColor: context.appColors.error,
-              foregroundColor: Colors.white,
+              foregroundColor: context.appColors.textPrimary,
             ),
             child: Text(l10n.profileSignOut),
           ),

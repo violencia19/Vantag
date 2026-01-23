@@ -31,11 +31,9 @@ class VoiceInputButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         HapticFeedback.mediumImpact();
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => const VoiceInputScreen(),
-          ),
-        );
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute(builder: (_) => const VoiceInputScreen()));
       },
       child: Container(
         width: size,
@@ -76,11 +74,7 @@ class CompactVoiceButton extends StatelessWidget {
   /// Button size
   final double size;
 
-  const CompactVoiceButton({
-    super.key,
-    this.onTap,
-    this.size = 40,
-  });
+  const CompactVoiceButton({super.key, this.onTap, this.size = 40});
 
   @override
   Widget build(BuildContext context) {
@@ -90,11 +84,9 @@ class CompactVoiceButton extends StatelessWidget {
         if (onTap != null) {
           onTap!();
         } else {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => const VoiceInputScreen(),
-            ),
-          );
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const VoiceInputScreen()));
         }
       },
       child: Container(
@@ -199,14 +191,18 @@ class _AnimatedVoiceButtonState extends State<AnimatedVoiceButton>
                   end: Alignment.bottomRight,
                   colors: widget.isListening
                       ? [const Color(0xFFE74C3C), const Color(0xFFC0392B)]
-                      : [context.appColors.primary, context.appColors.secondary],
+                      : [
+                          context.appColors.primary,
+                          context.appColors.secondary,
+                        ],
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: (widget.isListening
-                            ? const Color(0xFFE74C3C)
-                            : context.appColors.primary)
-                        .withValues(alpha: widget.isListening ? 0.6 : 0.4),
+                    color:
+                        (widget.isListening
+                                ? const Color(0xFFE74C3C)
+                                : context.appColors.primary)
+                            .withValues(alpha: widget.isListening ? 0.6 : 0.4),
                     blurRadius: widget.isListening ? 50 : 25,
                     spreadRadius: widget.isListening ? 10 : 0,
                   ),
@@ -319,7 +315,8 @@ class _WaveformPainter extends CustomPainter {
       // Create wave effect with sound level
       final wave = math.sin((i / barCount + progress) * math.pi * 2);
       final heightFactor = 0.3 + (wave + 1) / 2 * 0.7;
-      final amplifiedHeight = minHeight +
+      final amplifiedHeight =
+          minHeight +
           (maxHeight - minHeight) * heightFactor * (0.3 + amplitude * 0.7);
 
       final y1 = (size.height - amplifiedHeight) / 2;
@@ -331,6 +328,7 @@ class _WaveformPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _WaveformPainter oldDelegate) {
-    return oldDelegate.progress != progress || oldDelegate.amplitude != amplitude;
+    return oldDelegate.progress != progress ||
+        oldDelegate.amplitude != amplitude;
   }
 }

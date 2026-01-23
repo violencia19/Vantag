@@ -75,15 +75,16 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
         SnackBar(
           content: Row(
             children: [
-              const Icon(PhosphorIconsDuotone.checkCircle, color: Colors.white),
+              Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.textPrimary),
               const SizedBox(width: 12),
               Expanded(child: Text(l10n.assistantSetupComplete)),
             ],
           ),
           backgroundColor: context.appColors.success,
           behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           duration: const Duration(seconds: 4),
         ),
       );
@@ -100,8 +101,10 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon:
-              Icon(PhosphorIconsDuotone.x, color: context.appColors.textSecondary),
+          icon: Icon(
+            PhosphorIconsDuotone.x,
+            color: context.appColors.textSecondary,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -296,14 +299,19 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         side: BorderSide(
-                            color: context.appColors.textTertiary.withValues(alpha: 0.3)),
+                          color: context.appColors.textTertiary.withValues(
+                            alpha: 0.3,
+                          ),
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       child: Text(
                         l10n.back,
-                        style: TextStyle(color: context.appColors.textSecondary),
+                        style: TextStyle(
+                          color: context.appColors.textSecondary,
+                        ),
                       ),
                     ),
                   ),
@@ -323,7 +331,7 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: context.appColors.primary,
-                      foregroundColor: Colors.white,
+                      foregroundColor: context.appColors.textPrimary,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -349,9 +357,7 @@ class _AssistantSetupScreenState extends State<AssistantSetupScreen> {
             onPressed: () => Navigator.pop(context),
             child: Text(
               l10n.laterButton,
-              style: TextStyle(
-                color: context.appColors.textTertiary,
-              ),
+              style: TextStyle(color: context.appColors.textTertiary),
             ),
           ),
 

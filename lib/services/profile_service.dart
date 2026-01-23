@@ -19,6 +19,14 @@ class ProfileService {
   static const _keyMonthlyBudget = 'monthly_budget';
   static const _keySavingsGoal = 'savings_goal';
 
+  // Salary & Balance Management
+  static const _keySalaryDay = 'salary_day';
+  static const _keyCurrentBalance = 'current_balance';
+  static const _keyLastSalaryConfirmedDate = 'last_salary_confirmed_date';
+
+  // One-time incomes
+  static const _keyIncomes = 'incomes_v1';
+
   Future<UserProfile?> getProfile() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -33,6 +41,16 @@ class ProfileService {
     final monthlyBudget = prefs.getDouble(_keyMonthlyBudget);
     final savingsGoal = prefs.getDouble(_keySavingsGoal);
 
+    // Salary & Balance Management
+    final salaryDay = prefs.getInt(_keySalaryDay);
+    final currentBalance = prefs.getDouble(_keyCurrentBalance);
+    final lastSalaryConfirmedDateStr = prefs.getString(
+      _keyLastSalaryConfirmedDate,
+    );
+    final lastSalaryConfirmedDate = lastSalaryConfirmedDateStr != null
+        ? DateTime.tryParse(lastSalaryConfirmedDateStr)
+        : null;
+
     // Önce yeni format'ı kontrol et
     final incomeSourcesJson = prefs.getString(_keyIncomeSources);
     if (incomeSourcesJson != null && incomeSourcesJson.isNotEmpty) {
@@ -44,6 +62,9 @@ class ProfileService {
           workDaysPerWeek: days,
           monthlyBudget: monthlyBudget,
           monthlySavingsGoal: savingsGoal,
+          salaryDay: salaryDay,
+          currentBalance: currentBalance,
+          lastSalaryConfirmedDate: lastSalaryConfirmedDate,
         );
       } catch (e) {
         // Decode hatası - eski formattan devam et
@@ -54,13 +75,19 @@ class ProfileService {
     final legacyIncome = prefs.getDouble(_keyMonthlyIncome);
     if (legacyIncome != null && legacyIncome > 0) {
       // Eski format'ı yeni format'a dönüştür
-      final salarySource = IncomeSource.salary(amount: legacyIncome);
+      final salarySource = IncomeSource.salary(
+        amount: legacyIncome,
+        title: 'Main Salary',
+      );
       final profile = UserProfile(
         incomeSources: [salarySource],
         dailyHours: hours,
         workDaysPerWeek: days,
         monthlyBudget: monthlyBudget,
         monthlySavingsGoal: savingsGoal,
+        salaryDay: salaryDay,
+        currentBalance: currentBalance,
+        lastSalaryConfirmedDate: lastSalaryConfirmedDate,
       );
 
       // Yeni format'ta kaydet
@@ -75,6 +102,9 @@ class ProfileService {
       workDaysPerWeek: days,
       monthlyBudget: monthlyBudget,
       monthlySavingsGoal: savingsGoal,
+      salaryDay: salaryDay,
+      currentBalance: currentBalance,
+      lastSalaryConfirmedDate: lastSalaryConfirmedDate,
     );
   }
 
@@ -106,6 +136,28 @@ class ProfileService {
     } else {
       await prefs.remove(_keySavingsGoal);
     }
+
+    // Salary & Balance Management
+    if (profile.salaryDay != null) {
+      await prefs.setInt(_keySalaryDay, profile.salaryDay!);
+    } else {
+      await prefs.remove(_keySalaryDay);
+    }
+
+    if (profile.currentBalance != null) {
+      await prefs.setDouble(_keyCurrentBalance, profile.currentBalance!);
+    } else {
+      await prefs.remove(_keyCurrentBalance);
+    }
+
+    if (profile.lastSalaryConfirmedDate != null) {
+      await prefs.setString(
+        _keyLastSalaryConfirmedDate,
+        profile.lastSalaryConfirmedDate!.toIso8601String(),
+      );
+    } else {
+      await prefs.remove(_keyLastSalaryConfirmedDate);
+    }
   }
 
   /// Gelir kaynağı ekle
@@ -119,7 +171,10 @@ class ProfileService {
   }
 
   /// Gelir kaynağı güncelle
-  Future<UserProfile?> updateIncomeSource(String id, IncomeSource source) async {
+  Future<UserProfile?> updateIncomeSource(
+    String id,
+    IncomeSource source,
+  ) async {
     final profile = await getProfile();
     if (profile == null) return null;
 
@@ -146,7 +201,8 @@ class ProfileService {
 
   Future<bool> hasProfile() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.containsKey(_keyDailyHours) && prefs.containsKey(_keyWorkDaysPerWeek);
+    return prefs.containsKey(_keyDailyHours) &&
+        prefs.containsKey(_keyWorkDaysPerWeek);
   }
 
   /// TÜM uygulama verilerini sıfırla
@@ -159,7 +215,8 @@ class ProfileService {
   Future<String?> saveProfilePhoto(File imageFile) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
-      final fileName = 'profile_photo_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final fileName =
+          'profile_photo_${DateTime.now().millisecondsSinceEpoch}.jpg';
       final savedPath = '${directory.path}/$fileName';
 
       // Eski fotoğrafı sil
@@ -241,7 +298,9 @@ class ProfileService {
         // Retry once if first attempt fails
         debugPrint('[ProfileService] setOnboardingCompleted: retrying...');
         final retrySuccess = await prefs.setBool(_keyOnboardingCompleted, true);
-        debugPrint('[ProfileService] setOnboardingCompleted retry: $retrySuccess');
+        debugPrint(
+          '[ProfileService] setOnboardingCompleted retry: $retrySuccess',
+        );
         return retrySuccess;
       }
 
@@ -250,5 +309,109 @@ class ProfileService {
       debugPrint('[ProfileService] setOnboardingCompleted error: $e');
       return false;
     }
+  }
+
+  // ============================================
+  // SALARY DAY & BALANCE MANAGEMENT
+  // ============================================
+
+  /// Maaş gününü güncelle
+  Future<UserProfile?> updateSalaryDay(int? day) async {
+    final profile = await getProfile();
+    if (profile == null) return null;
+
+    final updatedProfile = profile.copyWith(salaryDay: day);
+    await saveProfile(updatedProfile);
+    return updatedProfile;
+  }
+
+  /// Güncel bakiyeyi güncelle
+  Future<UserProfile?> updateCurrentBalance(double? balance) async {
+    final profile = await getProfile();
+    if (profile == null) return null;
+
+    final updatedProfile = profile.copyWith(currentBalance: balance);
+    await saveProfile(updatedProfile);
+    return updatedProfile;
+  }
+
+  /// Maaş onayını kaydet
+  Future<UserProfile?> confirmSalaryReceived({double? newBalance}) async {
+    final profile = await getProfile();
+    if (profile == null) return null;
+
+    final updatedProfile = profile.copyWith(
+      lastSalaryConfirmedDate: DateTime.now(),
+      currentBalance: newBalance ?? profile.currentBalance,
+    );
+    await saveProfile(updatedProfile);
+    return updatedProfile;
+  }
+
+  /// Bakiyeden harcama düş
+  Future<UserProfile?> deductFromBalance(double amount) async {
+    final profile = await getProfile();
+    if (profile == null) return null;
+
+    final currentBalance = profile.currentBalance ?? 0;
+    final newBalance = currentBalance - amount;
+
+    final updatedProfile = profile.copyWith(currentBalance: newBalance);
+    await saveProfile(updatedProfile);
+    return updatedProfile;
+  }
+
+  /// Bakiyeye gelir ekle
+  Future<UserProfile?> addToBalance(double amount) async {
+    final profile = await getProfile();
+    if (profile == null) return null;
+
+    final currentBalance = profile.currentBalance ?? 0;
+    final newBalance = currentBalance + amount;
+
+    final updatedProfile = profile.copyWith(currentBalance: newBalance);
+    await saveProfile(updatedProfile);
+    return updatedProfile;
+  }
+
+  // ============================================
+  // ONE-TIME INCOME MANAGEMENT
+  // ============================================
+
+  /// Tek seferlik gelirleri getir
+  Future<List<Income>> getIncomes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final json = prefs.getString(_keyIncomes);
+    if (json == null || json.isEmpty) return [];
+
+    try {
+      return Income.decodeList(json);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  /// Tek seferlik gelir ekle
+  Future<void> addIncome(Income income) async {
+    final incomes = await getIncomes();
+    incomes.insert(0, income); // En yenisi başta
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_keyIncomes, Income.encodeList(incomes));
+  }
+
+  /// Bu ayki gelirleri getir
+  Future<List<Income>> getCurrentMonthIncomes() async {
+    final incomes = await getIncomes();
+    final now = DateTime.now();
+    return incomes
+        .where((i) => i.date.year == now.year && i.date.month == now.month)
+        .toList();
+  }
+
+  /// Bu ayki toplam geliri hesapla
+  Future<double> getCurrentMonthTotalIncome() async {
+    final incomes = await getCurrentMonthIncomes();
+    return incomes.fold<double>(0.0, (sum, i) => sum + i.amount);
   }
 }

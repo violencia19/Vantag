@@ -31,7 +31,10 @@ class PursuitService {
   CollectionReference<Map<String, dynamic>>? get _transactionsCollection {
     final uid = _userId;
     if (uid == null) return null;
-    return _firestore.collection('users').doc(uid).collection('pursuit_transactions');
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('pursuit_transactions');
   }
 
   /// Lock mechanism - operations run in FIFO order
@@ -72,18 +75,18 @@ class PursuitService {
   /// Get active (not archived, not completed) pursuits
   Future<List<Pursuit>> getActivePursuits() async {
     final all = await getAllPursuits();
-    return all
-        .where((p) => !p.isArchived && !p.isCompleted)
-        .toList()
+    return all.where((p) => !p.isArchived && !p.isCompleted).toList()
       ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
   }
 
   /// Get completed pursuits
   Future<List<Pursuit>> getCompletedPursuits() async {
     final all = await getAllPursuits();
-    return all.where((p) => p.isCompleted).toList()
-      ..sort((a, b) => (b.completedAt ?? b.updatedAt)
-          .compareTo(a.completedAt ?? a.updatedAt));
+    return all.where((p) => p.isCompleted).toList()..sort(
+      (a, b) => (b.completedAt ?? b.updatedAt).compareTo(
+        a.completedAt ?? a.updatedAt,
+      ),
+    );
   }
 
   /// Get a single pursuit by ID
@@ -335,7 +338,9 @@ class PursuitService {
     }
   }
 
-  Future<void> _syncTransactionToFirestore(PursuitTransaction transaction) async {
+  Future<void> _syncTransactionToFirestore(
+    PursuitTransaction transaction,
+  ) async {
     final collection = _transactionsCollection;
     if (collection == null) return;
 
@@ -388,7 +393,9 @@ class PursuitService {
     if (collection == null) return;
 
     try {
-      final snapshots = await collection.orderBy('createdAt', descending: true).get();
+      final snapshots = await collection
+          .orderBy('createdAt', descending: true)
+          .get();
 
       if (snapshots.docs.isEmpty) return;
 

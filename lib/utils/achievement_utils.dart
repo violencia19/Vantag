@@ -21,7 +21,10 @@ class AchievementUtils {
   }
 
   /// Get localized category label
-  static String getCategoryLabel(BuildContext context, AchievementCategory category) {
+  static String getCategoryLabel(
+    BuildContext context,
+    AchievementCategory category,
+  ) {
     final l10n = AppLocalizations.of(context);
 
     switch (category) {
@@ -39,7 +42,10 @@ class AchievementUtils {
   }
 
   /// Get localized difficulty label
-  static String getDifficultyLabel(BuildContext context, HiddenDifficulty difficulty) {
+  static String getDifficultyLabel(
+    BuildContext context,
+    HiddenDifficulty difficulty,
+  ) {
     final l10n = AppLocalizations.of(context);
 
     switch (difficulty) {
@@ -321,7 +327,11 @@ class AchievementUtils {
   }
 
   /// Get full tier label with subTier (e.g., "Bronze 1", "Silver 2")
-  static String getFullTierLabel(BuildContext context, AchievementTier tier, int subTier) {
+  static String getFullTierLabel(
+    BuildContext context,
+    AchievementTier tier,
+    int subTier,
+  ) {
     final tierLabel = getTierLabel(context, tier);
     if (tier == AchievementTier.platinum) {
       return tierLabel;
