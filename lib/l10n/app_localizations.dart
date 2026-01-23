@@ -2141,7 +2141,7 @@ abstract class AppLocalizations {
   /// No description provided for @autoRecordDescription.
   ///
   /// In en, this message translates to:
-  /// **'Create expense record on renewal'**
+  /// **'Expense will be automatically added on billing date'**
   String get autoRecordDescription;
 
   /// No description provided for @add.
@@ -3365,7 +3365,7 @@ abstract class AppLocalizations {
   /// No description provided for @autoRecordEnabled.
   ///
   /// In en, this message translates to:
-  /// **'Auto expense recording enabled'**
+  /// **'Auto-record enabled'**
   String get autoRecordEnabled;
 
   /// No description provided for @autoRecordDisabled.
@@ -3445,6 +3445,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred while sharing'**
   String get shareError;
+
+  /// No description provided for @shareVia.
+  ///
+  /// In en, this message translates to:
+  /// **'Share via'**
+  String get shareVia;
+
+  /// No description provided for @saveToGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Gallery'**
+  String get saveToGallery;
+
+  /// No description provided for @savedToGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to gallery'**
+  String get savedToGallery;
+
+  /// No description provided for @otherApps.
+  ///
+  /// In en, this message translates to:
+  /// **'Other Apps'**
+  String get otherApps;
+
+  /// No description provided for @expenseDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense deleted'**
+  String get expenseDeleted;
+
+  /// No description provided for @undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undo;
+
+  /// No description provided for @choosePlatform.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Platform'**
+  String get choosePlatform;
+
+  /// No description provided for @savingToGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get savingToGallery;
 
   /// No description provided for @pleaseEnterValidSalary.
   ///
@@ -5048,6 +5096,210 @@ abstract class AppLocalizations {
   /// **'Upgrade to Pro to export your financial data'**
   String get upgradeForExport;
 
+  /// No description provided for @importPremiumOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Import is a Pro feature'**
+  String get importPremiumOnly;
+
+  /// No description provided for @upgradeForImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro to import your bank statements'**
+  String get upgradeForImport;
+
+  /// No description provided for @receiptScanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt scanned successfully'**
+  String get receiptScanned;
+
+  /// No description provided for @noAmountFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No amount found in the image'**
+  String get noAmountFound;
+
+  /// No description provided for @saveAllRecognized.
+  ///
+  /// In en, this message translates to:
+  /// **'Save All ({count})'**
+  String saveAllRecognized(int count);
+
+  /// No description provided for @saveAllRecognizedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} expenses saved successfully'**
+  String saveAllRecognizedSuccess(int count);
+
+  /// No description provided for @budgets.
+  ///
+  /// In en, this message translates to:
+  /// **'Budgets'**
+  String get budgets;
+
+  /// No description provided for @budget.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget'**
+  String get budget;
+
+  /// No description provided for @addBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Budget'**
+  String get addBudget;
+
+  /// No description provided for @editBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Budget'**
+  String get editBudget;
+
+  /// No description provided for @deleteBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Budget'**
+  String get deleteBudget;
+
+  /// No description provided for @deleteBudgetConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this budget?'**
+  String get deleteBudgetConfirm;
+
+  /// No description provided for @monthlyLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Limit'**
+  String get monthlyLimit;
+
+  /// No description provided for @budgetProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget Progress'**
+  String get budgetProgress;
+
+  /// No description provided for @totalBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Budget'**
+  String get totalBudget;
+
+  /// No description provided for @remainingAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} remaining'**
+  String remainingAmount(String amount);
+
+  /// No description provided for @overBudgetAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} over!'**
+  String overBudgetAmount(String amount);
+
+  /// No description provided for @ofBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'{spent} of {total}'**
+  String ofBudget(String spent, String total);
+
+  /// No description provided for @onTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'On track'**
+  String get onTrack;
+
+  /// No description provided for @nearLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Near limit'**
+  String get nearLimit;
+
+  /// No description provided for @overLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Over limit'**
+  String get overLimit;
+
+  /// No description provided for @noBudgetsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No budgets yet'**
+  String get noBudgetsYet;
+
+  /// No description provided for @noBudgetsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Set budgets to track your spending by category'**
+  String get noBudgetsDescription;
+
+  /// No description provided for @budgetHelperText.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a monthly spending limit for this category'**
+  String get budgetHelperText;
+
+  /// No description provided for @budgetExceededTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget Exceeded!'**
+  String get budgetExceededTitle;
+
+  /// No description provided for @budgetExceededMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve exceeded your {category} budget by {amount}'**
+  String budgetExceededMessage(String category, String amount);
+
+  /// No description provided for @budgetNearLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Approaching budget limit'**
+  String get budgetNearLimit;
+
+  /// No description provided for @budgetNearLimitMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve used {percent}% of your {category} budget'**
+  String budgetNearLimitMessage(String percent, String category);
+
+  /// No description provided for @categoriesOnTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} on track'**
+  String categoriesOnTrack(int count);
+
+  /// No description provided for @categoriesOverBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} over budget'**
+  String categoriesOverBudget(int count);
+
+  /// No description provided for @categoriesNearLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} near limit'**
+  String categoriesNearLimit(int count);
+
+  /// No description provided for @categories.
+  ///
+  /// In en, this message translates to:
+  /// **'categories'**
+  String get categories;
+
+  /// No description provided for @viewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
+
+  /// No description provided for @viewBudgetsInReports.
+  ///
+  /// In en, this message translates to:
+  /// **'View budget details in Reports tab'**
+  String get viewBudgetsInReports;
+
   /// No description provided for @pendingCategorization.
   ///
   /// In en, this message translates to:
@@ -5336,11 +5588,239 @@ abstract class AppLocalizations {
   /// **'Please confirm'**
   String get voiceLowConfidence;
 
-  /// No description provided for @undo.
+  /// No description provided for @speakYourExpense.
   ///
   /// In en, this message translates to:
-  /// **'Undo'**
-  String get undo;
+  /// **'Speak your expense'**
+  String get speakYourExpense;
+
+  /// No description provided for @longPressForVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Long-press for voice input'**
+  String get longPressForVoice;
+
+  /// No description provided for @didYouKnow.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you know?'**
+  String get didYouKnow;
+
+  /// No description provided for @voiceTipMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add expenses faster! Long-press + button and say: \"50 lira coffee\"'**
+  String get voiceTipMessage;
+
+  /// No description provided for @gotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get gotIt;
+
+  /// No description provided for @tryNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Now'**
+  String get tryNow;
+
+  /// No description provided for @voiceAndShortcuts.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice & Shortcuts'**
+  String get voiceAndShortcuts;
+
+  /// No description provided for @newBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW'**
+  String get newBadge;
+
+  /// No description provided for @voiceInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Long-press + button for voice'**
+  String get voiceInputHint;
+
+  /// No description provided for @howToUseVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'How to Use Voice'**
+  String get howToUseVoice;
+
+  /// No description provided for @longPressFab.
+  ///
+  /// In en, this message translates to:
+  /// **'Long-Press + Button'**
+  String get longPressFab;
+
+  /// No description provided for @longPressFabHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold for 1 second'**
+  String get longPressFabHint;
+
+  /// No description provided for @micButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone Button'**
+  String get micButton;
+
+  /// No description provided for @micButtonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap mic when adding expense'**
+  String get micButtonHint;
+
+  /// No description provided for @exampleCommands.
+  ///
+  /// In en, this message translates to:
+  /// **'Example Commands'**
+  String get exampleCommands;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get somethingWentWrong;
+
+  /// No description provided for @errorLoadingData.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading data'**
+  String get errorLoadingData;
+
+  /// No description provided for @errorSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Error saving. Please try again.'**
+  String get errorSaving;
+
+  /// No description provided for @networkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Check your connection.'**
+  String get networkError;
+
+  /// No description provided for @errorLoadingRates.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load exchange rates'**
+  String get errorLoadingRates;
+
+  /// No description provided for @errorLoadingSubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load subscriptions'**
+  String get errorLoadingSubscriptions;
+
+  /// No description provided for @autoRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get autoRecorded;
+
+  /// No description provided for @autoRecordedExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} subscription(s) auto-recorded'**
+  String autoRecordedExpenses(int count);
+
+  /// No description provided for @security.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get security;
+
+  /// No description provided for @pinLock.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN Lock'**
+  String get pinLock;
+
+  /// No description provided for @pinLockDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Require PIN to open app'**
+  String get pinLockDescription;
+
+  /// No description provided for @biometricUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Unlock'**
+  String get biometricUnlock;
+
+  /// No description provided for @biometricDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use fingerprint or Face ID'**
+  String get biometricDescription;
+
+  /// No description provided for @enterPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter PIN'**
+  String get enterPin;
+
+  /// No description provided for @createPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Create PIN'**
+  String get createPin;
+
+  /// No description provided for @createPinDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a 4-digit PIN'**
+  String get createPinDescription;
+
+  /// No description provided for @confirmPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm PIN'**
+  String get confirmPin;
+
+  /// No description provided for @confirmPinDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your PIN again'**
+  String get confirmPinDescription;
+
+  /// No description provided for @wrongPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong PIN. Try again.'**
+  String get wrongPin;
+
+  /// No description provided for @pinMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'PINs don\'t match. Try again.'**
+  String get pinMismatch;
+
+  /// No description provided for @pinSet.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN set successfully'**
+  String get pinSet;
+
+  /// No description provided for @useBiometric.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Biometric'**
+  String get useBiometric;
+
+  /// No description provided for @unlockWithBiometric.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Vantag'**
+  String get unlockWithBiometric;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
 
   /// No description provided for @assistantSetupTitle.
   ///
@@ -5639,7 +6119,7 @@ abstract class AppLocalizations {
   /// No description provided for @featureAiChatFree.
   ///
   /// In en, this message translates to:
-  /// **'5/day'**
+  /// **'4/day'**
   String get featureAiChatFree;
 
   /// No description provided for @featureHistory.
@@ -5819,7 +6299,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiLimitFreeMessage.
   ///
   /// In en, this message translates to:
-  /// **'You\'ve used all 5 AI questions for today.'**
+  /// **'You\'ve used all 4 AI questions for today.'**
   String get aiLimitFreeMessage;
 
   /// No description provided for @aiLimitProMessage.
@@ -5989,12 +6469,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{percent}% complete'**
   String pursuitProgress(int percent);
-
-  /// No description provided for @remainingAmount.
-  ///
-  /// In en, this message translates to:
-  /// **'{amount} remaining'**
-  String remainingAmount(String amount);
 
   /// No description provided for @daysToGoal.
   ///
@@ -7069,6 +7543,156 @@ abstract class AppLocalizations {
   /// **'If you\'re not sure, the answer is probably no.'**
   String get msgThink8;
 
+  /// No description provided for @savingMsg1.
+  ///
+  /// In en, this message translates to:
+  /// **'Great decision! 💪'**
+  String get savingMsg1;
+
+  /// No description provided for @savingMsg2.
+  ///
+  /// In en, this message translates to:
+  /// **'You protected your money! 🛡️'**
+  String get savingMsg2;
+
+  /// No description provided for @savingMsg3.
+  ///
+  /// In en, this message translates to:
+  /// **'Future you will thank you!'**
+  String get savingMsg3;
+
+  /// No description provided for @savingMsg4.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart choice! 🧠'**
+  String get savingMsg4;
+
+  /// No description provided for @savingMsg5.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving is power!'**
+  String get savingMsg5;
+
+  /// No description provided for @savingMsg6.
+  ///
+  /// In en, this message translates to:
+  /// **'One step closer to your goal!'**
+  String get savingMsg6;
+
+  /// No description provided for @savingMsg7.
+  ///
+  /// In en, this message translates to:
+  /// **'Willpower! 💎'**
+  String get savingMsg7;
+
+  /// No description provided for @savingMsg8.
+  ///
+  /// In en, this message translates to:
+  /// **'This money is now yours!'**
+  String get savingMsg8;
+
+  /// No description provided for @savingMsg9.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial discipline! 🎯'**
+  String get savingMsg9;
+
+  /// No description provided for @savingMsg10.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re building wealth!'**
+  String get savingMsg10;
+
+  /// No description provided for @savingMsg11.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong decision! 💪'**
+  String get savingMsg11;
+
+  /// No description provided for @savingMsg12.
+  ///
+  /// In en, this message translates to:
+  /// **'Your wallet thanks you!'**
+  String get savingMsg12;
+
+  /// No description provided for @savingMsg13.
+  ///
+  /// In en, this message translates to:
+  /// **'That\'s how champions save! 🏆'**
+  String get savingMsg13;
+
+  /// No description provided for @savingMsg14.
+  ///
+  /// In en, this message translates to:
+  /// **'Money saved = Freedom earned!'**
+  String get savingMsg14;
+
+  /// No description provided for @savingMsg15.
+  ///
+  /// In en, this message translates to:
+  /// **'Impressive self-control! ⭐'**
+  String get savingMsg15;
+
+  /// No description provided for @spendingMsg1.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded! ✓'**
+  String get spendingMsg1;
+
+  /// No description provided for @spendingMsg2.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re tracking, that\'s important.'**
+  String get spendingMsg2;
+
+  /// No description provided for @spendingMsg3.
+  ///
+  /// In en, this message translates to:
+  /// **'Every record is awareness.'**
+  String get spendingMsg3;
+
+  /// No description provided for @spendingMsg4.
+  ///
+  /// In en, this message translates to:
+  /// **'Knowing your spending is power.'**
+  String get spendingMsg4;
+
+  /// No description provided for @spendingMsg5.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged! Keep going.'**
+  String get spendingMsg5;
+
+  /// No description provided for @spendingMsg6.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking builds control.'**
+  String get spendingMsg6;
+
+  /// No description provided for @spendingMsg7.
+  ///
+  /// In en, this message translates to:
+  /// **'Noted! Awareness is key.'**
+  String get spendingMsg7;
+
+  /// No description provided for @spendingMsg8.
+  ///
+  /// In en, this message translates to:
+  /// **'Good job tracking!'**
+  String get spendingMsg8;
+
+  /// No description provided for @spendingMsg9.
+  ///
+  /// In en, this message translates to:
+  /// **'Data is power! 📊'**
+  String get spendingMsg9;
+
+  /// No description provided for @spendingMsg10.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay aware, stay in control.'**
+  String get spendingMsg10;
+
   /// No description provided for @tourAmountTitle.
   ///
   /// In en, this message translates to:
@@ -7864,10 +8488,76 @@ abstract class AppLocalizations {
   /// **'Get notified before subscriptions renew'**
   String get subscriptionReminderDesc;
 
+  /// No description provided for @thinkingReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'\"Thinking\" reminders'**
+  String get thinkingReminder;
+
+  /// No description provided for @thinkingReminderDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Get reminded after 72 hours about items you\'re still thinking about'**
+  String get thinkingReminderDesc;
+
+  /// No description provided for @thinkingReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Still thinking?'**
+  String get thinkingReminderTitle;
+
+  /// No description provided for @thinkingReminderBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you decide? {item}'**
+  String thinkingReminderBody(String item);
+
+  /// No description provided for @willRemindIn72h.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll remind you in 72 hours'**
+  String get willRemindIn72h;
+
+  /// No description provided for @thinkingAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'Thinking about'**
+  String get thinkingAbout;
+
+  /// No description provided for @addedDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Added {days} days ago'**
+  String addedDaysAgo(int days);
+
+  /// No description provided for @stillThinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Still thinking?'**
+  String get stillThinking;
+
+  /// No description provided for @stillThinkingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s been 72 hours. Did you decide?'**
+  String get stillThinkingMessage;
+
+  /// No description provided for @decidedYes.
+  ///
+  /// In en, this message translates to:
+  /// **'I bought it'**
+  String get decidedYes;
+
+  /// No description provided for @decidedNo.
+  ///
+  /// In en, this message translates to:
+  /// **'I passed'**
+  String get decidedNo;
+
   /// No description provided for @aiChatLimitReached.
   ///
   /// In en, this message translates to:
-  /// **'You\'ve used your 3 daily AI chats. Go premium for unlimited!'**
+  /// **'You\'ve used your 4 daily AI chats. Go premium for unlimited!'**
   String get aiChatLimitReached;
 
   /// No description provided for @aiChatsRemaining.
@@ -8319,6 +9009,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter your current balance to track your finances accurately'**
   String get onboardingBalanceDesc;
+
+  /// No description provided for @selectTimeFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Select time filter: {filter}'**
+  String selectTimeFilter(String filter);
+
+  /// No description provided for @lockedFilterPremium.
+  ///
+  /// In en, this message translates to:
+  /// **'{filter}, premium feature'**
+  String lockedFilterPremium(String filter);
+
+  /// No description provided for @selectedFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'{filter}, selected'**
+  String selectedFilter(String filter);
+
+  /// No description provided for @selectHeatmapDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Select day: {date}'**
+  String selectHeatmapDay(String date);
+
+  /// No description provided for @heatmapDayWithSpending.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, {amount} spent'**
+  String heatmapDayWithSpending(String date, String amount);
+
+  /// No description provided for @heatmapDayNoSpending.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, no spending'**
+  String heatmapDayNoSpending(String date);
 }
 
 class _AppLocalizationsDelegate

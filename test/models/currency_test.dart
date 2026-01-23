@@ -85,38 +85,23 @@ void main() {
 
   group('supportedCurrencies', () {
     test('contains TRY', () {
-      expect(
-        supportedCurrencies.any((c) => c.code == 'TRY'),
-        true,
-      );
+      expect(supportedCurrencies.any((c) => c.code == 'TRY'), true);
     });
 
     test('contains USD', () {
-      expect(
-        supportedCurrencies.any((c) => c.code == 'USD'),
-        true,
-      );
+      expect(supportedCurrencies.any((c) => c.code == 'USD'), true);
     });
 
     test('contains EUR', () {
-      expect(
-        supportedCurrencies.any((c) => c.code == 'EUR'),
-        true,
-      );
+      expect(supportedCurrencies.any((c) => c.code == 'EUR'), true);
     });
 
     test('contains GBP', () {
-      expect(
-        supportedCurrencies.any((c) => c.code == 'GBP'),
-        true,
-      );
+      expect(supportedCurrencies.any((c) => c.code == 'GBP'), true);
     });
 
     test('contains SAR', () {
-      expect(
-        supportedCurrencies.any((c) => c.code == 'SAR'),
-        true,
-      );
+      expect(supportedCurrencies.any((c) => c.code == 'SAR'), true);
     });
 
     test('TRY has correct properties', () {

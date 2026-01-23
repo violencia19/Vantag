@@ -6,6 +6,7 @@ import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
+import '../theme/app_theme.dart';
 import '../utils/currency_utils.dart';
 import 'turkish_currency_input.dart';
 
@@ -181,7 +182,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
             },
             child: Text(
               l10n.delete,
-              style: const TextStyle(color: Color(0xFFE74C3C)),
+              style: const TextStyle(color: AppColors.categoryBills),
             ),
           ),
         ],
@@ -287,10 +288,15 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               ),
             ),
             // Edit button
-            IconButton(
-              onPressed: _toggleEdit,
-              icon: const Icon(PhosphorIconsDuotone.pencilSimple),
-              color: context.appColors.textSecondary,
+            Semantics(
+              button: true,
+              label: l10n.edit,
+              child: IconButton(
+                onPressed: _toggleEdit,
+                tooltip: l10n.edit,
+                icon: const Icon(PhosphorIconsDuotone.pencilSimple),
+                color: context.appColors.textSecondary,
+              ),
             ),
           ],
         ),
@@ -427,7 +433,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                     : PhosphorIconsDuotone.xCircle,
                 size: 20,
                 color: sub.autoRecord
-                    ? const Color(0xFF2ECC71)
+                    ? AppColors.categoryHealth
                     : context.appColors.textTertiary,
               ),
               const SizedBox(width: 12),
@@ -446,18 +452,22 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         const SizedBox(height: 24),
 
         // Delete button
-        SizedBox(
-          width: double.infinity,
-          child: OutlinedButton.icon(
-            onPressed: _confirmDelete,
-            icon: const Icon(PhosphorIconsDuotone.trash, size: 18),
-            label: Text(l10n.deleteSubscription),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: const Color(0xFFE74C3C),
-              side: const BorderSide(color: Color(0xFFE74C3C), width: 1),
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+        Semantics(
+          button: true,
+          label: l10n.deleteSubscription,
+          child: SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: _confirmDelete,
+              icon: const Icon(PhosphorIconsDuotone.trash, size: 18),
+              label: Text(l10n.deleteSubscription),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: AppColors.categoryBills,
+                side: const BorderSide(color: AppColors.categoryBills, width: 1),
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
           ),
@@ -574,21 +584,26 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(
             SubscriptionColors.count,
-            (index) => GestureDetector(
-              onTap: () {
-                HapticFeedback.selectionClick();
-                setState(() => _selectedColorIndex = index);
-              },
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: SubscriptionColors.get(index),
-                  shape: BoxShape.circle,
-                  border: _selectedColorIndex == index
-                      ? Border.all(color: Colors.white, width: 2.5)
-                      : null,
+            (index) => Semantics(
+              button: true,
+              selected: _selectedColorIndex == index,
+              label: '${l10n.color} ${index + 1}',
+              child: GestureDetector(
+                onTap: () {
+                  HapticFeedback.selectionClick();
+                  setState(() => _selectedColorIndex = index);
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: SubscriptionColors.get(index),
+                    shape: BoxShape.circle,
+                    border: _selectedColorIndex == index
+                        ? Border.all(color: Colors.white, width: 2.5)
+                        : null,
+                  ),
                 ),
               ),
             ),

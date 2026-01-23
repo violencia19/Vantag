@@ -1,18 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:vantag/theme/app_theme.dart';
 
 /// Abonelik renk paleti
 class SubscriptionColors {
-  static const List<Color> palette = [
-    Color(0xFFFF6B6B), // 0: Kırmızı
-    Color(0xFF4ECDC4), // 1: Turkuaz
-    Color(0xFF6C63FF), // 2: Mor
-    Color(0xFFFFD93D), // 3: Sarı
-    Color(0xFFFF8C42), // 4: Turuncu
-    Color(0xFF95E1D3), // 5: Mint
-    Color(0xFFF38181), // 6: Pembe
-    Color(0xFF3D5A80), // 7: Lacivert
-  ];
+  static List<Color> get palette => AppColors.subscriptionColors;
 
   /// Index'e göre renk döndür (mod 8 ile sınırla)
   static Color get(int index) => palette[index % 8];

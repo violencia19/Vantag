@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/models.dart';
+import 'expense_history_service.dart';
+import 'profile_service.dart';
 
 class SubscriptionService {
   static const _keySubscriptions = 'subscriptions';
@@ -162,5 +165,120 @@ class SubscriptionService {
     }
 
     return result;
+  }
+
+  // ============================================================
+  // AUTO-RECORD FUNCTIONALITY
+  // ============================================================
+
+  static const _keyAutoRecordPrefix = 'auto_record_';
+
+  /// Abonelik bugün zaten kaydedildi mi?
+  Future<bool> wasRecordedToday(String subscriptionId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final today = DateTime.now().toIso8601String().substring(0, 10);
+    final key = '$_keyAutoRecordPrefix${subscriptionId}_$today';
+    return prefs.getBool(key) ?? false;
+  }
+
+  /// Aboneliği bugün kaydedildi olarak işaretle
+  Future<void> markAsRecordedToday(String subscriptionId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final today = DateTime.now().toIso8601String().substring(0, 10);
+    final key = '$_keyAutoRecordPrefix${subscriptionId}_$today';
+    await prefs.setBool(key, true);
+  }
+
+  /// Eski auto-record flag'lerini temizle (7 günden eski)
+  Future<void> cleanupOldAutoRecordFlags() async {
+    final prefs = await SharedPreferences.getInstance();
+    final keys = prefs.getKeys();
+    final now = DateTime.now();
+
+    for (final key in keys) {
+      if (key.startsWith(_keyAutoRecordPrefix)) {
+        // Key format: auto_record_{subId}_{date}
+        final parts = key.split('_');
+        if (parts.length >= 4) {
+          final dateStr = parts.last;
+          try {
+            final date = DateTime.parse(dateStr);
+            if (now.difference(date).inDays > 7) {
+              await prefs.remove(key);
+            }
+          } catch (_) {
+            // Invalid date format, remove it
+            await prefs.remove(key);
+          }
+        }
+      }
+    }
+  }
+
+  /// Tüm auto-record aboneliklerini işle ve harcama oluştur
+  /// Döndürülen değer: oluşturulan harcama sayısı
+  Future<int> processAutoRecordSubscriptions() async {
+    try {
+      final subs = await getAutoRecordSubscriptionsForToday();
+      if (subs.isEmpty) return 0;
+
+      final expenseService = ExpenseHistoryService();
+      final profileService = ProfileService();
+      final profile = await profileService.getProfile();
+
+      // Saatlik ücret hesapla
+      double hourlyRate = 50.0; // Varsayılan
+      if (profile != null && profile.dailyHours > 0) {
+        hourlyRate = profile.monthlyIncome /
+            (profile.dailyHours * profile.workDaysPerWeek * 4);
+      }
+
+      int count = 0;
+
+      for (final sub in subs) {
+        // Bugün zaten kaydedildi mi kontrol et
+        if (await wasRecordedToday(sub.id)) {
+          debugPrint('[SubscriptionService] Already recorded today: ${sub.name}');
+          continue;
+        }
+
+        // Çalışma saati hesapla
+        final hoursRequired = sub.amount / hourlyRate;
+        final daysRequired = hoursRequired / (profile?.dailyHours ?? 8);
+
+        // Harcama oluştur
+        final expense = Expense(
+          amount: sub.amount,
+          category: sub.category,
+          subCategory: sub.name,
+          date: DateTime.now(),
+          hoursRequired: hoursRequired,
+          daysRequired: daysRequired,
+          decision: ExpenseDecision.yes,
+          decisionDate: DateTime.now(),
+          recordType: RecordType.real,
+          type: ExpenseType.recurring,
+          isMandatory: true,
+          isAutoRecorded: true,
+          subscriptionId: sub.id,
+        );
+
+        await expenseService.addExpense(expense);
+        await markAsRecordedToday(sub.id);
+        count++;
+
+        debugPrint('[SubscriptionService] Auto-recorded: ${sub.name} - ${sub.amount}₺');
+      }
+
+      // Eski flag'leri temizle
+      if (count > 0) {
+        await cleanupOldAutoRecordFlags();
+      }
+
+      return count;
+    } catch (e) {
+      debugPrint('[SubscriptionService] Error processing auto-records: $e');
+      return 0;
+    }
   }
 }

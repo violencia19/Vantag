@@ -6,11 +6,7 @@ void main() {
     group('RateItem', () {
       test('formats currency rate with 2 decimals for values >= 1', () {
         // Arrange
-        const rateItem = RateItem(
-          flag: '🇺🇸',
-          value: 34.52,
-          symbol: '₺',
-        );
+        const rateItem = RateItem(flag: '🇺🇸', value: 34.52, symbol: '₺');
 
         // Act & Assert
         expect(rateItem.formattedValue, '34.52 ₺');
@@ -19,11 +15,7 @@ void main() {
 
       test('formats currency rate with 4 decimals for values < 1', () {
         // Arrange: EUR/USD rate
-        const rateItem = RateItem(
-          flag: '🇪🇺',
-          value: 0.9234,
-          symbol: '€',
-        );
+        const rateItem = RateItem(flag: '🇪🇺', value: 0.9234, symbol: '€');
 
         // Act & Assert
         expect(rateItem.formattedValue, '0.9234 €');
@@ -76,10 +68,7 @@ void main() {
     group('RateBarData', () {
       test('isEmpty returns true for empty items list', () {
         // Arrange
-        const rateBarData = RateBarData(
-          items: [],
-          selectedCurrency: 'TRY',
-        );
+        const rateBarData = RateBarData(items: [], selectedCurrency: 'TRY');
 
         // Act & Assert
         expect(rateBarData.isEmpty, true);
@@ -106,9 +95,7 @@ void main() {
         // Arrange
         final now = DateTime.now();
         final rateBarData = RateBarData(
-          items: const [
-            RateItem(flag: '🇺🇸', value: 34.52, symbol: '₺'),
-          ],
+          items: const [RateItem(flag: '🇺🇸', value: 34.52, symbol: '₺')],
           selectedCurrency: 'TRY',
           lastUpdated: now,
           source: 'firestore',

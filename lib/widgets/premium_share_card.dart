@@ -6,12 +6,15 @@ import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 import '../models/models.dart';
 import '../utils/currency_utils.dart';
 import '../services/referral_service.dart';
 import '../services/deep_link_service.dart';
+import '../services/haptic_service.dart';
 
 /// Premium Share Card Format
 enum ShareCardFormat {
@@ -155,16 +158,16 @@ class _PremiumShareCardState extends State<PremiumShareCard>
 
   Widget _buildBackground() {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF0D0B14), // Deep purple-black
-            Color(0xFF1A1625), // Mid purple
-            Color(0xFF0F0D18), // Dark purple
+            AppColors.background, // Deep purple-black
+            AppColors.cardBackground, // Mid purple
+            AppColors.background.withValues(alpha: 0.95), // Dark purple
           ],
-          stops: [0.0, 0.5, 1.0],
+          stops: const [0.0, 0.5, 1.0],
         ),
       ),
     );
@@ -707,6 +710,8 @@ class _ShareCardPreviewSheet extends StatefulWidget {
 
 class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
   ShareCardFormat _selectedFormat = ShareCardFormat.story;
+  final GlobalKey _cardKey = GlobalKey();
+  bool _isProcessing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -754,11 +759,16 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                         color: Colors.white,
                       ),
                     ),
-                    IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(
-                        PhosphorIconsRegular.x,
-                        color: Colors.white,
+                    Semantics(
+                      label: l10n.accessibilityCloseSheet,
+                      button: true,
+                      child: IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        tooltip: l10n.close,
+                        icon: const Icon(
+                          PhosphorIconsRegular.x,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
@@ -800,55 +810,112 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Center(
-                      child: PremiumShareCard(
-                        amount: widget.amount,
-                        hoursRequired: widget.hoursRequired,
-                        category: widget.category,
-                        date: widget.date,
-                        currencySymbol: widget.currencySymbol,
-                        format: _selectedFormat,
-                        decision: widget.decision,
+                      child: RepaintBoundary(
+                        key: _cardKey,
+                        child: PremiumShareCard(
+                          amount: widget.amount,
+                          hoursRequired: widget.hoursRequired,
+                          category: widget.category,
+                          date: widget.date,
+                          currencySymbol: widget.currencySymbol,
+                          format: _selectedFormat,
+                          decision: widget.decision,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
 
-              // Share buttons
+              // Share buttons - Row 1: Social platforms
               Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
                 child: Row(
                   children: [
                     Expanded(
-                      child: _ShareButton(
-                        label: 'Instagram',
-                        icon: PhosphorIconsFill.instagramLogo,
-                        color: const Color(0xFFE4405F),
-                        onTap: () {
-                          // TODO: Implement Instagram share
-                        },
+                      child: Semantics(
+                        label: '${l10n.share} Instagram',
+                        button: true,
+                        child: _ShareButton(
+                          label: 'Instagram',
+                          icon: PhosphorIconsFill.instagramLogo,
+                          color: AppColors.instagram,
+                          onTap: () => _shareToInstagram(l10n),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Semantics(
+                        label: '${l10n.share} TikTok',
+                        button: true,
+                        child: _ShareButton(
+                          label: 'TikTok',
+                          icon: PhosphorIconsFill.tiktokLogo,
+                          color: Colors.white,
+                          onTap: () => _shareToTikTok(l10n),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Semantics(
+                        label: '${l10n.share} WhatsApp',
+                        button: true,
+                        child: _ShareButton(
+                          label: 'WhatsApp',
+                          icon: PhosphorIconsFill.whatsappLogo,
+                          color: AppColors.whatsapp,
+                          onTap: () => _shareToWhatsApp(l10n),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Semantics(
+                        label: '${l10n.share} X',
+                        button: true,
+                        child: _ShareButton(
+                          label: 'X',
+                          icon: PhosphorIconsFill.xLogo,
+                          color: Colors.white,
+                          onTap: () => _shareToTwitter(l10n),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Share buttons - Row 2: More options
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Semantics(
+                        label: l10n.saveToGallery,
+                        button: true,
+                        child: _ShareButton(
+                          label: l10n.saveToGallery,
+                          icon: PhosphorIconsFill.downloadSimple,
+                          color: context.appColors.primary,
+                          onTap: () => _saveToGallery(l10n),
+                          isLoading: _isProcessing,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: _ShareButton(
-                        label: 'Twitter',
-                        icon: PhosphorIconsFill.xLogo,
-                        color: Colors.white,
-                        onTap: () {
-                          // TODO: Implement Twitter share
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _ShareButton(
-                        label: l10n.save,
-                        icon: PhosphorIconsFill.downloadSimple,
-                        color: context.appColors.primary,
-                        onTap: () {
-                          // TODO: Save to gallery
-                        },
+                      child: Semantics(
+                        label: l10n.otherApps,
+                        button: true,
+                        child: _ShareButton(
+                          label: l10n.otherApps,
+                          icon: PhosphorIconsFill.shareNetwork,
+                          color: context.appColors.textSecondary,
+                          onTap: () => _shareGeneric(l10n),
+                        ),
                       ),
                     ),
                   ],
@@ -859,6 +926,260 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
         );
       },
     );
+  }
+
+  /// Capture card as image and return file path
+  Future<String?> _captureCard() async {
+    try {
+      final boundary =
+          _cardKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+      if (boundary == null) return null;
+
+      final image = await boundary.toImage(pixelRatio: 3.0);
+      final byteData = await image.toByteData(format: ImageByteFormat.png);
+      if (byteData == null) return null;
+
+      final pngBytes = byteData.buffer.asUint8List();
+      final directory = await getTemporaryDirectory();
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final filePath = '${directory.path}/vantag_share_$timestamp.png';
+      final file = File(filePath);
+      await file.writeAsBytes(pngBytes);
+
+      return filePath;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Get share text with referral link
+  Future<String> _getShareText() async {
+    String shareText = 'Sen kaç saat çalışıyorsun? 👀 vantag.app';
+    try {
+      final referralCode = await ReferralService().getOrCreateReferralCode();
+      if (referralCode != null) {
+        final referralLink = DeepLinkService.generateReferralLink(referralCode);
+        shareText = 'Sen kaç saat çalışıyorsun? 👀 $referralLink';
+      }
+    } catch (_) {
+      // Use default text if referral fails
+    }
+    return shareText;
+  }
+
+  /// Share to Instagram Stories
+  Future<void> _shareToInstagram(AppLocalizations l10n) async {
+    if (_isProcessing) return;
+    setState(() => _isProcessing = true);
+    haptics.light();
+
+    try {
+      final filePath = await _captureCard();
+      if (filePath == null) {
+        _showError(l10n);
+        return;
+      }
+
+      // Try to open Instagram Stories with image
+      // Instagram Stories deep link format
+      final instagramUrl = Uri.parse('instagram-stories://share');
+      if (await canLaunchUrl(instagramUrl)) {
+        // Save to gallery first, then user can share from there
+        await ImageGallerySaverPlus.saveFile(filePath);
+        await launchUrl(instagramUrl, mode: LaunchMode.externalApplication);
+        haptics.success();
+        if (mounted) Navigator.pop(context);
+      } else {
+        // Fallback to generic share
+        await _shareGeneric(l10n);
+      }
+    } catch (_) {
+      _showError(l10n);
+    } finally {
+      if (mounted) setState(() => _isProcessing = false);
+    }
+  }
+
+  /// Share to TikTok
+  Future<void> _shareToTikTok(AppLocalizations l10n) async {
+    if (_isProcessing) return;
+    setState(() => _isProcessing = true);
+    haptics.light();
+
+    try {
+      final filePath = await _captureCard();
+      if (filePath == null) {
+        _showError(l10n);
+        return;
+      }
+
+      // TikTok doesn't have a direct share API, save and open app
+      final tiktokUrl = Uri.parse('tiktok://');
+      if (await canLaunchUrl(tiktokUrl)) {
+        await ImageGallerySaverPlus.saveFile(filePath);
+        await launchUrl(tiktokUrl, mode: LaunchMode.externalApplication);
+        haptics.success();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(l10n.savedToGallery),
+              backgroundColor: context.appColors.success,
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          Navigator.pop(context);
+        }
+      } else {
+        await _shareGeneric(l10n);
+      }
+    } catch (_) {
+      _showError(l10n);
+    } finally {
+      if (mounted) setState(() => _isProcessing = false);
+    }
+  }
+
+  /// Share to WhatsApp
+  Future<void> _shareToWhatsApp(AppLocalizations l10n) async {
+    if (_isProcessing) return;
+    setState(() => _isProcessing = true);
+    haptics.light();
+
+    try {
+      final filePath = await _captureCard();
+      if (filePath == null) {
+        _showError(l10n);
+        return;
+      }
+
+      final shareText = await _getShareText();
+      final whatsappUrl = Uri.parse('whatsapp://send?text=${Uri.encodeComponent(shareText)}');
+
+      if (await canLaunchUrl(whatsappUrl)) {
+        // Share with image and text
+        await Share.shareXFiles(
+          [XFile(filePath)],
+          text: shareText,
+        );
+        haptics.success();
+        if (mounted) Navigator.pop(context);
+      } else {
+        await _shareGeneric(l10n);
+      }
+    } catch (_) {
+      _showError(l10n);
+    } finally {
+      if (mounted) setState(() => _isProcessing = false);
+    }
+  }
+
+  /// Share to Twitter/X
+  Future<void> _shareToTwitter(AppLocalizations l10n) async {
+    if (_isProcessing) return;
+    setState(() => _isProcessing = true);
+    haptics.light();
+
+    try {
+      final filePath = await _captureCard();
+      if (filePath == null) {
+        _showError(l10n);
+        return;
+      }
+
+      final shareText = await _getShareText();
+
+      // Use share_plus to share to Twitter
+      await Share.shareXFiles(
+        [XFile(filePath)],
+        text: shareText,
+      );
+      haptics.success();
+      if (mounted) Navigator.pop(context);
+    } catch (_) {
+      _showError(l10n);
+    } finally {
+      if (mounted) setState(() => _isProcessing = false);
+    }
+  }
+
+  /// Save to gallery
+  Future<void> _saveToGallery(AppLocalizations l10n) async {
+    if (_isProcessing) return;
+    setState(() => _isProcessing = true);
+    haptics.light();
+
+    try {
+      final filePath = await _captureCard();
+      if (filePath == null) {
+        _showError(l10n);
+        return;
+      }
+
+      final result = await ImageGallerySaverPlus.saveFile(filePath);
+
+      if (result['isSuccess'] == true) {
+        haptics.success();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  Icon(PhosphorIconsFill.checkCircle, color: Colors.white, size: 20),
+                  const SizedBox(width: 12),
+                  Text(l10n.savedToGallery),
+                ],
+              ),
+              backgroundColor: context.appColors.success,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+          );
+        }
+      } else {
+        _showError(l10n);
+      }
+    } catch (_) {
+      _showError(l10n);
+    } finally {
+      if (mounted) setState(() => _isProcessing = false);
+    }
+  }
+
+  /// Generic share (system share sheet)
+  Future<void> _shareGeneric(AppLocalizations l10n) async {
+    if (_isProcessing) return;
+    setState(() => _isProcessing = true);
+    haptics.light();
+
+    try {
+      final filePath = await _captureCard();
+      if (filePath == null) {
+        _showError(l10n);
+        return;
+      }
+
+      final shareText = await _getShareText();
+      await Share.shareXFiles([XFile(filePath)], text: shareText);
+      haptics.success();
+      if (mounted) Navigator.pop(context);
+    } catch (_) {
+      _showError(l10n);
+    } finally {
+      if (mounted) setState(() => _isProcessing = false);
+    }
+  }
+
+  void _showError(AppLocalizations l10n) {
+    haptics.error();
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.shareError),
+          backgroundColor: context.appColors.error,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 }
 
@@ -927,18 +1248,20 @@ class _ShareButton extends StatelessWidget {
   final IconData icon;
   final Color color;
   final VoidCallback onTap;
+  final bool isLoading;
 
   const _ShareButton({
     required this.label,
     required this.icon,
     required this.color,
     required this.onTap,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: isLoading ? null : onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
@@ -948,15 +1271,28 @@ class _ShareButton extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Icon(icon, size: 24, color: color),
+            if (isLoading)
+              SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: color,
+                ),
+              )
+            else
+              Icon(icon, size: 24, color: color),
             const SizedBox(height: 6),
             Text(
               label,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: FontWeight.w500,
                 color: color,
               ),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
@@ -1062,12 +1398,16 @@ class _HabitShareCardState extends State<HabitShareCard>
 
   Widget _buildBackground() {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF0D0B14), Color(0xFF1A1625), Color(0xFF0F0D18)],
-          stops: [0.0, 0.5, 1.0],
+          colors: [
+            AppColors.background,
+            AppColors.cardBackground,
+            AppColors.background.withValues(alpha: 0.95),
+          ],
+          stops: const [0.0, 0.5, 1.0],
         ),
       ),
     );
@@ -1546,11 +1886,16 @@ class _HabitShareCardPreviewSheetState
                         color: Colors.white,
                       ),
                     ),
-                    IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(
-                        PhosphorIconsRegular.x,
-                        color: Colors.white,
+                    Semantics(
+                      label: l10n.accessibilityCloseSheet,
+                      button: true,
+                      child: IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        tooltip: l10n.close,
+                        icon: const Icon(
+                          PhosphorIconsRegular.x,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
@@ -1645,13 +1990,13 @@ class _HabitShareCardPreviewSheetState
                   width: double.infinity,
                   child: Container(
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF6C63FF), Color(0xFF4ECDC4)],
+                      gradient: LinearGradient(
+                        colors: [AppColors.primary, AppColors.premiumCyan],
                       ),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF6C63FF).withValues(alpha: 0.3),
+                          color: AppColors.primary.withValues(alpha: 0.3),
                           blurRadius: 12,
                           offset: const Offset(0, 4),
                         ),

@@ -832,8 +832,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get pleaseSelectCategory =>
-      'Lütfen bu harcamanın kategorisini belirleyin';
+  String get pleaseSelectCategory => 'Lütfen bir kategori seçin';
 
   @override
   String get subCategoryOptional => 'Alt kategori (opsiyonel)';
@@ -1113,7 +1112,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get autoRecord => 'Otomatik Kayıt';
 
   @override
-  String get autoRecordDescription => 'Yenilendiğinde harcama kaydı oluştur';
+  String get autoRecordDescription =>
+      'Harcama fatura tarihinde otomatik eklenecek';
 
   @override
   String get add => 'Ekle';
@@ -1786,7 +1786,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get autoRecordEnabled => 'Otomatik harcama kaydı açık';
+  String get autoRecordEnabled => 'Otomatik kayıt açık';
 
   @override
   String get autoRecordDisabled => 'Otomatik harcama kaydı kapalı';
@@ -1831,6 +1831,30 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get shareError => 'Paylaşım sırasında bir hata oluştu';
+
+  @override
+  String get shareVia => 'Paylaş';
+
+  @override
+  String get saveToGallery => 'Galeriye Kaydet';
+
+  @override
+  String get savedToGallery => 'Galeriye kaydedildi';
+
+  @override
+  String get otherApps => 'Diğer Uygulamalar';
+
+  @override
+  String get expenseDeleted => 'Harcama silindi';
+
+  @override
+  String get undo => 'Geri Al';
+
+  @override
+  String get choosePlatform => 'Platform Seç';
+
+  @override
+  String get savingToGallery => 'Kaydediliyor...';
 
   @override
   String get pleaseEnterValidSalary => 'Lütfen geçerli bir maaş girin';
@@ -2713,6 +2737,133 @@ class AppLocalizationsTr extends AppLocalizations {
       'Finansal verilerinizi dışa aktarmak için Pro\'ya yükseltin';
 
   @override
+  String get importPremiumOnly => 'İçe Aktarma Pro özelliğidir';
+
+  @override
+  String get upgradeForImport =>
+      'Banka ekstrelerinizi içe aktarmak için Pro\'ya yükseltin';
+
+  @override
+  String get receiptScanned => 'Fiş başarıyla tarandı';
+
+  @override
+  String get noAmountFound => 'Görüntüde tutar bulunamadı';
+
+  @override
+  String saveAllRecognized(int count) {
+    return 'Tümünü Kaydet ($count)';
+  }
+
+  @override
+  String saveAllRecognizedSuccess(int count) {
+    return '$count harcama başarıyla kaydedildi';
+  }
+
+  @override
+  String get budgets => 'Bütçeler';
+
+  @override
+  String get budget => 'Bütçe';
+
+  @override
+  String get addBudget => 'Bütçe Ekle';
+
+  @override
+  String get editBudget => 'Bütçe Düzenle';
+
+  @override
+  String get deleteBudget => 'Bütçe Sil';
+
+  @override
+  String get deleteBudgetConfirm =>
+      'Bu bütçeyi silmek istediğinizden emin misiniz?';
+
+  @override
+  String get monthlyLimit => 'Aylık Limit';
+
+  @override
+  String get budgetProgress => 'Bütçe Durumu';
+
+  @override
+  String get totalBudget => 'Toplam Bütçe';
+
+  @override
+  String remainingAmount(String amount) {
+    return '$amount kaldı';
+  }
+
+  @override
+  String overBudgetAmount(String amount) {
+    return '$amount aştın!';
+  }
+
+  @override
+  String ofBudget(String spent, String total) {
+    return '$spent / $total';
+  }
+
+  @override
+  String get onTrack => 'Yolunda';
+
+  @override
+  String get nearLimit => 'Limite yakın';
+
+  @override
+  String get overLimit => 'Limit aşıldı';
+
+  @override
+  String get noBudgetsYet => 'Henüz bütçe yok';
+
+  @override
+  String get noBudgetsDescription =>
+      'Kategorilere bütçe koyarak harcamalarını takip et';
+
+  @override
+  String get budgetHelperText =>
+      'Bu kategori için aylık harcama limiti belirle';
+
+  @override
+  String get budgetExceededTitle => 'Bütçe Aşıldı!';
+
+  @override
+  String budgetExceededMessage(String category, String amount) {
+    return '$category bütçeni $amount aştın';
+  }
+
+  @override
+  String get budgetNearLimit => 'Bütçe limitine yaklaşıyorsun';
+
+  @override
+  String budgetNearLimitMessage(String percent, String category) {
+    return '$category bütçenin %$percent\'ini kullandın';
+  }
+
+  @override
+  String categoriesOnTrack(int count) {
+    return '$count yolunda';
+  }
+
+  @override
+  String categoriesOverBudget(int count) {
+    return '$count bütçe aşımı';
+  }
+
+  @override
+  String categoriesNearLimit(int count) {
+    return '$count limite yakın';
+  }
+
+  @override
+  String get categories => 'kategori';
+
+  @override
+  String get viewAll => 'Tümünü Gör';
+
+  @override
+  String get viewBudgetsInReports =>
+      'Bütçe detaylarını Raporlar sekmesinde gör';
+
+  @override
   String pendingCategorization(int count) {
     return '$count harcama kategorize bekliyor';
   }
@@ -2877,7 +3028,124 @@ class AppLocalizationsTr extends AppLocalizations {
   String get voiceLowConfidence => 'Lütfen onayla';
 
   @override
-  String get undo => 'Geri Al';
+  String get speakYourExpense => 'Harcamanı söyle';
+
+  @override
+  String get longPressForVoice => 'Sesli giriş için uzun bas';
+
+  @override
+  String get didYouKnow => 'Biliyor muydun?';
+
+  @override
+  String get voiceTipMessage =>
+      'Daha hızlı ekle! + butonuna uzun bas ve söyle: \"50 lira kahve\"';
+
+  @override
+  String get gotIt => 'Anladım';
+
+  @override
+  String get tryNow => 'Dene';
+
+  @override
+  String get voiceAndShortcuts => 'Ses ve Kısayollar';
+
+  @override
+  String get newBadge => 'YENİ';
+
+  @override
+  String get voiceInputHint => 'Sesle eklemek için + butonuna uzun bas';
+
+  @override
+  String get howToUseVoice => 'Sesli Giriş Nasıl Kullanılır';
+
+  @override
+  String get longPressFab => '+ Butonuna Uzun Bas';
+
+  @override
+  String get longPressFabHint => '1 saniye basılı tut';
+
+  @override
+  String get micButton => 'Mikrofon Butonu';
+
+  @override
+  String get micButtonHint => 'Harcama eklerken mikrofona tıkla';
+
+  @override
+  String get exampleCommands => 'Örnek Komutlar';
+
+  @override
+  String get somethingWentWrong => 'Bir şeyler yanlış gitti. Tekrar dene.';
+
+  @override
+  String get errorLoadingData => 'Veri yüklenirken hata oluştu';
+
+  @override
+  String get errorSaving => 'Kaydedilirken hata oluştu. Tekrar dene.';
+
+  @override
+  String get networkError => 'Ağ hatası. Bağlantını kontrol et.';
+
+  @override
+  String get errorLoadingRates => 'Döviz kurları yüklenemedi';
+
+  @override
+  String get errorLoadingSubscriptions => 'Abonelikler yüklenemedi';
+
+  @override
+  String get autoRecorded => 'Otomatik';
+
+  @override
+  String autoRecordedExpenses(int count) {
+    return '$count abonelik otomatik eklendi';
+  }
+
+  @override
+  String get security => 'Güvenlik';
+
+  @override
+  String get pinLock => 'PIN Kilidi';
+
+  @override
+  String get pinLockDescription => 'Uygulamayı açmak için PIN iste';
+
+  @override
+  String get biometricUnlock => 'Biyometrik Kilit';
+
+  @override
+  String get biometricDescription => 'Parmak izi veya Face ID kullan';
+
+  @override
+  String get enterPin => 'PIN Gir';
+
+  @override
+  String get createPin => 'PIN Oluştur';
+
+  @override
+  String get createPinDescription => '4 haneli bir PIN seç';
+
+  @override
+  String get confirmPin => 'PIN\'i Onayla';
+
+  @override
+  String get confirmPinDescription => 'PIN\'ini tekrar gir';
+
+  @override
+  String get wrongPin => 'Yanlış PIN. Tekrar dene.';
+
+  @override
+  String get pinMismatch => 'PIN\'ler eşleşmiyor. Tekrar dene.';
+
+  @override
+  String get pinSet => 'PIN başarıyla ayarlandı';
+
+  @override
+  String get useBiometric => 'Biyometrik Kullan';
+
+  @override
+  String get unlockWithBiometric => 'Vantag\'ı Aç';
+
+  @override
+  String get reset => 'Sıfırla';
 
   @override
   String get assistantSetupTitle => 'Google Assistant Kurulumu';
@@ -3053,7 +3321,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get featureAiChat => 'AI Sohbet';
 
   @override
-  String get featureAiChatFree => '5/gün';
+  String get featureAiChatFree => '4/gün';
 
   @override
   String get featureHistory => 'Geçmiş';
@@ -3153,7 +3421,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get aiLimitProTitleEmoji => '⏳ Aylık AI Limitine Ulaştın!';
 
   @override
-  String get aiLimitFreeMessage => 'Bugün 5 AI soru hakkını kullandın.';
+  String get aiLimitFreeMessage => 'Bugün 4 AI soru hakkını kullandın.';
 
   @override
   String get aiLimitProMessage => 'Bu ay 500 AI soru hakkını kullandın.';
@@ -3253,11 +3521,6 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String pursuitProgress(int percent) {
     return '%$percent tamamlandı';
-  }
-
-  @override
-  String remainingAmount(String amount) {
-    return '$amount kaldı';
   }
 
   @override
@@ -3860,6 +4123,81 @@ class AppLocalizationsTr extends AppLocalizations {
   String get msgThink8 => 'Emin değilsen, cevap muhtemelen hayır.';
 
   @override
+  String get savingMsg1 => 'Harika karar! 💪';
+
+  @override
+  String get savingMsg2 => 'Paranı korudun! 🛡️';
+
+  @override
+  String get savingMsg3 => 'Gelecekteki sen teşekkür edecek!';
+
+  @override
+  String get savingMsg4 => 'Akıllı tercih! 🧠';
+
+  @override
+  String get savingMsg5 => 'Biriktirmek güçtür!';
+
+  @override
+  String get savingMsg6 => 'Hedefine bir adım daha yaklaştın!';
+
+  @override
+  String get savingMsg7 => 'İrade gücü! 💎';
+
+  @override
+  String get savingMsg8 => 'Bu para artık senin!';
+
+  @override
+  String get savingMsg9 => 'Finansal disiplin! 🎯';
+
+  @override
+  String get savingMsg10 => 'Zenginlik inşa ediyorsun!';
+
+  @override
+  String get savingMsg11 => 'Güçlü karar! 💪';
+
+  @override
+  String get savingMsg12 => 'Cüzdanın teşekkür ediyor!';
+
+  @override
+  String get savingMsg13 => 'Şampiyonlar böyle biriktirir! 🏆';
+
+  @override
+  String get savingMsg14 => 'Biriken para = Kazanılan özgürlük!';
+
+  @override
+  String get savingMsg15 => 'Etkileyici öz kontrol! ⭐';
+
+  @override
+  String get spendingMsg1 => 'Kaydedildi! ✓';
+
+  @override
+  String get spendingMsg2 => 'Takip ediyorsun, bu önemli.';
+
+  @override
+  String get spendingMsg3 => 'Her kayıt bir farkındalık.';
+
+  @override
+  String get spendingMsg4 => 'Harcamalarını bilmek güç.';
+
+  @override
+  String get spendingMsg5 => 'Kaydedildi! Devam et.';
+
+  @override
+  String get spendingMsg6 => 'Takip etmek kontrol sağlar.';
+
+  @override
+  String get spendingMsg7 => 'Not alındı! Farkındalık anahtar.';
+
+  @override
+  String get spendingMsg8 => 'Takip ettiğin için aferin!';
+
+  @override
+  String get spendingMsg9 => 'Veri güçtür! 📊';
+
+  @override
+  String get spendingMsg10 => 'Farkında ol, kontrol sende.';
+
+  @override
   String get tourAmountTitle => 'Tutar Girişi';
 
   @override
@@ -4322,8 +4660,46 @@ class AppLocalizationsTr extends AppLocalizations {
       'Abonelikler yenilenmeden önce bildirim al';
 
   @override
+  String get thinkingReminder => '\"Düşünüyorum\" hatırlatmaları';
+
+  @override
+  String get thinkingReminderDesc =>
+      'Düşündüğün öğeler için 72 saat sonra hatırlatma al';
+
+  @override
+  String get thinkingReminderTitle => 'Hala düşünüyor musun?';
+
+  @override
+  String thinkingReminderBody(String item) {
+    return 'Karar verdin mi? $item';
+  }
+
+  @override
+  String get willRemindIn72h => '72 saat sonra hatırlatacağız';
+
+  @override
+  String get thinkingAbout => 'Düşündüklerin';
+
+  @override
+  String addedDaysAgo(int days) {
+    return '$days gün önce eklendi';
+  }
+
+  @override
+  String get stillThinking => 'Hala düşünüyor musun?';
+
+  @override
+  String get stillThinkingMessage => '72 saat oldu. Karar verdin mi?';
+
+  @override
+  String get decidedYes => 'Aldım';
+
+  @override
+  String get decidedNo => 'Vazgeçtim';
+
+  @override
   String get aiChatLimitReached =>
-      'Günlük 3 AI sohbet hakkını kullandın. Sınırsız için premium\'a geç!';
+      'Günlük 4 AI sohbet hakkını kullandın. Sınırsız için premium\'a geç!';
 
   @override
   String aiChatsRemaining(int count) {
@@ -4564,4 +4940,34 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get onboardingBalanceDesc =>
       'Finanslarınızı doğru takip etmek için güncel bakiyenizi girin';
+
+  @override
+  String selectTimeFilter(String filter) {
+    return 'Zaman filtresi seç: $filter';
+  }
+
+  @override
+  String lockedFilterPremium(String filter) {
+    return '$filter, premium özellik';
+  }
+
+  @override
+  String selectedFilter(String filter) {
+    return '$filter, seçili';
+  }
+
+  @override
+  String selectHeatmapDay(String date) {
+    return 'Gün seç: $date';
+  }
+
+  @override
+  String heatmapDayWithSpending(String date, String amount) {
+    return '$date, $amount harcama';
+  }
+
+  @override
+  String heatmapDayNoSpending(String date) {
+    return '$date, harcama yok';
+  }
 }

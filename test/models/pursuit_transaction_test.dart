@@ -201,7 +201,10 @@ void main() {
     test('values contains all expected sources', () {
       expect(TransactionSource.values, contains(TransactionSource.manual));
       expect(TransactionSource.values, contains(TransactionSource.pool));
-      expect(TransactionSource.values, contains(TransactionSource.expenseCancelled));
+      expect(
+        TransactionSource.values,
+        contains(TransactionSource.expenseCancelled),
+      );
       expect(TransactionSource.values.length, 3);
     });
   });

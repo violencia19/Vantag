@@ -212,10 +212,10 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                 gravity: 0.2,
                 particleDrag: 0.05,
                 colors: const [
-                  Color(0xFFFFD700), // Altın
-                  Color(0xFF6C63FF), // Mor
-                  Color(0xFF4ECDC4), // Turkuaz
-                  Color(0xFFFF6B6B), // Kırmızı
+                  AppColors.medalGold, // Altın
+                  AppColors.primary, // Mor
+                  AppColors.secondary, // Turkuaz
+                  AppColors.error, // Kırmızı
                   Colors.white,
                 ],
               ),
@@ -236,8 +236,8 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Color(0xFF6C63FF), // Primary mor
-                        Color(0xFF4ECDC4), // Turkuaz
+                        AppColors.primary, // Primary mor
+                        AppColors.secondary, // Turkuaz
                       ],
                     ),
                     borderRadius: BorderRadius.circular(28),
@@ -264,7 +264,7 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                         child: const Icon(
                           PhosphorIconsFill.trophy,
                           size: 48,
-                          color: Color(0xFFFFD700),
+                          color: AppColors.medalGold,
                         ),
                       ),
                       const SizedBox(height: 12),

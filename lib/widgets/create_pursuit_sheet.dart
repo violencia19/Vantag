@@ -269,15 +269,20 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
       runSpacing: 8,
       children: PursuitCategory.values.map((category) {
         final isSelected = category == _selectedCategory;
-        return GestureDetector(
-          onTap: () {
-            HapticFeedback.selectionClick();
-            setState(() {
-              _selectedCategory = category;
-              _selectedEmoji = category.emoji;
-            });
-          },
-          child: AnimatedContainer(
+        final categoryLabel = _getCategoryLabel(category);
+        return Semantics(
+          label: categoryLabel,
+          selected: isSelected,
+          button: true,
+          child: GestureDetector(
+            onTap: () {
+              HapticFeedback.selectionClick();
+              setState(() {
+                _selectedCategory = category;
+                _selectedEmoji = category.emoji;
+              });
+            },
+            child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
@@ -308,6 +313,7 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                 ),
               ],
             ),
+          ),
           ),
         );
       }).toList(),

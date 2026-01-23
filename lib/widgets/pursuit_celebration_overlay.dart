@@ -205,7 +205,7 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                 AppColors.gold,
                 Colors.white,
                 AppColors.secondary,
-                const Color(0xFFE8B931), // Light gold
+                AppColors.accent, // Light gold
               ],
               createParticlePath: (size) => _drawStar(size),
             ),

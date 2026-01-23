@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../constants/app_limits.dart';
 import 'notification_service.dart';
 
 /// RevenueCat-based purchase service for Vantag Pro subscriptions
@@ -25,9 +26,9 @@ class PurchaseService {
   static const String productYearly = 'vantag_pro_yearly';
   static const String productLifetime = 'vantag-pro-lifetime';
 
-  // Usage limits for free tier
-  static const int freeAiChatLimit = 5; // per day
-  static const int freeHistoryDays = 30;
+  // Usage limits for free tier (use AppLimits as single source of truth)
+  static int get freeAiChatLimit => AppLimits.freeAiChatsPerDay;
+  static int get freeHistoryDays => AppLimits.freeHistoryDays;
 
   // Pro credit limits (monthly reset)
   static const int proSubscriptionMonthlyLimit =
@@ -289,7 +290,7 @@ class PurchaseService {
   // USAGE LIMITS (Free Tier - Daily)
   // ══════════════════════════════════════════════════════════════════════════
 
-  /// Check if user can use AI chat (free: 5/day limit)
+  /// Check if user can use AI chat (free: 4/day limit)
   Future<bool> canUseAiChat(bool isPro) async {
     if (isPro) return true;
 
@@ -399,7 +400,7 @@ class PurchaseService {
     if (isPro) {
       return DateTime(2000); // effectively unlimited
     }
-    return DateTime.now().subtract(const Duration(days: freeHistoryDays));
+    return DateTime.now().subtract(Duration(days: freeHistoryDays));
   }
 
   // ══════════════════════════════════════════════════════════════════════════

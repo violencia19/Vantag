@@ -16,6 +16,8 @@ import 'report_screen.dart';
 import 'pursuit_list_screen.dart';
 import 'settings_screen.dart';
 import 'onboarding_pursuit_screen.dart';
+import 'voice_input_screen.dart';
+import 'lock_screen.dart';
 
 class MainScreen extends StatefulWidget {
   final UserProfile? userProfile;
@@ -27,7 +29,7 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   int _currentIndex = 0;
   // _userProfile kaldırıldı - artık Provider'dan okunuyor
 
@@ -48,12 +50,19 @@ class _MainScreenState extends State<MainScreen> {
   // Tour
   bool _shouldStartTour = false;
 
+  // Lock state
+  bool _isLocked = false;
+  bool _checkingLock = true;
+  bool _wasInBackground = false;
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     // Profile artık Provider'dan okunuyor
     _initializeServices();
     _checkTour();
+    _checkLockStatus();
 
     // Status bar stilini ayarla
     SystemChrome.setSystemUIOverlayStyle(
@@ -245,6 +254,10 @@ class _MainScreenState extends State<MainScreen> {
         final financeProvider = context.read<FinanceProvider>();
         await financeProvider.addExpense(expense);
       },
+      onDeleteExpense: (index) async {
+        final financeProvider = context.read<FinanceProvider>();
+        await financeProvider.deleteExpense(index);
+      },
     );
 
     // Kurları çek
@@ -259,7 +272,39 @@ class _MainScreenState extends State<MainScreen> {
     // Sync home screen widget data
     await _syncWidgetData();
 
+    // Otomatik abonelik kayıtlarını işle
+    await _processAutoRecordSubscriptions();
+
     if (mounted) setState(() {});
+  }
+
+  /// Otomatik abonelik harcamalarını oluştur
+  Future<void> _processAutoRecordSubscriptions() async {
+    try {
+      final subscriptionService = SubscriptionService();
+      final count = await subscriptionService.processAutoRecordSubscriptions();
+
+      if (count > 0 && mounted) {
+        // Refresh expenses in provider
+        final financeProvider = context.read<FinanceProvider>();
+        await financeProvider.initialize();
+
+        // Show notification
+        final l10n = AppLocalizations.of(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.autoRecordedExpenses(count)),
+            backgroundColor: context.appColors.success,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('[MainScreen] Error processing auto-records: $e');
+    }
   }
 
   /// Handle pending pursuit creation from onboarding
@@ -413,11 +458,20 @@ class _MainScreenState extends State<MainScreen> {
         });
       }
     } catch (e) {
+      debugPrint('[MainScreen] Error loading rates: $e');
       if (mounted) {
         setState(() {
           _isLoadingRates = false;
           _hasRateError = true;
         });
+        final l10n = AppLocalizations.of(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.errorLoadingRates),
+            backgroundColor: context.appColors.error,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
       }
     }
   }
@@ -432,10 +486,46 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _connectivitySubscription?.cancel();
     _connectivityService.dispose();
     _simpleModeService.removeListener(_onSimpleModeChanged);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      _wasInBackground = true;
+    } else if (state == AppLifecycleState.resumed && _wasInBackground) {
+      _wasInBackground = false;
+      _checkLockOnResume();
+    }
+  }
+
+  Future<void> _checkLockStatus() async {
+    final lockEnabled = await LockService.isLockEnabled();
+    final hasPinSet = await LockService.hasPinSet();
+
+    if (mounted) {
+      setState(() {
+        _isLocked = lockEnabled && hasPinSet;
+        _checkingLock = false;
+      });
+    }
+  }
+
+  Future<void> _checkLockOnResume() async {
+    final lockEnabled = await LockService.isLockEnabled();
+    final hasPinSet = await LockService.hasPinSet();
+
+    if (lockEnabled && hasPinSet && mounted) {
+      setState(() => _isLocked = true);
+    }
+  }
+
+  void _onUnlocked() {
+    setState(() => _isLocked = false);
   }
 
   void _onNavTap(int index) {
@@ -458,6 +548,14 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  void _openVoiceInput() {
+    HapticFeedback.heavyImpact();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const VoiceInputScreen()),
+    );
+  }
+
   void _showAIChat() {
     HapticFeedback.mediumImpact();
     AnimatedBottomSheet.show(
@@ -470,6 +568,19 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Show loading while checking lock status
+    if (_checkingLock) {
+      return Scaffold(
+        backgroundColor: context.appColors.background,
+        body: const SizedBox.shrink(),
+      );
+    }
+
+    // Show lock screen if locked
+    if (_isLocked) {
+      return LockScreen(onUnlocked: _onUnlocked);
+    }
+
     // Provider'ı WATCH et - gelir değiştiğinde tüm ekran yenilensin
     final financeProvider = context.watch<FinanceProvider>();
     final currentProfile =
@@ -541,6 +652,7 @@ class _MainScreenState extends State<MainScreen> {
               currentIndex: _currentIndex,
               onTap: _onNavTap,
               onAddTap: _showAddExpenseSheet,
+              onAddLongPress: _openVoiceInput,
             ),
             // AI Chat FAB (hidden in Simple Mode)
             floatingActionButton:

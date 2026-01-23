@@ -14,12 +14,14 @@ class PremiumNavBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
   final VoidCallback onAddTap;
+  final VoidCallback? onAddLongPress;
 
   const PremiumNavBar({
     super.key,
     required this.currentIndex,
     required this.onTap,
     required this.onAddTap,
+    this.onAddLongPress,
   });
 
   @override
@@ -76,7 +78,10 @@ class PremiumNavBar extends StatelessWidget {
                 Semantics(
                   label: l10n.accessibilityAddExpense,
                   button: true,
-                  child: _CenterAddButton(onTap: onAddTap),
+                  child: _CenterAddButton(
+                    onTap: onAddTap,
+                    onLongPress: onAddLongPress,
+                  ),
                 ),
                 // Pursuits (Dreams)
                 _NavItem(
@@ -183,8 +188,9 @@ class _NavItem extends StatelessWidget {
 
 class _CenterAddButton extends StatefulWidget {
   final VoidCallback onTap;
+  final VoidCallback? onLongPress;
 
-  const _CenterAddButton({required this.onTap});
+  const _CenterAddButton({required this.onTap, this.onLongPress});
 
   @override
   State<_CenterAddButton> createState() => _CenterAddButtonState();
@@ -232,12 +238,20 @@ class _CenterAddButtonState extends State<_CenterAddButton>
     _controller.reverse();
   }
 
+  void _onLongPress() {
+    setState(() => _isPressed = false);
+    _controller.reverse();
+    HapticFeedback.heavyImpact();
+    widget.onLongPress?.call();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: _onTapDown,
       onTapUp: _onTapUp,
       onTapCancel: _onTapCancel,
+      onLongPress: widget.onLongPress != null ? _onLongPress : null,
       child: AnimatedBuilder(
         animation: _scaleAnimation,
         builder: (context, child) {
@@ -401,19 +415,20 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
   final VoidCallback onAddTap;
+  final VoidCallback? onAddLongPress;
 
   const PremiumNavBarWithShowcase({
     super.key,
     required this.currentIndex,
     required this.onTap,
     required this.onAddTap,
+    this.onAddLongPress,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final isDark = context.isDarkMode;
-    final colors = context.appColors;
 
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
@@ -494,7 +509,17 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   overlayColor: Colors.black,
                   overlayOpacity: 0.95,
                   targetShapeBorder: const CircleBorder(),
-                  child: _CenterAddButton(onTap: onAddTap),
+                  child: Semantics(
+                    label: l10n.accessibilityAddExpense,
+                    button: true,
+                    child: Tooltip(
+                      message: l10n.accessibilityAddExpense,
+                      child: _CenterAddButton(
+                        onTap: onAddTap,
+                        onLongPress: onAddLongPress,
+                      ),
+                    ),
+                  ),
                 ),
                 // Pursuits (Dreams) - with Showcase
                 Showcase(

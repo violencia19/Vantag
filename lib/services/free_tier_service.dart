@@ -1,22 +1,23 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../constants/app_limits.dart';
 
 /// Service to manage free tier limitations
 /// Centralizes all free tier logic for consistent enforcement
 class FreeTierService {
   // ═══════════════════════════════════════════════════════════════════════════
-  // CONSTANTS
+  // CONSTANTS (use AppLimits as single source of truth)
   // ═══════════════════════════════════════════════════════════════════════════
 
   /// Maximum AI chat messages per day for free users
-  static const int maxFreeAiChats = 3;
+  static int get maxFreeAiChats => AppLimits.freeAiChatsPerDay;
 
   /// Maximum active pursuits for free users
-  static const int maxFreePursuits = 1;
+  static int get maxFreePursuits => AppLimits.freePursuits;
 
   /// Free users can only use TRY currency
-  static const String freeCurrency = 'TRY';
+  static String get freeCurrency => AppLimits.freeCurrency;
 
   // SharedPreferences keys
   static const String _keyAiChatLastDate = 'free_ai_chat_last_date';
@@ -28,7 +29,7 @@ class FreeTierService {
   FreeTierService._internal();
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // AI CHAT LIMITS (3/day for free users)
+  // AI CHAT LIMITS (4/day for free users)
   // ═══════════════════════════════════════════════════════════════════════════
 
   /// Get today's AI chat count for free users

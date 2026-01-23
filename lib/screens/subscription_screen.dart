@@ -48,8 +48,17 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         });
       }
     } catch (e) {
+      debugPrint('[SubscriptionScreen] Error loading subscriptions: $e');
       if (mounted) {
         setState(() => _isLoading = false);
+        final l10n = AppLocalizations.of(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.errorLoadingSubscriptions),
+            backgroundColor: context.appColors.error,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
       }
     }
   }
@@ -116,6 +125,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             leading: IconButton(
               icon: Icon(PhosphorIconsDuotone.arrowLeft),
               onPressed: () => Navigator.pop(context),
+              tooltip: AppLocalizations.of(context).accessibilityBackButton,
             ),
             title: Text(
               AppLocalizations.of(context).subscriptions,
@@ -187,6 +197,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddSheet,
         backgroundColor: context.appColors.primary,
+        tooltip: AppLocalizations.of(context).addSubscription,
         child: Icon(PhosphorIconsDuotone.plus, color: context.appColors.textPrimary),
       ),
     );
@@ -286,9 +297,18 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   }
 
   Widget _buildSubscriptionCard(Subscription subscription) {
-    return GestureDetector(
-      onTap: () => _showDetailSheet(subscription),
-      child: Container(
+    final l10n = AppLocalizations.of(context);
+    return Semantics(
+      button: true,
+      label: l10n.accessibilitySubscriptionCard(
+        subscription.name,
+        formatTurkishCurrency(subscription.amount, decimalDigits: 0),
+        l10n.monthly,
+        subscription.renewalDay,
+      ),
+      child: GestureDetector(
+        onTap: () => _showDetailSheet(subscription),
+        child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: context.appColors.surface.withValues(alpha: 0.6),
@@ -374,6 +394,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             ),
           ],
         ),
+      ),
       ),
     );
   }
@@ -462,40 +483,49 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   ...subs.map(
                     (sub) => Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                          _showDetailSheet(sub);
-                        },
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 10,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                color: sub.color,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Text(
-                                sub.name,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: context.appColors.textPrimary,
+                      child: Semantics(
+                        button: true,
+                        label: AppLocalizations.of(context).accessibilitySubscriptionCard(
+                          sub.name,
+                          formatTurkishCurrency(sub.amount, decimalDigits: 0),
+                          AppLocalizations.of(context).monthly,
+                          sub.renewalDay,
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            _showDetailSheet(sub);
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 10,
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  color: sub.color,
+                                  shape: BoxShape.circle,
                                 ),
                               ),
-                            ),
-                            Text(
-                              '${formatTurkishCurrency(sub.amount, decimalDigits: 0)} ₺',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: context.appColors.textSecondary,
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  sub.name,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: context.appColors.textPrimary,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ],
+                              Text(
+                                '${formatTurkishCurrency(sub.amount, decimalDigits: 0)} ₺',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: context.appColors.textSecondary,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

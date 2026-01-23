@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:vantag/theme/app_theme.dart';
 
 enum AchievementTier {
   bronze,
@@ -74,15 +75,15 @@ enum AchievementCategory {
   Color get iconColor {
     switch (this) {
       case AchievementCategory.streak:
-        return const Color(0xFFFF6B35); // Orange flame
+        return AppColors.achievementStreak;
       case AchievementCategory.savings:
-        return const Color(0xFF2ECC71); // Green money
+        return AppColors.achievementSavings;
       case AchievementCategory.decision:
-        return const Color(0xFF9B59B6); // Purple target
+        return AppColors.achievementGoals;
       case AchievementCategory.record:
-        return const Color(0xFF3498DB); // Blue notepad
+        return AppColors.achievementTracker;
       case AchievementCategory.hidden:
-        return const Color(0xFFE91E63); // Pink mystery
+        return AppColors.achievementMystery;
     }
   }
 }

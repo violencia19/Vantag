@@ -105,10 +105,14 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     required IconData icon,
     int? badge,
     required VoidCallback onTap,
+    String? semanticLabel,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: ClipRRect(
+    return Semantics(
+      label: semanticLabel,
+      button: true,
+      child: GestureDetector(
+        onTap: onTap,
+        child: ClipRRect(
         borderRadius: BorderRadius.circular(14),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -156,6 +160,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           ),
         ),
       ),
+      ),
     );
   }
 
@@ -164,10 +169,14 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     final authService = AuthService();
     final user = authService.currentUser;
     final photoUrl = user?.photoURL;
+    final l10n = AppLocalizations.of(context);
 
-    return GestureDetector(
-      onTap: () => ProfileModal.show(context),
-      child: Container(
+    return Semantics(
+      label: l10n.profile,
+      button: true,
+      child: GestureDetector(
+        onTap: () => ProfileModal.show(context),
+        child: Container(
         width: 48,
         height: 48,
         decoration: BoxDecoration(
@@ -202,6 +211,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               : _buildDefaultAvatarIcon(),
         ),
       ),
+      ),
     );
   }
 
@@ -221,8 +231,11 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     final proProvider = context.watch<ProProvider>();
     final isPro = proProvider.isPro;
 
-    return GestureDetector(
-      onTap: () {
+    return Semantics(
+      label: isPro ? l10n.proMember : l10n.upgradeToPro,
+      button: true,
+      child: GestureDetector(
+        onTap: () {
         if (isPro) {
           // Show toast for Pro users
           ScaffoldMessenger.of(context).showSnackBar(
@@ -250,18 +263,18 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             height: 44,
             decoration: BoxDecoration(
               color: isPro
-                  ? const Color(0xFFFFD700).withValues(alpha: 0.15)
+                  ? AppColors.medalGold.withValues(alpha: 0.15)
                   : context.appColors.surfaceLight.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
                 color: isPro
-                    ? const Color(0xFFFFD700).withValues(alpha: 0.5)
+                    ? AppColors.medalGold.withValues(alpha: 0.5)
                     : context.appColors.cardBorder,
               ),
               boxShadow: isPro
                   ? [
                       BoxShadow(
-                        color: const Color(0xFFFFD700).withValues(alpha: 0.3),
+                        color: AppColors.medalGold.withValues(alpha: 0.3),
                         blurRadius: 12,
                         spreadRadius: 0,
                       ),
@@ -272,32 +285,37 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               PhosphorIconsDuotone.lightning,
               size: 20,
               color: isPro
-                  ? const Color(0xFFFFD700)
+                  ? AppColors.medalGold
                   : context.appColors.textTertiary,
             ),
           ),
         ),
       ),
+      ),
     );
   }
 
   Widget _buildHabitCalculatorBanner() {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: GestureDetector(
-        onTap: _openHabitCalculator,
-        child: Container(
+      child: Semantics(
+        label: l10n.habitCalculator,
+        button: true,
+        child: GestureDetector(
+          onTap: _openHabitCalculator,
+          child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF6C63FF), Color(0xFF4ECDC4)],
+            gradient: LinearGradient(
+              colors: [AppColors.primary, AppColors.secondary],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF6C63FF).withValues(alpha: 0.3),
+                color: AppColors.primary.withValues(alpha: 0.3),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -365,7 +383,52 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             ],
           ),
         ),
+        ),
       ),
+    );
+  }
+
+  /// Build budget warning banner if any budgets are at risk
+  Widget _buildBudgetWarningBanner() {
+    return Consumer<CategoryBudgetProvider>(
+      builder: (context, budgetProvider, _) {
+        // Initialize if needed
+        if (budgetProvider.budgets.isEmpty && !budgetProvider.isLoading) {
+          final financeProvider = context.read<FinanceProvider>();
+          final now = DateTime.now();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            budgetProvider.initialize(financeProvider.expenses);
+            budgetProvider.setMonth(now.month, now.year);
+          });
+        }
+
+        // Only show if there are warning budgets
+        if (!budgetProvider.hasWarnings) {
+          return const SizedBox.shrink();
+        }
+
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: BudgetWarningBanner(
+            budgets: budgetProvider.warningBudgets,
+            onTap: () {
+              // Show snackbar directing to Reports tab
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(AppLocalizations.of(context).viewBudgetsInReports),
+                  behavior: SnackBarBehavior.floating,
+                  action: SnackBarAction(
+                    label: AppLocalizations.of(context).viewAll,
+                    onPressed: () {
+                      // User can navigate to Reports tab
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
@@ -501,6 +564,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                           ),
                           IconButton(
                             onPressed: () => Navigator.pop(context),
+                            tooltip: l10n.close,
                             icon: Container(
                               width: 36,
                               height: 36,
@@ -623,27 +687,31 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          GestureDetector(
-            onTap: () => _showPaywall(),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-              decoration: BoxDecoration(
-                gradient: AppGradients.primaryButton,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: context.appColors.primary.withValues(alpha: 0.3),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
+          Semantics(
+            label: l10n.upgradeToPro,
+            button: true,
+            child: GestureDetector(
+              onTap: () => _showPaywall(),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                decoration: BoxDecoration(
+                  gradient: AppGradients.primaryButton,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: context.appColors.primary.withValues(alpha: 0.3),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  l10n.upgradeToPro,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: context.appColors.textPrimary,
                   ),
-                ],
-              ),
-              child: Text(
-                l10n.upgradeToPro,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
                 ),
               ),
             ),
@@ -761,6 +829,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                   ? _upcomingSubscriptionCount
                                   : null,
                               onTap: _showSubscriptionSheet,
+                              semanticLabel: l10n.subscriptions,
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -806,6 +875,11 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               SliverToBoxAdapter(child: _buildHabitCalculatorBanner()),
 
               const SliverToBoxAdapter(child: SizedBox(height: 12)),
+
+              // Category Budget Warning Banner
+              SliverToBoxAdapter(
+                child: _buildBudgetWarningBanner(),
+              ),
 
               // Financial Snapshot Card
               SliverToBoxAdapter(
@@ -914,42 +988,46 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                       ),
                       const Spacer(),
                       if (hasMoreExpenses)
-                        GestureDetector(
-                          onTap: () => _showFullHistory(expenses),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: context.appColors.primary.withValues(
-                                alpha: 0.15,
+                        Semantics(
+                          label: l10n.seeMore,
+                          button: true,
+                          child: GestureDetector(
+                            onTap: () => _showFullHistory(expenses),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
                               ),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
+                              decoration: BoxDecoration(
                                 color: context.appColors.primary.withValues(
-                                  alpha: 0.3,
+                                  alpha: 0.15,
                                 ),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  l10n.seeMore,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: context.appColors.primary,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: context.appColors.primary.withValues(
+                                    alpha: 0.3,
                                   ),
                                 ),
-                                const SizedBox(width: 4),
-                                Icon(
-                                  PhosphorIconsDuotone.caretRight,
-                                  size: 14,
-                                  color: context.appColors.primary,
-                                ),
-                              ],
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    l10n.seeMore,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: context.appColors.primary,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Icon(
+                                    PhosphorIconsDuotone.caretRight,
+                                    size: 14,
+                                    color: context.appColors.primary,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),

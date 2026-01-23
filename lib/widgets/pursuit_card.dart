@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/pursuit.dart';
+import '../theme/app_theme.dart';
 import '../theme/quiet_luxury.dart';
 import '../theme/accessible_text.dart';
 import 'pursuit_progress_visual.dart';
@@ -199,7 +200,7 @@ class PursuitCard extends StatelessWidget {
   Color _getProgressColor(double progress) {
     if (progress >= 1.0) return QuietLuxury.gold;
     if (progress >= 0.7) return QuietLuxury.positive;
-    if (progress >= 0.3) return const Color(0xFF4ECDC4);
+    if (progress >= 0.3) return AppColors.secondary;
     return QuietLuxury.textTertiary;
   }
 }
@@ -211,39 +212,47 @@ class _AddSavingsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(10),
-        child: Container(
-          constraints: const BoxConstraints(minHeight: 44),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-          decoration: BoxDecoration(
-            color: QuietLuxury.positive.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: QuietLuxury.positive.withValues(alpha: 0.3),
-              width: 0.5,
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                PhosphorIconsBold.plus,
-                size: 14,
-                color: QuietLuxury.positive,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                AppLocalizations.of(context).addSavings,
-                style: QuietLuxury.label.copyWith(
-                  color: QuietLuxury.positive,
-                  fontWeight: FontWeight.w600,
+    final l10n = AppLocalizations.of(context);
+    return Semantics(
+      label: l10n.addSavings,
+      button: true,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(10),
+          child: Tooltip(
+            message: l10n.addSavings,
+            child: Container(
+              constraints: const BoxConstraints(minHeight: 44),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              decoration: BoxDecoration(
+                color: QuietLuxury.positive.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: QuietLuxury.positive.withValues(alpha: 0.3),
+                  width: 0.5,
                 ),
               ),
-            ],
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    PhosphorIconsBold.plus,
+                    size: 14,
+                    color: QuietLuxury.positive,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    l10n.addSavings,
+                    style: QuietLuxury.label.copyWith(
+                      color: QuietLuxury.positive,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -268,43 +277,57 @@ class PursuitCompactCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Pressable(
-      onTap: onTap,
-      child: Container(
-        width: width,
-        padding: const EdgeInsets.all(12),
-        decoration: QuietLuxury.cardDecoration,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Emoji
-            PursuitCircularProgress(
-              progress: pursuit.progressPercent,
-              emoji: pursuit.emoji,
-              size: 48,
-              strokeWidth: 3,
-            ),
-            const SizedBox(height: 8),
-            // Name
-            Text(
-              pursuit.name,
-              style: QuietLuxury.body.copyWith(
-                color: QuietLuxury.textPrimary,
-                fontWeight: FontWeight.w500,
+    final l10n = AppLocalizations.of(context);
+
+    // Accessibility: Semantic label for screen readers
+    final semanticLabel = l10n.accessibilityPursuitCard(
+      pursuit.name,
+      formatAmount(pursuit.savedAmount),
+      formatAmount(pursuit.targetAmount),
+      pursuit.progressPercentDisplay,
+    );
+
+    return Semantics(
+      label: semanticLabel,
+      button: onTap != null,
+      child: Pressable(
+        onTap: onTap,
+        child: Container(
+          width: width,
+          padding: const EdgeInsets.all(12),
+          decoration: QuietLuxury.cardDecoration,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Emoji
+              PursuitCircularProgress(
+                progress: pursuit.progressPercent,
+                emoji: pursuit.emoji,
+                size: 48,
+                strokeWidth: 3,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 4),
-            // Progress
-            Text(
-              '${pursuit.progressPercentDisplay}%',
-              style: QuietLuxury.label.copyWith(
-                color: QuietLuxury.positive,
-                fontWeight: FontWeight.w600,
+              const SizedBox(height: 8),
+              // Name
+              Text(
+                pursuit.name,
+                style: QuietLuxury.body.copyWith(
+                  color: QuietLuxury.textPrimary,
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-            ),
-          ],
+              const SizedBox(height: 4),
+              // Progress
+              Text(
+                '${pursuit.progressPercentDisplay}%',
+                style: QuietLuxury.label.copyWith(
+                  color: QuietLuxury.positive,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

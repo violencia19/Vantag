@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
+import 'package:vantag/theme/app_theme.dart';
 
 /// One-time income types
 enum IncomeType {
@@ -38,21 +39,21 @@ enum IncomeType {
   Color get color {
     switch (this) {
       case IncomeType.salary:
-        return const Color(0xFF6C63FF);
+        return AppColors.incomeSalary;
       case IncomeType.bonus:
-        return const Color(0xFFFFD700);
+        return AppColors.incomeBonus;
       case IncomeType.gift:
-        return const Color(0xFFE91E63);
+        return AppColors.incomeFreelance;
       case IncomeType.refund:
-        return const Color(0xFF4CAF50);
+        return AppColors.incomePassive;
       case IncomeType.freelance:
-        return const Color(0xFF4ECDC4);
+        return AppColors.incomeRental;
       case IncomeType.rental:
-        return const Color(0xFFF39C12);
+        return AppColors.incomeSideJob;
       case IncomeType.investment:
-        return const Color(0xFF2ECC71);
+        return AppColors.incomeOther;
       case IncomeType.other:
-        return const Color(0xFF95A5A6);
+        return AppColors.incomeDefault;
     }
   }
 

@@ -307,6 +307,16 @@ class _ReportScreenState extends State<ReportScreen>
 
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
+              // Category Budget Progress
+              SliverToBoxAdapter(
+                child: _AnimatedSlideIn(
+                  delay: const Duration(milliseconds: 150),
+                  child: _buildBudgetSection(l10n),
+                ),
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 24)),
+
               // NEW: Category-based Work Hours Bar Chart
               SliverToBoxAdapter(
                 child: _AnimatedSlideIn(
@@ -419,28 +429,43 @@ class _ReportScreenState extends State<ReportScreen>
     final isSelected = _selectedFilter == filter;
     // Lock month and all-time for free users
     final isLocked = !isPremium && filter != TimeFilter.week;
+    final l10n = AppLocalizations.of(context);
+
+    // Build semantic label based on state
+    String semanticLabel;
+    if (isLocked) {
+      semanticLabel = l10n.lockedFilterPremium(label);
+    } else if (isSelected) {
+      semanticLabel = l10n.selectedFilter(label);
+    } else {
+      semanticLabel = l10n.selectTimeFilter(label);
+    }
 
     return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          if (isLocked) {
-            // Show upgrade dialog for locked filters
-            UpgradeDialog.show(
-              context,
-              AppLocalizations.of(context).reportsPremiumOnly,
-            );
-            return;
-          }
-          setState(() {
-            _selectedFilter = filter;
-            _showCharts = false;
-          });
-          // Kısa gecikme sonra chart'ları göster
-          Future.delayed(AppAnimations.initialDelay, () {
-            if (mounted) setState(() => _showCharts = true);
-          });
-        },
-        child: AnimatedContainer(
+      child: Semantics(
+        label: semanticLabel,
+        button: true,
+        selected: isSelected,
+        child: GestureDetector(
+          onTap: () {
+            if (isLocked) {
+              // Show upgrade dialog for locked filters
+              UpgradeDialog.show(
+                context,
+                l10n.reportsPremiumOnly,
+              );
+              return;
+            }
+            setState(() {
+              _selectedFilter = filter;
+              _showCharts = false;
+            });
+            // Kısa gecikme sonra chart'ları göster
+            Future.delayed(AppAnimations.initialDelay, () {
+              if (mounted) setState(() => _showCharts = true);
+            });
+          },
+          child: AnimatedContainer(
           duration: AppAnimations.short,
           curve: AppAnimations.standardCurve,
           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -478,6 +503,7 @@ class _ReportScreenState extends State<ReportScreen>
               ),
             ],
           ),
+        ),
         ),
       ),
     );
@@ -815,11 +841,11 @@ class _ReportScreenState extends State<ReportScreen>
       context.appColors.warning,
       context.appColors.info,
       context.appColors.error,
-      const Color(0xFF9B59B6),
-      const Color(0xFF1ABC9C),
-      const Color(0xFFE91E63),
-      const Color(0xFF3F51B5),
-      const Color(0xFF795548),
+      AppColors.categoryShopping,
+      AppColors.achievementStreak,
+      AppColors.achievementMystery,
+      AppColors.categoryEntertainment,
+      AppColors.categoryDefault,
     ];
 
     return Container(
@@ -1387,27 +1413,37 @@ class _ReportScreenState extends State<ReportScreen>
                         day.month == _selectedHeatmapDay!.month &&
                         day.day == _selectedHeatmapDay!.day;
 
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _selectedHeatmapDay = day;
-                        });
-                      },
-                      child: Container(
-                        width: 10,
-                        height: 10,
-                        margin: const EdgeInsets.all(1),
-                        decoration: BoxDecoration(
-                          color: amount == 0
-                              ? context.appColors.surfaceLight
-                              : _getHeatmapColor(intensity),
-                          borderRadius: BorderRadius.circular(2),
-                          border: isSelected
-                              ? Border.all(
-                                  color: context.appColors.textPrimary,
-                                  width: 1,
-                                )
-                              : null,
+                    final dateStr = '${day.day}/${day.month}';
+                    final semanticLabel = amount > 0
+                        ? l10n.heatmapDayWithSpending(dateStr, formatTurkishCurrency(amount, decimalDigits: 0))
+                        : l10n.heatmapDayNoSpending(dateStr);
+
+                    return Semantics(
+                      label: semanticLabel,
+                      button: true,
+                      selected: isSelected,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedHeatmapDay = day;
+                          });
+                        },
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          margin: const EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                            color: amount == 0
+                                ? context.appColors.surfaceLight
+                                : _getHeatmapColor(intensity),
+                            borderRadius: BorderRadius.circular(2),
+                            border: isSelected
+                                ? Border.all(
+                                    color: context.appColors.textPrimary,
+                                    width: 1,
+                                  )
+                                : null,
+                          ),
                         ),
                       ),
                     );
@@ -1491,14 +1527,142 @@ class _ReportScreenState extends State<ReportScreen>
   Color _getHeatmapColor(double intensity) {
     // Green gradient from light to dark
     if (intensity < 0.25) {
-      return const Color(0xFF2D5016).withValues(alpha: 0.4);
+      return AppColors.heatmapLow.withValues(alpha: 0.4);
     } else if (intensity < 0.5) {
-      return const Color(0xFF2D5016).withValues(alpha: 0.6);
+      return AppColors.heatmapLow.withValues(alpha: 0.6);
     } else if (intensity < 0.75) {
-      return const Color(0xFF3D7017);
+      return AppColors.heatmapMedium;
     } else {
-      return const Color(0xFF4CAF50);
+      return AppColors.heatmapHigh;
     }
+  }
+
+  /// Build the category budget progress section
+  Widget _buildBudgetSection(AppLocalizations l10n) {
+    return Consumer<CategoryBudgetProvider>(
+      builder: (context, budgetProvider, _) {
+        // Initialize budget provider if not done
+        if (budgetProvider.budgets.isEmpty && !budgetProvider.isLoading) {
+          final financeProvider = context.read<FinanceProvider>();
+          final now = DateTime.now();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            budgetProvider.initialize(financeProvider.expenses);
+            budgetProvider.setMonth(now.month, now.year);
+          });
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Section header
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        PhosphorIconsDuotone.wallet,
+                        size: 20,
+                        color: context.appColors.primary,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        l10n.budgetProgress,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: context.appColors.textPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Semantics(
+                    label: l10n.addBudget,
+                    button: true,
+                    child: GestureDetector(
+                      onTap: () => CreateBudgetSheet.show(context),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: context.appColors.primary.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              PhosphorIconsDuotone.plus,
+                              size: 16,
+                              color: context.appColors.primary,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              l10n.addBudget,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: context.appColors.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Budget cards or empty state
+            if (budgetProvider.isLoading)
+              const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            else if (!budgetProvider.hasBudgets)
+              BudgetSummaryCard(
+                onAddBudget: () => CreateBudgetSheet.show(context),
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: budgetProvider.budgets
+                      .asMap()
+                      .entries
+                      .map((entry) => Padding(
+                            padding: EdgeInsets.only(
+                              bottom: entry.key <
+                                      budgetProvider.budgets.length - 1
+                                  ? 12
+                                  : 0,
+                            ),
+                            child: CategoryBudgetCard(
+                              budget: entry.value,
+                              animationIndex: entry.key,
+                              onTap: () {
+                                CreateBudgetSheet.show(
+                                  context,
+                                  existingBudget: entry.value.budget,
+                                );
+                              },
+                            ),
+                          ))
+                      .toList(),
+                ),
+              ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _buildAnimatedCategoryChart(
@@ -1543,11 +1707,11 @@ class _ReportScreenState extends State<ReportScreen>
       context.appColors.warning,
       context.appColors.info,
       context.appColors.error,
-      const Color(0xFF9B59B6),
-      const Color(0xFF1ABC9C),
-      const Color(0xFFE91E63),
-      const Color(0xFF3F51B5),
-      const Color(0xFF795548),
+      AppColors.categoryShopping,
+      AppColors.achievementStreak,
+      AppColors.achievementMystery,
+      AppColors.categoryEntertainment,
+      AppColors.categoryDefault,
     ];
 
     return _AnimatedSlideIn(
@@ -1955,11 +2119,11 @@ class _ReportScreenState extends State<ReportScreen>
       context.appColors.warning,
       context.appColors.info,
       context.appColors.error,
-      const Color(0xFF9B59B6),
-      const Color(0xFF1ABC9C),
-      const Color(0xFFE91E63),
-      const Color(0xFF3F51B5),
-      const Color(0xFF795548),
+      AppColors.categoryShopping,
+      AppColors.achievementStreak,
+      AppColors.achievementMystery,
+      AppColors.categoryEntertainment,
+      AppColors.categoryDefault,
     ];
 
     return Container(

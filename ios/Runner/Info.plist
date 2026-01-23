@@ -46,6 +46,16 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 
+	<!-- Face ID / Biometric Authentication -->
+	<key>NSFaceIDUsageDescription</key>
+	<string>Uygulamanin kilidini acmak icin Face ID kullanin</string>
+
+	<!-- Camera & Photo Library for Receipt Scanning -->
+	<key>NSCameraUsageDescription</key>
+	<string>Vantag uses the camera to scan receipts and automatically extract expense amounts</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Vantag uses the photo library to select receipt images for scanning</string>
+
 	<!-- Voice & Speech Recognition -->
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Vantag uses the microphone for voice input to quickly add expenses</string>
@@ -92,5 +102,23 @@
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+
+	<!-- Social Media App Queries (for sharing) -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>instagram</string>
+		<string>instagram-stories</string>
+		<string>tiktok</string>
+		<string>fb</string>
+		<string>facebook</string>
+		<string>twitter</string>
+		<string>x</string>
+		<string>whatsapp</string>
+		<string>snapchat</string>
+	</array>
+
+	<!-- Photo Library Add Permission (for Save to Gallery) -->
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Vantag needs permission to save share cards to your photo library</string>
 </dict>
 </plist>

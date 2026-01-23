@@ -24,11 +24,8 @@ export 'premium_nav_bar.dart';
 export 'quick_add_sheet.dart';
 // Wealth Coach
 export 'smart_choice_toggle.dart';
-export 'wealth_modal.dart';
 export 'expense_form_content.dart';
 export 'decision_stress_timer.dart';
-export 'blood_pressure_background.dart';
-export 'shadow_dashboard.dart';
 export 'renewal_warning_banner.dart';
 export 'add_subscription_sheet.dart';
 export 'subscription_detail_sheet.dart';
@@ -79,8 +76,16 @@ export 'redirect_savings_sheet.dart';
 export 'savings_pool_card.dart';
 export 'budget_shift_dialog.dart';
 
+// Category Budgets
+export 'category_budget_card.dart';
+export 'budget_summary_card.dart';
+export 'create_budget_sheet.dart';
+
 // Free Tier
 export 'upgrade_dialog.dart';
 
 // Animations
 export 'lottie_animations.dart';
+
+// Security
+export 'app_lock_wrapper.dart';

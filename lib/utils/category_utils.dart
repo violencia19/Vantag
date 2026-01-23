@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
+import 'package:vantag/theme/app_theme.dart';
 
 /// Utility class for category localization
 class CategoryUtils {
@@ -125,34 +126,34 @@ class CategoryUtils {
   static Color getColor(String internalKey) {
     switch (internalKey) {
       case 'Yiyecek':
-        return const Color(0xFFFF6B6B);
+        return AppColors.categoryFood;
       case 'Ulaşım':
-        return const Color(0xFF4ECDC4);
+        return AppColors.categoryTransport;
       case 'Giyim':
-        return const Color(0xFF9B59B6);
+        return AppColors.categoryShopping;
       case 'Elektronik':
-        return const Color(0xFF3498DB);
+        return AppColors.categoryEntertainment;
       case 'Eğlence':
-        return const Color(0xFFE74C3C);
+        return AppColors.categoryBills;
       case 'Sağlık':
-        return const Color(0xFF2ECC71);
+        return AppColors.categoryHealth;
       case 'Eğitim':
-        return const Color(0xFFF39C12);
+        return AppColors.categoryEducation;
       case 'Faturalar':
-        return const Color(0xFF95A5A6);
+        return AppColors.categoryOther;
       case 'Abonelik':
-        return const Color(0xFF6C63FF);
+        return AppColors.primary;
       case 'Alışveriş':
-        return const Color(0xFFE91E63);
+        return AppColors.categoryShoppingPink;
       case 'Dijital':
-        return const Color(0xFF00BCD4);
+        return AppColors.categoryDigitalCyan;
       case 'Spor':
-        return const Color(0xFF8BC34A);
+        return AppColors.categorySportsGreen;
       case 'Haberleşme':
-        return const Color(0xFF607D8B);
+        return AppColors.categoryCommGray;
       case 'Diğer':
       default:
-        return const Color(0xFF78909C);
+        return AppColors.categoryDefault;
     }
   }
 }

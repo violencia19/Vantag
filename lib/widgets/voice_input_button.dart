@@ -2,8 +2,10 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 import '../screens/voice_input_screen.dart';
 import '../theme/theme.dart';
+import '../theme/app_theme.dart';
 
 /// Simple voice input button that opens VoiceInputScreen
 class VoiceInputButton extends StatelessWidget {
@@ -25,17 +27,21 @@ class VoiceInputButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final primary = primaryColor ?? context.appColors.primary;
     final secondary = secondaryColor ?? context.appColors.secondary;
 
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.mediumImpact();
-        Navigator.of(
-          context,
-        ).push(MaterialPageRoute(builder: (_) => const VoiceInputScreen()));
-      },
-      child: Container(
+    return Semantics(
+      label: l10n.voiceInput,
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.mediumImpact();
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const VoiceInputScreen()));
+        },
+        child: Container(
         width: size,
         height: size,
         decoration: BoxDecoration(
@@ -61,6 +67,7 @@ class VoiceInputButton extends StatelessWidget {
           ),
         ),
       ),
+      ),
     );
   }
 }
@@ -78,40 +85,45 @@ class CompactVoiceButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.lightImpact();
-        if (onTap != null) {
-          onTap!();
-        } else {
-          Navigator.of(
-            context,
-          ).push(MaterialPageRoute(builder: (_) => const VoiceInputScreen()));
-        }
-      },
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [context.appColors.primary, context.appColors.secondary],
-          ),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: context.appColors.primary.withValues(alpha: 0.3),
-              blurRadius: 8,
-              offset: const Offset(0, 3),
+    final l10n = AppLocalizations.of(context);
+    return Semantics(
+      label: l10n.tapToSpeak,
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.lightImpact();
+          if (onTap != null) {
+            onTap!();
+          } else {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const VoiceInputScreen()));
+          }
+        },
+        child: Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [context.appColors.primary, context.appColors.secondary],
             ),
-          ],
-        ),
-        child: Center(
-          child: PhosphorIcon(
-            PhosphorIconsFill.microphone,
-            color: Colors.white,
-            size: size * 0.5,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: context.appColors.primary.withValues(alpha: 0.3),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Center(
+            child: PhosphorIcon(
+              PhosphorIconsFill.microphone,
+              color: Colors.white,
+              size: size * 0.5,
+            ),
           ),
         ),
       ),
@@ -173,48 +185,53 @@ class _AnimatedVoiceButtonState extends State<AnimatedVoiceButton>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AnimatedBuilder(
       animation: _pulseAnimation,
       builder: (context, child) {
         final scale = widget.isListening ? _pulseAnimation.value : 1.0;
         return Transform.scale(
           scale: scale,
-          child: GestureDetector(
-            onTap: widget.onTap,
-            child: Container(
-              width: widget.size,
-              height: widget.size,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: widget.isListening
-                      ? [const Color(0xFFE74C3C), const Color(0xFFC0392B)]
-                      : [
-                          context.appColors.primary,
-                          context.appColors.secondary,
-                        ],
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color:
-                        (widget.isListening
-                                ? const Color(0xFFE74C3C)
-                                : context.appColors.primary)
-                            .withValues(alpha: widget.isListening ? 0.6 : 0.4),
-                    blurRadius: widget.isListening ? 50 : 25,
-                    spreadRadius: widget.isListening ? 10 : 0,
+          child: Semantics(
+            label: l10n.tapToSpeak,
+            button: true,
+            child: GestureDetector(
+              onTap: widget.onTap,
+              child: Container(
+                width: widget.size,
+                height: widget.size,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: widget.isListening
+                        ? [AppColors.categoryBills, AppColors.dangerRedDark]
+                        : [
+                            context.appColors.primary,
+                            context.appColors.secondary,
+                          ],
                   ),
-                ],
-              ),
-              child: Center(
-                child: PhosphorIcon(
-                  widget.isListening
-                      ? PhosphorIconsFill.stop
-                      : PhosphorIconsFill.microphone,
-                  color: Colors.white,
-                  size: widget.size * 0.4,
+                  boxShadow: [
+                    BoxShadow(
+                      color:
+                          (widget.isListening
+                                  ? AppColors.categoryBills
+                                  : context.appColors.primary)
+                              .withValues(alpha: widget.isListening ? 0.6 : 0.4),
+                      blurRadius: widget.isListening ? 50 : 25,
+                      spreadRadius: widget.isListening ? 10 : 0,
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: PhosphorIcon(
+                    widget.isListening
+                        ? PhosphorIconsFill.stop
+                        : PhosphorIconsFill.microphone,
+                    color: Colors.white,
+                    size: widget.size * 0.4,
+                  ),
                 ),
               ),
             ),
@@ -235,7 +252,7 @@ class VoiceWaveform extends StatefulWidget {
   const VoiceWaveform({
     super.key,
     required this.soundLevel,
-    this.color = const Color(0xFF6C63FF),
+    this.color = AppColors.primary,
     this.width = 200,
     this.height = 60,
   });

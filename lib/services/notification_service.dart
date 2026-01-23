@@ -176,6 +176,8 @@ class NotificationService {
   static const _idDailyReminder = 10;
   // Payday notification
   static const _idPayday = 11;
+  // Thinking items reminder base ID (200+)
+  static const _idThinkingReminderBase = 200;
   static const _idSubscriptionBase = 100; // Abonelikler için 100+ ID
 
   // Pref keys
@@ -195,6 +197,8 @@ class NotificationService {
   static const _keyTrialDays = 'notif_trial_days';
   // Payday notification
   static const _keyPaydayReminderEnabled = 'notif_payday_reminder';
+  // Thinking items reminder
+  static const _keyThinkingReminderEnabled = 'notif_thinking_reminder';
 
   /// Servisi başlat
   Future<void> initialize() async {
@@ -824,6 +828,86 @@ class NotificationService {
     return prefs.getBool(_keyPaydayReminderEnabled) ?? true;
   }
 
+  // ============================================
+  // 10. DÜŞÜNÜYORUM (THINKING) HATIRLATMASI
+  // ============================================
+
+  /// "Düşünüyorum" kararı sonrası 72 saat sonra hatırlat
+  Future<void> scheduleThinkingReminder({
+    required String expenseId,
+    required double amount,
+    required String? description,
+    required String currencySymbol,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Ayar kontrolü
+    if (!(prefs.getBool(_keyNotificationsEnabled) ?? true)) return;
+    if (!(prefs.getBool(_keyThinkingReminderEnabled) ?? true)) return;
+
+    // Windows ve Linux'ta desteklenmiyor
+    if (Platform.isWindows || Platform.isLinux) return;
+
+    // 72 saat sonra
+    var scheduledTime = DateTime.now().add(const Duration(hours: 72));
+
+    // Gece kontrolü
+    scheduledTime = _getNextAvailableTime(scheduledTime);
+
+    // Benzersiz ID oluştur (expenseId'nin hash'i)
+    final notificationId = _idThinkingReminderBase + (expenseId.hashCode.abs() % 100);
+
+    // Display amount with description if available
+    final itemDisplay = description != null && description.isNotEmpty
+        ? '$description ($currencySymbol${amount.toStringAsFixed(0)})'
+        : '$currencySymbol${amount.toStringAsFixed(0)}';
+
+    final androidDetails = AndroidNotificationDetails(
+      'thinking_reminder_channel',
+      'Düşünme Hatırlatmaları',
+      channelDescription: 'Düşünüyorum kararları için 72 saat hatırlatmaları',
+      importance: Importance.high,
+      priority: Priority.high,
+      styleInformation: BigTextStyleInformation(
+        'Karar verdin mi? $itemDisplay',
+      ),
+    );
+
+    const darwinDetails = DarwinNotificationDetails();
+
+    final details = NotificationDetails(
+      android: androidDetails,
+      iOS: darwinDetails,
+      macOS: darwinDetails,
+    );
+
+    try {
+      await _notifications.zonedSchedule(
+        notificationId,
+        'Hala düşünüyor musun? 🤔',
+        'Karar verdin mi? $itemDisplay',
+        tz.TZDateTime.from(scheduledTime, tz.local),
+        details,
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        payload: 'thinking_$expenseId',
+      );
+    } on UnimplementedError {
+      // Platform desteklemiyor
+    }
+  }
+
+  /// Düşünüyorum hatırlatmasını iptal et
+  Future<void> cancelThinkingReminder(String expenseId) async {
+    final notificationId = _idThinkingReminderBase + (expenseId.hashCode.abs() % 100);
+    await cancel(notificationId);
+  }
+
+  /// Thinking hatırlatması aktif mi?
+  Future<bool> isThinkingReminderEnabled() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_keyThinkingReminderEnabled) ?? true;
+  }
+
   /// Günlük hatırlatma saatini al
   Future<({int hour, int minute})?> getDailyReminderTime() async {
     final prefs = await SharedPreferences.getInstance();
@@ -950,6 +1034,7 @@ class NotificationService {
       'trialReminder': prefs.getBool(_keyTrialReminderEnabled) ?? true,
       'dailyReminder': prefs.getBool(_keyDailyReminderEnabled) ?? false,
       'paydayReminder': prefs.getBool(_keyPaydayReminderEnabled) ?? true,
+      'thinkingReminder': prefs.getBool(_keyThinkingReminderEnabled) ?? true,
     };
   }
 
@@ -967,6 +1052,7 @@ class NotificationService {
       'trialReminder' => _keyTrialReminderEnabled,
       'dailyReminder' => _keyDailyReminderEnabled,
       'paydayReminder' => _keyPaydayReminderEnabled,
+      'thinkingReminder' => _keyThinkingReminderEnabled,
       _ => null,
     };
 
@@ -1005,6 +1091,7 @@ class NotificationService {
       await prefs.setBool(_keySubscriptionReminderEnabled, true);
       await prefs.setBool(_keyTrialReminderEnabled, true);
       await prefs.setBool(_keyPaydayReminderEnabled, true);
+      await prefs.setBool(_keyThinkingReminderEnabled, true); // On by default
       await prefs.setBool(_keyDailyReminderEnabled, false); // Off by default
     }
   }

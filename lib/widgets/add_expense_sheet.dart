@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -17,6 +18,7 @@ import 'result_card.dart';
 import 'decision_buttons.dart';
 import 'smart_choice_toggle.dart';
 import 'redirect_savings_sheet.dart';
+import '../screens/voice_input_screen.dart';
 
 /// Full Expense Entry Bottom Sheet
 /// Contains: Date chips, Amount, Description (Smart Match), Category, Subcategory, Calculate button
@@ -52,6 +54,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
   final _insightService = InsightService();
   final _messagesService = MessagesService();
   final _subCategoryService = SubCategoryService();
+  final _receiptScannerService = ReceiptScannerService();
 
   // State
   DateTime _selectedDate = DateTime.now();
@@ -83,6 +86,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
   ExpenseType _expenseType = ExpenseType.single;
   bool _isMandatory = false;
   bool _showInstallmentDetails = false;
+
+  // Receipt scanning state
+  bool _isScanning = false;
 
   // Taksit inputları için controller'lar
   final _installmentCountController = TextEditingController();
@@ -226,7 +232,171 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     _installmentCountController.dispose();
     _cashPriceController.dispose();
     _installmentTotalController.dispose();
+    // Receipt scanner
+    _receiptScannerService.dispose();
     super.dispose();
+  }
+
+  /// Scan receipt using camera or gallery
+  Future<void> _scanReceipt({bool fromCamera = true}) async {
+    final l10n = AppLocalizations.of(context);
+
+    setState(() => _isScanning = true);
+
+    try {
+      // Pick image
+      final imageFile = await _receiptScannerService.pickImage(
+        fromCamera: fromCamera,
+      );
+
+      if (imageFile == null) {
+        setState(() => _isScanning = false);
+        return;
+      }
+
+      // Extract data from receipt
+      final result = await _receiptScannerService.extractFromReceipt(imageFile);
+
+      if (!mounted) return;
+
+      if (result.hasAmount) {
+        // Auto-fill amount
+        _amountController.text = formatTurkishCurrency(
+          result.amount!,
+          decimalDigits: 2,
+        );
+        _onAmountChanged(_amountController.text);
+
+        // Auto-fill description with merchant if available
+        if (result.merchant != null && _descriptionController.text.isEmpty) {
+          _descriptionController.text = result.merchant!;
+        }
+
+        // Auto-select detected currency if valid
+        if (result.currency != null &&
+            _availableCurrencies.contains(result.currency)) {
+          setState(() {
+            _expenseCurrency = getCurrencyByCode(result.currency!);
+          });
+        }
+
+        haptics.success();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.receiptScanned),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: context.appColors.success,
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.noAmountFound),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: context.appColors.warning,
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('[AddExpenseSheet] Scan error: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.scanError),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: context.appColors.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isScanning = false);
+      }
+    }
+  }
+
+  /// Show options for camera vs gallery
+  void _showScanOptions() {
+    final l10n = AppLocalizations.of(context);
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: context.appColors.cardBackground,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: context.appColors.textTertiary,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              Text(
+                l10n.scanReceipt,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: context.appColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 20),
+              ListTile(
+                leading: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: context.appColors.primary.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    PhosphorIconsDuotone.camera,
+                    color: context.appColors.primary,
+                  ),
+                ),
+                title: Text(
+                  l10n.takePhoto,
+                  style: TextStyle(color: context.appColors.textPrimary),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  _scanReceipt(fromCamera: true);
+                },
+              ),
+              const SizedBox(height: 8),
+              ListTile(
+                leading: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: context.appColors.secondary.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    PhosphorIconsDuotone.image,
+                    color: context.appColors.secondary,
+                  ),
+                ),
+                title: Text(
+                  l10n.chooseFromGallery,
+                  style: TextStyle(color: context.appColors.textPrimary),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  _scanReceipt(fromCamera: false);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> _loadSubCategorySuggestions() async {
@@ -612,40 +782,20 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       }
     }
 
-    final expenseWithDecision = _pendingExpense!.copyWith(
-      decision: decision,
-      decisionDate: DateTime.now(),
-    );
-
-    await financeProvider.addExpense(expenseWithDecision);
-
-    if (!isSimulation && subCategory != null && subCategory.isNotEmpty) {
-      await _subCategoryService.addRecentSubCategory(category, subCategory);
-    }
-
-    if (!mounted) return;
-
-    // Smart Choice savings (when user bought but spent less than intended)
-    // Example: Intended to spend 520₺, actually spent 500₺ = 20₺ savings
-    if (decision == ExpenseDecision.yes &&
-        expenseWithDecision.isSmartChoice &&
-        expenseWithDecision.savedAmount > 0 &&
-        !isSimulation) {
-      final savingsPoolProvider = context.read<SavingsPoolProvider>();
-      await savingsPoolProvider.addSavings(expenseWithDecision.savedAmount);
-      debugPrint(
-        '💰 [AddExpenseSheet] Smart Choice savings added: ${expenseWithDecision.savedAmount}',
-      );
-    }
-
-    // Victory celebration for "passed" decision
+    // "Vazgeçtim" (no) decision - DO NOT save expense, just celebrate
     if (decision == ExpenseDecision.no && !isSimulation) {
-      final freedomHours = expenseWithDecision.hoursRequired;
+      // Calculate hours for display
+      final userProfile = financeProvider.userProfile;
+      final hoursRequired = userProfile != null && userProfile.hourlyRate > 0
+          ? amount / userProfile.hourlyRate
+          : 0.0;
+
+      // Play victory sound and show celebration
       soundService.playVictory();
       victoryManager.showVictoryAnimation(
         context,
         amount: amount,
-        hours: freedomHours,
+        hours: hoursRequired,
       );
 
       // Add to savings pool automatically
@@ -671,11 +821,88 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         }
         return;
       }
+
+      // Show celebration snackbar with motivational message
+      final l10n = AppLocalizations.of(context);
+      final message = _messagesService.getMessageForSavings(l10n);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(
+                  PhosphorIconsFill.star,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                const SizedBox(width: 12),
+                Expanded(child: Text(message)),
+              ],
+            ),
+            duration: const Duration(seconds: 3),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: context.appColors.success,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+        widget.onExpenseAdded?.call();
+        Navigator.pop(context);
+      }
+      return;
     }
 
+    // For "yes" and "thinking" decisions - save the expense
+    final expenseWithDecision = _pendingExpense!.copyWith(
+      decision: decision,
+      decisionDate: DateTime.now(),
+    );
+
+    await financeProvider.addExpense(expenseWithDecision);
+
+    // Schedule 72h reminder for "thinking" decisions
+    if (decision == ExpenseDecision.thinking && !isSimulation) {
+      final currencyProvider = context.read<CurrencyProvider>();
+      // Generate unique ID from expense properties
+      final expenseKey =
+          '${expenseWithDecision.date.millisecondsSinceEpoch}_${expenseWithDecision.amount.toInt()}';
+      await NotificationService().scheduleThinkingReminder(
+        expenseId: expenseKey,
+        amount: amount,
+        description: expenseWithDecision.subCategory ?? expenseWithDecision.category,
+        currencySymbol: currencyProvider.currency.symbol,
+      );
+    }
+
+    if (!isSimulation && subCategory != null && subCategory.isNotEmpty) {
+      await _subCategoryService.addRecentSubCategory(category, subCategory);
+    }
+
+    if (!mounted) return;
+
+    // Budget warning check (only for actual purchases)
+    if (decision == ExpenseDecision.yes && !isSimulation) {
+      await _checkBudgetWarning(expenseWithDecision, financeProvider.expenses);
+    }
+
+    // Smart Choice savings (when user bought but spent less than intended)
+    // Example: Intended to spend 520₺, actually spent 500₺ = 20₺ savings
+    if (decision == ExpenseDecision.yes &&
+        expenseWithDecision.isSmartChoice &&
+        expenseWithDecision.savedAmount > 0 &&
+        !isSimulation) {
+      final savingsPoolProvider = context.read<SavingsPoolProvider>();
+      await savingsPoolProvider.addSavings(expenseWithDecision.savedAmount);
+      debugPrint(
+        '💰 [AddExpenseSheet] Smart Choice savings added: ${expenseWithDecision.savedAmount}',
+      );
+    }
+
+    final l10n = AppLocalizations.of(context);
     final message = isSimulation
-        ? AppLocalizations.of(context).simulationSaved
-        : _getEmotionalMessage(decision, amount);
+        ? l10n.simulationSaved
+        : _messagesService.getMessageForSpending(l10n);
 
     // Play success sound for expense confirmation (yes/thinking decisions)
     if (!isSimulation && decision != ExpenseDecision.no) {
@@ -684,14 +911,114 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Row(
+          children: [
+            Icon(
+              decision == ExpenseDecision.thinking
+                  ? PhosphorIconsFill.clock
+                  : PhosphorIconsFill.checkCircle,
+              color: Colors.white,
+              size: 20,
+            ),
+            const SizedBox(width: 12),
+            Expanded(child: Text(message)),
+          ],
+        ),
         duration: const Duration(seconds: 3),
         behavior: SnackBarBehavior.floating,
+        backgroundColor: decision == ExpenseDecision.thinking
+            ? context.appColors.warning
+            : context.appColors.primary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
       ),
     );
 
+    // Check if we should show voice tip (after 2nd expense)
+    if (!isSimulation) {
+      await _checkVoiceTip();
+    }
+
     widget.onExpenseAdded?.call();
     if (mounted) Navigator.pop(context);
+  }
+
+  /// Check if voice tip should be shown (after 2nd expense)
+  Future<void> _checkVoiceTip() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasSeenVoiceTip = prefs.getBool('hasSeenVoiceTip') ?? false;
+    final expenseCount = prefs.getInt('expenseCount') ?? 0;
+
+    // Increment expense count
+    await prefs.setInt('expenseCount', expenseCount + 1);
+
+    // Show tip after 2nd expense (count is now 2 after increment)
+    if (!hasSeenVoiceTip && expenseCount + 1 >= 2) {
+      await prefs.setBool('hasSeenVoiceTip', true);
+
+      // Show with slight delay to let snackbar appear first
+      if (mounted) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (mounted) {
+            _showVoiceTipDialog();
+          }
+        });
+      }
+    }
+  }
+
+  /// Show voice tip dialog
+  void _showVoiceTipDialog() {
+    final l10n = AppLocalizations.of(context);
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: context.appColors.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        icon: Icon(
+          PhosphorIconsFill.microphone,
+          size: 48,
+          color: context.appColors.primary,
+        ),
+        title: Text(
+          l10n.didYouKnow,
+          style: TextStyle(color: context.appColors.textPrimary),
+        ),
+        content: Text(
+          l10n.voiceTipMessage,
+          style: TextStyle(color: context.appColors.textSecondary),
+          textAlign: TextAlign.center,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(
+              l10n.gotIt,
+              style: TextStyle(color: context.appColors.textSecondary),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: context.appColors.primary,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            onPressed: () {
+              Navigator.pop(dialogContext);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const VoiceInputScreen()),
+              );
+            },
+            child: Text(l10n.tryNow),
+          ),
+        ],
+      ),
+    );
   }
 
   String _formatTimeAgo(Duration diff, AppLocalizations l10n) {
@@ -771,6 +1098,96 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       _categoryInsight = null;
       _emotionalMessage = null;
     });
+  }
+
+  /// Check if expense affects budget and show warning
+  Future<void> _checkBudgetWarning(
+    Expense expense,
+    List<Expense> allExpenses,
+  ) async {
+    final budgetProvider = context.read<CategoryBudgetProvider>();
+    final l10n = AppLocalizations.of(context);
+    final currencyProvider = context.read<CurrencyProvider>();
+
+    // Update provider with latest expenses
+    await budgetProvider.updateExpenses(allExpenses);
+
+    // Check budget impact
+    final budgetCheck = await budgetProvider.checkExpenseImpact(
+      expense.category,
+      expense.amount,
+    );
+
+    if (!budgetCheck.hasBudget || !mounted) return;
+
+    final convertedAmount = currencyProvider.convertFromTRY(
+      budgetCheck.amountOver,
+    );
+
+    if (budgetCheck.wouldExceed) {
+      // Show over budget warning
+      HapticFeedback.heavyImpact();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(
+                PhosphorIconsFill.warning,
+                color: Colors.white,
+                size: 20,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  l10n.budgetExceededMessage(
+                    ExpenseCategory.getLocalizedName(expense.category, l10n),
+                    '${currencyProvider.symbol}${formatTurkishCurrency(convertedAmount, decimalDigits: 0)}',
+                  ),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: context.appColors.error,
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 4),
+          action: SnackBarAction(
+            label: l10n.viewAll,
+            textColor: Colors.white,
+            onPressed: () {
+              // Navigate to budget screen or show budget sheet
+            },
+          ),
+        ),
+      );
+    } else if (budgetCheck.wouldBeNearLimit) {
+      // Show near limit warning
+      HapticFeedback.mediumImpact();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(
+                PhosphorIconsFill.warningCircle,
+                color: Colors.white,
+                size: 20,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  l10n.budgetNearLimitMessage(
+                    budgetCheck.percentAfter.toStringAsFixed(0),
+                    ExpenseCategory.getLocalizedName(expense.category, l10n),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: context.appColors.warning,
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
   @override
@@ -857,6 +1274,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                         ),
                         IconButton(
                           onPressed: () => Navigator.pop(context),
+                          tooltip: l10n.accessibilityCloseSheet,
                           icon: Container(
                             width: 36,
                             height: 36,
@@ -1008,7 +1426,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       ),
       child: Column(
         children: [
-          // Amount row with currency dropdown
+          // Amount row with currency dropdown and scan button
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1047,9 +1465,110 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   onChanged: _onAmountChanged,
                 ),
               ),
+              const SizedBox(width: 8),
+              // Receipt scan button
+              _buildScanButton(l10n),
+              const SizedBox(width: 6),
+              // Voice input button
+              _buildVoiceButton(l10n),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  /// Voice input button
+  Widget _buildVoiceButton(AppLocalizations l10n) {
+    return Semantics(
+      label: l10n.voiceInput,
+      button: true,
+      child: GestureDetector(
+        onTap: _openVoiceInput,
+        child: Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: context.appColors.primary.withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: context.appColors.primary.withValues(alpha: 0.3),
+            ),
+          ),
+          child: Icon(
+            PhosphorIconsFill.microphone,
+            size: 22,
+            color: context.appColors.primary,
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Open voice input screen and handle result
+  Future<void> _openVoiceInput() async {
+    final result = await Navigator.push<Map<String, dynamic>>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const VoiceInputScreen(returnResult: true),
+      ),
+    );
+
+    if (result != null && mounted) {
+      // Auto-fill from voice result
+      if (result['amount'] != null) {
+        _amountController.text = formatTurkishCurrency(
+          (result['amount'] as num).toDouble(),
+          decimalDigits: 2,
+        );
+        _onAmountChanged(_amountController.text);
+      }
+      if (result['description'] != null &&
+          (result['description'] as String).isNotEmpty) {
+        _descriptionController.text = result['description'] as String;
+      }
+      if (result['category'] != null) {
+        setState(() {
+          _selectedCategory = result['category'] as String;
+        });
+      }
+    }
+  }
+
+  /// Receipt scan button
+  Widget _buildScanButton(AppLocalizations l10n) {
+    return Semantics(
+      label: l10n.scanReceipt,
+      button: true,
+      child: GestureDetector(
+        onTap: _isScanning ? null : _showScanOptions,
+        child: Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: context.appColors.secondary.withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: context.appColors.secondary.withValues(alpha: 0.3),
+            ),
+          ),
+          child: _isScanning
+              ? Center(
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: context.appColors.secondary,
+                    ),
+                  ),
+                )
+              : Icon(
+                  PhosphorIconsDuotone.camera,
+                  size: 22,
+                  color: context.appColors.secondary,
+                ),
+        ),
       ),
     );
   }

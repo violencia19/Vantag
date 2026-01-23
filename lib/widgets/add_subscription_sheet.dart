@@ -321,35 +321,40 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(
                             SubscriptionColors.count,
-                            (index) => GestureDetector(
-                              onTap: () {
-                                HapticFeedback.selectionClick();
-                                setState(() => _selectedColorIndex = index);
-                              },
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 200),
-                                width: 36,
-                                height: 36,
-                                decoration: BoxDecoration(
-                                  color: SubscriptionColors.get(index),
-                                  shape: BoxShape.circle,
-                                  border: _selectedColorIndex == index
-                                      ? Border.all(
-                                          color: Colors.white,
-                                          width: 2.5,
-                                        )
-                                      : null,
-                                  boxShadow: _selectedColorIndex == index
-                                      ? [
-                                          BoxShadow(
-                                            color: SubscriptionColors.get(
-                                              index,
-                                            ).withValues(alpha: 0.5),
-                                            blurRadius: 10,
-                                            spreadRadius: 2,
-                                          ),
-                                        ]
-                                      : null,
+                            (index) => Semantics(
+                              button: true,
+                              selected: _selectedColorIndex == index,
+                              label: '${l10n.color} ${index + 1}',
+                              child: GestureDetector(
+                                onTap: () {
+                                  HapticFeedback.selectionClick();
+                                  setState(() => _selectedColorIndex = index);
+                                },
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 200),
+                                  width: 36,
+                                  height: 36,
+                                  decoration: BoxDecoration(
+                                    color: SubscriptionColors.get(index),
+                                    shape: BoxShape.circle,
+                                    border: _selectedColorIndex == index
+                                        ? Border.all(
+                                            color: Colors.white,
+                                            width: 2.5,
+                                          )
+                                        : null,
+                                    boxShadow: _selectedColorIndex == index
+                                        ? [
+                                            BoxShadow(
+                                              color: SubscriptionColors.get(
+                                                index,
+                                              ).withValues(alpha: 0.5),
+                                              blurRadius: 10,
+                                              spreadRadius: 2,
+                                            ),
+                                          ]
+                                        : null,
+                                  ),
                                 ),
                               ),
                             ),

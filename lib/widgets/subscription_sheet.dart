@@ -302,7 +302,7 @@ class _SubscriptionCard extends StatelessWidget {
   Color _getRenewalColor() {
     final days = subscription.daysUntilRenewal;
     if (days <= 1) return QuietLuxury.warning;
-    if (days <= 3) return const Color(0xB33498DB); // Subtle blue
+    if (days <= 3) return AppColors.categoryEntertainment.withValues(alpha: 0.7); // Subtle blue
     return QuietLuxury.textTertiary;
   }
 
@@ -484,7 +484,7 @@ class _SubscriptionCard extends StatelessWidget {
                 context: context,
                 icon: PhosphorIconsDuotone.pencilSimple,
                 label: l10n.edit,
-                color: const Color(0xB33498DB), // Subtle blue
+                color: AppColors.categoryEntertainment.withValues(alpha: 0.7), // Subtle blue
                 onTap: () {
                   Navigator.pop(context);
                   onEdit();
@@ -976,6 +976,7 @@ class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
         });
       }
     } catch (e) {
+      debugPrint('[SubscriptionManageButton] Error loading stats: $e');
       if (mounted) {
         setState(() => _isLoading = false);
       }

@@ -133,7 +133,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  void _showProPaywall(AppLocalizations l10n) {
+  void _showProPaywall(AppLocalizations l10n, {String feature = 'export'}) {
+    final title = feature == 'import'
+        ? l10n.importPremiumOnly
+        : l10n.proFeatureExport;
+    final subtitle = feature == 'import'
+        ? l10n.upgradeForImport
+        : l10n.upgradeForExport;
+
     showModalBottomSheet(
       context: context,
       backgroundColor: context.appColors.cardBackground,
@@ -165,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                l10n.proFeatureExport,
+                title,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -175,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                l10n.upgradeForExport,
+                subtitle,
                 style: TextStyle(
                   fontSize: 14,
                   color: context.appColors.textSecondary,
@@ -223,6 +230,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> _importFromCSV() async {
     final l10n = AppLocalizations.of(context);
+    final proProvider = context.read<ProProvider>();
+
+    // Premium check for import
+    if (!proProvider.isPro) {
+      _showProPaywall(l10n, feature: 'import');
+      return;
+    }
+
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
@@ -284,130 +299,201 @@ class _ProfileScreenState extends State<ProfileScreen> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Handle
-              Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.only(bottom: 20),
-                decoration: BoxDecoration(
-                  color: context.appColors.textTertiary,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
+      builder: (context) {
+        final ValueNotifier<bool> isSaving = ValueNotifier(false);
 
-              // Title
-              Text(
-                l10n.importSummary,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Stats
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        return StatefulBuilder(
+          builder: (context, setSheetState) => SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildImportStat(
-                    icon: PhosphorIconsDuotone.checkCircle,
-                    color: context.appColors.success,
-                    count: result.recognized.length,
-                    label: l10n.autoMatched,
-                  ),
-                  _buildImportStat(
-                    icon: PhosphorIconsDuotone.warningCircle,
-                    color: context.appColors.warning,
-                    count: result.needsReviewCount,
-                    label: l10n.needsReview,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-
-              // Errors (if any)
-              if (result.errors.isNotEmpty) ...[
-                Text(
-                  '${result.errors.length} errors during import',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: context.appColors.error,
-                  ),
-                ),
-                const SizedBox(height: 16),
-              ],
-
-              // Action buttons
-              Row(
-                children: [
-                  // Close button
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.pop(context),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        side: BorderSide(color: context.appColors.cardBorder),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        l10n.close,
-                        style: TextStyle(
-                          color: context.appColors.textSecondary,
-                        ),
-                      ),
+                  // Handle
+                  Container(
+                    width: 40,
+                    height: 4,
+                    margin: const EdgeInsets.only(bottom: 20),
+                    decoration: BoxDecoration(
+                      color: context.appColors.textTertiary,
+                      borderRadius: BorderRadius.circular(2),
                     ),
                   ),
 
-                  // Review button (if there are pending items)
-                  if (result.needsReviewCount > 0) ...[
-                    const SizedBox(width: 12),
-                    Expanded(
-                      flex: 2,
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          // Open review sheet
-                          final allPending = [
-                            ...result.suggestions,
-                            ...result.pending,
-                          ];
-                          PendingReviewSheet.show(
-                            context,
-                            expenses: allPending,
-                            userId: userId,
-                          );
-                        },
-                        icon: PhosphorIcon(
-                          PhosphorIconsRegular.magnifyingGlass,
-                          size: 18,
-                        ),
-                        label: Text(l10n.startReview),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: context.appColors.primary,
-                          foregroundColor: context.appColors.textPrimary,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                  // Title
+                  Text(
+                    l10n.importSummary,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: context.appColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Stats
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildImportStat(
+                        icon: PhosphorIconsDuotone.checkCircle,
+                        color: context.appColors.success,
+                        count: result.recognized.length,
+                        label: l10n.autoMatched,
+                      ),
+                      _buildImportStat(
+                        icon: PhosphorIconsDuotone.warningCircle,
+                        color: context.appColors.warning,
+                        count: result.needsReviewCount,
+                        label: l10n.needsReview,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Errors (if any)
+                  if (result.errors.isNotEmpty) ...[
+                    Text(
+                      '${result.errors.length} errors during import',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: context.appColors.error,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+
+                  // Save All Recognized button (if there are recognized items)
+                  if (result.recognized.isNotEmpty) ...[
+                    ValueListenableBuilder<bool>(
+                      valueListenable: isSaving,
+                      builder: (context, saving, _) => SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: saving
+                              ? null
+                              : () async {
+                                  isSaving.value = true;
+                                  await _saveRecognizedExpenses(result.recognized);
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(l10n.saveAllRecognizedSuccess(
+                                          result.recognized.length,
+                                        )),
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: context.appColors.success,
+                                      ),
+                                    );
+                                    // If there are pending items, open review sheet
+                                    if (result.needsReviewCount > 0) {
+                                      final allPending = [
+                                        ...result.suggestions,
+                                        ...result.pending,
+                                      ];
+                                      PendingReviewSheet.show(
+                                        context,
+                                        expenses: allPending,
+                                        userId: userId,
+                                      );
+                                    }
+                                  }
+                                },
+                          icon: saving
+                              ? SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : PhosphorIcon(
+                                  PhosphorIconsRegular.floppyDisk,
+                                  size: 18,
+                                ),
+                          label: Text(l10n.saveAllRecognized(result.recognized.length)),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: context.appColors.success,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                         ),
                       ),
                     ),
+                    const SizedBox(height: 12),
                   ],
+
+                  // Action buttons
+                  Row(
+                    children: [
+                      // Close button
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () => Navigator.pop(context),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            side: BorderSide(color: context.appColors.cardBorder),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Text(
+                            l10n.close,
+                            style: TextStyle(
+                              color: context.appColors.textSecondary,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Review button (if there are pending items and no recognized)
+                      if (result.needsReviewCount > 0 && result.recognized.isEmpty) ...[
+                        const SizedBox(width: 12),
+                        Expanded(
+                          flex: 2,
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              // Open review sheet
+                              final allPending = [
+                                ...result.suggestions,
+                                ...result.pending,
+                              ];
+                              PendingReviewSheet.show(
+                                context,
+                                expenses: allPending,
+                                userId: userId,
+                              );
+                            },
+                            icon: PhosphorIcon(
+                              PhosphorIconsRegular.magnifyingGlass,
+                              size: 18,
+                            ),
+                            label: Text(l10n.startReview),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: context.appColors.primary,
+                              foregroundColor: context.appColors.textPrimary,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -446,6 +532,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ],
     );
+  }
+
+  /// Save all auto-matched expenses from import
+  Future<void> _saveRecognizedExpenses(List<ParsedExpense> recognized) async {
+    final financeProvider = context.read<FinanceProvider>();
+
+    // Simplified hourly rate calculation
+    final userProfile = financeProvider.userProfile;
+    final hourlyRate = userProfile != null
+        ? (userProfile.monthlyIncome / (userProfile.dailyHours * userProfile.workDaysPerWeek * 4))
+        : 50.0;
+
+    for (final expense in recognized) {
+      final hoursRequired = expense.amount / hourlyRate;
+      final daysRequired = hoursRequired / 8.0;
+
+      final newExpense = Expense(
+        amount: expense.amount,
+        category: expense.effectiveCategory ?? 'Diğer',
+        subCategory: expense.effectiveDisplayName ?? expense.rawDescription,
+        date: expense.date,
+        hoursRequired: hoursRequired,
+        daysRequired: daysRequired,
+        decision: ExpenseDecision.yes,
+      );
+      await financeProvider.addExpense(newExpense);
+    }
   }
 
   void _showLanguageSelector() {
@@ -893,9 +1006,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required VoidCallback onTap,
     bool highlight = false,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
+    return Semantics(
+      label: label,
+      button: true,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         decoration: BoxDecoration(
           color: highlight
@@ -932,6 +1048,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               overflow: TextOverflow.ellipsis,
             ),
           ],
+        ),
         ),
       ),
     );
@@ -998,7 +1115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           _buildListTile(
             icon: PhosphorIconsDuotone.bell,
-            iconColor: const Color(0xFF3498DB),
+            iconColor: AppColors.categoryEntertainment,
             title: l10n.notificationSettings,
             onTap: () {
               Navigator.push(
@@ -1012,7 +1129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _buildDivider(),
           _buildListTile(
             icon: PhosphorIconsDuotone.compass,
-            iconColor: const Color(0xFF9B59B6),
+            iconColor: AppColors.categoryShopping,
             title: l10n.repeatTour,
             onTap: () async {
               await TourService.resetTour();
@@ -1024,7 +1141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _buildDivider(),
           _buildListTile(
             icon: PhosphorIconsDuotone.globe,
-            iconColor: const Color(0xFF2ECC71),
+            iconColor: AppColors.categoryHealth,
             title: l10n.language,
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -1065,7 +1182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return _buildListTile(
       icon: PhosphorIconsDuotone.currencyCircleDollar,
-      iconColor: const Color(0xFFE67E22),
+      iconColor: AppColors.achievementStreak,
       title: l10n.currency,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -1099,7 +1216,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return _buildListTile(
       icon: PhosphorIconsDuotone.fileXls,
-      iconColor: const Color(0xFF27AE60),
+      iconColor: AppColors.premiumGreen,
       title: l10n.exportToExcel,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -1148,12 +1265,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildImportTile(AppLocalizations l10n) {
+    final proProvider = context.watch<ProProvider>();
+    final isPro = proProvider.isPro;
+
     return _buildListTile(
       icon: PhosphorIconsDuotone.downloadSimple,
-      iconColor: const Color(0xFF3498DB),
+      iconColor: AppColors.categoryEntertainment,
       title: l10n.importStatement,
-      trailing: _isImporting
-          ? SizedBox(
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (_isImporting)
+            SizedBox(
               width: 18,
               height: 18,
               child: CircularProgressIndicator(
@@ -1161,11 +1284,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: context.appColors.primary,
               ),
             )
-          : Icon(
+          else if (!isPro)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    context.appColors.primary.withValues(alpha: 0.2),
+                    context.appColors.secondary.withValues(alpha: 0.2),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                'PRO',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  color: context.appColors.primary,
+                ),
+              ),
+            )
+          else
+            Icon(
               PhosphorIconsDuotone.caretRight,
               size: 18,
               color: context.appColors.textTertiary,
             ),
+        ],
+      ),
       showArrow: false,
       onTap: _isImporting ? null : _importFromCSV,
     );
@@ -1196,21 +1343,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           _buildListTile(
             icon: PhosphorIconsDuotone.shieldCheck,
-            iconColor: const Color(0xFF1ABC9C),
+            iconColor: AppColors.secondary,
             title: l10n.privacyPolicy,
             onTap: () => launchUrl(Uri.parse(privacyUrl)),
           ),
           _buildDivider(),
           _buildListTile(
             icon: PhosphorIconsDuotone.fileText,
-            iconColor: const Color(0xFFF39C12),
+            iconColor: AppColors.categoryEducation,
             title: l10n.termsOfService,
             onTap: () => launchUrl(Uri.parse(termsUrl)),
           ),
           _buildDivider(),
           _buildListTile(
             icon: PhosphorIconsDuotone.info,
-            iconColor: const Color(0xFF95A5A6),
+            iconColor: AppColors.categoryOther,
             title: l10n.appVersion,
             trailing: Text(
               '1.0.0',
@@ -1335,13 +1482,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Widget? trailing,
     bool showArrow = true,
     VoidCallback? onTap,
+    String? semanticLabel,
   }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
+    return Semantics(
+      label: semanticLabel ?? title,
+      button: onTap != null,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(
             children: [
@@ -1374,6 +1525,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
             ],
           ),
+        ),
         ),
       ),
     );

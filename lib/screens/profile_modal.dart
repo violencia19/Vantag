@@ -7,6 +7,7 @@ import '../providers/finance_provider.dart';
 import '../providers/pro_provider.dart';
 import '../services/auth_service.dart';
 import '../theme/theme.dart';
+import '../theme/app_theme.dart';
 import 'onboarding_screen.dart';
 
 /// Profile Modal - Shows user profile information
@@ -163,14 +164,14 @@ class _ProfileModalState extends State<ProfileModal> {
                 ),
                 border: Border.all(
                   color: isPro
-                      ? const Color(0xFFFFD700)
+                      ? AppColors.medalGold
                       : context.appColors.primary,
                   width: isPro ? 3 : 2,
                 ),
                 boxShadow: isPro
                     ? [
                         BoxShadow(
-                          color: const Color(0xFFFFD700).withValues(alpha: 0.4),
+                          color: AppColors.medalGold.withValues(alpha: 0.4),
                           blurRadius: 20,
                           spreadRadius: 2,
                         ),
@@ -199,12 +200,12 @@ class _ProfileModalState extends State<ProfileModal> {
                   ),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
+                      colors: [AppColors.medalGold, AppColors.orange],
                     ),
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFFFFD700).withValues(alpha: 0.5),
+                        color: AppColors.medalGold.withValues(alpha: 0.5),
                         blurRadius: 8,
                       ),
                     ],

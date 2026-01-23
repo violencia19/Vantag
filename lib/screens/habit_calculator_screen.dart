@@ -29,7 +29,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
   HabitCategory? _selectedCategory;
   String _customCategoryName = '';
   IconData _customCategoryIcon = PhosphorIconsFill.sparkle;
-  Color _customCategoryColor = const Color(0xFF6C63FF);
+  Color _customCategoryColor = AppColors.primary;
   double _price = 0;
   String? _selectedFrequency;
   double _monthlyIncome = 0;
@@ -56,15 +56,15 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
     PhosphorIconsFill.barbell,
   ];
 
-  static const List<Color> _colorOptions = [
-    Color(0xFF6C63FF),
-    Color(0xFF4ECDC4),
-    Color(0xFFFF6B6B),
-    Color(0xFFF39C12),
-    Color(0xFF2ECC71),
-    Color(0xFF9B59B6),
-    Color(0xFFE91E63),
-    Color(0xFF3498DB),
+  static final List<Color> _colorOptions = [
+    AppColors.primary,
+    AppColors.secondary,
+    AppColors.categoryFood,
+    AppColors.categoryEducation,
+    AppColors.categoryHealth,
+    AppColors.categoryShopping,
+    AppColors.achievementMystery,
+    AppColors.categoryEntertainment,
   ];
 
   bool _hasLoadedInitialIncome = false;
@@ -882,8 +882,8 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: _isValid
-                          ? const LinearGradient(
-                              colors: [Color(0xFF6C63FF), Color(0xFF4ECDC4)],
+                          ? LinearGradient(
+                              colors: [AppColors.primary, AppColors.secondary],
                             )
                           : null,
                       color: _isValid ? null : context.appColors.surfaceLight,
@@ -1083,13 +1083,13 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 18),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF6C63FF), Color(0xFF4ECDC4)],
+          gradient: LinearGradient(
+            colors: [AppColors.primary, AppColors.secondary],
           ),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF6C63FF).withValues(alpha: 0.3),
+              color: AppColors.primary.withValues(alpha: 0.3),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),

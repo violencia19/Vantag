@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
+import 'package:vantag/theme/app_theme.dart';
 
 enum ExpenseDecision {
   yes,
@@ -162,6 +163,10 @@ class Expense {
   final double? installmentTotal; // Taksitli toplam (vade farkı dahil)
   final DateTime? installmentStartDate; // Taksit başlangıç tarihi
 
+  // Otomatik abonelik kaydı
+  final bool isAutoRecorded; // Abonelikten otomatik oluşturuldu mu?
+  final String? subscriptionId; // Kaynak abonelik ID'si
+
   const Expense({
     required this.amount,
     required this.category,
@@ -189,6 +194,9 @@ class Expense {
     this.cashPrice,
     this.installmentTotal,
     this.installmentStartDate,
+    // Otomatik abonelik kaydı
+    this.isAutoRecorded = false,
+    this.subscriptionId,
   });
 
   bool get isSimulation => recordType == RecordType.simulation;
@@ -297,6 +305,9 @@ class Expense {
     double? cashPrice,
     double? installmentTotal,
     DateTime? installmentStartDate,
+    // Otomatik abonelik kaydı
+    bool? isAutoRecorded,
+    String? subscriptionId,
   }) {
     return Expense(
       amount: amount ?? this.amount,
@@ -325,6 +336,9 @@ class Expense {
       cashPrice: cashPrice ?? this.cashPrice,
       installmentTotal: installmentTotal ?? this.installmentTotal,
       installmentStartDate: installmentStartDate ?? this.installmentStartDate,
+      // Otomatik abonelik kaydı
+      isAutoRecorded: isAutoRecorded ?? this.isAutoRecorded,
+      subscriptionId: subscriptionId ?? this.subscriptionId,
     );
   }
 
@@ -356,6 +370,9 @@ class Expense {
     if (installmentTotal != null) 'installmentTotal': installmentTotal,
     if (installmentStartDate != null)
       'installmentStartDate': installmentStartDate!.toIso8601String(),
+    // Otomatik abonelik kaydı
+    'isAutoRecorded': isAutoRecorded,
+    if (subscriptionId != null) 'subscriptionId': subscriptionId,
   };
 
   factory Expense.fromJson(Map<String, dynamic> json) => Expense(
@@ -412,6 +429,9 @@ class Expense {
     installmentStartDate: json['installmentStartDate'] != null
         ? DateTime.parse(json['installmentStartDate'] as String)
         : null,
+    // Otomatik abonelik kaydı (backward compatible)
+    isAutoRecorded: json['isAutoRecorded'] as bool? ?? false,
+    subscriptionId: json['subscriptionId'] as String?,
   );
 
   static String encodeList(List<Expense> expenses) =>
@@ -466,26 +486,26 @@ class ExpenseCategory {
   static Color getColor(String category) {
     switch (category) {
       case 'Yiyecek':
-        return const Color(0xFFFF6B6B);
+        return AppColors.categoryFood;
       case 'Ulaşım':
-        return const Color(0xFF4ECDC4);
+        return AppColors.categoryTransport;
       case 'Giyim':
-        return const Color(0xFF9B59B6);
+        return AppColors.categoryShopping;
       case 'Elektronik':
-        return const Color(0xFF3498DB);
+        return AppColors.categoryEntertainment;
       case 'Eğlence':
-        return const Color(0xFFE74C3C);
+        return AppColors.categoryBills;
       case 'Sağlık':
-        return const Color(0xFF2ECC71);
+        return AppColors.categoryHealth;
       case 'Eğitim':
-        return const Color(0xFFF39C12);
+        return AppColors.categoryEducation;
       case 'Faturalar':
-        return const Color(0xFF95A5A6);
+        return AppColors.categoryOther;
       case 'Abonelik':
-        return const Color(0xFF6C63FF);
+        return AppColors.primary;
       case 'Diğer':
       default:
-        return const Color(0xFF78909C);
+        return AppColors.categoryDefault;
     }
   }
 

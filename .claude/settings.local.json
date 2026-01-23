@@ -104,7 +104,15 @@
       "Bash(ffmpeg:*)",
       "Bash(ffprobe:*)",
       "Bash(for f in *.mp3)",
-      "Bash(do echo \"=== $f ===\")"
+      "Bash(do echo \"=== $f ===\")",
+      "Bash(comm:*)",
+      "WebFetch(domain:pixabay.com)",
+      "WebFetch(domain:mixkit.co)",
+      "WebFetch(domain:www.soundjay.com)",
+      "Bash(dart format:*)",
+      "Bash(Select-String -Pattern \"fail|error\" -CaseSensitive:$false)",
+      "Bash(Select-Object -First 10)",
+      "Bash(dart analyze:*)"
     ]
   }
 }

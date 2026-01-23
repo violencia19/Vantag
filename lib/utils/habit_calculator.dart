@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
+import 'package:vantag/theme/app_theme.dart';
 
 class HabitCategory {
   final String key; // Localization key
@@ -24,16 +25,16 @@ class HabitCategoryDef {
 }
 
 const List<HabitCategoryDef> _habitCategoryDefs = [
-  HabitCategoryDef('coffee', PhosphorIconsFill.coffee, Color(0xFF8B4513)),
-  HabitCategoryDef('smoking', PhosphorIconsFill.cigarette, Color(0xFF607D8B)),
-  HabitCategoryDef('eatingOut', PhosphorIconsFill.hamburger, Color(0xFFFF6B6B)),
+  HabitCategoryDef('coffee', PhosphorIconsFill.coffee, AppColors.coffeeColor),
+  HabitCategoryDef('smoking', PhosphorIconsFill.cigarette, AppColors.smokingGray),
+  HabitCategoryDef('eatingOut', PhosphorIconsFill.hamburger, AppColors.categoryFood),
   HabitCategoryDef(
     'gaming',
     PhosphorIconsFill.gameController,
-    Color(0xFFE74C3C),
+    AppColors.categoryBills,
   ),
-  HabitCategoryDef('clothing', PhosphorIconsFill.tShirt, Color(0xFF9B59B6)),
-  HabitCategoryDef('taxi', PhosphorIconsFill.car, Color(0xFF4ECDC4)),
+  HabitCategoryDef('clothing', PhosphorIconsFill.tShirt, AppColors.categoryShopping),
+  HabitCategoryDef('taxi', PhosphorIconsFill.car, AppColors.secondary),
 ];
 
 /// Get localized category name from key
@@ -72,32 +73,32 @@ List<HabitCategory> getLocalizedHabitCategories(AppLocalizations l10n) {
 
 /// Legacy: for backward compatibility (returns Turkish names)
 const List<HabitCategory> defaultHabitCategories = [
-  HabitCategory('coffee', 'Kahve', PhosphorIconsFill.coffee, Color(0xFF8B4513)),
+  HabitCategory('coffee', 'Kahve', PhosphorIconsFill.coffee, AppColors.coffeeColor),
   HabitCategory(
     'smoking',
     'Sigara',
     PhosphorIconsFill.cigarette,
-    Color(0xFF607D8B),
+    AppColors.smokingGray,
   ),
   HabitCategory(
     'eatingOut',
     'Dışarıda Yemek',
     PhosphorIconsFill.hamburger,
-    Color(0xFFFF6B6B),
+    AppColors.categoryFood,
   ),
   HabitCategory(
     'gaming',
     'Oyun/Eğlence',
     PhosphorIconsFill.gameController,
-    Color(0xFFE74C3C),
+    AppColors.categoryBills,
   ),
   HabitCategory(
     'clothing',
     'Kıyafet',
     PhosphorIconsFill.tShirt,
-    Color(0xFF9B59B6),
+    AppColors.categoryShopping,
   ),
-  HabitCategory('taxi', 'Taksi/Uber', PhosphorIconsFill.car, Color(0xFF4ECDC4)),
+  HabitCategory('taxi', 'Taksi/Uber', PhosphorIconsFill.car, AppColors.secondary),
 ];
 
 class HabitResult {

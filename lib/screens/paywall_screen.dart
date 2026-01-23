@@ -159,6 +159,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                     IconButton(
                       onPressed: () => Navigator.of(context).pop(false),
                       icon: const Icon(LucideIcons.x),
+                      tooltip: l10n.close,
                       style: IconButton.styleFrom(
                         backgroundColor: context.appColors.surface,
                         foregroundColor: context.appColors.textSecondary,
@@ -551,19 +552,23 @@ class _PaywallScreenState extends State<PaywallScreen>
         final isYearly = id.contains('yearly') || id.contains('annual');
         final isLifetime = id.contains('lifetime');
 
-        return GestureDetector(
-          onTap: () {
-            HapticFeedback.selectionClick();
-            setState(() => _selectedPackage = package);
-          },
-          child: AnimatedContainer(
+        return Semantics(
+          button: true,
+          selected: isSelected,
+          label: '${_getPackageTitle(package)} ${package.storeProduct.priceString}',
+          child: GestureDetector(
+            onTap: () {
+              HapticFeedback.selectionClick();
+              setState(() => _selectedPackage = package);
+            },
+            child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             margin: const EdgeInsets.only(bottom: 12),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               gradient: isSelected
-                  ? const LinearGradient(
-                      colors: [Color(0xFF2D2440), Color(0xFF1A1625)],
+                  ? LinearGradient(
+                      colors: [AppColors.surfaceElevated, AppColors.cardBackground],
                     )
                   : null,
               color: isSelected ? null : context.appColors.cardBackground,
@@ -674,15 +679,13 @@ class _PaywallScreenState extends State<PaywallScreen>
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFF9C27B0), Color(0xFF7B1FA2)],
+                        gradient: LinearGradient(
+                          colors: [AppColors.premiumPurple, AppColors.premiumPurple.withValues(alpha: 0.8)],
                         ),
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(
-                              0xFF9C27B0,
-                            ).withValues(alpha: 0.4),
+                            color: AppColors.premiumPurple.withValues(alpha: 0.4),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -724,7 +727,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                         gradient: LinearGradient(
                           colors: [
                             context.appColors.gold,
-                            const Color(0xFFFFB800),
+                            AppColors.currencyGold,
                           ],
                         ),
                         borderRadius: BorderRadius.circular(8),
@@ -751,6 +754,7 @@ class _PaywallScreenState extends State<PaywallScreen>
               ],
             ),
           ),
+        ),
         );
       }).toList(),
     );
@@ -800,7 +804,7 @@ class _PaywallScreenState extends State<PaywallScreen>
         ? context.appColors.success
         : context.appColors.primary;
     final buttonColorEnd = isMonthlyWithTrial
-        ? const Color(0xFF00C853)
+        ? AppColors.premiumGreen
         : context.appColors.secondary;
 
     return SizedBox(

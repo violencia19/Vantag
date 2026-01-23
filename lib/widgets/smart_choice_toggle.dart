@@ -145,9 +145,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
             boxShadow: _isExpanded
                 ? [
                     BoxShadow(
-                      color: const Color(
-                        0xFFFFD700,
-                      ).withValues(alpha: 0.3 * _glowAnimation.value),
+                      color: AppColors.medalGold.withValues(alpha: 0.3 * _glowAnimation.value),
                       blurRadius: 20,
                       spreadRadius: 2,
                     ),
@@ -161,12 +159,12 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
               child: Container(
                 decoration: BoxDecoration(
                   color: _isExpanded
-                      ? const Color(0xFFFFD700).withValues(alpha: 0.1)
+                      ? AppColors.medalGold.withValues(alpha: 0.1)
                       : context.appColors.surface.withValues(alpha: 0.8),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: _isExpanded
-                        ? const Color(0xFFFFD700).withValues(alpha: 0.5)
+                        ? AppColors.medalGold.withValues(alpha: 0.5)
                         : context.appColors.cardBorder,
                     width: 1,
                   ),
@@ -189,9 +187,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                               height: 40,
                               decoration: BoxDecoration(
                                 color: _isExpanded
-                                    ? const Color(
-                                        0xFFFFD700,
-                                      ).withValues(alpha: 0.2)
+                                    ? AppColors.medalGold.withValues(alpha: 0.2)
                                     : context.appColors.surfaceLight,
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -200,7 +196,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                     ? PhosphorIconsDuotone.trendDown
                                     : PhosphorIconsDuotone.lightbulb,
                                 color: _isExpanded
-                                    ? const Color(0xFFFFD700)
+                                    ? AppColors.medalGold
                                     : context.appColors.textSecondary,
                                 size: 22,
                               ),
@@ -221,7 +217,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                           color: _isExpanded
-                                              ? const Color(0xFFFFD700)
+                                              ? AppColors.medalGold
                                               : context.appColors.textPrimary,
                                         ),
                                       ),
@@ -248,7 +244,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                               child: Icon(
                                 PhosphorIconsDuotone.caretDown,
                                 color: _isExpanded
-                                    ? const Color(0xFFFFD700)
+                                    ? AppColors.medalGold
                                     : context.appColors.textTertiary,
                               ),
                             ),
@@ -353,13 +349,13 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            const Color(0xFFFFD700).withValues(alpha: 0.15),
-            const Color(0xFF2ECC71).withValues(alpha: 0.15),
+            AppColors.medalGold.withValues(alpha: 0.15),
+            AppColors.categoryHealth.withValues(alpha: 0.15),
           ],
         ),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: const Color(0xFFFFD700).withValues(alpha: 0.3),
+          color: AppColors.medalGold.withValues(alpha: 0.3),
         ),
       ),
       child: Row(
@@ -369,12 +365,12 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: const Color(0xFFFFD700).withValues(alpha: 0.2),
+              color: AppColors.medalGold.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(10),
             ),
             child: const Icon(
               PhosphorIconsDuotone.shieldCheck,
-              color: Color(0xFFFFD700),
+              color: AppColors.medalGold,
               size: 20,
             ),
           ),
@@ -391,7 +387,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFFFFD700),
+                    color: AppColors.medalGold,
                   ),
                 ),
                 const SizedBox(height: 2),

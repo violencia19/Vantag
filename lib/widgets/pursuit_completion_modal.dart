@@ -6,6 +6,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/pursuit.dart';
 import '../theme/quiet_luxury.dart';
+import 'package:vantag/theme/app_theme.dart';
 
 /// Celebration modal shown when a pursuit reaches 100%
 class PursuitCompletionModal extends StatefulWidget {
@@ -107,10 +108,10 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
             numberOfParticles: 20,
             gravity: 0.2,
             shouldLoop: false,
-            colors: const [
+            colors: [
               QuietLuxury.gold,
-              Color(0xFF4ECDC4),
-              Color(0xFF6C63FF),
+              AppColors.secondary,
+              AppColors.primary,
               QuietLuxury.positive,
               Colors.white,
             ],

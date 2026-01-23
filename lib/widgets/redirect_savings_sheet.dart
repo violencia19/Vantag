@@ -150,37 +150,41 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
                   const SizedBox(width: 12),
                   // Add button
                   Expanded(
-                    child: ElevatedButton(
-                      onPressed: _selectedPursuitId == null || _isLoading
-                          ? null
-                          : _onAddSavings,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: QuietLuxury.positive,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                    child: Semantics(
+                      label: l10n.accessibilityAddSavings,
+                      button: true,
+                      child: ElevatedButton(
+                        onPressed: _selectedPursuitId == null || _isLoading
+                            ? null
+                            : _onAddSavings,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: QuietLuxury.positive,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          disabledBackgroundColor: QuietLuxury.positive
+                              .withValues(alpha: 0.3),
                         ),
-                        disabledBackgroundColor: QuietLuxury.positive
-                            .withValues(alpha: 0.3),
-                      ),
-                      child: _isLoading
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.white,
+                        child: _isLoading
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                l10n.addSavings,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                            )
-                          : Text(
-                              l10n.addSavings,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                      ),
                     ),
                   ),
                 ],
@@ -310,7 +314,18 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
         }
       }
     } catch (e) {
+      debugPrint('[RedirectSavingsSheet] Error: $e');
       HapticFeedback.heavyImpact();
+      if (mounted) {
+        final l10n = AppLocalizations.of(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.somethingWentWrong),
+            backgroundColor: QuietLuxury.negative,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -334,10 +349,20 @@ class _PursuitSelectionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: AnimatedContainer(
+    final l10n = AppLocalizations.of(context);
+    return Semantics(
+      label: l10n.accessibilityPursuitCard(
+        pursuit.name,
+        '$currencySymbol${pursuit.savedAmount.toStringAsFixed(0)}',
+        '$currencySymbol${pursuit.targetAmount.toStringAsFixed(0)}',
+        pursuit.progressPercentDisplay,
+      ),
+      selected: isSelected,
+      button: true,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
@@ -410,6 +435,7 @@ class _PursuitSelectionTile extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

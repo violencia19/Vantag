@@ -167,25 +167,29 @@ class CurrencyRateWidget extends StatelessWidget {
     final currencyProvider = context.watch<CurrencyProvider>();
     final selectedCurrency = currencyProvider.currency;
 
-    return GestureDetector(
-      onTap: () {
-        if (rates != null) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CurrencyDetailScreen(rates: rates!),
-            ),
-          );
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: context.appColors.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: context.appColors.cardBorder),
+    return Semantics(
+      button: true,
+      label: l10n.currencyRatesDescription,
+      child: GestureDetector(
+        onTap: () {
+          if (rates != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CurrencyDetailScreen(rates: rates!),
+              ),
+            );
+          }
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: BoxDecoration(
+            color: context.appColors.surface,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: context.appColors.cardBorder),
+          ),
+          child: _buildContent(context, l10n, selectedCurrency),
         ),
-        child: _buildContent(context, l10n, selectedCurrency),
       ),
     );
   }
@@ -242,14 +246,18 @@ class CurrencyRateWidget extends StatelessWidget {
           ),
           if (onRetry != null) ...[
             const SizedBox(width: 8),
-            GestureDetector(
-              onTap: onRetry,
-              child: Text(
-                l10n.retry,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: context.appColors.primary,
-                  fontWeight: FontWeight.w500,
+            Semantics(
+              button: true,
+              label: l10n.retry,
+              child: GestureDetector(
+                onTap: onRetry,
+                child: Text(
+                  l10n.retry,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: context.appColors.primary,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ),

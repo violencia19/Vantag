@@ -108,6 +108,147 @@ class AppColors {
 
   /// Kart gölge
   static const Color cardShadow = Color(0x4D000000); // rgba(0,0,0,0.3)
+
+  // ═══════════════════════════════════════════════════════════════
+  // CHART PALETTE - 8 colors for pie/bar charts
+  // ═══════════════════════════════════════════════════════════════
+  static const List<Color> chartPalette = [
+    Color(0xFF6C63FF), // Purple (primary)
+    Color(0xFF4ECDC4), // Teal (secondary)
+    Color(0xFFFF6B6B), // Coral
+    Color(0xFFFFD93D), // Yellow
+    Color(0xFF95E1D3), // Mint
+    Color(0xFFF38181), // Salmon
+    Color(0xFFAA96DA), // Lavender
+    Color(0xFF3D5A80), // Navy
+  ];
+
+  // ═══════════════════════════════════════════════════════════════
+  // CATEGORY COLORS - For expense categories
+  // ═══════════════════════════════════════════════════════════════
+  static const Color categoryFood = Color(0xFFFF6B6B);
+  static const Color categoryTransport = Color(0xFF4ECDC4);
+  static const Color categoryShopping = Color(0xFF9B59B6);
+  static const Color categoryEntertainment = Color(0xFF3498DB);
+  static const Color categoryBills = Color(0xFFE74C3C);
+  static const Color categoryHealth = Color(0xFF2ECC71);
+  static const Color categoryEducation = Color(0xFFF39C12);
+  static const Color categoryOther = Color(0xFF95A5A6);
+  static const Color categoryDefault = Color(0xFF78909C);
+
+  // ═══════════════════════════════════════════════════════════════
+  // ACHIEVEMENT COLORS
+  // ═══════════════════════════════════════════════════════════════
+  static const Color achievementStreak = Color(0xFFFF6B35);    // Orange flame
+  static const Color achievementSavings = Color(0xFF2ECC71);   // Green money
+  static const Color achievementGoals = Color(0xFF9B59B6);     // Purple target
+  static const Color achievementTracker = Color(0xFF3498DB);   // Blue notepad
+  static const Color achievementMystery = Color(0xFFE91E63);   // Pink mystery
+
+  // ═══════════════════════════════════════════════════════════════
+  // INCOME TYPE COLORS
+  // ═══════════════════════════════════════════════════════════════
+  static const Color incomeSalary = Color(0xFF6C63FF);
+  static const Color incomeBonus = Color(0xFFFFD700);
+  static const Color incomeFreelance = Color(0xFFE91E63);
+  static const Color incomePassive = Color(0xFF4CAF50);
+  static const Color incomeRental = Color(0xFF4ECDC4);
+  static const Color incomeSideJob = Color(0xFFF39C12);
+  static const Color incomeOther = Color(0xFF2ECC71);
+  static const Color incomeDefault = Color(0xFF95A5A6);
+
+  // ═══════════════════════════════════════════════════════════════
+  // SOCIAL BRAND COLORS
+  // ═══════════════════════════════════════════════════════════════
+  static const Color instagram = Color(0xFFE4405F);
+  static const Color facebook = Color(0xFF1877F2);
+  static const Color twitter = Color(0xFF1DA1F2);
+  static const Color whatsapp = Color(0xFF25D366);
+  static const Color tiktok = Color(0xFF000000);
+  static const Color snapchat = Color(0xFFFFFC00);
+  static const Color youtube = Color(0xFFFF0000);
+
+  // ═══════════════════════════════════════════════════════════════
+  // MEDAL COLORS
+  // ═══════════════════════════════════════════════════════════════
+  static const Color medalBronze = Color(0xFFCD7F32);
+  static const Color medalSilver = Color(0xFFC0C0C0);
+  static const Color medalGold = Color(0xFFFFD700);
+  static const Color medalPlatinum = Color(0xFFE5E4E2);
+
+  // ═══════════════════════════════════════════════════════════════
+  // SUBSCRIPTION COLORS - 8 predefined colors
+  // ═══════════════════════════════════════════════════════════════
+  static const List<Color> subscriptionColors = [
+    Color(0xFFFF6B6B), // 0: Red
+    Color(0xFF4ECDC4), // 1: Turquoise
+    Color(0xFF6C63FF), // 2: Purple
+    Color(0xFFFFD93D), // 3: Yellow
+    Color(0xFFFF8C42), // 4: Orange
+    Color(0xFF95E1D3), // 5: Mint
+    Color(0xFFF38181), // 6: Pink
+    Color(0xFF3D5A80), // 7: Navy
+  ];
+
+  // ═══════════════════════════════════════════════════════════════
+  // CURRENCY & FINANCIAL COLORS
+  // ═══════════════════════════════════════════════════════════════
+  static const Color currencyPositive = Color(0xFF4CAF50);
+  static const Color currencyNegative = Color(0xFFE74C3C);
+  static const Color currencyNeutral = Color(0xFF2196F3);
+  static const Color currencyGold = Color(0xFFFFB800);
+
+  // ═══════════════════════════════════════════════════════════════
+  // HEATMAP COLORS
+  // ═══════════════════════════════════════════════════════════════
+  static const Color heatmapNone = Color(0xFF1E1E2E);
+  static const Color heatmapLow = Color(0xFF2D5016);
+  static const Color heatmapMedium = Color(0xFF3D7017);
+  static const Color heatmapHigh = Color(0xFF4CAF50);
+
+  // ═══════════════════════════════════════════════════════════════
+  // PREMIUM THEME COLORS (for paywall, etc.)
+  // ═══════════════════════════════════════════════════════════════
+  static const Color premiumPurple = Color(0xFF8B5CF6);
+  static const Color premiumPurpleLight = Color(0xFFA78BFA);
+  static const Color premiumPurpleDark = Color(0xFF6D28D9);
+  static const Color premiumCyan = Color(0xFF06B6D4);
+  static const Color premiumGreen = Color(0xFF00C853);
+
+  // ═══════════════════════════════════════════════════════════════
+  // MISC UI COLORS
+  // ═══════════════════════════════════════════════════════════════
+  static const Color divider = Color(0xFF2D2440);
+  static const Color shimmer = Color(0xFF2D2440);
+  static const Color overlay = Color(0x80000000);
+
+  // ═══════════════════════════════════════════════════════════════
+  // ADDITIONAL UI COLORS
+  // ═══════════════════════════════════════════════════════════════
+  static const Color urgentOrange = Color(0xFFFF8C42);
+  static const Color dangerRed = Color(0xFFB71C1C);
+  static const Color dangerRedDark = Color(0xFFC0392B);
+  static const Color dangerGradientStart = Color(0xFF4A1C1C);
+  static const Color dangerGradientEnd = Color(0xFF2D1010);
+  static const Color orange = Color(0xFFFFA500);
+  static const Color coffeeColor = Color(0xFF8B4513);
+  static const Color smokingGray = Color(0xFF607D8B);
+
+  // ═══════════════════════════════════════════════════════════════
+  // ADDITIONAL CATEGORY COLORS
+  // ═══════════════════════════════════════════════════════════════
+  static const Color categorySportsGreen = Color(0xFF8BC34A);
+  static const Color categoryDigitalCyan = Color(0xFF00BCD4);
+  static const Color categoryShoppingPink = Color(0xFFE91E63);
+  static const Color categoryCommGray = Color(0xFF607D8B);
+
+  // ═══════════════════════════════════════════════════════════════
+  // ACHIEVEMENT ICON COLORS
+  // ═══════════════════════════════════════════════════════════════
+  static const Color achievementYellow = Color(0xFFFBBF24);
+  static const Color achievementOrange = Color(0xFFF97316);
+  static const Color achievementSkyBlue = Color(0xFF8ED1FC);
+  static const Color achievementLavender = Color(0xFFB4A7D6);
 }
 
 /// Premium Gradients

@@ -33,16 +33,19 @@ class PendingReviewBanner extends StatelessWidget {
 
     if (totalCount == 0) return const SizedBox.shrink();
 
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.lightImpact();
-        onTap();
-      },
-      child: Container(
+    return Semantics(
+      button: true,
+      label: l10n.pendingCategorization(totalCount),
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.lightImpact();
+          onTap();
+        },
+        child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFFFFA726), Color(0xFFFF9800)],
+          gradient: LinearGradient(
+            colors: [AppColors.warning.withValues(alpha: 0.9), AppColors.warning],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -115,6 +118,7 @@ class PendingReviewBanner extends StatelessWidget {
                     color: Colors.white.withValues(alpha: 0.7),
                     size: 18,
                   ),
+                  tooltip: l10n.close,
                   onPressed: () {
                     HapticFeedback.lightImpact();
                     onDismiss!();
@@ -128,6 +132,7 @@ class PendingReviewBanner extends StatelessWidget {
               ),
           ],
         ),
+      ),
       ),
     );
   }
@@ -175,40 +180,45 @@ class PendingReviewChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     if (count == 0) return const SizedBox.shrink();
 
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.lightImpact();
-        onTap();
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: context.appColors.warning.withValues(alpha: 0.2),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: context.appColors.warning.withValues(alpha: 0.5),
+    return Semantics(
+      button: true,
+      label: l10n.pendingCategorization(count),
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.lightImpact();
+          onTap();
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: context.appColors.warning.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: context.appColors.warning.withValues(alpha: 0.5),
+            ),
           ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            PhosphorIcon(
-              PhosphorIconsFill.warning,
-              color: context.appColors.warning,
-              size: 16,
-            ),
-            const SizedBox(width: 6),
-            Text(
-              '$count',
-              style: TextStyle(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PhosphorIcon(
+                PhosphorIconsFill.warning,
                 color: context.appColors.warning,
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
+                size: 16,
               ),
-            ),
-          ],
+              const SizedBox(width: 6),
+              Text(
+                '$count',
+                style: TextStyle(
+                  color: context.appColors.warning,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

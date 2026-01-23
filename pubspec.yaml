@@ -75,6 +75,7 @@ dependencies:
   share_plus: ^7.2.1
   screenshot: ^2.1.0
   url_launcher: ^6.2.1
+  image_gallery_saver_plus: ^3.0.5
 
   # Video
   video_player: ^2.8.2
@@ -119,6 +120,9 @@ dependencies:
 
   # Swipe Actions
   flutter_slidable: ^3.1.1
+
+  # Security - Biometric/PIN Authentication
+  local_auth: ^2.1.8
 
 dev_dependencies:
   flutter_test:

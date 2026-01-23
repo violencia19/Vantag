@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:vantag/theme/app_theme.dart';
 import '../models/models.dart';
 import 'subscription_service.dart';
 import 'profile_service.dart';
@@ -226,9 +227,9 @@ class SubscriptionStats {
 
   /// Durum rengi
   Color get statusColor {
-    if (renewingTodayCount > 0) return const Color(0xFFFF8C42); // Turuncu
-    if (renewingTomorrowCount > 0) return const Color(0xFFFFD93D); // Sarı
-    return const Color(0xFF4ECDC4); // Turkuaz
+    if (renewingTodayCount > 0) return AppColors.subscriptionColors[4]; // Orange
+    if (renewingTomorrowCount > 0) return AppColors.warning; // Yellow
+    return AppColors.secondary; // Turquoise
   }
 
   /// Durum ikonu

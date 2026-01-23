@@ -221,8 +221,14 @@ void main() {
     });
 
     test('getDuration returns correct Duration', () {
-      expect(ThinkingDurations.getDuration('Yiyecek'), const Duration(hours: 24));
-      expect(ThinkingDurations.getDuration('Elektronik'), const Duration(hours: 168));
+      expect(
+        ThinkingDurations.getDuration('Yiyecek'),
+        const Duration(hours: 24),
+      );
+      expect(
+        ThinkingDurations.getDuration('Elektronik'),
+        const Duration(hours: 168),
+      );
     });
   });
 

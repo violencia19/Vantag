@@ -387,7 +387,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
             Expanded(
               child: _buildStatCard(
                 icon: PhosphorIconsBold.star,
-                iconColor: const Color(0xFFFBBF24),
+                iconColor: AppColors.achievementYellow,
                 value: '$totalXP',
                 label: 'Total XP',
               ),
@@ -405,7 +405,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
             Expanded(
               child: _buildStatCard(
                 icon: PhosphorIconsBold.flame,
-                iconColor: const Color(0xFFF97316),
+                iconColor: AppColors.achievementOrange,
                 value: '$streak',
                 label: 'Gün Seri',
               ),
@@ -607,22 +607,22 @@ class _AchievementsScreenState extends State<AchievementsScreen>
   Color _getTierColor(AchievementTier tier) {
     switch (tier) {
       case AchievementTier.bronze:
-        return const Color(0xFFCD7F32);
+        return AppColors.medalBronze;
       case AchievementTier.silver:
-        return const Color(0xFFC0C0C0);
+        return AppColors.medalSilver;
       case AchievementTier.gold:
-        return const Color(0xFFFFD700);
+        return AppColors.medalGold;
       case AchievementTier.platinum:
-        return const Color(0xFFE5E4E2);
+        return AppColors.medalPlatinum;
     }
   }
 
   List<Color> _getPlatinumGradient() {
     return const [
-      Color(0xFFE5E4E2),
-      Color(0xFF8ED1FC),
-      Color(0xFFB4A7D6),
-      Color(0xFFE5E4E2),
+      AppColors.medalPlatinum,
+      AppColors.achievementSkyBlue,
+      AppColors.achievementLavender,
+      AppColors.medalPlatinum,
     ];
   }
 

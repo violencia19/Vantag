@@ -133,6 +133,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
             PhosphorIconsDuotone.caretLeft,
             color: context.appColors.textPrimary,
           ),
+          tooltip: l10n.goBack,
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(

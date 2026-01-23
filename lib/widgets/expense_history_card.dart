@@ -420,6 +420,41 @@ class ExpenseHistoryCard extends StatelessWidget {
                                 ),
                               ),
                             ],
+                            // Auto-recorded badge
+                            if (expense.isAutoRecorded) ...[
+                              const SizedBox(width: 6),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: context.appColors.info.withValues(
+                                    alpha: 0.15,
+                                  ),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      PhosphorIconsDuotone.repeat,
+                                      size: 12,
+                                      color: context.appColors.info,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      l10n.autoRecorded,
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w600,
+                                        color: context.appColors.info,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                         const SizedBox(height: 6),
@@ -468,21 +503,28 @@ class ExpenseHistoryCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      GestureDetector(
-                        onTap: () => _showOptionsMenu(context),
-                        behavior: HitTestBehavior.opaque,
-                        child: Container(
-                          width: 44,
-                          height: 44,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: context.appColors.surfaceLight,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Icon(
-                            PhosphorIconsDuotone.dotsThree,
-                            size: 20,
-                            color: context.appColors.textSecondary,
+                      Semantics(
+                        label: l10n.accessibilityEditExpense,
+                        button: true,
+                        child: Tooltip(
+                          message: l10n.accessibilityEditExpense,
+                          child: GestureDetector(
+                            onTap: () => _showOptionsMenu(context),
+                            behavior: HitTestBehavior.opaque,
+                            child: Container(
+                              width: 44,
+                              height: 44,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: context.appColors.surfaceLight,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Icon(
+                                PhosphorIconsDuotone.dotsThree,
+                                size: 20,
+                                color: context.appColors.textSecondary,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -532,27 +574,31 @@ class ExpenseHistoryCard extends StatelessWidget {
             motion: const BehindMotion(),
             extentRatio: 0.25,
             children: [
-              CustomSlidableAction(
-                onPressed: (_) {
-                  HapticFeedback.lightImpact();
-                  onEdit?.call();
-                },
-                backgroundColor: context.appColors.info,
-                foregroundColor: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(PhosphorIconsBold.pencilSimple, size: 22),
-                    const SizedBox(height: 4),
-                    Text(
-                      l10n.edit,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
+              Semantics(
+                label: l10n.accessibilityEditExpense,
+                button: true,
+                child: CustomSlidableAction(
+                  onPressed: (_) {
+                    HapticFeedback.lightImpact();
+                    onEdit?.call();
+                  },
+                  backgroundColor: context.appColors.info,
+                  foregroundColor: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(PhosphorIconsBold.pencilSimple, size: 22),
+                      const SizedBox(height: 4),
+                      Text(
+                        l10n.edit,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -570,30 +616,34 @@ class ExpenseHistoryCard extends StatelessWidget {
               confirmDismiss: () => _showDeleteConfirmation(context),
             ),
             children: [
-              CustomSlidableAction(
-                onPressed: (_) async {
-                  HapticFeedback.lightImpact();
-                  final confirmed = await _showDeleteConfirmation(context);
-                  if (confirmed) {
-                    onDelete?.call();
-                  }
-                },
-                backgroundColor: context.appColors.error,
-                foregroundColor: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(PhosphorIconsBold.trash, size: 22),
-                    const SizedBox(height: 4),
-                    Text(
-                      l10n.delete,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
+              Semantics(
+                label: l10n.accessibilityDeleteExpense,
+                button: true,
+                child: CustomSlidableAction(
+                  onPressed: (_) async {
+                    HapticFeedback.lightImpact();
+                    final confirmed = await _showDeleteConfirmation(context);
+                    if (confirmed) {
+                      onDelete?.call();
+                    }
+                  },
+                  backgroundColor: context.appColors.error,
+                  foregroundColor: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(PhosphorIconsBold.trash, size: 22),
+                      const SizedBox(height: 4),
+                      Text(
+                        l10n.delete,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

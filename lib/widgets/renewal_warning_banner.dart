@@ -66,7 +66,10 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
         _isLoading = false;
       });
     } catch (e) {
-      setState(() => _isLoading = false);
+      debugPrint('[RenewalWarningBanner] Error loading renewals: $e');
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -93,7 +96,7 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color:
-                  (isUrgent ? const Color(0xFFFF8C42) : const Color(0xFF4ECDC4))
+                  (isUrgent ? AppColors.urgentOrange : AppColors.secondary)
                       .withValues(alpha: 0.5 * _pulseAnimation.value),
               width: 1.5,
             ),
@@ -101,8 +104,8 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
               BoxShadow(
                 color:
                     (isUrgent
-                            ? const Color(0xFFFF8C42)
-                            : const Color(0xFF4ECDC4))
+                            ? AppColors.urgentOrange
+                            : AppColors.secondary)
                         .withValues(alpha: 0.2 * _pulseAnimation.value),
                 blurRadius: 16,
                 spreadRadius: 2,
@@ -135,12 +138,12 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                               gradient: LinearGradient(
                                 colors: isUrgent
                                     ? [
-                                        const Color(0xFFFF8C42),
-                                        const Color(0xFFFF6B6B),
+                                        AppColors.urgentOrange,
+                                        AppColors.error,
                                       ]
                                     : [
-                                        const Color(0xFF4ECDC4),
-                                        const Color(0xFF6C63FF),
+                                        AppColors.secondary,
+                                        AppColors.primary,
                                       ],
                               ),
                               borderRadius: BorderRadius.circular(12),
@@ -168,8 +171,8 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,
                                     color: isUrgent
-                                        ? const Color(0xFFFF8C42)
-                                        : const Color(0xFF4ECDC4),
+                                        ? AppColors.urgentOrange
+                                        : AppColors.secondary,
                                   ),
                                 ),
                                 const SizedBox(height: 2),
@@ -195,8 +198,8 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                             decoration: BoxDecoration(
                               color:
                                   (isUrgent
-                                          ? const Color(0xFFFF8C42)
-                                          : const Color(0xFF4ECDC4))
+                                          ? AppColors.urgentOrange
+                                          : AppColors.secondary)
                                       .withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -206,8 +209,8 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: isUrgent
-                                    ? const Color(0xFFFF8C42)
-                                    : const Color(0xFF4ECDC4),
+                                    ? AppColors.urgentOrange
+                                    : AppColors.secondary,
                               ),
                             ),
                           ),
@@ -287,12 +290,12 @@ class CompactRenewalBadge extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [Color(0xFF4ECDC4), Color(0xFF6C63FF)],
+            colors: [AppColors.secondary, AppColors.primary],
           ),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF4ECDC4).withValues(alpha: 0.3),
+              color: AppColors.secondary.withValues(alpha: 0.3),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -395,7 +398,10 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
         _isLoading = false;
       });
     } catch (e) {
-      setState(() => _isLoading = false);
+      debugPrint('[SubscriptionSummaryCard] Error loading stats: $e');
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 

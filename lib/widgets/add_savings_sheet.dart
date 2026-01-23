@@ -206,46 +206,50 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                 const SizedBox(height: 24),
 
                 // Add button
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _isLoading ? null : _onSubmit,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: QuietLuxury.positive,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                Semantics(
+                  label: l10n.accessibilityAddSavings,
+                  button: true,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _isLoading ? null : _onSubmit,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: QuietLuxury.positive,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        disabledBackgroundColor: QuietLuxury.positive.withValues(
+                          alpha: 0.5,
+                        ),
                       ),
-                      disabledBackgroundColor: QuietLuxury.positive.withValues(
-                        alpha: 0.5,
-                      ),
-                    ),
-                    child: _isLoading
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.white,
-                              ),
-                            ),
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(PhosphorIconsBold.plus, size: 18),
-                              const SizedBox(width: 8),
-                              Text(
-                                l10n.addSavings,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                      child: _isLoading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
                                 ),
                               ),
-                            ],
-                          ),
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(PhosphorIconsBold.plus, size: 18),
+                                const SizedBox(width: 8),
+                                Text(
+                                  l10n.addSavings,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -399,21 +403,26 @@ class _QuickAmountChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: QuietLuxury.cardBackground,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
-        ),
-        child: Text(
-          '+$currencySymbol${amount.toStringAsFixed(0)}',
-          style: QuietLuxury.label.copyWith(
-            color: QuietLuxury.positive,
-            fontWeight: FontWeight.w600,
+    final formattedAmount = '+$currencySymbol${amount.toStringAsFixed(0)}';
+    return Semantics(
+      label: formattedAmount,
+      button: true,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: QuietLuxury.cardBackground,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
+          ),
+          child: Text(
+            formattedAmount,
+            style: QuietLuxury.label.copyWith(
+              color: QuietLuxury.positive,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

@@ -91,13 +91,13 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
     switch (widget.riskLevel) {
       case RiskLevel.none:
       case RiskLevel.low:
-        return const Color(0xFFFFD700); // Gold
+        return AppColors.medalGold; // Gold
       case RiskLevel.medium:
-        return const Color(0xFFFF9500); // Orange
+        return AppColors.warning; // Orange
       case RiskLevel.high:
-        return const Color(0xFFE74C3C); // Red
+        return AppColors.categoryBills; // Red
       case RiskLevel.extreme:
-        return const Color(0xFFB71C1C); // Dark Red
+        return AppColors.dangerRed; // Dark Red
     }
   }
 
@@ -331,13 +331,13 @@ class RiskBadge extends StatelessWidget {
       case RiskLevel.none:
         return context.appColors.success;
       case RiskLevel.low:
-        return const Color(0xFFFFD700);
+        return AppColors.medalGold;
       case RiskLevel.medium:
-        return const Color(0xFFFF9500);
+        return AppColors.warning;
       case RiskLevel.high:
-        return const Color(0xFFE74C3C);
+        return AppColors.categoryBills;
       case RiskLevel.extreme:
-        return const Color(0xFFB71C1C);
+        return AppColors.dangerRed;
     }
   }
 

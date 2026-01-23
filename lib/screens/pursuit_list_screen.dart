@@ -210,6 +210,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
           ? null
           : FloatingActionButton(
               onPressed: _createPursuit,
+              tooltip: l10n.createPursuit,
               backgroundColor: context.appColors.success,
               foregroundColor: context.appColors.textPrimary,
               child: Icon(PhosphorIconsBold.plus),
@@ -435,8 +436,9 @@ class _PursuitListScreenState extends State<PursuitListScreen>
         final referralLink = DeepLinkService.generateReferralLink(referralCode);
         shareLink = referralLink.toString();
       }
-    } catch (_) {
-      // Use default link if referral fails
+    } catch (e) {
+      // Use default link if referral fails (graceful fallback)
+      debugPrint('[PursuitListScreen] Referral link error, using default: $e');
     }
 
     final shareText =
@@ -525,7 +527,7 @@ class _PursuitDetailSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final colors = context.appColors;
-    final goldColor = const Color(0xFFFFD700);
+    final goldColor = AppColors.medalGold;
 
     return Container(
       decoration: BoxDecoration(
@@ -622,6 +624,7 @@ class _PursuitDetailSheet extends StatelessWidget {
                   // Edit button
                   IconButton(
                     onPressed: onEdit,
+                    tooltip: l10n.edit,
                     style: IconButton.styleFrom(
                       backgroundColor: colors.surfaceLight,
                       shape: RoundedRectangleBorder(
@@ -638,6 +641,7 @@ class _PursuitDetailSheet extends StatelessWidget {
                   // Delete button
                   IconButton(
                     onPressed: onDelete,
+                    tooltip: l10n.delete,
                     style: IconButton.styleFrom(
                       backgroundColor: colors.error.withValues(alpha: 0.1),
                       shape: RoundedRectangleBorder(

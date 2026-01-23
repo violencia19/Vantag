@@ -8,6 +8,7 @@ import '../models/models.dart';
 import '../providers/currency_provider.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
+import '../theme/app_theme.dart';
 import '../utils/currency_utils.dart';
 import 'decision_stress_timer.dart';
 import 'voice_input_button.dart';
@@ -262,6 +263,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                     const SizedBox(width: 8),
                     // Close button
                     IconButton(
+                      tooltip: l10n.close,
                       onPressed: () {
                         widget.onCancel?.call();
                         Navigator.pop(context);
@@ -436,9 +438,13 @@ class _QuickAddSheetState extends State<QuickAddSheet>
               final category = ExpenseCategory.all[index];
               final isSelected = category == _selectedCategory;
 
-              return GestureDetector(
-                onTap: () => _onCategorySelected(category),
-                child: AnimatedContainer(
+              return Semantics(
+                label: ExpenseCategory.getLocalizedName(category, l10n),
+                button: true,
+                selected: isSelected,
+                child: GestureDetector(
+                  onTap: () => _onCategorySelected(category),
+                  child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
@@ -494,6 +500,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                       ),
                     ],
                   ),
+                ),
                 ),
               );
             },
@@ -644,52 +651,57 @@ class _QuickAddSheetState extends State<QuickAddSheet>
   Widget _buildSubCategoryChip(String subCategory, {required bool isRecent}) {
     final isSelected = _selectedSubCategory == subCategory;
 
-    return GestureDetector(
-      onTap: () => _onSubCategorySelected(subCategory),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? context.appColors.secondary.withValues(alpha: 0.15)
-              : isRecent
-              ? Colors.transparent
-              : context.appColors.surfaceLighter,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
+    return Semantics(
+      label: subCategory,
+      button: true,
+      selected: isSelected,
+      child: GestureDetector(
+        onTap: () => _onSubCategorySelected(subCategory),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          decoration: BoxDecoration(
             color: isSelected
-                ? context.appColors.secondary
+                ? context.appColors.secondary.withValues(alpha: 0.15)
                 : isRecent
-                ? context.appColors.secondary.withValues(alpha: 0.4)
-                : context.appColors.cardBorder,
-            width: isSelected ? 1.5 : 1,
+                ? Colors.transparent
+                : context.appColors.surfaceLighter,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isSelected
+                  ? context.appColors.secondary
+                  : isRecent
+                  ? context.appColors.secondary.withValues(alpha: 0.4)
+                  : context.appColors.cardBorder,
+              width: isSelected ? 1.5 : 1,
+            ),
           ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (isRecent)
-              Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: Icon(
-                  PhosphorIconsDuotone.clockCounterClockwise,
-                  size: 14,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (isRecent)
+                Padding(
+                  padding: const EdgeInsets.only(right: 6),
+                  child: Icon(
+                    PhosphorIconsDuotone.clockCounterClockwise,
+                    size: 14,
+                    color: isSelected
+                        ? context.appColors.secondary
+                        : context.appColors.textTertiary,
+                  ),
+                ),
+              Text(
+                subCategory,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                   color: isSelected
                       ? context.appColors.secondary
-                      : context.appColors.textTertiary,
+                      : context.appColors.textSecondary,
                 ),
               ),
-            Text(
-              subCategory,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected
-                    ? context.appColors.secondary
-                    : context.appColors.textSecondary,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -948,9 +960,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
               ),
               border: Border.all(
                 color: _showGoldenGlow
-                    ? const Color(0xFFFFD700)
+                    ? AppColors.medalGold
                     : riskLevel.backgroundIntensity > 0.3
-                    ? const Color(0xFFE74C3C).withValues(alpha: 0.5)
+                    ? AppColors.categoryBills.withValues(alpha: 0.5)
                     : context.appColors.cardBorder,
                 width: _showGoldenGlow || riskLevel.backgroundIntensity > 0.3
                     ? 2
@@ -959,15 +971,13 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
               boxShadow: [
                 if (_showGoldenGlow)
                   BoxShadow(
-                    color: const Color(0xFFFFD700).withValues(alpha: 0.4),
+                    color: AppColors.medalGold.withValues(alpha: 0.4),
                     blurRadius: 20,
                     spreadRadius: 2,
                   )
                 else if (riskLevel.backgroundIntensity > 0.2)
                   BoxShadow(
-                    color: const Color(
-                      0xFFE74C3C,
-                    ).withValues(alpha: riskLevel.backgroundIntensity * 0.3),
+                    color: AppColors.categoryBills.withValues(alpha: riskLevel.backgroundIntensity * 0.3),
                     blurRadius: 20,
                     spreadRadius: 2,
                   ),
@@ -994,19 +1004,23 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     children: [
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          width: 36,
-                          height: 36,
-                          decoration: BoxDecoration(
-                            color: context.appColors.surfaceLight,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Icon(
-                            PhosphorIconsDuotone.x,
-                            size: 20,
-                            color: context.appColors.textSecondary,
+                      Semantics(
+                        label: AppLocalizations.of(context).accessibilityCloseSheet,
+                        button: true,
+                        child: GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              color: context.appColors.surfaceLight,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Icon(
+                              PhosphorIconsDuotone.x,
+                              size: 20,
+                              color: context.appColors.textSecondary,
+                            ),
                           ),
                         ),
                       ),
@@ -1256,46 +1270,50 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
   }
 
   Widget _buildChip(String label, bool isRecent) {
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.selectionClick();
-        _subCategoryController.text = label;
-        setState(() {});
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: isRecent
-              ? context.appColors.primary.withValues(alpha: 0.15)
-              : context.appColors.surfaceLight,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
+    return Semantics(
+      label: label,
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.selectionClick();
+          _subCategoryController.text = label;
+          setState(() {});
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          decoration: BoxDecoration(
             color: isRecent
-                ? context.appColors.primary.withValues(alpha: 0.5)
-                : context.appColors.cardBorder,
+                ? context.appColors.primary.withValues(alpha: 0.15)
+                : context.appColors.surfaceLight,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isRecent
+                  ? context.appColors.primary.withValues(alpha: 0.5)
+                  : context.appColors.cardBorder,
+            ),
           ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (isRecent)
-              Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: Icon(
-                  PhosphorIconsDuotone.clockCounterClockwise,
-                  size: 14,
-                  color: context.appColors.primary,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (isRecent)
+                Padding(
+                  padding: const EdgeInsets.only(right: 6),
+                  child: Icon(
+                    PhosphorIconsDuotone.clockCounterClockwise,
+                    size: 14,
+                    color: context.appColors.primary,
+                  ),
+                ),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: isRecent ? context.appColors.primary : context.appColors.textPrimary,
                 ),
               ),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: isRecent ? context.appColors.primary : context.appColors.textPrimary,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -61,9 +61,15 @@ void main() {
 
     group('getActiveSubscriptions', () {
       test('returns only active subscriptions', () async {
-        await service.addSubscription(createTestSubscription(name: 'Active1', isActive: true));
-        await service.addSubscription(createTestSubscription(name: 'Active2', isActive: true));
-        await service.addSubscription(createTestSubscription(name: 'Inactive', isActive: false));
+        await service.addSubscription(
+          createTestSubscription(name: 'Active1', isActive: true),
+        );
+        await service.addSubscription(
+          createTestSubscription(name: 'Active2', isActive: true),
+        );
+        await service.addSubscription(
+          createTestSubscription(name: 'Inactive', isActive: false),
+        );
 
         final active = await service.getActiveSubscriptions();
         expect(active.length, 2);
@@ -73,7 +79,11 @@ void main() {
 
     group('updateSubscription', () {
       test('updates subscription successfully', () async {
-        final sub = createTestSubscription(id: 'sub_1', name: 'Netflix', amount: 99.99);
+        final sub = createTestSubscription(
+          id: 'sub_1',
+          name: 'Netflix',
+          amount: 99.99,
+        );
         await service.addSubscription(sub);
 
         final updated = sub.copyWith(amount: 149.99);
@@ -107,8 +117,12 @@ void main() {
       });
 
       test('does not affect other subscriptions when deleting', () async {
-        await service.addSubscription(createTestSubscription(id: 'sub_1', name: 'Netflix'));
-        await service.addSubscription(createTestSubscription(id: 'sub_2', name: 'Spotify'));
+        await service.addSubscription(
+          createTestSubscription(id: 'sub_1', name: 'Netflix'),
+        );
+        await service.addSubscription(
+          createTestSubscription(id: 'sub_2', name: 'Spotify'),
+        );
 
         await service.deleteSubscription('sub_1');
 
@@ -125,9 +139,15 @@ void main() {
       });
 
       test('calculates total of active subscriptions', () async {
-        await service.addSubscription(createTestSubscription(amount: 100, isActive: true));
-        await service.addSubscription(createTestSubscription(amount: 50, isActive: true));
-        await service.addSubscription(createTestSubscription(amount: 200, isActive: false));
+        await service.addSubscription(
+          createTestSubscription(amount: 100, isActive: true),
+        );
+        await service.addSubscription(
+          createTestSubscription(amount: 50, isActive: true),
+        );
+        await service.addSubscription(
+          createTestSubscription(amount: 200, isActive: false),
+        );
 
         final total = await service.getTotalMonthlyAmount();
         expect(total, 150);

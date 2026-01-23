@@ -13,7 +13,6 @@ export 'messages_service.dart';
 export 'notification_service.dart';
 export 'push_notification_service.dart';
 export 'widget_service.dart';
-export 'watch_service.dart';
 export 'achievements_service.dart';
 export 'subscription_service.dart';
 export 'sub_category_service.dart';
@@ -24,7 +23,6 @@ export 'thinking_items_service.dart';
 export 'sensory_feedback_service.dart';
 export 'haptic_service.dart';
 export 'accessibility_service.dart';
-export 'performance_service.dart';
 export 'sound_service.dart';
 export 'victory_manager.dart';
 export 'streak_manager.dart';
@@ -51,11 +49,12 @@ export 'savings_pool_service.dart';
 export 'analytics_service.dart';
 // Exchange Rates
 export 'exchange_rate_service.dart';
-// App Clips
-export 'app_clip_service.dart';
 // Referral System
 export 'referral_service.dart';
 // Free Tier
 export 'free_tier_service.dart';
 // Simple Mode
 export 'simple_mode_service.dart';
+export 'category_budget_service.dart';
+// Security
+export 'lock_service.dart';

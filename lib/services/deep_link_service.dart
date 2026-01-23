@@ -3,11 +3,15 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vantag/theme/app_theme.dart';
 import '../models/models.dart';
 import 'voice_parser_service.dart';
 
 /// Callback for when an expense should be added
 typedef OnAddExpense = Future<void> Function(Expense expense);
+
+/// Callback for when an expense should be deleted (by index)
+typedef OnDeleteExpense = Future<void> Function(int index);
 
 /// Callback for navigation
 typedef OnNavigate = void Function(String route);
@@ -26,6 +30,7 @@ class DeepLinkService {
   StreamSubscription<Uri>? _linkSubscription;
 
   OnAddExpense? _onAddExpense;
+  OnDeleteExpense? _onDeleteExpense;
   OnNavigate? _onNavigate;
   GetHourlyRate? _getHourlyRate;
   GlobalKey<NavigatorState>? _navigatorKey;
@@ -52,10 +57,12 @@ class DeepLinkService {
   /// Set callbacks after initialization (can be called from a widget with provider access)
   void setCallbacks({
     OnAddExpense? onAddExpense,
+    OnDeleteExpense? onDeleteExpense,
     OnNavigate? onNavigate,
     GetHourlyRate? getHourlyRate,
   }) {
     if (onAddExpense != null) _onAddExpense = onAddExpense;
+    if (onDeleteExpense != null) _onDeleteExpense = onDeleteExpense;
     if (onNavigate != null) _onNavigate = onNavigate;
     if (getHourlyRate != null) _getHourlyRate = getHourlyRate;
   }
@@ -64,11 +71,13 @@ class DeepLinkService {
   Future<void> initWithCallbacks({
     required GlobalKey<NavigatorState> navigatorKey,
     required OnAddExpense onAddExpense,
+    OnDeleteExpense? onDeleteExpense,
     OnNavigate? onNavigate,
     GetHourlyRate? getHourlyRate,
   }) async {
     _navigatorKey = navigatorKey;
     _onAddExpense = onAddExpense;
+    _onDeleteExpense = onDeleteExpense;
     _onNavigate = onNavigate;
     _getHourlyRate = getHourlyRate;
     await _initLinks();
@@ -308,15 +317,19 @@ class DeepLinkService {
             ),
           ],
         ),
-        backgroundColor: const Color(0xFF2ECC71),
+        backgroundColor: AppColors.categoryHealth,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        duration: const Duration(seconds: 3),
+        duration: const Duration(seconds: 4),
         action: SnackBarAction(
           label: 'Geri Al',
           textColor: Colors.white,
-          onPressed: () {
-            // TODO: Implement undo
+          onPressed: () async {
+            // Undo by deleting the most recently added expense (index 0)
+            if (_onDeleteExpense != null) {
+              await _onDeleteExpense!(0);
+              HapticFeedback.lightImpact();
+            }
           },
         ),
       ),
@@ -331,7 +344,7 @@ class DeepLinkService {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E2E),
+        backgroundColor: AppColors.cardBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Text(
           'Harcamayı Onayla',
@@ -380,7 +393,7 @@ class DeepLinkService {
               }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF6C63FF),
+              backgroundColor: AppColors.primary,
             ),
             child: const Text('Ekle'),
           ),
@@ -564,7 +577,7 @@ class DeepLinkService {
             ),
           ],
         ),
-        backgroundColor: const Color(0xFF6C63FF),
+        backgroundColor: AppColors.primary,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         duration: const Duration(seconds: 3),

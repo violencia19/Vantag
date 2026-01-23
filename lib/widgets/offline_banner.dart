@@ -166,7 +166,7 @@ class _OfflineBannerState extends State<OfflineBanner>
                     context.appColors.success.withValues(alpha: 0.9),
                     context.appColors.success,
                   ]
-                : [const Color(0xFFFF6B6B), const Color(0xFFEE5A5A)],
+                : [AppColors.error, AppColors.error.withValues(alpha: 0.9)],
           ),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
@@ -174,7 +174,7 @@ class _OfflineBannerState extends State<OfflineBanner>
               color:
                   (isBackOnline
                           ? context.appColors.success
-                          : const Color(0xFFFF6B6B))
+                          : AppColors.error)
                       .withValues(alpha: 0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
@@ -394,7 +394,7 @@ class _OfflineIndicatorState extends State<OfflineIndicator> {
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: const Color(0xFFFF6B6B),
+          color: AppColors.error,
           borderRadius: BorderRadius.circular(4),
         ),
         child: const Icon(LucideIcons.wifiOff, color: Colors.white, size: 12),

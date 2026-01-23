@@ -20,6 +20,10 @@ class MessagesService {
   final List<int> _recentMessageIndices = [];
   static const _maxRecentMessages = 5;
 
+  // Per-category tracking for no-repeat in last 3
+  static final Map<String, List<int>> _recentByCategory = {};
+  static const int _noRepeatCount = 3;
+
   // ============================================
   // MESSAGE SELECTION LOGIC
   // ============================================
@@ -166,5 +170,81 @@ class MessagesService {
 
   void clearRecentMessages() {
     _recentMessageIndices.clear();
+  }
+
+  // ============================================
+  // NEW: SAVINGS & SPENDING MESSAGES (No-repeat for last 3)
+  // ============================================
+
+  /// Get motivational message for savings (when user passes on a purchase)
+  /// 15 messages, won't repeat same message in last 3 shows
+  String getMessageForSavings(AppLocalizations l10n) {
+    final messages = [
+      l10n.savingMsg1,
+      l10n.savingMsg2,
+      l10n.savingMsg3,
+      l10n.savingMsg4,
+      l10n.savingMsg5,
+      l10n.savingMsg6,
+      l10n.savingMsg7,
+      l10n.savingMsg8,
+      l10n.savingMsg9,
+      l10n.savingMsg10,
+      l10n.savingMsg11,
+      l10n.savingMsg12,
+      l10n.savingMsg13,
+      l10n.savingMsg14,
+      l10n.savingMsg15,
+    ];
+    return _getUniqueMessage(messages, 'saving');
+  }
+
+  /// Get message for spending (when user records a purchase)
+  /// 10 messages, won't repeat same message in last 3 shows
+  String getMessageForSpending(AppLocalizations l10n) {
+    final messages = [
+      l10n.spendingMsg1,
+      l10n.spendingMsg2,
+      l10n.spendingMsg3,
+      l10n.spendingMsg4,
+      l10n.spendingMsg5,
+      l10n.spendingMsg6,
+      l10n.spendingMsg7,
+      l10n.spendingMsg8,
+      l10n.spendingMsg9,
+      l10n.spendingMsg10,
+    ];
+    return _getUniqueMessage(messages, 'spending');
+  }
+
+  /// Select unique message that hasn't been shown in last 3 for this category
+  String _getUniqueMessage(List<String> messages, String category) {
+    _recentByCategory[category] ??= [];
+    final recent = _recentByCategory[category]!;
+
+    // Get available indices (not in last 3)
+    final available = <int>[];
+    for (int i = 0; i < messages.length; i++) {
+      if (!recent.contains(i)) {
+        available.add(i);
+      }
+    }
+
+    // If all blocked, reset
+    if (available.isEmpty) {
+      recent.clear();
+      available.addAll(List.generate(messages.length, (i) => i));
+    }
+
+    // Pick random from available
+    final index = available[_random.nextInt(available.length)];
+
+    // Track this index
+    recent.add(index);
+    if (recent.length > _noRepeatCount) {
+      recent.removeAt(0);
+    }
+
+    return messages[index];
   }
 }

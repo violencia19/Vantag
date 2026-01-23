@@ -7,6 +7,7 @@ import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
+import '../theme/app_theme.dart';
 
 /// Full-screen voice input experience
 /// Opens with microphone auto-started for seamless voice entry
@@ -14,7 +15,14 @@ class VoiceInputScreen extends StatefulWidget {
   /// If true, auto-start listening when screen opens
   final bool autoStart;
 
-  const VoiceInputScreen({super.key, this.autoStart = true});
+  /// If true, return parsed result instead of saving directly
+  final bool returnResult;
+
+  const VoiceInputScreen({
+    super.key,
+    this.autoStart = true,
+    this.returnResult = false,
+  });
 
   @override
   State<VoiceInputScreen> createState() => _VoiceInputScreenState();
@@ -96,6 +104,16 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
       );
     } catch (e) {
       debugPrint('[Voice] Init error: $e');
+      if (mounted) {
+        final l10n = AppLocalizations.of(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.voiceNotAvailable),
+            backgroundColor: context.appColors.error,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
   }
 
@@ -223,14 +241,27 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
   }
 
   Future<void> _saveExpense(VoiceParseResult result) async {
+    // Map API category to app category
+    final category = VoiceParserService.mapToAppCategory(result.category);
+    final amount = result.amount!;
+
+    // If returnResult is true, just return the data without saving
+    if (widget.returnResult) {
+      HapticFeedback.mediumImpact();
+      if (mounted) {
+        Navigator.of(context).pop({
+          'amount': amount,
+          'description': result.description,
+          'category': category,
+        });
+      }
+      return;
+    }
+
     // Get expense service
     final expenseService = ExpenseHistoryService();
 
-    // Map API category to app category
-    final category = VoiceParserService.mapToAppCategory(result.category);
-
     // Calculate work time (simplified - actual calculation should use profile data)
-    final amount = result.amount!;
     // Approximate: 1 hour = 50 TL (this should use user's hourly rate)
     final hoursRequired = amount / 50.0;
     final daysRequired = hoursRequired / 8.0;
@@ -418,6 +449,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                       PhosphorIconsDuotone.x,
                       color: context.appColors.textSecondary,
                     ),
+                    tooltip: l10n.accessibilityCloseSheet,
                     onPressed: () => Navigator.pop(context),
                   ),
                   const Spacer(),
@@ -444,59 +476,63 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 final scale = _isListening ? _pulseAnimation.value : 1.0;
                 return Transform.scale(
                   scale: scale,
-                  child: GestureDetector(
-                    onTap: _isListening || _isProcessing
-                        ? null
-                        : _startListening,
-                    child: Container(
-                      width: 140,
-                      height: 140,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: _isListening
-                              ? [
-                                  const Color(0xFFE74C3C),
-                                  const Color(0xFFC0392B),
-                                ]
-                              : [
-                                  context.appColors.primary,
-                                  context.appColors.secondary,
-                                ],
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color:
-                                (_isListening
-                                        ? const Color(0xFFE74C3C)
-                                        : context.appColors.primary)
-                                    .withValues(
-                                      alpha: _isListening ? 0.6 : 0.4,
-                                    ),
-                            blurRadius: _isListening ? 50 : 25,
-                            spreadRadius: _isListening ? 10 : 0,
+                  child: Semantics(
+                    label: l10n.tapToSpeak,
+                    button: true,
+                    child: GestureDetector(
+                      onTap: _isListening || _isProcessing
+                          ? null
+                          : _startListening,
+                      child: Container(
+                        width: 140,
+                        height: 140,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: _isListening
+                                ? [
+                                    AppColors.categoryBills,
+                                    AppColors.dangerRedDark,
+                                  ]
+                                : [
+                                    context.appColors.primary,
+                                    context.appColors.secondary,
+                                  ],
                           ),
-                        ],
-                      ),
-                      child: Center(
-                        child: _isProcessing
-                            ? SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: CircularProgressIndicator(
+                          boxShadow: [
+                            BoxShadow(
+                              color:
+                                  (_isListening
+                                          ? AppColors.categoryBills
+                                          : context.appColors.primary)
+                                      .withValues(
+                                        alpha: _isListening ? 0.6 : 0.4,
+                                      ),
+                              blurRadius: _isListening ? 50 : 25,
+                              spreadRadius: _isListening ? 10 : 0,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: _isProcessing
+                              ? SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                  child: CircularProgressIndicator(
+                                    color: context.appColors.textPrimary,
+                                    strokeWidth: 3,
+                                  ),
+                                )
+                              : PhosphorIcon(
+                                  _isListening
+                                      ? PhosphorIconsFill.stop
+                                      : PhosphorIconsFill.microphone,
                                   color: context.appColors.textPrimary,
-                                  strokeWidth: 3,
+                                  size: 56,
                                 ),
-                              )
-                            : PhosphorIcon(
-                                _isListening
-                                    ? PhosphorIconsFill.stop
-                                    : PhosphorIconsFill.microphone,
-                                color: context.appColors.textPrimary,
-                                size: 56,
-                              ),
+                        ),
                       ),
                     ),
                   ),
@@ -539,7 +575,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               _statusText.isEmpty ? l10n.tapToSpeak : _statusText,
               style: TextStyle(
                 color: _isListening
-                    ? const Color(0xFFE74C3C)
+                    ? AppColors.categoryBills
                     : context.appColors.textSecondary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,

@@ -161,7 +161,11 @@ void main() {
     });
 
     test('hasStreak returns false when stale', () {
-      const data = StreakData(currentStreak: 5, longestStreak: 5, isStale: true);
+      const data = StreakData(
+        currentStreak: 5,
+        longestStreak: 5,
+        isStale: true,
+      );
       expect(data.hasStreak, false);
     });
 
@@ -171,12 +175,20 @@ void main() {
     });
 
     test('isNewRecord returns false when stale', () {
-      const data = StreakData(currentStreak: 5, longestStreak: 5, isStale: true);
+      const data = StreakData(
+        currentStreak: 5,
+        longestStreak: 5,
+        isStale: true,
+      );
       expect(data.isNewRecord, false);
     });
 
     test('displayStreak returns 0 when stale', () {
-      const data = StreakData(currentStreak: 5, longestStreak: 5, isStale: true);
+      const data = StreakData(
+        currentStreak: 5,
+        longestStreak: 5,
+        isStale: true,
+      );
       expect(data.displayStreak, 0);
     });
   });

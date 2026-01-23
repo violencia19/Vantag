@@ -160,7 +160,7 @@ class CurrencyDetailScreen extends StatelessWidget {
               code: 'USD',
               buying: rates.usdBuying,
               selling: rates.usdSelling,
-              color: const Color(0xFF4CAF50),
+              color: AppColors.currencyPositive,
             ),
 
             const SizedBox(height: 12),
@@ -173,7 +173,7 @@ class CurrencyDetailScreen extends StatelessWidget {
               code: 'EUR',
               buying: rates.eurBuying,
               selling: rates.eurSelling,
-              color: const Color(0xFF2196F3),
+              color: AppColors.currencyNeutral,
             ),
 
             const SizedBox(height: 12),
@@ -186,7 +186,7 @@ class CurrencyDetailScreen extends StatelessWidget {
               code: 'XAU',
               buying: rates.goldBuying,
               selling: rates.goldSelling,
-              color: const Color(0xFFFFB800),
+              color: AppColors.currencyGold,
               isGold: true,
             ),
 

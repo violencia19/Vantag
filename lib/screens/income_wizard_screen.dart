@@ -352,9 +352,12 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
     final currency = getCurrencyByCode(currencyCode);
     final l10n = AppLocalizations.of(context);
 
-    return GestureDetector(
-      onTap: () => _showCurrencyPicker(currencyCode, onChanged),
-      child: Container(
+    return Semantics(
+      button: true,
+      label: l10n.selectCurrency,
+      child: GestureDetector(
+        onTap: () => _showCurrencyPicker(currencyCode, onChanged),
+        child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         decoration: BoxDecoration(
           color: context.appColors.surface,
@@ -390,6 +393,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               color: context.appColors.primary,
             ),
           ],
+        ),
         ),
       ),
     );
@@ -437,13 +441,17 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               // Currency list
               ...supportedCurrencies.map((currency) {
                 final isSelected = currency.code == currentCode;
-                return GestureDetector(
-                  onTap: () {
-                    onChanged(currency.code);
-                    Navigator.pop(context);
-                    HapticFeedback.selectionClick();
-                  },
-                  child: Container(
+                return Semantics(
+                  button: true,
+                  selected: isSelected,
+                  label: '${currency.name} ${currency.code}',
+                  child: GestureDetector(
+                    onTap: () {
+                      onChanged(currency.code);
+                      Navigator.pop(context);
+                      HapticFeedback.selectionClick();
+                    },
+                    child: Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -513,6 +521,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                       ],
                     ),
                   ),
+                ),
                 );
               }),
 
@@ -534,6 +543,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
         elevation: 0,
         leading: IconButton(
           icon: Icon(PhosphorIconsDuotone.x),
+          tooltip: l10n.close,
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -976,12 +986,16 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 .where((c) => c != IncomeCategory.salary)
                 .map((category) {
                   final isSelected = _selectedCategory == category;
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() => _selectedCategory = category);
-                      HapticFeedback.selectionClick();
-                    },
-                    child: AnimatedContainer(
+                  return Semantics(
+                    button: true,
+                    selected: isSelected,
+                    label: category.getLocalizedLabel(l10n),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() => _selectedCategory = category);
+                        HapticFeedback.selectionClick();
+                      },
+                      child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -1025,6 +1039,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                         ],
                       ),
                     ),
+                  ),
                   );
                 })
                 .toList(),
@@ -1168,6 +1183,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                     const SizedBox(width: 8),
                     IconButton(
                       icon: Icon(PhosphorIconsDuotone.x, size: 20),
+                      tooltip: l10n.delete,
                       color: context.appColors.error,
                       onPressed: () => _removeIncome(source.id),
                     ),

@@ -61,7 +61,7 @@ class AIInsightsCard extends StatelessWidget {
       insights.add(
         _Insight(
           icon: PhosphorIconsBold.calendarBlank,
-          iconColor: const Color(0xFF8B5CF6),
+          iconColor: AppColors.premiumPurple,
           title: 'En Çok Harcama Günü',
           subtitle: peakDay,
         ),
@@ -74,7 +74,7 @@ class AIInsightsCard extends StatelessWidget {
       insights.add(
         _Insight(
           icon: PhosphorIconsBold.target,
-          iconColor: const Color(0xFF06B6D4),
+          iconColor: AppColors.premiumCyan,
           title: 'En Büyük Kategori',
           subtitle: topCategory,
         ),
@@ -90,8 +90,8 @@ class AIInsightsCard extends StatelessWidget {
               ? PhosphorIconsBold.trendDown
               : PhosphorIconsBold.trendUp,
           iconColor: comparison.isDown
-              ? const Color(0xFF10B981)
-              : const Color(0xFFEF4444),
+              ? AppColors.success
+              : AppColors.error,
           title: 'Bu Ay vs Geçen Ay',
           subtitle: comparison.text,
         ),

@@ -78,55 +78,55 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
       id: 'Yiyecek',
       label: AppLocalizations.of(context).categoryFood,
       icon: PhosphorIconsDuotone.hamburger,
-      color: const Color(0xFFE74C3C),
+      color: AppColors.categoryBills,
     ),
     _CategoryOption(
       id: 'Ulaşım',
       label: AppLocalizations.of(context).categoryTransport,
       icon: PhosphorIconsDuotone.car,
-      color: const Color(0xFF3498DB),
+      color: AppColors.categoryEntertainment,
     ),
     _CategoryOption(
       id: 'Giyim',
       label: AppLocalizations.of(context).categoryClothing,
       icon: PhosphorIconsDuotone.tShirt,
-      color: const Color(0xFF9B59B6),
+      color: AppColors.categoryShopping,
     ),
     _CategoryOption(
       id: 'Elektronik',
       label: AppLocalizations.of(context).categoryElectronics,
       icon: PhosphorIconsDuotone.devices,
-      color: const Color(0xFF1ABC9C),
+      color: AppColors.secondary,
     ),
     _CategoryOption(
       id: 'Eğlence',
       label: AppLocalizations.of(context).categoryEntertainment,
       icon: PhosphorIconsDuotone.gameController,
-      color: const Color(0xFFF39C12),
+      color: AppColors.categoryEducation,
     ),
     _CategoryOption(
       id: 'Sağlık',
       label: AppLocalizations.of(context).categoryHealth,
       icon: PhosphorIconsDuotone.heartbeat,
-      color: const Color(0xFFE91E63),
+      color: AppColors.achievementMystery,
     ),
     _CategoryOption(
       id: 'Eğitim',
       label: AppLocalizations.of(context).categoryEducation,
       icon: PhosphorIconsDuotone.graduationCap,
-      color: const Color(0xFF2ECC71),
+      color: AppColors.categoryHealth,
     ),
     _CategoryOption(
       id: 'Faturalar',
       label: AppLocalizations.of(context).categoryBills,
       icon: PhosphorIconsDuotone.receipt,
-      color: const Color(0xFF95A5A6),
+      color: AppColors.categoryOther,
     ),
     _CategoryOption(
       id: 'Diğer',
       label: AppLocalizations.of(context).categoryOther,
       icon: PhosphorIconsDuotone.dotsThree,
-      color: const Color(0xFF7F8C8D),
+      color: AppColors.categoryDefault,
     ),
   ];
 
@@ -298,35 +298,43 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
               child: Row(
                 children: [
                   // Skip button
-                  TextButton.icon(
-                    onPressed: _remaining.isEmpty
-                        ? null
-                        : () => _skipExpense(_remaining.first),
-                    icon: PhosphorIcon(
-                      PhosphorIconsRegular.skipForward,
-                      color: context.appColors.textSecondary,
-                    ),
-                    label: Text(
-                      l10n.skip,
-                      style: TextStyle(color: context.appColors.textSecondary),
+                  Semantics(
+                    button: true,
+                    label: l10n.skip,
+                    child: TextButton.icon(
+                      onPressed: _remaining.isEmpty
+                          ? null
+                          : () => _skipExpense(_remaining.first),
+                      icon: PhosphorIcon(
+                        PhosphorIconsRegular.skipForward,
+                        color: context.appColors.textSecondary,
+                      ),
+                      label: Text(
+                        l10n.skip,
+                        style: TextStyle(color: context.appColors.textSecondary),
+                      ),
                     ),
                   ),
                   const Spacer(),
                   // Close button
-                  ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: context.appColors.primary,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
+                  Semantics(
+                    button: true,
+                    label: l10n.accessibilityCloseSheet,
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: context.appColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                      child: Text(l10n.close),
                     ),
-                    child: Text(l10n.close),
                   ),
                 ],
               ),
@@ -569,7 +577,15 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
     required bool isSuggested,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
+    final l10n = AppLocalizations.of(context);
+    final semanticLabel = isSuggested
+        ? '${category.label}, ${l10n.suggested}'
+        : category.label;
+
+    return Semantics(
+      button: true,
+      label: semanticLabel,
+      child: GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
@@ -627,6 +643,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
             ],
           ],
         ),
+      ),
       ),
     );
   }

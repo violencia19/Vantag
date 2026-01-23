@@ -18,12 +18,15 @@ import '../services/sound_service.dart';
 import '../services/referral_service.dart';
 import '../services/deep_link_service.dart';
 import '../services/simple_mode_service.dart';
+import '../services/lock_service.dart';
 import '../theme/theme.dart';
 import '../widgets/currency_selector.dart';
 import 'paywall_screen.dart';
 import 'onboarding_screen.dart';
 import 'achievements_screen.dart';
 import 'notification_settings_screen.dart';
+import 'voice_input_screen.dart';
+import 'pin_setup_screen.dart';
 
 /// Settings Screen - Replaces Profile in bottom nav
 class SettingsScreen extends StatefulWidget {
@@ -118,12 +121,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
-                child: Text(
-                  l10n.navSettings,
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w700,
-                    color: context.appColors.textPrimary,
+                child: Semantics(
+                  header: true,
+                  child: Text(
+                    l10n.navSettings,
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                      color: context.appColors.textPrimary,
+                    ),
                   ),
                 ),
               ),
@@ -166,6 +172,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
+            // Security Section
+            SliverToBoxAdapter(
+              child: _buildSecuritySection(l10n),
+            ),
+
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
             // Pro & Purchases Section
             SliverToBoxAdapter(
               child: _buildSection(
@@ -186,6 +199,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: l10n.navAchievements,
                 children: [_buildAchievementsTile(l10n)],
               ),
+            ),
+
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
+            // Voice & Shortcuts Section (NEW)
+            SliverToBoxAdapter(
+              child: _buildVoiceSection(l10n),
             ),
 
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
@@ -310,60 +330,65 @@ class _SettingsScreenState extends State<SettingsScreen> {
               )
             else if (_referralCode != null) ...[
               // Code card
-              GestureDetector(
-                onTap: _copyReferralCode,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    color: context.appColors.textPrimary.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: context.appColors.textPrimary.withValues(alpha: 0.2),
-                      width: 1,
+              Semantics(
+                button: true,
+                label: l10n.codeCopied.replaceAll('!', ''),
+                hint: l10n.yourReferralCode,
+                child: GestureDetector(
+                  onTap: _copyReferralCode,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
                     ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            l10n.yourReferralCode,
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                              color: context.appColors.textPrimary.withValues(alpha: 0.9),
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            _referralCode!,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              color: context.appColors.textPrimary,
-                              letterSpacing: 1.2,
-                            ),
-                          ),
-                        ],
+                    decoration: BoxDecoration(
+                      color: context.appColors.textPrimary.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: context.appColors.textPrimary.withValues(alpha: 0.2),
+                        width: 1,
                       ),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: context.appColors.textPrimary.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.yourReferralCode,
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                                color: context.appColors.textPrimary.withValues(alpha: 0.9),
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              _referralCode!,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: context.appColors.textPrimary,
+                                letterSpacing: 1.2,
+                              ),
+                            ),
+                          ],
                         ),
-                        child: Icon(
-                          PhosphorIconsDuotone.copy,
-                          size: 20,
-                          color: context.appColors.textPrimary,
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: context.appColors.textPrimary.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            PhosphorIconsDuotone.copy,
+                            size: 20,
+                            color: context.appColors.textPrimary,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -408,32 +433,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(width: 12),
                   // Share button
                   Expanded(
-                    child: GestureDetector(
-                      onTap: _shareApp,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              PhosphorIconsDuotone.shareFat,
-                              size: 18,
-                              color: context.appColors.primary,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              l10n.shareInviteLink,
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
+                    child: Semantics(
+                      button: true,
+                      label: l10n.shareInviteLink,
+                      child: GestureDetector(
+                        onTap: _shareApp,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                PhosphorIconsDuotone.shareFat,
+                                size: 18,
                                 color: context.appColors.primary,
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 8),
+                              Text(
+                                l10n.shareInviteLink,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: context.appColors.primary,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -517,6 +546,508 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  /// Voice & Shortcuts section with NEW badge
+  Widget _buildVoiceSection(AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Section header with NEW badge
+          Padding(
+            padding: const EdgeInsets.only(left: 4, bottom: 12),
+            child: Row(
+              children: [
+                Text(
+                  l10n.voiceAndShortcuts.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.2,
+                    color: context.appColors.textTertiary,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: context.appColors.primary,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    l10n.newBadge,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Semantics(
+            button: true,
+            label: l10n.voiceInput,
+            hint: l10n.voiceInputHint,
+            child: Container(
+              decoration: BoxDecoration(
+                color: context.appColors.surface,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: context.appColors.cardBorder),
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => _showVoiceHelpSheet(context, l10n),
+                  borderRadius: BorderRadius.circular(16),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color:
+                                context.appColors.primary.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            PhosphorIconsFill.microphone,
+                            size: 20,
+                            color: context.appColors.primary,
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                l10n.voiceInput,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: context.appColors.textPrimary,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                l10n.voiceInputHint,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: context.appColors.textSecondary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Icon(
+                          PhosphorIconsRegular.arrowRight,
+                          size: 20,
+                          color: context.appColors.textTertiary,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Show voice help bottom sheet
+  void _showVoiceHelpSheet(BuildContext context, AppLocalizations l10n) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: context.appColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              PhosphorIconsFill.microphone,
+              size: 48,
+              color: context.appColors.primary,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.howToUseVoice,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: context.appColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Method 1: Long-press FAB
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: context.appColors.cardBackground,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: context.appColors.primary.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(
+                      PhosphorIconsFill.plusCircle,
+                      color: context.appColors.primary,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.longPressFab,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: context.appColors.textPrimary,
+                          ),
+                        ),
+                        Text(
+                          l10n.longPressFabHint,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: context.appColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            // Method 2: Mic button
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: context.appColors.cardBackground,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: context.appColors.primary.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(
+                      PhosphorIconsFill.microphone,
+                      color: context.appColors.primary,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.micButton,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: context.appColors.textPrimary,
+                          ),
+                        ),
+                        Text(
+                          l10n.micButtonHint,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: context.appColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Text(
+              l10n.exampleCommands,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: context.appColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              alignment: WrapAlignment.center,
+              children: [
+                _buildExampleChip('"50 lira kahve"'),
+                _buildExampleChip('"Market 200 TL"'),
+                _buildExampleChip('"Taksi 80 lira"'),
+              ],
+            ),
+
+            const SizedBox(height: 20),
+
+            SizedBox(
+              width: double.infinity,
+              child: Semantics(
+                button: true,
+                label: l10n.tryNow,
+                hint: l10n.voiceInput,
+                child: ElevatedButton.icon(
+                  icon: const Icon(PhosphorIconsFill.microphone),
+                  label: Text(l10n.tryNow),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: context.appColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const VoiceInputScreen(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExampleChip(String text) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: context.appColors.primary.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: context.appColors.primary.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 13,
+          color: context.appColors.primary,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+
+  /// Security section with PIN and biometric toggles
+  Widget _buildSecuritySection(AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Section header
+          Padding(
+            padding: const EdgeInsets.only(left: 4, bottom: 12),
+            child: Text(
+              l10n.security.toUpperCase(),
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 1.2,
+                color: context.appColors.textTertiary,
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: context.appColors.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: context.appColors.cardBorder),
+            ),
+            child: Column(
+              children: [
+                // PIN Lock Toggle
+                FutureBuilder<bool>(
+                  future: LockService.isLockEnabled(),
+                  builder: (context, snapshot) {
+                    final isEnabled = snapshot.data ?? false;
+                    return _buildSecurityTile(
+                      icon: PhosphorIconsFill.lock,
+                      title: l10n.pinLock,
+                      subtitle: l10n.pinLockDescription,
+                      value: isEnabled,
+                      onChanged: (value) async {
+                        if (value) {
+                          // Navigate to PIN setup
+                          final result = await Navigator.push<bool>(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const PinSetupScreen(),
+                            ),
+                          );
+                          if (result == true) {
+                            setState(() {});
+                          }
+                        } else {
+                          await LockService.removePin();
+                          setState(() {});
+                        }
+                      },
+                    );
+                  },
+                ),
+
+                // Biometric Toggle (only if PIN is enabled and biometrics available)
+                FutureBuilder<List<bool>>(
+                  future: Future.wait([
+                    LockService.isLockEnabled(),
+                    LockService.canUseBiometrics(),
+                  ]),
+                  builder: (context, snapshot) {
+                    final results = snapshot.data ?? [false, false];
+                    final pinEnabled = results[0];
+                    final canUseBio = results[1];
+
+                    if (!pinEnabled || !canUseBio) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return Column(
+                      children: [
+                        _buildDivider(),
+                        FutureBuilder<bool>(
+                          future: LockService.isBiometricEnabled(),
+                          builder: (context, bioSnapshot) {
+                            return _buildSecurityTile(
+                              icon: PhosphorIconsFill.fingerprint,
+                              title: l10n.biometricUnlock,
+                              subtitle: l10n.biometricDescription,
+                              value: bioSnapshot.data ?? false,
+                              onChanged: (value) async {
+                                if (value) {
+                                  // Test biometric before enabling
+                                  final success = await LockService
+                                      .authenticateWithBiometrics(
+                                    l10n.unlockWithBiometric,
+                                  );
+                                  if (success) {
+                                    await LockService.setBiometricEnabled(true);
+                                  }
+                                } else {
+                                  await LockService.setBiometricEnabled(false);
+                                }
+                                setState(() {});
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSecurityTile({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
+    final l10n = AppLocalizations.of(context);
+    final toggleState = value ? l10n.accessibilityToggleOn : l10n.accessibilityToggleOff;
+
+    return Semantics(
+      toggled: value,
+      label: '$title, $toggleState',
+      hint: subtitle,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: context.appColors.primary.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                icon,
+                size: 20,
+                color: context.appColors.primary,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: context.appColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.appColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Switch.adaptive(
+              value: value,
+              onChanged: onChanged,
+              activeColor: context.appColors.primary,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildListTile({
     required IconData icon,
     required Color iconColor,
@@ -525,44 +1056,50 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Widget? trailing,
     bool showArrow = true,
     VoidCallback? onTap,
+    String? semanticHint,
   }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          child: Row(
-            children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: iconColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
+    return Semantics(
+      button: onTap != null,
+      label: title,
+      hint: semanticHint,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            child: Row(
+              children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: iconColor.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(icon, size: 20, color: iconColor),
                 ),
-                child: Icon(icon, size: 20, color: iconColor),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: titleColor ?? context.appColors.textPrimary,
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: titleColor ?? context.appColors.textPrimary,
+                    ),
                   ),
                 ),
-              ),
-              if (trailing != null) trailing,
-              if (showArrow && trailing == null)
-                Icon(
-                  PhosphorIconsDuotone.caretRight,
-                  size: 18,
-                  color: context.appColors.textTertiary,
-                ),
-            ],
+                if (trailing != null) trailing,
+                if (showArrow && trailing == null)
+                  Icon(
+                    PhosphorIconsDuotone.caretRight,
+                    size: 18,
+                    color: context.appColors.textTertiary,
+                  ),
+              ],
+            ),
           ),
         ),
       ),
@@ -582,7 +1119,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return _buildListTile(
       icon: PhosphorIconsDuotone.currencyCircleDollar,
-      iconColor: const Color(0xFFE67E22),
+      iconColor: AppColors.achievementStreak,
       title: l10n.settingsCurrency,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -617,7 +1154,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return _buildListTile(
       icon: PhosphorIconsDuotone.translate,
-      iconColor: const Color(0xFF3498DB),
+      iconColor: AppColors.categoryEntertainment,
       title: l10n.settingsLanguage,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -726,7 +1263,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return _buildListTile(
       icon: themeIcon,
-      iconColor: const Color(0xFF9B59B6),
+      iconColor: AppColors.categoryShopping,
       title: l10n.settingsTheme,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -788,7 +1325,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF1A1A2E),
+                  color: AppColors.background,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
@@ -815,12 +1352,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF5F5F5),
+                  color: AppColorsLight.background,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(
+                child: Icon(
                   PhosphorIconsDuotone.sun,
-                  color: Color(0xFF1A1A2E),
+                  color: AppColorsLight.textPrimary,
                   size: 20,
                 ),
               ),
@@ -842,8 +1379,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF1A1A2E), Color(0xFFF5F5F5)],
+                  gradient: LinearGradient(
+                    colors: [AppColors.background, AppColorsLight.background],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -878,7 +1415,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildSimpleModeTile(AppLocalizations l10n) {
     return _buildListTile(
       icon: PhosphorIconsDuotone.leaf,
-      iconColor: const Color(0xFF27AE60),
+      iconColor: AppColors.premiumGreen,
       title: l10n.simpleMode,
       trailing: Switch.adaptive(
         value: _simpleModeEnabled,
@@ -892,7 +1429,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildRemindersTile(AppLocalizations l10n) {
     return _buildListTile(
       icon: PhosphorIconsDuotone.bellRinging,
-      iconColor: const Color(0xFFF39C12),
+      iconColor: AppColors.categoryEducation,
       title: l10n.notificationSettings,
       onTap: () {
         Navigator.push(
@@ -906,7 +1443,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildSoundEffectsTile(AppLocalizations l10n) {
     return _buildListTile(
       icon: PhosphorIconsDuotone.speakerHigh,
-      iconColor: const Color(0xFF9B59B6),
+      iconColor: AppColors.categoryShopping,
       title: l10n.settingsSoundEffects,
       trailing: Switch.adaptive(
         value: _soundEnabled,
@@ -921,15 +1458,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return _buildListTile(
       icon: PhosphorIconsDuotone.lightning,
       iconColor: isPro
-          ? const Color(0xFFFFD700)
+          ? AppColors.medalGold
           : context.appColors.textTertiary,
       title: l10n.settingsVantagPro,
       trailing: isPro
           ? Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
+                gradient: LinearGradient(
+                  colors: [AppColors.medalGold, AppColors.incomeBonus],
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -971,7 +1508,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildRestorePurchasesTile(AppLocalizations l10n) {
     return _buildListTile(
       icon: PhosphorIconsDuotone.arrowCounterClockwise,
-      iconColor: const Color(0xFF1ABC9C),
+      iconColor: AppColors.secondary,
       title: l10n.settingsRestorePurchases,
       trailing: _isRestoring
           ? const SizedBox(
@@ -988,7 +1525,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildAchievementsTile(AppLocalizations l10n) {
     return _buildListTile(
       icon: PhosphorIconsDuotone.trophy,
-      iconColor: const Color(0xFFFFD700),
+      iconColor: AppColors.medalGold,
       title: l10n.badges,
       onTap: () {
         Navigator.push(
@@ -1030,7 +1567,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildExportTile(AppLocalizations l10n, bool isPro) {
     return _buildListTile(
       icon: PhosphorIconsDuotone.fileXls,
-      iconColor: const Color(0xFF27AE60),
+      iconColor: AppColors.premiumGreen,
       title: l10n.settingsExportData,
       trailing: _isExporting
           ? const SizedBox(
@@ -1095,7 +1632,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return _buildListTile(
       icon: PhosphorIconsDuotone.shieldCheck,
-      iconColor: const Color(0xFF3498DB),
+      iconColor: AppColors.categoryEntertainment,
       title: l10n.settingsPrivacyPolicy,
       onTap: () => launchUrl(Uri.parse(privacyUrl)),
     );
@@ -1110,7 +1647,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return _buildListTile(
       icon: PhosphorIconsDuotone.fileText,
-      iconColor: const Color(0xFF9B59B6),
+      iconColor: AppColors.categoryShopping,
       title: l10n.termsOfService,
       onTap: () => launchUrl(Uri.parse(termsUrl)),
     );
@@ -1209,7 +1746,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildVersionTile(AppLocalizations l10n) {
     return _buildListTile(
       icon: PhosphorIconsDuotone.info,
-      iconColor: const Color(0xFF95A5A6),
+      iconColor: AppColors.categoryOther,
       title: l10n.settingsVersion,
       trailing: Text(
         '1.0.0',
@@ -1226,7 +1763,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildContactUsTile(AppLocalizations l10n) {
     return _buildListTile(
       icon: PhosphorIconsDuotone.envelope,
-      iconColor: const Color(0xFFE74C3C),
+      iconColor: AppColors.categoryBills,
       title: l10n.settingsContactUs,
       onTap: () => launchUrl(Uri.parse('mailto:support@vantag.app')),
     );

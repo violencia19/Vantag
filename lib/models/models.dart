@@ -11,3 +11,4 @@ export 'voice_parse_result.dart';
 export 'pursuit.dart';
 export 'pursuit_transaction.dart';
 export 'savings_pool.dart';
+export 'category_budget.dart';

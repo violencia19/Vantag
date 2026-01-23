@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
+import 'package:vantag/theme/app_theme.dart';
 
 /// Share card widget
 /// Instagram story size: 1080x1920 (3:1 scale = 360x640)
@@ -32,7 +33,7 @@ class ShareCardWidget extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF1A1A2E), Color(0xFF6C63FF)],
+          colors: [AppColors.cardBackground, AppColors.primary],
         ),
         borderRadius: BorderRadius.circular(24),
       ),

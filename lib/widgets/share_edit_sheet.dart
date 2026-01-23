@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
+import '../theme/app_theme.dart';
 import 'share_card_widget.dart';
 
 /// Share card edit bottom sheet
@@ -57,16 +58,33 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
             ),
           ),
 
-          // Title
+          // Title with close button
           Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              l10n.editYourCard,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: context.appColors.textPrimary,
-              ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  l10n.editYourCard,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: context.appColors.textPrimary,
+                  ),
+                ),
+                Semantics(
+                  label: l10n.accessibilityCloseSheet,
+                  button: true,
+                  child: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    tooltip: l10n.close,
+                    icon: Icon(
+                      PhosphorIconsRegular.x,
+                      color: context.appColors.textPrimary,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
 
@@ -133,45 +151,49 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
           // Share button
           Padding(
             padding: const EdgeInsets.all(24),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF6C63FF), Color(0xFF4ECDC4)],
-                ),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF6C63FF).withValues(alpha: 0.3),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
+            child: Semantics(
+              label: l10n.share,
+              button: true,
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [AppColors.primary, AppColors.secondary],
                   ),
-                ],
-              ),
-              child: ElevatedButton(
-                onPressed: _handleShare,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  foregroundColor: Colors.white,
-                  shadowColor: Colors.transparent,
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(PhosphorIconsFill.shareFat, size: 22),
-                    const SizedBox(width: 8),
-                    Text(
-                      l10n.share,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.3),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
                     ),
                   ],
+                ),
+                child: ElevatedButton(
+                  onPressed: _handleShare,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Colors.white,
+                    shadowColor: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(vertical: 18),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(PhosphorIconsFill.shareFat, size: 22),
+                      const SizedBox(width: 8),
+                      Text(
+                        l10n.share,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

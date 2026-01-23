@@ -16,7 +16,7 @@ void main() {
       });
 
       test('creates profile with custom values', () {
-        final source = IncomeSource.salary(amount: 25000);
+        final source = IncomeSource.salary(title: 'Test Salary', amount: 25000);
         final profile = UserProfile(
           incomeSources: [source],
           dailyHours: 10,
@@ -36,7 +36,7 @@ void main() {
     group('monthlyIncome', () {
       test('returns sum of all income sources', () {
         final sources = [
-          IncomeSource.salary(amount: 20000),
+          IncomeSource.salary(title: 'Test Salary', amount: 20000),
           IncomeSource.additional(
             title: 'Freelance',
             amount: 5000,
@@ -57,7 +57,7 @@ void main() {
 
     group('hourlyRate', () {
       test('calculates correct hourly rate', () {
-        final source = IncomeSource.salary(amount: 16000);
+        final source = IncomeSource.salary(title: 'Test Salary', amount: 16000);
         final profile = UserProfile(
           incomeSources: [source],
           dailyHours: 8,
@@ -78,7 +78,7 @@ void main() {
 
     group('monthlyWorkHours', () {
       test('calculates correct work hours', () {
-        final source = IncomeSource.salary(amount: 20000);
+        final source = IncomeSource.salary(title: 'Test Salary', amount: 20000);
         final profile = UserProfile(
           incomeSources: [source],
           dailyHours: 8,
@@ -92,7 +92,7 @@ void main() {
 
     group('availableBudget', () {
       test('calculates from monthly budget when set', () {
-        final source = IncomeSource.salary(amount: 30000);
+        final source = IncomeSource.salary(title: 'Test Salary', amount: 30000);
         final profile = UserProfile(
           incomeSources: [source],
           monthlyBudget: 10000,
@@ -104,7 +104,7 @@ void main() {
       });
 
       test('calculates from income when budget not set', () {
-        final source = IncomeSource.salary(amount: 30000);
+        final source = IncomeSource.salary(title: 'Test Salary', amount: 30000);
         final profile = UserProfile(
           incomeSources: [source],
           monthlySavingsGoal: 5000,
@@ -117,7 +117,7 @@ void main() {
 
     group('copyWith', () {
       test('copies with new values', () {
-        final source = IncomeSource.salary(amount: 20000);
+        final source = IncomeSource.salary(title: 'Test Salary', amount: 20000);
         final baseProfile = UserProfile(
           incomeSources: [source],
           dailyHours: 8,
@@ -130,10 +130,12 @@ void main() {
       });
 
       test('copies with new income sources', () {
-        final source = IncomeSource.salary(amount: 20000);
+        final source = IncomeSource.salary(title: 'Test Salary', amount: 20000);
         final baseProfile = UserProfile(incomeSources: [source]);
 
-        final newSources = [IncomeSource.salary(amount: 30000)];
+        final newSources = [
+          IncomeSource.salary(title: 'Test Salary', amount: 30000),
+        ];
         final copied = baseProfile.copyWith(incomeSources: newSources);
         expect(copied.monthlyIncome, 30000);
       });
@@ -142,7 +144,7 @@ void main() {
     group('income source management', () {
       test('addIncomeSource adds new source', () {
         const baseProfile = UserProfile();
-        final source = IncomeSource.salary(amount: 20000);
+        final source = IncomeSource.salary(title: 'Test Salary', amount: 20000);
 
         final updated = baseProfile.addIncomeSource(source);
         expect(updated.incomeSources.length, 1);
@@ -150,7 +152,7 @@ void main() {
       });
 
       test('removeIncomeSource removes source by id', () {
-        final source = IncomeSource.salary(amount: 20000);
+        final source = IncomeSource.salary(title: 'Test Salary', amount: 20000);
         final profile = UserProfile(incomeSources: [source]);
 
         final updated = profile.removeIncomeSource(source.id);
@@ -158,7 +160,7 @@ void main() {
       });
 
       test('updateIncomeSource updates existing source', () {
-        final source = IncomeSource.salary(amount: 20000);
+        final source = IncomeSource.salary(title: 'Test Salary', amount: 20000);
         final profile = UserProfile(incomeSources: [source]);
 
         final updatedSource = source.copyWith(amount: 25000);
@@ -169,7 +171,10 @@ void main() {
 
     group('primarySource and additionalSources', () {
       test('returns primary source correctly', () {
-        final primary = IncomeSource.salary(amount: 20000);
+        final primary = IncomeSource.salary(
+          title: 'Test Salary',
+          amount: 20000,
+        );
         final additional = IncomeSource.additional(
           title: 'Freelance',
           amount: 5000,
@@ -182,7 +187,10 @@ void main() {
       });
 
       test('returns additional sources correctly', () {
-        final primary = IncomeSource.salary(amount: 20000);
+        final primary = IncomeSource.salary(
+          title: 'Test Salary',
+          amount: 20000,
+        );
         final additional1 = IncomeSource.additional(
           title: 'Freelance',
           amount: 5000,
@@ -220,7 +228,7 @@ void main() {
   group('IncomeSource', () {
     group('salary factory', () {
       test('creates salary income source', () {
-        final source = IncomeSource.salary(amount: 20000);
+        final source = IncomeSource.salary(title: 'Test Salary', amount: 20000);
 
         expect(source.category, IncomeCategory.salary);
         expect(source.amount, 20000);
@@ -229,7 +237,7 @@ void main() {
       });
 
       test('creates salary with custom title', () {
-        final source = IncomeSource.salary(amount: 20000, title: 'Main Job');
+        final source = IncomeSource.salary(title: 'Main Job', amount: 20000);
 
         expect(source.title, 'Main Job');
       });
@@ -252,7 +260,7 @@ void main() {
 
     group('JSON serialization', () {
       test('toJson and fromJson round trip', () {
-        final original = IncomeSource.salary(amount: 25000, title: 'Main Job');
+        final original = IncomeSource.salary(title: 'Main Job', amount: 25000);
 
         final json = original.toJson();
         final restored = IncomeSource.fromJson(json);
@@ -266,7 +274,7 @@ void main() {
 
       test('encodeList and decodeList round trip', () {
         final sources = [
-          IncomeSource.salary(amount: 20000),
+          IncomeSource.salary(title: 'Test Salary', amount: 20000),
           IncomeSource.additional(
             title: 'Side gig',
             amount: 5000,
@@ -285,7 +293,7 @@ void main() {
 
     group('copyWith', () {
       test('copies with new amount', () {
-        final source = IncomeSource.salary(amount: 20000);
+        final source = IncomeSource.salary(title: 'Test Salary', amount: 20000);
         final copied = source.copyWith(amount: 25000);
 
         expect(copied.amount, 25000);
@@ -295,7 +303,11 @@ void main() {
 
     group('convertedTo', () {
       test('creates converted copy preserving original', () {
-        final source = IncomeSource.salary(amount: 20000, currencyCode: 'TRY');
+        final source = IncomeSource.salary(
+          title: 'Test Salary',
+          amount: 20000,
+          currencyCode: 'TRY',
+        );
         final converted = source.convertedTo(
           newAmount: 600,
           newCurrencyCode: 'USD',

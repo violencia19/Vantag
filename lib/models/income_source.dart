@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
+import 'package:vantag/theme/app_theme.dart';
 
 /// Gelir kategorileri
 enum IncomeCategory {
@@ -32,15 +33,15 @@ enum IncomeCategory {
   Color get color {
     switch (this) {
       case IncomeCategory.salary:
-        return const Color(0xFF6C63FF);
+        return AppColors.incomeSalary;
       case IncomeCategory.freelance:
-        return const Color(0xFF4ECDC4);
+        return AppColors.incomeRental;
       case IncomeCategory.rental:
-        return const Color(0xFFF39C12);
+        return AppColors.incomeSideJob;
       case IncomeCategory.passive:
-        return const Color(0xFF2ECC71);
+        return AppColors.incomeOther;
       case IncomeCategory.other:
-        return const Color(0xFF95A5A6);
+        return AppColors.incomeDefault;
     }
   }
 

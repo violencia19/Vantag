@@ -249,6 +249,7 @@ class _VantagAppState extends State<VantagApp> {
         ChangeNotifierProvider.value(value: widget.savingsPoolProvider),
         ChangeNotifierProvider.value(value: widget.themeProvider),
         ChangeNotifierProvider(create: (_) => PursuitProvider()),
+        ChangeNotifierProvider(create: (_) => CategoryBudgetProvider()),
       ],
       child: Consumer2<LocaleProvider, ThemeProvider>(
         builder: (context, localeProvider, themeProvider, child) {

@@ -1112,7 +1112,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get autoRecord => 'Auto Record';
 
   @override
-  String get autoRecordDescription => 'Create expense record on renewal';
+  String get autoRecordDescription =>
+      'Expense will be automatically added on billing date';
 
   @override
   String get add => 'Add';
@@ -1789,7 +1790,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get autoRecordEnabled => 'Auto expense recording enabled';
+  String get autoRecordEnabled => 'Auto-record enabled';
 
   @override
   String get autoRecordDisabled => 'Auto expense recording disabled';
@@ -1833,6 +1834,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shareError => 'An error occurred while sharing';
+
+  @override
+  String get shareVia => 'Share via';
+
+  @override
+  String get saveToGallery => 'Save to Gallery';
+
+  @override
+  String get savedToGallery => 'Saved to gallery';
+
+  @override
+  String get otherApps => 'Other Apps';
+
+  @override
+  String get expenseDeleted => 'Expense deleted';
+
+  @override
+  String get undo => 'Undo';
+
+  @override
+  String get choosePlatform => 'Choose Platform';
+
+  @override
+  String get savingToGallery => 'Saving...';
 
   @override
   String get pleaseEnterValidSalary => 'Please enter a valid salary';
@@ -2715,6 +2740,132 @@ class AppLocalizationsEn extends AppLocalizations {
   String get upgradeForExport => 'Upgrade to Pro to export your financial data';
 
   @override
+  String get importPremiumOnly => 'Import is a Pro feature';
+
+  @override
+  String get upgradeForImport =>
+      'Upgrade to Pro to import your bank statements';
+
+  @override
+  String get receiptScanned => 'Receipt scanned successfully';
+
+  @override
+  String get noAmountFound => 'No amount found in the image';
+
+  @override
+  String saveAllRecognized(int count) {
+    return 'Save All ($count)';
+  }
+
+  @override
+  String saveAllRecognizedSuccess(int count) {
+    return '$count expenses saved successfully';
+  }
+
+  @override
+  String get budgets => 'Budgets';
+
+  @override
+  String get budget => 'Budget';
+
+  @override
+  String get addBudget => 'Add Budget';
+
+  @override
+  String get editBudget => 'Edit Budget';
+
+  @override
+  String get deleteBudget => 'Delete Budget';
+
+  @override
+  String get deleteBudgetConfirm =>
+      'Are you sure you want to delete this budget?';
+
+  @override
+  String get monthlyLimit => 'Monthly Limit';
+
+  @override
+  String get budgetProgress => 'Budget Progress';
+
+  @override
+  String get totalBudget => 'Total Budget';
+
+  @override
+  String remainingAmount(String amount) {
+    return '$amount remaining';
+  }
+
+  @override
+  String overBudgetAmount(String amount) {
+    return '$amount over!';
+  }
+
+  @override
+  String ofBudget(String spent, String total) {
+    return '$spent of $total';
+  }
+
+  @override
+  String get onTrack => 'On track';
+
+  @override
+  String get nearLimit => 'Near limit';
+
+  @override
+  String get overLimit => 'Over limit';
+
+  @override
+  String get noBudgetsYet => 'No budgets yet';
+
+  @override
+  String get noBudgetsDescription =>
+      'Set budgets to track your spending by category';
+
+  @override
+  String get budgetHelperText =>
+      'Set a monthly spending limit for this category';
+
+  @override
+  String get budgetExceededTitle => 'Budget Exceeded!';
+
+  @override
+  String budgetExceededMessage(String category, String amount) {
+    return 'You\'ve exceeded your $category budget by $amount';
+  }
+
+  @override
+  String get budgetNearLimit => 'Approaching budget limit';
+
+  @override
+  String budgetNearLimitMessage(String percent, String category) {
+    return 'You\'ve used $percent% of your $category budget';
+  }
+
+  @override
+  String categoriesOnTrack(int count) {
+    return '$count on track';
+  }
+
+  @override
+  String categoriesOverBudget(int count) {
+    return '$count over budget';
+  }
+
+  @override
+  String categoriesNearLimit(int count) {
+    return '$count near limit';
+  }
+
+  @override
+  String get categories => 'categories';
+
+  @override
+  String get viewAll => 'View All';
+
+  @override
+  String get viewBudgetsInReports => 'View budget details in Reports tab';
+
+  @override
   String pendingCategorization(int count) {
     return '$count expenses pending categorization';
   }
@@ -2879,7 +3030,124 @@ class AppLocalizationsEn extends AppLocalizations {
   String get voiceLowConfidence => 'Please confirm';
 
   @override
-  String get undo => 'Undo';
+  String get speakYourExpense => 'Speak your expense';
+
+  @override
+  String get longPressForVoice => 'Long-press for voice input';
+
+  @override
+  String get didYouKnow => 'Did you know?';
+
+  @override
+  String get voiceTipMessage =>
+      'Add expenses faster! Long-press + button and say: \"50 lira coffee\"';
+
+  @override
+  String get gotIt => 'Got it';
+
+  @override
+  String get tryNow => 'Try Now';
+
+  @override
+  String get voiceAndShortcuts => 'Voice & Shortcuts';
+
+  @override
+  String get newBadge => 'NEW';
+
+  @override
+  String get voiceInputHint => 'Long-press + button for voice';
+
+  @override
+  String get howToUseVoice => 'How to Use Voice';
+
+  @override
+  String get longPressFab => 'Long-Press + Button';
+
+  @override
+  String get longPressFabHint => 'Hold for 1 second';
+
+  @override
+  String get micButton => 'Microphone Button';
+
+  @override
+  String get micButtonHint => 'Tap mic when adding expense';
+
+  @override
+  String get exampleCommands => 'Example Commands';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong. Please try again.';
+
+  @override
+  String get errorLoadingData => 'Error loading data';
+
+  @override
+  String get errorSaving => 'Error saving. Please try again.';
+
+  @override
+  String get networkError => 'Network error. Check your connection.';
+
+  @override
+  String get errorLoadingRates => 'Could not load exchange rates';
+
+  @override
+  String get errorLoadingSubscriptions => 'Could not load subscriptions';
+
+  @override
+  String get autoRecorded => 'Auto';
+
+  @override
+  String autoRecordedExpenses(int count) {
+    return '$count subscription(s) auto-recorded';
+  }
+
+  @override
+  String get security => 'Security';
+
+  @override
+  String get pinLock => 'PIN Lock';
+
+  @override
+  String get pinLockDescription => 'Require PIN to open app';
+
+  @override
+  String get biometricUnlock => 'Biometric Unlock';
+
+  @override
+  String get biometricDescription => 'Use fingerprint or Face ID';
+
+  @override
+  String get enterPin => 'Enter PIN';
+
+  @override
+  String get createPin => 'Create PIN';
+
+  @override
+  String get createPinDescription => 'Choose a 4-digit PIN';
+
+  @override
+  String get confirmPin => 'Confirm PIN';
+
+  @override
+  String get confirmPinDescription => 'Enter your PIN again';
+
+  @override
+  String get wrongPin => 'Wrong PIN. Try again.';
+
+  @override
+  String get pinMismatch => 'PINs don\'t match. Try again.';
+
+  @override
+  String get pinSet => 'PIN set successfully';
+
+  @override
+  String get useBiometric => 'Use Biometric';
+
+  @override
+  String get unlockWithBiometric => 'Unlock Vantag';
+
+  @override
+  String get reset => 'Reset';
 
   @override
   String get assistantSetupTitle => 'Google Assistant Setup';
@@ -3054,7 +3322,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get featureAiChat => 'AI Chat';
 
   @override
-  String get featureAiChatFree => '5/day';
+  String get featureAiChatFree => '4/day';
 
   @override
   String get featureHistory => 'History';
@@ -3154,7 +3422,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aiLimitProTitleEmoji => '⏳ Monthly AI Limit Reached!';
 
   @override
-  String get aiLimitFreeMessage => 'You\'ve used all 5 AI questions for today.';
+  String get aiLimitFreeMessage => 'You\'ve used all 4 AI questions for today.';
 
   @override
   String get aiLimitProMessage =>
@@ -3255,11 +3523,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String pursuitProgress(int percent) {
     return '$percent% complete';
-  }
-
-  @override
-  String remainingAmount(String amount) {
-    return '$amount remaining';
   }
 
   @override
@@ -3867,6 +4130,81 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgThink8 => 'If you\'re not sure, the answer is probably no.';
 
   @override
+  String get savingMsg1 => 'Great decision! 💪';
+
+  @override
+  String get savingMsg2 => 'You protected your money! 🛡️';
+
+  @override
+  String get savingMsg3 => 'Future you will thank you!';
+
+  @override
+  String get savingMsg4 => 'Smart choice! 🧠';
+
+  @override
+  String get savingMsg5 => 'Saving is power!';
+
+  @override
+  String get savingMsg6 => 'One step closer to your goal!';
+
+  @override
+  String get savingMsg7 => 'Willpower! 💎';
+
+  @override
+  String get savingMsg8 => 'This money is now yours!';
+
+  @override
+  String get savingMsg9 => 'Financial discipline! 🎯';
+
+  @override
+  String get savingMsg10 => 'You\'re building wealth!';
+
+  @override
+  String get savingMsg11 => 'Strong decision! 💪';
+
+  @override
+  String get savingMsg12 => 'Your wallet thanks you!';
+
+  @override
+  String get savingMsg13 => 'That\'s how champions save! 🏆';
+
+  @override
+  String get savingMsg14 => 'Money saved = Freedom earned!';
+
+  @override
+  String get savingMsg15 => 'Impressive self-control! ⭐';
+
+  @override
+  String get spendingMsg1 => 'Recorded! ✓';
+
+  @override
+  String get spendingMsg2 => 'You\'re tracking, that\'s important.';
+
+  @override
+  String get spendingMsg3 => 'Every record is awareness.';
+
+  @override
+  String get spendingMsg4 => 'Knowing your spending is power.';
+
+  @override
+  String get spendingMsg5 => 'Logged! Keep going.';
+
+  @override
+  String get spendingMsg6 => 'Tracking builds control.';
+
+  @override
+  String get spendingMsg7 => 'Noted! Awareness is key.';
+
+  @override
+  String get spendingMsg8 => 'Good job tracking!';
+
+  @override
+  String get spendingMsg9 => 'Data is power! 📊';
+
+  @override
+  String get spendingMsg10 => 'Stay aware, stay in control.';
+
+  @override
   String get tourAmountTitle => 'Amount Entry';
 
   @override
@@ -4330,8 +4668,46 @@ class AppLocalizationsEn extends AppLocalizations {
       'Get notified before subscriptions renew';
 
   @override
+  String get thinkingReminder => '\"Thinking\" reminders';
+
+  @override
+  String get thinkingReminderDesc =>
+      'Get reminded after 72 hours about items you\'re still thinking about';
+
+  @override
+  String get thinkingReminderTitle => 'Still thinking?';
+
+  @override
+  String thinkingReminderBody(String item) {
+    return 'Did you decide? $item';
+  }
+
+  @override
+  String get willRemindIn72h => 'We\'ll remind you in 72 hours';
+
+  @override
+  String get thinkingAbout => 'Thinking about';
+
+  @override
+  String addedDaysAgo(int days) {
+    return 'Added $days days ago';
+  }
+
+  @override
+  String get stillThinking => 'Still thinking?';
+
+  @override
+  String get stillThinkingMessage => 'It\'s been 72 hours. Did you decide?';
+
+  @override
+  String get decidedYes => 'I bought it';
+
+  @override
+  String get decidedNo => 'I passed';
+
+  @override
   String get aiChatLimitReached =>
-      'You\'ve used your 3 daily AI chats. Go premium for unlimited!';
+      'You\'ve used your 4 daily AI chats. Go premium for unlimited!';
 
   @override
   String aiChatsRemaining(int count) {
@@ -4573,4 +4949,34 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get onboardingBalanceDesc =>
       'Enter your current balance to track your finances accurately';
+
+  @override
+  String selectTimeFilter(String filter) {
+    return 'Select time filter: $filter';
+  }
+
+  @override
+  String lockedFilterPremium(String filter) {
+    return '$filter, premium feature';
+  }
+
+  @override
+  String selectedFilter(String filter) {
+    return '$filter, selected';
+  }
+
+  @override
+  String selectHeatmapDay(String date) {
+    return 'Select day: $date';
+  }
+
+  @override
+  String heatmapDayWithSpending(String date, String amount) {
+    return '$date, $amount spent';
+  }
+
+  @override
+  String heatmapDayNoSpending(String date) {
+    return '$date, no spending';
+  }
 }

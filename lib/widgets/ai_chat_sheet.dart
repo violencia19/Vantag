@@ -12,6 +12,7 @@ import '../providers/pro_provider.dart';
 import '../services/ai_service.dart';
 import '../services/free_tier_service.dart';
 import '../theme/theme.dart';
+import '../constants/app_limits.dart';
 import '../core/theme/premium_effects.dart';
 import 'upgrade_dialog.dart';
 
@@ -35,7 +36,7 @@ class _AIChatSheetState extends State<AIChatSheet> {
   bool _greetingLoading = true;
 
   // Free tier chat limit
-  int _remainingChats = 3;
+  int _remainingChats = AppLimits.freeAiChatsPerDay;
 
   @override
   void initState() {
@@ -327,6 +328,7 @@ SADECE karşılama cümlesini yaz:
 
   Widget _buildHeader() {
     final facts = AIService().userFacts.take(3).toList();
+    final l10n = AppLocalizations.of(context);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
@@ -377,60 +379,79 @@ SADECE karşılama cümlesini yaz:
               ),
               const Spacer(),
               // Clear history button
-              GestureDetector(
-                onTap: () async {
-                  await AIService().clearHistory();
-                  setState(() {
-                    _messages.clear();
-                    _showUpsell = false;
-                  });
-                  HapticFeedback.mediumImpact();
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  margin: const EdgeInsets.only(right: 8),
-                  decoration: BoxDecoration(
-                    color: context.appColors.surfaceLight,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(
-                    PhosphorIcons.trash(),
-                    size: 16,
-                    color: context.appColors.textTertiary,
+              Semantics(
+                label: l10n.delete,
+                button: true,
+                child: GestureDetector(
+                  onTap: () async {
+                    await AIService().clearHistory();
+                    setState(() {
+                      _messages.clear();
+                      _showUpsell = false;
+                    });
+                    HapticFeedback.mediumImpact();
+                  },
+                  child: Tooltip(
+                    message: l10n.delete,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      margin: const EdgeInsets.only(right: 8),
+                      decoration: BoxDecoration(
+                        color: context.appColors.surfaceLight,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
+                        PhosphorIcons.trash(),
+                        size: 16,
+                        color: context.appColors.textTertiary,
+                      ),
+                    ),
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: _togglePersonality,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: context.appColors.surfaceLight,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: context.appColors.cardBorder,
+              Semantics(
+                label: AIService().personalityMode == PersonalityMode.friendly
+                    ? l10n.professionalMode
+                    : l10n.professionalMode,
+                hint: l10n.accessibilityToggleOn,
+                button: true,
+                child: GestureDetector(
+                  onTap: _togglePersonality,
+                  child: Tooltip(
+                    message: AIService().personalityMode == PersonalityMode.friendly
+                        ? l10n.professionalMode
+                        : l10n.professionalMode,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: context.appColors.surfaceLight,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: context.appColors.cardBorder,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            AIService().personalityMode == PersonalityMode.friendly
+                                ? PhosphorIconsDuotone.smiley
+                                : PhosphorIconsDuotone.briefcase,
+                            size: 16,
+                            color: context.appColors.primary,
+                          ),
+                          const SizedBox(width: 6),
+                          Icon(
+                            PhosphorIcons.caretDown(),
+                            size: 12,
+                            color: context.appColors.textSecondary,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        AIService().personalityMode == PersonalityMode.friendly
-                            ? PhosphorIconsDuotone.smiley
-                            : PhosphorIconsDuotone.briefcase,
-                        size: 16,
-                        color: context.appColors.primary,
-                      ),
-                      const SizedBox(width: 6),
-                      Icon(
-                        PhosphorIcons.caretDown(),
-                        size: 12,
-                        color: context.appColors.textSecondary,
-                      ),
-                    ],
                   ),
                 ),
               ),
@@ -610,37 +631,42 @@ SADECE karşılama cümlesini yaz:
   }
 
   Widget _buildSuggestionChip(String emoji, String text, int index) {
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.selectionClick();
-        // Analytics logging
-        _logAnalytics('ai_suggestion_tapped', {'suggestion': index});
-        _controller.text = text;
-        _sendMessage();
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: context.appColors.surfaceLight,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: context.appColors.cardBorder),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(emoji, style: const TextStyle(fontSize: 16)),
-            const SizedBox(width: 8),
-            Flexible(
-              child: Text(
-                text,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: context.appColors.textSecondary,
+    final l10n = AppLocalizations.of(context);
+    return Semantics(
+      label: l10n.accessibilitySuggestionButton(text),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.selectionClick();
+          // Analytics logging
+          _logAnalytics('ai_suggestion_tapped', {'suggestion': index});
+          _controller.text = text;
+          _sendMessage();
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          decoration: BoxDecoration(
+            color: context.appColors.surfaceLight,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: context.appColors.cardBorder),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(emoji, style: const TextStyle(fontSize: 16)),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: context.appColors.textSecondary,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.ellipsis,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -692,28 +718,32 @@ SADECE karşılama cümlesini yaz:
               ],
             ),
             const SizedBox(height: 12),
-            GestureDetector(
-              onTap: () => _showPaywall(context),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
-                ),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      context.appColors.primary,
-                      context.appColors.primaryDark,
-                    ],
+            Semantics(
+              label: l10n.aiPremiumButton,
+              button: true,
+              child: GestureDetector(
+                onTap: () => _showPaywall(context),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
                   ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  l10n.aiPremiumButton,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        context.appColors.primary,
+                        context.appColors.primaryDark,
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    l10n.aiPremiumButton,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -909,47 +939,50 @@ SADECE karşılama cümlesini yaz:
               Semantics(
                 label: l10n.accessibilityAiSendButton,
                 button: true,
-                child: GestureDetector(
-                onTap: isPremium ? _sendMessage : () => _showPaywall(context),
-                child: Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: isPremium
-                          ? [
-                              context.appColors.primary,
-                              context.appColors.primaryDark,
-                            ]
-                          : [
-                              context.appColors.textTertiary,
-                              context.appColors.textSecondary,
-                            ],
+                child: Tooltip(
+                  message: l10n.accessibilityAiSendButton,
+                  child: GestureDetector(
+                    onTap: isPremium ? _sendMessage : () => _showPaywall(context),
+                    child: Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: isPremium
+                              ? [
+                                  context.appColors.primary,
+                                  context.appColors.primaryDark,
+                                ]
+                              : [
+                                  context.appColors.textTertiary,
+                                  context.appColors.textSecondary,
+                                ],
+                        ),
+                        shape: BoxShape.circle,
+                        boxShadow: isPremium
+                            ? [
+                                BoxShadow(
+                                  color: context.appColors.primary.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ]
+                            : null,
+                      ),
+                      child: Icon(
+                        isPremium
+                            ? PhosphorIconsBold.paperPlaneTilt
+                            : PhosphorIconsBold.lock,
+                        size: 20,
+                        color: Colors.white,
+                      ),
                     ),
-                    shape: BoxShape.circle,
-                    boxShadow: isPremium
-                        ? [
-                            BoxShadow(
-                              color: context.appColors.primary.withValues(
-                                alpha: 0.3,
-                              ),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
-                            ),
-                          ]
-                        : null,
-                  ),
-                  child: Icon(
-                    isPremium
-                        ? PhosphorIconsBold.paperPlaneTilt
-                        : PhosphorIconsBold.lock,
-                    size: 20,
-                    color: Colors.white,
                   ),
                 ),
-              ),
               ),
             ],
           ),
@@ -959,33 +992,38 @@ SADECE karşılama cümlesini yaz:
   }
 
   Widget _buildMiniSuggestionChip(String emoji, String text, int index) {
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.selectionClick();
-        _logAnalytics('ai_suggestion_tapped', {'suggestion': index});
-        _controller.text = text;
-        _sendMessage();
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: context.appColors.surfaceLight,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: context.appColors.cardBorder),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(emoji, style: const TextStyle(fontSize: 12)),
-            const SizedBox(width: 4),
-            Text(
-              text.length > 20 ? '${text.substring(0, 20)}...' : text,
-              style: TextStyle(
-                fontSize: 11,
-                color: context.appColors.textTertiary,
+    final l10n = AppLocalizations.of(context);
+    return Semantics(
+      label: l10n.accessibilitySuggestionButton(text),
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.selectionClick();
+          _logAnalytics('ai_suggestion_tapped', {'suggestion': index});
+          _controller.text = text;
+          _sendMessage();
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(
+            color: context.appColors.surfaceLight,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: context.appColors.cardBorder),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(emoji, style: const TextStyle(fontSize: 12)),
+              const SizedBox(width: 4),
+              Text(
+                text.length > 20 ? '${text.substring(0, 20)}...' : text,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: context.appColors.textTertiary,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
