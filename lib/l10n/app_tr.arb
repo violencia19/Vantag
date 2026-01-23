@@ -546,6 +546,17 @@
   "linkWithGoogleDescription": "Verilerinize tüm cihazlardan güvenle erişin",
   "skipForNow": "Şimdilik geç",
   "incomeType": "Gelir Türü",
+  "incomeCategorySalary": "Maaş",
+  "incomeCategoryFreelance": "Freelance",
+  "incomeCategoryRental": "Kira Geliri",
+  "incomeCategoryPassive": "Pasif Gelir",
+  "incomeCategoryOther": "Diğer",
+  "incomeCategorySalaryDesc": "Aylık düzenli maaş",
+  "incomeCategoryFreelanceDesc": "Serbest çalışma gelirleri",
+  "incomeCategoryRentalDesc": "Ev, araba vb. kira gelirleri",
+  "incomeCategoryPassiveDesc": "Yatırım, temettü, faiz vb.",
+  "incomeCategoryOtherDesc": "Diğer gelir kaynakları",
+  "mainSalary": "Ana Maaş",
   "descriptionOptional": "Açıklama (Opsiyonel)",
   "descriptionOptionalHint": "Örn: Upwork Projesi",
   "addedIncomes": "Eklenen Gelirler",
@@ -1767,6 +1778,71 @@
   "accessibilityDecisionYes": "Satın alındı",
   "accessibilityDecisionNo": "Vazgeçildi",
   "accessibilityDecisionThinking": "Düşünülüyor",
+
+  "accessibilityDashboard": "Gelir, gider ve bakiyeyi gösteren finansal pano",
+  "accessibilityNetBalance": "Net bakiye: {amount}, {status}",
+  "@accessibilityNetBalance": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "status": {"type": "String"}
+    }
+  },
+  "accessibilityBalanceHealthy": "artıda",
+  "accessibilityBalanceNegative": "eksidə",
+  "accessibilityIncomeTotal": "Toplam gelir: {amount}",
+  "@accessibilityIncomeTotal": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "accessibilityExpenseTotal": "Toplam harcama: {amount}",
+  "@accessibilityExpenseTotal": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "accessibilityAddSavings": "Bu hedefe birikim ekle",
+  "accessibilityDeleteExpense": "Bu harcamayı sil",
+  "accessibilityEditExpense": "Bu harcamayı düzenle",
+  "accessibilityShareExpense": "Bu harcamayı paylaş",
+  "accessibilityStreakInfo": "Mevcut seri: {days} gün, en iyi seri: {best} gün",
+  "@accessibilityStreakInfo": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "best": {"type": "int"}
+    }
+  },
+  "accessibilityAiChatInput": "Finansal sorunuzu buraya yazın",
+  "accessibilityAiSendButton": "Yapay zeka asistanına mesaj gönder",
+  "accessibilitySuggestionButton": "Hızlı soru: {question}",
+  "@accessibilitySuggestionButton": {
+    "placeholders": {
+      "question": {"type": "String"}
+    }
+  },
+  "accessibilitySubscriptionCard": "{name} aboneliği, {cycle} başına {amount}, {day}. gün yenilenir",
+  "@accessibilitySubscriptionCard": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "amount": {"type": "String"},
+      "cycle": {"type": "String"},
+      "day": {"type": "int"}
+    }
+  },
+  "accessibilitySettingsItem": "{title}, mevcut değer: {value}",
+  "@accessibilitySettingsItem": {
+    "placeholders": {
+      "title": {"type": "String"},
+      "value": {"type": "String"}
+    }
+  },
+  "accessibilityToggleOn": "Açık",
+  "accessibilityToggleOff": "Kapalı",
+  "accessibilityCloseSheet": "Bu sayfayı kapat",
+  "accessibilityBackButton": "Geri dön",
+  "accessibilityProfileButton": "Profil menüsünü aç",
+  "accessibilityNotificationsButton": "Bildirimleri görüntüle",
+
   "navHomeTooltip": "Ana sayfa, harcama özeti",
   "navPursuitsTooltip": "Hedefler, birikim amaçları",
   "navReportsTooltip": "Raporlar, harcama analizi",
@@ -1873,5 +1949,88 @@
       "currency": {"type": "String"}
     }
   },
-  "watermarkText": "vantag.app"
+  "watermarkText": "vantag.app",
+
+  "incomeTypeSalary": "Maaş",
+  "incomeTypeBonus": "Prim",
+  "incomeTypeGift": "Hediye",
+  "incomeTypeRefund": "İade",
+  "incomeTypeFreelance": "Serbest Çalışma",
+  "incomeTypeRental": "Kira Geliri",
+  "incomeTypeInvestment": "Yatırım Getirisi",
+  "incomeTypeOther": "Diğer Gelir",
+
+  "salaryDay": "Maaş Günü",
+  "salaryDayTitle": "Maaşınız ne zaman yatıyor?",
+  "salaryDaySubtitle": "Maaş gününüzde size hatırlatacağız",
+  "salaryDayHint": "Ayın gününü seçin (1-31)",
+  "salaryDaySet": "Maaş günü {day} olarak ayarlandı",
+  "@salaryDaySet": {
+    "placeholders": {
+      "day": {"type": "int"}
+    }
+  },
+  "salaryDaySkip": "Şimdilik geç",
+  "salaryDayNotSet": "Belirlenmedi",
+  "dayOfMonth": "Ayın {day}. günü",
+  "@dayOfMonth": {
+    "placeholders": {
+      "day": {"type": "int"}
+    }
+  },
+
+  "currentBalance": "Güncel Bakiye",
+  "balanceTitle": "Güncel bakiyeniz ne kadar?",
+  "balanceSubtitle": "Harcamalarınızı daha doğru takip edin",
+  "balanceHint": "Banka bakiyenizi girin",
+  "balanceUpdated": "Bakiye güncellendi",
+  "balanceOptional": "Opsiyonel - daha sonra ekleyebilirsiniz",
+
+  "paydayTitle": "Maaş Günü!",
+  "paydayMessage": "Maaşınız yattı mı?",
+  "paydayConfirm": "Evet, yattı!",
+  "paydayNotYet": "Henüz değil",
+  "paydaySkip": "Geç",
+  "paydayCelebration": "Tebrikler! Maaş yattı",
+  "paydayUpdateBalance": "Bakiyenizi güncelleyin",
+  "paydayNewBalance": "Maaş sonrası yeni bakiye",
+  "daysUntilPayday": "Maaşa {days} gün var",
+  "@daysUntilPayday": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "paydayToday": "Bugün maaş günü!",
+  "paydayTomorrow": "Yarın maaş günü",
+
+  "addIncome": "Gelir Ekle",
+  "addIncomeTitle": "Gelir Kaydet",
+  "addIncomeSubtitle": "Prim, hediye, iade vb.",
+  "incomeAmount": "Gelen tutar",
+  "incomeType": "Gelir türü",
+  "incomeNotes": "Notlar (opsiyonel)",
+  "incomeNotesHint": "ör. Yıl sonu primi, doğum günü hediyesi...",
+  "incomeAdded": "Gelir eklendi!",
+  "incomeAddedBalance": "Bakiye güncellendi: {amount}",
+  "@incomeAddedBalance": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "thisMonthIncome": "Bu Ayın Geliri",
+  "totalMonthlyIncome": "Toplam Aylık Gelir",
+  "regularIncome": "Düzenli Gelir",
+  "additionalIncome": "Ek Gelirler",
+  "incomeBreakdown": "Gelir Dağılımı",
+
+  "paydayNotificationTitle": "Maaş Günü!",
+  "paydayNotificationBody": "Maaşınız bugün yatıyor olmalı. Hesabınızı kontrol edin!",
+  "paydayNotificationEnabled": "Maaş günü hatırlatması",
+  "paydayNotificationDesc": "Maaş gününüzde bildirim alın",
+
+  "onboardingSalaryDayTitle": "Maaş Günü Ne Zaman?",
+  "onboardingSalaryDayDesc": "Maaş gününüzü söyleyin, bütçenizi daha iyi planlamanıza yardımcı olalım",
+  "onboardingBalanceTitle": "Başlangıç Bakiyesi",
+  "onboardingBalanceDesc": "Finanslarınızı doğru takip etmek için güncel bakiyenizi girin"
 }

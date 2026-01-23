@@ -779,6 +779,17 @@
   "linkWithGoogleDescription": "Securely access your data from all devices",
   "skipForNow": "Skip for now",
   "incomeType": "Income Type",
+  "incomeCategorySalary": "Salary",
+  "incomeCategoryFreelance": "Freelance",
+  "incomeCategoryRental": "Rental Income",
+  "incomeCategoryPassive": "Passive Income",
+  "incomeCategoryOther": "Other",
+  "incomeCategorySalaryDesc": "Monthly regular salary",
+  "incomeCategoryFreelanceDesc": "Self-employment income",
+  "incomeCategoryRentalDesc": "Property, vehicle rental income",
+  "incomeCategoryPassiveDesc": "Investment, dividends, interest etc.",
+  "incomeCategoryOtherDesc": "Other income sources",
+  "mainSalary": "Main Salary",
   "descriptionOptional": "Description (Optional)",
   "descriptionOptionalHint": "e.g: Upwork Project",
   "addedIncomes": "Added Incomes",
@@ -2133,6 +2144,71 @@
   "accessibilityDecisionYes": "Purchased",
   "accessibilityDecisionNo": "Passed",
   "accessibilityDecisionThinking": "Thinking",
+
+  "accessibilityDashboard": "Financial dashboard showing income, expenses and balance",
+  "accessibilityNetBalance": "Net balance: {amount}, {status}",
+  "@accessibilityNetBalance": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "status": {"type": "String"}
+    }
+  },
+  "accessibilityBalanceHealthy": "in the green",
+  "accessibilityBalanceNegative": "in the red",
+  "accessibilityIncomeTotal": "Total income: {amount}",
+  "@accessibilityIncomeTotal": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "accessibilityExpenseTotal": "Total expenses: {amount}",
+  "@accessibilityExpenseTotal": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "accessibilityAddSavings": "Add savings to this goal",
+  "accessibilityDeleteExpense": "Delete this expense",
+  "accessibilityEditExpense": "Edit this expense",
+  "accessibilityShareExpense": "Share this expense",
+  "accessibilityStreakInfo": "Current streak: {days} days, best streak: {best} days",
+  "@accessibilityStreakInfo": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "best": {"type": "int"}
+    }
+  },
+  "accessibilityAiChatInput": "Type your financial question here",
+  "accessibilityAiSendButton": "Send message to AI assistant",
+  "accessibilitySuggestionButton": "Quick question: {question}",
+  "@accessibilitySuggestionButton": {
+    "placeholders": {
+      "question": {"type": "String"}
+    }
+  },
+  "accessibilitySubscriptionCard": "{name} subscription, {amount} per {cycle}, renews on day {day}",
+  "@accessibilitySubscriptionCard": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "amount": {"type": "String"},
+      "cycle": {"type": "String"},
+      "day": {"type": "int"}
+    }
+  },
+  "accessibilitySettingsItem": "{title}, current value: {value}",
+  "@accessibilitySettingsItem": {
+    "placeholders": {
+      "title": {"type": "String"},
+      "value": {"type": "String"}
+    }
+  },
+  "accessibilityToggleOn": "Enabled",
+  "accessibilityToggleOff": "Disabled",
+  "accessibilityCloseSheet": "Close this sheet",
+  "accessibilityBackButton": "Go back",
+  "accessibilityProfileButton": "Open profile menu",
+  "accessibilityNotificationsButton": "View notifications",
+
   "navHomeTooltip": "Home, spending overview",
   "navPursuitsTooltip": "Goals, savings targets",
   "navReportsTooltip": "Reports, spending analysis",
@@ -2239,5 +2315,88 @@
       "currency": {"type": "String"}
     }
   },
-  "watermarkText": "vantag.app"
+  "watermarkText": "vantag.app",
+
+  "incomeTypeSalary": "Salary",
+  "incomeTypeBonus": "Bonus",
+  "incomeTypeGift": "Gift",
+  "incomeTypeRefund": "Refund",
+  "incomeTypeFreelance": "Freelance",
+  "incomeTypeRental": "Rental",
+  "incomeTypeInvestment": "Investment",
+  "incomeTypeOther": "Other Income",
+
+  "salaryDay": "Salary Day",
+  "salaryDayTitle": "When do you get paid?",
+  "salaryDaySubtitle": "We'll remind you on payday",
+  "salaryDayHint": "Select day of month (1-31)",
+  "salaryDaySet": "Salary day set to {day}",
+  "@salaryDaySet": {
+    "placeholders": {
+      "day": {"type": "int"}
+    }
+  },
+  "salaryDaySkip": "Skip for now",
+  "salaryDayNotSet": "Not set",
+  "dayOfMonth": "Day {day}",
+  "@dayOfMonth": {
+    "placeholders": {
+      "day": {"type": "int"}
+    }
+  },
+
+  "currentBalance": "Current Balance",
+  "balanceTitle": "What's your current balance?",
+  "balanceSubtitle": "Track your spending more accurately",
+  "balanceHint": "Enter your bank balance",
+  "balanceUpdated": "Balance updated",
+  "balanceOptional": "Optional - you can add this later",
+
+  "paydayTitle": "Payday!",
+  "paydayMessage": "Did you receive your salary?",
+  "paydayConfirm": "Yes, received!",
+  "paydayNotYet": "Not yet",
+  "paydaySkip": "Skip",
+  "paydayCelebration": "Congratulations! Salary received",
+  "paydayUpdateBalance": "Update your balance",
+  "paydayNewBalance": "New balance after salary",
+  "daysUntilPayday": "{days} days until payday",
+  "@daysUntilPayday": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "paydayToday": "Payday is today!",
+  "paydayTomorrow": "Payday is tomorrow",
+
+  "addIncome": "Add Income",
+  "addIncomeTitle": "Record Income",
+  "addIncomeSubtitle": "Bonus, gift, refund, etc.",
+  "incomeAmount": "Amount received",
+  "incomeType": "Income type",
+  "incomeNotes": "Notes (optional)",
+  "incomeNotesHint": "e.g. Year-end bonus, birthday gift...",
+  "incomeAdded": "Income added!",
+  "incomeAddedBalance": "Balance updated: {amount}",
+  "@incomeAddedBalance": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "thisMonthIncome": "This Month's Income",
+  "totalMonthlyIncome": "Total Monthly Income",
+  "regularIncome": "Regular Income",
+  "additionalIncome": "Additional Income",
+  "incomeBreakdown": "Income Breakdown",
+
+  "paydayNotificationTitle": "Payday!",
+  "paydayNotificationBody": "Your salary should be arriving today. Check your account!",
+  "paydayNotificationEnabled": "Payday reminders",
+  "paydayNotificationDesc": "Get notified on your salary day",
+
+  "onboardingSalaryDayTitle": "When's Payday?",
+  "onboardingSalaryDayDesc": "Tell us when you receive your salary so we can help you budget better",
+  "onboardingBalanceTitle": "Starting Balance",
+  "onboardingBalanceDesc": "Enter your current balance to track your finances accurately"
 }

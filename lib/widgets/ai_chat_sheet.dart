@@ -93,10 +93,12 @@ class _AIChatSheetState extends State<AIChatSheet> {
       // Bütçe hesapla
       final now = DateTime.now();
       final monthlySpent = expenses
-          .where((e) =>
-              e.date.month == now.month &&
-              e.date.year == now.year &&
-              e.decision == ExpenseDecision.yes)
+          .where(
+            (e) =>
+                e.date.month == now.month &&
+                e.date.year == now.year &&
+                e.decision == ExpenseDecision.yes,
+          )
           .fold(0.0, (sum, e) => sum + e.amount);
       final remaining = userProfile.monthlyIncome - monthlySpent;
       final usagePercent = userProfile.monthlyIncome > 0
@@ -129,7 +131,8 @@ class _AIChatSheetState extends State<AIChatSheet> {
       // AI'dan karşılama iste
       final personality = AIService().personalityMode;
       final currency = currencyProvider.code;
-      final prompt = '''
+      final prompt =
+          '''
 Kullanıcıyı karşıla. Sen Vantag, finans asistanısın.
 
 BÜTÇE:
@@ -188,10 +191,12 @@ SADECE karşılama cümlesini yaz:
 
     final now = DateTime.now();
     final monthlySpent = expenses
-        .where((e) =>
-            e.date.month == now.month &&
-            e.date.year == now.year &&
-            e.decision == ExpenseDecision.yes)
+        .where(
+          (e) =>
+              e.date.month == now.month &&
+              e.date.year == now.year &&
+              e.decision == ExpenseDecision.yes,
+        )
         .fold(0.0, (sum, e) => sum + e.amount);
     final remaining = userProfile.monthlyIncome - monthlySpent;
     final usagePercent = userProfile.monthlyIncome > 0
@@ -226,7 +231,9 @@ SADECE karşılama cümlesini yaz:
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('ai_greeting_$key', greeting);
     await prefs.setInt(
-        'ai_greeting_timestamp_$key', DateTime.now().millisecondsSinceEpoch);
+      'ai_greeting_timestamp_$key',
+      DateTime.now().millisecondsSinceEpoch,
+    );
   }
 
   void _showPaywall(BuildContext context) {
@@ -252,7 +259,8 @@ SADECE karşılama cümlesini yaz:
           _buildHandle(),
           _buildHeader(),
           // Free tier remaining chats indicator
-          if (!isPremium && _remainingChats >= 0) _buildRemainingChatsIndicator(l10n),
+          if (!isPremium && _remainingChats >= 0)
+            _buildRemainingChatsIndicator(l10n),
           Expanded(child: _buildMessageList(isPremium)),
           _buildInput(isPremium),
         ],
@@ -281,9 +289,13 @@ SADECE karşılama cümlesini yaz:
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            isLow ? PhosphorIconsDuotone.warning : PhosphorIconsDuotone.chatCircle,
+            isLow
+                ? PhosphorIconsDuotone.warning
+                : PhosphorIconsDuotone.chatCircle,
             size: 16,
-            color: isLow ? context.appColors.warning : context.appColors.primary,
+            color: isLow
+                ? context.appColors.warning
+                : context.appColors.primary,
           ),
           const SizedBox(width: 8),
           Text(
@@ -291,7 +303,9 @@ SADECE karşılama cümlesini yaz:
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: isLow ? context.appColors.warning : context.appColors.textSecondary,
+              color: isLow
+                  ? context.appColors.warning
+                  : context.appColors.textSecondary,
             ),
           ),
         ],
@@ -332,8 +346,11 @@ SADECE karşılama cümlesini yaz:
                   ),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(PhosphorIconsDuotone.sparkle,
-                    size: 22, color: context.appColors.primary),
+                child: Icon(
+                  PhosphorIconsDuotone.sparkle,
+                  size: 22,
+                  color: context.appColors.primary,
+                ),
               ),
               const SizedBox(width: 12),
               Column(
@@ -342,16 +359,19 @@ SADECE karşılama cümlesini yaz:
                   const Text(
                     'Vantag AI',
                     style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
                   ),
                   Text(
                     AIService().personalityMode == PersonalityMode.friendly
                         ? 'Samimi mod'
                         : 'Profesyonel mod',
-                    style:
-                        TextStyle(fontSize: 12, color: context.appColors.textSecondary),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.appColors.textSecondary,
+                    ),
                   ),
                 ],
               ),
@@ -373,20 +393,26 @@ SADECE karşılama cümlesini yaz:
                     color: Colors.white.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Icon(PhosphorIcons.trash(),
-                      size: 16, color: context.appColors.textTertiary),
+                  child: Icon(
+                    PhosphorIcons.trash(),
+                    size: 16,
+                    color: context.appColors.textTertiary,
+                  ),
                 ),
               ),
               GestureDetector(
                 onTap: _togglePersonality,
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(10),
-                    border:
-                        Border.all(color: Colors.white.withValues(alpha: 0.1)),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.1),
+                    ),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -399,8 +425,11 @@ SADECE karşılama cümlesini yaz:
                         color: context.appColors.primary,
                       ),
                       const SizedBox(width: 6),
-                      Icon(PhosphorIcons.caretDown(),
-                          size: 12, color: context.appColors.textSecondary),
+                      Icon(
+                        PhosphorIcons.caretDown(),
+                        size: 12,
+                        color: context.appColors.textSecondary,
+                      ),
                     ],
                   ),
                 ),
@@ -413,34 +442,45 @@ SADECE karşılama cümlesini yaz:
               spacing: 8,
               runSpacing: 8,
               children: facts
-                  .map((fact) => Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: context.appColors.primary.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                              color: context.appColors.primary.withValues(alpha: 0.2)),
+                  .map(
+                    (fact) => Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: context.appColors.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: context.appColors.primary.withValues(
+                            alpha: 0.2,
+                          ),
                         ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(PhosphorIconsDuotone.lightbulb,
-                                size: 12, color: context.appColors.primary),
-                            const SizedBox(width: 6),
-                            Flexible(
-                              child: Text(
-                                fact,
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    color: context.appColors.primary,
-                                    fontWeight: FontWeight.w500),
-                                overflow: TextOverflow.ellipsis,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            PhosphorIconsDuotone.lightbulb,
+                            size: 12,
+                            color: context.appColors.primary,
+                          ),
+                          const SizedBox(width: 6),
+                          Flexible(
+                            child: Text(
+                              fact,
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: context.appColors.primary,
+                                fontWeight: FontWeight.w500,
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ],
-                        ),
-                      ))
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                   .toList(),
             ),
           ],
@@ -489,13 +529,17 @@ SADECE karşılama cümlesini yaz:
                       width: 20,
                       height: 20,
                       child: CircularProgressIndicator(
-                          strokeWidth: 2, color: PremiumColors.purple),
+                        strokeWidth: 2,
+                        color: PremiumColors.purple,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       'Düşünüyor...',
                       style: TextStyle(
-                          fontSize: 13, color: context.appColors.textTertiary),
+                        fontSize: 13,
+                        color: context.appColors.textTertiary,
+                      ),
                     ),
                   ],
                 ),
@@ -505,9 +549,10 @@ SADECE karşılama cümlesini yaz:
                 _greeting,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 15,
-                    color: context.appColors.textSecondary,
-                    height: 1.5),
+                  fontSize: 15,
+                  color: context.appColors.textSecondary,
+                  height: 1.5,
+                ),
               ).animate().fadeIn(duration: 300.ms),
 
             const SizedBox(height: 32),
@@ -523,7 +568,10 @@ SADECE karşılama cümlesini yaz:
       controller: _scrollController,
       reverse: true,
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      itemCount: _messages.length + (_isLoading ? 1 : 0) + (_showUpsell && !isPremium ? 1 : 0),
+      itemCount:
+          _messages.length +
+          (_isLoading ? 1 : 0) +
+          (_showUpsell && !isPremium ? 1 : 0),
       itemBuilder: (context, index) {
         // Loading indicator at the bottom (which is top in reverse)
         if (_isLoading && index == 0) {
@@ -535,7 +583,8 @@ SADECE karşılama cümlesini yaz:
           return _buildPremiumUpsell(context);
         }
 
-        final adjustedIndex = index - (_isLoading ? 1 : 0) - (_showUpsell && !isPremium ? 1 : 0);
+        final adjustedIndex =
+            index - (_isLoading ? 1 : 0) - (_showUpsell && !isPremium ? 1 : 0);
         if (adjustedIndex < 0 || adjustedIndex >= _messages.length) {
           return const SizedBox.shrink();
         }
@@ -584,7 +633,10 @@ SADECE karşılama cümlesini yaz:
             Flexible(
               child: Text(
                 text,
-                style: TextStyle(fontSize: 13, color: context.appColors.textSecondary),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: context.appColors.textSecondary,
+                ),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -611,15 +663,20 @@ SADECE karşılama cümlesini yaz:
         decoration: BoxDecoration(
           color: context.appColors.primary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: context.appColors.primary.withValues(alpha: 0.3)),
+          border: Border.all(
+            color: context.appColors.primary.withValues(alpha: 0.3),
+          ),
         ),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(PhosphorIconsDuotone.lock,
-                    size: 18, color: context.appColors.primary),
+                Icon(
+                  PhosphorIconsDuotone.lock,
+                  size: 18,
+                  color: context.appColors.primary,
+                ),
                 const SizedBox(width: 8),
                 Flexible(
                   child: Text(
@@ -638,10 +695,16 @@ SADECE karşılama cümlesini yaz:
             GestureDetector(
               onTap: () => _showPaywall(context),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [context.appColors.primary, context.appColors.primaryDark],
+                    colors: [
+                      context.appColors.primary,
+                      context.appColors.primaryDark,
+                    ],
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -669,8 +732,9 @@ SADECE karşılama cümlesini yaz:
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.75,
+        ),
         decoration: BoxDecoration(
           color: isUser
               ? context.appColors.primary
@@ -710,41 +774,46 @@ SADECE karşılama cümlesini yaz:
 
   Widget _buildLoadingBubble() {
     return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(16)
-              .copyWith(bottomLeft: const Radius.circular(4)),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: 16,
-              height: 16,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: context.appColors.primary,
-              ),
+          alignment: Alignment.centerLeft,
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.05),
+              borderRadius: BorderRadius.circular(
+                16,
+              ).copyWith(bottomLeft: const Radius.circular(4)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
             ),
-            const SizedBox(width: 12),
-            Text(
-              'Düşünüyor...',
-              style: TextStyle(
-                  fontSize: 13,
-                  color: context.appColors.textSecondary,
-                  fontStyle: FontStyle.italic),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: context.appColors.primary,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'Düşünüyor...',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: context.appColors.textSecondary,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    )
+          ),
+        )
         .animate(onPlay: (c) => c.repeat())
-        .shimmer(duration: 1500.ms, color: context.appColors.primary.withValues(alpha: 0.1));
+        .shimmer(
+          duration: 1500.ms,
+          color: context.appColors.primary.withValues(alpha: 0.1),
+        );
   }
 
   Widget _buildInput(bool isPremium) {
@@ -752,11 +821,16 @@ SADECE karşılama cümlesini yaz:
 
     return Container(
       padding: EdgeInsets.fromLTRB(
-          16, 12, 16, MediaQuery.of(context).padding.bottom + 12),
+        16,
+        12,
+        16,
+        MediaQuery.of(context).padding.bottom + 12,
+      ),
       decoration: BoxDecoration(
         color: context.appColors.surface,
         border: Border(
-            top: BorderSide(color: Colors.white.withValues(alpha: 0.05))),
+          top: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -788,10 +862,14 @@ SADECE karşılama cümlesini yaz:
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(24),
-                    border:
-                        Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.08),
+                    ),
                   ),
-                  child: TextField(
+                  child: Semantics(
+                    label: l10n.accessibilityAiChatInput,
+                    textField: true,
+                    child: TextField(
                     controller: _controller,
                     readOnly: !isPremium,
                     onTap: () {
@@ -804,7 +882,9 @@ SADECE karşılama cümlesini yaz:
                       hintText: isPremium
                           ? l10n.aiInputPlaceholder
                           : l10n.aiInputPlaceholderFree,
-                      hintStyle: TextStyle(color: context.appColors.textTertiary),
+                      hintStyle: TextStyle(
+                        color: context.appColors.textTertiary,
+                      ),
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.symmetric(vertical: 12),
                       suffixIcon: !isPremium
@@ -822,10 +902,14 @@ SADECE karşılama cümlesini yaz:
                     enableIMEPersonalizedLearning: true,
                     onSubmitted: isPremium ? (_) => _sendMessage() : null,
                   ),
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
-              GestureDetector(
+              Semantics(
+                label: l10n.accessibilityAiSendButton,
+                button: true,
+                child: GestureDetector(
                 onTap: isPremium ? _sendMessage : () => _showPaywall(context),
                 child: Container(
                   width: 48,
@@ -835,17 +919,27 @@ SADECE karşılama cümlesini yaz:
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: isPremium
-                          ? [context.appColors.primary, context.appColors.primaryDark]
-                          : [context.appColors.textTertiary, context.appColors.textSecondary],
+                          ? [
+                              context.appColors.primary,
+                              context.appColors.primaryDark,
+                            ]
+                          : [
+                              context.appColors.textTertiary,
+                              context.appColors.textSecondary,
+                            ],
                     ),
                     shape: BoxShape.circle,
-                    boxShadow: isPremium ? [
-                      BoxShadow(
-                        color: context.appColors.primary.withValues(alpha: 0.3),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
-                    ] : null,
+                    boxShadow: isPremium
+                        ? [
+                            BoxShadow(
+                              color: context.appColors.primary.withValues(
+                                alpha: 0.3,
+                              ),
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
+                            ),
+                          ]
+                        : null,
                   ),
                   child: Icon(
                     isPremium
@@ -855,6 +949,7 @@ SADECE karşılama cümlesini yaz:
                     color: Colors.white,
                   ),
                 ),
+              ),
               ),
             ],
           ),
@@ -885,7 +980,10 @@ SADECE karşılama cümlesini yaz:
             const SizedBox(width: 4),
             Text(
               text.length > 20 ? '${text.substring(0, 20)}...' : text,
-              style: TextStyle(fontSize: 11, color: context.appColors.textTertiary),
+              style: TextStyle(
+                fontSize: 11,
+                color: context.appColors.textTertiary,
+              ),
             ),
           ],
         ),
@@ -967,10 +1065,13 @@ SADECE karşılama cümlesini yaz:
         final resetTime = e.resetDate;
         final limitType = e.limitType == 'daily' ? 'günlük' : 'aylık';
         setState(() {
-          _messages.add(ChatMessage(
-            role: 'assistant',
-            content: '$limitType AI limitine ulaştın. ${_formatResetTime(resetTime)} sonra tekrar deneyebilirsin.',
-          ));
+          _messages.add(
+            ChatMessage(
+              role: 'assistant',
+              content:
+                  '$limitType AI limitine ulaştın. ${_formatResetTime(resetTime)} sonra tekrar deneyebilirsin.',
+            ),
+          );
           _isLoading = false;
           _showUpsell = true;
         });
@@ -978,8 +1079,12 @@ SADECE karşılama cümlesini yaz:
     } catch (e) {
       if (mounted) {
         setState(() {
-          _messages.add(ChatMessage(
-              role: 'assistant', content: 'Bir hata oluştu, tekrar dener misin?'));
+          _messages.add(
+            ChatMessage(
+              role: 'assistant',
+              content: 'Bir hata oluştu, tekrar dener misin?',
+            ),
+          );
           _isLoading = false;
         });
       }
@@ -1001,7 +1106,9 @@ SADECE karşılama cümlesini yaz:
   Future<void> _typeMessage(String fullText) async {
     setState(() {
       _isLoading = false;
-      _messages.add(ChatMessage(role: 'assistant', content: '', isTyping: true));
+      _messages.add(
+        ChatMessage(role: 'assistant', content: '', isTyping: true),
+      );
     });
 
     final messageIndex = _messages.length - 1;

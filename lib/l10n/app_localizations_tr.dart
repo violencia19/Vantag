@@ -1049,7 +1049,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String dayOfMonth(int day) {
-    return 'Her ayın $day\'i';
+    return 'Ayın $day. günü';
   }
 
   @override
@@ -1513,7 +1513,40 @@ class AppLocalizationsTr extends AppLocalizations {
   String get skipForNow => 'Şimdilik geç';
 
   @override
-  String get incomeType => 'Gelir Türü';
+  String get incomeType => 'Gelir türü';
+
+  @override
+  String get incomeCategorySalary => 'Maaş';
+
+  @override
+  String get incomeCategoryFreelance => 'Freelance';
+
+  @override
+  String get incomeCategoryRental => 'Kira Geliri';
+
+  @override
+  String get incomeCategoryPassive => 'Pasif Gelir';
+
+  @override
+  String get incomeCategoryOther => 'Diğer';
+
+  @override
+  String get incomeCategorySalaryDesc => 'Aylık düzenli maaş';
+
+  @override
+  String get incomeCategoryFreelanceDesc => 'Serbest çalışma gelirleri';
+
+  @override
+  String get incomeCategoryRentalDesc => 'Ev, araba vb. kira gelirleri';
+
+  @override
+  String get incomeCategoryPassiveDesc => 'Yatırım, temettü, faiz vb.';
+
+  @override
+  String get incomeCategoryOtherDesc => 'Diğer gelir kaynakları';
+
+  @override
+  String get mainSalary => 'Ana Maaş';
 
   @override
   String get descriptionOptional => 'Açıklama (Opsiyonel)';
@@ -4033,6 +4066,92 @@ class AppLocalizationsTr extends AppLocalizations {
   String get accessibilityDecisionThinking => 'Düşünülüyor';
 
   @override
+  String get accessibilityDashboard =>
+      'Gelir, gider ve bakiyeyi gösteren finansal pano';
+
+  @override
+  String accessibilityNetBalance(String amount, String status) {
+    return 'Net bakiye: $amount, $status';
+  }
+
+  @override
+  String get accessibilityBalanceHealthy => 'artıda';
+
+  @override
+  String get accessibilityBalanceNegative => 'eksidə';
+
+  @override
+  String accessibilityIncomeTotal(String amount) {
+    return 'Toplam gelir: $amount';
+  }
+
+  @override
+  String accessibilityExpenseTotal(String amount) {
+    return 'Toplam harcama: $amount';
+  }
+
+  @override
+  String get accessibilityAddSavings => 'Bu hedefe birikim ekle';
+
+  @override
+  String get accessibilityDeleteExpense => 'Bu harcamayı sil';
+
+  @override
+  String get accessibilityEditExpense => 'Bu harcamayı düzenle';
+
+  @override
+  String get accessibilityShareExpense => 'Bu harcamayı paylaş';
+
+  @override
+  String accessibilityStreakInfo(int days, int best) {
+    return 'Mevcut seri: $days gün, en iyi seri: $best gün';
+  }
+
+  @override
+  String get accessibilityAiChatInput => 'Finansal sorunuzu buraya yazın';
+
+  @override
+  String get accessibilityAiSendButton => 'Yapay zeka asistanına mesaj gönder';
+
+  @override
+  String accessibilitySuggestionButton(String question) {
+    return 'Hızlı soru: $question';
+  }
+
+  @override
+  String accessibilitySubscriptionCard(
+    String name,
+    String amount,
+    String cycle,
+    int day,
+  ) {
+    return '$name aboneliği, $cycle başına $amount, $day. gün yenilenir';
+  }
+
+  @override
+  String accessibilitySettingsItem(String title, String value) {
+    return '$title, mevcut değer: $value';
+  }
+
+  @override
+  String get accessibilityToggleOn => 'Açık';
+
+  @override
+  String get accessibilityToggleOff => 'Kapalı';
+
+  @override
+  String get accessibilityCloseSheet => 'Bu sayfayı kapat';
+
+  @override
+  String get accessibilityBackButton => 'Geri dön';
+
+  @override
+  String get accessibilityProfileButton => 'Profil menüsünü aç';
+
+  @override
+  String get accessibilityNotificationsButton => 'Bildirimleri görüntüle';
+
+  @override
   String get navHomeTooltip => 'Ana sayfa, harcama özeti';
 
   @override
@@ -4240,4 +4359,166 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get watermarkText => 'vantag.app';
+
+  @override
+  String get incomeTypeSalary => 'Maaş';
+
+  @override
+  String get incomeTypeBonus => 'Prim';
+
+  @override
+  String get incomeTypeGift => 'Hediye';
+
+  @override
+  String get incomeTypeRefund => 'İade';
+
+  @override
+  String get incomeTypeFreelance => 'Serbest Çalışma';
+
+  @override
+  String get incomeTypeRental => 'Kira Geliri';
+
+  @override
+  String get incomeTypeInvestment => 'Yatırım Getirisi';
+
+  @override
+  String get incomeTypeOther => 'Diğer Gelir';
+
+  @override
+  String get salaryDay => 'Maaş Günü';
+
+  @override
+  String get salaryDayTitle => 'Maaşınız ne zaman yatıyor?';
+
+  @override
+  String get salaryDaySubtitle => 'Maaş gününüzde size hatırlatacağız';
+
+  @override
+  String get salaryDayHint => 'Ayın gününü seçin (1-31)';
+
+  @override
+  String salaryDaySet(int day) {
+    return 'Maaş günü $day olarak ayarlandı';
+  }
+
+  @override
+  String get salaryDaySkip => 'Şimdilik geç';
+
+  @override
+  String get salaryDayNotSet => 'Belirlenmedi';
+
+  @override
+  String get currentBalance => 'Güncel Bakiye';
+
+  @override
+  String get balanceTitle => 'Güncel bakiyeniz ne kadar?';
+
+  @override
+  String get balanceSubtitle => 'Harcamalarınızı daha doğru takip edin';
+
+  @override
+  String get balanceHint => 'Banka bakiyenizi girin';
+
+  @override
+  String get balanceUpdated => 'Bakiye güncellendi';
+
+  @override
+  String get balanceOptional => 'Opsiyonel - daha sonra ekleyebilirsiniz';
+
+  @override
+  String get paydayTitle => 'Maaş Günü!';
+
+  @override
+  String get paydayMessage => 'Maaşınız yattı mı?';
+
+  @override
+  String get paydayConfirm => 'Evet, yattı!';
+
+  @override
+  String get paydayNotYet => 'Henüz değil';
+
+  @override
+  String get paydaySkip => 'Geç';
+
+  @override
+  String get paydayCelebration => 'Tebrikler! Maaş yattı';
+
+  @override
+  String get paydayUpdateBalance => 'Bakiyenizi güncelleyin';
+
+  @override
+  String get paydayNewBalance => 'Maaş sonrası yeni bakiye';
+
+  @override
+  String daysUntilPayday(int days) {
+    return 'Maaşa $days gün var';
+  }
+
+  @override
+  String get paydayToday => 'Bugün maaş günü!';
+
+  @override
+  String get paydayTomorrow => 'Yarın maaş günü';
+
+  @override
+  String get addIncomeTitle => 'Gelir Kaydet';
+
+  @override
+  String get addIncomeSubtitle => 'Prim, hediye, iade vb.';
+
+  @override
+  String get incomeAmount => 'Gelen tutar';
+
+  @override
+  String get incomeNotes => 'Notlar (opsiyonel)';
+
+  @override
+  String get incomeNotesHint => 'ör. Yıl sonu primi, doğum günü hediyesi...';
+
+  @override
+  String get incomeAdded => 'Gelir eklendi!';
+
+  @override
+  String incomeAddedBalance(String amount) {
+    return 'Bakiye güncellendi: $amount';
+  }
+
+  @override
+  String get thisMonthIncome => 'Bu Ayın Geliri';
+
+  @override
+  String get regularIncome => 'Düzenli Gelir';
+
+  @override
+  String get additionalIncome => 'Ek Gelirler';
+
+  @override
+  String get incomeBreakdown => 'Gelir Dağılımı';
+
+  @override
+  String get paydayNotificationTitle => 'Maaş Günü!';
+
+  @override
+  String get paydayNotificationBody =>
+      'Maaşınız bugün yatıyor olmalı. Hesabınızı kontrol edin!';
+
+  @override
+  String get paydayNotificationEnabled => 'Maaş günü hatırlatması';
+
+  @override
+  String get paydayNotificationDesc => 'Maaş gününüzde bildirim alın';
+
+  @override
+  String get onboardingSalaryDayTitle => 'Maaş Günü Ne Zaman?';
+
+  @override
+  String get onboardingSalaryDayDesc =>
+      'Maaş gününüzü söyleyin, bütçenizi daha iyi planlamanıza yardımcı olalım';
+
+  @override
+  String get onboardingBalanceTitle => 'Başlangıç Bakiyesi';
+
+  @override
+  String get onboardingBalanceDesc =>
+      'Finanslarınızı doğru takip etmek için güncel bakiyenizi girin';
 }

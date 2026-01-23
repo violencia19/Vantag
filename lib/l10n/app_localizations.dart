@@ -2021,7 +2021,7 @@ abstract class AppLocalizations {
   /// No description provided for @dayOfMonth.
   ///
   /// In en, this message translates to:
-  /// **'Every {day}th'**
+  /// **'Day {day}'**
   String dayOfMonth(int day);
 
   /// No description provided for @addSubscriptionHint.
@@ -2861,8 +2861,74 @@ abstract class AppLocalizations {
   /// No description provided for @incomeType.
   ///
   /// In en, this message translates to:
-  /// **'Income Type'**
+  /// **'Income type'**
   String get incomeType;
+
+  /// No description provided for @incomeCategorySalary.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary'**
+  String get incomeCategorySalary;
+
+  /// No description provided for @incomeCategoryFreelance.
+  ///
+  /// In en, this message translates to:
+  /// **'Freelance'**
+  String get incomeCategoryFreelance;
+
+  /// No description provided for @incomeCategoryRental.
+  ///
+  /// In en, this message translates to:
+  /// **'Rental Income'**
+  String get incomeCategoryRental;
+
+  /// No description provided for @incomeCategoryPassive.
+  ///
+  /// In en, this message translates to:
+  /// **'Passive Income'**
+  String get incomeCategoryPassive;
+
+  /// No description provided for @incomeCategoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get incomeCategoryOther;
+
+  /// No description provided for @incomeCategorySalaryDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly regular salary'**
+  String get incomeCategorySalaryDesc;
+
+  /// No description provided for @incomeCategoryFreelanceDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Self-employment income'**
+  String get incomeCategoryFreelanceDesc;
+
+  /// No description provided for @incomeCategoryRentalDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Property, vehicle rental income'**
+  String get incomeCategoryRentalDesc;
+
+  /// No description provided for @incomeCategoryPassiveDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment, dividends, interest etc.'**
+  String get incomeCategoryPassiveDesc;
+
+  /// No description provided for @incomeCategoryOtherDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Other income sources'**
+  String get incomeCategoryOtherDesc;
+
+  /// No description provided for @mainSalary.
+  ///
+  /// In en, this message translates to:
+  /// **'Main Salary'**
+  String get mainSalary;
 
   /// No description provided for @descriptionOptional.
   ///
@@ -7349,6 +7415,143 @@ abstract class AppLocalizations {
   /// **'Thinking'**
   String get accessibilityDecisionThinking;
 
+  /// No description provided for @accessibilityDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial dashboard showing income, expenses and balance'**
+  String get accessibilityDashboard;
+
+  /// No description provided for @accessibilityNetBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Net balance: {amount}, {status}'**
+  String accessibilityNetBalance(String amount, String status);
+
+  /// No description provided for @accessibilityBalanceHealthy.
+  ///
+  /// In en, this message translates to:
+  /// **'in the green'**
+  String get accessibilityBalanceHealthy;
+
+  /// No description provided for @accessibilityBalanceNegative.
+  ///
+  /// In en, this message translates to:
+  /// **'in the red'**
+  String get accessibilityBalanceNegative;
+
+  /// No description provided for @accessibilityIncomeTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total income: {amount}'**
+  String accessibilityIncomeTotal(String amount);
+
+  /// No description provided for @accessibilityExpenseTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total expenses: {amount}'**
+  String accessibilityExpenseTotal(String amount);
+
+  /// No description provided for @accessibilityAddSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Add savings to this goal'**
+  String get accessibilityAddSavings;
+
+  /// No description provided for @accessibilityDeleteExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this expense'**
+  String get accessibilityDeleteExpense;
+
+  /// No description provided for @accessibilityEditExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit this expense'**
+  String get accessibilityEditExpense;
+
+  /// No description provided for @accessibilityShareExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Share this expense'**
+  String get accessibilityShareExpense;
+
+  /// No description provided for @accessibilityStreakInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Current streak: {days} days, best streak: {best} days'**
+  String accessibilityStreakInfo(int days, int best);
+
+  /// No description provided for @accessibilityAiChatInput.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your financial question here'**
+  String get accessibilityAiChatInput;
+
+  /// No description provided for @accessibilityAiSendButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Send message to AI assistant'**
+  String get accessibilityAiSendButton;
+
+  /// No description provided for @accessibilitySuggestionButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick question: {question}'**
+  String accessibilitySuggestionButton(String question);
+
+  /// No description provided for @accessibilitySubscriptionCard.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} subscription, {amount} per {cycle}, renews on day {day}'**
+  String accessibilitySubscriptionCard(
+    String name,
+    String amount,
+    String cycle,
+    int day,
+  );
+
+  /// No description provided for @accessibilitySettingsItem.
+  ///
+  /// In en, this message translates to:
+  /// **'{title}, current value: {value}'**
+  String accessibilitySettingsItem(String title, String value);
+
+  /// No description provided for @accessibilityToggleOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled'**
+  String get accessibilityToggleOn;
+
+  /// No description provided for @accessibilityToggleOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get accessibilityToggleOff;
+
+  /// No description provided for @accessibilityCloseSheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Close this sheet'**
+  String get accessibilityCloseSheet;
+
+  /// No description provided for @accessibilityBackButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back'**
+  String get accessibilityBackButton;
+
+  /// No description provided for @accessibilityProfileButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Open profile menu'**
+  String get accessibilityProfileButton;
+
+  /// No description provided for @accessibilityNotificationsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'View notifications'**
+  String get accessibilityNotificationsButton;
+
   /// No description provided for @navHomeTooltip.
   ///
   /// In en, this message translates to:
@@ -7726,6 +7929,312 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'vantag.app'**
   String get watermarkText;
+
+  /// No description provided for @incomeTypeSalary.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary'**
+  String get incomeTypeSalary;
+
+  /// No description provided for @incomeTypeBonus.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus'**
+  String get incomeTypeBonus;
+
+  /// No description provided for @incomeTypeGift.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift'**
+  String get incomeTypeGift;
+
+  /// No description provided for @incomeTypeRefund.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund'**
+  String get incomeTypeRefund;
+
+  /// No description provided for @incomeTypeFreelance.
+  ///
+  /// In en, this message translates to:
+  /// **'Freelance'**
+  String get incomeTypeFreelance;
+
+  /// No description provided for @incomeTypeRental.
+  ///
+  /// In en, this message translates to:
+  /// **'Rental'**
+  String get incomeTypeRental;
+
+  /// No description provided for @incomeTypeInvestment.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment'**
+  String get incomeTypeInvestment;
+
+  /// No description provided for @incomeTypeOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other Income'**
+  String get incomeTypeOther;
+
+  /// No description provided for @salaryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary Day'**
+  String get salaryDay;
+
+  /// No description provided for @salaryDayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When do you get paid?'**
+  String get salaryDayTitle;
+
+  /// No description provided for @salaryDaySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll remind you on payday'**
+  String get salaryDaySubtitle;
+
+  /// No description provided for @salaryDayHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select day of month (1-31)'**
+  String get salaryDayHint;
+
+  /// No description provided for @salaryDaySet.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary day set to {day}'**
+  String salaryDaySet(int day);
+
+  /// No description provided for @salaryDaySkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip for now'**
+  String get salaryDaySkip;
+
+  /// No description provided for @salaryDayNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get salaryDayNotSet;
+
+  /// No description provided for @currentBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Balance'**
+  String get currentBalance;
+
+  /// No description provided for @balanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s your current balance?'**
+  String get balanceTitle;
+
+  /// No description provided for @balanceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your spending more accurately'**
+  String get balanceSubtitle;
+
+  /// No description provided for @balanceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your bank balance'**
+  String get balanceHint;
+
+  /// No description provided for @balanceUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance updated'**
+  String get balanceUpdated;
+
+  /// No description provided for @balanceOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional - you can add this later'**
+  String get balanceOptional;
+
+  /// No description provided for @paydayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payday!'**
+  String get paydayTitle;
+
+  /// No description provided for @paydayMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you receive your salary?'**
+  String get paydayMessage;
+
+  /// No description provided for @paydayConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, received!'**
+  String get paydayConfirm;
+
+  /// No description provided for @paydayNotYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet'**
+  String get paydayNotYet;
+
+  /// No description provided for @paydaySkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get paydaySkip;
+
+  /// No description provided for @paydayCelebration.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations! Salary received'**
+  String get paydayCelebration;
+
+  /// No description provided for @paydayUpdateBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your balance'**
+  String get paydayUpdateBalance;
+
+  /// No description provided for @paydayNewBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'New balance after salary'**
+  String get paydayNewBalance;
+
+  /// No description provided for @daysUntilPayday.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days until payday'**
+  String daysUntilPayday(int days);
+
+  /// No description provided for @paydayToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Payday is today!'**
+  String get paydayToday;
+
+  /// No description provided for @paydayTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Payday is tomorrow'**
+  String get paydayTomorrow;
+
+  /// No description provided for @addIncomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Record Income'**
+  String get addIncomeTitle;
+
+  /// No description provided for @addIncomeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus, gift, refund, etc.'**
+  String get addIncomeSubtitle;
+
+  /// No description provided for @incomeAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount received'**
+  String get incomeAmount;
+
+  /// No description provided for @incomeNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes (optional)'**
+  String get incomeNotes;
+
+  /// No description provided for @incomeNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Year-end bonus, birthday gift...'**
+  String get incomeNotesHint;
+
+  /// No description provided for @incomeAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Income added!'**
+  String get incomeAdded;
+
+  /// No description provided for @incomeAddedBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance updated: {amount}'**
+  String incomeAddedBalance(String amount);
+
+  /// No description provided for @thisMonthIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'This Month\'s Income'**
+  String get thisMonthIncome;
+
+  /// No description provided for @regularIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular Income'**
+  String get regularIncome;
+
+  /// No description provided for @additionalIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Income'**
+  String get additionalIncome;
+
+  /// No description provided for @incomeBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Income Breakdown'**
+  String get incomeBreakdown;
+
+  /// No description provided for @paydayNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payday!'**
+  String get paydayNotificationTitle;
+
+  /// No description provided for @paydayNotificationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your salary should be arriving today. Check your account!'**
+  String get paydayNotificationBody;
+
+  /// No description provided for @paydayNotificationEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Payday reminders'**
+  String get paydayNotificationEnabled;
+
+  /// No description provided for @paydayNotificationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified on your salary day'**
+  String get paydayNotificationDesc;
+
+  /// No description provided for @onboardingSalaryDayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When\'s Payday?'**
+  String get onboardingSalaryDayTitle;
+
+  /// No description provided for @onboardingSalaryDayDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us when you receive your salary so we can help you budget better'**
+  String get onboardingSalaryDayDesc;
+
+  /// No description provided for @onboardingBalanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting Balance'**
+  String get onboardingBalanceTitle;
+
+  /// No description provided for @onboardingBalanceDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your current balance to track your finances accurately'**
+  String get onboardingBalanceDesc;
 }
 
 class _AppLocalizationsDelegate

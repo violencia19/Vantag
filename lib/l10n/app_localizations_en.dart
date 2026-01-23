@@ -1047,7 +1047,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String dayOfMonth(int day) {
-    return 'Every ${day}th';
+    return 'Day $day';
   }
 
   @override
@@ -1514,7 +1514,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get skipForNow => 'Skip for now';
 
   @override
-  String get incomeType => 'Income Type';
+  String get incomeType => 'Income type';
+
+  @override
+  String get incomeCategorySalary => 'Salary';
+
+  @override
+  String get incomeCategoryFreelance => 'Freelance';
+
+  @override
+  String get incomeCategoryRental => 'Rental Income';
+
+  @override
+  String get incomeCategoryPassive => 'Passive Income';
+
+  @override
+  String get incomeCategoryOther => 'Other';
+
+  @override
+  String get incomeCategorySalaryDesc => 'Monthly regular salary';
+
+  @override
+  String get incomeCategoryFreelanceDesc => 'Self-employment income';
+
+  @override
+  String get incomeCategoryRentalDesc => 'Property, vehicle rental income';
+
+  @override
+  String get incomeCategoryPassiveDesc =>
+      'Investment, dividends, interest etc.';
+
+  @override
+  String get incomeCategoryOtherDesc => 'Other income sources';
+
+  @override
+  String get mainSalary => 'Main Salary';
 
   @override
   String get descriptionOptional => 'Description (Optional)';
@@ -4039,6 +4073,92 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accessibilityDecisionThinking => 'Thinking';
 
   @override
+  String get accessibilityDashboard =>
+      'Financial dashboard showing income, expenses and balance';
+
+  @override
+  String accessibilityNetBalance(String amount, String status) {
+    return 'Net balance: $amount, $status';
+  }
+
+  @override
+  String get accessibilityBalanceHealthy => 'in the green';
+
+  @override
+  String get accessibilityBalanceNegative => 'in the red';
+
+  @override
+  String accessibilityIncomeTotal(String amount) {
+    return 'Total income: $amount';
+  }
+
+  @override
+  String accessibilityExpenseTotal(String amount) {
+    return 'Total expenses: $amount';
+  }
+
+  @override
+  String get accessibilityAddSavings => 'Add savings to this goal';
+
+  @override
+  String get accessibilityDeleteExpense => 'Delete this expense';
+
+  @override
+  String get accessibilityEditExpense => 'Edit this expense';
+
+  @override
+  String get accessibilityShareExpense => 'Share this expense';
+
+  @override
+  String accessibilityStreakInfo(int days, int best) {
+    return 'Current streak: $days days, best streak: $best days';
+  }
+
+  @override
+  String get accessibilityAiChatInput => 'Type your financial question here';
+
+  @override
+  String get accessibilityAiSendButton => 'Send message to AI assistant';
+
+  @override
+  String accessibilitySuggestionButton(String question) {
+    return 'Quick question: $question';
+  }
+
+  @override
+  String accessibilitySubscriptionCard(
+    String name,
+    String amount,
+    String cycle,
+    int day,
+  ) {
+    return '$name subscription, $amount per $cycle, renews on day $day';
+  }
+
+  @override
+  String accessibilitySettingsItem(String title, String value) {
+    return '$title, current value: $value';
+  }
+
+  @override
+  String get accessibilityToggleOn => 'Enabled';
+
+  @override
+  String get accessibilityToggleOff => 'Disabled';
+
+  @override
+  String get accessibilityCloseSheet => 'Close this sheet';
+
+  @override
+  String get accessibilityBackButton => 'Go back';
+
+  @override
+  String get accessibilityProfileButton => 'Open profile menu';
+
+  @override
+  String get accessibilityNotificationsButton => 'View notifications';
+
+  @override
   String get navHomeTooltip => 'Home, spending overview';
 
   @override
@@ -4248,4 +4368,166 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get watermarkText => 'vantag.app';
+
+  @override
+  String get incomeTypeSalary => 'Salary';
+
+  @override
+  String get incomeTypeBonus => 'Bonus';
+
+  @override
+  String get incomeTypeGift => 'Gift';
+
+  @override
+  String get incomeTypeRefund => 'Refund';
+
+  @override
+  String get incomeTypeFreelance => 'Freelance';
+
+  @override
+  String get incomeTypeRental => 'Rental';
+
+  @override
+  String get incomeTypeInvestment => 'Investment';
+
+  @override
+  String get incomeTypeOther => 'Other Income';
+
+  @override
+  String get salaryDay => 'Salary Day';
+
+  @override
+  String get salaryDayTitle => 'When do you get paid?';
+
+  @override
+  String get salaryDaySubtitle => 'We\'ll remind you on payday';
+
+  @override
+  String get salaryDayHint => 'Select day of month (1-31)';
+
+  @override
+  String salaryDaySet(int day) {
+    return 'Salary day set to $day';
+  }
+
+  @override
+  String get salaryDaySkip => 'Skip for now';
+
+  @override
+  String get salaryDayNotSet => 'Not set';
+
+  @override
+  String get currentBalance => 'Current Balance';
+
+  @override
+  String get balanceTitle => 'What\'s your current balance?';
+
+  @override
+  String get balanceSubtitle => 'Track your spending more accurately';
+
+  @override
+  String get balanceHint => 'Enter your bank balance';
+
+  @override
+  String get balanceUpdated => 'Balance updated';
+
+  @override
+  String get balanceOptional => 'Optional - you can add this later';
+
+  @override
+  String get paydayTitle => 'Payday!';
+
+  @override
+  String get paydayMessage => 'Did you receive your salary?';
+
+  @override
+  String get paydayConfirm => 'Yes, received!';
+
+  @override
+  String get paydayNotYet => 'Not yet';
+
+  @override
+  String get paydaySkip => 'Skip';
+
+  @override
+  String get paydayCelebration => 'Congratulations! Salary received';
+
+  @override
+  String get paydayUpdateBalance => 'Update your balance';
+
+  @override
+  String get paydayNewBalance => 'New balance after salary';
+
+  @override
+  String daysUntilPayday(int days) {
+    return '$days days until payday';
+  }
+
+  @override
+  String get paydayToday => 'Payday is today!';
+
+  @override
+  String get paydayTomorrow => 'Payday is tomorrow';
+
+  @override
+  String get addIncomeTitle => 'Record Income';
+
+  @override
+  String get addIncomeSubtitle => 'Bonus, gift, refund, etc.';
+
+  @override
+  String get incomeAmount => 'Amount received';
+
+  @override
+  String get incomeNotes => 'Notes (optional)';
+
+  @override
+  String get incomeNotesHint => 'e.g. Year-end bonus, birthday gift...';
+
+  @override
+  String get incomeAdded => 'Income added!';
+
+  @override
+  String incomeAddedBalance(String amount) {
+    return 'Balance updated: $amount';
+  }
+
+  @override
+  String get thisMonthIncome => 'This Month\'s Income';
+
+  @override
+  String get regularIncome => 'Regular Income';
+
+  @override
+  String get additionalIncome => 'Additional Income';
+
+  @override
+  String get incomeBreakdown => 'Income Breakdown';
+
+  @override
+  String get paydayNotificationTitle => 'Payday!';
+
+  @override
+  String get paydayNotificationBody =>
+      'Your salary should be arriving today. Check your account!';
+
+  @override
+  String get paydayNotificationEnabled => 'Payday reminders';
+
+  @override
+  String get paydayNotificationDesc => 'Get notified on your salary day';
+
+  @override
+  String get onboardingSalaryDayTitle => 'When\'s Payday?';
+
+  @override
+  String get onboardingSalaryDayDesc =>
+      'Tell us when you receive your salary so we can help you budget better';
+
+  @override
+  String get onboardingBalanceTitle => 'Starting Balance';
+
+  @override
+  String get onboardingBalanceDesc =>
+      'Enter your current balance to track your finances accurately';
 }

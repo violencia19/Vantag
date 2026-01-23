@@ -8,10 +8,7 @@ import '../theme/theme.dart';
 class StreakWidget extends StatefulWidget {
   final VoidCallback? onTap;
 
-  const StreakWidget({
-    super.key,
-    this.onTap,
-  });
+  const StreakWidget({super.key, this.onTap});
 
   @override
   State<StreakWidget> createState() => StreakWidgetState();
@@ -65,7 +62,16 @@ class StreakWidgetState extends State<StreakWidget>
     final streak = _streakData!;
     final hasStreak = streak.displayStreak > 0;
 
-    return GestureDetector(
+    // Accessibility: Semantic label for screen readers
+    final semanticLabel = l10n.accessibilityStreakInfo(
+      streak.displayStreak,
+      streak.longestStreak,
+    );
+
+    return Semantics(
+      label: semanticLabel,
+      button: true,
+      child: GestureDetector(
       onTap: () {
         HapticFeedback.lightImpact();
         (widget.onTap ?? () => _showStreakDetails(context))();
@@ -88,8 +94,9 @@ class StreakWidgetState extends State<StreakWidget>
               boxShadow: hasStreak
                   ? [
                       BoxShadow(
-                        color: context.appColors.warning
-                            .withValues(alpha: _glowAnimation.value),
+                        color: context.appColors.warning.withValues(
+                          alpha: _glowAnimation.value,
+                        ),
                         blurRadius: 12,
                         spreadRadius: -2,
                       ),
@@ -102,7 +109,9 @@ class StreakWidgetState extends State<StreakWidget>
                 PhosphorIcon(
                   PhosphorIconsDuotone.flame,
                   size: 18,
-                  color: hasStreak ? context.appColors.warning : context.appColors.textTertiary,
+                  color: hasStreak
+                      ? context.appColors.warning
+                      : context.appColors.textTertiary,
                   duotoneSecondaryColor: hasStreak
                       ? context.appColors.warning.withValues(alpha: 0.5)
                       : context.appColors.textTertiary.withValues(alpha: 0.3),
@@ -115,7 +124,9 @@ class StreakWidgetState extends State<StreakWidget>
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: hasStreak ? context.appColors.warning : context.appColors.textSecondary,
+                    color: hasStreak
+                        ? context.appColors.warning
+                        : context.appColors.textSecondary,
                     letterSpacing: 0.3,
                   ),
                 ),
@@ -124,6 +135,7 @@ class StreakWidgetState extends State<StreakWidget>
           );
         },
       ),
+    ),
     );
   }
 
@@ -167,10 +179,11 @@ class StreakWidgetState extends State<StreakWidget>
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: (streak.hasStreak
-                              ? context.appColors.warning
-                              : context.appColors.primary)
-                          .withValues(alpha: 0.3),
+                      color:
+                          (streak.hasStreak
+                                  ? context.appColors.warning
+                                  : context.appColors.primary)
+                              .withValues(alpha: 0.3),
                       blurRadius: 20,
                       spreadRadius: -5,
                     ),
@@ -185,10 +198,11 @@ class StreakWidgetState extends State<StreakWidget>
                     color: streak.hasStreak
                         ? context.appColors.warning
                         : context.appColors.primary,
-                    duotoneSecondaryColor: (streak.hasStreak
-                            ? context.appColors.warning
-                            : context.appColors.primary)
-                        .withValues(alpha: 0.4),
+                    duotoneSecondaryColor:
+                        (streak.hasStreak
+                                ? context.appColors.warning
+                                : context.appColors.primary)
+                            .withValues(alpha: 0.4),
                   ),
                 ),
               ),
@@ -235,8 +249,8 @@ class StreakWidgetState extends State<StreakWidget>
                         PhosphorIconsDuotone.trophy,
                         size: 20,
                         color: context.appColors.warning,
-                        duotoneSecondaryColor:
-                            context.appColors.warning.withValues(alpha: 0.4),
+                        duotoneSecondaryColor: context.appColors.warning
+                            .withValues(alpha: 0.4),
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -273,8 +287,8 @@ class StreakWidgetState extends State<StreakWidget>
                         PhosphorIconsDuotone.confetti,
                         size: 16,
                         color: context.appColors.success,
-                        duotoneSecondaryColor:
-                            context.appColors.success.withValues(alpha: 0.4),
+                        duotoneSecondaryColor: context.appColors.success
+                            .withValues(alpha: 0.4),
                       ),
                       const SizedBox(width: 6),
                       Text(
