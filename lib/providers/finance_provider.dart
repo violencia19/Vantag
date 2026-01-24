@@ -132,6 +132,12 @@ class FinanceProvider extends ChangeNotifier {
     _calculateStats();
   }
 
+  /// Refresh expenses from storage (e.g., after simulation cleanup)
+  Future<void> refresh() async {
+    await _loadExpenses();
+    notifyListeners();
+  }
+
   void _calculateStats() {
     _stats = DecisionStats.fromExpenses(realExpenses);
   }

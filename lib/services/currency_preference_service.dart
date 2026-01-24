@@ -1,9 +1,12 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/currency.dart';
 
 /// Service for managing currency preferences
 class CurrencyPreferenceService {
   static const String _key = 'selected_currency';
+  static const String _firstLaunchKey = 'currency_first_launch_done';
 
   /// Save selected currency code
   static Future<void> setCurrency(String code) async {
@@ -11,10 +14,40 @@ class CurrencyPreferenceService {
     await prefs.setString(_key, code);
   }
 
-  /// Get saved currency code (defaults to TRY)
+  /// Get saved currency code
+  /// On first launch: Turkish phone → TRY, otherwise → USD
   static Future<String> getCurrencyCode() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_key) ?? 'TRY';
+    final savedCode = prefs.getString(_key);
+    final firstLaunchDone = prefs.getBool(_firstLaunchKey) ?? false;
+
+    if (savedCode != null) {
+      // User has a saved preference
+      return savedCode;
+    }
+
+    if (!firstLaunchDone) {
+      // First launch - set based on phone language
+      final defaultCurrency = _isPhoneTurkish() ? 'TRY' : 'USD';
+      await prefs.setString(_key, defaultCurrency);
+      await prefs.setBool(_firstLaunchKey, true);
+      debugPrint('[CurrencyPreference] First launch - default currency: $defaultCurrency');
+      return defaultCurrency;
+    }
+
+    // Fallback (shouldn't happen normally)
+    return 'USD';
+  }
+
+  /// Check if phone language is Turkish
+  static bool _isPhoneTurkish() {
+    try {
+      final localeName = Platform.localeName; // e.g., "tr_TR", "en_US"
+      return localeName.toLowerCase().startsWith('tr');
+    } catch (e) {
+      debugPrint('[CurrencyPreference] Error detecting phone locale: $e');
+      return false;
+    }
   }
 
   /// Get Currency object

@@ -101,7 +101,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
     final l10n = AppLocalizations.of(context);
     final financeProvider = context.watch<FinanceProvider>();
     final currencyProvider = context.watch<CurrencyProvider>();
-    final expenses = financeProvider.expenses;
+    final expenses = financeProvider.realExpenses;
     final monthExpenses = _getMonthExpenses(expenses);
     final categoryTotals = _getCategoryTotals(monthExpenses);
     final totalExpense = categoryTotals.values.fold(0.0, (a, b) => a + b);

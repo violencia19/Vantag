@@ -146,6 +146,78 @@ class FreeTierService {
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
+  // STATEMENT IMPORT LIMITS (1/month free, 10/month pro)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  static const String _keyStatementImportMonth = 'statement_import_month';
+  static const String _keyStatementImportCount = 'statement_import_count';
+
+  /// Maximum statement imports per month for free users
+  static const int maxFreeStatementImports = 1;
+
+  /// Maximum statement imports per month for pro users
+  static const int maxProStatementImports = 10;
+
+  /// Get current month's statement import count
+  Future<int> getMonthlyStatementImportCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    final currentMonth = _getCurrentMonth();
+    final savedMonth = prefs.getString(_keyStatementImportMonth) ?? '';
+
+    // Reset counter if new month
+    if (savedMonth != currentMonth) {
+      await prefs.setString(_keyStatementImportMonth, currentMonth);
+      await prefs.setInt(_keyStatementImportCount, 0);
+      return 0;
+    }
+
+    return prefs.getInt(_keyStatementImportCount) ?? 0;
+  }
+
+  /// Get current month string (YYYY-MM)
+  String _getCurrentMonth() {
+    final now = DateTime.now();
+    return '${now.year}-${now.month.toString().padLeft(2, '0')}';
+  }
+
+  /// Check if user can import a statement
+  Future<StatementImportLimitResult> canImportStatement(bool isPremium) async {
+    final count = await getMonthlyStatementImportCount();
+    final maxLimit = isPremium ? maxProStatementImports : maxFreeStatementImports;
+
+    if (count >= maxLimit) {
+      return StatementImportLimitResult(
+        canUse: false,
+        currentCount: count,
+        maxCount: maxLimit,
+        isPremium: isPremium,
+      );
+    }
+
+    return StatementImportLimitResult(
+      canUse: true,
+      currentCount: count,
+      maxCount: maxLimit,
+      isPremium: isPremium,
+    );
+  }
+
+  /// Increment statement import count after successful import
+  Future<void> incrementStatementImportCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    final count = await getMonthlyStatementImportCount();
+    await prefs.setInt(_keyStatementImportCount, count + 1);
+    debugPrint('[FreeTierService] Statement import count: ${count + 1}');
+  }
+
+  /// Get remaining statement imports for this month
+  Future<int> getRemainingStatementImports(bool isPremium) async {
+    final count = await getMonthlyStatementImportCount();
+    final maxLimit = isPremium ? maxProStatementImports : maxFreeStatementImports;
+    return max(0, maxLimit - count);
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
   // PURSUIT LIMITS (1 active for free users)
   // ═══════════════════════════════════════════════════════════════════════════
 
@@ -234,4 +306,22 @@ class VoiceInputLimitResult {
     required this.canUse,
     this.limitType,
   });
+}
+
+/// Result of statement import limit check
+class StatementImportLimitResult {
+  final bool canUse;
+  final int currentCount;
+  final int maxCount;
+  final bool isPremium;
+
+  const StatementImportLimitResult({
+    required this.canUse,
+    required this.currentCount,
+    required this.maxCount,
+    required this.isPremium,
+  });
+
+  /// Remaining imports this month
+  int get remaining => maxCount - currentCount;
 }

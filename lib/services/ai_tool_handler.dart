@@ -57,7 +57,7 @@ class AIToolHandler {
 
   Map<String, dynamic> _getExpensesSummary() {
     final now = DateTime.now();
-    final expenses = _financeProvider.expenses;
+    final expenses = _financeProvider.realExpenses;
     final user = _financeProvider.userProfile;
 
     // Bu ay - sadece ALDIM olanlar
@@ -105,7 +105,7 @@ class AIToolHandler {
 
   Map<String, dynamic> _getCategoryBreakdown(String category) {
     final now = DateTime.now();
-    final expenses = _financeProvider.expenses;
+    final expenses = _financeProvider.realExpenses;
 
     final categoryExpenses = expenses
         .where(
@@ -161,7 +161,7 @@ class AIToolHandler {
   Map<String, dynamic> _getBudgetStatus() {
     final user = _financeProvider.userProfile;
     final now = DateTime.now();
-    final expenses = _financeProvider.expenses;
+    final expenses = _financeProvider.realExpenses;
 
     final thisMonthTotal = expenses
         .where(
@@ -197,7 +197,7 @@ class AIToolHandler {
 
   Map<String, dynamic> _getThinkingItems() {
     final now = DateTime.now();
-    final expenses = _financeProvider.expenses;
+    final expenses = _financeProvider.realExpenses;
 
     final thinking = expenses
         .where(
@@ -224,7 +224,7 @@ class AIToolHandler {
 
   Map<String, dynamic> _getSavedItems() {
     final now = DateTime.now();
-    final expenses = _financeProvider.expenses;
+    final expenses = _financeProvider.realExpenses;
 
     // Vazgeçilenler
     final rejected = expenses
@@ -303,7 +303,7 @@ class AIToolHandler {
     // Duplicate kontrolü (force değilse)
     if (!force) {
       final duplicates = DuplicateChecker.findDuplicates(
-        expenses: _financeProvider.expenses,
+        expenses: _financeProvider.realExpenses,
         amount: amountInIncomeCurrency,
         category: category,
       );
@@ -444,7 +444,7 @@ class AIToolHandler {
     }
 
     // Düşünüyorum listesinde ara
-    final expenses = _financeProvider.expenses;
+    final expenses = _financeProvider.realExpenses;
     final index = expenses.indexWhere(
       (e) =>
           e.decision == ExpenseDecision.thinking &&
@@ -488,7 +488,7 @@ class AIToolHandler {
 
     // Mevcut harcamaları kontrol et
     final now = DateTime.now();
-    final thisMonthSpent = _financeProvider.expenses
+    final thisMonthSpent = _financeProvider.realExpenses
         .where(
           (e) =>
               e.date.month == now.month &&

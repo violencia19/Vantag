@@ -55,7 +55,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
     final l10n = AppLocalizations.of(context);
     final financeProvider = context.watch<FinanceProvider>();
     final currencyProvider = context.watch<CurrencyProvider>();
-    final expenses = financeProvider.expenses;
+    final expenses = financeProvider.realExpenses;
     final monthExpenses = _getMonthExpenses(expenses);
 
     // Calculate totals

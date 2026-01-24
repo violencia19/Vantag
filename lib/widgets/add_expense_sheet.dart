@@ -19,6 +19,7 @@ import 'decision_buttons.dart';
 import 'smart_choice_toggle.dart';
 import 'redirect_savings_sheet.dart';
 import 'multi_currency_pro_sheet.dart';
+import 'expense_form_chips.dart';
 import '../screens/voice_input_screen.dart';
 
 /// Full Expense Entry Bottom Sheet
@@ -580,7 +581,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     return incomeTryRate > 0 ? amountInTry / incomeTryRate : amount;
   }
 
-  void _calculate() {
+  Future<void> _calculate() async {
     final l10n = AppLocalizations.of(context);
     final enteredAmount = parseTurkishCurrency(_amountController.text);
 
@@ -665,10 +666,20 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       year: _selectedDate.year,
     );
 
-    final recordType = Expense.detectRecordType(
-      amountInIncomeCurrency,
-      result.hoursRequired,
-    );
+    // Determine record type with new fixed thresholds
+    RecordType recordType;
+    if (Expense.needsSimulationDialog(amountInIncomeCurrency)) {
+      // Middle range (250k-750k): ask user
+      final isSimulation = await _showLargeAmountDialog();
+      if (!mounted) return;
+      recordType = isSimulation ? RecordType.simulation : RecordType.real;
+    } else {
+      // Auto-determine based on fixed thresholds
+      recordType = Expense.detectRecordType(
+        amountInIncomeCurrency,
+        result.hoursRequired,
+      );
+    }
 
     final rawSubCat = _subCategoryController.text.trim();
     final normalizedSubCat = rawSubCat.isEmpty
@@ -1034,6 +1045,68 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     }
   }
 
+  /// Show dialog to ask user if large amount (250k-750k) is real or simulation
+  Future<bool> _showLargeAmountDialog() async {
+    final l10n = AppLocalizations.of(context);
+
+    final result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        backgroundColor: context.appColors.cardBackground,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(
+          children: [
+            Icon(
+              PhosphorIconsFill.currencyCircleDollar,
+              color: context.appColors.primary,
+              size: 24,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                l10n.largeAmountTitle,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          l10n.largeAmountMessage,
+          style: TextStyle(
+            color: context.appColors.textSecondary,
+            fontSize: 14,
+          ),
+        ),
+        actions: [
+          // Real expense button
+          TextButton(
+            onPressed: () => Navigator.pop(context, false), // false = real
+            child: Text(
+              l10n.realExpenseButton,
+              style: TextStyle(color: context.appColors.textSecondary),
+            ),
+          ),
+          // Simulation button
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true), // true = simulation
+            style: ElevatedButton.styleFrom(
+              backgroundColor: context.appColors.primary,
+              foregroundColor: Colors.white,
+            ),
+            child: Text(l10n.simulationButton),
+          ),
+        ],
+      ),
+    );
+
+    return result ?? false; // Default to real expense if dialog dismissed
+  }
+
   Future<bool> _showDuplicateWarningDialog(DuplicateMatch match) async {
     final l10n = AppLocalizations.of(context);
     final timeAgoText = _formatTimeAgo(match.timeSinceEntry, l10n);
@@ -1379,19 +1452,19 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
   Widget _buildDateChips(AppLocalizations l10n) {
     return Row(
       children: [
-        _DateChip(
+        ExpenseDateChip(
           label: l10n.yesterday,
           isSelected: _selectedDateChip == 'yesterday',
           onTap: _selectYesterday,
         ),
         const SizedBox(width: 8),
-        _DateChip(
+        ExpenseDateChip(
           label: l10n.twoDaysAgo,
           isSelected: _selectedDateChip == 'twoDaysAgo',
           onTap: _selectTwoDaysAgo,
         ),
         const SizedBox(width: 8),
-        _DateChip(
+        ExpenseDateChip(
           icon: PhosphorIconsDuotone.calendar,
           label: _selectedDateChip == 'custom'
               ? '${_selectedDate.day}/${_selectedDate.month}'
@@ -1952,7 +2025,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               spacing: 8,
               runSpacing: 6,
               children: suggestions.recent.map((subCat) {
-                return _SubCategoryChip(
+                return ExpenseSubCategoryChip(
                   label: subCat,
                   isRecent: true,
                   onTap: () => _selectSubCategory(subCat),
@@ -1977,7 +2050,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               spacing: 8,
               runSpacing: 6,
               children: suggestions.fixed.map((subCat) {
-                return _SubCategoryChip(
+                return ExpenseSubCategoryChip(
                   label: subCat,
                   isRecent: false,
                   onTap: () => _selectSubCategory(subCat),
@@ -2673,131 +2746,6 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// Date chip widget
-class _DateChip extends StatelessWidget {
-  final String? label;
-  final IconData? icon;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _DateChip({
-    this.label,
-    this.icon,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: EdgeInsets.symmetric(
-          horizontal: label != null ? 16 : 12,
-          vertical: 10,
-        ),
-        decoration: BoxDecoration(
-          gradient: isSelected ? AppGradients.primaryButton : null,
-          color: isSelected ? null : Colors.white.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected
-                ? Colors.transparent
-                : Colors.white.withValues(alpha: 0.1),
-            width: 1,
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (icon != null)
-              Icon(
-                icon,
-                size: 14,
-                color: isSelected
-                    ? Colors.white
-                    : context.appColors.textSecondary,
-              ),
-            if (icon != null && label != null) const SizedBox(width: 6),
-            if (label != null)
-              Text(
-                label!,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  color: isSelected
-                      ? Colors.white
-                      : context.appColors.textSecondary,
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Subcategory chip widget
-class _SubCategoryChip extends StatelessWidget {
-  final String label;
-  final bool isRecent;
-  final VoidCallback onTap;
-
-  const _SubCategoryChip({
-    required this.label,
-    required this.isRecent,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: isRecent
-              ? context.appColors.primary.withValues(alpha: 0.15)
-              : Colors.white.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isRecent
-                ? context.appColors.primary.withValues(alpha: 0.5)
-                : Colors.white.withValues(alpha: 0.1),
-            width: 1,
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (isRecent)
-              Padding(
-                padding: const EdgeInsets.only(right: 4),
-                child: Icon(
-                  PhosphorIconsDuotone.clockCounterClockwise,
-                  size: 12,
-                  color: context.appColors.primary,
-                ),
-              ),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: isRecent ? FontWeight.w500 : FontWeight.w400,
-                color: isRecent
-                    ? context.appColors.primary
-                    : context.appColors.textSecondary,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

@@ -100,6 +100,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       setState(() => _currentIndex = 0);
     }
 
+    // Mark tour as complete IMMEDIATELY when starting
+    // This prevents the tour from showing again even if dismissed early
+    TourService.markTourComplete();
+
     // Kısa bir gecikme ile turu başlat (sayfa geçişi için)
     Future.delayed(const Duration(milliseconds: 300), () {
       if (mounted) {
@@ -591,9 +595,29 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       _wasInBackground = true;
+      // Clean up simulation expenses when app goes to background
+      _cleanupSimulations();
     } else if (state == AppLifecycleState.resumed && _wasInBackground) {
       _wasInBackground = false;
       _checkLockOnResume();
+      // Refresh theme for time-based automatic mode
+      context.read<ThemeProvider>().refreshTheme();
+    } else if (state == AppLifecycleState.detached) {
+      // Clean up simulation expenses when app is closing
+      _cleanupSimulations();
+    }
+  }
+
+  /// Clean up simulation expenses - they shouldn't persist
+  Future<void> _cleanupSimulations() async {
+    try {
+      await ExpenseHistoryService().clearSimulations();
+      // Refresh provider to reflect changes
+      if (mounted) {
+        context.read<FinanceProvider>().refresh();
+      }
+    } catch (e) {
+      debugPrint('[Cleanup] Error clearing simulations: $e');
     }
   }
 

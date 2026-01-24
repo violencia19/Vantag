@@ -39,7 +39,7 @@
   "settingsTheme": "Tema",
   "settingsThemeDark": "Koyu",
   "settingsThemeLight": "Açık",
-  "settingsThemeSystem": "Sistem",
+  "settingsThemeAutomatic": "Otomatik",
 
   "simpleMode": "Basit Mod",
   "simpleModeDescription": "Sadece temel özelliklerle basitleştirilmiş deneyim",
@@ -75,6 +75,44 @@
 
   "settingsDataPrivacy": "Veri & Gizlilik",
   "settingsExportData": "Verileri Dışa Aktar",
+  "settingsImportStatement": "Ekstre Yükle",
+  "settingsImportStatementDesc": "Banka ekstrenizi yükleyin (PDF/CSV)",
+
+  "importStatementTitle": "Ekstre Yükle",
+  "importStatementSelectFile": "Dosya Seç",
+  "importStatementSupportedFormats": "Desteklenen formatlar: PDF, CSV",
+  "importStatementDragDrop": "Banka ekstrenizi seçmek için dokunun",
+  "importStatementProcessing": "Ekstre işleniyor...",
+  "importStatementSuccess": "{count} işlem başarıyla içe aktarıldı",
+  "@importStatementSuccess": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importStatementError": "Ekstre içe aktarılırken hata oluştu",
+  "importStatementNoTransactions": "Ekstrede işlem bulunamadı",
+  "importStatementUnsupportedFormat": "Desteklenmeyen dosya formatı",
+  "importStatementMonthlyLimit": "Bu ay {remaining} içe aktarma hakkınız kaldı",
+  "@importStatementMonthlyLimit": {
+    "placeholders": {
+      "remaining": {"type": "int"}
+    }
+  },
+  "importStatementLimitReached": "Aylık içe aktarma limitine ulaşıldı",
+  "importStatementLimitReachedDesc": "Bu ayki tüm içe aktarma haklarınızı kullandınız. Daha fazlası için Pro'ya yükseltin.",
+  "importStatementProLimit": "Ayda 10 içe aktarma",
+  "importStatementFreeLimit": "Ayda 1 içe aktarma",
+  "importStatementReviewTitle": "İşlemleri İncele",
+  "importStatementReviewDesc": "İçe aktarılacak işlemleri seçin",
+  "importStatementImportSelected": "Seçilenleri İçe Aktar ({count})",
+  "@importStatementImportSelected": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importStatementSelectAll": "Tümünü Seç",
+  "importStatementDeselectAll": "Seçimi Kaldır",
+
   "settingsPrivacyPolicy": "Gizlilik Politikası",
 
   "settingsAbout": "Hakkında",
@@ -360,6 +398,10 @@
   "simulationDescription": "Bu tutar büyük olduğu için simülasyon olarak kaydedildi.",
   "simulationInfo": "İstatistiklerini etkilemez, sadece fikir vermek için.",
   "understood": "Anladım",
+  "largeAmountTitle": "Büyük Tutar",
+  "largeAmountMessage": "Bu gerçek bir harcama mı, yoksa simülasyon mu?",
+  "realExpenseButton": "Gerçek Harcama",
+  "simulationButton": "Simülasyon",
 
   "monthJanuary": "Ocak",
   "monthFebruary": "Şubat",
@@ -539,6 +581,26 @@
   "freqOnceWeekly": "Haftada 1",
   "freqTwoThreeWeekly": "Haftada 2-3",
   "freqFewMonthly": "Ayda birkaç",
+
+  "habitSharePreText": "Bu alışkanlık yılda",
+  "habitShareWorkDays": "İŞ GÜNÜ",
+  "habitSharePostText": "çalışmana eşdeğer",
+  "habitSharePerYear": "/yıl",
+  "habitShareCTA": "Senin alışkanlıkların kaç gün?",
+  "habitShareText": "Senin alışkanlıkların kaç gün? 👀 vantag.app",
+  "habitShareTextWithLink": "Senin alışkanlıkların kaç gün? 👀 {link}",
+  "@habitShareTextWithLink": {
+    "placeholders": {
+      "link": {"type": "String"}
+    }
+  },
+  "habitMonthlyDetail": "{days} gün {hours} saat",
+  "@habitMonthlyDetail": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "hours": {"type": "int"}
+    }
+  },
 
   "editIncomes": "Gelirleri Düzenle",
   "editIncome": "Gelir Düzenle",
@@ -1053,6 +1115,34 @@
   "exporting": "Dışa aktarılıyor...",
   "exportSuccess": "Rapor başarıyla dışa aktarıldı",
   "exportError": "Dışa aktarma başarısız",
+  "exportComplete": "Dışa Aktarma Tamamlandı",
+  "exportShareOption": "Paylaş",
+  "exportSaveOption": "Dosyalarıma Kaydet",
+  "exportSavedToDownloads": "Downloads/Vantag klasörüne kaydedildi",
+  "exportChooseAction": "Dosya ile ne yapmak istersiniz?",
+  "csvHeaderDate": "Tarih",
+  "csvHeaderTime": "Saat",
+  "csvHeaderAmount": "Tutar",
+  "csvHeaderCurrency": "Para Birimi",
+  "csvHeaderCategory": "Kategori",
+  "csvHeaderSubcategory": "Alt Kategori",
+  "csvHeaderDescription": "Açıklama",
+  "csvHeaderProduct": "Ürün",
+  "csvHeaderDecision": "Karar",
+  "csvHeaderWorkHours": "Çalışma Saati",
+  "csvHeaderInstallment": "Taksit",
+  "csvHeaderMandatory": "Zorunlu",
+  "csvSummarySection": "ÖZET",
+  "csvTotalExpense": "Toplam Harcama",
+  "csvCategoryTotals": "Kategori Toplamları",
+  "csvDailyAverage": "Günlük Ortalama",
+  "csvWeeklyAverage": "Haftalık Ortalama",
+  "csvTopCategory": "En Çok Harcanan Kategori",
+  "csvLargestExpense": "En Büyük Harcama",
+  "csvTotalWorkHours": "Toplam Çalışma Saati",
+  "csvPeriod": "Dönem",
+  "csvYes": "Evet",
+  "csvNo": "Hayır",
   "financialReport": "Finansal Özet Raporu",
   "createdAt": "Oluşturulma",
   "savingsRate": "Tasarruf Oranı",
@@ -2336,5 +2426,91 @@
   "multiCurrencyProDescription": "Farklı para birimlerinde gelir ve harcama girişi yapabilmek için Pro üyeliğe yükseltin. USD, EUR, GBP ve daha fazlasını kullanın.",
   "multiCurrencyBenefit": "Tüm para birimlerinde işlem",
   "upgradeToPro": "Pro'ya Yükselt",
-  "currencyLockedForFree": "Para birimi değişikliği Pro özelliğidir"
+  "currencyLockedForFree": "Para birimi değişikliği Pro özelliğidir",
+
+  "excelSheetExpenses": "Harcamalar",
+  "excelSheetSummary": "Özet",
+  "excelSheetCategories": "Kategoriler",
+  "excelSheetTimeAnalysis": "Zaman Analizi",
+  "excelSheetDecisions": "Kararlar",
+  "excelSheetInstallments": "Taksitler",
+
+  "excelHeaderDay": "Gün",
+  "excelHeaderStore": "Mağaza/Yer",
+  "excelHeaderMinutes": "Dakika Karşılığı",
+  "excelHeaderMonthlyInstallment": "Aylık Ödeme",
+  "excelHeaderInstallmentCount": "Taksit",
+  "excelHeaderSimulation": "Simülasyon",
+  "excelHeaderHoursEquiv": "Saat Karşılığı",
+
+  "excelReportTitle": "Vantag Finansal Rapor",
+  "excelReportPeriod": "Rapor Dönemi",
+  "excelReportGeneratedAt": "Oluşturulma Tarihi",
+  "excelTotalExpenses": "Toplam Harcama",
+  "excelTotalTransactions": "Toplam İşlem",
+  "excelAvgPerTransaction": "İşlem Başına Ortalama",
+  "excelMonthlyAverage": "Aylık Ortalama",
+  "excelDailyAverage": "Günlük Ortalama",
+  "excelWeeklyAverage": "Haftalık Ortalama",
+  "excelSavingsRate": "Tasarruf Oranı",
+  "excelTotalWorkHours": "Toplam Çalışma Saati",
+  "excelTotalWorkDays": "Toplam Çalışma Günü",
+
+  "excelCategoryShare": "Pay %",
+  "excelCategoryRank": "Sıra",
+  "excelTopCategory": "En Çok Harcanan",
+  "excelCategoryCount": "İşlem Sayısı",
+  "excelCategoryAvg": "Kategori Ortalaması",
+  "excelCategoryTotal": "Kategori Toplamı",
+  "excelCategoryHours": "Çalışma Saati",
+
+  "excelTimeTitle": "Zaman Analizi",
+  "excelMostActiveDay": "En Aktif Gün",
+  "excelMostActiveHour": "En Aktif Saat",
+  "excelWeekdayAvg": "Hafta İçi Ortalama",
+  "excelWeekendAvg": "Hafta Sonu Ortalama",
+  "excelMorningSpend": "Sabah (06-12)",
+  "excelAfternoonSpend": "Öğleden Sonra (12-18)",
+  "excelEveningSpend": "Akşam (18-24)",
+  "excelNightSpend": "Gece (00-06)",
+  "excelByDayOfWeek": "Haftanın Günlerine Göre",
+  "excelByHour": "Saate Göre",
+  "excelByMonth": "Aya Göre",
+
+  "excelDecisionsBought": "Aldım",
+  "excelDecisionsThinking": "Düşünüyorum",
+  "excelDecisionsPassed": "Vazgeçtim",
+  "excelDecisionCount": "Adet",
+  "excelDecisionAmount": "Tutar",
+  "excelDecisionPercent": "Yüzde",
+  "excelDecisionAvg": "Ortalama",
+  "excelDecisionHours": "Çalışma Saati",
+  "excelImpulseRate": "Anlık Karar Oranı",
+  "excelSavingsFromPassed": "Vazgeçerek Tasarruf",
+  "excelPotentialSavings": "Potansiyel Tasarruf (Düşünülen)",
+
+  "excelInstallmentName": "Açıklama",
+  "excelInstallmentTotal": "Toplam Tutar",
+  "excelInstallmentMonthly": "Aylık Ödeme",
+  "excelInstallmentProgress": "İlerleme",
+  "excelInstallmentRemaining": "Kalan",
+  "excelInstallmentStartDate": "Başlangıç",
+  "excelInstallmentEndDate": "Bitiş",
+  "excelInstallmentInterest": "Vade Farkı",
+  "excelNoInstallments": "Taksitli ödeme bulunmuyor",
+  "excelTotalMonthlyPayments": "Toplam Aylık Ödemeler",
+  "excelTotalRemainingDebt": "Toplam Kalan Borç",
+
+  "excelDayMonday": "Pazartesi",
+  "excelDayTuesday": "Salı",
+  "excelDayWednesday": "Çarşamba",
+  "excelDayThursday": "Perşembe",
+  "excelDayFriday": "Cuma",
+  "excelDaySaturday": "Cumartesi",
+  "excelDaySunday": "Pazar",
+
+  "excelYes": "Evet",
+  "excelNo": "Hayır",
+  "excelReal": "Gerçek",
+  "excelSimulation": "Simülasyon"
 }

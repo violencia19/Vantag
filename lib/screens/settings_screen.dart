@@ -27,6 +27,7 @@ import 'achievements_screen.dart';
 import 'notification_settings_screen.dart';
 import 'voice_input_screen.dart';
 import 'pin_setup_screen.dart';
+import 'import_statement_screen.dart';
 
 /// Settings Screen - Replaces Profile in bottom nav
 class SettingsScreen extends StatefulWidget {
@@ -216,6 +217,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: l10n.settingsDataPrivacy,
                 children: [
                   _buildExportTile(l10n, isPro),
+                  _buildDivider(),
+                  _buildImportStatementTile(l10n, isPro),
                   _buildDivider(),
                   _buildPrivacyPolicyTile(l10n),
                   _buildDivider(),
@@ -1256,9 +1259,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         themeName = l10n.settingsThemeLight;
         themeIcon = PhosphorIconsDuotone.sun;
         break;
-      case AppThemeMode.system:
-        themeName = l10n.settingsThemeSystem;
-        themeIcon = PhosphorIconsDuotone.deviceMobile;
+      case AppThemeMode.automatic:
+        themeName = l10n.settingsThemeAutomatic;
+        themeIcon = PhosphorIconsDuotone.clock;
         break;
     }
 
@@ -1389,20 +1392,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.deviceMobile,
+                  PhosphorIconsDuotone.clock,
                   color: context.appColors.textPrimary,
                   size: 20,
                 ),
               ),
-              title: Text(l10n.settingsThemeSystem),
-              trailing: themeProvider.themeMode == AppThemeMode.system
+              title: Text(l10n.settingsThemeAutomatic),
+              subtitle: Text(
+                '07:00-19:00 ☀️ / 19:00-07:00 🌙',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: context.appColors.textTertiary,
+                ),
+              ),
+              trailing: themeProvider.themeMode == AppThemeMode.automatic
                   ? Icon(
                       PhosphorIconsDuotone.checkCircle,
                       color: context.appColors.primary,
                     )
                   : null,
               onTap: () {
-                themeProvider.setThemeMode(AppThemeMode.system);
+                themeProvider.setThemeMode(AppThemeMode.automatic);
                 Navigator.pop(context);
                 HapticFeedback.selectionClick();
               },
@@ -1613,16 +1623,211 @@ class _SettingsScreenState extends State<SettingsScreen> {
       return;
     }
 
+    final l10n = AppLocalizations.of(context);
     setState(() => _isExporting = true);
 
     try {
       final exportService = ExportService();
-      await exportService.exportToExcel(context);
+      // Use Excel (xlsx) export - phones can open this directly
+      final file = await exportService.exportToExcel(context);
+
+      if (file != null) {
+        // Log file path for debugging
+        debugPrint('[Export] File created at: ${file.path}');
+
+        if (!mounted) return;
+
+        // Show dialog with two options: Share or Save to Downloads
+        final action = await _showExportOptionsDialog(l10n);
+
+        if (action == 'share') {
+          await exportService.shareFile(file);
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(l10n.exportSuccess),
+                backgroundColor: AppColors.premiumGreen,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          }
+        } else if (action == 'save') {
+          final result = await exportService.saveToDownloads(file);
+          if (mounted) {
+            if (result.file != null && result.path != null) {
+              // Show success with path
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.exportSuccess,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        result.path!,
+                        style: const TextStyle(fontSize: 12),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                  backgroundColor: AppColors.premiumGreen,
+                  behavior: SnackBarBehavior.floating,
+                  duration: const Duration(seconds: 5),
+                ),
+              );
+            } else {
+              // Show error and fallback to share
+              debugPrint('[Export] Save failed: ${result.error}');
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('${l10n.exportError}: ${result.error ?? "Unknown"}'),
+                  backgroundColor: AppColors.categoryBills,
+                  behavior: SnackBarBehavior.floating,
+                  action: SnackBarAction(
+                    label: l10n.exportShareOption,
+                    textColor: Colors.white,
+                    onPressed: () => exportService.shareFile(file),
+                  ),
+                ),
+              );
+            }
+          }
+        }
+      } else {
+        throw Exception('File creation failed');
+      }
+    } catch (e) {
+      debugPrint('[Export] Error: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.exportError),
+            backgroundColor: AppColors.categoryBills,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     } finally {
       if (mounted) {
         setState(() => _isExporting = false);
       }
     }
+  }
+
+  /// Show dialog with export options: Share or Save to Downloads
+  Future<String?> _showExportOptionsDialog(AppLocalizations l10n) async {
+    return showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: context.appColors.cardBackground,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(
+          children: [
+            Icon(
+              PhosphorIconsDuotone.fileArrowDown,
+              color: context.appColors.primary,
+              size: 24,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                l10n.exportComplete,
+                style: TextStyle(
+                  color: context.appColors.textPrimary,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          l10n.exportChooseAction,
+          style: TextStyle(
+            color: context.appColors.textSecondary,
+            fontSize: 14,
+          ),
+        ),
+        actions: [
+          // Save to Downloads button
+          TextButton.icon(
+            onPressed: () => Navigator.pop(context, 'save'),
+            icon: Icon(
+              PhosphorIconsDuotone.folderOpen,
+              size: 18,
+              color: context.appColors.textSecondary,
+            ),
+            label: Text(
+              l10n.exportSaveOption,
+              style: TextStyle(color: context.appColors.textSecondary),
+            ),
+          ),
+          // Share button
+          ElevatedButton.icon(
+            onPressed: () => Navigator.pop(context, 'share'),
+            icon: const Icon(PhosphorIconsDuotone.shareFat, size: 18),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: context.appColors.primary,
+              foregroundColor: Colors.white,
+            ),
+            label: Text(l10n.exportShareOption),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImportStatementTile(AppLocalizations l10n, bool isPro) {
+    return _buildListTile(
+      icon: PhosphorIconsDuotone.fileArrowUp,
+      iconColor: AppColors.categoryBills,
+      title: l10n.settingsImportStatement,
+      trailing: !isPro
+          ? Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    context.appColors.primary.withValues(alpha: 0.2),
+                    context.appColors.secondary.withValues(alpha: 0.2),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                'PRO',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  color: context.appColors.primary,
+                ),
+              ),
+            )
+          : null,
+      showArrow: isPro,
+      onTap: () => _openImportStatement(isPro),
+      semanticHint: l10n.settingsImportStatementDesc,
+    );
+  }
+
+  Future<void> _openImportStatement(bool isPro) async {
+    if (!isPro) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const PaywallScreen()),
+      );
+      return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const ImportStatementScreen()),
+    );
   }
 
   Widget _buildPrivacyPolicyTile(AppLocalizations l10n) {

@@ -267,8 +267,8 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
       case AppThemeMode.light:
         themeName = l10n.settingsThemeLight;
         break;
-      case AppThemeMode.system:
-        themeName = l10n.settingsThemeSystem;
+      case AppThemeMode.automatic:
+        themeName = l10n.settingsThemeAutomatic;
         break;
     }
 
@@ -415,18 +415,25 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
             ),
             ListTile(
               leading: Icon(
-                PhosphorIconsDuotone.deviceMobile,
+                PhosphorIconsDuotone.clock,
                 color: context.appColors.textPrimary,
               ),
-              title: Text(l10n.settingsThemeSystem),
-              trailing: themeProvider.themeMode == AppThemeMode.system
+              title: Text(l10n.settingsThemeAutomatic),
+              subtitle: Text(
+                '07:00-19:00 ☀️ / 19:00-07:00 🌙',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: context.appColors.textTertiary,
+                ),
+              ),
+              trailing: themeProvider.themeMode == AppThemeMode.automatic
                   ? Icon(
                       PhosphorIconsDuotone.checkCircle,
                       color: context.appColors.primary,
                     )
                   : null,
               onTap: () {
-                themeProvider.setThemeMode(AppThemeMode.system);
+                themeProvider.setThemeMode(AppThemeMode.automatic);
                 Navigator.pop(context);
                 HapticFeedback.selectionClick();
               },

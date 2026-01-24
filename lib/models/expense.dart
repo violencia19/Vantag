@@ -269,12 +269,27 @@ class Expense {
     return remaining.isNegative ? Duration.zero : remaining;
   }
 
-  /// Otomatik simülasyon tespiti
-  /// > 100,000 TL veya > 2000 saat (yaklaşık 1 yıl) = simülasyon
+  // Simulation thresholds (fixed, salary-independent)
+  static const double _realMaxThreshold = 250000; // Below this: always real
+  static const double _simulationMinThreshold = 750000; // Above this: always simulation
+
+  /// Check if amount requires user dialog (middle range: 250k - 750k)
+  static bool needsSimulationDialog(double amount) {
+    return amount >= _realMaxThreshold && amount <= _simulationMinThreshold;
+  }
+
+  /// Otomatik simülasyon tespiti (sabit limitler, maaştan bağımsız)
+  /// < 250,000₺ = gerçek harcama
+  /// > 750,000₺ = simülasyon
+  /// 250,000₺ - 750,000₺ arası = kullanıcıya sor (needsSimulationDialog)
   static RecordType detectRecordType(double amount, double hoursRequired) {
-    if (amount > 100000 || hoursRequired > 2000) {
+    if (amount < _realMaxThreshold) {
+      return RecordType.real;
+    }
+    if (amount > _simulationMinThreshold) {
       return RecordType.simulation;
     }
+    // Middle range: default to real, but caller should use needsSimulationDialog first
     return RecordType.real;
   }
 

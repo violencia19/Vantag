@@ -248,11 +248,11 @@ abstract class AppLocalizations {
   /// **'Light'**
   String get settingsThemeLight;
 
-  /// No description provided for @settingsThemeSystem.
+  /// No description provided for @settingsThemeAutomatic.
   ///
   /// In en, this message translates to:
-  /// **'System'**
-  String get settingsThemeSystem;
+  /// **'Automatic'**
+  String get settingsThemeAutomatic;
 
   /// No description provided for @simpleMode.
   ///
@@ -427,6 +427,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Export Data'**
   String get settingsExportData;
+
+  /// No description provided for @settingsImportStatement.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Statement'**
+  String get settingsImportStatement;
+
+  /// No description provided for @settingsImportStatementDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload your bank statement (PDF/CSV)'**
+  String get settingsImportStatementDesc;
+
+  /// No description provided for @importStatementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Statement'**
+  String get importStatementTitle;
+
+  /// No description provided for @importStatementSelectFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Select File'**
+  String get importStatementSelectFile;
+
+  /// No description provided for @importStatementSupportedFormats.
+  ///
+  /// In en, this message translates to:
+  /// **'Supported formats: PDF, CSV'**
+  String get importStatementSupportedFormats;
+
+  /// No description provided for @importStatementDragDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to select your bank statement'**
+  String get importStatementDragDrop;
+
+  /// No description provided for @importStatementProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing statement...'**
+  String get importStatementProcessing;
+
+  /// No description provided for @importStatementSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully imported {count} transactions'**
+  String importStatementSuccess(int count);
+
+  /// No description provided for @importStatementError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error importing statement'**
+  String get importStatementError;
+
+  /// No description provided for @importStatementNoTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions found in statement'**
+  String get importStatementNoTransactions;
+
+  /// No description provided for @importStatementUnsupportedFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported file format'**
+  String get importStatementUnsupportedFormat;
+
+  /// No description provided for @importStatementMonthlyLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'{remaining} imports remaining this month'**
+  String importStatementMonthlyLimit(int remaining);
+
+  /// No description provided for @importStatementLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly import limit reached'**
+  String get importStatementLimitReached;
+
+  /// No description provided for @importStatementLimitReachedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve used all your imports for this month. Upgrade to Pro for more imports.'**
+  String get importStatementLimitReachedDesc;
+
+  /// No description provided for @importStatementProLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'10 imports/month'**
+  String get importStatementProLimit;
+
+  /// No description provided for @importStatementFreeLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'1 import/month'**
+  String get importStatementFreeLimit;
+
+  /// No description provided for @importStatementReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Transactions'**
+  String get importStatementReviewTitle;
+
+  /// No description provided for @importStatementReviewDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Select transactions to import'**
+  String get importStatementReviewDesc;
+
+  /// No description provided for @importStatementImportSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Selected ({count})'**
+  String importStatementImportSelected(int count);
+
+  /// No description provided for @importStatementSelectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Select All'**
+  String get importStatementSelectAll;
+
+  /// No description provided for @importStatementDeselectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Deselect All'**
+  String get importStatementDeselectAll;
 
   /// No description provided for @settingsPrivacyPolicy.
   ///
@@ -1862,6 +1988,30 @@ abstract class AppLocalizations {
   /// **'Understood'**
   String get understood;
 
+  /// No description provided for @largeAmountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Large Amount'**
+  String get largeAmountTitle;
+
+  /// No description provided for @largeAmountMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Is this a real expense or a simulation?'**
+  String get largeAmountMessage;
+
+  /// No description provided for @realExpenseButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Real Expense'**
+  String get realExpenseButton;
+
+  /// No description provided for @simulationButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulation'**
+  String get simulationButton;
+
   /// No description provided for @monthJanuary.
   ///
   /// In en, this message translates to:
@@ -2827,6 +2977,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Few per month'**
   String get freqFewMonthly;
+
+  /// No description provided for @habitSharePreText.
+  ///
+  /// In en, this message translates to:
+  /// **'This habit takes'**
+  String get habitSharePreText;
+
+  /// No description provided for @habitShareWorkDays.
+  ///
+  /// In en, this message translates to:
+  /// **'WORK DAYS'**
+  String get habitShareWorkDays;
+
+  /// No description provided for @habitSharePostText.
+  ///
+  /// In en, this message translates to:
+  /// **'of work per year'**
+  String get habitSharePostText;
+
+  /// No description provided for @habitSharePerYear.
+  ///
+  /// In en, this message translates to:
+  /// **'/year'**
+  String get habitSharePerYear;
+
+  /// No description provided for @habitShareCTA.
+  ///
+  /// In en, this message translates to:
+  /// **'How many days are your habits?'**
+  String get habitShareCTA;
+
+  /// No description provided for @habitShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'How many days are your habits? 👀 vantag.app'**
+  String get habitShareText;
+
+  /// No description provided for @habitShareTextWithLink.
+  ///
+  /// In en, this message translates to:
+  /// **'How many days are your habits? 👀 {link}'**
+  String habitShareTextWithLink(String link);
+
+  /// No description provided for @habitMonthlyDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days {hours} hours'**
+  String habitMonthlyDetail(int days, int hours);
 
   /// No description provided for @editIncomes.
   ///
@@ -5071,6 +5269,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Export failed'**
   String get exportError;
+
+  /// No description provided for @exportComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Complete'**
+  String get exportComplete;
+
+  /// No description provided for @exportShareOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get exportShareOption;
+
+  /// No description provided for @exportSaveOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Files'**
+  String get exportSaveOption;
+
+  /// No description provided for @exportSavedToDownloads.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to Downloads/Vantag'**
+  String get exportSavedToDownloads;
+
+  /// No description provided for @exportChooseAction.
+  ///
+  /// In en, this message translates to:
+  /// **'What would you like to do with the file?'**
+  String get exportChooseAction;
+
+  /// No description provided for @csvHeaderDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get csvHeaderDate;
+
+  /// No description provided for @csvHeaderTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get csvHeaderTime;
+
+  /// No description provided for @csvHeaderAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get csvHeaderAmount;
+
+  /// No description provided for @csvHeaderCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get csvHeaderCurrency;
+
+  /// No description provided for @csvHeaderCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get csvHeaderCategory;
+
+  /// No description provided for @csvHeaderSubcategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Subcategory'**
+  String get csvHeaderSubcategory;
+
+  /// No description provided for @csvHeaderDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get csvHeaderDescription;
+
+  /// No description provided for @csvHeaderProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Product'**
+  String get csvHeaderProduct;
+
+  /// No description provided for @csvHeaderDecision.
+  ///
+  /// In en, this message translates to:
+  /// **'Decision'**
+  String get csvHeaderDecision;
+
+  /// No description provided for @csvHeaderWorkHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Work Hours'**
+  String get csvHeaderWorkHours;
+
+  /// No description provided for @csvHeaderInstallment.
+  ///
+  /// In en, this message translates to:
+  /// **'Installment'**
+  String get csvHeaderInstallment;
+
+  /// No description provided for @csvHeaderMandatory.
+  ///
+  /// In en, this message translates to:
+  /// **'Mandatory'**
+  String get csvHeaderMandatory;
+
+  /// No description provided for @csvSummarySection.
+  ///
+  /// In en, this message translates to:
+  /// **'SUMMARY'**
+  String get csvSummarySection;
+
+  /// No description provided for @csvTotalExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Expense'**
+  String get csvTotalExpense;
+
+  /// No description provided for @csvCategoryTotals.
+  ///
+  /// In en, this message translates to:
+  /// **'Category Totals'**
+  String get csvCategoryTotals;
+
+  /// No description provided for @csvDailyAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Average'**
+  String get csvDailyAverage;
+
+  /// No description provided for @csvWeeklyAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Average'**
+  String get csvWeeklyAverage;
+
+  /// No description provided for @csvTopCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Category'**
+  String get csvTopCategory;
+
+  /// No description provided for @csvLargestExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Largest Expense'**
+  String get csvLargestExpense;
+
+  /// No description provided for @csvTotalWorkHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Work Hours'**
+  String get csvTotalWorkHours;
+
+  /// No description provided for @csvPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get csvPeriod;
+
+  /// No description provided for @csvYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get csvYes;
+
+  /// No description provided for @csvNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get csvNo;
 
   /// No description provided for @financialReport.
   ///
@@ -9285,6 +9651,468 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Currency change is a Pro feature'**
   String get currencyLockedForFree;
+
+  /// No description provided for @excelSheetExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get excelSheetExpenses;
+
+  /// No description provided for @excelSheetSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get excelSheetSummary;
+
+  /// No description provided for @excelSheetCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get excelSheetCategories;
+
+  /// No description provided for @excelSheetTimeAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'Time Analysis'**
+  String get excelSheetTimeAnalysis;
+
+  /// No description provided for @excelSheetDecisions.
+  ///
+  /// In en, this message translates to:
+  /// **'Decisions'**
+  String get excelSheetDecisions;
+
+  /// No description provided for @excelSheetInstallments.
+  ///
+  /// In en, this message translates to:
+  /// **'Installments'**
+  String get excelSheetInstallments;
+
+  /// No description provided for @excelHeaderDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get excelHeaderDay;
+
+  /// No description provided for @excelHeaderStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Store/Location'**
+  String get excelHeaderStore;
+
+  /// No description provided for @excelHeaderMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes Equiv.'**
+  String get excelHeaderMinutes;
+
+  /// No description provided for @excelHeaderMonthlyInstallment.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Payment'**
+  String get excelHeaderMonthlyInstallment;
+
+  /// No description provided for @excelHeaderInstallmentCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Installment'**
+  String get excelHeaderInstallmentCount;
+
+  /// No description provided for @excelHeaderSimulation.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulation'**
+  String get excelHeaderSimulation;
+
+  /// No description provided for @excelHeaderHoursEquiv.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours Equiv.'**
+  String get excelHeaderHoursEquiv;
+
+  /// No description provided for @excelReportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vantag Financial Report'**
+  String get excelReportTitle;
+
+  /// No description provided for @excelReportPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Period'**
+  String get excelReportPeriod;
+
+  /// No description provided for @excelReportGeneratedAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Generated'**
+  String get excelReportGeneratedAt;
+
+  /// No description provided for @excelTotalExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Expenses'**
+  String get excelTotalExpenses;
+
+  /// No description provided for @excelTotalTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Transactions'**
+  String get excelTotalTransactions;
+
+  /// No description provided for @excelAvgPerTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Average per Transaction'**
+  String get excelAvgPerTransaction;
+
+  /// No description provided for @excelMonthlyAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Average'**
+  String get excelMonthlyAverage;
+
+  /// No description provided for @excelDailyAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Average'**
+  String get excelDailyAverage;
+
+  /// No description provided for @excelWeeklyAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Average'**
+  String get excelWeeklyAverage;
+
+  /// No description provided for @excelSavingsRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings Rate'**
+  String get excelSavingsRate;
+
+  /// No description provided for @excelTotalWorkHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Work Hours'**
+  String get excelTotalWorkHours;
+
+  /// No description provided for @excelTotalWorkDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Work Days'**
+  String get excelTotalWorkDays;
+
+  /// No description provided for @excelCategoryShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share %'**
+  String get excelCategoryShare;
+
+  /// No description provided for @excelCategoryRank.
+  ///
+  /// In en, this message translates to:
+  /// **'Rank'**
+  String get excelCategoryRank;
+
+  /// No description provided for @excelTopCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Category'**
+  String get excelTopCategory;
+
+  /// No description provided for @excelCategoryCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Count'**
+  String get excelCategoryCount;
+
+  /// No description provided for @excelCategoryAvg.
+  ///
+  /// In en, this message translates to:
+  /// **'Category Average'**
+  String get excelCategoryAvg;
+
+  /// No description provided for @excelCategoryTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Category Total'**
+  String get excelCategoryTotal;
+
+  /// No description provided for @excelCategoryHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Work Hours'**
+  String get excelCategoryHours;
+
+  /// No description provided for @excelTimeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time Analysis'**
+  String get excelTimeTitle;
+
+  /// No description provided for @excelMostActiveDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Most Active Day'**
+  String get excelMostActiveDay;
+
+  /// No description provided for @excelMostActiveHour.
+  ///
+  /// In en, this message translates to:
+  /// **'Most Active Hour'**
+  String get excelMostActiveHour;
+
+  /// No description provided for @excelWeekdayAvg.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekday Average'**
+  String get excelWeekdayAvg;
+
+  /// No description provided for @excelWeekendAvg.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekend Average'**
+  String get excelWeekendAvg;
+
+  /// No description provided for @excelMorningSpend.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning (06-12)'**
+  String get excelMorningSpend;
+
+  /// No description provided for @excelAfternoonSpend.
+  ///
+  /// In en, this message translates to:
+  /// **'Afternoon (12-18)'**
+  String get excelAfternoonSpend;
+
+  /// No description provided for @excelEveningSpend.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening (18-24)'**
+  String get excelEveningSpend;
+
+  /// No description provided for @excelNightSpend.
+  ///
+  /// In en, this message translates to:
+  /// **'Night (00-06)'**
+  String get excelNightSpend;
+
+  /// No description provided for @excelByDayOfWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'By Day of Week'**
+  String get excelByDayOfWeek;
+
+  /// No description provided for @excelByHour.
+  ///
+  /// In en, this message translates to:
+  /// **'By Hour'**
+  String get excelByHour;
+
+  /// No description provided for @excelByMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'By Month'**
+  String get excelByMonth;
+
+  /// No description provided for @excelDecisionsBought.
+  ///
+  /// In en, this message translates to:
+  /// **'Bought'**
+  String get excelDecisionsBought;
+
+  /// No description provided for @excelDecisionsThinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Thinking'**
+  String get excelDecisionsThinking;
+
+  /// No description provided for @excelDecisionsPassed.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed'**
+  String get excelDecisionsPassed;
+
+  /// No description provided for @excelDecisionCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Count'**
+  String get excelDecisionCount;
+
+  /// No description provided for @excelDecisionAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get excelDecisionAmount;
+
+  /// No description provided for @excelDecisionPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'Percentage'**
+  String get excelDecisionPercent;
+
+  /// No description provided for @excelDecisionAvg.
+  ///
+  /// In en, this message translates to:
+  /// **'Average'**
+  String get excelDecisionAvg;
+
+  /// No description provided for @excelDecisionHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Work Hours'**
+  String get excelDecisionHours;
+
+  /// No description provided for @excelImpulseRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Impulse Rate'**
+  String get excelImpulseRate;
+
+  /// No description provided for @excelSavingsFromPassed.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings from Passed'**
+  String get excelSavingsFromPassed;
+
+  /// No description provided for @excelPotentialSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Potential Savings (Thinking)'**
+  String get excelPotentialSavings;
+
+  /// No description provided for @excelInstallmentName.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get excelInstallmentName;
+
+  /// No description provided for @excelInstallmentTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Amount'**
+  String get excelInstallmentTotal;
+
+  /// No description provided for @excelInstallmentMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Payment'**
+  String get excelInstallmentMonthly;
+
+  /// No description provided for @excelInstallmentProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get excelInstallmentProgress;
+
+  /// No description provided for @excelInstallmentRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining'**
+  String get excelInstallmentRemaining;
+
+  /// No description provided for @excelInstallmentStartDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Date'**
+  String get excelInstallmentStartDate;
+
+  /// No description provided for @excelInstallmentEndDate.
+  ///
+  /// In en, this message translates to:
+  /// **'End Date'**
+  String get excelInstallmentEndDate;
+
+  /// No description provided for @excelInstallmentInterest.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest'**
+  String get excelInstallmentInterest;
+
+  /// No description provided for @excelNoInstallments.
+  ///
+  /// In en, this message translates to:
+  /// **'No installment payments'**
+  String get excelNoInstallments;
+
+  /// No description provided for @excelTotalMonthlyPayments.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Monthly Payments'**
+  String get excelTotalMonthlyPayments;
+
+  /// No description provided for @excelTotalRemainingDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Remaining Debt'**
+  String get excelTotalRemainingDebt;
+
+  /// No description provided for @excelDayMonday.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get excelDayMonday;
+
+  /// No description provided for @excelDayTuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get excelDayTuesday;
+
+  /// No description provided for @excelDayWednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get excelDayWednesday;
+
+  /// No description provided for @excelDayThursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get excelDayThursday;
+
+  /// No description provided for @excelDayFriday.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get excelDayFriday;
+
+  /// No description provided for @excelDaySaturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get excelDaySaturday;
+
+  /// No description provided for @excelDaySunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get excelDaySunday;
+
+  /// No description provided for @excelYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get excelYes;
+
+  /// No description provided for @excelNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get excelNo;
+
+  /// No description provided for @excelReal.
+  ///
+  /// In en, this message translates to:
+  /// **'Real'**
+  String get excelReal;
+
+  /// No description provided for @excelSimulation.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulation'**
+  String get excelSimulation;
 }
 
 class _AppLocalizationsDelegate

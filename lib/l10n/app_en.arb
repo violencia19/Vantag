@@ -39,7 +39,7 @@
   "settingsTheme": "Theme",
   "settingsThemeDark": "Dark",
   "settingsThemeLight": "Light",
-  "settingsThemeSystem": "System",
+  "settingsThemeAutomatic": "Automatic",
 
   "simpleMode": "Simple Mode",
   "simpleModeDescription": "Streamlined experience with essential features only",
@@ -75,6 +75,44 @@
 
   "settingsDataPrivacy": "Data & Privacy",
   "settingsExportData": "Export Data",
+  "settingsImportStatement": "Import Statement",
+  "settingsImportStatementDesc": "Upload your bank statement (PDF/CSV)",
+
+  "importStatementTitle": "Import Statement",
+  "importStatementSelectFile": "Select File",
+  "importStatementSupportedFormats": "Supported formats: PDF, CSV",
+  "importStatementDragDrop": "Tap to select your bank statement",
+  "importStatementProcessing": "Processing statement...",
+  "importStatementSuccess": "Successfully imported {count} transactions",
+  "@importStatementSuccess": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importStatementError": "Error importing statement",
+  "importStatementNoTransactions": "No transactions found in statement",
+  "importStatementUnsupportedFormat": "Unsupported file format",
+  "importStatementMonthlyLimit": "{remaining} imports remaining this month",
+  "@importStatementMonthlyLimit": {
+    "placeholders": {
+      "remaining": {"type": "int"}
+    }
+  },
+  "importStatementLimitReached": "Monthly import limit reached",
+  "importStatementLimitReachedDesc": "You've used all your imports for this month. Upgrade to Pro for more imports.",
+  "importStatementProLimit": "10 imports/month",
+  "importStatementFreeLimit": "1 import/month",
+  "importStatementReviewTitle": "Review Transactions",
+  "importStatementReviewDesc": "Select transactions to import",
+  "importStatementImportSelected": "Import Selected ({count})",
+  "@importStatementImportSelected": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importStatementSelectAll": "Select All",
+  "importStatementDeselectAll": "Deselect All",
+
   "settingsPrivacyPolicy": "Privacy Policy",
 
   "settingsAbout": "About",
@@ -451,6 +489,10 @@
   "simulationDescription": "This amount was saved as simulation because it's large.",
   "simulationInfo": "Does not affect your statistics, just for reference.",
   "understood": "Got it",
+  "largeAmountTitle": "Large Amount",
+  "largeAmountMessage": "Is this a real expense or a simulation?",
+  "realExpenseButton": "Real Expense",
+  "simulationButton": "Simulation",
 
   "monthJanuary": "January",
   "monthFebruary": "February",
@@ -772,6 +814,26 @@
   "freqOnceWeekly": "Once weekly",
   "freqTwoThreeWeekly": "2-3x weekly",
   "freqFewMonthly": "Few per month",
+
+  "habitSharePreText": "This habit takes",
+  "habitShareWorkDays": "WORK DAYS",
+  "habitSharePostText": "of work per year",
+  "habitSharePerYear": "/year",
+  "habitShareCTA": "How many days are your habits?",
+  "habitShareText": "How many days are your habits? 👀 vantag.app",
+  "habitShareTextWithLink": "How many days are your habits? 👀 {link}",
+  "@habitShareTextWithLink": {
+    "placeholders": {
+      "link": {"type": "String"}
+    }
+  },
+  "habitMonthlyDetail": "{days} days {hours} hours",
+  "@habitMonthlyDetail": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "hours": {"type": "int"}
+    }
+  },
 
   "editIncomes": "Edit Incomes",
   "editIncome": "Edit Income",
@@ -1419,6 +1481,34 @@
   "exporting": "Exporting...",
   "exportSuccess": "Report exported successfully",
   "exportError": "Export failed",
+  "exportComplete": "Export Complete",
+  "exportShareOption": "Share",
+  "exportSaveOption": "Save to Files",
+  "exportSavedToDownloads": "Saved to Downloads/Vantag",
+  "exportChooseAction": "What would you like to do with the file?",
+  "csvHeaderDate": "Date",
+  "csvHeaderTime": "Time",
+  "csvHeaderAmount": "Amount",
+  "csvHeaderCurrency": "Currency",
+  "csvHeaderCategory": "Category",
+  "csvHeaderSubcategory": "Subcategory",
+  "csvHeaderDescription": "Description",
+  "csvHeaderProduct": "Product",
+  "csvHeaderDecision": "Decision",
+  "csvHeaderWorkHours": "Work Hours",
+  "csvHeaderInstallment": "Installment",
+  "csvHeaderMandatory": "Mandatory",
+  "csvSummarySection": "SUMMARY",
+  "csvTotalExpense": "Total Expense",
+  "csvCategoryTotals": "Category Totals",
+  "csvDailyAverage": "Daily Average",
+  "csvWeeklyAverage": "Weekly Average",
+  "csvTopCategory": "Top Category",
+  "csvLargestExpense": "Largest Expense",
+  "csvTotalWorkHours": "Total Work Hours",
+  "csvPeriod": "Period",
+  "csvYes": "Yes",
+  "csvNo": "No",
   "financialReport": "Financial Summary Report",
   "createdAt": "Created",
   "savingsRate": "Savings Rate",
@@ -2702,5 +2792,91 @@
   "multiCurrencyProDescription": "Upgrade to Pro to enter income and expenses in different currencies. Use USD, EUR, GBP and more.",
   "multiCurrencyBenefit": "All currencies available",
   "upgradeToPro": "Upgrade to Pro",
-  "currencyLockedForFree": "Currency change is a Pro feature"
+  "currencyLockedForFree": "Currency change is a Pro feature",
+
+  "excelSheetExpenses": "Expenses",
+  "excelSheetSummary": "Summary",
+  "excelSheetCategories": "Categories",
+  "excelSheetTimeAnalysis": "Time Analysis",
+  "excelSheetDecisions": "Decisions",
+  "excelSheetInstallments": "Installments",
+
+  "excelHeaderDay": "Day",
+  "excelHeaderStore": "Store/Location",
+  "excelHeaderMinutes": "Minutes Equiv.",
+  "excelHeaderMonthlyInstallment": "Monthly Payment",
+  "excelHeaderInstallmentCount": "Installment",
+  "excelHeaderSimulation": "Simulation",
+  "excelHeaderHoursEquiv": "Hours Equiv.",
+
+  "excelReportTitle": "Vantag Financial Report",
+  "excelReportPeriod": "Report Period",
+  "excelReportGeneratedAt": "Generated",
+  "excelTotalExpenses": "Total Expenses",
+  "excelTotalTransactions": "Total Transactions",
+  "excelAvgPerTransaction": "Average per Transaction",
+  "excelMonthlyAverage": "Monthly Average",
+  "excelDailyAverage": "Daily Average",
+  "excelWeeklyAverage": "Weekly Average",
+  "excelSavingsRate": "Savings Rate",
+  "excelTotalWorkHours": "Total Work Hours",
+  "excelTotalWorkDays": "Total Work Days",
+
+  "excelCategoryShare": "Share %",
+  "excelCategoryRank": "Rank",
+  "excelTopCategory": "Top Category",
+  "excelCategoryCount": "Transaction Count",
+  "excelCategoryAvg": "Category Average",
+  "excelCategoryTotal": "Category Total",
+  "excelCategoryHours": "Work Hours",
+
+  "excelTimeTitle": "Time Analysis",
+  "excelMostActiveDay": "Most Active Day",
+  "excelMostActiveHour": "Most Active Hour",
+  "excelWeekdayAvg": "Weekday Average",
+  "excelWeekendAvg": "Weekend Average",
+  "excelMorningSpend": "Morning (06-12)",
+  "excelAfternoonSpend": "Afternoon (12-18)",
+  "excelEveningSpend": "Evening (18-24)",
+  "excelNightSpend": "Night (00-06)",
+  "excelByDayOfWeek": "By Day of Week",
+  "excelByHour": "By Hour",
+  "excelByMonth": "By Month",
+
+  "excelDecisionsBought": "Bought",
+  "excelDecisionsThinking": "Thinking",
+  "excelDecisionsPassed": "Passed",
+  "excelDecisionCount": "Count",
+  "excelDecisionAmount": "Amount",
+  "excelDecisionPercent": "Percentage",
+  "excelDecisionAvg": "Average",
+  "excelDecisionHours": "Work Hours",
+  "excelImpulseRate": "Impulse Rate",
+  "excelSavingsFromPassed": "Savings from Passed",
+  "excelPotentialSavings": "Potential Savings (Thinking)",
+
+  "excelInstallmentName": "Description",
+  "excelInstallmentTotal": "Total Amount",
+  "excelInstallmentMonthly": "Monthly Payment",
+  "excelInstallmentProgress": "Progress",
+  "excelInstallmentRemaining": "Remaining",
+  "excelInstallmentStartDate": "Start Date",
+  "excelInstallmentEndDate": "End Date",
+  "excelInstallmentInterest": "Interest",
+  "excelNoInstallments": "No installment payments",
+  "excelTotalMonthlyPayments": "Total Monthly Payments",
+  "excelTotalRemainingDebt": "Total Remaining Debt",
+
+  "excelDayMonday": "Monday",
+  "excelDayTuesday": "Tuesday",
+  "excelDayWednesday": "Wednesday",
+  "excelDayThursday": "Thursday",
+  "excelDayFriday": "Friday",
+  "excelDaySaturday": "Saturday",
+  "excelDaySunday": "Sunday",
+
+  "excelYes": "Yes",
+  "excelNo": "No",
+  "excelReal": "Real",
+  "excelSimulation": "Simulation"
 }

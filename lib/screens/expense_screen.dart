@@ -764,18 +764,21 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                           _buildAvatarButton(context),
                           const SizedBox(width: 12),
                           // Finansal Durum button
-                          GestureDetector(
-                            onTap: () => ProfileModal.show(context),
-                            child: Text(
-                              l10n.financialStatus,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                color: colors.textPrimary,
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () => ProfileModal.show(context),
+                              child: Text(
+                                l10n.financialStatus,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: colors.textPrimary,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ),
-                          const Spacer(),
+                          const SizedBox(width: 8),
                           // Calendar button
                           Showcase(
                             key: TourKeys.subscriptionButton,

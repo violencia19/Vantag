@@ -147,7 +147,7 @@ class _ProfileModalState extends State<ProfileModal> {
     final savedHours = hourlyRate > 0 ? totalSaved / hourlyRate : 0.0;
 
     // Get membership days (from first expense or 0)
-    final expenses = financeProvider.expenses;
+    final expenses = financeProvider.realExpenses;
     final firstExpenseDate = expenses.isNotEmpty
         ? expenses.map((e) => e.date).reduce((a, b) => a.isBefore(b) ? a : b)
         : DateTime.now();

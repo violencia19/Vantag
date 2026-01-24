@@ -529,12 +529,18 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                   child: Icon(category.icon, size: 40, color: category.color),
                 ),
                 const SizedBox(height: 12),
-                Text(
-                  category.name,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: context.appColors.textPrimary,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    category.name,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: context.appColors.textPrimary,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
@@ -994,24 +1000,32 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
               duration: const Duration(milliseconds: 1500),
               curve: Curves.easeOutCubic,
               builder: (context, value, child) {
-                return Text(
-                  l10n.resultDays(value.toString()),
-                  style: TextStyle(
-                    fontSize: 64,
-                    fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
+                return FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    l10n.resultDays(value.toString()),
+                    style: TextStyle(
+                      fontSize: 64,
+                      fontWeight: FontWeight.bold,
+                      color: context.appColors.textPrimary,
+                    ),
                   ),
                 );
               },
             ),
             const SizedBox(height: 12),
-            Text(
-              l10n.yearlyHabitCost(_selectedCategory?.name ?? ''),
-              style: TextStyle(
-                fontSize: 18,
-                color: context.appColors.textSecondary,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                l10n.yearlyHabitCost(_selectedCategory?.name ?? ''),
+                style: TextStyle(
+                  fontSize: 18,
+                  color: context.appColors.textSecondary,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
-              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),
             // Divider
@@ -1020,13 +1034,14 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
             // Detail row
             Text(
               l10n.monthlyYearlyCost(
-                '${_result!.monthlyDays} days ${_result!.monthlyExtraHours} hours',
+                l10n.habitMonthlyDetail(_result!.monthlyDays, _result!.monthlyExtraHours),
                 _formatCurrency(_result!.yearlyAmount),
               ),
               style: TextStyle(
                 fontSize: 14,
                 color: context.appColors.textSecondary,
               ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 48),
             // Buttons

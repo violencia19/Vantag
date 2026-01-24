@@ -37,6 +37,7 @@ export 'premium_share_card.dart';
 
 // Expense Entry
 export 'add_expense_sheet.dart';
+export 'expense_form_chips.dart';
 
 // Income Entry
 export 'add_income_sheet.dart';

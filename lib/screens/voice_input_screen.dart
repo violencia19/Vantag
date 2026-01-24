@@ -6,7 +6,7 @@ import 'package:speech_to_text/speech_to_text.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
-import '../providers/pro_provider.dart';
+import '../providers/providers.dart';
 import '../services/services.dart';
 import '../screens/paywall_screen.dart';
 import '../theme/theme.dart';
@@ -86,10 +86,9 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
     try {
       _isInitialized = await _speech.initialize(
         onStatus: (status) {
+          // Only stop animation when done - processing happens in onResult with finalResult
           if (status == 'done' || status == 'notListening') {
-            if (_recognizedText.isNotEmpty && !_isProcessing) {
-              _processVoiceInput();
-            } else {
+            if (!_isProcessing) {
               _stopListening();
             }
           }
@@ -175,6 +174,11 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
           setState(() {
             _recognizedText = result.recognizedWords;
           });
+
+          // Process only when we get final result
+          if (result.finalResult && _recognizedText.isNotEmpty && !_isProcessing) {
+            _processVoiceInput();
+          }
         }
       },
       onSoundLevelChange: (level) {
@@ -227,11 +231,8 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
       setState(() => _isProcessing = false);
 
       if (result.isValid) {
-        if (result.confidence == VoiceConfidence.high) {
-          await _saveExpense(result);
-        } else {
-          _showConfirmation(result);
-        }
+        // Always show decision dialog for valid results
+        _showDecisionDialog(result);
       } else {
         _showRetryOption();
       }
@@ -247,11 +248,39 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
     }
   }
 
-  Future<void> _saveExpense(VoiceParseResult result) async {
-    // Increment voice input count (successful use)
+  /// Show decision dialog with Aldım/Düşünüyorum/Vazgeçtim buttons
+  /// Auto-selects "Aldım" after 2 seconds
+  void _showDecisionDialog(VoiceParseResult result) {
+    final category = VoiceParserService.mapToAppCategory(result.category);
+    final currencySymbol = context.read<CurrencyProvider>().currency.symbol;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => _DecisionDialog(
+        result: result,
+        category: category,
+        currencySymbol: currencySymbol,
+        onDecision: (decision) async {
+          Navigator.pop(dialogContext);
+          await _saveExpenseWithDecision(result, decision);
+        },
+        onRetry: () {
+          Navigator.pop(dialogContext);
+          _startListening();
+        },
+      ),
+    );
+  }
+
+  /// Save expense with the given decision
+  Future<void> _saveExpenseWithDecision(
+    VoiceParseResult result,
+    ExpenseDecision decision,
+  ) async {
+    // Increment voice input count only on successful save
     await FreeTierService().incrementVoiceInputCount();
 
-    // Map API category to app category
     final category = VoiceParserService.mapToAppCategory(result.category);
     final amount = result.amount!;
 
@@ -263,6 +292,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
           'amount': amount,
           'description': result.description,
           'category': category,
+          'decision': decision.name,
         });
       }
       return;
@@ -271,145 +301,73 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
     // Get expense service
     final expenseService = ExpenseHistoryService();
 
-    // Calculate work time (simplified - actual calculation should use profile data)
-    // Approximate: 1 hour = 50 TL (this should use user's hourly rate)
+    // Calculate work time (simplified)
     final hoursRequired = amount / 50.0;
     final daysRequired = hoursRequired / 8.0;
 
-    // Create expense with required fields
+    // Create expense with the selected decision
     final expense = Expense(
       amount: amount,
       category: category,
-      subCategory: result.description,
+      subCategory: result.item ?? result.description,
       date: DateTime.now(),
       hoursRequired: hoursRequired,
       daysRequired: daysRequired,
-      decision: ExpenseDecision.yes,
+      decision: decision,
     );
 
-    await expenseService.addExpense(expense);
+    try {
+      await expenseService.addExpense(expense);
+    } catch (e) {
+      debugPrint('[Voice] Error adding expense: $e');
+    }
 
     HapticFeedback.mediumImpact();
 
     if (mounted) {
       final l10n = AppLocalizations.of(context);
-      setState(() => _statusText = '${l10n.voiceExpenseAdded}!');
+      final currencySymbol = context.read<CurrencyProvider>().currency.symbol;
+      final decisionText = switch (decision) {
+        ExpenseDecision.yes => l10n.bought,
+        ExpenseDecision.thinking => l10n.thinking,
+        ExpenseDecision.no => l10n.passed,
+      };
 
-      await Future.delayed(const Duration(milliseconds: 800));
+      Navigator.of(context).pop();
 
-      if (mounted) {
-        Navigator.of(context).pop();
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                const Icon(
-                  PhosphorIconsDuotone.checkCircle,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    '${result.amount!.toStringAsFixed(0)} TL ${result.description.isNotEmpty ? result.description : category} eklendi',
-                  ),
-                ),
-              ],
-            ),
-            backgroundColor: context.appColors.success,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-        );
-      }
-    }
-  }
-
-  void _showConfirmation(VoiceParseResult result) {
-    final l10n = AppLocalizations.of(context);
-
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        backgroundColor: context.appColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(
-          l10n.voiceConfirmExpense,
-          style: TextStyle(color: context.appColors.textPrimary),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '${result.amount?.toStringAsFixed(0) ?? "?"} TL',
-              style: TextStyle(
-                color: context.appColors.textPrimary,
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(
+                decision == ExpenseDecision.yes
+                    ? PhosphorIconsDuotone.checkCircle
+                    : decision == ExpenseDecision.no
+                        ? PhosphorIconsDuotone.xCircle
+                        : PhosphorIconsDuotone.clock,
+                color: Colors.white,
+                size: 20,
               ),
-            ),
-            if (result.description.isNotEmpty) ...[
-              const SizedBox(height: 4),
-              Text(
-                result.description,
-                style: TextStyle(
-                  color: context.appColors.textSecondary,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-            if (result.category != null) ...[
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color: context.appColors.primary.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(8),
-                ),
+              const SizedBox(width: 12),
+              Expanded(
                 child: Text(
-                  VoiceParserService.mapToAppCategory(result.category),
-                  style: TextStyle(
-                    color: context.appColors.primary,
-                    fontSize: 14,
-                  ),
+                  '${amount.toStringAsFixed(0)} $currencySymbol ${result.item ?? result.description} - $decisionText',
                 ),
               ),
             ],
-          ],
+          ),
+          backgroundColor: decision == ExpenseDecision.yes
+              ? context.appColors.success
+              : decision == ExpenseDecision.no
+                  ? context.appColors.error
+                  : context.appColors.warning,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _startListening();
-            },
-            child: Text(
-              l10n.sayAgain,
-              style: TextStyle(color: context.appColors.textSecondary),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _saveExpense(result);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            child: Text(l10n.yesSave),
-          ),
-        ],
-      ),
-    );
+      );
+    }
   }
 
   void _showRetryOption() {
@@ -805,6 +763,315 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
             ),
 
             const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Decision dialog with auto-select countdown
+class _DecisionDialog extends StatefulWidget {
+  final VoiceParseResult result;
+  final String category;
+  final String currencySymbol;
+  final Function(ExpenseDecision) onDecision;
+  final VoidCallback onRetry;
+
+  const _DecisionDialog({
+    required this.result,
+    required this.category,
+    required this.currencySymbol,
+    required this.onDecision,
+    required this.onRetry,
+  });
+
+  @override
+  State<_DecisionDialog> createState() => _DecisionDialogState();
+}
+
+class _DecisionDialogState extends State<_DecisionDialog>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _timerController;
+  bool _autoSelectCancelled = false;
+
+  static const _autoSelectDuration = Duration(milliseconds: 2000);
+
+  @override
+  void initState() {
+    super.initState();
+    _timerController = AnimationController(
+      vsync: this,
+      duration: _autoSelectDuration,
+    );
+
+    _timerController.addStatusListener((status) {
+      if (status == AnimationStatus.completed && !_autoSelectCancelled) {
+        // Auto-select "Aldım" when timer completes
+        HapticFeedback.mediumImpact();
+        widget.onDecision(ExpenseDecision.yes);
+      }
+    });
+
+    // Start the countdown
+    _timerController.forward();
+  }
+
+  @override
+  void dispose() {
+    _timerController.dispose();
+    super.dispose();
+  }
+
+  void _cancelAutoSelect() {
+    _autoSelectCancelled = true;
+    _timerController.stop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final colors = context.appColors;
+
+    return AlertDialog(
+      backgroundColor: colors.surface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 16),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Amount display
+          Text(
+            '${widget.result.amount?.toStringAsFixed(0) ?? "?"} ${widget.currencySymbol}',
+            style: TextStyle(
+              color: colors.textPrimary,
+              fontSize: 36,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          // Store and item info
+          if (widget.result.store != null || widget.result.item != null) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (widget.result.store != null)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: colors.primary.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      widget.result.store!,
+                      style: TextStyle(
+                        color: colors.primary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                if (widget.result.store != null && widget.result.item != null)
+                  const SizedBox(width: 8),
+                if (widget.result.item != null)
+                  Text(
+                    widget.result.item!,
+                    style: TextStyle(
+                      color: colors.textSecondary,
+                      fontSize: 16,
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 8),
+          ] else if (widget.result.description.isNotEmpty) ...[
+            Text(
+              widget.result.description,
+              style: TextStyle(
+                color: colors.textSecondary,
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+          ],
+
+          // Category chip
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: colors.surfaceLight,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              widget.category,
+              style: TextStyle(
+                color: colors.textTertiary,
+                fontSize: 13,
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 24),
+
+          // Decision buttons
+          Row(
+            children: [
+              // Vazgeçtim (No)
+              Expanded(
+                child: _DecisionButton(
+                  label: l10n.passed,
+                  icon: PhosphorIconsDuotone.xCircle,
+                  color: colors.error,
+                  onTap: () {
+                    _cancelAutoSelect();
+                    widget.onDecision(ExpenseDecision.no);
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              // Düşünüyorum (Thinking)
+              Expanded(
+                child: _DecisionButton(
+                  label: l10n.thinking,
+                  icon: PhosphorIconsDuotone.clock,
+                  color: colors.warning,
+                  onTap: () {
+                    _cancelAutoSelect();
+                    widget.onDecision(ExpenseDecision.thinking);
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              // Aldım (Yes) - highlighted with timer
+              Expanded(
+                child: Stack(
+                  children: [
+                    _DecisionButton(
+                      label: l10n.bought,
+                      icon: PhosphorIconsDuotone.checkCircle,
+                      color: colors.success,
+                      isHighlighted: true,
+                      onTap: () {
+                        _cancelAutoSelect();
+                        widget.onDecision(ExpenseDecision.yes);
+                      },
+                    ),
+                    // Timer indicator
+                    if (!_autoSelectCancelled)
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: AnimatedBuilder(
+                          animation: _timerController,
+                          builder: (_, __) {
+                            return Container(
+                              height: 3,
+                              margin: const EdgeInsets.symmetric(horizontal: 4),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(2),
+                                child: LinearProgressIndicator(
+                                  value: _timerController.value,
+                                  backgroundColor: colors.success.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                  valueColor: AlwaysStoppedAnimation(
+                                    colors.success,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 16),
+
+          // Retry button
+          TextButton.icon(
+            onPressed: () {
+              _cancelAutoSelect();
+              widget.onRetry();
+            },
+            icon: Icon(
+              PhosphorIconsDuotone.arrowCounterClockwise,
+              size: 18,
+              color: colors.textTertiary,
+            ),
+            label: Text(
+              l10n.sayAgain,
+              style: TextStyle(
+                color: colors.textTertiary,
+                fontSize: 14,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Individual decision button
+class _DecisionButton extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color color;
+  final bool isHighlighted;
+  final VoidCallback onTap;
+
+  const _DecisionButton({
+    required this.label,
+    required this.icon,
+    required this.color,
+    this.isHighlighted = false,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.appColors;
+
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTap();
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        decoration: BoxDecoration(
+          color: isHighlighted
+              ? color.withValues(alpha: 0.15)
+              : colors.surfaceLight,
+          borderRadius: BorderRadius.circular(12),
+          border: isHighlighted
+              ? Border.all(color: color.withValues(alpha: 0.5), width: 1.5)
+              : null,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: color, size: 24),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: isHighlighted ? color : colors.textSecondary,
+                fontSize: 12,
+                fontWeight: isHighlighted ? FontWeight.w600 : FontWeight.w500,
+              ),
+            ),
           ],
         ),
       ),

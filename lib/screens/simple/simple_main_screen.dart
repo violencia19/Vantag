@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../../theme/theme.dart';
 import '../../widgets/add_expense_sheet.dart';
 import '../../services/services.dart';
+import '../../providers/providers.dart';
 import '../lock_screen.dart';
 import 'simple_transactions_screen.dart';
 import 'simple_statistics_screen.dart';
@@ -54,9 +56,29 @@ class _SimpleMainScreenState extends State<SimpleMainScreen>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       _wasInBackground = true;
+      // Clean up simulation expenses when app goes to background
+      _cleanupSimulations();
     } else if (state == AppLifecycleState.resumed && _wasInBackground) {
       _wasInBackground = false;
       _checkLockOnResume();
+      // Refresh theme for time-based automatic mode
+      context.read<ThemeProvider>().refreshTheme();
+    } else if (state == AppLifecycleState.detached) {
+      // Clean up simulation expenses when app is closing
+      _cleanupSimulations();
+    }
+  }
+
+  /// Clean up simulation expenses - they shouldn't persist
+  Future<void> _cleanupSimulations() async {
+    try {
+      await ExpenseHistoryService().clearSimulations();
+      // Refresh provider to reflect changes
+      if (mounted) {
+        context.read<FinanceProvider>().refresh();
+      }
+    } catch (e) {
+      debugPrint('[SimpleMode Cleanup] Error clearing simulations: $e');
     }
   }
 

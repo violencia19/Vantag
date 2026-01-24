@@ -1386,7 +1386,7 @@ class _HabitShareCardState extends State<HabitShareCard>
             _buildGlowOrb(),
 
             // Main content
-            _buildContent(),
+            _buildContent(AppLocalizations.of(context)),
 
             // Vantag branding
             _buildBranding(),
@@ -1461,7 +1461,7 @@ class _HabitShareCardState extends State<HabitShareCard>
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(AppLocalizations l10n) {
     final isStory = widget.format == ShareCardFormat.story;
 
     return Padding(
@@ -1479,19 +1479,19 @@ class _HabitShareCardState extends State<HabitShareCard>
           SizedBox(height: isStory ? 40 : 24),
 
           // Hero: Days display
-          _buildHeroSection(),
+          _buildHeroSection(l10n),
 
           SizedBox(height: isStory ? 32 : 20),
 
           // Info cards (amount + frequency)
           if (widget.yearlyAmount != null || widget.frequency != null)
-            _buildInfoCards(),
+            _buildInfoCards(l10n),
 
           if (isStory) ...[
             const Spacer(),
 
             // CTA Section
-            _buildCTASection(),
+            _buildCTASection(l10n),
 
             const SizedBox(height: 24),
           ],
@@ -1538,12 +1538,12 @@ class _HabitShareCardState extends State<HabitShareCard>
     );
   }
 
-  Widget _buildHeroSection() {
+  Widget _buildHeroSection(AppLocalizations l10n) {
     return Column(
       children: [
         // Pre-text
         Text(
-          'Bu alışkanlık yılda',
+          l10n.habitSharePreText,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w400,
@@ -1597,9 +1597,9 @@ class _HabitShareCardState extends State<HabitShareCard>
               width: 1,
             ),
           ),
-          child: const Text(
-            'İŞ GÜNÜ',
-            style: TextStyle(
+          child: Text(
+            l10n.habitShareWorkDays,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: Colors.white,
@@ -1612,7 +1612,7 @@ class _HabitShareCardState extends State<HabitShareCard>
 
         // Post-text
         Text(
-          'çalışmana eşdeğer',
+          l10n.habitSharePostText,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w400,
@@ -1624,7 +1624,7 @@ class _HabitShareCardState extends State<HabitShareCard>
     );
   }
 
-  Widget _buildInfoCards() {
+  Widget _buildInfoCards(AppLocalizations l10n) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: BackdropFilter(
@@ -1650,7 +1650,7 @@ class _HabitShareCardState extends State<HabitShareCard>
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  '₺${_formatAmount(widget.yearlyAmount!)}/yıl',
+                  '₺${_formatAmount(widget.yearlyAmount!)}${l10n.habitSharePerYear}',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -1691,7 +1691,7 @@ class _HabitShareCardState extends State<HabitShareCard>
     );
   }
 
-  Widget _buildCTASection() {
+  Widget _buildCTASection(AppLocalizations l10n) {
     return Column(
       children: [
         // Divider with glow
@@ -1714,7 +1714,7 @@ class _HabitShareCardState extends State<HabitShareCard>
 
         // CTA text
         Text(
-          'Senin alışkanlıkların kaç gün?',
+          l10n.habitShareCTA,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -2069,14 +2069,15 @@ class _HabitShareCardPreviewSheetState
       await file.writeAsBytes(pngBytes);
 
       // Get referral link for sharing
-      String shareText = 'Senin alışkanlıkların kaç gün? 👀 vantag.app';
+      final l10n = AppLocalizations.of(context);
+      String shareText = l10n.habitShareText;
       try {
         final referralCode = await ReferralService().getOrCreateReferralCode();
         if (referralCode != null) {
           final referralLink = DeepLinkService.generateReferralLink(
             referralCode,
           );
-          shareText = 'Senin alışkanlıkların kaç gün? 👀 $referralLink';
+          shareText = l10n.habitShareTextWithLink(referralLink.toString());
         }
       } catch (_) {
         // Use default text if referral fails

@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Theme modes supported by the app
-enum AppThemeMode { dark, light, system }
+enum AppThemeMode { dark, light, automatic }
 
 /// Provider for managing app theme (dark/light mode)
 class ThemeProvider extends ChangeNotifier {
   static const String _themeKey = 'app_theme_mode';
+
+  // Time-based automatic theme settings
+  static const int _dayStartHour = 7;   // 07:00 - Light mode starts
+  static const int _nightStartHour = 19; // 19:00 - Dark mode starts
 
   AppThemeMode _themeMode = AppThemeMode.dark;
   bool _isInitialized = false;
@@ -24,15 +28,22 @@ class ThemeProvider extends ChangeNotifier {
         return ThemeMode.dark;
       case AppThemeMode.light:
         return ThemeMode.light;
-      case AppThemeMode.system:
-        return ThemeMode.system;
+      case AppThemeMode.automatic:
+        // Time-based: 07:00-19:00 light, 19:00-07:00 dark
+        return _isNightTime() ? ThemeMode.dark : ThemeMode.light;
     }
+  }
+
+  /// Check if current time is night time (19:00 - 07:00)
+  bool _isNightTime() {
+    final hour = DateTime.now().hour;
+    return hour >= _nightStartHour || hour < _dayStartHour;
   }
 
   /// Whether dark mode is currently active
   bool isDarkMode(BuildContext context) {
-    if (_themeMode == AppThemeMode.system) {
-      return MediaQuery.platformBrightnessOf(context) == Brightness.dark;
+    if (_themeMode == AppThemeMode.automatic) {
+      return _isNightTime();
     }
     return _themeMode == AppThemeMode.dark;
   }
@@ -45,14 +56,29 @@ class ThemeProvider extends ChangeNotifier {
     final savedTheme = prefs.getString(_themeKey);
 
     if (savedTheme != null) {
-      _themeMode = AppThemeMode.values.firstWhere(
-        (mode) => mode.name == savedTheme,
-        orElse: () => AppThemeMode.dark,
-      );
+      // Handle migration from old 'system' value to 'automatic'
+      if (savedTheme == 'system') {
+        _themeMode = AppThemeMode.automatic;
+        await prefs.setString(_themeKey, 'automatic');
+      } else {
+        _themeMode = AppThemeMode.values.firstWhere(
+          (mode) => mode.name == savedTheme,
+          orElse: () => AppThemeMode.dark,
+        );
+      }
     }
+    // Default is dark (already set in field initialization)
 
     _isInitialized = true;
     notifyListeners();
+  }
+
+  /// Refresh theme - call when app comes to foreground
+  /// This rechecks the time for automatic mode
+  void refreshTheme() {
+    if (_themeMode == AppThemeMode.automatic) {
+      notifyListeners();
+    }
   }
 
   /// Set theme mode
@@ -74,15 +100,15 @@ class ThemeProvider extends ChangeNotifier {
     await setThemeMode(newMode);
   }
 
-  /// Get theme mode display name
+  /// Get theme mode display name (deprecated - use localization instead)
   String getThemeModeName(BuildContext context, AppThemeMode mode) {
     switch (mode) {
       case AppThemeMode.dark:
         return 'Dark';
       case AppThemeMode.light:
         return 'Light';
-      case AppThemeMode.system:
-        return 'System';
+      case AppThemeMode.automatic:
+        return 'Automatic';
     }
   }
 }

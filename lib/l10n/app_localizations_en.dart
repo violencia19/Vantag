@@ -88,7 +88,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsThemeLight => 'Light';
 
   @override
-  String get settingsThemeSystem => 'System';
+  String get settingsThemeAutomatic => 'Automatic';
 
   @override
   String get simpleMode => 'Simple Mode';
@@ -178,6 +178,78 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsExportData => 'Export Data';
+
+  @override
+  String get settingsImportStatement => 'Import Statement';
+
+  @override
+  String get settingsImportStatementDesc =>
+      'Upload your bank statement (PDF/CSV)';
+
+  @override
+  String get importStatementTitle => 'Import Statement';
+
+  @override
+  String get importStatementSelectFile => 'Select File';
+
+  @override
+  String get importStatementSupportedFormats => 'Supported formats: PDF, CSV';
+
+  @override
+  String get importStatementDragDrop => 'Tap to select your bank statement';
+
+  @override
+  String get importStatementProcessing => 'Processing statement...';
+
+  @override
+  String importStatementSuccess(int count) {
+    return 'Successfully imported $count transactions';
+  }
+
+  @override
+  String get importStatementError => 'Error importing statement';
+
+  @override
+  String get importStatementNoTransactions =>
+      'No transactions found in statement';
+
+  @override
+  String get importStatementUnsupportedFormat => 'Unsupported file format';
+
+  @override
+  String importStatementMonthlyLimit(int remaining) {
+    return '$remaining imports remaining this month';
+  }
+
+  @override
+  String get importStatementLimitReached => 'Monthly import limit reached';
+
+  @override
+  String get importStatementLimitReachedDesc =>
+      'You\'ve used all your imports for this month. Upgrade to Pro for more imports.';
+
+  @override
+  String get importStatementProLimit => '10 imports/month';
+
+  @override
+  String get importStatementFreeLimit => '1 import/month';
+
+  @override
+  String get importStatementReviewTitle => 'Review Transactions';
+
+  @override
+  String get importStatementReviewDesc => 'Select transactions to import';
+
+  @override
+  String importStatementImportSelected(int count) {
+    return 'Import Selected ($count)';
+  }
+
+  @override
+  String get importStatementSelectAll => 'Select All';
+
+  @override
+  String get importStatementDeselectAll => 'Deselect All';
 
   @override
   String get settingsPrivacyPolicy => 'Privacy Policy';
@@ -946,6 +1018,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get understood => 'Understood';
 
   @override
+  String get largeAmountTitle => 'Large Amount';
+
+  @override
+  String get largeAmountMessage => 'Is this a real expense or a simulation?';
+
+  @override
+  String get realExpenseButton => 'Real Expense';
+
+  @override
+  String get simulationButton => 'Simulation';
+
+  @override
   String get monthJanuary => 'January';
 
   @override
@@ -1494,6 +1578,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get freqFewMonthly => 'Few per month';
+
+  @override
+  String get habitSharePreText => 'This habit takes';
+
+  @override
+  String get habitShareWorkDays => 'WORK DAYS';
+
+  @override
+  String get habitSharePostText => 'of work per year';
+
+  @override
+  String get habitSharePerYear => '/year';
+
+  @override
+  String get habitShareCTA => 'How many days are your habits?';
+
+  @override
+  String get habitShareText => 'How many days are your habits? 👀 vantag.app';
+
+  @override
+  String habitShareTextWithLink(String link) {
+    return 'How many days are your habits? 👀 $link';
+  }
+
+  @override
+  String habitMonthlyDetail(int days, int hours) {
+    return '$days days $hours hours';
+  }
 
   @override
   String get editIncomes => 'Edit Incomes';
@@ -2727,6 +2839,90 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exportError => 'Export failed';
+
+  @override
+  String get exportComplete => 'Export Complete';
+
+  @override
+  String get exportShareOption => 'Share';
+
+  @override
+  String get exportSaveOption => 'Save to Files';
+
+  @override
+  String get exportSavedToDownloads => 'Saved to Downloads/Vantag';
+
+  @override
+  String get exportChooseAction => 'What would you like to do with the file?';
+
+  @override
+  String get csvHeaderDate => 'Date';
+
+  @override
+  String get csvHeaderTime => 'Time';
+
+  @override
+  String get csvHeaderAmount => 'Amount';
+
+  @override
+  String get csvHeaderCurrency => 'Currency';
+
+  @override
+  String get csvHeaderCategory => 'Category';
+
+  @override
+  String get csvHeaderSubcategory => 'Subcategory';
+
+  @override
+  String get csvHeaderDescription => 'Description';
+
+  @override
+  String get csvHeaderProduct => 'Product';
+
+  @override
+  String get csvHeaderDecision => 'Decision';
+
+  @override
+  String get csvHeaderWorkHours => 'Work Hours';
+
+  @override
+  String get csvHeaderInstallment => 'Installment';
+
+  @override
+  String get csvHeaderMandatory => 'Mandatory';
+
+  @override
+  String get csvSummarySection => 'SUMMARY';
+
+  @override
+  String get csvTotalExpense => 'Total Expense';
+
+  @override
+  String get csvCategoryTotals => 'Category Totals';
+
+  @override
+  String get csvDailyAverage => 'Daily Average';
+
+  @override
+  String get csvWeeklyAverage => 'Weekly Average';
+
+  @override
+  String get csvTopCategory => 'Top Category';
+
+  @override
+  String get csvLargestExpense => 'Largest Expense';
+
+  @override
+  String get csvTotalWorkHours => 'Total Work Hours';
+
+  @override
+  String get csvPeriod => 'Period';
+
+  @override
+  String get csvYes => 'Yes';
+
+  @override
+  String get csvNo => 'No';
 
   @override
   String get financialReport => 'Financial Summary Report';
@@ -5109,4 +5305,235 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get currencyLockedForFree => 'Currency change is a Pro feature';
+
+  @override
+  String get excelSheetExpenses => 'Expenses';
+
+  @override
+  String get excelSheetSummary => 'Summary';
+
+  @override
+  String get excelSheetCategories => 'Categories';
+
+  @override
+  String get excelSheetTimeAnalysis => 'Time Analysis';
+
+  @override
+  String get excelSheetDecisions => 'Decisions';
+
+  @override
+  String get excelSheetInstallments => 'Installments';
+
+  @override
+  String get excelHeaderDay => 'Day';
+
+  @override
+  String get excelHeaderStore => 'Store/Location';
+
+  @override
+  String get excelHeaderMinutes => 'Minutes Equiv.';
+
+  @override
+  String get excelHeaderMonthlyInstallment => 'Monthly Payment';
+
+  @override
+  String get excelHeaderInstallmentCount => 'Installment';
+
+  @override
+  String get excelHeaderSimulation => 'Simulation';
+
+  @override
+  String get excelHeaderHoursEquiv => 'Hours Equiv.';
+
+  @override
+  String get excelReportTitle => 'Vantag Financial Report';
+
+  @override
+  String get excelReportPeriod => 'Report Period';
+
+  @override
+  String get excelReportGeneratedAt => 'Generated';
+
+  @override
+  String get excelTotalExpenses => 'Total Expenses';
+
+  @override
+  String get excelTotalTransactions => 'Total Transactions';
+
+  @override
+  String get excelAvgPerTransaction => 'Average per Transaction';
+
+  @override
+  String get excelMonthlyAverage => 'Monthly Average';
+
+  @override
+  String get excelDailyAverage => 'Daily Average';
+
+  @override
+  String get excelWeeklyAverage => 'Weekly Average';
+
+  @override
+  String get excelSavingsRate => 'Savings Rate';
+
+  @override
+  String get excelTotalWorkHours => 'Total Work Hours';
+
+  @override
+  String get excelTotalWorkDays => 'Total Work Days';
+
+  @override
+  String get excelCategoryShare => 'Share %';
+
+  @override
+  String get excelCategoryRank => 'Rank';
+
+  @override
+  String get excelTopCategory => 'Top Category';
+
+  @override
+  String get excelCategoryCount => 'Transaction Count';
+
+  @override
+  String get excelCategoryAvg => 'Category Average';
+
+  @override
+  String get excelCategoryTotal => 'Category Total';
+
+  @override
+  String get excelCategoryHours => 'Work Hours';
+
+  @override
+  String get excelTimeTitle => 'Time Analysis';
+
+  @override
+  String get excelMostActiveDay => 'Most Active Day';
+
+  @override
+  String get excelMostActiveHour => 'Most Active Hour';
+
+  @override
+  String get excelWeekdayAvg => 'Weekday Average';
+
+  @override
+  String get excelWeekendAvg => 'Weekend Average';
+
+  @override
+  String get excelMorningSpend => 'Morning (06-12)';
+
+  @override
+  String get excelAfternoonSpend => 'Afternoon (12-18)';
+
+  @override
+  String get excelEveningSpend => 'Evening (18-24)';
+
+  @override
+  String get excelNightSpend => 'Night (00-06)';
+
+  @override
+  String get excelByDayOfWeek => 'By Day of Week';
+
+  @override
+  String get excelByHour => 'By Hour';
+
+  @override
+  String get excelByMonth => 'By Month';
+
+  @override
+  String get excelDecisionsBought => 'Bought';
+
+  @override
+  String get excelDecisionsThinking => 'Thinking';
+
+  @override
+  String get excelDecisionsPassed => 'Passed';
+
+  @override
+  String get excelDecisionCount => 'Count';
+
+  @override
+  String get excelDecisionAmount => 'Amount';
+
+  @override
+  String get excelDecisionPercent => 'Percentage';
+
+  @override
+  String get excelDecisionAvg => 'Average';
+
+  @override
+  String get excelDecisionHours => 'Work Hours';
+
+  @override
+  String get excelImpulseRate => 'Impulse Rate';
+
+  @override
+  String get excelSavingsFromPassed => 'Savings from Passed';
+
+  @override
+  String get excelPotentialSavings => 'Potential Savings (Thinking)';
+
+  @override
+  String get excelInstallmentName => 'Description';
+
+  @override
+  String get excelInstallmentTotal => 'Total Amount';
+
+  @override
+  String get excelInstallmentMonthly => 'Monthly Payment';
+
+  @override
+  String get excelInstallmentProgress => 'Progress';
+
+  @override
+  String get excelInstallmentRemaining => 'Remaining';
+
+  @override
+  String get excelInstallmentStartDate => 'Start Date';
+
+  @override
+  String get excelInstallmentEndDate => 'End Date';
+
+  @override
+  String get excelInstallmentInterest => 'Interest';
+
+  @override
+  String get excelNoInstallments => 'No installment payments';
+
+  @override
+  String get excelTotalMonthlyPayments => 'Total Monthly Payments';
+
+  @override
+  String get excelTotalRemainingDebt => 'Total Remaining Debt';
+
+  @override
+  String get excelDayMonday => 'Monday';
+
+  @override
+  String get excelDayTuesday => 'Tuesday';
+
+  @override
+  String get excelDayWednesday => 'Wednesday';
+
+  @override
+  String get excelDayThursday => 'Thursday';
+
+  @override
+  String get excelDayFriday => 'Friday';
+
+  @override
+  String get excelDaySaturday => 'Saturday';
+
+  @override
+  String get excelDaySunday => 'Sunday';
+
+  @override
+  String get excelYes => 'Yes';
+
+  @override
+  String get excelNo => 'No';
+
+  @override
+  String get excelReal => 'Real';
+
+  @override
+  String get excelSimulation => 'Simulation';
 }

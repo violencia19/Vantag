@@ -80,7 +80,7 @@ class _AIChatSheetState extends State<AIChatSheet> {
       final financeProvider = context.read<FinanceProvider>();
       final currencyProvider = context.read<CurrencyProvider>();
       final userProfile = financeProvider.userProfile;
-      final expenses = financeProvider.expenses;
+      final expenses = financeProvider.realExpenses;
 
       if (userProfile == null) {
         final l10n = AppLocalizations.of(context);
@@ -183,7 +183,7 @@ SADECE karşılama cümlesini yaz:
   String _getFallbackGreeting() {
     final financeProvider = context.read<FinanceProvider>();
     final userProfile = financeProvider.userProfile;
-    final expenses = financeProvider.expenses;
+    final expenses = financeProvider.realExpenses;
 
     if (userProfile == null) {
       final l10n = AppLocalizations.of(context);

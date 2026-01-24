@@ -45,6 +45,12 @@ class VoiceParseResult {
   /// Suggested display name (for merchant learning)
   final String? merchantName;
 
+  /// Store/shop name where purchase was made
+  final String? store;
+
+  /// Item/product that was purchased (subCategory)
+  final String? item;
+
   /// Date for the expense (null = today)
   final DateTime? date;
 
@@ -56,6 +62,8 @@ class VoiceParseResult {
     required this.source,
     required this.originalText,
     this.merchantName,
+    this.store,
+    this.item,
     this.date,
   });
 
@@ -88,6 +96,8 @@ class VoiceParseResult {
       source: VoiceParseSource.gpt,
       originalText: originalText,
       merchantName: json['merchant'] as String?,
+      store: json['store'] as String?,
+      item: json['item'] as String?,
     );
   }
 
@@ -98,6 +108,8 @@ class VoiceParseResult {
     required String description,
     required String originalText,
     String? merchantName,
+    String? store,
+    String? item,
   }) {
     // Determine confidence based on what was detected
     VoiceConfidence confidence;
@@ -117,6 +129,8 @@ class VoiceParseResult {
       source: VoiceParseSource.regex,
       originalText: originalText,
       merchantName: merchantName,
+      store: store,
+      item: item,
     );
   }
 
@@ -139,6 +153,8 @@ class VoiceParseResult {
     VoiceParseSource? source,
     String? originalText,
     String? merchantName,
+    String? store,
+    String? item,
     DateTime? date,
   }) {
     return VoiceParseResult(
@@ -149,6 +165,8 @@ class VoiceParseResult {
       source: source ?? this.source,
       originalText: originalText ?? this.originalText,
       merchantName: merchantName ?? this.merchantName,
+      store: store ?? this.store,
+      item: item ?? this.item,
       date: date ?? this.date,
     );
   }
@@ -162,6 +180,8 @@ class VoiceParseResult {
       'source': source.name,
       'originalText': originalText,
       'merchantName': merchantName,
+      'store': store,
+      'item': item,
       'date': date?.toIso8601String(),
     };
   }

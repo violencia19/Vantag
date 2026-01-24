@@ -266,6 +266,30 @@ class ExpenseHistoryService {
     await prefs.setString(_keyExpenses, Expense.encodeList(expenses));
   }
 
+  /// Simülasyon harcamalarını temizle (app kapatılırken çağrılır)
+  Future<void> clearSimulations() async {
+    await _withLock(() async {
+      final expenses = await getAllExpenses();
+      final simulations = expenses.where((e) => e.isSimulation).toList();
+
+      if (simulations.isEmpty) {
+        debugPrint("ℹ️ [Cleanup] Silinecek simülasyon yok");
+        return;
+      }
+
+      // Local'den simülasyonları filtrele
+      final realExpenses = expenses.where((e) => e.isReal).toList();
+      await _saveExpenses(realExpenses);
+      debugPrint("✅ [Local] ${simulations.length} simülasyon silindi");
+
+      // Firestore'dan simülasyonları sil
+      for (final sim in simulations) {
+        await _deleteFromFirestore(sim);
+      }
+      debugPrint("✅ [Firestore] Simülasyonlar temizlendi");
+    });
+  }
+
   /// Tüm geçmişi temizle (test için)
   Future<void> clearAll() async {
     await _withLock(() async {

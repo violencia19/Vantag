@@ -88,7 +88,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsThemeLight => 'Açık';
 
   @override
-  String get settingsThemeSystem => 'Sistem';
+  String get settingsThemeAutomatic => 'Otomatik';
 
   @override
   String get simpleMode => 'Basit Mod';
@@ -178,6 +178,79 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsExportData => 'Verileri Dışa Aktar';
+
+  @override
+  String get settingsImportStatement => 'Ekstre Yükle';
+
+  @override
+  String get settingsImportStatementDesc =>
+      'Banka ekstrenizi yükleyin (PDF/CSV)';
+
+  @override
+  String get importStatementTitle => 'Ekstre Yükle';
+
+  @override
+  String get importStatementSelectFile => 'Dosya Seç';
+
+  @override
+  String get importStatementSupportedFormats =>
+      'Desteklenen formatlar: PDF, CSV';
+
+  @override
+  String get importStatementDragDrop => 'Banka ekstrenizi seçmek için dokunun';
+
+  @override
+  String get importStatementProcessing => 'Ekstre işleniyor...';
+
+  @override
+  String importStatementSuccess(int count) {
+    return '$count işlem başarıyla içe aktarıldı';
+  }
+
+  @override
+  String get importStatementError => 'Ekstre içe aktarılırken hata oluştu';
+
+  @override
+  String get importStatementNoTransactions => 'Ekstrede işlem bulunamadı';
+
+  @override
+  String get importStatementUnsupportedFormat => 'Desteklenmeyen dosya formatı';
+
+  @override
+  String importStatementMonthlyLimit(int remaining) {
+    return 'Bu ay $remaining içe aktarma hakkınız kaldı';
+  }
+
+  @override
+  String get importStatementLimitReached =>
+      'Aylık içe aktarma limitine ulaşıldı';
+
+  @override
+  String get importStatementLimitReachedDesc =>
+      'Bu ayki tüm içe aktarma haklarınızı kullandınız. Daha fazlası için Pro\'ya yükseltin.';
+
+  @override
+  String get importStatementProLimit => 'Ayda 10 içe aktarma';
+
+  @override
+  String get importStatementFreeLimit => 'Ayda 1 içe aktarma';
+
+  @override
+  String get importStatementReviewTitle => 'İşlemleri İncele';
+
+  @override
+  String get importStatementReviewDesc => 'İçe aktarılacak işlemleri seçin';
+
+  @override
+  String importStatementImportSelected(int count) {
+    return 'Seçilenleri İçe Aktar ($count)';
+  }
+
+  @override
+  String get importStatementSelectAll => 'Tümünü Seç';
+
+  @override
+  String get importStatementDeselectAll => 'Seçimi Kaldır';
 
   @override
   String get settingsPrivacyPolicy => 'Gizlilik Politikası';
@@ -947,6 +1020,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get understood => 'Anladım';
 
   @override
+  String get largeAmountTitle => 'Büyük Tutar';
+
+  @override
+  String get largeAmountMessage =>
+      'Bu gerçek bir harcama mı, yoksa simülasyon mu?';
+
+  @override
+  String get realExpenseButton => 'Gerçek Harcama';
+
+  @override
+  String get simulationButton => 'Simülasyon';
+
+  @override
   String get monthJanuary => 'Ocak';
 
   @override
@@ -1492,6 +1578,34 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get freqFewMonthly => 'Ayda birkaç';
+
+  @override
+  String get habitSharePreText => 'Bu alışkanlık yılda';
+
+  @override
+  String get habitShareWorkDays => 'İŞ GÜNÜ';
+
+  @override
+  String get habitSharePostText => 'çalışmana eşdeğer';
+
+  @override
+  String get habitSharePerYear => '/yıl';
+
+  @override
+  String get habitShareCTA => 'Senin alışkanlıkların kaç gün?';
+
+  @override
+  String get habitShareText => 'Senin alışkanlıkların kaç gün? 👀 vantag.app';
+
+  @override
+  String habitShareTextWithLink(String link) {
+    return 'Senin alışkanlıkların kaç gün? 👀 $link';
+  }
+
+  @override
+  String habitMonthlyDetail(int days, int hours) {
+    return '$days gün $hours saat';
+  }
 
   @override
   String get editIncomes => 'Gelirleri Düzenle';
@@ -2723,6 +2837,90 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get exportError => 'Dışa aktarma başarısız';
+
+  @override
+  String get exportComplete => 'Dışa Aktarma Tamamlandı';
+
+  @override
+  String get exportShareOption => 'Paylaş';
+
+  @override
+  String get exportSaveOption => 'Dosyalarıma Kaydet';
+
+  @override
+  String get exportSavedToDownloads => 'Downloads/Vantag klasörüne kaydedildi';
+
+  @override
+  String get exportChooseAction => 'Dosya ile ne yapmak istersiniz?';
+
+  @override
+  String get csvHeaderDate => 'Tarih';
+
+  @override
+  String get csvHeaderTime => 'Saat';
+
+  @override
+  String get csvHeaderAmount => 'Tutar';
+
+  @override
+  String get csvHeaderCurrency => 'Para Birimi';
+
+  @override
+  String get csvHeaderCategory => 'Kategori';
+
+  @override
+  String get csvHeaderSubcategory => 'Alt Kategori';
+
+  @override
+  String get csvHeaderDescription => 'Açıklama';
+
+  @override
+  String get csvHeaderProduct => 'Ürün';
+
+  @override
+  String get csvHeaderDecision => 'Karar';
+
+  @override
+  String get csvHeaderWorkHours => 'Çalışma Saati';
+
+  @override
+  String get csvHeaderInstallment => 'Taksit';
+
+  @override
+  String get csvHeaderMandatory => 'Zorunlu';
+
+  @override
+  String get csvSummarySection => 'ÖZET';
+
+  @override
+  String get csvTotalExpense => 'Toplam Harcama';
+
+  @override
+  String get csvCategoryTotals => 'Kategori Toplamları';
+
+  @override
+  String get csvDailyAverage => 'Günlük Ortalama';
+
+  @override
+  String get csvWeeklyAverage => 'Haftalık Ortalama';
+
+  @override
+  String get csvTopCategory => 'En Çok Harcanan Kategori';
+
+  @override
+  String get csvLargestExpense => 'En Büyük Harcama';
+
+  @override
+  String get csvTotalWorkHours => 'Toplam Çalışma Saati';
+
+  @override
+  String get csvPeriod => 'Dönem';
+
+  @override
+  String get csvYes => 'Evet';
+
+  @override
+  String get csvNo => 'Hayır';
 
   @override
   String get financialReport => 'Finansal Özet Raporu';
@@ -5100,4 +5298,235 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get currencyLockedForFree => 'Para birimi değişikliği Pro özelliğidir';
+
+  @override
+  String get excelSheetExpenses => 'Harcamalar';
+
+  @override
+  String get excelSheetSummary => 'Özet';
+
+  @override
+  String get excelSheetCategories => 'Kategoriler';
+
+  @override
+  String get excelSheetTimeAnalysis => 'Zaman Analizi';
+
+  @override
+  String get excelSheetDecisions => 'Kararlar';
+
+  @override
+  String get excelSheetInstallments => 'Taksitler';
+
+  @override
+  String get excelHeaderDay => 'Gün';
+
+  @override
+  String get excelHeaderStore => 'Mağaza/Yer';
+
+  @override
+  String get excelHeaderMinutes => 'Dakika Karşılığı';
+
+  @override
+  String get excelHeaderMonthlyInstallment => 'Aylık Ödeme';
+
+  @override
+  String get excelHeaderInstallmentCount => 'Taksit';
+
+  @override
+  String get excelHeaderSimulation => 'Simülasyon';
+
+  @override
+  String get excelHeaderHoursEquiv => 'Saat Karşılığı';
+
+  @override
+  String get excelReportTitle => 'Vantag Finansal Rapor';
+
+  @override
+  String get excelReportPeriod => 'Rapor Dönemi';
+
+  @override
+  String get excelReportGeneratedAt => 'Oluşturulma Tarihi';
+
+  @override
+  String get excelTotalExpenses => 'Toplam Harcama';
+
+  @override
+  String get excelTotalTransactions => 'Toplam İşlem';
+
+  @override
+  String get excelAvgPerTransaction => 'İşlem Başına Ortalama';
+
+  @override
+  String get excelMonthlyAverage => 'Aylık Ortalama';
+
+  @override
+  String get excelDailyAverage => 'Günlük Ortalama';
+
+  @override
+  String get excelWeeklyAverage => 'Haftalık Ortalama';
+
+  @override
+  String get excelSavingsRate => 'Tasarruf Oranı';
+
+  @override
+  String get excelTotalWorkHours => 'Toplam Çalışma Saati';
+
+  @override
+  String get excelTotalWorkDays => 'Toplam Çalışma Günü';
+
+  @override
+  String get excelCategoryShare => 'Pay %';
+
+  @override
+  String get excelCategoryRank => 'Sıra';
+
+  @override
+  String get excelTopCategory => 'En Çok Harcanan';
+
+  @override
+  String get excelCategoryCount => 'İşlem Sayısı';
+
+  @override
+  String get excelCategoryAvg => 'Kategori Ortalaması';
+
+  @override
+  String get excelCategoryTotal => 'Kategori Toplamı';
+
+  @override
+  String get excelCategoryHours => 'Çalışma Saati';
+
+  @override
+  String get excelTimeTitle => 'Zaman Analizi';
+
+  @override
+  String get excelMostActiveDay => 'En Aktif Gün';
+
+  @override
+  String get excelMostActiveHour => 'En Aktif Saat';
+
+  @override
+  String get excelWeekdayAvg => 'Hafta İçi Ortalama';
+
+  @override
+  String get excelWeekendAvg => 'Hafta Sonu Ortalama';
+
+  @override
+  String get excelMorningSpend => 'Sabah (06-12)';
+
+  @override
+  String get excelAfternoonSpend => 'Öğleden Sonra (12-18)';
+
+  @override
+  String get excelEveningSpend => 'Akşam (18-24)';
+
+  @override
+  String get excelNightSpend => 'Gece (00-06)';
+
+  @override
+  String get excelByDayOfWeek => 'Haftanın Günlerine Göre';
+
+  @override
+  String get excelByHour => 'Saate Göre';
+
+  @override
+  String get excelByMonth => 'Aya Göre';
+
+  @override
+  String get excelDecisionsBought => 'Aldım';
+
+  @override
+  String get excelDecisionsThinking => 'Düşünüyorum';
+
+  @override
+  String get excelDecisionsPassed => 'Vazgeçtim';
+
+  @override
+  String get excelDecisionCount => 'Adet';
+
+  @override
+  String get excelDecisionAmount => 'Tutar';
+
+  @override
+  String get excelDecisionPercent => 'Yüzde';
+
+  @override
+  String get excelDecisionAvg => 'Ortalama';
+
+  @override
+  String get excelDecisionHours => 'Çalışma Saati';
+
+  @override
+  String get excelImpulseRate => 'Anlık Karar Oranı';
+
+  @override
+  String get excelSavingsFromPassed => 'Vazgeçerek Tasarruf';
+
+  @override
+  String get excelPotentialSavings => 'Potansiyel Tasarruf (Düşünülen)';
+
+  @override
+  String get excelInstallmentName => 'Açıklama';
+
+  @override
+  String get excelInstallmentTotal => 'Toplam Tutar';
+
+  @override
+  String get excelInstallmentMonthly => 'Aylık Ödeme';
+
+  @override
+  String get excelInstallmentProgress => 'İlerleme';
+
+  @override
+  String get excelInstallmentRemaining => 'Kalan';
+
+  @override
+  String get excelInstallmentStartDate => 'Başlangıç';
+
+  @override
+  String get excelInstallmentEndDate => 'Bitiş';
+
+  @override
+  String get excelInstallmentInterest => 'Vade Farkı';
+
+  @override
+  String get excelNoInstallments => 'Taksitli ödeme bulunmuyor';
+
+  @override
+  String get excelTotalMonthlyPayments => 'Toplam Aylık Ödemeler';
+
+  @override
+  String get excelTotalRemainingDebt => 'Toplam Kalan Borç';
+
+  @override
+  String get excelDayMonday => 'Pazartesi';
+
+  @override
+  String get excelDayTuesday => 'Salı';
+
+  @override
+  String get excelDayWednesday => 'Çarşamba';
+
+  @override
+  String get excelDayThursday => 'Perşembe';
+
+  @override
+  String get excelDayFriday => 'Cuma';
+
+  @override
+  String get excelDaySaturday => 'Cumartesi';
+
+  @override
+  String get excelDaySunday => 'Pazar';
+
+  @override
+  String get excelYes => 'Evet';
+
+  @override
+  String get excelNo => 'Hayır';
+
+  @override
+  String get excelReal => 'Gerçek';
+
+  @override
+  String get excelSimulation => 'Simülasyon';
 }
