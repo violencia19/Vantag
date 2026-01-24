@@ -762,22 +762,21 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                         children: [
                           // Avatar
                           _buildAvatarButton(context),
-                          const SizedBox(width: 14),
-                          // Finansal Durum title
-                          Expanded(
+                          const SizedBox(width: 12),
+                          // Finansal Durum button
+                          GestureDetector(
+                            onTap: () => ProfileModal.show(context),
                             child: Text(
                               l10n.financialStatus,
                               style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w700,
                                 color: colors.textPrimary,
-                                letterSpacing: 0.5,
                               ),
                             ),
                           ),
-                          // Pro Lightning Button
-                          _buildProLightningButton(context, l10n),
-                          const SizedBox(width: 10),
+                          const Spacer(),
+                          // Calendar button
                           Showcase(
                             key: TourKeys.subscriptionButton,
                             title: l10n.subscriptions,
@@ -804,7 +803,8 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                               semanticLabel: l10n.subscriptions,
                             ),
                           ),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: 8),
+                          // Streak widget
                           Showcase(
                             key: TourKeys.streakWidget,
                             title: l10n.streakTracking,
@@ -826,7 +826,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 8),
                       // Bottom row: Greeting
                       Text(
                         '${_getGreeting(l10n)} 👋',
