@@ -5096,4 +5096,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get loggedOutFromAnotherDeviceMessage =>
       'Your account was accessed from another device. For security reasons, you have been signed out from this device.';
+
+  @override
+  String get multiCurrencyProTitle => 'Multi-Currency';
+
+  @override
+  String get multiCurrencyProDescription =>
+      'Upgrade to Pro to enter income and expenses in different currencies. Use USD, EUR, GBP and more.';
+
+  @override
+  String get multiCurrencyBenefit => 'All currencies available';
+
+  @override
+  String get currencyLockedForFree => 'Currency change is a Pro feature';
 }

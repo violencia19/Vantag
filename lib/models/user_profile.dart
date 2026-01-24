@@ -21,6 +21,9 @@ class UserProfile {
   final DateTime?
   lastSalaryConfirmedDate; // Last time user confirmed salary received
 
+  // Base currency (locked for FREE users, from first salary entry)
+  final String? baseCurrency; // TRY, USD, EUR, etc.
+
   const UserProfile({
     this.incomeSources = const [],
     this.dailyHours = 8,
@@ -33,6 +36,7 @@ class UserProfile {
     this.salaryDay,
     this.currentBalance,
     this.lastSalaryConfirmedDate,
+    this.baseCurrency,
   });
 
   /// Generate a unique referral code (VANTAG-XXXXX)
@@ -155,6 +159,7 @@ class UserProfile {
     int? salaryDay,
     double? currentBalance,
     DateTime? lastSalaryConfirmedDate,
+    String? baseCurrency,
   }) {
     return UserProfile(
       incomeSources: incomeSources ?? this.incomeSources,
@@ -169,6 +174,7 @@ class UserProfile {
       currentBalance: currentBalance ?? this.currentBalance,
       lastSalaryConfirmedDate:
           lastSalaryConfirmedDate ?? this.lastSalaryConfirmedDate,
+      baseCurrency: baseCurrency ?? this.baseCurrency,
     );
   }
 

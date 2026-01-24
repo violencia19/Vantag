@@ -2696,5 +2696,11 @@
 
   "loggedOutFromAnotherDevice": "Logged In From Another Device",
   "loggedOutFromAnotherDeviceMessage": "Your account was accessed from another device. For security reasons, you have been signed out from this device.",
-  "understood": "Understood"
+  "understood": "Understood",
+
+  "multiCurrencyProTitle": "Multi-Currency",
+  "multiCurrencyProDescription": "Upgrade to Pro to enter income and expenses in different currencies. Use USD, EUR, GBP and more.",
+  "multiCurrencyBenefit": "All currencies available",
+  "upgradeToPro": "Upgrade to Pro",
+  "currencyLockedForFree": "Currency change is a Pro feature"
 }

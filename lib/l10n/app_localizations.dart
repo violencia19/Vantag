@@ -9261,6 +9261,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your account was accessed from another device. For security reasons, you have been signed out from this device.'**
   String get loggedOutFromAnotherDeviceMessage;
+
+  /// No description provided for @multiCurrencyProTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Multi-Currency'**
+  String get multiCurrencyProTitle;
+
+  /// No description provided for @multiCurrencyProDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro to enter income and expenses in different currencies. Use USD, EUR, GBP and more.'**
+  String get multiCurrencyProDescription;
+
+  /// No description provided for @multiCurrencyBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'All currencies available'**
+  String get multiCurrencyBenefit;
+
+  /// No description provided for @currencyLockedForFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency change is a Pro feature'**
+  String get currencyLockedForFree;
 }
 
 class _AppLocalizationsDelegate

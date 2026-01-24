@@ -18,6 +18,7 @@ import 'result_card.dart';
 import 'decision_buttons.dart';
 import 'smart_choice_toggle.dart';
 import 'redirect_savings_sheet.dart';
+import 'multi_currency_pro_sheet.dart';
 import '../screens/voice_input_screen.dart';
 
 /// Full Expense Entry Bottom Sheet
@@ -1573,6 +1574,46 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
   }
 
   Widget _buildCurrencyDropdown() {
+    final isPro = context.watch<ProProvider>().isPro;
+
+    // FREE users see locked currency display
+    if (!isPro) {
+      return GestureDetector(
+        onTap: () => MultiCurrencyProSheet.show(context),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            color: context.appColors.textTertiary.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: context.appColors.textTertiary.withValues(alpha: 0.3),
+              width: 1,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                CurrencyHelper.getDisplay(_expenseCurrency.code),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: context.appColors.textTertiary,
+                ),
+              ),
+              const SizedBox(width: 6),
+              Icon(
+                PhosphorIconsRegular.lock,
+                size: 14,
+                color: context.appColors.textTertiary,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // PRO users get full dropdown
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(

@@ -83,6 +83,7 @@ export 'create_budget_sheet.dart';
 
 // Free Tier
 export 'upgrade_dialog.dart';
+export 'multi_currency_pro_sheet.dart';
 
 // Animations
 export 'lottie_animations.dart';

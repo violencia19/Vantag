@@ -5087,4 +5087,17 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get loggedOutFromAnotherDeviceMessage =>
       'Hesabınıza başka bir cihazdan giriş yapıldı. Güvenlik nedeniyle bu cihazdan çıkış yapıldı.';
+
+  @override
+  String get multiCurrencyProTitle => 'Çoklu Para Birimi';
+
+  @override
+  String get multiCurrencyProDescription =>
+      'Farklı para birimlerinde gelir ve harcama girişi yapabilmek için Pro üyeliğe yükseltin. USD, EUR, GBP ve daha fazlasını kullanın.';
+
+  @override
+  String get multiCurrencyBenefit => 'Tüm para birimlerinde işlem';
+
+  @override
+  String get currencyLockedForFree => 'Para birimi değişikliği Pro özelliğidir';
 }

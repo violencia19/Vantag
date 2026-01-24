@@ -2330,5 +2330,11 @@
 
   "loggedOutFromAnotherDevice": "Başka Cihazda Giriş Yapıldı",
   "loggedOutFromAnotherDeviceMessage": "Hesabınıza başka bir cihazdan giriş yapıldı. Güvenlik nedeniyle bu cihazdan çıkış yapıldı.",
-  "understood": "Anladım"
+  "understood": "Anladım",
+
+  "multiCurrencyProTitle": "Çoklu Para Birimi",
+  "multiCurrencyProDescription": "Farklı para birimlerinde gelir ve harcama girişi yapabilmek için Pro üyeliğe yükseltin. USD, EUR, GBP ve daha fazlasını kullanın.",
+  "multiCurrencyBenefit": "Tüm para birimlerinde işlem",
+  "upgradeToPro": "Pro'ya Yükselt",
+  "currencyLockedForFree": "Para birimi değişikliği Pro özelliğidir"
 }

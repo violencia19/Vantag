@@ -27,6 +27,9 @@ class ProfileService {
   // One-time incomes
   static const _keyIncomes = 'incomes_v1';
 
+  // Base currency (locked for FREE users)
+  static const _keyBaseCurrency = 'base_currency';
+
   Future<UserProfile?> getProfile() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -51,6 +54,9 @@ class ProfileService {
         ? DateTime.tryParse(lastSalaryConfirmedDateStr)
         : null;
 
+    // Base currency
+    final baseCurrency = prefs.getString(_keyBaseCurrency);
+
     // Önce yeni format'ı kontrol et
     final incomeSourcesJson = prefs.getString(_keyIncomeSources);
     if (incomeSourcesJson != null && incomeSourcesJson.isNotEmpty) {
@@ -65,6 +71,7 @@ class ProfileService {
           salaryDay: salaryDay,
           currentBalance: currentBalance,
           lastSalaryConfirmedDate: lastSalaryConfirmedDate,
+          baseCurrency: baseCurrency,
         );
       } catch (e) {
         // Decode hatası - eski formattan devam et
@@ -105,6 +112,7 @@ class ProfileService {
       salaryDay: salaryDay,
       currentBalance: currentBalance,
       lastSalaryConfirmedDate: lastSalaryConfirmedDate,
+      baseCurrency: baseCurrency,
     );
   }
 
@@ -157,6 +165,11 @@ class ProfileService {
       );
     } else {
       await prefs.remove(_keyLastSalaryConfirmedDate);
+    }
+
+    // Base currency
+    if (profile.baseCurrency != null) {
+      await prefs.setString(_keyBaseCurrency, profile.baseCurrency!);
     }
   }
 

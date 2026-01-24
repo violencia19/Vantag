@@ -289,6 +289,15 @@ class FinanceProvider extends ChangeNotifier {
     await _profileService.saveProfile(_userProfile!);
   }
 
+  /// Set base currency (locked for FREE users)
+  /// Should only be set once from first salary entry
+  Future<void> setBaseCurrency(String currencyCode) async {
+    if (_userProfile == null) return;
+    _userProfile = _userProfile!.copyWith(baseCurrency: currencyCode);
+    notifyListeners();
+    await _profileService.saveProfile(_userProfile!);
+  }
+
   // ============================================
   // BÜTÇE VE TASARRUF HEDEFLERI
   // ============================================

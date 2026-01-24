@@ -8,6 +8,7 @@ import '../models/models.dart';
 import '../providers/providers.dart';
 import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
+import '../widgets/multi_currency_pro_sheet.dart';
 
 /// Step-by-step income entry wizard
 /// Premium UX with multiple income source support
@@ -300,6 +301,12 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
         workDaysPerWeek: _workDaysPerWeek,
       );
 
+      // Save base currency from primary income (for FREE user currency lock)
+      final primarySource = _incomeSources.where((s) => s.isPrimary).firstOrNull;
+      if (primarySource != null && provider.userProfile?.baseCurrency == null) {
+        await provider.setBaseCurrency(primarySource.currencyCode);
+      }
+
       // Mounted check after async
       if (!mounted) return;
 
@@ -345,24 +352,40 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   }
 
   /// Currency selector widget - reusable for primary and additional income
+  /// [isAdditionalIncome] - if true, FREE users see lock icon
   Widget _buildCurrencySelector({
     required String currencyCode,
     required Function(String) onChanged,
+    bool isAdditionalIncome = false,
   }) {
     final currency = getCurrencyByCode(currencyCode);
     final l10n = AppLocalizations.of(context);
+    final isPro = context.watch<ProProvider>().isPro;
+
+    // FREE users can't change currency for additional income
+    final isLocked = isAdditionalIncome && !isPro;
 
     return Semantics(
       button: true,
       label: l10n.selectCurrency,
       child: GestureDetector(
-        onTap: () => _showCurrencyPicker(currencyCode, onChanged),
+        onTap: () {
+          if (isLocked) {
+            MultiCurrencyProSheet.show(context);
+          } else {
+            _showCurrencyPicker(currencyCode, onChanged);
+          }
+        },
         child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         decoration: BoxDecoration(
           color: context.appColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: context.appColors.cardBorder),
+          border: Border.all(
+            color: isLocked
+                ? context.appColors.textTertiary.withValues(alpha: 0.3)
+                : context.appColors.cardBorder,
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -374,24 +397,34 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: isLocked
+                    ? context.appColors.textTertiary
+                    : context.appColors.textPrimary,
               ),
             ),
             const Spacer(),
-            Text(
-              l10n.change,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+            if (isLocked) ...[
+              Icon(
+                PhosphorIconsRegular.lock,
+                size: 18,
+                color: context.appColors.textTertiary,
+              ),
+            ] else ...[
+              Text(
+                l10n.change,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: context.appColors.primary,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Icon(
+                PhosphorIconsDuotone.caretRight,
+                size: 18,
                 color: context.appColors.primary,
               ),
-            ),
-            const SizedBox(width: 4),
-            Icon(
-              PhosphorIconsDuotone.caretRight,
-              size: 18,
-              color: context.appColors.primary,
-            ),
+            ],
           ],
         ),
         ),
@@ -1093,12 +1126,13 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
 
           const SizedBox(height: 12),
 
-          // Currency selector for additional income
+          // Currency selector for additional income (locked for FREE users)
           _buildCurrencySelector(
             currencyCode: _additionalCurrencyCode,
             onChanged: (code) {
               setState(() => _additionalCurrencyCode = code);
             },
+            isAdditionalIncome: true,
           ),
 
           const SizedBox(height: 16),
