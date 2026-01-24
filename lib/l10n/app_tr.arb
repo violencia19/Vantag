@@ -1201,7 +1201,12 @@
   "importFromBank": "Bankadan İçe Aktar",
   "selectCSVFile": "CSV dosyası seçin",
   "importingExpenses": "Harcamalar içe aktarılıyor...",
-  "importSuccess": "İçe aktarma tamamlandı",
+  "importSuccess": "{count} harcama başarıyla içe aktarıldı",
+  "@importSuccess": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
   "importError": "İçe aktarma başarısız",
   "recognizedExpenses": "{count} tanındı",
   "@recognizedExpenses": {
@@ -1219,6 +1224,19 @@
   "autoMatched": "Otomatik Eşleşti",
   "needsReview": "İnceleme Gerekli",
   "startReview": "İncelemeye Başla",
+  "importAIParsed": "AI ile Ayrıştırılan İşlemler",
+  "importNoTransactions": "Bu dosyada işlem bulunamadı",
+  "importSelected": "{count} Seçiliyi Kaydet",
+  "@importSelected": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "transactions": "işlem",
+  "selectAll": "Tümünü Seç",
+  "selectNone": "Hiçbirini Seçme",
+  "selected": "seçili",
+  "saving": "Kaydediliyor...",
   "learnedMerchants": "Öğrenilen Satıcılar",
   "noLearnedMerchants": "Henüz öğrenilen satıcı yok",
   "learnedMerchantsDescription": "Kategorize ettiğiniz satıcılar burada görünecek",

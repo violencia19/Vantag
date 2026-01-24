@@ -5495,8 +5495,8 @@ abstract class AppLocalizations {
   /// No description provided for @importSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Import completed successfully'**
-  String get importSuccess;
+  /// **'{count} expenses imported successfully'**
+  String importSuccess(int count);
 
   /// No description provided for @importError.
   ///
@@ -5539,6 +5539,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start Review'**
   String get startReview;
+
+  /// No description provided for @importAIParsed.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Parsed Transactions'**
+  String get importAIParsed;
+
+  /// No description provided for @importNoTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions found in this file'**
+  String get importNoTransactions;
+
+  /// No description provided for @importSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Save {count} Selected'**
+  String importSelected(int count);
+
+  /// No description provided for @transactions.
+  ///
+  /// In en, this message translates to:
+  /// **'transactions'**
+  String get transactions;
+
+  /// No description provided for @selectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Select All'**
+  String get selectAll;
+
+  /// No description provided for @selectNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Select None'**
+  String get selectNone;
+
+  /// No description provided for @selected.
+  ///
+  /// In en, this message translates to:
+  /// **'selected'**
+  String get selected;
+
+  /// No description provided for @saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get saving;
 
   /// No description provided for @learnedMerchants.
   ///

@@ -2969,7 +2969,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get importingExpenses => 'Harcamalar içe aktarılıyor...';
 
   @override
-  String get importSuccess => 'İçe aktarma tamamlandı';
+  String importSuccess(int count) {
+    return '$count harcama başarıyla içe aktarıldı';
+  }
 
   @override
   String get importError => 'İçe aktarma başarısız';
@@ -2995,6 +2997,32 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get startReview => 'İncelemeye Başla';
+
+  @override
+  String get importAIParsed => 'AI ile Ayrıştırılan İşlemler';
+
+  @override
+  String get importNoTransactions => 'Bu dosyada işlem bulunamadı';
+
+  @override
+  String importSelected(int count) {
+    return '$count Seçiliyi Kaydet';
+  }
+
+  @override
+  String get transactions => 'işlem';
+
+  @override
+  String get selectAll => 'Tümünü Seç';
+
+  @override
+  String get selectNone => 'Hiçbirini Seçme';
+
+  @override
+  String get selected => 'seçili';
+
+  @override
+  String get saving => 'Kaydediliyor...';
 
   @override
   String get learnedMerchants => 'Öğrenilen Satıcılar';

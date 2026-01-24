@@ -7,6 +7,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:file_picker/file_picker.dart';
+import '../services/statement_parse_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/models.dart';
 import '../providers/finance_provider.dart';
@@ -252,10 +253,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     try {
-      // Pick CSV file
+      // Pick PDF or CSV file
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['csv'],
+        allowedExtensions: ['pdf', 'csv'],
         allowMultiple: false,
       );
 
@@ -264,13 +265,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() => _isImporting = true);
 
       final file = File(result.files.single.path!);
-      final importService = ImportService();
-      final importResult = await importService.importCSV(file, user.uid);
+      final fileName = result.files.single.name;
+      final isPDF = fileName.toLowerCase().endsWith('.pdf');
+
+      // Use AI-powered statement parser for both PDF and CSV
+      final parseService = StatementParseService();
+      final parseResult = await parseService.parseFile(file);
 
       if (!mounted) return;
 
-      // Show import summary
-      _showImportSummary(l10n, importResult, user.uid);
+      if (parseResult.hasError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(parseResult.error!),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: context.appColors.error,
+          ),
+        );
+        return;
+      }
+
+      if (parseResult.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.importNoTransactions),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: context.appColors.warning,
+          ),
+        );
+        return;
+      }
+
+      // Show AI parse result
+      _showAIParseResult(l10n, parseResult, isPDF);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -285,6 +312,350 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (mounted) {
         setState(() => _isImporting = false);
       }
+    }
+  }
+
+  void _showAIParseResult(
+    AppLocalizations l10n,
+    StatementParseResult result,
+    bool isPDF,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: context.appColors.surface,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        final selectedItems = ValueNotifier<Set<int>>(
+          Set.from(List.generate(result.transactions.length, (i) => i)),
+        );
+        final isSaving = ValueNotifier<bool>(false);
+
+        return DraggableScrollableSheet(
+          initialChildSize: 0.7,
+          minChildSize: 0.5,
+          maxChildSize: 0.95,
+          expand: false,
+          builder: (context, scrollController) => SafeArea(
+            child: Column(
+              children: [
+                // Handle
+                Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(top: 12, bottom: 16),
+                  decoration: BoxDecoration(
+                    color: context.appColors.textTertiary,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+
+                // Header
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            isPDF
+                                ? PhosphorIconsDuotone.filePdf
+                                : PhosphorIconsDuotone.fileText,
+                            color: context.appColors.primary,
+                            size: 28,
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  l10n.importAIParsed,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    color: context.appColors.textPrimary,
+                                  ),
+                                ),
+                                if (result.bankName != null)
+                                  Text(
+                                    result.bankName!,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: context.appColors.textSecondary,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: context.appColors.success.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              '${result.transactions.length} ${l10n.transactions}',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: context.appColors.success,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+
+                      // Select all / none
+                      ValueListenableBuilder<Set<int>>(
+                        valueListenable: selectedItems,
+                        builder: (context, selected, _) => Row(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                selectedItems.value = Set.from(
+                                  List.generate(result.transactions.length, (i) => i),
+                                );
+                              },
+                              child: Text(l10n.selectAll),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                selectedItems.value = {};
+                              },
+                              child: Text(l10n.selectNone),
+                            ),
+                            const Spacer(),
+                            Text(
+                              '${selected.length} ${l10n.selected}',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: context.appColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Divider(color: context.appColors.cardBorder),
+
+                // Transaction list
+                Expanded(
+                  child: ValueListenableBuilder<Set<int>>(
+                    valueListenable: selectedItems,
+                    builder: (context, selected, _) => ListView.builder(
+                      controller: scrollController,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: result.transactions.length,
+                      itemBuilder: (context, index) {
+                        final t = result.transactions[index];
+                        final isSelected = selected.contains(index);
+
+                        return InkWell(
+                          onTap: () {
+                            final newSet = Set<int>.from(selected);
+                            if (isSelected) {
+                              newSet.remove(index);
+                            } else {
+                              newSet.add(index);
+                            }
+                            selectedItems.value = newSet;
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 8),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? context.appColors.primary.withValues(alpha: 0.1)
+                                  : context.appColors.surfaceLight,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: isSelected
+                                    ? context.appColors.primary
+                                    : Colors.transparent,
+                                width: 1.5,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                // Checkbox
+                                Icon(
+                                  isSelected
+                                      ? PhosphorIconsFill.checkCircle
+                                      : PhosphorIconsRegular.circle,
+                                  color: isSelected
+                                      ? context.appColors.primary
+                                      : context.appColors.textTertiary,
+                                  size: 22,
+                                ),
+                                const SizedBox(width: 12),
+
+                                // Details
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        t.merchant ?? t.description,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: context.appColors.textPrimary,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            t.category,
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: context.appColors.textSecondary,
+                                            ),
+                                          ),
+                                          Text(
+                                            ' • ',
+                                            style: TextStyle(
+                                              color: context.appColors.textTertiary,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${t.date.day}/${t.date.month}/${t.date.year}',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: context.appColors.textTertiary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                // Amount
+                                Text(
+                                  '₺${t.amount.toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                    color: context.appColors.error,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+
+                // Save button
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: ValueListenableBuilder<Set<int>>(
+                    valueListenable: selectedItems,
+                    builder: (context, selected, _) => ValueListenableBuilder<bool>(
+                      valueListenable: isSaving,
+                      builder: (context, saving, _) => SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: selected.isEmpty || saving
+                              ? null
+                              : () async {
+                                  isSaving.value = true;
+                                  await _saveAIParsedExpenses(
+                                    result.transactions,
+                                    selected,
+                                  );
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          l10n.importSuccess(selected.length),
+                                        ),
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: context.appColors.success,
+                                      ),
+                                    );
+                                  }
+                                },
+                          icon: saving
+                              ? const SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : const Icon(PhosphorIconsRegular.floppyDisk, size: 20),
+                          label: Text(
+                            saving
+                                ? l10n.saving
+                                : l10n.importSelected(selected.length),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: context.appColors.primary,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _saveAIParsedExpenses(
+    List<ParsedTransaction> transactions,
+    Set<int> selectedIndices,
+  ) async {
+    final financeProvider = context.read<FinanceProvider>();
+    final profile = financeProvider.userProfile;
+
+    if (profile == null) return;
+
+    final hourlyRate = profile.hourlyRate;
+
+    for (final index in selectedIndices) {
+      final t = transactions[index];
+
+      final hoursRequired = hourlyRate > 0 ? t.amount / hourlyRate : 0.0;
+      final daysRequired = hoursRequired / profile.dailyHours;
+
+      final expense = Expense(
+        amount: t.amount,
+        category: t.category,
+        subCategory: t.merchant ?? t.description,
+        date: t.date,
+        hoursRequired: hoursRequired,
+        daysRequired: daysRequired,
+        decision: ExpenseDecision.yes,
+      );
+
+      await financeProvider.addExpense(expense);
     }
   }
 

@@ -2971,7 +2971,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get importingExpenses => 'Importing expenses...';
 
   @override
-  String get importSuccess => 'Import completed successfully';
+  String importSuccess(int count) {
+    return '$count expenses imported successfully';
+  }
 
   @override
   String get importError => 'Import failed';
@@ -2997,6 +2999,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get startReview => 'Start Review';
+
+  @override
+  String get importAIParsed => 'AI Parsed Transactions';
+
+  @override
+  String get importNoTransactions => 'No transactions found in this file';
+
+  @override
+  String importSelected(int count) {
+    return 'Save $count Selected';
+  }
+
+  @override
+  String get transactions => 'transactions';
+
+  @override
+  String get selectAll => 'Select All';
+
+  @override
+  String get selectNone => 'Select None';
+
+  @override
+  String get selected => 'selected';
+
+  @override
+  String get saving => 'Saving...';
 
   @override
   String get learnedMerchants => 'Learned Merchants';

@@ -37,6 +37,8 @@ export 'export_service.dart';
 // Merchant Learning
 export 'merchant_learning_service.dart';
 export 'import_service.dart';
+// Statement Import (PDF/CSV with AI)
+export 'statement_parse_service.dart';
 // Voice Assistant
 export 'voice_parser_service.dart';
 export 'deep_link_service.dart';

@@ -105,6 +105,9 @@ dependencies:
   file_picker: ^8.0.0+1
   csv: ^6.0.0
 
+  # PDF Text Extraction
+  syncfusion_flutter_pdf: ^28.2.4
+
   # Voice Assistant
   speech_to_text: ^7.0.0
   app_links: ^6.1.1

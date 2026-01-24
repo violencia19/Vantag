@@ -1567,7 +1567,12 @@
   "importFromBank": "Import from Bank",
   "selectCSVFile": "Select CSV file",
   "importingExpenses": "Importing expenses...",
-  "importSuccess": "Import completed successfully",
+  "importSuccess": "{count} expenses imported successfully",
+  "@importSuccess": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
   "importError": "Import failed",
   "recognizedExpenses": "{count} recognized",
   "@recognizedExpenses": {
@@ -1585,6 +1590,19 @@
   "autoMatched": "Auto-matched",
   "needsReview": "Needs Review",
   "startReview": "Start Review",
+  "importAIParsed": "AI Parsed Transactions",
+  "importNoTransactions": "No transactions found in this file",
+  "importSelected": "Save {count} Selected",
+  "@importSelected": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "transactions": "transactions",
+  "selectAll": "Select All",
+  "selectNone": "Select None",
+  "selected": "selected",
+  "saving": "Saving...",
   "learnedMerchants": "Learned Merchants",
   "noLearnedMerchants": "No learned merchants yet",
   "learnedMerchantsDescription": "Merchants you categorize will appear here",
