@@ -278,6 +278,90 @@ abstract class AppLocalizations {
   /// **'Simple mode is disabled'**
   String get simpleModeDisabled;
 
+  /// No description provided for @simpleModeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off Simple Mode to access all features like AI chat, achievements, and pursuits'**
+  String get simpleModeHint;
+
+  /// No description provided for @simpleTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Transactions'**
+  String get simpleTransactions;
+
+  /// No description provided for @simpleStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get simpleStatistics;
+
+  /// No description provided for @simpleSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get simpleSettings;
+
+  /// No description provided for @simpleIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get simpleIncome;
+
+  /// No description provided for @simpleExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get simpleExpense;
+
+  /// No description provided for @simpleExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get simpleExpenses;
+
+  /// No description provided for @simpleBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get simpleBalance;
+
+  /// No description provided for @simpleTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get simpleTotal;
+
+  /// No description provided for @simpleTotalIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Income'**
+  String get simpleTotalIncome;
+
+  /// No description provided for @simpleIncomeTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get simpleIncomeTab;
+
+  /// No description provided for @simpleIncomeSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Income Sources'**
+  String get simpleIncomeSources;
+
+  /// No description provided for @simpleNoTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions this month'**
+  String get simpleNoTransactions;
+
+  /// No description provided for @simpleNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data for this month'**
+  String get simpleNoData;
+
   /// No description provided for @settingsNotifications.
   ///
   /// In en, this message translates to:
@@ -2779,6 +2863,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose from Gallery'**
   String get chooseFromGallery;
+
+  /// No description provided for @removePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Photo'**
+  String get removePhoto;
+
+  /// No description provided for @photoSelectError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not select photo'**
+  String get photoSelectError;
+
+  /// No description provided for @editSalary.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary'**
+  String get editSalary;
+
+  /// No description provided for @editSalarySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your monthly salary'**
+  String get editSalarySubtitle;
 
   /// No description provided for @daysPerWeek.
   ///
@@ -5648,6 +5756,30 @@ abstract class AppLocalizations {
   /// **'How to Use Voice'**
   String get howToUseVoice;
 
+  /// No description provided for @voiceLimitReachedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Limit Reached'**
+  String get voiceLimitReachedTitle;
+
+  /// No description provided for @voiceLimitReachedFree.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve used your daily voice input. Upgrade to Pro for unlimited access or try again tomorrow.'**
+  String get voiceLimitReachedFree;
+
+  /// No description provided for @voiceServerBusyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Servers Busy'**
+  String get voiceServerBusyTitle;
+
+  /// No description provided for @voiceServerBusyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice servers are busy right now. Please try again shortly.'**
+  String get voiceServerBusyMessage;
+
   /// No description provided for @longPressFab.
   ///
   /// In en, this message translates to:
@@ -5677,6 +5809,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Example Commands'**
   String get exampleCommands;
+
+  /// No description provided for @voiceExample1.
+  ///
+  /// In en, this message translates to:
+  /// **'\"50 dollars for coffee\"'**
+  String get voiceExample1;
+
+  /// No description provided for @voiceExample2.
+  ///
+  /// In en, this message translates to:
+  /// **'\"Spent 200 on groceries\"'**
+  String get voiceExample2;
+
+  /// No description provided for @voiceExample3.
+  ///
+  /// In en, this message translates to:
+  /// **'\"Taxi was 150\"'**
+  String get voiceExample3;
+
+  /// No description provided for @voiceExamplesMultiline.
+  ///
+  /// In en, this message translates to:
+  /// **'\"50 dollars coffee\"\n\"spent 200 on groceries\"\n\"taxi was 150\"'**
+  String get voiceExamplesMultiline;
 
   /// No description provided for @somethingWentWrong.
   ///

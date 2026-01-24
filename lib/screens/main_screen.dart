@@ -18,6 +18,7 @@ import 'settings_screen.dart';
 import 'onboarding_pursuit_screen.dart';
 import 'voice_input_screen.dart';
 import 'lock_screen.dart';
+import 'simple/simple_main_screen.dart';
 
 class MainScreen extends StatefulWidget {
   final UserProfile? userProfile;
@@ -579,6 +580,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     // Show lock screen if locked
     if (_isLocked) {
       return LockScreen(onUnlocked: _onUnlocked);
+    }
+
+    // Show Simple Mode screen if enabled
+    if (_isSimpleMode) {
+      return const SimpleMainScreen();
     }
 
     // Provider'ı WATCH et - gelir değiştiğinde tüm ekran yenilensin

@@ -28,3 +28,8 @@ export 'onboarding_salary_day_screen.dart';
 // Security
 export 'lock_screen.dart';
 export 'pin_setup_screen.dart';
+// Simple Mode
+export 'simple/simple_main_screen.dart';
+export 'simple/simple_transactions_screen.dart';
+export 'simple/simple_statistics_screen.dart';
+export 'simple/simple_settings_screen.dart';

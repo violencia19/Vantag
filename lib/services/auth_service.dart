@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -347,6 +349,58 @@ class AuthService {
       return FirebaseUserProfile.fromFirebaseUser(user);
     } catch (e) {
       debugPrint("❌ [Auth] Profil getirme hatası: $e");
+      return null;
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PROFİL FOTOĞRAFI
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  /// Firebase Storage'a profil fotoğrafı yükle ve kullanıcı profilini güncelle
+  /// Returns the download URL if successful, null otherwise
+  Future<String?> updateProfilePhoto(File imageFile) async {
+    debugPrint("📷 [Auth] Profil fotoğrafı yükleniyor...");
+
+    final user = currentUser;
+    if (user == null) {
+      debugPrint("❌ [Auth] Kullanıcı oturumu yok");
+      return null;
+    }
+
+    try {
+      final storage = FirebaseStorage.instance;
+      final fileName = 'profile_${user.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final ref = storage.ref().child('profile_photos/$fileName');
+
+      // Dosyayı yükle
+      final uploadTask = ref.putFile(
+        imageFile,
+        SettableMetadata(contentType: 'image/jpeg'),
+      );
+
+      // Yükleme tamamlanmasını bekle
+      final snapshot = await uploadTask;
+      final downloadUrl = await snapshot.ref.getDownloadURL();
+
+      debugPrint("✅ [Auth] Fotoğraf yüklendi: $downloadUrl");
+
+      // Firebase Auth profil fotoğrafını güncelle
+      await user.updatePhotoURL(downloadUrl);
+
+      // Firestore'da da güncelle
+      await _firestore.collection('users').doc(user.uid).update({
+        'photoUrl': downloadUrl,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+
+      debugPrint("✅ [Auth] Profil fotoğrafı güncellendi");
+      return downloadUrl;
+    } on FirebaseException catch (e) {
+      debugPrint("❌ [Auth] Firebase Storage Hatası: ${e.code} - ${e.message}");
+      return null;
+    } catch (e) {
+      debugPrint("❌ [Auth] Beklenmeyen fotoğraf yükleme hatası: $e");
       return null;
     }
   }

@@ -567,7 +567,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: context.appColors.background.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -647,7 +647,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     final confirmed = await showDialog<bool>(
       context: context,
-      barrierColor: context.appColors.background.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       barrierDismissible: false,
       builder: (context) =>
           _DeleteAccountDialog(confirmWord: confirmWord, l10n: l10n),
@@ -660,7 +660,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: context.appColors.background.withValues(alpha: 0.95),
+        barrierColor: Colors.black.withValues(alpha: 0.85),
         builder: (ctx) => Center(
           child: CircularProgressIndicator(color: ctx.appColors.primary),
         ),
@@ -761,7 +761,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // Show achievement unlocked dialog
     showDialog(
       context: context,
-      barrierColor: context.appColors.background.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => AlertDialog(
         backgroundColor: context.appColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

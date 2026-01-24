@@ -193,33 +193,25 @@ class VoiceParserService {
     ),
   ];
 
-  /// Main parse function - tries regex first, then GPT
+  /// Main parse function - always uses AI for best accuracy
   Future<VoiceParseResult> parse(String text) async {
     final trimmed = text.trim();
     if (trimmed.isEmpty) {
       return VoiceParseResult.failed(text);
     }
 
-    // Try regex first (fast, free)
-    final regexResult = parseWithRegex(trimmed);
-
-    // If regex found amount with high/medium confidence, return it
-    if (regexResult.isValid && regexResult.confidence != VoiceConfidence.low) {
-      return regexResult;
-    }
-
-    // For complex cases, try GPT
+    // Always use AI for parsing - handles any language and phrasing
     try {
-      final gptResult = await parseWithGPT(trimmed);
-      if (gptResult.isValid) {
-        return gptResult;
+      final aiResult = await parseWithAI(trimmed);
+      if (aiResult.isValid) {
+        return aiResult;
       }
     } catch (e) {
-      // GPT failed, return regex result
+      // AI failed, try basic regex fallback
     }
 
-    // Return best effort result
-    return regexResult;
+    // Fallback to basic regex only if AI fails
+    return parseWithRegex(trimmed);
   }
 
   /// Parse using regex patterns (fast, no API cost)
@@ -309,40 +301,26 @@ class VoiceParserService {
     );
   }
 
-  /// Parse using GPT-4o (smart, handles complex sentences)
-  Future<VoiceParseResult> parseWithGPT(String text) async {
+  /// Parse using AI - handles any language naturally
+  Future<VoiceParseResult> parseWithAI(String text) async {
     final apiKey = dotenv.env['OPENAI_API_KEY'];
     if (apiKey == null || apiKey.isEmpty) {
       throw Exception('OpenAI API key not configured');
     }
 
-    final prompt =
-        '''
-Sen Türkçe finansal asistansın. Sesli komuttan harcama bilgisi çıkar.
+    final prompt = '''Extract expense info from this sentence (any language):
 
-INPUT: "$text"
+"$text"
 
-OUTPUT (SADECE JSON, başka açıklama yapma):
-{
-  "amount": number veya null,
-  "category": "food" | "transport" | "entertainment" | "shopping" | "health" | "bills" | "education" | "other",
-  "description": "string (kısa açıklama)",
-  "merchant": "string veya null (marka/mağaza adı)",
-  "confidence": "high" | "medium" | "low"
-}
+Return ONLY valid JSON:
+{"amount": number or null, "description": "what was bought (short)", "category": "food|transport|entertainment|shopping|health|bills|education|other"}
 
-KURALLAR:
-1. "X lira verdim Y aldım" gibi cümlelerde net farkı hesapla
-2. Kategoriyi kelimelere göre belirle
-3. Belirsizlik varsa confidence: "low" yap
-4. Tutar yoksa amount: null
-
-ÖRNEKLER:
-- "50 lira kahve" → {"amount": 50, "category": "food", "description": "kahve", "merchant": null, "confidence": "high"}
-- "uber 85 tl" → {"amount": 85, "category": "transport", "description": "uber", "merchant": "Uber", "confidence": "high"}
-- "arkadaşlara 450 verdim 200 geri aldım" → {"amount": 250, "category": "other", "description": "arkadaş hesaplaşması", "merchant": null, "confidence": "high"}
-- "dün gece eğlendik" → {"amount": null, "category": "entertainment", "description": "gece eğlencesi", "merchant": null, "confidence": "low"}
-''';
+Examples:
+- "Kahvaltıya 50 lira verdim" → {"amount": 50, "description": "Kahvaltı", "category": "food"}
+- "Spent 20 dollars on coffee" → {"amount": 20, "description": "Coffee", "category": "food"}
+- "Taksi tuttu 150" → {"amount": 150, "description": "Taksi", "category": "transport"}
+- "Netflix 80 TL" → {"amount": 80, "description": "Netflix", "category": "entertainment"}
+- "Markete 200 verdim" → {"amount": 200, "description": "Market", "category": "shopping"}''';
 
     try {
       final response = await http.post(
@@ -354,41 +332,54 @@ KURALLAR:
         body: jsonEncode({
           'model': 'gpt-4o-mini',
           'messages': [
-            {
-              'role': 'system',
-              'content': 'Sen JSON dönen bir finansal parser\'sın.',
-            },
             {'role': 'user', 'content': prompt},
           ],
-          'temperature': 0.1,
-          'max_tokens': 200,
+          'temperature': 0,
+          'max_tokens': 100,
         }),
       );
 
       if (response.statusCode != 200) {
-        throw Exception('GPT API error: ${response.statusCode}');
+        throw Exception('AI API error: ${response.statusCode}');
       }
 
       final data = jsonDecode(response.body);
       final content = data['choices'][0]['message']['content'] as String;
 
       // Extract JSON from response (handle markdown code blocks)
-      String jsonStr = content;
-      if (content.contains('```')) {
+      String jsonStr = content.trim();
+      if (jsonStr.contains('```')) {
         final jsonMatch = RegExp(
           r'```(?:json)?\s*([\s\S]*?)```',
-        ).firstMatch(content);
+        ).firstMatch(jsonStr);
         if (jsonMatch != null) {
           jsonStr = jsonMatch.group(1)!.trim();
         }
       }
 
       final parsed = jsonDecode(jsonStr) as Map<String, dynamic>;
-      return VoiceParseResult.fromGptJson(parsed, text);
+
+      // Build result with high confidence since AI understood it
+      return VoiceParseResult(
+        amount: parsed['amount'] != null
+            ? (parsed['amount'] as num).toDouble()
+            : null,
+        category: parsed['category'] as String? ?? 'other',
+        description: parsed['description'] as String? ?? text,
+        originalText: text,
+        confidence: parsed['amount'] != null
+            ? VoiceConfidence.high
+            : VoiceConfidence.low,
+        source: VoiceParseSource.gpt,
+        merchantName: null,
+      );
     } catch (e) {
       return VoiceParseResult.failed(text);
     }
   }
+
+  /// Legacy GPT method - kept for compatibility
+  Future<VoiceParseResult> parseWithGPT(String text) => parseWithAI(text);
 
   /// Normalize Turkish text for matching
   String _normalizeText(String text) {

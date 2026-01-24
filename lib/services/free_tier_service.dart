@@ -22,6 +22,8 @@ class FreeTierService {
   // SharedPreferences keys
   static const String _keyAiChatLastDate = 'free_ai_chat_last_date';
   static const String _keyAiChatCount = 'free_ai_chat_count';
+  static const String _keyVoiceInputLastDate = 'voice_input_last_date';
+  static const String _keyVoiceInputCount = 'voice_input_count';
 
   // Singleton
   static final FreeTierService _instance = FreeTierService._internal();
@@ -74,6 +76,73 @@ class FreeTierService {
   DateTime getAiChatResetTime() {
     final now = DateTime.now();
     return DateTime(now.year, now.month, now.day + 1);
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // VOICE INPUT LIMITS (1/day free, 10/day pro)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  /// Maximum voice inputs per day for free users
+  static int get maxFreeVoiceInputs => AppLimits.freeVoiceInputPerDay;
+
+  /// Maximum voice inputs per day for pro users
+  static int get maxProVoiceInputs => AppLimits.proVoiceInputPerDay;
+
+  /// Get today's voice input count
+  Future<int> getTodayVoiceInputCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    final today = DateTime.now().toIso8601String().substring(0, 10);
+    final lastDate = prefs.getString(_keyVoiceInputLastDate) ?? '';
+
+    // Reset counter if new day
+    if (lastDate != today) {
+      await prefs.setString(_keyVoiceInputLastDate, today);
+      await prefs.setInt(_keyVoiceInputCount, 0);
+      return 0;
+    }
+
+    return prefs.getInt(_keyVoiceInputCount) ?? 0;
+  }
+
+  /// Check if user can use voice input
+  /// Returns a result with canUse flag and appropriate message type
+  Future<VoiceInputLimitResult> canUseVoiceInput(bool isPremium) async {
+    final count = await getTodayVoiceInputCount();
+
+    if (isPremium) {
+      // Pro user: 10/day limit (shown as unlimited)
+      if (count >= maxProVoiceInputs) {
+        return VoiceInputLimitResult(
+          canUse: false,
+          limitType: VoiceInputLimitType.proServerBusy,
+        );
+      }
+      return VoiceInputLimitResult(canUse: true);
+    } else {
+      // Free user: 1/day limit
+      if (count >= maxFreeVoiceInputs) {
+        return VoiceInputLimitResult(
+          canUse: false,
+          limitType: VoiceInputLimitType.freeLimitReached,
+        );
+      }
+      return VoiceInputLimitResult(canUse: true);
+    }
+  }
+
+  /// Increment voice input count after successful use
+  Future<void> incrementVoiceInputCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    final count = await getTodayVoiceInputCount();
+    await prefs.setInt(_keyVoiceInputCount, count + 1);
+  }
+
+  /// Reset voice input count (for testing)
+  Future<void> resetVoiceInputCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_keyVoiceInputLastDate);
+    await prefs.remove(_keyVoiceInputCount);
+    debugPrint('[FreeTierService] Voice input count reset');
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -145,4 +214,24 @@ class FreeTierService {
     await prefs.remove(_keyAiChatCount);
     debugPrint('[FreeTierService] AI chat count reset');
   }
+}
+
+/// Type of voice input limit reached
+enum VoiceInputLimitType {
+  /// Free user reached daily limit
+  freeLimitReached,
+
+  /// Pro user reached hidden limit (show as server busy)
+  proServerBusy,
+}
+
+/// Result of voice input limit check
+class VoiceInputLimitResult {
+  final bool canUse;
+  final VoiceInputLimitType? limitType;
+
+  const VoiceInputLimitResult({
+    required this.canUse,
+    this.limitType,
+  });
 }

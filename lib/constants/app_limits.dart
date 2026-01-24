@@ -8,6 +8,13 @@ class AppLimits {
   /// Free text input is PREMIUM ONLY.
   static const int freeAiChatsPerDay = 4;
 
+  // ===== VOICE INPUT =====
+  /// Free users can use voice input 1 time per day.
+  static const int freeVoiceInputPerDay = 1;
+
+  /// Pro users can use voice input 10 times per day (shown as unlimited).
+  static const int proVoiceInputPerDay = 10;
+
   // ===== PURSUITS =====
   /// Free users can have 1 active pursuit (savings goal).
   static const int freePursuits = 1;

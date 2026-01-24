@@ -104,6 +104,49 @@ class AppLocalizationsTr extends AppLocalizations {
   String get simpleModeDisabled => 'Basit mod devre dışı';
 
   @override
+  String get simpleModeHint =>
+      'AI sohbet, rozetler ve hedefler gibi tüm özelliklere erişmek için Basit Modu kapatın';
+
+  @override
+  String get simpleTransactions => 'İşlemler';
+
+  @override
+  String get simpleStatistics => 'İstatistik';
+
+  @override
+  String get simpleSettings => 'Ayarlar';
+
+  @override
+  String get simpleIncome => 'Gelir';
+
+  @override
+  String get simpleExpense => 'Gider';
+
+  @override
+  String get simpleExpenses => 'Giderler';
+
+  @override
+  String get simpleBalance => 'Bakiye';
+
+  @override
+  String get simpleTotal => 'Toplam';
+
+  @override
+  String get simpleTotalIncome => 'Toplam Gelir';
+
+  @override
+  String get simpleIncomeTab => 'Gelir';
+
+  @override
+  String get simpleIncomeSources => 'Gelir Kaynakları';
+
+  @override
+  String get simpleNoTransactions => 'Bu ay işlem yok';
+
+  @override
+  String get simpleNoData => 'Bu ay için veri yok';
+
+  @override
   String get settingsNotifications => 'Bildirimler';
 
   @override
@@ -1467,6 +1510,18 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get chooseFromGallery => 'Galeriden Seç';
+
+  @override
+  String get removePhoto => 'Fotoğrafı Kaldır';
+
+  @override
+  String get photoSelectError => 'Fotoğraf seçilemedi';
+
+  @override
+  String get editSalary => 'Maaş';
+
+  @override
+  String get editSalarySubtitle => 'Aylık maaşınızı güncelleyin';
 
   @override
   String get daysPerWeek => 'gün/hafta';
@@ -3059,6 +3114,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get howToUseVoice => 'Sesli Giriş Nasıl Kullanılır';
 
   @override
+  String get voiceLimitReachedTitle => 'Günlük Limit Doldu';
+
+  @override
+  String get voiceLimitReachedFree =>
+      'Bugünlük sesli giriş hakkın bitti. Pro\'ya geçerek sınırsız kullanabilir veya yarın tekrar deneyebilirsin.';
+
+  @override
+  String get voiceServerBusyTitle => 'Sunucular Yoğun';
+
+  @override
+  String get voiceServerBusyMessage =>
+      'Ses sunucuları şu an yoğun. Lütfen biraz sonra tekrar dene.';
+
+  @override
   String get longPressFab => '+ Butonuna Uzun Bas';
 
   @override
@@ -3072,6 +3141,19 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get exampleCommands => 'Örnek Komutlar';
+
+  @override
+  String get voiceExample1 => '\"50 lira kahve\"';
+
+  @override
+  String get voiceExample2 => '\"Markete 200 lira verdim\"';
+
+  @override
+  String get voiceExample3 => '\"Taksi 150 tuttu\"';
+
+  @override
+  String get voiceExamplesMultiline =>
+      '\"50 lira kahve\"\n\"markete 200 TL verdim\"\n\"taksi 150 tuttu\"';
 
   @override
   String get somethingWentWrong => 'Bir şeyler yanlış gitti. Tekrar dene.';

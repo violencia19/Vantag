@@ -802,9 +802,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               runSpacing: 8,
               alignment: WrapAlignment.center,
               children: [
-                _buildExampleChip('"50 lira kahve"'),
-                _buildExampleChip('"Market 200 TL"'),
-                _buildExampleChip('"Taksi 80 lira"'),
+                _buildExampleChip(l10n.voiceExample1),
+                _buildExampleChip(l10n.voiceExample2),
+                _buildExampleChip(l10n.voiceExample3),
               ],
             ),
 
@@ -1186,6 +1186,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   ) {
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1292,6 +1293,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showThemeSelector(ThemeProvider themeProvider, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1669,7 +1671,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     final confirmed = await showDialog<bool>(
       context: context,
-      barrierColor: context.appColors.background.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       barrierDismissible: false,
       builder: (context) =>
           _DeleteAccountDialog(confirmWord: confirmWord, l10n: l10n),
@@ -1682,7 +1684,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: context.appColors.background.withValues(alpha: 0.95),
+        barrierColor: Colors.black.withValues(alpha: 0.85),
         builder: (context) => Center(
           child: CircularProgressIndicator(color: context.appColors.primary),
         ),

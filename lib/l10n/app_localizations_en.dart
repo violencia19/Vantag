@@ -104,6 +104,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String get simpleModeDisabled => 'Simple mode is disabled';
 
   @override
+  String get simpleModeHint =>
+      'Turn off Simple Mode to access all features like AI chat, achievements, and pursuits';
+
+  @override
+  String get simpleTransactions => 'Transactions';
+
+  @override
+  String get simpleStatistics => 'Statistics';
+
+  @override
+  String get simpleSettings => 'Settings';
+
+  @override
+  String get simpleIncome => 'Income';
+
+  @override
+  String get simpleExpense => 'Expense';
+
+  @override
+  String get simpleExpenses => 'Expenses';
+
+  @override
+  String get simpleBalance => 'Balance';
+
+  @override
+  String get simpleTotal => 'Total';
+
+  @override
+  String get simpleTotalIncome => 'Total Income';
+
+  @override
+  String get simpleIncomeTab => 'Income';
+
+  @override
+  String get simpleIncomeSources => 'Income Sources';
+
+  @override
+  String get simpleNoTransactions => 'No transactions this month';
+
+  @override
+  String get simpleNoData => 'No data for this month';
+
+  @override
   String get settingsNotifications => 'Notifications';
 
   @override
@@ -1469,6 +1512,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chooseFromGallery => 'Choose from Gallery';
+
+  @override
+  String get removePhoto => 'Remove Photo';
+
+  @override
+  String get photoSelectError => 'Could not select photo';
+
+  @override
+  String get editSalary => 'Salary';
+
+  @override
+  String get editSalarySubtitle => 'Update your monthly salary';
 
   @override
   String get daysPerWeek => 'days/week';
@@ -3061,6 +3116,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get howToUseVoice => 'How to Use Voice';
 
   @override
+  String get voiceLimitReachedTitle => 'Daily Limit Reached';
+
+  @override
+  String get voiceLimitReachedFree =>
+      'You\'ve used your daily voice input. Upgrade to Pro for unlimited access or try again tomorrow.';
+
+  @override
+  String get voiceServerBusyTitle => 'Servers Busy';
+
+  @override
+  String get voiceServerBusyMessage =>
+      'Voice servers are busy right now. Please try again shortly.';
+
+  @override
   String get longPressFab => 'Long-Press + Button';
 
   @override
@@ -3074,6 +3143,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exampleCommands => 'Example Commands';
+
+  @override
+  String get voiceExample1 => '\"50 dollars for coffee\"';
+
+  @override
+  String get voiceExample2 => '\"Spent 200 on groceries\"';
+
+  @override
+  String get voiceExample3 => '\"Taxi was 150\"';
+
+  @override
+  String get voiceExamplesMultiline =>
+      '\"50 dollars coffee\"\n\"spent 200 on groceries\"\n\"taxi was 150\"';
 
   @override
   String get somethingWentWrong => 'Something went wrong. Please try again.';

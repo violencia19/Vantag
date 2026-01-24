@@ -754,55 +754,27 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Left side: Avatar + Title
-                      Flexible(
-                        child: Row(
-                          children: [
-                            // Avatar
-                            _buildAvatarButton(context),
-                            const SizedBox(width: 14),
-                            // Title Column
-                            Flexible(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    _getGreeting(l10n).toUpperCase(),
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w500,
-                                      color: colors.textSecondary,
-                                      letterSpacing: 2.5,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 6),
-                                  FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      l10n.financialStatus,
-                                      style: TextStyle(
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.w700,
-                                        color: colors.textPrimary,
-                                        letterSpacing: 1.5,
-                                        height: 1.1,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Right side: Pro Lightning + Calendar + Streak
+                      // Top row: Avatar + Finansal Durum + Calendar + Streak
                       Row(
                         children: [
+                          // Avatar
+                          _buildAvatarButton(context),
+                          const SizedBox(width: 14),
+                          // Finansal Durum title
+                          Expanded(
+                            child: Text(
+                              l10n.financialStatus,
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                                color: colors.textPrimary,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ),
                           // Pro Lightning Button
                           _buildProLightningButton(context, l10n),
                           const SizedBox(width: 10),
@@ -853,6 +825,16 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                             child: StreakWidget(key: _streakWidgetKey),
                           ),
                         ],
+                      ),
+                      const SizedBox(height: 12),
+                      // Bottom row: Greeting
+                      Text(
+                        '${_getGreeting(l10n)} 👋',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: colors.textSecondary,
+                        ),
                       ),
                     ],
                   ),

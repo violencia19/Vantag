@@ -1418,7 +1418,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
   Widget _buildAmountInput(AppLocalizations l10n) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       decoration: BoxDecoration(
         color: context.appColors.surfaceLight,
         borderRadius: BorderRadius.circular(20),
@@ -1426,51 +1426,50 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       ),
       child: Column(
         children: [
-          // Amount row with currency dropdown and scan button
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Currency dropdown
-              _buildCurrencyDropdown(),
-              const SizedBox(width: 8),
-              // Amount input
-              Expanded(
-                child: TextField(
-                  controller: _amountController,
-                  autofocus: true,
-                  keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true,
-                  ),
-                  inputFormatters: [TurkishCurrencyInputFormatter()],
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w700,
-                    color: context.appColors.textPrimary,
-                    letterSpacing: -1,
-                  ),
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                    hintText: '0,00',
-                    hintStyle: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w700,
-                      color: context.appColors.textTertiary.withValues(
-                        alpha: 0.5,
-                      ),
-                    ),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.zero,
-                  ),
-                  onChanged: _onAmountChanged,
+          // Top row: Amount input (full width)
+          TextField(
+            controller: _amountController,
+            autofocus: true,
+            keyboardType: const TextInputType.numberWithOptions(
+              decimal: true,
+            ),
+            inputFormatters: [TurkishCurrencyInputFormatter()],
+            style: TextStyle(
+              fontSize: 40,
+              fontWeight: FontWeight.w700,
+              color: context.appColors.textPrimary,
+              letterSpacing: -1,
+            ),
+            textAlign: TextAlign.center,
+            decoration: InputDecoration(
+              hintText: '0,00',
+              hintStyle: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.w700,
+                color: context.appColors.textTertiary.withValues(
+                  alpha: 0.5,
                 ),
               ),
-              const SizedBox(width: 8),
-              // Receipt scan button
-              _buildScanButton(l10n),
-              const SizedBox(width: 6),
-              // Voice input button
-              _buildVoiceButton(l10n),
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.zero,
+            ),
+            onChanged: _onAmountChanged,
+          ),
+          const SizedBox(height: 12),
+          // Bottom row: Currency selector (left) + Scan/Voice buttons (right)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Currency dropdown (left)
+              _buildCurrencyDropdown(),
+              // Scan + Voice buttons (right)
+              Row(
+                children: [
+                  _buildScanButton(l10n),
+                  const SizedBox(width: 8),
+                  _buildVoiceButton(l10n),
+                ],
+              ),
             ],
           ),
         ],

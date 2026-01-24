@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
+import '../providers/pro_provider.dart';
 import '../services/services.dart';
+import '../screens/paywall_screen.dart';
 import '../theme/theme.dart';
 import '../theme/app_theme.dart';
 
@@ -129,6 +132,10 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
   }
 
   Future<void> _startListening() async {
+    // Check voice input limit first
+    final limitCheck = await _checkVoiceInputLimit();
+    if (!limitCheck) return;
+
     // Check microphone permission
     final status = await Permission.microphone.request();
     if (status != PermissionStatus.granted) {
@@ -241,6 +248,9 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
   }
 
   Future<void> _saveExpense(VoiceParseResult result) async {
+    // Increment voice input count (successful use)
+    await FreeTierService().incrementVoiceInputCount();
+
     // Map API category to app category
     final category = VoiceParserService.mapToAppCategory(result.category);
     final amount = result.amount!;
@@ -428,6 +438,148 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
         ),
       ),
     );
+  }
+
+  /// Check voice input daily limit
+  Future<bool> _checkVoiceInputLimit() async {
+    final proProvider = context.read<ProProvider>();
+    final isPremium = proProvider.isPro;
+    final freeTierService = FreeTierService();
+
+    final result = await freeTierService.canUseVoiceInput(isPremium);
+
+    if (!result.canUse && mounted) {
+      _showLimitReachedDialog(result.limitType!);
+      return false;
+    }
+
+    return true;
+  }
+
+  /// Show appropriate dialog when limit is reached
+  void _showLimitReachedDialog(VoiceInputLimitType limitType) {
+    final l10n = AppLocalizations.of(context);
+
+    if (limitType == VoiceInputLimitType.freeLimitReached) {
+      // Free user: show upgrade prompt
+      showDialog(
+        context: context,
+        barrierColor: Colors.black.withValues(alpha: 0.85),
+        builder: (ctx) => AlertDialog(
+          backgroundColor: context.appColors.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Row(
+            children: [
+              Icon(
+                PhosphorIconsDuotone.microphone,
+                color: context.appColors.warning,
+                size: 28,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  l10n.voiceLimitReachedTitle,
+                  style: TextStyle(
+                    color: context.appColors.textPrimary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            l10n.voiceLimitReachedFree,
+            style: TextStyle(
+              color: context.appColors.textSecondary,
+              fontSize: 15,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(
+                l10n.close,
+                style: TextStyle(color: context.appColors.textTertiary),
+              ),
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.pop(ctx);
+                Navigator.pop(context); // Close voice input screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const PaywallScreen()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: context.appColors.primary,
+                foregroundColor: context.appColors.textPrimary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              icon: const Icon(PhosphorIconsBold.crown, size: 18),
+              label: Text(l10n.upgradeToPro),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Pro user: show server busy message
+      showDialog(
+        context: context,
+        barrierColor: Colors.black.withValues(alpha: 0.85),
+        builder: (ctx) => AlertDialog(
+          backgroundColor: context.appColors.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Row(
+            children: [
+              Icon(
+                PhosphorIconsDuotone.clock,
+                color: context.appColors.warning,
+                size: 28,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  l10n.voiceServerBusyTitle,
+                  style: TextStyle(
+                    color: context.appColors.textPrimary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            l10n.voiceServerBusyMessage,
+            style: TextStyle(
+              color: context.appColors.textSecondary,
+              fontSize: 15,
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.pop(ctx),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: context.appColors.primary,
+                foregroundColor: context.appColors.textPrimary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text(l10n.ok),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override
@@ -640,7 +792,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    '"50 lira kahve"\n"markete 200 TL verdim"\n"uber 85 lira"',
+                    l10n.voiceExamplesMultiline,
                     style: TextStyle(
                       color: context.appColors.textTertiary,
                       fontSize: 13,
