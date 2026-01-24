@@ -1859,7 +1859,7 @@ abstract class AppLocalizations {
   /// No description provided for @understood.
   ///
   /// In en, this message translates to:
-  /// **'Got it'**
+  /// **'Understood'**
   String get understood;
 
   /// No description provided for @monthJanuary.
@@ -9249,6 +9249,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{date}, no spending'**
   String heatmapDayNoSpending(String date);
+
+  /// No description provided for @loggedOutFromAnotherDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged In From Another Device'**
+  String get loggedOutFromAnotherDevice;
+
+  /// No description provided for @loggedOutFromAnotherDeviceMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account was accessed from another device. For security reasons, you have been signed out from this device.'**
+  String get loggedOutFromAnotherDeviceMessage;
 }
 
 class _AppLocalizationsDelegate

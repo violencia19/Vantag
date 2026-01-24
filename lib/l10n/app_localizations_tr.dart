@@ -5080,4 +5080,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String heatmapDayNoSpending(String date) {
     return '$date, harcama yok';
   }
+
+  @override
+  String get loggedOutFromAnotherDevice => 'Başka Cihazda Giriş Yapıldı';
+
+  @override
+  String get loggedOutFromAnotherDeviceMessage =>
+      'Hesabınıza başka bir cihazdan giriş yapıldı. Güvenlik nedeniyle bu cihazdan çıkış yapıldı.';
 }

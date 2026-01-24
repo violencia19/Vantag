@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'device_service.dart';
 
 /// Firebase kullanıcı profil modeli (Auth bilgileri için)
 /// NOT: Bu sınıf models/user_profile.dart'taki UserProfile'dan farklıdır.
@@ -229,6 +230,10 @@ class AuthService {
         debugPrint("   Birleştirildi mi: $wasLinked");
 
         await _saveUserProfile(user);
+
+        // Register this device as the active device (single device policy)
+        await DeviceService().registerDevice();
+
         return AuthResult.success(user, wasLinked: wasLinked);
       } else {
         return AuthResult.failure("Google ile giriş başarısız");
@@ -249,10 +254,17 @@ class AuthService {
   // ═══════════════════════════════════════════════════════════════════════════
 
   /// Çıkış yap
-  Future<void> signOut() async {
+  /// [clearDevice] - true if signing out voluntarily (clears device token)
+  ///                 false if being kicked out by another device
+  Future<void> signOut({bool clearDevice = true}) async {
     debugPrint("🚪 [Auth] Çıkış yapılıyor...");
 
     try {
+      // Clear device token from Firestore (only if voluntary sign out)
+      if (clearDevice) {
+        await DeviceService().clearDeviceOnSignOut();
+      }
+
       // Google Sign-Out
       try {
         await _googleSignIn.signOut();

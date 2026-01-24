@@ -943,7 +943,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Does not affect your statistics, just for reference.';
 
   @override
-  String get understood => 'Got it';
+  String get understood => 'Understood';
 
   @override
   String get monthJanuary => 'January';
@@ -5089,4 +5089,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String heatmapDayNoSpending(String date) {
     return '$date, no spending';
   }
+
+  @override
+  String get loggedOutFromAnotherDevice => 'Logged In From Another Device';
+
+  @override
+  String get loggedOutFromAnotherDeviceMessage =>
+      'Your account was accessed from another device. For security reasons, you have been signed out from this device.';
 }

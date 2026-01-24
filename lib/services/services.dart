@@ -1,4 +1,5 @@
 export 'auth_service.dart';
+export 'device_service.dart';
 export 'budget_service.dart';
 export 'calculation_service.dart';
 export 'profile_service.dart';

@@ -2692,5 +2692,9 @@
     "placeholders": {
       "date": {"type": "String"}
     }
-  }
+  },
+
+  "loggedOutFromAnotherDevice": "Logged In From Another Device",
+  "loggedOutFromAnotherDeviceMessage": "Your account was accessed from another device. For security reasons, you have been signed out from this device.",
+  "understood": "Understood"
 }

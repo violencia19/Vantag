@@ -37,6 +37,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   final _connectivityService = ConnectivityService();
   final _currencyService = CurrencyService();
   final _simpleModeService = SimpleModeService();
+  final _deviceService = DeviceService();
 
   // ExpenseScreen'e erişim için GlobalKey
   final GlobalKey<State<ExpenseScreen>> _expenseScreenKey = GlobalKey();
@@ -47,6 +48,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   bool _hasRateError = false;
   bool _isSimpleMode = false;
   StreamSubscription<bool>? _connectivitySubscription;
+  StreamSubscription<bool>? _deviceChangeSubscription;
 
   // Tour
   bool _shouldStartTour = false;
@@ -223,6 +225,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   // _activeProfile kaldırıldı - build() içinde Provider'dan direkt okunuyor
 
   Future<void> _initializeServices() async {
+    // Check single device policy first
+    await _checkDeviceStatus();
+
     // Connectivity service başlat
     await _connectivityService.initialize();
     _isConnected = _connectivityService.isConnected;
@@ -233,6 +238,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
     // Listen to simple mode changes
     _simpleModeService.addListener(_onSimpleModeChanged);
+
+    // Listen to device changes in real-time (for single device policy)
+    _startDeviceWatcher();
 
     // Connectivity değişikliklerini dinle
     _connectivitySubscription = _connectivityService.onConnectivityChanged
@@ -485,10 +493,95 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     }
   }
 
+  /// Check if this device is still the active device (single device policy)
+  Future<void> _checkDeviceStatus() async {
+    final result = await _deviceService.checkDeviceStatus();
+    if (result == DeviceCheckResult.anotherDeviceLoggedIn && mounted) {
+      _handleDeviceMismatch();
+    }
+  }
+
+  /// Start watching for device changes in real-time
+  void _startDeviceWatcher() {
+    _deviceChangeSubscription = _deviceService.watchDeviceChanges().listen(
+      (anotherDeviceLoggedIn) {
+        if (anotherDeviceLoggedIn && mounted) {
+          _handleDeviceMismatch();
+        }
+      },
+    );
+  }
+
+  /// Handle device mismatch - show dialog and sign out
+  Future<void> _handleDeviceMismatch() async {
+    // Cancel device watcher to prevent multiple triggers
+    _deviceChangeSubscription?.cancel();
+    _deviceChangeSubscription = null;
+
+    if (!mounted) return;
+
+    final l10n = AppLocalizations.of(context);
+
+    // Show dialog
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        backgroundColor: context.appColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: Row(
+          children: [
+            Icon(
+              PhosphorIconsDuotone.warning,
+              color: context.appColors.warning,
+              size: 28,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                l10n.loggedOutFromAnotherDevice,
+                style: TextStyle(
+                  color: context.appColors.textPrimary,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          l10n.loggedOutFromAnotherDeviceMessage,
+          style: TextStyle(
+            color: context.appColors.textSecondary,
+            fontSize: 14,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              l10n.understood,
+              style: TextStyle(
+                color: context.appColors.accent,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    // Sign out without clearing device token (since we're being kicked out)
+    await AuthService().signOut(clearDevice: false);
+  }
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _connectivitySubscription?.cancel();
+    _deviceChangeSubscription?.cancel();
     _connectivityService.dispose();
     _simpleModeService.removeListener(_onSimpleModeChanged);
     super.dispose();

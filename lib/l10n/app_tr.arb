@@ -2326,5 +2326,9 @@
     "placeholders": {
       "date": {"type": "String"}
     }
-  }
+  },
+
+  "loggedOutFromAnotherDevice": "Başka Cihazda Giriş Yapıldı",
+  "loggedOutFromAnotherDeviceMessage": "Hesabınıza başka bir cihazdan giriş yapıldı. Güvenlik nedeniyle bu cihazdan çıkış yapıldı.",
+  "understood": "Anladım"
 }
