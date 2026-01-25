@@ -323,6 +323,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: context.appColors.cardBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),

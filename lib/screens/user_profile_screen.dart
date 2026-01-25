@@ -1002,11 +1002,139 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
+  /// Show onboarding currency selector (all currencies available, no restrictions)
+  void _showOnboardingCurrencySelector() {
+    final l10n = AppLocalizations.of(context);
+    final currencyProvider = context.read<CurrencyProvider>();
+
+    showModalBottomSheet(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.85),
+      backgroundColor: context.appColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Handle
+              Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: context.appColors.textTertiary,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              // Title
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  l10n.selectCurrency,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: context.appColors.textPrimary,
+                  ),
+                ),
+              ),
+              // Note about currency lock
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: context.appColors.info.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: context.appColors.info.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        PhosphorIconsDuotone.info,
+                        size: 16,
+                        color: context.appColors.info,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          l10n.currencyLockNote,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: context.appColors.textSecondary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // Currency options - ALL available during onboarding
+              ...supportedCurrencies.map((currency) {
+                final isSelected = currencyProvider.currency.code == currency.code;
+
+                return ListTile(
+                  leading: Text(
+                    currency.flag,
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                  title: Row(
+                    children: [
+                      Text(
+                        currency.code,
+                        style: TextStyle(
+                          color: context.appColors.textPrimary,
+                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        currency.symbol,
+                        style: TextStyle(
+                          color: context.appColors.textSecondary,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                  subtitle: Text(
+                    currency.name,
+                    style: TextStyle(
+                      color: context.appColors.textTertiary,
+                      fontSize: 13,
+                    ),
+                  ),
+                  trailing: isSelected
+                      ? Icon(
+                          PhosphorIconsDuotone.checkCircle,
+                          color: context.appColors.primary,
+                        )
+                      : null,
+                  onTap: () async {
+                    Navigator.pop(ctx);
+                    await currencyProvider.setCurrency(currency);
+                    HapticFeedback.lightImpact();
+                    setState(() {});
+                  },
+                );
+              }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   /// Currency selection section for new users
   Widget _buildCurrencySection(AppLocalizations l10n) {
     final currencyProvider = context.watch<CurrencyProvider>();
-    final proProvider = context.watch<ProProvider>();
-    final isPremium = proProvider.isPro;
     final currentCurrency = currencyProvider.currency;
 
     return Column(
@@ -1022,7 +1150,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         ),
         const SizedBox(height: 12),
         GestureDetector(
-          onTap: () => showCurrencySelector(context),
+          onTap: _showOnboardingCurrencySelector,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
@@ -1081,29 +1209,27 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
           ),
         ),
-        // Show note for free users
-        if (!isPremium) ...[
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Icon(
-                PhosphorIconsDuotone.info,
-                size: 14,
-                color: context.appColors.textTertiary,
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  l10n.freeCurrencyNote,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: context.appColors.textTertiary,
-                  ),
+        // Note about currency lock (shown during onboarding)
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Icon(
+              PhosphorIconsDuotone.info,
+              size: 14,
+              color: context.appColors.textTertiary,
+            ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: Text(
+                l10n.currencyLockNote,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: context.appColors.textTertiary,
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ],
     );
   }

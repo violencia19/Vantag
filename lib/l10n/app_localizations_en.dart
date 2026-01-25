@@ -541,6 +541,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Free users can only use TRY. Upgrade to Pro for all currencies.';
 
   @override
+  String get currencyLockNote =>
+      'Selected currency will be locked. Pro users can change anytime.';
+
+  @override
   String get welcome => 'Welcome';
 
   @override
@@ -4249,6 +4253,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorTryAgain => 'An error occurred, try again?';
+
+  @override
+  String get aiFallbackOverBudget =>
+      'Budget seems a bit tight.\nLet\'s see what we can do together?';
+
+  @override
+  String get aiFallbackHighUsage =>
+      'End of month approaching, let\'s be careful.\nHow can I help?';
+
+  @override
+  String get aiFallbackMediumUsage =>
+      'Budget is holding up.\nWant to ask something?';
+
+  @override
+  String get aiFallbackLowUsage =>
+      'Your budget is looking great!\nWhat should we analyze?';
 
   @override
   String get aiInsights => 'AI Insights';

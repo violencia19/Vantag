@@ -1100,6 +1100,12 @@ abstract class AppLocalizations {
   /// **'Free users can only use TRY. Upgrade to Pro for all currencies.'**
   String get freeCurrencyNote;
 
+  /// No description provided for @currencyLockNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected currency will be locked. Pro users can change anytime.'**
+  String get currencyLockNote;
+
   /// No description provided for @welcome.
   ///
   /// In en, this message translates to:
@@ -7782,6 +7788,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred, try again?'**
   String get errorTryAgain;
+
+  /// No description provided for @aiFallbackOverBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget seems a bit tight.\nLet\'s see what we can do together?'**
+  String get aiFallbackOverBudget;
+
+  /// No description provided for @aiFallbackHighUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'End of month approaching, let\'s be careful.\nHow can I help?'**
+  String get aiFallbackHighUsage;
+
+  /// No description provided for @aiFallbackMediumUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget is holding up.\nWant to ask something?'**
+  String get aiFallbackMediumUsage;
+
+  /// No description provided for @aiFallbackLowUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your budget is looking great!\nWhat should we analyze?'**
+  String get aiFallbackLowUsage;
 
   /// No description provided for @aiInsights.
   ///

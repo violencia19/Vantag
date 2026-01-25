@@ -258,23 +258,25 @@ class _CenterAddButtonState extends State<_CenterAddButton>
         builder: (context, child) {
           return Transform.scale(
             scale: _scaleAnimation.value,
-            child: ClipOval(
+            child: Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: context.appColors.primary.withValues(
+                      alpha: _isPressed ? 0.3 : 0.5,
+                    ),
+                    blurRadius: _isPressed ? 15 : 25,
+                    offset: Offset(0, _isPressed ? 4 : 8),
+                  ),
+                ],
+              ),
               child: Container(
-                width: 56,
-                height: 56,
-                clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   gradient: AppGradients.primaryButton,
                   shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: context.appColors.primary.withValues(
-                        alpha: _isPressed ? 0.3 : 0.5,
-                      ),
-                      blurRadius: _isPressed ? 15 : 25,
-                      offset: Offset(0, _isPressed ? 4 : 8),
-                    ),
-                  ],
                 ),
                 child: Center(
                   child: PhosphorIcon(

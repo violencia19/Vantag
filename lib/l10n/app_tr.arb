@@ -217,6 +217,7 @@
   "googleLinkFailed": "Google hesabı bağlanamadı",
 
   "freeCurrencyNote": "Ücretsiz kullanıcılar sadece TL kullanabilir. Tüm para birimleri için Pro'ya yükseltin.",
+  "currencyLockNote": "Seçilen para birimi kilitlenecek. Pro kullanıcılar istediği zaman değiştirebilir.",
 
   "welcome": "Hoş geldin",
   "welcomeSubtitle": "Harcamalarını zamanla ölçmek için bilgilerini gir",
@@ -1887,6 +1888,11 @@
   "professionalMode": "Profesyonel mod",
   "friendlyMode": "Samimi mod",
   "errorTryAgain": "Bir hata oluştu, tekrar dener misin?",
+
+  "aiFallbackOverBudget": "Bütçe biraz zorlanıyor gibi.\nGel birlikte bakalım ne yapabiliriz?",
+  "aiFallbackHighUsage": "Ayın sonuna az kaldı, dikkatli olalım.\nNasıl yardımcı olabilirim?",
+  "aiFallbackMediumUsage": "Bütçe idare ediyor.\nBir şey sormak ister misin?",
+  "aiFallbackLowUsage": "Bütçen gayet iyi durumda!\nNeyi analiz edelim?",
 
   "aiInsights": "AI Insights",
   "mostSpendingDay": "En Çok Harcama Günü",

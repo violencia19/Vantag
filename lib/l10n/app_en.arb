@@ -252,6 +252,7 @@
   "googleLinkFailed": "Failed to link Google account",
 
   "freeCurrencyNote": "Free users can only use TRY. Upgrade to Pro for all currencies.",
+  "currencyLockNote": "Selected currency will be locked. Pro users can change anytime.",
 
   "welcome": "Welcome",
   "welcomeSubtitle": "Enter your information to measure expenses in time",
@@ -2253,6 +2254,11 @@
   "professionalMode": "Professional mode",
   "friendlyMode": "Friendly mode",
   "errorTryAgain": "An error occurred, try again?",
+
+  "aiFallbackOverBudget": "Budget seems a bit tight.\nLet's see what we can do together?",
+  "aiFallbackHighUsage": "End of month approaching, let's be careful.\nHow can I help?",
+  "aiFallbackMediumUsage": "Budget is holding up.\nWant to ask something?",
+  "aiFallbackLowUsage": "Your budget is looking great!\nWhat should we analyze?",
 
   "aiInsights": "AI Insights",
   "mostSpendingDay": "Busiest Spending Day",

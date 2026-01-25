@@ -35,22 +35,23 @@ class _AIChatSheetState extends State<AIChatSheet> {
   String _greeting = '';
   bool _greetingLoading = true;
 
-  // Free tier chat limit
-  int _remainingChats = AppLimits.freeAiChatsPerDay;
+  // Free tier chat limit (used, total)
+  int _usedChats = 0;
+  int _totalChats = AppLimits.freeAiChatsPerDay;
 
   @override
   void initState() {
     super.initState();
     _loadAIGreeting();
-    _loadRemainingChats();
+    _loadChatUsage();
   }
 
-  Future<void> _loadRemainingChats() async {
-    final isPremium = context.read<ProProvider>().isPro;
-    final remaining = await _freeTierService.getRemainingAiChats(isPremium);
+  Future<void> _loadChatUsage() async {
+    final (used, total) = await _freeTierService.getAiChatUsage();
     if (mounted) {
       setState(() {
-        _remainingChats = remaining;
+        _usedChats = used;
+        _totalChats = total;
       });
     }
   }
@@ -132,8 +133,34 @@ class _AIChatSheetState extends State<AIChatSheet> {
       // AI'dan karşılama iste
       final personality = AIService().personalityMode;
       final currency = currencyProvider.code;
-      final prompt =
-          '''
+      final locale = Localizations.localeOf(context).languageCode;
+      final isEnglish = locale == 'en';
+
+      final prompt = isEnglish
+          ? '''
+Greet the user. You are Vantag, a finance assistant.
+
+BUDGET:
+- Income: ${userProfile.monthlyIncome.toStringAsFixed(0)} $currency
+- Spent: ${monthlySpent.toStringAsFixed(0)} $currency
+- Remaining: ${remaining.toStringAsFixed(0)} $currency
+- Usage: ${usagePercent.toStringAsFixed(0)}%
+${recentExpenses.isNotEmpty ? '- Recent: $recentExpenses' : ''}
+
+RULES:
+- ${personality == PersonalityMode.friendly ? 'Casual, use "you"' : 'Professional, formal'}
+- MAX 1 sentence + 1 question
+- 1 emoji max
+- Can reference recent spending
+
+EXAMPLES:
+- "Coffee again? 😄 Let's chat"
+- "Budget at 80%, careful! What should we do?"
+- "Looking good, only 30% used. Analysis?"
+
+ONLY write the greeting:
+'''
+          : '''
 Kullanıcıyı karşıla. Sen Vantag, finans asistanısın.
 
 BÜTÇE:
@@ -157,7 +184,7 @@ KURAL:
 SADECE karşılama cümlesini yaz:
 ''';
 
-      final response = await AIService().getGreeting(prompt);
+      final response = await AIService().getGreeting(prompt, languageCode: locale);
 
       // Cache'e kaydet
       await _cacheGreeting(cacheKey, response);
@@ -181,12 +208,12 @@ SADECE karşılama cümlesini yaz:
 
   // Fallback - Internet yoksa
   String _getFallbackGreeting() {
+    final l10n = AppLocalizations.of(context);
     final financeProvider = context.read<FinanceProvider>();
     final userProfile = financeProvider.userProfile;
     final expenses = financeProvider.realExpenses;
 
     if (userProfile == null) {
-      final l10n = AppLocalizations.of(context);
       return l10n.aiGreeting;
     }
 
@@ -205,13 +232,13 @@ SADECE karşılama cümlesini yaz:
         : 0;
 
     if (remaining < 0) {
-      return 'Bütçe biraz zorlanıyor gibi.\nGel birlikte bakalım ne yapabiliriz?';
+      return l10n.aiFallbackOverBudget;
     } else if (usagePercent > 80) {
-      return 'Ayın sonuna az kaldı, dikkatli olalım.\nNasıl yardımcı olabilirim?';
+      return l10n.aiFallbackHighUsage;
     } else if (usagePercent > 50) {
-      return 'Bütçe idare ediyor.\nBir şey sormak ister misin?';
+      return l10n.aiFallbackMediumUsage;
     } else {
-      return 'Bütçen gayet iyi durumda!\nNeyi analiz edelim?';
+      return l10n.aiFallbackLowUsage;
     }
   }
 
@@ -260,7 +287,7 @@ SADECE karşılama cümlesini yaz:
           _buildHandle(),
           _buildHeader(),
           // Free tier remaining chats indicator
-          if (!isPremium && _remainingChats >= 0)
+          if (!isPremium)
             _buildRemainingChatsIndicator(l10n),
           Expanded(child: _buildMessageList(isPremium)),
           _buildInput(isPremium),
@@ -270,43 +297,57 @@ SADECE karşılama cümlesini yaz:
   }
 
   Widget _buildRemainingChatsIndicator(AppLocalizations l10n) {
-    final isLow = _remainingChats <= 1;
+    final remaining = _totalChats - _usedChats;
+    final isLimitReached = remaining <= 0;
+    final isLow = remaining <= 1 && !isLimitReached;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: isLow
-            ? context.appColors.warning.withValues(alpha: 0.15)
-            : context.appColors.primary.withValues(alpha: 0.1),
+        color: isLimitReached
+            ? context.appColors.error.withValues(alpha: 0.15)
+            : isLow
+                ? context.appColors.warning.withValues(alpha: 0.15)
+                : context.appColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: isLow
-              ? context.appColors.warning.withValues(alpha: 0.3)
-              : context.appColors.primary.withValues(alpha: 0.2),
+          color: isLimitReached
+              ? context.appColors.error.withValues(alpha: 0.3)
+              : isLow
+                  ? context.appColors.warning.withValues(alpha: 0.3)
+                  : context.appColors.primary.withValues(alpha: 0.2),
         ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            isLow
-                ? PhosphorIconsDuotone.warning
-                : PhosphorIconsDuotone.chatCircle,
+            isLimitReached
+                ? PhosphorIconsFill.warning
+                : isLow
+                    ? PhosphorIconsDuotone.warning
+                    : PhosphorIconsDuotone.chatCircle,
             size: 16,
-            color: isLow
-                ? context.appColors.warning
-                : context.appColors.primary,
+            color: isLimitReached
+                ? context.appColors.error
+                : isLow
+                    ? context.appColors.warning
+                    : context.appColors.primary,
           ),
           const SizedBox(width: 8),
           Text(
-            l10n.aiChatsRemaining(_remainingChats),
+            isLimitReached
+                ? l10n.dailyLimitReached
+                : l10n.aiChatUsageIndicator(_usedChats, _totalChats),
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: isLow
-                  ? context.appColors.warning
-                  : context.appColors.textSecondary,
+              color: isLimitReached
+                  ? context.appColors.error
+                  : isLow
+                      ? context.appColors.warning
+                      : context.appColors.textSecondary,
             ),
           ),
         ],
@@ -368,8 +409,8 @@ SADECE karşılama cümlesini yaz:
                   ),
                   Text(
                     AIService().personalityMode == PersonalityMode.friendly
-                        ? 'Samimi mod'
-                        : 'Profesyonel mod',
+                        ? l10n.friendlyMode
+                        : l10n.professionalMode,
                     style: TextStyle(
                       fontSize: 12,
                       color: context.appColors.textSecondary,
@@ -412,7 +453,7 @@ SADECE karşılama cümlesini yaz:
               Semantics(
                 label: AIService().personalityMode == PersonalityMode.friendly
                     ? l10n.professionalMode
-                    : l10n.professionalMode,
+                    : l10n.friendlyMode,
                 hint: l10n.accessibilityToggleOn,
                 button: true,
                 child: GestureDetector(
@@ -420,7 +461,7 @@ SADECE karşılama cümlesini yaz:
                   child: Tooltip(
                     message: AIService().personalityMode == PersonalityMode.friendly
                         ? l10n.professionalMode
-                        : l10n.professionalMode,
+                        : l10n.friendlyMode,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
@@ -556,7 +597,7 @@ SADECE karşılama cümlesini yaz:
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Düşünüyor...',
+                      l10n.aiThinking,
                       style: TextStyle(
                         fontSize: 13,
                         color: context.appColors.textTertiary,
@@ -803,6 +844,7 @@ SADECE karşılama cümlesini yaz:
   }
 
   Widget _buildLoadingBubble() {
+    final l10n = AppLocalizations.of(context);
     return Align(
           alignment: Alignment.centerLeft,
           child: Container(
@@ -828,7 +870,7 @@ SADECE karşılama cümlesini yaz:
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'Düşünüyor...',
+                  l10n.aiThinking,
                   style: TextStyle(
                     fontSize: 13,
                     color: context.appColors.textSecondary,
@@ -1061,6 +1103,7 @@ SADECE karşılama cümlesini yaz:
     _scrollToBottom();
 
     final financeProvider = context.read<FinanceProvider>();
+    final locale = Localizations.localeOf(context);
 
     try {
       final response = await AIService().getResponse(
@@ -1068,6 +1111,7 @@ SADECE karşılama cümlesini yaz:
         financeProvider: financeProvider,
         isPremium: isPremium,
         proProvider: proProvider,
+        languageCode: locale.languageCode,
       );
 
       if (mounted) {
@@ -1076,7 +1120,7 @@ SADECE karşılama cümlesini yaz:
         // Increment free tier counter after successful response
         if (!isPremium) {
           await _freeTierService.incrementAiChatCount();
-          _loadRemainingChats(); // Refresh the remaining count
+          _loadChatUsage(); // Refresh the usage count
         }
 
         // Add message with typing effect for free users

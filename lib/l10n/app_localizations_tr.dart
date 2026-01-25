@@ -542,6 +542,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Ücretsiz kullanıcılar sadece TL kullanabilir. Tüm para birimleri için Pro\'ya yükseltin.';
 
   @override
+  String get currencyLockNote =>
+      'Seçilen para birimi kilitlenecek. Pro kullanıcılar istediği zaman değiştirebilir.';
+
+  @override
   String get welcome => 'Hoş geldin';
 
   @override
@@ -4246,6 +4250,22 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get errorTryAgain => 'Bir hata oluştu, tekrar dener misin?';
+
+  @override
+  String get aiFallbackOverBudget =>
+      'Bütçe biraz zorlanıyor gibi.\nGel birlikte bakalım ne yapabiliriz?';
+
+  @override
+  String get aiFallbackHighUsage =>
+      'Ayın sonuna az kaldı, dikkatli olalım.\nNasıl yardımcı olabilirim?';
+
+  @override
+  String get aiFallbackMediumUsage =>
+      'Bütçe idare ediyor.\nBir şey sormak ister misin?';
+
+  @override
+  String get aiFallbackLowUsage =>
+      'Bütçen gayet iyi durumda!\nNeyi analiz edelim?';
 
   @override
   String get aiInsights => 'AI Insights';
