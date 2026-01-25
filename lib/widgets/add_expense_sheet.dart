@@ -497,7 +497,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     final l10n = AppLocalizations.of(context);
     final picked = await showDatePicker(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withOpacity(0.85),
       initialDate: _selectedDate,
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now(),
@@ -578,7 +578,16 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     // Convert: from -> TRY -> incomeCurrency
     final amountInTry = amount * getTryValue(from.code);
     final incomeTryRate = getTryValue(_incomeCurrency.code);
-    return incomeTryRate > 0 ? amountInTry / incomeTryRate : amount;
+    final result = incomeTryRate > 0 ? amountInTry / incomeTryRate : amount;
+
+    // Debug logging for currency conversion
+    debugPrint('💱 [AddExpense] _convertToIncomeCurrency:');
+    debugPrint('   Input: $amount ${from.code} → ${_incomeCurrency.code}');
+    debugPrint('   Rates: USD/TRY=$usdTry, EUR/TRY=$eurTry');
+    debugPrint('   fromRate=${getTryValue(from.code)}, toRate=$incomeTryRate');
+    debugPrint('   amountInTRY=$amountInTry, result=$result');
+
+    return result;
   }
 
   Future<void> _calculate() async {
@@ -794,9 +803,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       }
     }
 
-    // "Vazgeçtim" (no) decision - Save expense AND add to savings pool
+    // "Vazgeçtim" (no) decision - ADD to expense list with decision=no for stats tracking
+    // This allows DecisionStats to calculate totalSaved correctly
+    // Vazgeçtim = User PASSED on the purchase = Money saved = Tracked in noTotal
     if (decision == ExpenseDecision.no && !isSimulation) {
-      // Save the expense record (so it appears in Total Saved reports)
+      // Add to expense list with decision=no for Total Saved stats
       final expenseWithDecision = _pendingExpense!.copyWith(
         decision: ExpenseDecision.no,
         decisionDate: DateTime.now(),
@@ -1327,7 +1338,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   top: Radius.circular(24),
                 ),
                 border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.1),
+                  color: context.appColors.cardBorder,
                   width: 1,
                 ),
               ),
@@ -2152,16 +2163,19 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
   /// Zorunlu gider toggle widget'ı
   Widget _buildMandatoryToggle() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.05),
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.05)
+              : Colors.black.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: _isMandatory
                 ? context.appColors.info.withValues(alpha: 0.5)
-                : Colors.white.withValues(alpha: 0.1),
+                : context.appColors.cardBorder,
           ),
         ),
         child: SwitchListTile(
@@ -2203,16 +2217,20 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         // Taksitli mi toggle
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.05),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: _expenseType == ExpenseType.installment
-                    ? context.appColors.warning.withValues(alpha: 0.5)
-                    : Colors.white.withValues(alpha: 0.1),
+          child: Builder(builder: (context) {
+            final isDark = Theme.of(context).brightness == Brightness.dark;
+            return Container(
+              decoration: BoxDecoration(
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.05)
+                    : Colors.black.withValues(alpha: 0.03),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: _expenseType == ExpenseType.installment
+                      ? context.appColors.warning.withValues(alpha: 0.5)
+                      : context.appColors.cardBorder,
+                ),
               ),
-            ),
             child: SwitchListTile(
               title: Text(
                 'Taksitli Alım',
@@ -2253,7 +2271,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               },
               activeTrackColor: context.appColors.warning,
             ),
-          ),
+          );
+          }),
         ),
 
         // Taksit detayları (animasyonlu açılır)
@@ -2423,12 +2442,15 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     final financeProvider = context.read<FinanceProvider>();
     final hourlyRate = financeProvider.hourlyRate;
     final interestHours = hourlyRate > 0 ? interestAmount / hourlyRate : 0.0;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       margin: const EdgeInsets.only(top: 16),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
+        color: isDark
+            ? Colors.white.withValues(alpha: 0.05)
+            : Colors.black.withValues(alpha: 0.03),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -2697,6 +2719,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           emotionalMessage: _emotionalMessage,
           amount: _pendingExpense?.amount,
           exchangeRates: widget.exchangeRates,
+          amountCurrencyCode: _incomeCurrency.code,
         ),
 
         const SizedBox(height: 20),
@@ -2807,7 +2830,7 @@ void showAddExpenseSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withValues(alpha: 0.95),
+    barrierColor: Colors.black.withOpacity(0.85),
     builder: (context) => AddExpenseSheet(
       exchangeRates: exchangeRates,
       onExpenseAdded: onExpenseAdded,

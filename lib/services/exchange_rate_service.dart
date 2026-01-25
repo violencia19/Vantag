@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/currency.dart';
@@ -188,17 +189,26 @@ class ExchangeRateService {
   /// Fetch rates from Firestore (primary source)
   Future<bool> _fetchFromFirestore() async {
     try {
+      debugPrint('📊 [ExchangeRate] Fetching from Firestore...');
       final doc = await FirebaseFirestore.instance
           .doc(_firestorePath)
           .get(const GetOptions(source: Source.serverAndCache));
 
-      if (!doc.exists) return false;
+      if (!doc.exists) {
+        debugPrint('📊 [ExchangeRate] Firestore doc not found');
+        return false;
+      }
 
       final data = doc.data();
-      if (data == null) return false;
+      if (data == null) {
+        debugPrint('📊 [ExchangeRate] Firestore data is null');
+        return false;
+      }
 
       // Parse rates
       final rates = data['rates'] as Map<String, dynamic>?;
+      debugPrint('📊 [ExchangeRate] Raw rates from Firestore: $rates');
+
       if (rates != null) {
         _ratesInUSD = {};
         for (final entry in rates.entries) {
@@ -209,22 +219,28 @@ class ExchangeRateService {
         _ratesInUSD['USD'] = 1.0;
       }
 
+      debugPrint('📊 [ExchangeRate] Parsed _ratesInUSD: $_ratesInUSD');
+
       // Parse gold
       final gold = data['gold'] as Map<String, dynamic>?;
       if (gold != null) {
         _goldUSD = (gold['usdPerOz'] as num?)?.toDouble();
         _goldTRYPerGram = (gold['tryPerGram'] as num?)?.toDouble();
+        debugPrint('📊 [ExchangeRate] Gold - USD/oz: $_goldUSD, TRY/gr: $_goldTRYPerGram');
       }
 
       // Parse timestamp
       final updatedAt = data['updatedAt'] as Timestamp?;
       if (updatedAt != null) {
         _lastFetch = updatedAt.toDate();
+        debugPrint('📊 [ExchangeRate] Last updated: $_lastFetch');
       }
 
       _source = 'firestore';
+      debugPrint('📊 [ExchangeRate] ✅ Loaded ${_ratesInUSD.length} rates from Firestore');
       return _ratesInUSD.isNotEmpty;
     } catch (e) {
+      debugPrint('📊 [ExchangeRate] ❌ Firestore error: $e');
       return false;
     }
   }
@@ -347,14 +363,28 @@ class ExchangeRateService {
 
     // Use actual rates if available, otherwise use fallback
     final rates = _ratesInUSD.isNotEmpty ? _ratesInUSD : _fallbackRates;
+    final source = _ratesInUSD.isNotEmpty ? 'live' : 'fallback';
 
     final fromRate = rates[from];
     final toRate = rates[to];
 
-    if (fromRate == null || toRate == null) return null;
-    if (fromRate <= 0) return null;
+    // Debug logging for currency conversion
+    debugPrint('💱 [Convert] $amount $from → $to');
+    debugPrint('   Source: $source, Rates available: ${rates.keys.toList()}');
+    debugPrint('   fromRate[$from]: $fromRate, toRate[$to]: $toRate');
 
-    return amount * (toRate / fromRate);
+    if (fromRate == null || toRate == null) {
+      debugPrint('   ❌ Rate missing! Returning null');
+      return null;
+    }
+    if (fromRate <= 0) {
+      debugPrint('   ❌ Invalid fromRate! Returning null');
+      return null;
+    }
+
+    final result = amount * (toRate / fromRate);
+    debugPrint('   ✅ Result: $result (formula: $amount * ($toRate / $fromRate))');
+    return result;
   }
 
   /// Get rate between two currencies

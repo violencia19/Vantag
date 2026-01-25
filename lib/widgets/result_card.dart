@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -12,6 +13,7 @@ class ResultCard extends StatelessWidget {
   final String? emotionalMessage;
   final double? amount;
   final ExchangeRates? exchangeRates;
+  final String? amountCurrencyCode; // Currency of the amount (TRY, USD, EUR, etc.)
 
   const ResultCard({
     super.key,
@@ -20,6 +22,7 @@ class ResultCard extends StatelessWidget {
     this.emotionalMessage,
     this.amount,
     this.exchangeRates,
+    this.amountCurrencyCode,
   });
 
   String _formatCurrency(double value, {int decimals = 2}) {
@@ -200,9 +203,39 @@ class ResultCard extends StatelessWidget {
   ) {
     if (amount == null || exchangeRates == null) return const SizedBox.shrink();
 
-    final usdAmount = amount! / exchangeRates!.usdRate;
-    final eurAmount = amount! / exchangeRates!.eurRate;
-    final goldGrams = amount! / exchangeRates!.goldRate;
+    // First convert amount to TRY, then to target currencies
+    // amountCurrencyCode tells us what currency the amount is in
+    final currencyCode = amountCurrencyCode ?? 'TRY';
+
+    // Convert amount to TRY first
+    double amountInTRY;
+    if (currencyCode == 'TRY') {
+      amountInTRY = amount!;
+    } else if (currencyCode == 'USD') {
+      amountInTRY = amount! * exchangeRates!.usdRate;
+    } else if (currencyCode == 'EUR') {
+      amountInTRY = amount! * exchangeRates!.eurRate;
+    } else if (currencyCode == 'GBP') {
+      // GBP approximation: use USD rate * 1.27
+      amountInTRY = amount! * (exchangeRates!.usdRate * 1.27);
+    } else if (currencyCode == 'SAR') {
+      // SAR is pegged to USD at 3.75
+      amountInTRY = amount! * (exchangeRates!.usdRate / 3.75);
+    } else {
+      amountInTRY = amount!; // Fallback: assume TRY
+    }
+
+    // Now convert TRY to each target currency
+    final usdAmount = amountInTRY / exchangeRates!.usdRate;
+    final eurAmount = amountInTRY / exchangeRates!.eurRate;
+    final goldGrams = amountInTRY / exchangeRates!.goldRate;
+
+    // Debug logging for currency conversion
+    debugPrint('💱 [ResultCard] Currency Conversion Debug:');
+    debugPrint('   Input: $amount $currencyCode');
+    debugPrint('   Rates: USD=${exchangeRates!.usdRate}, EUR=${exchangeRates!.eurRate}, GOLD=${exchangeRates!.goldRate}');
+    debugPrint('   TRY equivalent: $amountInTRY');
+    debugPrint('   Output: USD=$usdAmount, EUR=$eurAmount, GOLD=${goldGrams}g');
 
     return Container(
       width: double.infinity,
