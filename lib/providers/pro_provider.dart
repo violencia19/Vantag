@@ -28,8 +28,20 @@ class ProProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      // 0. Login to RevenueCat with Firebase UID (links purchases to user)
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null && !user.isAnonymous) {
+        try {
+          await PurchaseService().login(user.uid);
+          debugPrint('✅ [ProProvider] RevenueCat login: ${user.uid}');
+        } catch (e) {
+          debugPrint('⚠️ [ProProvider] RevenueCat login error: $e');
+        }
+      }
+
       // 1. Check RevenueCat entitlement
       _isPro = await PurchaseService().checkProStatus();
+      debugPrint('📊 [ProProvider] RevenueCat Pro status: $_isPro');
 
       // 2. Check Firestore promo_users collection
       await _checkPromoStatus();
@@ -58,6 +70,7 @@ class ProProvider extends ChangeNotifier {
       _isPromo = prefs.getBool(_keyIsPromo) ?? false;
     } finally {
       _isLoading = false;
+      debugPrint('✅ [ProProvider] Initialized - isPro: $isPro (RevenueCat: $_isPro, Promo: $_isPromo)');
       notifyListeners();
     }
   }
@@ -170,8 +183,15 @@ class ProProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      // Ensure RevenueCat is logged in with correct user
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null && !user.isAnonymous) {
+        await PurchaseService().login(user.uid);
+      }
+
       _isPro = await PurchaseService().checkProStatus();
       await _checkPromoStatus();
+      debugPrint('🔄 [ProProvider] Refreshed - isPro: $isPro');
     } catch (e) {
       debugPrint('ProProvider refresh error: $e');
     } finally {
@@ -180,10 +200,39 @@ class ProProvider extends ChangeNotifier {
     }
   }
 
-  /// Called when user logs in - re-check promo status
+  /// Called when user logs in - re-check promo status and RevenueCat
   Future<void> onUserLogin() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    debugPrint('🔐 [ProProvider] User login detected: ${user.uid}');
+
+    // 1. Login to RevenueCat with Firebase UID (links purchases to user)
+    try {
+      await PurchaseService().login(user.uid);
+      debugPrint('✅ [ProProvider] RevenueCat login successful');
+    } catch (e) {
+      debugPrint('❌ [ProProvider] RevenueCat login error: $e');
+    }
+
+    // 2. Re-check RevenueCat Pro status (fetch from server)
+    try {
+      _isPro = await PurchaseService().checkProStatus();
+      debugPrint('📊 [ProProvider] RevenueCat Pro status: $_isPro');
+
+      // Persist to local storage
+      if (_isPro) {
+        await _persistProStatus(true);
+      }
+    } catch (e) {
+      debugPrint('❌ [ProProvider] RevenueCat status check error: $e');
+    }
+
+    // 3. Check Firestore promo_users collection
     await _checkPromoStatus();
     _listenToPromoStatus();
+
+    debugPrint('✅ [ProProvider] Final isPro: $isPro (RevenueCat: $_isPro, Promo: $_isPromo)');
     notifyListeners();
   }
 

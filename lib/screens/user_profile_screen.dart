@@ -73,6 +73,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       if (result.success) {
         HapticFeedback.mediumImpact();
         _showSuccess(l10n.googleLinkedSuccess);
+
+        // Refresh Pro status after Google Sign-In (links RevenueCat + checks promo)
+        if (mounted) {
+          await context.read<ProProvider>().onUserLogin();
+        }
+
         setState(() {}); // UI'ı yenile
       } else {
         _showError(result.errorMessage ?? l10n.error);
