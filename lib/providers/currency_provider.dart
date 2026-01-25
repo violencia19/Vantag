@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import '../models/currency.dart';
 import '../models/income_source.dart';
 import '../services/currency_preference_service.dart';
+import '../services/currency_service.dart';
 import '../services/exchange_rate_service.dart';
 
 /// Provider for managing the selected currency and exchange rates
@@ -13,6 +14,9 @@ class CurrencyProvider extends ChangeNotifier {
 
   // Exchange rate service singleton
   final ExchangeRateService _exchangeService = ExchangeRateService();
+
+  // TCMB rates from CurrencyService (fallback when Firestore is empty)
+  ExchangeRates? _tcmbRates;
 
   // Getters
   Currency get currency => _currency;
@@ -30,6 +34,15 @@ class CurrencyProvider extends ChangeNotifier {
 
     // Initialize exchange service from cache
     await _exchangeService.initialize();
+
+    // Also load TCMB rates (from cache first, then API)
+    try {
+      final currencyService = CurrencyService();
+      _tcmbRates = await currencyService.getRates();
+      debugPrint('💱 [CurrencyProvider] Initialized with TCMB rates: USD=${_tcmbRates?.usdRate}, EUR=${_tcmbRates?.eurRate}');
+    } catch (e) {
+      debugPrint('⚠️ [CurrencyProvider] Failed to load TCMB rates: $e');
+    }
 
     notifyListeners();
   }
@@ -52,9 +65,16 @@ class CurrencyProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      // Try to fetch from Firestore first
       await _exchangeService.fetchAllRates(forceRefresh: forceRefresh);
 
-      if (!_exchangeService.hasRates) {
+      // Also fetch TCMB rates as backup (these are always fresh from API)
+      final currencyService = CurrencyService();
+      _tcmbRates = await currencyService.getRates(forceRefresh: forceRefresh);
+
+      debugPrint('💱 [CurrencyProvider] TCMB rates loaded: USD=${_tcmbRates?.usdRate}, EUR=${_tcmbRates?.eurRate}');
+
+      if (!_exchangeService.hasRates && _tcmbRates == null) {
         _rateError = 'Failed to fetch exchange rates';
       }
     } catch (e) {
@@ -157,10 +177,41 @@ class CurrencyProvider extends ChangeNotifier {
   }
 
   /// Convert TRY amount to current currency
+  /// Uses TCMB rates first (most accurate), falls back to ExchangeRateService
   /// If current currency is TRY, returns the same amount
   /// If rates not available, returns the original amount
   double convertFromTRY(double amountTRY) {
     if (_currency.code == 'TRY') return amountTRY;
+
+    // Try TCMB rates first (direct from API, most accurate)
+    if (_tcmbRates != null) {
+      double? rate;
+      switch (_currency.code) {
+        case 'USD':
+          rate = _tcmbRates!.usdRate;
+          break;
+        case 'EUR':
+          rate = _tcmbRates!.eurRate;
+          break;
+        case 'GBP':
+          // GBP not directly available, approximate via USD
+          rate = _tcmbRates!.usdRate * 1.27;
+          break;
+        case 'SAR':
+          // SAR pegged to USD at 3.75
+          rate = _tcmbRates!.usdRate / 3.75;
+          break;
+      }
+
+      if (rate != null && rate > 0) {
+        final result = amountTRY / rate;
+        debugPrint('💱 [convertFromTRY] $amountTRY TRY → ${_currency.code}');
+        debugPrint('   Using TCMB rate: $rate, Result: $result');
+        return result;
+      }
+    }
+
+    // Fallback to ExchangeRateService
     final converted = _exchangeService.convert(
       amountTRY,
       'TRY',
@@ -178,6 +229,52 @@ class CurrencyProvider extends ChangeNotifier {
       decimalDigits: decimalDigits,
     );
   }
+
+  /// Convert amount from current currency TO TRY
+  /// Uses TCMB rates first (most accurate)
+  double convertToTRY(double amount) {
+    if (_currency.code == 'TRY') return amount;
+
+    // Try TCMB rates first
+    if (_tcmbRates != null) {
+      double? rate;
+      switch (_currency.code) {
+        case 'USD':
+          rate = _tcmbRates!.usdRate;
+          break;
+        case 'EUR':
+          rate = _tcmbRates!.eurRate;
+          break;
+        case 'GBP':
+          rate = _tcmbRates!.usdRate * 1.27;
+          break;
+        case 'SAR':
+          rate = _tcmbRates!.usdRate / 3.75;
+          break;
+      }
+
+      if (rate != null && rate > 0) {
+        final result = amount * rate;
+        debugPrint('💱 [convertToTRY] $amount ${_currency.code} → TRY');
+        debugPrint('   Using TCMB rate: $rate, Result: $result');
+        return result;
+      }
+    }
+
+    // Fallback to ExchangeRateService
+    final converted = _exchangeService.convert(
+      amount,
+      _currency.code,
+      'TRY',
+    );
+    return converted ?? amount;
+  }
+
+  /// Get TCMB rates (for direct access if needed)
+  ExchangeRates? get tcmbRates => _tcmbRates;
+
+  /// Check if we have valid TCMB rates
+  bool get hasTcmbRates => _tcmbRates != null;
 
   // ═══════════════════════════════════════════════════════════════════
   // SALARY CONVERSION METHODS
