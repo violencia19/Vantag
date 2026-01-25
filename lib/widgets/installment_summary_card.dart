@@ -14,11 +14,13 @@ import '../utils/currency_utils.dart';
 class InstallmentSummaryCard extends StatefulWidget {
   final BudgetService budgetService;
   final int animationIndex;
+  final VoidCallback? onSeeAll;
 
   const InstallmentSummaryCard({
     super.key,
     required this.budgetService,
     this.animationIndex = 0,
+    this.onSeeAll,
   });
 
   @override
@@ -59,6 +61,25 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void _showAllInstallmentsSheet(
+    BuildContext context,
+    List<Expense> installments,
+    CurrencyProvider currencyProvider,
+  ) {
+    final l10n = AppLocalizations.of(context);
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
+      builder: (context) => _AllInstallmentsSheet(
+        installments: installments,
+        currencyProvider: currencyProvider,
+        l10n: l10n,
+      ),
+    );
   }
 
   @override
@@ -177,15 +198,56 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                         ),
                       ),
 
-                  // Daha fazla varsa
+                  // Daha fazla varsa - "Tümünü Gör" butonu
                   if (installments.length > 3)
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
-                      child: Text(
-                        l10n.moreInstallments(installments.length - 3),
-                        style: TextStyle(
-                          color: context.appColors.textTertiary,
-                          fontSize: 12,
+                      child: GestureDetector(
+                        onTap: widget.onSeeAll ?? () => _showAllInstallmentsSheet(context, installments, currencyProvider),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              l10n.moreInstallments(installments.length - 3),
+                              style: TextStyle(
+                                color: context.appColors.textTertiary,
+                                fontSize: 12,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.orange.withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Colors.orange.withValues(alpha: 0.3),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    l10n.viewAll,
+                                    style: TextStyle(
+                                      color: Colors.orange.shade300,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Icon(
+                                    PhosphorIconsBold.caretRight,
+                                    color: Colors.orange.shade300,
+                                    size: 12,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -554,6 +616,259 @@ class _AnimatedSummaryItemState extends State<_AnimatedSummaryItem>
           ),
         );
       },
+    );
+  }
+}
+
+/// Bottom sheet showing all installments
+class _AllInstallmentsSheet extends StatelessWidget {
+  final List<Expense> installments;
+  final CurrencyProvider currencyProvider;
+  final AppLocalizations l10n;
+
+  const _AllInstallmentsSheet({
+    required this.installments,
+    required this.currencyProvider,
+    required this.l10n,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.7,
+      minChildSize: 0.4,
+      maxChildSize: 0.9,
+      builder: (context, scrollController) {
+        return Container(
+          decoration: BoxDecoration(
+            color: context.appColors.background,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.1),
+            ),
+          ),
+          child: Column(
+            children: [
+              // Handle
+              Padding(
+                padding: const EdgeInsets.only(top: 12, bottom: 8),
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+
+              // Header
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color: Colors.orange.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            PhosphorIconsDuotone.creditCard,
+                            color: Colors.orange.shade300,
+                            size: 18,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          l10n.activeInstallments,
+                          style: TextStyle(
+                            color: context.appColors.textPrimary,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        l10n.installmentCount(installments.length),
+                        style: TextStyle(
+                          color: Colors.orange.shade300,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Divider(color: Colors.white.withValues(alpha: 0.1)),
+
+              // Installments list
+              Expanded(
+                child: ListView.builder(
+                  controller: scrollController,
+                  padding: const EdgeInsets.all(20),
+                  itemCount: installments.length,
+                  itemBuilder: (context, index) {
+                    final expense = installments[index];
+                    return _InstallmentListItem(
+                      expense: expense,
+                      currencyProvider: currencyProvider,
+                      l10n: l10n,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// Single installment item in the full list
+class _InstallmentListItem extends StatelessWidget {
+  final Expense expense;
+  final CurrencyProvider currencyProvider;
+  final AppLocalizations l10n;
+
+  const _InstallmentListItem({
+    required this.expense,
+    required this.currencyProvider,
+    required this.l10n,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final currentInstallment = expense.currentInstallment ?? 1;
+    final totalInstallments = expense.installmentCount ?? 1;
+    final progress = currentInstallment / totalInstallments;
+    final installmentAmount = currencyProvider.convertFromTRY(
+      expense.installmentAmount,
+    );
+    final totalAmount = currencyProvider.convertFromTRY(expense.amount);
+    final remainingAmount = installmentAmount * (totalInstallments - currentInstallment + 1);
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: context.appColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.1),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Title & Amount
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  expense.subCategory?.isNotEmpty == true
+                      ? '${expense.category} - ${expense.subCategory}'
+                      : expense.category,
+                  style: TextStyle(
+                    color: context.appColors.textPrimary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Text(
+                '${formatTurkishCurrency(installmentAmount, decimalDigits: 0, showDecimals: false)}/${l10n.monthAbbreviation}',
+                style: TextStyle(
+                  color: Colors.orange.shade300,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 12),
+
+          // Progress bar
+          Container(
+            height: 8,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: FractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              widthFactor: progress.clamp(0.0, 1.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: progress > 0.8
+                        ? [context.appColors.success, context.appColors.success.withValues(alpha: 0.8)]
+                        : [Colors.orange, Colors.orange.shade600],
+                  ),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          // Details row
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Progress text
+              Text(
+                '$currentInstallment / $totalInstallments ${l10n.installmentsLabel}',
+                style: TextStyle(
+                  color: context.appColors.textSecondary,
+                  fontSize: 13,
+                ),
+              ),
+              // Remaining
+              Text(
+                '${l10n.remaining}: ${formatTurkishCurrency(remainingAmount, decimalDigits: 0, showDecimals: false)}',
+                style: TextStyle(
+                  color: context.appColors.textTertiary,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+
+          // Total amount
+          if (expense.amount != installmentAmount) ...[
+            const SizedBox(height: 8),
+            Text(
+              '${l10n.total}: ${formatTurkishCurrency(totalAmount, decimalDigits: 0, showDecimals: false)}',
+              style: TextStyle(
+                color: context.appColors.textTertiary,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ],
+      ),
     );
   }
 }

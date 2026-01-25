@@ -1504,6 +1504,8 @@
     }
   },
   "monthAbbreviation": "ay",
+  "installmentsLabel": "taksit",
+  "remaining": "Kalan",
 
   "paywallTitle": "Premium'a Geç",
   "paywallSubtitle": "Tüm özelliklerin kilidini aç ve finansal özgürlüğüne ulaş",

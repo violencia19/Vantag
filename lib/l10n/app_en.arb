@@ -1870,6 +1870,8 @@
     }
   },
   "monthAbbreviation": "mo",
+  "installmentsLabel": "installments",
+  "remaining": "Remaining",
 
   "paywallTitle": "Upgrade to Premium",
   "paywallSubtitle": "Unlock all features and achieve your financial freedom",
