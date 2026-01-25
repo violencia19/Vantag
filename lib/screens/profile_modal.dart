@@ -26,7 +26,7 @@ class ProfileModal extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: Colors.black.withOpacity(0.85),
       builder: (context) => const ProfileModal(),
     );
   }
@@ -40,6 +40,7 @@ class _ProfileModalState extends State<ProfileModal> {
   final _imagePicker = ImagePicker();
   String? _localPhotoPath;
   bool _isPhotoLoading = false;
+  bool _isLinkingGoogle = false;
 
   @override
   void initState() {
@@ -108,7 +109,7 @@ class _ProfileModalState extends State<ProfileModal> {
   void _showPhotoOptions(AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: Colors.transparent,
       builder: (context) => _PhotoOptionsSheet(
         localPhotoPath: _localPhotoPath,
@@ -158,20 +159,33 @@ class _ProfileModalState extends State<ProfileModal> {
         .where((a) => a.isUnlocked)
         .length;
 
-    return DraggableScrollableSheet(
-      initialChildSize: 0.75,
-      minChildSize: 0.5,
-      maxChildSize: 0.9,
-      builder: (context, scrollController) {
-        return Container(
-          decoration: BoxDecoration(
-            color: context.appColors.surface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-            border: Border.all(
-              color: context.appColors.cardBorder,
-              width: 1,
+    // Stack with opaque background to ensure proper dark overlay
+    return Stack(
+      children: [
+        // Opaque background layer - tapping dismisses modal
+        Positioned.fill(
+          child: GestureDetector(
+            onTap: () => Navigator.of(context).pop(),
+            child: Container(
+              color: Colors.black.withOpacity(0.85),
             ),
           ),
+        ),
+        // The actual draggable sheet
+        DraggableScrollableSheet(
+          initialChildSize: 0.75,
+          minChildSize: 0.5,
+          maxChildSize: 0.9,
+          builder: (context, scrollController) {
+            return Container(
+              decoration: BoxDecoration(
+                color: context.appColors.surface,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                border: Border.all(
+                  color: context.appColors.cardBorder,
+                  width: 1,
+                ),
+              ),
           child: Column(
             children: [
               // Handle bar
@@ -225,7 +239,9 @@ class _ProfileModalState extends State<ProfileModal> {
             ],
           ),
         );
-      },
+          },
+        ),
+      ],
     );
   }
 
@@ -486,7 +502,7 @@ class _ProfileModalState extends State<ProfileModal> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: Colors.transparent,
       builder: (ctx) => _EditSalarySheet(
         financeProvider: financeProvider,
@@ -642,61 +658,169 @@ class _ProfileModalState extends State<ProfileModal> {
   ) {
     final isLinked = authService.isLinkedWithGoogle;
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.appColors.surfaceLight,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: isLinked
-                  ? context.appColors.success.withValues(alpha: 0.15)
-                  : context.appColors.textTertiary.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              isLinked
-                  ? PhosphorIconsDuotone.googleLogo
-                  : PhosphorIconsDuotone.link,
-              size: 20,
-              color: isLinked
-                  ? context.appColors.success
-                  : context.appColors.textTertiary,
-            ),
+    return GestureDetector(
+      onTap: isLinked || _isLinkingGoogle
+          ? null
+          : () => _linkGoogleAccount(authService, l10n),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: context.appColors.surfaceLight,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: !isLinked && !_isLinkingGoogle
+                ? context.appColors.warning.withValues(alpha: 0.5)
+                : context.appColors.cardBorder,
           ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Text(
-              isLinked
-                  ? l10n.profileGoogleConnected
-                  : l10n.profileGoogleNotConnected,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
                 color: isLinked
-                    ? context.appColors.success
-                    : context.appColors.textSecondary,
+                    ? context.appColors.success.withValues(alpha: 0.15)
+                    : context.appColors.warning.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: _isLinkingGoogle
+                  ? Center(
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: context.appColors.primary,
+                        ),
+                      ),
+                    )
+                  : Icon(
+                      PhosphorIconsDuotone.googleLogo,
+                      size: 20,
+                      color: isLinked
+                          ? context.appColors.success
+                          : context.appColors.warning,
+                    ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    isLinked
+                        ? l10n.profileGoogleConnected
+                        : l10n.profileGoogleNotConnected,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: isLinked
+                          ? context.appColors.success
+                          : context.appColors.textPrimary,
+                    ),
+                  ),
+                  if (!isLinked && !_isLinkingGoogle) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      l10n.dataNotBackedUp,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: context.appColors.warning,
+                      ),
+                    ),
+                  ],
+                ],
               ),
             ),
-          ),
-          Icon(
-            isLinked
-                ? PhosphorIconsDuotone.checkCircle
-                : PhosphorIconsDuotone.xCircle,
-            size: 20,
-            color: isLinked
-                ? context.appColors.success
-                : context.appColors.textTertiary,
-          ),
-        ],
+            if (_isLinkingGoogle)
+              Text(
+                '...',
+                style: TextStyle(
+                  color: context.appColors.textTertiary,
+                ),
+              )
+            else if (isLinked)
+              Icon(
+                PhosphorIconsDuotone.checkCircle,
+                size: 20,
+                color: context.appColors.success,
+              )
+            else
+              Icon(
+                PhosphorIconsDuotone.caretRight,
+                size: 20,
+                color: context.appColors.warning,
+              ),
+          ],
+        ),
       ),
     );
+  }
+
+  Future<void> _linkGoogleAccount(
+    AuthService authService,
+    AppLocalizations l10n,
+  ) async {
+    setState(() => _isLinkingGoogle = true);
+    HapticFeedback.mediumImpact();
+
+    try {
+      final result = await authService.signInWithGoogle();
+
+      if (!mounted) return;
+
+      if (result.success) {
+        HapticFeedback.heavyImpact();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle, color: Colors.white, size: 20),
+                const SizedBox(width: 12),
+                Expanded(child: Text(l10n.googleLinkedSuccess)),
+              ],
+            ),
+            backgroundColor: context.appColors.success,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        );
+        // Refresh UI to show linked status
+        setState(() {});
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.error_outline, color: Colors.white, size: 20),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(result.errorMessage ?? l10n.googleLinkFailed),
+                ),
+              ],
+            ),
+            backgroundColor: context.appColors.error,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.googleLinkFailed),
+            backgroundColor: context.appColors.error,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLinkingGoogle = false);
+      }
+    }
   }
 
   Widget _buildSignOutButton(
@@ -741,7 +865,7 @@ class _ProfileModalState extends State<ProfileModal> {
   ) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: Colors.black.withOpacity(0.85),
       builder: (context) => AlertDialog(
         backgroundColor: context.appColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
