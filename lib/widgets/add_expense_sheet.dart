@@ -896,6 +896,42 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     // Budget warning check (only for actual purchases)
     if (decision == ExpenseDecision.yes && !isSimulation) {
       await _checkBudgetWarning(expenseWithDecision, financeProvider.expenses);
+
+      // Debt warning - show if pool has debt
+      final savingsPoolProvider = context.read<SavingsPoolProvider>();
+      if (savingsPoolProvider.hasDebt && mounted) {
+        final l10n = AppLocalizations.of(context);
+        final currencyProvider = context.read<CurrencyProvider>();
+        final debtAmount = savingsPoolProvider.shadowDebt;
+        final symbol = currencyProvider.currency.symbol;
+
+        // Show debt warning after a short delay
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
+                  children: [
+                    Icon(PhosphorIconsFill.warning, color: Colors.white, size: 20),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        l10n.debtWarningOnPurchase('$symbol${debtAmount.toStringAsFixed(0)}'),
+                      ),
+                    ),
+                  ],
+                ),
+                duration: const Duration(seconds: 4),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: context.appColors.warning,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            );
+          }
+        });
+      }
     }
 
     // Smart Choice savings (when user bought but spent less than intended)

@@ -76,6 +76,7 @@ export 'redirect_savings_sheet.dart';
 // Savings Pool
 export 'savings_pool_card.dart';
 export 'budget_shift_dialog.dart';
+export 'pool_allocation_dialog.dart';
 
 // Category Budgets
 export 'category_budget_card.dart';

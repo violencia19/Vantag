@@ -146,16 +146,6 @@ class SavingsPoolCard extends StatelessWidget {
             ),
           ),
 
-          // Joker indicator
-          if (pool.canUseJoker)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: context.appColors.warning.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Text('🃏', style: TextStyle(fontSize: 14)),
-            ),
         ],
       ),
     );
@@ -208,36 +198,6 @@ class SavingsPoolCard extends StatelessWidget {
                   color: context.appColors.textPrimary,
                 ),
               ),
-              const Spacer(),
-              if (pool.canUseJoker)
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: context.appColors.warning.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: context.appColors.warning.withValues(alpha: 0.3),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text('🃏', style: TextStyle(fontSize: 14)),
-                      const SizedBox(width: 4),
-                      Text(
-                        '1',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: context.appColors.warning,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
             ],
           ),
           const SizedBox(height: 20),

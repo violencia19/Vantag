@@ -7,6 +7,7 @@ import '../models/models.dart';
 import '../providers/providers.dart';
 import '../theme/quiet_luxury.dart';
 import 'pursuit_progress_visual.dart';
+import 'pool_allocation_dialog.dart';
 
 /// Bottom sheet for adding savings to a pursuit
 class AddSavingsSheet extends StatefulWidget {
@@ -340,17 +341,96 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
       return;
     }
 
-    setState(() => _isLoading = true);
-
     final l10n = AppLocalizations.of(context);
     final pursuitProvider = context.read<PursuitProvider>();
     final currencyProvider = context.read<CurrencyProvider>();
+    final poolProvider = context.read<SavingsPoolProvider>();
+    final symbol = currencyProvider.currency.symbol;
+
+    // Check pool status
+    final poolAvailable = poolProvider.available;
+    final hasDebt = poolProvider.hasDebt;
+    final debtAmount = poolProvider.shadowDebt;
+
+    double finalAmount = amount;
+    bool createDebt = false;
+    bool isOneTimeIncome = false;
+
+    // Case 1: Pool has debt - ask about source
+    if (hasDebt) {
+      final choice = await showDebtSourceDialog(
+        context,
+        debtAmount: debtAmount,
+        currencySymbol: symbol,
+      );
+
+      if (choice == null || choice == DebtSourceChoice.cancel) {
+        return; // User cancelled
+      }
+
+      if (choice == DebtSourceChoice.oneTimeIncome) {
+        isOneTimeIncome = true;
+        // Don't deduct from pool, add directly
+      } else {
+        // From savings - pool goes more negative
+        createDebt = true;
+      }
+    }
+    // Case 2: Pool is positive but amount > available
+    else if (poolAvailable < amount) {
+      final choice = await showPoolAllocationDialog(
+        context,
+        available: poolAvailable,
+        requested: amount,
+        currencySymbol: symbol,
+      );
+
+      if (choice == null || choice == PoolAllocationChoice.cancel) {
+        return; // User cancelled
+      }
+
+      switch (choice) {
+        case PoolAllocationChoice.fromPocket:
+          // Zero out pool + add difference from pocket (use extraIncome source)
+          isOneTimeIncome = true;
+          break;
+        case PoolAllocationChoice.createDebt:
+          // Pool goes negative
+          createDebt = true;
+          break;
+        case PoolAllocationChoice.availableOnly:
+          // Only use available
+          finalAmount = poolAvailable;
+          break;
+        case PoolAllocationChoice.cancel:
+          return;
+      }
+    }
+
+    if (finalAmount <= 0) {
+      HapticFeedback.heavyImpact();
+      return;
+    }
+
+    setState(() => _isLoading = true);
 
     try {
+      // Deduct from pool (unless one-time income)
+      if (!isOneTimeIncome) {
+        if (createDebt) {
+          // Create shadow debt
+          await poolProvider.createShadowDebt(finalAmount, widget.pursuit.id);
+        } else {
+          // Normal allocation from pool
+          await poolProvider.allocateToDream(finalAmount, widget.pursuit.id);
+        }
+      }
+
+      // Add to pursuit
       final reachedTarget = await pursuitProvider.addSavings(
         widget.pursuit.id,
-        amount,
-        source: widget.source,
+        finalAmount,
+        source: isOneTimeIncome ? TransactionSource.manual : widget.source,
         note: _noteController.text.trim().isEmpty
             ? null
             : _noteController.text.trim(),

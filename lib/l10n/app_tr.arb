@@ -1763,6 +1763,49 @@
   "poolSummaryAllocated": "Hayallere Ayrılan",
   "poolSummaryAvailable": "Kullanılabilir",
 
+  "overAllocationTitle": "Yetersiz Havuz Bakiyesi",
+  "overAllocationMessage": "Havuzda {available} var. {requested} eklemek istiyorsun.",
+  "@overAllocationMessage": {
+    "placeholders": {
+      "available": {"type": "String"},
+      "requested": {"type": "String"}
+    }
+  },
+  "fromMyPocket": "Cebimden ekle",
+  "fromMyPocketDesc": "Havuzu sıfırla + {difference} cebimden ekle",
+  "@fromMyPocketDesc": {
+    "placeholders": {
+      "difference": {"type": "String"}
+    }
+  },
+  "deductFromFuture": "İleriki tasarruflardan düş",
+  "deductFromFutureDesc": "Havuz {amount} eksiye düşer",
+  "@deductFromFutureDesc": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "transferAvailableOnly": "Sadece {amount} aktar",
+  "@transferAvailableOnly": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "transferAvailableOnlyDesc": "Havuzdaki kadarını ekle",
+  "oneTimeIncomeTitle": "Bu para nereden?",
+  "oneTimeIncomeDesc": "Havuzun ekside. Kaynağı seç:",
+  "oneTimeIncomeOption": "Tek seferlik gelir",
+  "oneTimeIncomeOptionDesc": "Havuzu etkilemez, direkt hedefe gider",
+  "fromSavingsOption": "Tasarruflarımdan",
+  "fromSavingsOptionDesc": "Havuz daha da eksiye düşer",
+  "debtWarningOnPurchase": "Hayallerine {amount} borcun var!",
+  "@debtWarningOnPurchase": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "debtReminderNotification": "Hayallerine olan borcunu ödemeyi unutma!",
+
   "aiSuggestion1": "Bu ay nereye harcadım?",
   "aiSuggestion2": "Nereden tasarruf edebilirim?",
   "aiSuggestion3": "En pahalı alışkanlığım ne?",

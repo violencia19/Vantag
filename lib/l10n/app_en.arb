@@ -2129,6 +2129,49 @@
   "poolSummaryAllocated": "Allocated to Dreams",
   "poolSummaryAvailable": "Available",
 
+  "overAllocationTitle": "Insufficient Pool Balance",
+  "overAllocationMessage": "Pool has {available}. You want to add {requested}.",
+  "@overAllocationMessage": {
+    "placeholders": {
+      "available": {"type": "String"},
+      "requested": {"type": "String"}
+    }
+  },
+  "fromMyPocket": "Add from my pocket",
+  "fromMyPocketDesc": "Zero out pool + add {difference} from pocket",
+  "@fromMyPocketDesc": {
+    "placeholders": {
+      "difference": {"type": "String"}
+    }
+  },
+  "deductFromFuture": "Deduct from future savings",
+  "deductFromFutureDesc": "Pool will go negative by {amount}",
+  "@deductFromFutureDesc": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "transferAvailableOnly": "Transfer only {amount}",
+  "@transferAvailableOnly": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "transferAvailableOnlyDesc": "Add only what's available in the pool",
+  "oneTimeIncomeTitle": "Where is this money from?",
+  "oneTimeIncomeDesc": "Your pool is in debt. Choose the source:",
+  "oneTimeIncomeOption": "One-time income",
+  "oneTimeIncomeOptionDesc": "Doesn't affect the pool, goes directly to goal",
+  "fromSavingsOption": "From my savings",
+  "fromSavingsOptionDesc": "Pool will go further negative",
+  "debtWarningOnPurchase": "You owe {amount} to your dreams!",
+  "@debtWarningOnPurchase": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "debtReminderNotification": "Don't forget to pay off your debt to your dreams!",
+
   "aiSuggestion1": "Where did I spend this month?",
   "aiSuggestion2": "Where can I save money?",
   "aiSuggestion3": "What's my most expensive habit?",
