@@ -794,8 +794,15 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       }
     }
 
-    // "Vazgeçtim" (no) decision - DO NOT save expense, just celebrate
+    // "Vazgeçtim" (no) decision - Save expense AND add to savings pool
     if (decision == ExpenseDecision.no && !isSimulation) {
+      // Save the expense record (so it appears in Total Saved reports)
+      final expenseWithDecision = _pendingExpense!.copyWith(
+        decision: ExpenseDecision.no,
+        decisionDate: DateTime.now(),
+      );
+      await financeProvider.addExpense(expenseWithDecision);
+
       // Calculate hours for display
       final userProfile = financeProvider.userProfile;
       final hoursRequired = userProfile != null && userProfile.hourlyRate > 0
