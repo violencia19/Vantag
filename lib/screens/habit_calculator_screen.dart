@@ -1132,6 +1132,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
   void _shareResult() {
     HapticFeedback.mediumImpact();
     final l10n = AppLocalizations.of(context);
+    final currencyProvider = context.read<CurrencyProvider>();
     showHabitShareCardPreview(
       context,
       icon: _selectedCategory!.icon,
@@ -1143,6 +1144,10 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
         _selectedFrequency!,
         l10n,
       ),
+      monthlyDays: _result!.monthlyDays,
+      monthlyExtraHours: _result!.monthlyExtraHours,
+      monthlyAmount: _result!.monthlyAmount,
+      currencySymbol: currencyProvider.symbol,
     );
   }
 

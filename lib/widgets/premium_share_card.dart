@@ -1315,6 +1315,11 @@ class HabitShareCard extends StatefulWidget {
   final double? yearlyAmount;
   final String? frequency;
   final ShareCardFormat format;
+  // Additional details for post mode
+  final int? monthlyDays;
+  final int? monthlyExtraHours;
+  final double? monthlyAmount;
+  final String? currencySymbol;
 
   const HabitShareCard({
     super.key,
@@ -1325,6 +1330,10 @@ class HabitShareCard extends StatefulWidget {
     this.yearlyAmount,
     this.frequency,
     this.format = ShareCardFormat.story,
+    this.monthlyDays,
+    this.monthlyExtraHours,
+    this.monthlyAmount,
+    this.currencySymbol,
   });
 
   @override
@@ -1360,7 +1369,7 @@ class _HabitShareCardState extends State<HabitShareCard>
       case ShareCardFormat.story:
         return const Size(360, 640);
       case ShareCardFormat.square:
-        return const Size(360, 360);
+        return const Size(400, 400); // Larger for better content fit
     }
   }
 
@@ -1464,6 +1473,11 @@ class _HabitShareCardState extends State<HabitShareCard>
   Widget _buildContent(AppLocalizations l10n) {
     final isStory = widget.format == ShareCardFormat.story;
 
+    if (!isStory) {
+      // POST MODE - Compact layout with all details
+      return _buildPostContent(l10n);
+    }
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: 24,
@@ -1495,6 +1509,222 @@ class _HabitShareCardState extends State<HabitShareCard>
 
             const SizedBox(height: 24),
           ],
+        ],
+      ),
+    );
+  }
+
+  /// Post mode content - compact square layout with all details
+  Widget _buildPostContent(AppLocalizations l10n) {
+    final symbol = widget.currencySymbol ?? '₺';
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 24, 20, 48),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Category badge (compact)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: widget.iconColor.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(widget.icon, size: 18, color: widget.iconColor),
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  widget.categoryName,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 16),
+
+          // Hero number
+          ShaderMask(
+            shaderCallback: (bounds) {
+              return LinearGradient(
+                colors: [
+                  Colors.white,
+                  widget.iconColor.withValues(alpha: 0.9),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ).createShader(bounds);
+            },
+            child: Text(
+              widget.yearlyDays.toString(),
+              style: const TextStyle(
+                fontSize: 72,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+                height: 1,
+                letterSpacing: -3,
+              ),
+            ),
+          ),
+
+          // Work days label
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  widget.iconColor.withValues(alpha: 0.3),
+                  widget.iconColor.withValues(alpha: 0.1),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Text(
+              l10n.habitShareWorkDays,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+                letterSpacing: 2,
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 4),
+
+          // "of work per year" text
+          Text(
+            l10n.habitSharePostText,
+            style: TextStyle(
+              fontSize: 11,
+              color: Colors.white.withValues(alpha: 0.7),
+            ),
+            textAlign: TextAlign.center,
+          ),
+
+          const SizedBox(height: 12),
+
+          // Details grid
+          _buildPostDetailsGrid(l10n, symbol),
+        ],
+      ),
+    );
+  }
+
+  /// Details grid for post mode
+  Widget _buildPostDetailsGrid(AppLocalizations l10n, String symbol) {
+    final details = <_DetailItem>[];
+
+    // Monthly work time
+    if (widget.monthlyDays != null) {
+      final monthlyText = widget.monthlyExtraHours != null && widget.monthlyExtraHours! > 0
+          ? '${widget.monthlyDays}d ${widget.monthlyExtraHours}h'
+          : '${widget.monthlyDays} ${l10n.daysAbbrev}';
+      details.add(_DetailItem(
+        icon: PhosphorIconsDuotone.calendarBlank,
+        label: l10n.monthly,
+        value: monthlyText,
+      ));
+    }
+
+    // Yearly amount
+    if (widget.yearlyAmount != null) {
+      details.add(_DetailItem(
+        icon: PhosphorIconsDuotone.coins,
+        label: l10n.yearly,
+        value: '$symbol${_formatAmount(widget.yearlyAmount!)}',
+      ));
+    }
+
+    // Monthly amount
+    if (widget.monthlyAmount != null) {
+      details.add(_DetailItem(
+        icon: PhosphorIconsDuotone.wallet,
+        label: l10n.monthly,
+        value: '$symbol${_formatAmount(widget.monthlyAmount!)}',
+      ));
+    }
+
+    // Frequency
+    if (widget.frequency != null) {
+      details.add(_DetailItem(
+        icon: PhosphorIconsDuotone.repeat,
+        label: l10n.frequency,
+        value: widget.frequency!,
+      ));
+    }
+
+    if (details.isEmpty) return const SizedBox.shrink();
+
+    // Show 2x2 grid or single row depending on count
+    if (details.length <= 2) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: details.map((d) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: _buildDetailChip(d),
+        )).toList(),
+      );
+    }
+
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 8,
+      runSpacing: 6,
+      children: details.take(4).map((d) => _buildDetailChip(d)).toList(),
+    );
+  }
+
+  Widget _buildDetailChip(_DetailItem item) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.1),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            item.icon,
+            size: 14,
+            color: Colors.white.withValues(alpha: 0.7),
+          ),
+          const SizedBox(width: 6),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                item.label,
+                style: TextStyle(
+                  fontSize: 9,
+                  color: Colors.white.withValues(alpha: 0.5),
+                ),
+              ),
+              Text(
+                item.value,
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -1784,6 +2014,19 @@ class _HabitShareCardState extends State<HabitShareCard>
   }
 }
 
+/// Helper class for detail items in post mode
+class _DetailItem {
+  final IconData icon;
+  final String label;
+  final String value;
+
+  const _DetailItem({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+}
+
 /// Helper function to show habit share card preview
 void showHabitShareCardPreview(
   BuildContext context, {
@@ -1793,6 +2036,10 @@ void showHabitShareCardPreview(
   required int yearlyDays,
   double? yearlyAmount,
   String? frequency,
+  int? monthlyDays,
+  int? monthlyExtraHours,
+  double? monthlyAmount,
+  String? currencySymbol,
 }) {
   showModalBottomSheet(
     context: context,
@@ -1806,6 +2053,10 @@ void showHabitShareCardPreview(
       yearlyDays: yearlyDays,
       yearlyAmount: yearlyAmount,
       frequency: frequency,
+      monthlyDays: monthlyDays,
+      monthlyExtraHours: monthlyExtraHours,
+      monthlyAmount: monthlyAmount,
+      currencySymbol: currencySymbol,
     ),
   );
 }
@@ -1817,6 +2068,10 @@ class _HabitShareCardPreviewSheet extends StatefulWidget {
   final int yearlyDays;
   final double? yearlyAmount;
   final String? frequency;
+  final int? monthlyDays;
+  final int? monthlyExtraHours;
+  final double? monthlyAmount;
+  final String? currencySymbol;
 
   const _HabitShareCardPreviewSheet({
     required this.icon,
@@ -1825,6 +2080,10 @@ class _HabitShareCardPreviewSheet extends StatefulWidget {
     required this.yearlyDays,
     this.yearlyAmount,
     this.frequency,
+    this.monthlyDays,
+    this.monthlyExtraHours,
+    this.monthlyAmount,
+    this.currencySymbol,
   });
 
   @override
@@ -1976,6 +2235,10 @@ class _HabitShareCardPreviewSheetState
                               : null,
                           frequency: _showFrequency ? widget.frequency : null,
                           format: _selectedFormat,
+                          monthlyDays: widget.monthlyDays,
+                          monthlyExtraHours: widget.monthlyExtraHours,
+                          monthlyAmount: widget.monthlyAmount,
+                          currencySymbol: widget.currencySymbol,
                         ),
                       ),
                     ),
