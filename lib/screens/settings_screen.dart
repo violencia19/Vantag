@@ -216,6 +216,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: _buildSection(
                 title: l10n.settingsDataPrivacy,
                 children: [
+                  _buildGoogleAccountTile(l10n),
+                  _buildDivider(),
                   _buildExportTile(l10n, isPro),
                   _buildDivider(),
                   _buildImportStatementTile(l10n, isPro),
@@ -669,6 +671,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showVoiceHelpSheet(BuildContext context, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1189,7 +1192,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   ) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1296,7 +1299,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showThemeSelector(ThemeProvider themeProvider, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1572,6 +1575,167 @@ class _SettingsScreenState extends State<SettingsScreen> {
     } finally {
       if (mounted) {
         setState(() => _isRestoring = false);
+      }
+    }
+  }
+
+  bool _isLinkingGoogle = false;
+
+  Widget _buildGoogleAccountTile(AppLocalizations l10n) {
+    final authService = AuthService();
+    final isAnonymous = authService.isAnonymous;
+    final isLinkedWithGoogle = authService.isLinkedWithGoogle;
+    final user = authService.currentUser;
+
+    if (!isAnonymous && isLinkedWithGoogle) {
+      // User is linked with Google - show account info
+      return _buildListTile(
+        icon: PhosphorIconsDuotone.googleLogo,
+        iconColor: AppColors.premiumGreen,
+        title: l10n.googleLinked,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (user?.email != null)
+              Flexible(
+                child: Text(
+                  user!.email!,
+                  style: TextStyle(
+                    color: context.appColors.textSecondary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            const SizedBox(width: 8),
+            Icon(
+              PhosphorIconsFill.checkCircle,
+              size: 18,
+              color: AppColors.premiumGreen,
+            ),
+          ],
+        ),
+        showArrow: false,
+        semanticHint: user?.email,
+      );
+    }
+
+    // User is anonymous - show link option
+    return StatefulBuilder(
+      builder: (context, setLocalState) {
+        return _buildListTile(
+          icon: PhosphorIconsDuotone.googleLogo,
+          iconColor: AppColors.categoryBills,
+          title: l10n.googleNotLinked,
+          trailing: _isLinkingGoogle
+              ? SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: context.appColors.primary,
+                  ),
+                )
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: context.appColors.warning.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        l10n.dataNotBackedUp,
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          color: context.appColors.warning,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Icon(
+                      PhosphorIconsDuotone.caretRight,
+                      size: 18,
+                      color: context.appColors.textTertiary,
+                    ),
+                  ],
+                ),
+          showArrow: false,
+          onTap: _isLinkingGoogle ? null : () => _linkGoogleAccount(l10n),
+          semanticHint: l10n.dataNotBackedUp,
+        );
+      },
+    );
+  }
+
+  Future<void> _linkGoogleAccount(AppLocalizations l10n) async {
+    setState(() => _isLinkingGoogle = true);
+    HapticFeedback.mediumImpact();
+
+    try {
+      final authService = AuthService();
+      final result = await authService.signInWithGoogle();
+
+      if (!mounted) return;
+
+      if (result.success) {
+        soundService.playSuccess();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle, color: Colors.white, size: 20),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    result.wasLinked
+                        ? l10n.googleLinkedSuccess
+                        : l10n.googleLinkedSuccess,
+                  ),
+                ),
+              ],
+            ),
+            backgroundColor: context.appColors.success,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        );
+        // Refresh state to show linked status
+        setState(() {});
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.error_outline, color: Colors.white, size: 20),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(result.errorMessage ?? l10n.googleLinkFailed),
+                ),
+              ],
+            ),
+            backgroundColor: context.appColors.error,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.googleLinkFailed),
+            backgroundColor: context.appColors.error,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLinkingGoogle = false);
       }
     }
   }
@@ -1876,7 +2040,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     final confirmed = await showDialog<bool>(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: Colors.black.withOpacity(0.85),
       barrierDismissible: false,
       builder: (context) =>
           _DeleteAccountDialog(confirmWord: confirmWord, l10n: l10n),
@@ -1889,7 +2053,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: Colors.black.withValues(alpha: 0.85),
+        barrierColor: Colors.black.withOpacity(0.85),
         builder: (context) => Center(
           child: CircularProgressIndicator(color: context.appColors.primary),
         ),

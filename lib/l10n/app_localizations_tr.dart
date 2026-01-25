@@ -350,40 +350,40 @@ class AppLocalizationsTr extends AppLocalizations {
   String get weekdaySun => 'Paz';
 
   @override
-  String get monthJan => 'Ocak';
+  String get monthJan => 'Oca';
 
   @override
-  String get monthFeb => 'Şubat';
+  String get monthFeb => 'Şub';
 
   @override
-  String get monthMar => 'Mart';
+  String get monthMar => 'Mar';
 
   @override
-  String get monthApr => 'Nisan';
+  String get monthApr => 'Nis';
 
   @override
-  String get monthMay => 'Mayıs';
+  String get monthMay => 'May';
 
   @override
-  String get monthJun => 'Haziran';
+  String get monthJun => 'Haz';
 
   @override
-  String get monthJul => 'Temmuz';
+  String get monthJul => 'Tem';
 
   @override
-  String get monthAug => 'Ağustos';
+  String get monthAug => 'Ağu';
 
   @override
-  String get monthSep => 'Eylül';
+  String get monthSep => 'Eyl';
 
   @override
-  String get monthOct => 'Ekim';
+  String get monthOct => 'Eki';
 
   @override
-  String get monthNov => 'Kasım';
+  String get monthNov => 'Kas';
 
   @override
-  String get monthDec => 'Aralık';
+  String get monthDec => 'Ara';
 
   @override
   String get yesterday => 'Dün';
@@ -517,6 +517,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get googleLinked => 'Google Bağlandı';
 
   @override
+  String get googleNotLinked => 'Google Bağlı Değil';
+
+  @override
   String get linkWithGoogle => 'Google ile Bağla';
 
   @override
@@ -526,7 +529,17 @@ class AppLocalizationsTr extends AppLocalizations {
   String get backupAndSecure => 'Verilerini yedekle ve güvende tut';
 
   @override
+  String get dataNotBackedUp => 'Verileriniz yedeklenmemiş';
+
+  @override
   String get googleLinkedSuccess => 'Google hesabı başarıyla bağlandı!';
+
+  @override
+  String get googleLinkFailed => 'Google hesabı bağlanamadı';
+
+  @override
+  String get freeCurrencyNote =>
+      'Ücretsiz kullanıcılar sadece TL kullanabilir. Tüm para birimleri için Pro\'ya yükseltin.';
 
   @override
   String get welcome => 'Hoş geldin';
@@ -1796,7 +1809,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get income => 'GELİR';
 
   @override
-  String get expense => 'HARCAMA';
+  String get expense => 'GİDER';
 
   @override
   String get saved => 'KURTARILAN';
@@ -1900,6 +1913,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get frequency => 'Sıklık';
+
+  @override
+  String get daysAbbrev => 'gün';
 
   @override
   String get youSaved => 'kurtardın!';
@@ -2314,10 +2330,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get yearlyView => 'Yıllık Görünüm';
 
   @override
-  String get yearlyHeatmap => 'Harcama Haritası';
+  String get yearlyHeatmap => 'Harcama Trendi';
 
   @override
-  String get yearlyHeatmapDesc => 'Yıl boyunca harcama yoğunluğun';
+  String get yearlyHeatmapDesc => 'Son 12 ayın aylık harcama trendi';
 
   @override
   String get lowSpending => 'Az';
@@ -2332,8 +2348,16 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tapDayForDetails => 'Detay için güne dokun';
 
   @override
+  String get tapMonthForDetails => 'Detay için aya dokun';
+
+  @override
   String selectedDayExpenses(String date, String amount, int count) {
     return '$date: $amount TL ($count harcama)';
+  }
+
+  @override
+  String selectedMonthExpenses(String month, String amount, int count) {
+    return '$month: $amount ($count harcama)';
   }
 
   @override
@@ -3592,6 +3616,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get monthAbbreviation => 'ay';
 
   @override
+  String get installmentsLabel => 'taksit';
+
+  @override
+  String get remaining => 'Kalan';
+
+  @override
   String get paywallTitle => 'Premium\'a Geç';
 
   @override
@@ -4040,6 +4070,68 @@ class AppLocalizationsTr extends AppLocalizations {
   String get poolSummaryAvailable => 'Kullanılabilir';
 
   @override
+  String get overAllocationTitle => 'Yetersiz Havuz Bakiyesi';
+
+  @override
+  String overAllocationMessage(String available, String requested) {
+    return 'Havuzda $available var. $requested eklemek istiyorsun.';
+  }
+
+  @override
+  String get fromMyPocket => 'Cebimden ekle';
+
+  @override
+  String fromMyPocketDesc(String difference) {
+    return 'Havuzu sıfırla + $difference cebimden ekle';
+  }
+
+  @override
+  String get deductFromFuture => 'İleriki tasarruflardan düş';
+
+  @override
+  String deductFromFutureDesc(String amount) {
+    return 'Havuz $amount eksiye düşer';
+  }
+
+  @override
+  String transferAvailableOnly(String amount) {
+    return 'Sadece $amount aktar';
+  }
+
+  @override
+  String get transferAvailableOnlyDesc => 'Havuzdaki kadarını ekle';
+
+  @override
+  String get oneTimeIncomeTitle => 'Bu para nereden?';
+
+  @override
+  String get oneTimeIncomeDesc => 'Havuzun ekside. Kaynağı seç:';
+
+  @override
+  String get oneTimeIncomeOption => 'Tek seferlik gelir';
+
+  @override
+  String get oneTimeIncomeOptionDesc => 'Havuzu etkilemez, direkt hedefe gider';
+
+  @override
+  String get fromSavingsOption => 'Tasarruflarımdan';
+
+  @override
+  String get fromSavingsOptionDesc => 'Havuz daha da eksiye düşer';
+
+  @override
+  String debtWarningOnPurchase(String amount) {
+    return 'Hayallerine $amount borcun var!';
+  }
+
+  @override
+  String get debtReminderNotification =>
+      'Hayallerine olan borcunu ödemeyi unutma!';
+
+  @override
+  String get aiThinking => 'Düşünüyor...';
+
+  @override
   String get aiSuggestion1 => 'Bu ay nereye harcadım?';
 
   @override
@@ -4148,6 +4240,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get professionalMode => 'Profesyonel mod';
+
+  @override
+  String get friendlyMode => 'Samimi mod';
 
   @override
   String get errorTryAgain => 'Bir hata oluştu, tekrar dener misin?';
@@ -5529,4 +5624,92 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get excelSimulation => 'Simülasyon';
+
+  @override
+  String get proFeaturesSheetTitle => 'Pro Özellik';
+
+  @override
+  String get proFeaturesSheetSubtitle => 'Bu özellik Pro üyelere özel';
+
+  @override
+  String get proFeaturesIncluded => 'Pro üyelik şunları içerir:';
+
+  @override
+  String get proFeatureHeatmap => 'Harcama Haritası';
+
+  @override
+  String get proFeatureHeatmapDesc => 'Yıllık harcama düzenini görselleştir';
+
+  @override
+  String get proFeatureCategoryBreakdown => 'Kategori Dağılımı';
+
+  @override
+  String get proFeatureCategoryBreakdownDesc =>
+      'Kategorilere göre detaylı pasta grafik analizi';
+
+  @override
+  String get proFeatureSpendingTrends => 'Harcama Trendleri';
+
+  @override
+  String get proFeatureSpendingTrendsDesc =>
+      'Harcamalarının zaman içindeki değişimini takip et';
+
+  @override
+  String get proFeatureTimeAnalysis => 'Zaman Analizi';
+
+  @override
+  String get proFeatureTimeAnalysisDesc =>
+      'Gün ve saate göre en çok ne zaman harcadığını gör';
+
+  @override
+  String get proFeatureBudgetBreakdown => 'Bütçe Dağılımı';
+
+  @override
+  String get proFeatureBudgetBreakdownDesc =>
+      'Bütçe hedeflerine göre harcamalarını takip et';
+
+  @override
+  String get proFeatureAdvancedFilters => 'Gelişmiş Filtreler';
+
+  @override
+  String get proFeatureAdvancedFiltersDesc =>
+      'Aylık, tüm zamanlar ve daha fazla filtre';
+
+  @override
+  String get proFeatureExcelExport => 'Excel Dışa Aktarım';
+
+  @override
+  String get proFeatureExcelExportDesc => 'Tüm finansal verilerini dışa aktar';
+
+  @override
+  String get proFeatureUnlimitedHistory => 'Sınırsız Geçmiş';
+
+  @override
+  String get proFeatureUnlimitedHistoryDesc => 'Tüm geçmiş harcamalarına eriş';
+
+  @override
+  String get goProButton => 'Pro\'ya Geç';
+
+  @override
+  String get lockedFeatureTapToUnlock => 'Açmak için dokun';
+
+  @override
+  String voiceUsageIndicator(int used, int total) {
+    return 'Bugün $used/$total sesli giriş';
+  }
+
+  @override
+  String aiChatUsageIndicator(int used, int total) {
+    return 'Bugün $used/$total soru';
+  }
+
+  @override
+  String get dailyLimitReached => 'Günlük limit doldu';
+
+  @override
+  String get dailyLimitReachedDesc =>
+      'Günlük kullanım hakkın bitti. Sınırsız erişim için Pro\'ya geç!';
+
+  @override
+  String get unlimitedWithPro => 'Pro ile sınırsız';
 }

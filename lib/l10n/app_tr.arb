@@ -208,10 +208,15 @@
 
   "googleAccount": "Google Hesabı",
   "googleLinked": "Google Bağlandı",
+  "googleNotLinked": "Google Bağlı Değil",
   "linkWithGoogle": "Google ile Bağla",
   "linking": "Bağlanıyor...",
   "backupAndSecure": "Verilerini yedekle ve güvende tut",
+  "dataNotBackedUp": "Verileriniz yedeklenmemiş",
   "googleLinkedSuccess": "Google hesabı başarıyla bağlandı!",
+  "googleLinkFailed": "Google hesabı bağlanamadı",
+
+  "freeCurrencyNote": "Ücretsiz kullanıcılar sadece TL kullanabilir. Tüm para birimleri için Pro'ya yükseltin.",
 
   "welcome": "Hoş geldin",
   "welcomeSubtitle": "Harcamalarını zamanla ölçmek için bilgilerini gir",
@@ -680,7 +685,7 @@
   "netBalance": "NET BAKİYE",
   "sources": "{count} kaynak",
   "income": "GELİR",
-  "expense": "HARCAMA",
+  "expense": "GİDER",
   "saved": "KURTARILAN",
   "budgetUsage": "BÜTÇE KULLANIMI",
 
@@ -893,12 +898,13 @@
   "noTrendData": "Yeterli veri yok",
 
   "yearlyView": "Yıllık Görünüm",
-  "yearlyHeatmap": "Harcama Haritası",
-  "yearlyHeatmapDesc": "Yıl boyunca harcama yoğunluğun",
+  "yearlyHeatmap": "Harcama Trendi",
+  "yearlyHeatmapDesc": "Son 12 ayın aylık harcama trendi",
   "lowSpending": "Az",
   "highSpending": "Çok",
   "noSpending": "Harcama yok",
   "tapDayForDetails": "Detay için güne dokun",
+  "tapMonthForDetails": "Detay için aya dokun",
   "selectedDayExpenses": "{date}: {amount} TL ({count} harcama)",
   "@selectedDayExpenses": {
     "placeholders": {
@@ -907,6 +913,26 @@
       "count": {"type": "int"}
     }
   },
+  "selectedMonthExpenses": "{month}: {amount} ({count} harcama)",
+  "@selectedMonthExpenses": {
+    "placeholders": {
+      "month": {"type": "String"},
+      "amount": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "monthJan": "Oca",
+  "monthFeb": "Şub",
+  "monthMar": "Mar",
+  "monthApr": "Nis",
+  "monthMay": "May",
+  "monthJun": "Haz",
+  "monthJul": "Tem",
+  "monthAug": "Ağu",
+  "monthSep": "Eyl",
+  "monthOct": "Eki",
+  "monthNov": "Kas",
+  "monthDec": "Ara",
 
   "proBadge": "PRO",
   "proFeature": "Pro Özellik",
@@ -1806,6 +1832,7 @@
   },
   "debtReminderNotification": "Hayallerine olan borcunu ödemeyi unutma!",
 
+  "aiThinking": "Düşünüyor...",
   "aiSuggestion1": "Bu ay nereye harcadım?",
   "aiSuggestion2": "Nereden tasarruf edebilirim?",
   "aiSuggestion3": "En pahalı alışkanlığım ne?",
@@ -1858,6 +1885,7 @@
 
   "vantagAI": "Vantag AI",
   "professionalMode": "Profesyonel mod",
+  "friendlyMode": "Samimi mod",
   "errorTryAgain": "Bir hata oluştu, tekrar dener misin?",
 
   "aiInsights": "AI Insights",
@@ -2558,5 +2586,45 @@
   "excelYes": "Evet",
   "excelNo": "Hayır",
   "excelReal": "Gerçek",
-  "excelSimulation": "Simülasyon"
+  "excelSimulation": "Simülasyon",
+
+  "proFeaturesSheetTitle": "Pro Özellik",
+  "proFeaturesSheetSubtitle": "Bu özellik Pro üyelere özel",
+  "proFeaturesIncluded": "Pro üyelik şunları içerir:",
+  "proFeatureHeatmap": "Harcama Haritası",
+  "proFeatureHeatmapDesc": "Yıllık harcama düzenini görselleştir",
+  "proFeatureCategoryBreakdown": "Kategori Dağılımı",
+  "proFeatureCategoryBreakdownDesc": "Kategorilere göre detaylı pasta grafik analizi",
+  "proFeatureSpendingTrends": "Harcama Trendleri",
+  "proFeatureSpendingTrendsDesc": "Harcamalarının zaman içindeki değişimini takip et",
+  "proFeatureTimeAnalysis": "Zaman Analizi",
+  "proFeatureTimeAnalysisDesc": "Gün ve saate göre en çok ne zaman harcadığını gör",
+  "proFeatureBudgetBreakdown": "Bütçe Dağılımı",
+  "proFeatureBudgetBreakdownDesc": "Bütçe hedeflerine göre harcamalarını takip et",
+  "proFeatureAdvancedFilters": "Gelişmiş Filtreler",
+  "proFeatureAdvancedFiltersDesc": "Aylık, tüm zamanlar ve daha fazla filtre",
+  "proFeatureExcelExport": "Excel Dışa Aktarım",
+  "proFeatureExcelExportDesc": "Tüm finansal verilerini dışa aktar",
+  "proFeatureUnlimitedHistory": "Sınırsız Geçmiş",
+  "proFeatureUnlimitedHistoryDesc": "Tüm geçmiş harcamalarına eriş",
+  "goProButton": "Pro'ya Geç",
+  "lockedFeatureTapToUnlock": "Açmak için dokun",
+
+  "voiceUsageIndicator": "Bugün {used}/{total} sesli giriş",
+  "@voiceUsageIndicator": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "aiChatUsageIndicator": "Bugün {used}/{total} soru",
+  "@aiChatUsageIndicator": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "dailyLimitReached": "Günlük limit doldu",
+  "dailyLimitReachedDesc": "Günlük kullanım hakkın bitti. Sınırsız erişim için Pro'ya geç!",
+  "unlimitedWithPro": "Pro ile sınırsız"
 }

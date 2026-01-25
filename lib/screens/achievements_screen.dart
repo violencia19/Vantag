@@ -743,7 +743,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
             ],
           ),
           const SizedBox(height: 10),
-          // Title
+          // Title - improved contrast for dark mode
           Text(
             AchievementUtils.getTitle(context, achievement.id),
             textAlign: TextAlign.center,
@@ -752,21 +752,21 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               fontWeight: FontWeight.w600,
               color: isUnlocked
                   ? context.appColors.textPrimary
-                  : context.appColors.textTertiary,
+                  : Colors.white70, // Better contrast in dark mode
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 2),
-          // Description
+          // Description - improved contrast for dark mode
           Text(
             AchievementUtils.getDescription(context, achievement.id),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 10,
               color: isUnlocked
-                  ? context.appColors.textSecondary
-                  : context.appColors.textTertiary.withValues(alpha: 0.8),
+                  ? context.appColors.textPrimary.withValues(alpha: 0.8)
+                  : Colors.white54, // Better contrast in dark mode
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -977,7 +977,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               fontWeight: FontWeight.w600,
               color: isUnlocked
                   ? context.appColors.textPrimary
-                  : context.appColors.textTertiary,
+                  : Colors.white70, // Better contrast in dark mode
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -994,7 +994,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               fontStyle: isUnlocked ? FontStyle.normal : FontStyle.italic,
               color: isUnlocked
                   ? context.appColors.textSecondary
-                  : context.appColors.textTertiary.withValues(alpha: 0.8),
+                  : Colors.white54, // Better contrast in dark mode
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -1018,7 +1018,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 fontWeight: FontWeight.w500,
                 color: isUnlocked
                     ? difficultyColor
-                    : context.appColors.textTertiary,
+                    : Colors.white60, // Better contrast in dark mode
               ),
             ),
           ),

@@ -749,25 +749,25 @@ abstract class AppLocalizations {
   /// No description provided for @monthJan.
   ///
   /// In en, this message translates to:
-  /// **'January'**
+  /// **'Jan'**
   String get monthJan;
 
   /// No description provided for @monthFeb.
   ///
   /// In en, this message translates to:
-  /// **'February'**
+  /// **'Feb'**
   String get monthFeb;
 
   /// No description provided for @monthMar.
   ///
   /// In en, this message translates to:
-  /// **'March'**
+  /// **'Mar'**
   String get monthMar;
 
   /// No description provided for @monthApr.
   ///
   /// In en, this message translates to:
-  /// **'April'**
+  /// **'Apr'**
   String get monthApr;
 
   /// No description provided for @monthMay.
@@ -779,43 +779,43 @@ abstract class AppLocalizations {
   /// No description provided for @monthJun.
   ///
   /// In en, this message translates to:
-  /// **'June'**
+  /// **'Jun'**
   String get monthJun;
 
   /// No description provided for @monthJul.
   ///
   /// In en, this message translates to:
-  /// **'July'**
+  /// **'Jul'**
   String get monthJul;
 
   /// No description provided for @monthAug.
   ///
   /// In en, this message translates to:
-  /// **'August'**
+  /// **'Aug'**
   String get monthAug;
 
   /// No description provided for @monthSep.
   ///
   /// In en, this message translates to:
-  /// **'September'**
+  /// **'Sep'**
   String get monthSep;
 
   /// No description provided for @monthOct.
   ///
   /// In en, this message translates to:
-  /// **'October'**
+  /// **'Oct'**
   String get monthOct;
 
   /// No description provided for @monthNov.
   ///
   /// In en, this message translates to:
-  /// **'November'**
+  /// **'Nov'**
   String get monthNov;
 
   /// No description provided for @monthDec.
   ///
   /// In en, this message translates to:
-  /// **'December'**
+  /// **'Dec'**
   String get monthDec;
 
   /// No description provided for @yesterday.
@@ -1052,6 +1052,12 @@ abstract class AppLocalizations {
   /// **'Google Linked'**
   String get googleLinked;
 
+  /// No description provided for @googleNotLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Not Linked'**
+  String get googleNotLinked;
+
   /// No description provided for @linkWithGoogle.
   ///
   /// In en, this message translates to:
@@ -1070,11 +1076,29 @@ abstract class AppLocalizations {
   /// **'Backup and secure your data'**
   String get backupAndSecure;
 
+  /// No description provided for @dataNotBackedUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data is not backed up'**
+  String get dataNotBackedUp;
+
   /// No description provided for @googleLinkedSuccess.
   ///
   /// In en, this message translates to:
   /// **'Google account linked successfully!'**
   String get googleLinkedSuccess;
+
+  /// No description provided for @googleLinkFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to link Google account'**
+  String get googleLinkFailed;
+
+  /// No description provided for @freeCurrencyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Free users can only use TRY. Upgrade to Pro for all currencies.'**
+  String get freeCurrencyNote;
 
   /// No description provided for @welcome.
   ///
@@ -3389,7 +3413,7 @@ abstract class AppLocalizations {
   /// No description provided for @expense.
   ///
   /// In en, this message translates to:
-  /// **'EXPENSE'**
+  /// **'SPENT'**
   String get expense;
 
   /// No description provided for @saved.
@@ -3577,6 +3601,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Frequency'**
   String get frequency;
+
+  /// No description provided for @daysAbbrev.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get daysAbbrev;
 
   /// No description provided for @youSaved.
   ///
@@ -4265,13 +4295,13 @@ abstract class AppLocalizations {
   /// No description provided for @yearlyHeatmap.
   ///
   /// In en, this message translates to:
-  /// **'Expense Heatmap'**
+  /// **'Spending Trend'**
   String get yearlyHeatmap;
 
   /// No description provided for @yearlyHeatmapDesc.
   ///
   /// In en, this message translates to:
-  /// **'Your spending intensity throughout the year'**
+  /// **'Your monthly spending over the last 12 months'**
   String get yearlyHeatmapDesc;
 
   /// No description provided for @lowSpending.
@@ -4298,11 +4328,23 @@ abstract class AppLocalizations {
   /// **'Tap a day for details'**
   String get tapDayForDetails;
 
+  /// No description provided for @tapMonthForDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a month for details'**
+  String get tapMonthForDetails;
+
   /// No description provided for @selectedDayExpenses.
   ///
   /// In en, this message translates to:
   /// **'{date}: {amount} TL ({count} expenses)'**
   String selectedDayExpenses(String date, String amount, int count);
+
+  /// No description provided for @selectedMonthExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'{month}: {amount} ({count} expenses)'**
+  String selectedMonthExpenses(String month, String amount, int count);
 
   /// No description provided for @proBadge.
   ///
@@ -6620,6 +6662,18 @@ abstract class AppLocalizations {
   /// **'mo'**
   String get monthAbbreviation;
 
+  /// No description provided for @installmentsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'installments'**
+  String get installmentsLabel;
+
+  /// No description provided for @remaining.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining'**
+  String get remaining;
+
   /// No description provided for @paywallTitle.
   ///
   /// In en, this message translates to:
@@ -7418,6 +7472,108 @@ abstract class AppLocalizations {
   /// **'Available'**
   String get poolSummaryAvailable;
 
+  /// No description provided for @overAllocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Insufficient Pool Balance'**
+  String get overAllocationTitle;
+
+  /// No description provided for @overAllocationMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Pool has {available}. You want to add {requested}.'**
+  String overAllocationMessage(String available, String requested);
+
+  /// No description provided for @fromMyPocket.
+  ///
+  /// In en, this message translates to:
+  /// **'Add from my pocket'**
+  String get fromMyPocket;
+
+  /// No description provided for @fromMyPocketDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Zero out pool + add {difference} from pocket'**
+  String fromMyPocketDesc(String difference);
+
+  /// No description provided for @deductFromFuture.
+  ///
+  /// In en, this message translates to:
+  /// **'Deduct from future savings'**
+  String get deductFromFuture;
+
+  /// No description provided for @deductFromFutureDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Pool will go negative by {amount}'**
+  String deductFromFutureDesc(String amount);
+
+  /// No description provided for @transferAvailableOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer only {amount}'**
+  String transferAvailableOnly(String amount);
+
+  /// No description provided for @transferAvailableOnlyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add only what\'s available in the pool'**
+  String get transferAvailableOnlyDesc;
+
+  /// No description provided for @oneTimeIncomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Where is this money from?'**
+  String get oneTimeIncomeTitle;
+
+  /// No description provided for @oneTimeIncomeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your pool is in debt. Choose the source:'**
+  String get oneTimeIncomeDesc;
+
+  /// No description provided for @oneTimeIncomeOption.
+  ///
+  /// In en, this message translates to:
+  /// **'One-time income'**
+  String get oneTimeIncomeOption;
+
+  /// No description provided for @oneTimeIncomeOptionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Doesn\'t affect the pool, goes directly to goal'**
+  String get oneTimeIncomeOptionDesc;
+
+  /// No description provided for @fromSavingsOption.
+  ///
+  /// In en, this message translates to:
+  /// **'From my savings'**
+  String get fromSavingsOption;
+
+  /// No description provided for @fromSavingsOptionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Pool will go further negative'**
+  String get fromSavingsOptionDesc;
+
+  /// No description provided for @debtWarningOnPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'You owe {amount} to your dreams!'**
+  String debtWarningOnPurchase(String amount);
+
+  /// No description provided for @debtReminderNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t forget to pay off your debt to your dreams!'**
+  String get debtReminderNotification;
+
+  /// No description provided for @aiThinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Thinking...'**
+  String get aiThinking;
+
   /// No description provided for @aiSuggestion1.
   ///
   /// In en, this message translates to:
@@ -7614,6 +7770,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Professional mode'**
   String get professionalMode;
+
+  /// No description provided for @friendlyMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Friendly mode'**
+  String get friendlyMode;
 
   /// No description provided for @errorTryAgain.
   ///
@@ -10113,6 +10275,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Simulation'**
   String get excelSimulation;
+
+  /// No description provided for @proFeaturesSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro Feature'**
+  String get proFeaturesSheetTitle;
+
+  /// No description provided for @proFeaturesSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature is exclusive to Pro members'**
+  String get proFeaturesSheetSubtitle;
+
+  /// No description provided for @proFeaturesIncluded.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro membership includes:'**
+  String get proFeaturesIncluded;
+
+  /// No description provided for @proFeatureHeatmap.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Heatmap'**
+  String get proFeatureHeatmap;
+
+  /// No description provided for @proFeatureHeatmapDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Visualize your spending patterns over the year'**
+  String get proFeatureHeatmapDesc;
+
+  /// No description provided for @proFeatureCategoryBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Category Breakdown'**
+  String get proFeatureCategoryBreakdown;
+
+  /// No description provided for @proFeatureCategoryBreakdownDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed pie chart analysis by category'**
+  String get proFeatureCategoryBreakdownDesc;
+
+  /// No description provided for @proFeatureSpendingTrends.
+  ///
+  /// In en, this message translates to:
+  /// **'Spending Trends'**
+  String get proFeatureSpendingTrends;
+
+  /// No description provided for @proFeatureSpendingTrendsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your spending changes over time'**
+  String get proFeatureSpendingTrendsDesc;
+
+  /// No description provided for @proFeatureTimeAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'Time Analysis'**
+  String get proFeatureTimeAnalysis;
+
+  /// No description provided for @proFeatureTimeAnalysisDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'See when you spend most by day and hour'**
+  String get proFeatureTimeAnalysisDesc;
+
+  /// No description provided for @proFeatureBudgetBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget Breakdown'**
+  String get proFeatureBudgetBreakdown;
+
+  /// No description provided for @proFeatureBudgetBreakdownDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Track spending against your budget goals'**
+  String get proFeatureBudgetBreakdownDesc;
+
+  /// No description provided for @proFeatureAdvancedFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced Filters'**
+  String get proFeatureAdvancedFilters;
+
+  /// No description provided for @proFeatureAdvancedFiltersDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by month, all-time, and more'**
+  String get proFeatureAdvancedFiltersDesc;
+
+  /// No description provided for @proFeatureExcelExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Excel Export'**
+  String get proFeatureExcelExport;
+
+  /// No description provided for @proFeatureExcelExportDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Export your complete financial data'**
+  String get proFeatureExcelExportDesc;
+
+  /// No description provided for @proFeatureUnlimitedHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited History'**
+  String get proFeatureUnlimitedHistory;
+
+  /// No description provided for @proFeatureUnlimitedHistoryDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Access all your past expenses'**
+  String get proFeatureUnlimitedHistoryDesc;
+
+  /// No description provided for @goProButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Go Pro'**
+  String get goProButton;
+
+  /// No description provided for @lockedFeatureTapToUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to unlock'**
+  String get lockedFeatureTapToUnlock;
+
+  /// No description provided for @voiceUsageIndicator.
+  ///
+  /// In en, this message translates to:
+  /// **'{used}/{total} voice inputs today'**
+  String voiceUsageIndicator(int used, int total);
+
+  /// No description provided for @aiChatUsageIndicator.
+  ///
+  /// In en, this message translates to:
+  /// **'{used}/{total} questions today'**
+  String aiChatUsageIndicator(int used, int total);
+
+  /// No description provided for @dailyLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily limit reached'**
+  String get dailyLimitReached;
+
+  /// No description provided for @dailyLimitReachedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve used all your daily quota. Upgrade to Pro for unlimited access!'**
+  String get dailyLimitReachedDesc;
+
+  /// No description provided for @unlimitedWithPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited with Pro'**
+  String get unlimitedWithPro;
 }
 
 class _AppLocalizationsDelegate

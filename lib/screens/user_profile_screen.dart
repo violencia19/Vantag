@@ -4,14 +4,17 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
+import '../models/currency.dart';
 import '../services/services.dart';
 import '../services/referral_service.dart';
 import '../services/deep_link_service.dart';
 import '../providers/providers.dart';
 import '../widgets/widgets.dart';
+import '../widgets/currency_selector.dart';
 import '../theme/theme.dart';
 import 'income_wizard_screen.dart';
 import 'onboarding_try_screen.dart';
+import 'paywall_screen.dart';
 
 class UserProfileScreen extends StatefulWidget {
   final UserProfile? existingProfile;
@@ -130,6 +133,62 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     } else {
       // New user - check for pending referral code from deep link
       _checkPendingReferralCode();
+      // Set default currency based on locale
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _setDefaultCurrencyFromLocale();
+      });
+    }
+  }
+
+  /// Set default currency based on device locale
+  void _setDefaultCurrencyFromLocale() {
+    final locale = Localizations.localeOf(context);
+    final currencyProvider = context.read<CurrencyProvider>();
+
+    // Map locale to currency code
+    String currencyCode;
+    switch (locale.countryCode?.toUpperCase() ?? locale.languageCode.toUpperCase()) {
+      case 'TR':
+        currencyCode = 'TRY';
+        break;
+      case 'US':
+        currencyCode = 'USD';
+        break;
+      case 'GB':
+      case 'UK':
+        currencyCode = 'GBP';
+        break;
+      case 'SA':
+      case 'AE': // UAE also uses similar currency
+        currencyCode = 'SAR';
+        break;
+      case 'DE':
+      case 'FR':
+      case 'IT':
+      case 'ES':
+      case 'NL':
+      case 'BE':
+      case 'AT':
+      case 'PT':
+      case 'GR':
+      case 'IE':
+      case 'FI':
+        currencyCode = 'EUR';
+        break;
+      default:
+        // Default to TRY for Turkish language, USD otherwise
+        currencyCode = locale.languageCode == 'tr' ? 'TRY' : 'USD';
+    }
+
+    // Find the currency and set it
+    final targetCurrency = supportedCurrencies.firstWhere(
+      (c) => c.code == currencyCode,
+      orElse: () => supportedCurrencies.first, // Fallback to TRY
+    );
+
+    // Only set if different from current
+    if (currencyProvider.currency.code != targetCurrency.code) {
+      currencyProvider.setCurrency(targetCurrency);
     }
   }
 
@@ -285,7 +344,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return showDialog<bool>(
       context: context,
       barrierDismissible: false,
-      barrierColor: context.appColors.background.withValues(alpha: 0.9),
+      barrierColor: Colors.black.withOpacity(0.85),
       builder: (context) => AlertDialog(
         backgroundColor: context.appColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -445,7 +504,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       height: 1.4,
                     ),
                   ),
-                  const SizedBox(height: 48),
+                  const SizedBox(height: 32),
+
+                  // Currency Selection Section (for new users)
+                  _buildCurrencySection(l10n),
+                  const SizedBox(height: 32),
                 ] else ...[
                   const SizedBox(height: 24),
                 ],
@@ -935,6 +998,112 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           l10n.referralCodeHint,
           style: TextStyle(color: context.appColors.textTertiary, fontSize: 12),
         ),
+      ],
+    );
+  }
+
+  /// Currency selection section for new users
+  Widget _buildCurrencySection(AppLocalizations l10n) {
+    final currencyProvider = context.watch<CurrencyProvider>();
+    final proProvider = context.watch<ProProvider>();
+    final isPremium = proProvider.isPro;
+    final currentCurrency = currencyProvider.currency;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.selectCurrency,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: context.appColors.textSecondary,
+          ),
+        ),
+        const SizedBox(height: 12),
+        GestureDetector(
+          onTap: () => showCurrencySelector(context),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            decoration: BoxDecoration(
+              color: context.appColors.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: context.appColors.cardBorder),
+            ),
+            child: Row(
+              children: [
+                Text(
+                  currentCurrency.flag,
+                  style: const TextStyle(fontSize: 24),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            currentCurrency.code,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: context.appColors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            currentCurrency.symbol,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: context.appColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        currentCurrency.name,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: context.appColors.textTertiary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  PhosphorIconsDuotone.caretDown,
+                  size: 20,
+                  color: context.appColors.textSecondary,
+                ),
+              ],
+            ),
+          ),
+        ),
+        // Show note for free users
+        if (!isPremium) ...[
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Icon(
+                PhosphorIconsDuotone.info,
+                size: 14,
+                color: context.appColors.textTertiary,
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  l10n.freeCurrencyNote,
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: context.appColors.textTertiary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }

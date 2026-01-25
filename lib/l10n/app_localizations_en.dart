@@ -349,40 +349,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get weekdaySun => 'Sun';
 
   @override
-  String get monthJan => 'January';
+  String get monthJan => 'Jan';
 
   @override
-  String get monthFeb => 'February';
+  String get monthFeb => 'Feb';
 
   @override
-  String get monthMar => 'March';
+  String get monthMar => 'Mar';
 
   @override
-  String get monthApr => 'April';
+  String get monthApr => 'Apr';
 
   @override
   String get monthMay => 'May';
 
   @override
-  String get monthJun => 'June';
+  String get monthJun => 'Jun';
 
   @override
-  String get monthJul => 'July';
+  String get monthJul => 'Jul';
 
   @override
-  String get monthAug => 'August';
+  String get monthAug => 'Aug';
 
   @override
-  String get monthSep => 'September';
+  String get monthSep => 'Sep';
 
   @override
-  String get monthOct => 'October';
+  String get monthOct => 'Oct';
 
   @override
-  String get monthNov => 'November';
+  String get monthNov => 'Nov';
 
   @override
-  String get monthDec => 'December';
+  String get monthDec => 'Dec';
 
   @override
   String get yesterday => 'Yesterday';
@@ -516,6 +516,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get googleLinked => 'Google Linked';
 
   @override
+  String get googleNotLinked => 'Google Not Linked';
+
+  @override
   String get linkWithGoogle => 'Link with Google';
 
   @override
@@ -525,7 +528,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backupAndSecure => 'Backup and secure your data';
 
   @override
+  String get dataNotBackedUp => 'Your data is not backed up';
+
+  @override
   String get googleLinkedSuccess => 'Google account linked successfully!';
+
+  @override
+  String get googleLinkFailed => 'Failed to link Google account';
+
+  @override
+  String get freeCurrencyNote =>
+      'Free users can only use TRY. Upgrade to Pro for all currencies.';
 
   @override
   String get welcome => 'Welcome';
@@ -1797,7 +1810,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get income => 'INCOME';
 
   @override
-  String get expense => 'EXPENSE';
+  String get expense => 'SPENT';
 
   @override
   String get saved => 'SAVED';
@@ -1902,6 +1915,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get frequency => 'Frequency';
+
+  @override
+  String get daysAbbrev => 'days';
 
   @override
   String get youSaved => 'saved!';
@@ -2315,10 +2331,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yearlyView => 'Yearly View';
 
   @override
-  String get yearlyHeatmap => 'Expense Heatmap';
+  String get yearlyHeatmap => 'Spending Trend';
 
   @override
-  String get yearlyHeatmapDesc => 'Your spending intensity throughout the year';
+  String get yearlyHeatmapDesc =>
+      'Your monthly spending over the last 12 months';
 
   @override
   String get lowSpending => 'Low';
@@ -2333,8 +2350,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tapDayForDetails => 'Tap a day for details';
 
   @override
+  String get tapMonthForDetails => 'Tap a month for details';
+
+  @override
   String selectedDayExpenses(String date, String amount, int count) {
     return '$date: $amount TL ($count expenses)';
+  }
+
+  @override
+  String selectedMonthExpenses(String month, String amount, int count) {
+    return '$month: $amount ($count expenses)';
   }
 
   @override
@@ -3591,6 +3616,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get monthAbbreviation => 'mo';
 
   @override
+  String get installmentsLabel => 'installments';
+
+  @override
+  String get remaining => 'Remaining';
+
+  @override
   String get paywallTitle => 'Upgrade to Premium';
 
   @override
@@ -4040,6 +4071,70 @@ class AppLocalizationsEn extends AppLocalizations {
   String get poolSummaryAvailable => 'Available';
 
   @override
+  String get overAllocationTitle => 'Insufficient Pool Balance';
+
+  @override
+  String overAllocationMessage(String available, String requested) {
+    return 'Pool has $available. You want to add $requested.';
+  }
+
+  @override
+  String get fromMyPocket => 'Add from my pocket';
+
+  @override
+  String fromMyPocketDesc(String difference) {
+    return 'Zero out pool + add $difference from pocket';
+  }
+
+  @override
+  String get deductFromFuture => 'Deduct from future savings';
+
+  @override
+  String deductFromFutureDesc(String amount) {
+    return 'Pool will go negative by $amount';
+  }
+
+  @override
+  String transferAvailableOnly(String amount) {
+    return 'Transfer only $amount';
+  }
+
+  @override
+  String get transferAvailableOnlyDesc =>
+      'Add only what\'s available in the pool';
+
+  @override
+  String get oneTimeIncomeTitle => 'Where is this money from?';
+
+  @override
+  String get oneTimeIncomeDesc => 'Your pool is in debt. Choose the source:';
+
+  @override
+  String get oneTimeIncomeOption => 'One-time income';
+
+  @override
+  String get oneTimeIncomeOptionDesc =>
+      'Doesn\'t affect the pool, goes directly to goal';
+
+  @override
+  String get fromSavingsOption => 'From my savings';
+
+  @override
+  String get fromSavingsOptionDesc => 'Pool will go further negative';
+
+  @override
+  String debtWarningOnPurchase(String amount) {
+    return 'You owe $amount to your dreams!';
+  }
+
+  @override
+  String get debtReminderNotification =>
+      'Don\'t forget to pay off your debt to your dreams!';
+
+  @override
+  String get aiThinking => 'Thinking...';
+
+  @override
   String get aiSuggestion1 => 'Where did I spend this month?';
 
   @override
@@ -4148,6 +4243,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get professionalMode => 'Professional mode';
+
+  @override
+  String get friendlyMode => 'Friendly mode';
 
   @override
   String get errorTryAgain => 'An error occurred, try again?';
@@ -5536,4 +5634,94 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get excelSimulation => 'Simulation';
+
+  @override
+  String get proFeaturesSheetTitle => 'Pro Feature';
+
+  @override
+  String get proFeaturesSheetSubtitle =>
+      'This feature is exclusive to Pro members';
+
+  @override
+  String get proFeaturesIncluded => 'Pro membership includes:';
+
+  @override
+  String get proFeatureHeatmap => 'Expense Heatmap';
+
+  @override
+  String get proFeatureHeatmapDesc =>
+      'Visualize your spending patterns over the year';
+
+  @override
+  String get proFeatureCategoryBreakdown => 'Category Breakdown';
+
+  @override
+  String get proFeatureCategoryBreakdownDesc =>
+      'Detailed pie chart analysis by category';
+
+  @override
+  String get proFeatureSpendingTrends => 'Spending Trends';
+
+  @override
+  String get proFeatureSpendingTrendsDesc =>
+      'Track your spending changes over time';
+
+  @override
+  String get proFeatureTimeAnalysis => 'Time Analysis';
+
+  @override
+  String get proFeatureTimeAnalysisDesc =>
+      'See when you spend most by day and hour';
+
+  @override
+  String get proFeatureBudgetBreakdown => 'Budget Breakdown';
+
+  @override
+  String get proFeatureBudgetBreakdownDesc =>
+      'Track spending against your budget goals';
+
+  @override
+  String get proFeatureAdvancedFilters => 'Advanced Filters';
+
+  @override
+  String get proFeatureAdvancedFiltersDesc =>
+      'Filter by month, all-time, and more';
+
+  @override
+  String get proFeatureExcelExport => 'Excel Export';
+
+  @override
+  String get proFeatureExcelExportDesc => 'Export your complete financial data';
+
+  @override
+  String get proFeatureUnlimitedHistory => 'Unlimited History';
+
+  @override
+  String get proFeatureUnlimitedHistoryDesc => 'Access all your past expenses';
+
+  @override
+  String get goProButton => 'Go Pro';
+
+  @override
+  String get lockedFeatureTapToUnlock => 'Tap to unlock';
+
+  @override
+  String voiceUsageIndicator(int used, int total) {
+    return '$used/$total voice inputs today';
+  }
+
+  @override
+  String aiChatUsageIndicator(int used, int total) {
+    return '$used/$total questions today';
+  }
+
+  @override
+  String get dailyLimitReached => 'Daily limit reached';
+
+  @override
+  String get dailyLimitReachedDesc =>
+      'You\'ve used all your daily quota. Upgrade to Pro for unlimited access!';
+
+  @override
+  String get unlimitedWithPro => 'Unlimited with Pro';
 }

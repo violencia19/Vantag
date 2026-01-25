@@ -449,6 +449,7 @@ Future<bool?> showRedirectSavingsSheet(
 }) {
   return showModalBottomSheet<bool>(
     context: context,
+    barrierColor: Colors.black.withOpacity(0.85),
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
     builder: (_) => RedirectSavingsSheet(amount: amount, currency: currency),

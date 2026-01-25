@@ -520,6 +520,7 @@ Future<bool?> showAddSavingsSheet(
   return showModalBottomSheet<bool>(
     context: context,
     isScrollControlled: true,
+    barrierColor: Colors.black.withOpacity(0.85),
     backgroundColor: Colors.transparent,
     builder: (_) => AddSavingsSheet(
       pursuit: pursuit,

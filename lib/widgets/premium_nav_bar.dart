@@ -252,32 +252,38 @@ class _CenterAddButtonState extends State<_CenterAddButton>
       onTapUp: _onTapUp,
       onTapCancel: _onTapCancel,
       onLongPress: widget.onLongPress != null ? _onLongPress : null,
+      behavior: HitTestBehavior.opaque,
       child: AnimatedBuilder(
         animation: _scaleAnimation,
         builder: (context, child) {
           return Transform.scale(
             scale: _scaleAnimation.value,
-            child: Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                gradient: AppGradients.primaryButton,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: context.appColors.primary.withValues(
-                      alpha: _isPressed ? 0.3 : 0.5,
+            child: ClipOval(
+              child: Container(
+                width: 56,
+                height: 56,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  gradient: AppGradients.primaryButton,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: context.appColors.primary.withValues(
+                        alpha: _isPressed ? 0.3 : 0.5,
+                      ),
+                      blurRadius: _isPressed ? 15 : 25,
+                      offset: Offset(0, _isPressed ? 4 : 8),
                     ),
-                    blurRadius: _isPressed ? 15 : 25,
-                    offset: Offset(0, _isPressed ? 4 : 8),
+                  ],
+                ),
+                child: Center(
+                  child: PhosphorIcon(
+                    PhosphorIconsDuotone.plus,
+                    size: 28,
+                    color: Colors.white,
+                    duotoneSecondaryColor: Colors.white.withValues(alpha: 0.6),
                   ),
-                ],
-              ),
-              child: PhosphorIcon(
-                PhosphorIconsDuotone.plus,
-                size: 28,
-                color: Colors.white,
-                duotoneSecondaryColor: Colors.white.withValues(alpha: 0.6),
+                ),
               ),
             ),
           );
@@ -509,15 +515,13 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   overlayColor: Colors.black,
                   overlayOpacity: 0.95,
                   targetShapeBorder: const CircleBorder(),
+                  targetPadding: EdgeInsets.zero,
                   child: Semantics(
                     label: l10n.accessibilityAddExpense,
                     button: true,
-                    child: Tooltip(
-                      message: l10n.accessibilityAddExpense,
-                      child: _CenterAddButton(
-                        onTap: onAddTap,
-                        onLongPress: onAddLongPress,
-                      ),
+                    child: _CenterAddButton(
+                      onTap: onAddTap,
+                      onLongPress: onAddLongPress,
                     ),
                   ),
                 ),

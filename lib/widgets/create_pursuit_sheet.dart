@@ -485,6 +485,7 @@ Future<bool?> showCreatePursuitSheet(BuildContext context, {Pursuit? pursuit}) {
   return showModalBottomSheet<bool>(
     context: context,
     isScrollControlled: true,
+    barrierColor: Colors.black.withOpacity(0.85),
     backgroundColor: Colors.transparent,
     builder: (_) => CreatePursuitSheet(pursuit: pursuit),
   );

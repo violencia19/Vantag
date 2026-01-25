@@ -53,6 +53,7 @@ class PendingReviewSheet extends StatefulWidget {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: Colors.transparent,
       builder: (context) => PendingReviewSheet(
         expenses: expenses,

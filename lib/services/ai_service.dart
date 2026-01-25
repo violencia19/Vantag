@@ -79,21 +79,27 @@ class AIService {
     required FinanceProvider financeProvider,
     bool isPremium = true,
     ProProvider? proProvider,
+    String languageCode = 'tr',
   }) async {
     debugPrint('🚀 [AIService] getResponse çağrıldı');
     debugPrint('📱 [AIService] Initialized: $_isInitialized');
     debugPrint('💬 [AIService] Mesaj: "$message"');
     debugPrint('👑 [AIService] Premium: $isPremium');
+    debugPrint('🌍 [AIService] Language: $languageCode');
 
     if (!_isInitialized) {
       debugPrint('⚠️ [AIService] Servis hazır değil!');
-      return 'Servis hazırlanıyor, bir saniye...';
+      return languageCode == 'en'
+          ? 'Service is loading, one moment...'
+          : 'Servis hazırlanıyor, bir saniye...';
     }
 
     final userId = _currentUserId;
     if (userId == null) {
       debugPrint('⚠️ [AIService] Kullanıcı girişi yok!');
-      return 'Lütfen önce giriş yapın.';
+      return languageCode == 'en'
+          ? 'Please sign in first.'
+          : 'Lütfen önce giriş yapın.';
     }
 
     try {
@@ -106,6 +112,7 @@ class AIService {
         userId: userId,
         isPremium: isPremium,
         subscriptionType: subscriptionType,
+        languageCode: languageCode,
       );
 
       debugPrint('📥 [AIService] İlk response alındı');
@@ -159,6 +166,7 @@ class AIService {
           userId: userId,
           isPremium: isPremium,
           subscriptionType: subscriptionType,
+          languageCode: languageCode,
           toolResults: toolResults,
         );
         debugPrint('📥 [AIService] Tool sonrası response alındı');
@@ -174,7 +182,9 @@ class AIService {
       final responseText = (response['response'] as String?)?.trim();
 
       if (responseText == null || responseText.isEmpty) {
-        return 'Analiz yapamadım, tekrar sorar mısın?';
+        return languageCode == 'en'
+            ? 'I couldn\'t analyze that, could you ask again?'
+            : 'Analiz yapamadım, tekrar sorar mısın?';
       }
 
       // Mesajları kaydet
@@ -192,12 +202,18 @@ class AIService {
       debugPrint('❌ [AIService] Stack: $stack');
 
       if (e.toString().contains('LIMIT_EXCEEDED')) {
-        return 'Günlük AI limitine ulaştın. Yarın tekrar dene veya Premium\'a geç!';
+        return languageCode == 'en'
+            ? 'You\'ve reached your daily AI limit. Try again tomorrow or upgrade to Premium!'
+            : 'Günlük AI limitine ulaştın. Yarın tekrar dene veya Premium\'a geç!';
       }
       if (e.toString().contains('429')) {
-        return 'Rate limit aşıldı, biraz bekle.';
+        return languageCode == 'en'
+            ? 'Rate limit exceeded, please wait a moment.'
+            : 'Rate limit aşıldı, biraz bekle.';
       }
-      return 'Bir sorun oluştu, tekrar dene.';
+      return languageCode == 'en'
+          ? 'Something went wrong, please try again.'
+          : 'Bir sorun oluştu, tekrar dene.';
     }
   }
 
@@ -206,6 +222,7 @@ class AIService {
     required String userId,
     required bool isPremium,
     required String subscriptionType,
+    String languageCode = 'tr',
     List<Map<String, dynamic>>? toolResults,
   }) async {
     final body = jsonEncode({
@@ -213,6 +230,7 @@ class AIService {
       'userId': userId,
       'isPremium': isPremium,
       'subscriptionType': subscriptionType,
+      'language': languageCode,
       if (toolResults != null) 'toolResults': toolResults,
     });
 
@@ -261,14 +279,19 @@ class AIService {
     return json;
   }
 
-  Future<String> getGreeting(String prompt) async {
+  Future<String> getGreeting(String prompt, {String languageCode = 'tr'}) async {
+    final isEnglish = languageCode == 'en';
+    final defaultGreeting = isEnglish
+        ? 'Hello! How can I help you today?'
+        : 'Merhaba! Nasıl yardımcı olabilirim?';
+
     if (!_isInitialized) {
-      return 'Merhaba! Nasıl yardımcı olabilirim?';
+      return defaultGreeting;
     }
 
     final userId = _currentUserId;
     if (userId == null) {
-      return 'Merhaba! Nasıl yardımcı olabilirim?';
+      return defaultGreeting;
     }
 
     try {
@@ -278,12 +301,16 @@ class AIService {
         userId: userId,
         isPremium: true, // Greeting doesn't count against quota
         subscriptionType: 'pro',
+        languageCode: languageCode,
       );
 
-      return (response['response'] as String?)?.trim() ?? 'Merhaba!';
+      return (response['response'] as String?)?.trim() ??
+          (isEnglish ? 'Hello!' : 'Merhaba!');
     } catch (e) {
       debugPrint('⚠️ [AIService] Greeting error: $e');
-      return 'Merhaba! Bugün nasıl yardımcı olabilirim?';
+      return isEnglish
+          ? 'Hello! How can I help you today?'
+          : 'Merhaba! Bugün nasıl yardımcı olabilirim?';
     }
   }
 

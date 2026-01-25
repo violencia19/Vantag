@@ -433,16 +433,18 @@ class FinanceProvider extends ChangeNotifier {
   }
 
   /// Bu ayki zorunlu giderler toplamı
+  /// NOT: "Vazgeçtim" (decision=no) harcamalar hariç
   double get mandatoryExpensesTotal {
     return currentMonthExpenses
-        .where((e) => e.isMandatory)
+        .where((e) => e.isMandatory && e.decision != ExpenseDecision.no)
         .fold(0.0, (sum, e) => sum + e.amount);
   }
 
   /// Bu ayki isteğe bağlı giderler toplamı
+  /// NOT: "Vazgeçtim" (decision=no) harcamalar hariç - bunlar gerçek harcama değil
   double get discretionaryExpensesTotal {
     return currentMonthExpenses
-        .where((e) => !e.isMandatory)
+        .where((e) => !e.isMandatory && e.decision != ExpenseDecision.no)
         .fold(0.0, (sum, e) => sum + e.amount);
   }
 

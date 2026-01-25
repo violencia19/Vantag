@@ -21,7 +21,7 @@ class UpgradeDialog extends StatelessWidget {
     HapticFeedback.mediumImpact();
     showDialog(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: Colors.black.withOpacity(0.90),
       builder: (_) => UpgradeDialog(message: message, onUpgrade: onUpgrade),
     );
   }

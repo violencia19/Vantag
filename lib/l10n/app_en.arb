@@ -243,10 +243,15 @@
 
   "googleAccount": "Google Account",
   "googleLinked": "Google Linked",
+  "googleNotLinked": "Google Not Linked",
   "linkWithGoogle": "Link with Google",
   "linking": "Linking...",
   "backupAndSecure": "Backup and secure your data",
+  "dataNotBackedUp": "Your data is not backed up",
   "googleLinkedSuccess": "Google account linked successfully!",
+  "googleLinkFailed": "Failed to link Google account",
+
+  "freeCurrencyNote": "Free users can only use TRY. Upgrade to Pro for all currencies.",
 
   "welcome": "Welcome",
   "welcomeSubtitle": "Enter your information to measure expenses in time",
@@ -905,7 +910,7 @@
     }
   },
   "income": "INCOME",
-  "expense": "EXPENSE",
+  "expense": "SPENT",
   "saved": "SAVED",
   "budgetUsage": "BUDGET USAGE",
 
@@ -1259,12 +1264,13 @@
   "noTrendData": "Not enough data",
 
   "yearlyView": "Yearly View",
-  "yearlyHeatmap": "Expense Heatmap",
-  "yearlyHeatmapDesc": "Your spending intensity throughout the year",
+  "yearlyHeatmap": "Spending Trend",
+  "yearlyHeatmapDesc": "Your monthly spending over the last 12 months",
   "lowSpending": "Low",
   "highSpending": "High",
   "noSpending": "No spending",
   "tapDayForDetails": "Tap a day for details",
+  "tapMonthForDetails": "Tap a month for details",
   "selectedDayExpenses": "{date}: {amount} TL ({count} expenses)",
   "@selectedDayExpenses": {
     "placeholders": {
@@ -1273,6 +1279,26 @@
       "count": {"type": "int"}
     }
   },
+  "selectedMonthExpenses": "{month}: {amount} ({count} expenses)",
+  "@selectedMonthExpenses": {
+    "placeholders": {
+      "month": {"type": "String"},
+      "amount": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "monthJan": "Jan",
+  "monthFeb": "Feb",
+  "monthMar": "Mar",
+  "monthApr": "Apr",
+  "monthMay": "May",
+  "monthJun": "Jun",
+  "monthJul": "Jul",
+  "monthAug": "Aug",
+  "monthSep": "Sep",
+  "monthOct": "Oct",
+  "monthNov": "Nov",
+  "monthDec": "Dec",
 
   "proBadge": "PRO",
   "proFeature": "Pro Feature",
@@ -2172,6 +2198,7 @@
   },
   "debtReminderNotification": "Don't forget to pay off your debt to your dreams!",
 
+  "aiThinking": "Thinking...",
   "aiSuggestion1": "Where did I spend this month?",
   "aiSuggestion2": "Where can I save money?",
   "aiSuggestion3": "What's my most expensive habit?",
@@ -2224,6 +2251,7 @@
 
   "vantagAI": "Vantag AI",
   "professionalMode": "Professional mode",
+  "friendlyMode": "Friendly mode",
   "errorTryAgain": "An error occurred, try again?",
 
   "aiInsights": "AI Insights",
@@ -2924,5 +2952,45 @@
   "excelYes": "Yes",
   "excelNo": "No",
   "excelReal": "Real",
-  "excelSimulation": "Simulation"
+  "excelSimulation": "Simulation",
+
+  "proFeaturesSheetTitle": "Pro Feature",
+  "proFeaturesSheetSubtitle": "This feature is exclusive to Pro members",
+  "proFeaturesIncluded": "Pro membership includes:",
+  "proFeatureHeatmap": "Expense Heatmap",
+  "proFeatureHeatmapDesc": "Visualize your spending patterns over the year",
+  "proFeatureCategoryBreakdown": "Category Breakdown",
+  "proFeatureCategoryBreakdownDesc": "Detailed pie chart analysis by category",
+  "proFeatureSpendingTrends": "Spending Trends",
+  "proFeatureSpendingTrendsDesc": "Track your spending changes over time",
+  "proFeatureTimeAnalysis": "Time Analysis",
+  "proFeatureTimeAnalysisDesc": "See when you spend most by day and hour",
+  "proFeatureBudgetBreakdown": "Budget Breakdown",
+  "proFeatureBudgetBreakdownDesc": "Track spending against your budget goals",
+  "proFeatureAdvancedFilters": "Advanced Filters",
+  "proFeatureAdvancedFiltersDesc": "Filter by month, all-time, and more",
+  "proFeatureExcelExport": "Excel Export",
+  "proFeatureExcelExportDesc": "Export your complete financial data",
+  "proFeatureUnlimitedHistory": "Unlimited History",
+  "proFeatureUnlimitedHistoryDesc": "Access all your past expenses",
+  "goProButton": "Go Pro",
+  "lockedFeatureTapToUnlock": "Tap to unlock",
+
+  "voiceUsageIndicator": "{used}/{total} voice inputs today",
+  "@voiceUsageIndicator": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "aiChatUsageIndicator": "{used}/{total} questions today",
+  "@aiChatUsageIndicator": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "dailyLimitReached": "Daily limit reached",
+  "dailyLimitReachedDesc": "You've used all your daily quota. Upgrade to Pro for unlimited access!",
+  "unlimitedWithPro": "Unlimited with Pro"
 }

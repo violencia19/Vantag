@@ -208,12 +208,15 @@ class _PursuitListScreenState extends State<PursuitListScreen>
       ),
       floatingActionButton: _showCompleted
           ? null
-          : FloatingActionButton(
-              onPressed: _createPursuit,
-              tooltip: l10n.createPursuit,
-              backgroundColor: context.appColors.success,
-              foregroundColor: context.appColors.textPrimary,
-              child: Icon(PhosphorIconsBold.plus),
+          : Padding(
+              padding: const EdgeInsets.only(bottom: 140),
+              child: FloatingActionButton(
+                onPressed: _createPursuit,
+                tooltip: l10n.createPursuit,
+                backgroundColor: context.appColors.success,
+                foregroundColor: context.appColors.textPrimary,
+                child: Icon(PhosphorIconsBold.plus),
+              ),
             ),
     );
   }
@@ -356,6 +359,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
     HapticFeedback.selectionClick();
     showModalBottomSheet(
       context: context,
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (_) => _PursuitDetailSheet(

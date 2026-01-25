@@ -400,6 +400,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: Colors.transparent,
       builder: (context) => const CreatePursuitSheet(),
     );

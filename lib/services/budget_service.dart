@@ -73,16 +73,18 @@ class BudgetService extends ChangeNotifier {
   }
 
   /// Zorunlu giderler toplamı (kira, fatura, kredi vs.)
+  /// NOT: "Vazgeçtim" (decision=no) harcamalar hariç
   double get mandatoryExpenses {
     return _currentMonthExpenses
-        .where((e) => e.isMandatory)
+        .where((e) => e.isMandatory && e.decision != ExpenseDecision.no)
         .fold(0.0, (sum, e) => sum + e.amount);
   }
 
   /// İsteğe bağlı harcamalar (zorunlu olmayanlar)
+  /// NOT: "Vazgeçtim" (decision=no) harcamalar hariç - bunlar gerçek harcama değil
   double get discretionaryExpenses {
     return _currentMonthExpenses
-        .where((e) => !e.isMandatory)
+        .where((e) => !e.isMandatory && e.decision != ExpenseDecision.no)
         .fold(0.0, (sum, e) => sum + e.amount);
   }
 
