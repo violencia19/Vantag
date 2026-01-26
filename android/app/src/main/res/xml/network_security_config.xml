@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Task 119: Network Security Configuration
+  - Disables cleartext (HTTP) traffic for security
+  - Only allows HTTPS connections
+  - Configures trusted domains
+-->
+<network-security-config>
+    <!-- Disable cleartext traffic globally -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- Domain-specific configurations -->
+    <domain-config cleartextTrafficPermitted="false">
+        <!-- Firebase domains -->
+        <domain includeSubdomains="true">firebase.google.com</domain>
+        <domain includeSubdomains="true">firebaseio.com</domain>
+        <domain includeSubdomains="true">googleapis.com</domain>
+        <domain includeSubdomains="true">cloudfunctions.net</domain>
+
+        <!-- API domains -->
+        <domain includeSubdomains="true">api.openai.com</domain>
+        <domain includeSubdomains="true">api.revenuecat.com</domain>
+
+        <!-- TCMB (Turkish Central Bank) -->
+        <domain includeSubdomains="true">tcmb.gov.tr</domain>
+
+        <!-- Gold price API -->
+        <domain includeSubdomains="true">finans.truncgil.com</domain>
+
+        <!-- App domain -->
+        <domain includeSubdomains="true">vantag.app</domain>
+
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </domain-config>
+
+    <!-- Debug configuration (only in debug builds) -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
+</network-security-config>

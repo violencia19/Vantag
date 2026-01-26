@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Task 73: Android Auto Backup Rules
+  Configures what data is backed up to Google Drive
+-->
+<full-backup-content>
+    <!-- Include SharedPreferences (user settings, streak data, etc.) -->
+    <include domain="sharedpref" path="." />
+
+    <!-- Include Hive database (AI chat history) -->
+    <include domain="database" path="." />
+
+    <!-- Exclude sensitive data -->
+    <exclude domain="sharedpref" path="FlutterSecureStorage" />
+    <exclude domain="file" path="cache/" />
+    <exclude domain="external" path="." />
+
+    <!-- Exclude Firebase instance tokens -->
+    <exclude domain="sharedpref" path="com.google.firebase.messaging_preferences.xml" />
+</full-backup-content>
