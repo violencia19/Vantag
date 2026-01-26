@@ -270,4 +270,104 @@ class AnalyticsService {
   /// Get analytics observer for navigation
   FirebaseAnalyticsObserver get observer =>
       FirebaseAnalyticsObserver(analytics: _analytics);
+
+  // ─────────────────────────────────────────────────────────────────
+  // PERFORMANCE MONITORING (Tasks 75-78)
+  // ─────────────────────────────────────────────────────────────────
+
+  /// Track app startup time
+  Future<void> logStartupTime({required int milliseconds}) async {
+    await _analytics.logEvent(
+      name: 'app_startup_time',
+      parameters: {'duration_ms': milliseconds},
+    );
+  }
+
+  /// Track screen load time
+  Future<void> logScreenLoadTime({
+    required String screenName,
+    required int milliseconds,
+  }) async {
+    await _analytics.logEvent(
+      name: 'screen_load_time',
+      parameters: {
+        'screen_name': screenName,
+        'duration_ms': milliseconds,
+      },
+    );
+  }
+
+  /// Track API response time
+  Future<void> logApiResponseTime({
+    required String endpoint,
+    required int milliseconds,
+    required bool success,
+  }) async {
+    await _analytics.logEvent(
+      name: 'api_response_time',
+      parameters: {
+        'endpoint': endpoint,
+        'duration_ms': milliseconds,
+        'success': success ? 1 : 0,
+      },
+    );
+  }
+
+  /// Track memory usage (high memory warning)
+  Future<void> logHighMemoryUsage({required int megabytes}) async {
+    await _analytics.logEvent(
+      name: 'high_memory_usage',
+      parameters: {'memory_mb': megabytes},
+    );
+  }
+
+  /// Track battery optimization mode
+  Future<void> logBatteryOptimization({required bool enabled}) async {
+    await _analytics.logEvent(
+      name: 'battery_optimization',
+      parameters: {'enabled': enabled ? 1 : 0},
+    );
+  }
+
+  /// Track crash/ANR event
+  Future<void> logPerformanceIssue({
+    required String issueType, // 'anr', 'slow_render', 'frozen_frame'
+    String? details,
+  }) async {
+    await _analytics.logEvent(
+      name: 'performance_issue',
+      parameters: {
+        'issue_type': issueType,
+        'details': details ?? '',
+      },
+    );
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // SOCIAL & SHARING EVENTS (Tasks 60-61)
+  // ─────────────────────────────────────────────────────────────────
+
+  /// Track pursuit shared
+  Future<void> logPursuitShared({required double progress}) async {
+    await _analytics.logEvent(
+      name: 'pursuit_shared',
+      parameters: {'progress_percent': (progress * 100).toInt()},
+    );
+  }
+
+  /// Track achievement shared
+  Future<void> logAchievementShared({required String achievementId}) async {
+    await _analytics.logEvent(
+      name: 'achievement_shared',
+      parameters: {'achievement_id': achievementId},
+    );
+  }
+
+  /// Track streak shared
+  Future<void> logStreakShared({required int days}) async {
+    await _analytics.logEvent(
+      name: 'streak_shared',
+      parameters: {'streak_days': days},
+    );
+  }
 }

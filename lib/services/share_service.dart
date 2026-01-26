@@ -87,4 +87,98 @@ class ShareService {
   static Future<void> shareText(String text) async {
     await Share.share(text);
   }
+
+  // ============================================
+  // Task 60: PURSUIT SHARING
+  // ============================================
+
+  /// Share pursuit progress
+  static Future<void> sharePursuit({
+    required String pursuitName,
+    required double progress,
+    required double savedAmount,
+    required double targetAmount,
+    required String currency,
+  }) async {
+    final progressPercent = (progress * 100).toStringAsFixed(0);
+    final saved = savedAmount.toStringAsFixed(0);
+    final target = targetAmount.toStringAsFixed(0);
+
+    final text = await getShareTextWithReferral(
+      customText: '$pursuitName hedefim için %$progressPercent tamamladım! '
+          '($saved / $target $currency)',
+    );
+    await Share.share(text);
+  }
+
+  /// Share completed pursuit
+  static Future<void> sharePursuitCompletion({
+    required String pursuitName,
+    required double targetAmount,
+    required String currency,
+    required int daysToComplete,
+  }) async {
+    final text = await getShareTextWithReferral(
+      customText: '$pursuitName hedefime ulaştım! '
+          '${targetAmount.toStringAsFixed(0)} $currency biriktirdim. '
+          '($daysToComplete günde başardım!)',
+    );
+    await Share.share(text);
+  }
+
+  // ============================================
+  // Task 61: ACHIEVEMENT SHARING
+  // ============================================
+
+  /// Share unlocked achievement
+  static Future<void> shareAchievement({
+    required String achievementTitle,
+    required String achievementDescription,
+    String? tier, // bronze, silver, gold, platinum
+  }) async {
+    final tierEmoji = switch (tier?.toLowerCase()) {
+      'bronze' => '🥉',
+      'silver' => '🥈',
+      'gold' => '🥇',
+      'platinum' => '💎',
+      _ => '🏆',
+    };
+
+    final text = await getShareTextWithReferral(
+      customText: '$tierEmoji $achievementTitle başarısını kazandım! '
+          '$achievementDescription',
+    );
+    await Share.share(text);
+  }
+
+  /// Share streak milestone
+  static Future<void> shareStreakMilestone({
+    required int streakDays,
+  }) async {
+    final emoji = streakDays >= 100 ? '🔥🔥🔥' : (streakDays >= 30 ? '🔥🔥' : '🔥');
+
+    final text = await getShareTextWithReferral(
+      customText: '$emoji $streakDays gün kesintisiz finansal takip! '
+          'Disiplin = Özgürlük',
+    );
+    await Share.share(text);
+  }
+
+  /// Share savings milestone
+  static Future<void> shareSavingsMilestone({
+    required double totalSaved,
+    required String currency,
+  }) async {
+    final formatted = totalSaved >= 1000000
+        ? '${(totalSaved / 1000000).toStringAsFixed(1)}M'
+        : totalSaved >= 1000
+            ? '${(totalSaved / 1000).toStringAsFixed(0)}K'
+            : totalSaved.toStringAsFixed(0);
+
+    final text = await getShareTextWithReferral(
+      customText: '💰 Toplamda $formatted $currency biriktirdim! '
+          'Küçük kararlar, büyük sonuçlar.',
+    );
+    await Share.share(text);
+  }
 }

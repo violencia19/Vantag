@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
 
@@ -329,5 +330,363 @@ class SavingsProjection extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+/// Task 68: Category Trend Chart
+/// Shows spending trend by category over time
+class CategoryTrendChart extends StatelessWidget {
+  final List<Expense> expenses;
+  final int monthsToShow;
+  final List<Color>? categoryColors;
+
+  const CategoryTrendChart({
+    super.key,
+    required this.expenses,
+    this.monthsToShow = 6,
+    this.categoryColors,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final monthlyData = _calculateMonthlyByCategory();
+    if (monthlyData.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final categories = monthlyData.values
+        .expand((m) => m.keys)
+        .toSet()
+        .take(5)
+        .toList();
+
+    final defaultColors = [
+      context.appColors.primary,
+      context.appColors.success,
+      context.appColors.warning,
+      context.appColors.error,
+      context.appColors.secondary,
+    ];
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: context.appColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.appColors.cardBorder),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Kategori Trendi',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: context.appColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 200,
+            child: LineChart(
+              LineChartData(
+                gridData: FlGridData(
+                  show: true,
+                  drawVerticalLine: false,
+                  horizontalInterval: 1000,
+                  getDrawingHorizontalLine: (value) => FlLine(
+                    color: context.appColors.cardBorder,
+                    strokeWidth: 0.5,
+                  ),
+                ),
+                titlesData: FlTitlesData(
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 40,
+                      getTitlesWidget: (value, meta) => Text(
+                        _formatAmount(value),
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: context.appColors.textTertiary,
+                        ),
+                      ),
+                    ),
+                  ),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        final months = monthlyData.keys.toList();
+                        if (value.toInt() >= months.length) return const SizedBox();
+                        final date = months[value.toInt()];
+                        return Text(
+                          _getMonthAbbr(date.month),
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: context.appColors.textTertiary,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                ),
+                borderData: FlBorderData(show: false),
+                lineBarsData: categories.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final category = entry.value;
+                  final color = categoryColors?[index % (categoryColors?.length ?? 1)] ??
+                      defaultColors[index % defaultColors.length];
+
+                  return LineChartBarData(
+                    spots: monthlyData.entries.toList().asMap().entries.map((e) {
+                      final monthIndex = e.key;
+                      final monthData = e.value.value;
+                      return FlSpot(monthIndex.toDouble(), monthData[category] ?? 0);
+                    }).toList(),
+                    isCurved: true,
+                    color: color,
+                    barWidth: 2,
+                    dotData: const FlDotData(show: false),
+                    belowBarData: BarAreaData(
+                      show: true,
+                      color: color.withValues(alpha: 0.1),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          // Legend
+          Wrap(
+            spacing: 16,
+            runSpacing: 8,
+            children: categories.asMap().entries.map((entry) {
+              final index = entry.key;
+              final category = entry.value;
+              final color = categoryColors?[index % (categoryColors?.length ?? 1)] ??
+                  defaultColors[index % defaultColors.length];
+
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 12,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: color,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    category,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: context.appColors.textSecondary,
+                    ),
+                  ),
+                ],
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Map<DateTime, Map<String, double>> _calculateMonthlyByCategory() {
+    final result = <DateTime, Map<String, double>>{};
+    final now = DateTime.now();
+
+    for (var i = monthsToShow - 1; i >= 0; i--) {
+      final month = DateTime(now.year, now.month - i, 1);
+      result[month] = {};
+    }
+
+    for (final expense in expenses) {
+      if (expense.decision == ExpenseDecision.yes) {
+        final month = DateTime(expense.date.year, expense.date.month, 1);
+        if (result.containsKey(month)) {
+          result[month]![expense.category] =
+              (result[month]![expense.category] ?? 0) + expense.amount;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  String _formatAmount(double value) {
+    if (value >= 1000) {
+      return '${(value / 1000).toStringAsFixed(0)}K';
+    }
+    return value.toStringAsFixed(0);
+  }
+
+  String _getMonthAbbr(int month) {
+    const abbrs = ['', 'Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz',
+                   'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
+    return abbrs[month];
+  }
+}
+
+/// Task 69: Work Hours Equivalent Chart
+/// Shows expenses as work hours needed to earn that amount
+class WorkHoursChart extends StatelessWidget {
+  final List<Expense> expenses;
+  final double hourlyRate;
+  final int daysToShow;
+
+  const WorkHoursChart({
+    super.key,
+    required this.expenses,
+    required this.hourlyRate,
+    this.daysToShow = 7,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (hourlyRate <= 0) return const SizedBox.shrink();
+
+    final dailyHours = _calculateDailyWorkHours();
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: context.appColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.appColors.cardBorder),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.access_time,
+                color: context.appColors.primary,
+                size: 20,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Çalışma Saati Karşılığı',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: context.appColors.textPrimary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 150,
+            child: BarChart(
+              BarChartData(
+                gridData: const FlGridData(show: false),
+                borderData: FlBorderData(show: false),
+                titlesData: FlTitlesData(
+                  leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        final days = dailyHours.keys.toList();
+                        if (value.toInt() >= days.length) return const SizedBox();
+                        final date = days[value.toInt()];
+                        return Text(
+                          _getDayAbbr(date.weekday),
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: context.appColors.textTertiary,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                barGroups: dailyHours.entries.toList().asMap().entries.map((e) {
+                  final index = e.key;
+                  final hours = e.value.value;
+                  return BarChartGroupData(
+                    x: index,
+                    barRods: [
+                      BarChartRodData(
+                        toY: hours,
+                        color: hours > 8
+                            ? context.appColors.error
+                            : hours > 4
+                                ? context.appColors.warning
+                                : context.appColors.success,
+                        width: 20,
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+                      ),
+                    ],
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Toplam: ${_totalHours().toStringAsFixed(1)} saat',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: context.appColors.textPrimary,
+                ),
+              ),
+              Text(
+                ' (${hourlyRate.toStringAsFixed(0)} TL/saat)',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: context.appColors.textTertiary,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Map<DateTime, double> _calculateDailyWorkHours() {
+    final result = <DateTime, double>{};
+    final now = DateTime.now();
+
+    for (var i = daysToShow - 1; i >= 0; i--) {
+      final day = DateTime(now.year, now.month, now.day - i);
+      result[day] = 0;
+    }
+
+    for (final expense in expenses) {
+      if (expense.decision == ExpenseDecision.yes) {
+        final day = DateTime(expense.date.year, expense.date.month, expense.date.day);
+        if (result.containsKey(day)) {
+          result[day] = result[day]! + (expense.amount / hourlyRate);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  double _totalHours() {
+    return _calculateDailyWorkHours().values.fold(0.0, (a, b) => a + b);
+  }
+
+  String _getDayAbbr(int weekday) {
+    const abbrs = ['', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+    return abbrs[weekday];
   }
 }

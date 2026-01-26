@@ -105,3 +105,6 @@ export 'spending_heatmap.dart';
 
 // Paywall
 export 'paywall_variants.dart';
+
+// Debug
+export 'debug_menu.dart';
