@@ -114,9 +114,13 @@ class _AIChatSheetState extends State<AIChatSheet> {
           .map((e) => '${e.category}: ${e.amount.toStringAsFixed(0)}')
           .join(', ');
 
-      // Cache key oluştur
+      // Get locale early for cache key
+      final locale = Localizations.localeOf(context).languageCode;
+      final isEnglish = locale == 'en';
+
+      // Cache key oluştur (include language to avoid wrong language from cache)
       final cacheKey =
-          '${monthlySpent.toStringAsFixed(0)}_${remaining.toStringAsFixed(0)}_${usagePercent.toStringAsFixed(0)}';
+          '${locale}_${monthlySpent.toStringAsFixed(0)}_${remaining.toStringAsFixed(0)}_${usagePercent.toStringAsFixed(0)}';
 
       // Cache kontrol
       final cachedGreeting = await _getCachedGreeting(cacheKey);
@@ -133,8 +137,6 @@ class _AIChatSheetState extends State<AIChatSheet> {
       // AI'dan karşılama iste
       final personality = AIService().personalityMode;
       final currency = currencyProvider.code;
-      final locale = Localizations.localeOf(context).languageCode;
-      final isEnglish = locale == 'en';
 
       final prompt = isEnglish
           ? '''
