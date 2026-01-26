@@ -234,10 +234,6 @@ class SavingsProjection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final projections = List.generate(projectionMonths, (i) {
-      return currentSavings + (monthlyAverage * (i + 1));
-    });
-
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

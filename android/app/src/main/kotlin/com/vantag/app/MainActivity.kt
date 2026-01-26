@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -13,9 +14,41 @@ import java.io.FileInputStream
 // FlutterFragmentActivity is required for local_auth biometric authentication
 class MainActivity : FlutterFragmentActivity() {
     private val CHANNEL = "com.vantag.app/file_saver"
+    private val SECURITY_CHANNEL = "com.vantag.app/security"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+
+        // Security checks on app startup (release only)
+        if (!BuildConfig.DEBUG) {
+            performSecurityChecks()
+        }
+
+        // Security channel for Flutter
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, SECURITY_CHANNEL).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "checkSecurity" -> {
+                    val securityResult = SecurityChecker.performSecurityChecks(this)
+                    result.success(mapOf(
+                        "isSecure" to securityResult.isSecure,
+                        "issues" to securityResult.issues
+                    ))
+                }
+                "isRooted" -> {
+                    val securityResult = SecurityChecker.performSecurityChecks(this)
+                    result.success(securityResult.issues.contains("DEVICE_ROOTED"))
+                }
+                "isDebuggerAttached" -> {
+                    val securityResult = SecurityChecker.performSecurityChecks(this)
+                    result.success(securityResult.issues.contains("DEBUGGER_ATTACHED"))
+                }
+                "isEmulator" -> {
+                    val securityResult = SecurityChecker.performSecurityChecks(this)
+                    result.success(securityResult.issues.contains("EMULATOR_DETECTED"))
+                }
+                else -> result.notImplemented()
+            }
+        }
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
             when (call.method) {
@@ -105,5 +138,29 @@ class MainActivity : FlutterFragmentActivity() {
         sourceFile.copyTo(destFile, overwrite = true)
 
         return destFile.absolutePath
+    }
+
+    /**
+     * Perform security checks at app startup
+     * In production, critical issues will terminate the app
+     */
+    private fun performSecurityChecks() {
+        val result = SecurityChecker.performSecurityChecks(this)
+
+        if (!result.isSecure) {
+            // Log issues for crash reporting
+            Log.w("Vantag", "Security issues detected: ${result.issues}")
+
+            // Critical issues that should terminate the app
+            val criticalIssues = listOf("DEBUGGER_ATTACHED", "HOOKING_FRAMEWORK", "SIGNATURE_MISMATCH")
+            val hasCriticalIssue = result.issues.any { it in criticalIssues }
+
+            if (hasCriticalIssue) {
+                // Terminate app for critical security violations
+                // Uncomment in production:
+                // finish()
+                // System.exit(0)
+            }
+        }
     }
 }

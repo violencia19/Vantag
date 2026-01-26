@@ -68,3 +68,5 @@ export 'backup_service.dart';
 export 'force_update_service.dart';
 // Promo Codes
 export 'promo_service.dart';
+// App Security (Anti-tampering, Anti-debug)
+export 'app_security_service.dart';
