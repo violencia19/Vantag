@@ -1145,13 +1145,19 @@ SADECE karşılama cümlesini yaz:
     } on AILimitExceededException catch (e) {
       if (mounted) {
         final resetTime = e.resetDate;
-        final limitType = e.limitType == 'daily' ? 'günlük' : 'aylık';
+        final locale = Localizations.localeOf(context).languageCode;
+        final isEnglish = locale == 'en';
+        final limitTypeText = isEnglish
+            ? (e.limitType == 'daily' ? 'daily' : 'monthly')
+            : (e.limitType == 'daily' ? 'günlük' : 'aylık');
+        final limitMessage = isEnglish
+            ? 'You\'ve reached your $limitTypeText AI limit. Try again in ${_formatResetTime(resetTime, isEnglish)}.'
+            : '$limitTypeText AI limitine ulaştın. ${_formatResetTime(resetTime, isEnglish)} sonra tekrar deneyebilirsin.';
         setState(() {
           _messages.add(
             ChatMessage(
               role: 'assistant',
-              content:
-                  '$limitType AI limitine ulaştın. ${_formatResetTime(resetTime)} sonra tekrar deneyebilirsin.',
+              content: limitMessage,
             ),
           );
           _isLoading = false;
@@ -1160,11 +1166,15 @@ SADECE karşılama cümlesini yaz:
       }
     } catch (e) {
       if (mounted) {
+        final locale = Localizations.localeOf(context).languageCode;
+        final isEnglish = locale == 'en';
         setState(() {
           _messages.add(
             ChatMessage(
               role: 'assistant',
-              content: 'Bir hata oluştu, tekrar dener misin?',
+              content: isEnglish
+                  ? 'Something went wrong, please try again.'
+                  : 'Bir hata oluştu, tekrar dener misin?',
             ),
           );
           _isLoading = false;
@@ -1173,15 +1183,15 @@ SADECE karşılama cümlesini yaz:
     }
   }
 
-  String _formatResetTime(DateTime resetDate) {
+  String _formatResetTime(DateTime resetDate, [bool isEnglish = false]) {
     final now = DateTime.now();
     final diff = resetDate.difference(now);
     if (diff.inHours < 1) {
-      return '${diff.inMinutes} dakika';
+      return isEnglish ? '${diff.inMinutes} minutes' : '${diff.inMinutes} dakika';
     } else if (diff.inHours < 24) {
-      return '${diff.inHours} saat';
+      return isEnglish ? '${diff.inHours} hours' : '${diff.inHours} saat';
     } else {
-      return '${diff.inDays} gün';
+      return isEnglish ? '${diff.inDays} days' : '${diff.inDays} gün';
     }
   }
 

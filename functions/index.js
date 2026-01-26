@@ -410,7 +410,9 @@ exports.getRates = functions
 // ============================================================================
 
 const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-const OPENAI_MODEL = "gpt-4.1";
+// AI Chat uses GPT-4o for high-quality responses
+// Voice/Statement parsing uses gpt-4o-mini (handled client-side)
+const OPENAI_MODEL = "gpt-4o";
 
 // Rate limits
 const LIMITS = {
@@ -535,13 +537,32 @@ async function incrementUsage(usageRef, usage, subscriptionType) {
 
 /**
  * Build system prompt for AI
+ * @param {boolean} isPremium - Whether user is premium
+ * @param {string} language - User's language code ('tr' or 'en')
  */
-function buildSystemPrompt(isPremium) {
-  const premiumInstructions = isPremium ? `
+function buildSystemPrompt(isPremium, language = 'tr') {
+  const isEnglish = language === 'en';
+
+  const premiumInstructions = isPremium
+    ? (isEnglish ? `
+PREMIUM USER - FULL ACCESS:
+- Provide detailed analysis and personal savings plans.
+- Specific advice: "Buy from this store instead of that one"
+- Suggest long-term goals and strategies.
+` : `
 PREMIUM KULLANICI - TAM ERİŞİM:
 - Detaylı analiz ve kişisel tasarruf planı ver.
 - Spesifik tavsiyeler: "Şu market yerine şuradan alışveriş yap"
 - Uzun vadeli hedefler ve stratejiler öner.
+`)
+    : (isEnglish ? `
+FREE USER - LIMITED ACCESS:
+- Keep responses SHORT, only give general numbers.
+- Do NOT give specific advice (e.g., "Buy from this store instead").
+- Do NOT provide detailed analysis, only summaries.
+- Do NOT provide personal savings plans.
+- Max 2-3 sentences.
+- Do NOT write upsell messages (will be shown in UI).
 ` : `
 FREE KULLANICI - KISITLI ERİŞİM:
 - Cevabı KISA tut, sadece genel rakamları ver.
@@ -550,10 +571,50 @@ FREE KULLANICI - KISITLI ERİŞİM:
 - Kişisel tasarruf planı VERME.
 - Max 2-3 cümle.
 - Cevap sonunda upsell mesajı YAZMA (UI'da gösterilecek).
-`;
+`);
 
-  return `
+  return isEnglish ? `
+YOU ARE A FINANCIAL ASSISTANT - VANTAG.
+
+⚠️ CRITICAL LANGUAGE REQUIREMENT:
+You MUST respond ONLY in English. No matter what language the user writes in, you MUST answer in English.
+Do NOT use Turkish words or phrases. All responses must be 100% English.
+
+${premiumInstructions}
+
+⚠️ MANDATORY TOOL USAGE (MOST IMPORTANT RULE):
+For each question, FIRST call the relevant tool, THEN respond:
+- Budget/spending/savings questions → get_expenses_summary OR get_recent_expenses
+- If user mentions spending → add_expense
+- NEVER say "I don't know you", "no data" → call tool, get data, then talk!
+- NEVER give financial advice without calling a tool!
+
+IDENTITY:
+- Friendly, casual tone. Be honest and direct but constructive.
+
+ADDING EXPENSES (add_expense):
+- If user says "I spent X", "I bought Y", "I ate Z", use add_expense tool.
+- Category: Food, Transport, Entertainment, Shopping, Bills, Health, Education, Other
+- CURRENCY DETECTION: If user specifies different currency, fill the currency parameter.
+
+RESPONSE RULES:
+1. Convert numbers to LIFE COST: "X = Y hours of work"
+2. Don't comment on things you don't know
+3. PRAISE willpower victories, motivate.
+4. Give concrete actions: "Cut this", "Delay that"
+5. Max 3-4 sentences, no filler.
+
+PROHIBITIONS:
+- Giving financial advice without calling a tool
+- "Maybe", "you could consider", "you might" - vague phrases
+- Emoji spam (max 1)
+- Evasive answers like "I don't know you", "no data"
+` : `
 SEN BİR FİNANSAL ASİSTANSIN - VANTAG.
+
+⚠️ KRİTİK DİL GEREKSİNİMİ:
+MUTLAKA Türkçe cevap ver. Kullanıcı hangi dilde yazarsa yazsın, sen MUTLAKA Türkçe cevap ver.
+İngilizce kelime veya ifade KULLANMA. Tüm cevaplar %100 Türkçe olmalı.
 
 ${premiumInstructions}
 
@@ -566,7 +627,6 @@ Her soruda ÖNCE ilgili tool'u çağır, SONRA cevap ver:
 
 KİMLİK:
 - Samimi, "sen/kanka" de. Dürüst ve sert ol ama yapıcı.
-- Kullanıcı hangi dilde yazarsa O DİLDE cevap ver.
 
 HARCAMA EKLEME (add_expense):
 - Kullanıcı "X TL harcadım", "Y aldım", "Z yedim" gibi şeyler söylerse add_expense tool'unu kullan.
@@ -590,76 +650,94 @@ YASAKLAR:
 
 /**
  * AI Tools definitions for OpenAI function calling
+ * @param {string} language - User's language code ('tr' or 'en')
  */
-const AI_TOOLS = [
-  {
-    type: "function",
-    function: {
-      name: "get_expenses_summary",
-      description: "Bu ayki harcamaların özetini getirir: toplam harcama, kategori dağılımı",
-      parameters: {type: "object", properties: {}, required: []},
-    },
-  },
-  {
-    type: "function",
-    function: {
-      name: "get_category_breakdown",
-      description: "Belirli bir kategorideki harcamaların detayını getirir",
-      parameters: {
-        type: "object",
-        properties: {
-          category: {type: "string", description: "Kategori adı"},
-        },
-        required: ["category"],
+function getAITools(language = 'tr') {
+  const isEnglish = language === 'en';
+
+  return [
+    {
+      type: "function",
+      function: {
+        name: "get_expenses_summary",
+        description: isEnglish
+          ? "Gets this month's expense summary: total spending, category breakdown"
+          : "Bu ayki harcamaların özetini getirir: toplam harcama, kategori dağılımı",
+        parameters: {type: "object", properties: {}, required: []},
       },
     },
-  },
-  {
-    type: "function",
-    function: {
-      name: "add_expense",
-      description: "Yeni harcama kaydı ekler",
-      parameters: {
-        type: "object",
-        properties: {
-          amount: {type: "number", description: "Harcama tutarı"},
-          category: {type: "string", description: "Kategori"},
-          description: {type: "string", description: "Açıklama"},
-          decision: {type: "string", description: "yes/thinking/no"},
-          currency: {type: "string", description: "Para birimi: TRY, USD, EUR, GBP"},
+    {
+      type: "function",
+      function: {
+        name: "get_category_breakdown",
+        description: isEnglish
+          ? "Gets detailed expenses for a specific category"
+          : "Belirli bir kategorideki harcamaların detayını getirir",
+        parameters: {
+          type: "object",
+          properties: {
+            category: {type: "string", description: isEnglish ? "Category name" : "Kategori adı"},
+          },
+          required: ["category"],
         },
-        required: ["amount", "category", "decision"],
       },
     },
-  },
-  {
-    type: "function",
-    function: {
-      name: "get_budget_status",
-      description: "Bütçe durumunu getirir",
-      parameters: {type: "object", properties: {}, required: []},
-    },
-  },
-  {
-    type: "function",
-    function: {
-      name: "calculate_hourly_equivalent",
-      description: "Bir tutarın kaç saatlik çalışmaya denk geldiğini hesaplar",
-      parameters: {
-        type: "object",
-        properties: {
-          amount: {type: "number", description: "Tutar"},
+    {
+      type: "function",
+      function: {
+        name: "add_expense",
+        description: isEnglish
+          ? "Adds a new expense record"
+          : "Yeni harcama kaydı ekler",
+        parameters: {
+          type: "object",
+          properties: {
+            amount: {type: "number", description: isEnglish ? "Expense amount" : "Harcama tutarı"},
+            category: {type: "string", description: isEnglish ? "Category" : "Kategori"},
+            description: {type: "string", description: isEnglish ? "Description" : "Açıklama"},
+            decision: {type: "string", description: "yes/thinking/no"},
+            currency: {type: "string", description: isEnglish ? "Currency: TRY, USD, EUR, GBP" : "Para birimi: TRY, USD, EUR, GBP"},
+          },
+          required: ["amount", "category", "decision"],
         },
-        required: ["amount"],
       },
     },
-  },
-];
+    {
+      type: "function",
+      function: {
+        name: "get_budget_status",
+        description: isEnglish
+          ? "Gets the current budget status"
+          : "Bütçe durumunu getirir",
+        parameters: {type: "object", properties: {}, required: []},
+      },
+    },
+    {
+      type: "function",
+      function: {
+        name: "calculate_hourly_equivalent",
+        description: isEnglish
+          ? "Calculates how many hours of work an amount equals"
+          : "Bir tutarın kaç saatlik çalışmaya denk geldiğini hesaplar",
+        parameters: {
+          type: "object",
+          properties: {
+            amount: {type: "number", description: isEnglish ? "Amount" : "Tutar"},
+          },
+          required: ["amount"],
+        },
+      },
+    },
+  ];
+}
 
 /**
  * Call OpenAI API
+ * @param {Array} messages - Chat messages
+ * @param {string} apiKey - OpenAI API key
+ * @param {string} language - User's language code ('tr' or 'en')
  */
-async function callOpenAI(messages, apiKey) {
+async function callOpenAI(messages, apiKey, language = 'tr') {
   const response = await fetch(OPENAI_API_URL, {
     method: "POST",
     headers: {
@@ -669,7 +747,7 @@ async function callOpenAI(messages, apiKey) {
     body: JSON.stringify({
       model: OPENAI_MODEL,
       messages: messages,
-      tools: AI_TOOLS,
+      tools: getAITools(language),
       tool_choice: "auto",
       max_tokens: 500,
       temperature: 0.7,
@@ -737,12 +815,15 @@ exports.aiChat = functions
     }
 
     // Validate request
-    const {message, userId, isPremium, subscriptionType, toolResults} = req.body;
+    const {message, userId, isPremium, subscriptionType, toolResults, language} = req.body;
 
     if (!message || !userId) {
       res.status(400).json({error: "INVALID_REQUEST", message: "message and userId required"});
       return;
     }
+
+    // Default language to Turkish
+    const userLanguage = language || 'tr';
 
     // Get API key
     const apiKey = getOpenAIKey();
@@ -772,7 +853,7 @@ exports.aiChat = functions
       }
 
       // Build messages
-      const systemPrompt = buildSystemPrompt(isPremium || subType !== "free");
+      const systemPrompt = buildSystemPrompt(isPremium || subType !== "free", userLanguage);
       const messages = [
         {role: "system", content: systemPrompt},
       ];
@@ -792,8 +873,8 @@ exports.aiChat = functions
       messages.push({role: "user", content: message});
 
       // Call OpenAI
-      console.log(`Calling OpenAI for user ${userId}...`);
-      const aiResponse = await callOpenAI(messages, apiKey);
+      console.log(`Calling OpenAI for user ${userId} (lang: ${userLanguage})...`);
+      const aiResponse = await callOpenAI(messages, apiKey, userLanguage);
 
       // Check if AI wants to call tools
       if (aiResponse.tool_calls && aiResponse.tool_calls.length > 0) {
