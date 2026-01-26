@@ -8,6 +8,7 @@ import '../services/budget_service.dart';
 import '../theme/theme.dart' hide GlassCard;
 import '../core/theme/premium_effects.dart';
 import '../utils/currency_utils.dart';
+import '../utils/category_utils.dart';
 
 /// Aktif taksitleri gösteren kart
 /// Premium animasyonlar: slide-up, count-up, progress bar
@@ -73,7 +74,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: Colors.black.withOpacity(0.85),
       builder: (context) => _AllInstallmentsSheet(
         installments: installments,
         currencyProvider: currencyProvider,
@@ -116,7 +117,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
               borderRadius: 20,
               padding: const EdgeInsets.all(20),
               boxShadow: PremiumShadows.coloredGlow(
-                Colors.orange,
+                context.appColors.warning,
                 intensity: 0.2,
               ),
               child: Column(
@@ -132,18 +133,22 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                             width: 36,
                             height: 36,
                             decoration: BoxDecoration(
-                              color: Colors.orange.withValues(alpha: 0.15),
+                              color: context.appColors.warning.withValues(
+                                alpha: 0.15,
+                              ),
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: PremiumShadows.coloredGlow(
-                                Colors.orange,
+                                context.appColors.warning,
                                 intensity: 0.3,
                               ),
                             ),
                             child: Icon(
                               PhosphorIconsDuotone.creditCard,
-                              color: Colors.orange.shade300,
+                              color: context.appColors.warning,
                               size: 18,
-                              shadows: PremiumShadows.iconHalo(Colors.orange),
+                              shadows: PremiumShadows.iconHalo(
+                                context.appColors.warning,
+                              ),
                             ),
                           ),
                           const SizedBox(width: 12),
@@ -163,17 +168,21 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.orange.withValues(alpha: 0.2),
+                          color: context.appColors.warning.withValues(
+                            alpha: 0.2,
+                          ),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: Colors.orange.withValues(alpha: 0.3),
+                            color: context.appColors.warning.withValues(
+                              alpha: 0.3,
+                            ),
                             width: 1,
                           ),
                         ),
                         child: Text(
                           l10n.installmentCount(installments.length),
                           style: TextStyle(
-                            color: Colors.orange.shade300,
+                            color: context.appColors.warning,
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                           ),
@@ -203,7 +212,13 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: GestureDetector(
-                        onTap: widget.onSeeAll ?? () => _showAllInstallmentsSheet(context, installments, currencyProvider),
+                        onTap:
+                            widget.onSeeAll ??
+                            () => _showAllInstallmentsSheet(
+                              context,
+                              installments,
+                              currencyProvider,
+                            ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -221,10 +236,14 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                                 vertical: 6,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.orange.withValues(alpha: 0.15),
+                                color: context.appColors.warning.withValues(
+                                  alpha: 0.15,
+                                ),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: Colors.orange.withValues(alpha: 0.3),
+                                  color: context.appColors.warning.withValues(
+                                    alpha: 0.3,
+                                  ),
                                 ),
                               ),
                               child: Row(
@@ -233,7 +252,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                                   Text(
                                     l10n.viewAll,
                                     style: TextStyle(
-                                      color: Colors.orange.shade300,
+                                      color: context.appColors.warning,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -241,7 +260,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                                   const SizedBox(width: 4),
                                   Icon(
                                     PhosphorIconsBold.caretRight,
-                                    color: Colors.orange.shade300,
+                                    color: context.appColors.warning,
                                     size: 12,
                                   ),
                                 ],
@@ -252,10 +271,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                       ),
                     ),
 
-                  Divider(
-                    color: Colors.white.withValues(alpha: 0.1),
-                    height: 24,
-                  ),
+                  Divider(color: context.appColors.cardBorder, height: 24),
 
                   // Özet with count-up animations
                   Row(
@@ -265,7 +281,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                           index: 0,
                           label: l10n.monthlyBurden,
                           value: monthlyBurdenConverted,
-                          color: Colors.orange,
+                          color: context.appColors.warning,
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -427,8 +443,11 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                       Expanded(
                         child: Text(
                           widget.expense.subCategory?.isNotEmpty == true
-                              ? '${widget.expense.category} - ${widget.expense.subCategory}'
-                              : widget.expense.category,
+                              ? '${CategoryUtils.getLocalizedName(context, widget.expense.category)} - ${widget.expense.subCategory}'
+                              : CategoryUtils.getLocalizedName(
+                                  context,
+                                  widget.expense.category,
+                                ),
                           style: TextStyle(
                             color: context.appColors.textPrimary,
                           ),
@@ -438,7 +457,7 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                       Text(
                         '${formatTurkishCurrency(installmentAmount, decimalDigits: 0, showDecimals: false)}/${widget.l10n.monthAbbreviation}',
                         style: TextStyle(
-                          color: Colors.orange.shade300,
+                          color: context.appColors.warning,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -451,7 +470,7 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                         child: Container(
                           height: 6,
                           decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.1),
+                            color: context.appColors.cardBorder,
                             borderRadius: BorderRadius.circular(3),
                           ),
                           child: FractionallySizedBox(
@@ -467,7 +486,12 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                                             alpha: 0.8,
                                           ),
                                         ]
-                                      : [Colors.orange, Colors.orange.shade600],
+                                      : [
+                                          context.appColors.warning,
+                                          context.appColors.warning.withValues(
+                                            alpha: 0.8,
+                                          ),
+                                        ],
                                 ),
                                 borderRadius: BorderRadius.circular(3),
                                 boxShadow: [
@@ -475,7 +499,7 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                                     color:
                                         (progress > 0.8
                                                 ? context.appColors.success
-                                                : Colors.orange)
+                                                : context.appColors.warning)
                                             .withValues(alpha: 0.4),
                                     blurRadius: 6,
                                     spreadRadius: 0,
@@ -643,9 +667,7 @@ class _AllInstallmentsSheet extends StatelessWidget {
           decoration: BoxDecoration(
             color: context.appColors.background,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.1),
-            ),
+            border: Border.all(color: context.appColors.cardBorder),
           ),
           child: Column(
             children: [
@@ -656,7 +678,7 @@ class _AllInstallmentsSheet extends StatelessWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: context.appColors.cardBorder,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -664,7 +686,10 @@ class _AllInstallmentsSheet extends StatelessWidget {
 
               // Header
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -674,12 +699,14 @@ class _AllInstallmentsSheet extends StatelessWidget {
                           width: 36,
                           height: 36,
                           decoration: BoxDecoration(
-                            color: Colors.orange.withValues(alpha: 0.15),
+                            color: context.appColors.warning.withValues(
+                              alpha: 0.15,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Icon(
                             PhosphorIconsDuotone.creditCard,
-                            color: Colors.orange.shade300,
+                            color: context.appColors.warning,
                             size: 18,
                           ),
                         ),
@@ -700,13 +727,13 @@ class _AllInstallmentsSheet extends StatelessWidget {
                         vertical: 5,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.orange.withValues(alpha: 0.2),
+                        color: context.appColors.warning.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         l10n.installmentCount(installments.length),
                         style: TextStyle(
-                          color: Colors.orange.shade300,
+                          color: context.appColors.warning,
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                         ),
@@ -716,7 +743,7 @@ class _AllInstallmentsSheet extends StatelessWidget {
                 ),
               ),
 
-              Divider(color: Colors.white.withValues(alpha: 0.1)),
+              Divider(color: context.appColors.cardBorder),
 
               // Installments list
               Expanded(
@@ -763,7 +790,8 @@ class _InstallmentListItem extends StatelessWidget {
       expense.installmentAmount,
     );
     final totalAmount = currencyProvider.convertFromTRY(expense.amount);
-    final remainingAmount = installmentAmount * (totalInstallments - currentInstallment + 1);
+    final remainingAmount =
+        installmentAmount * (totalInstallments - currentInstallment + 1);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -771,9 +799,7 @@ class _InstallmentListItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.appColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.1),
-        ),
+        border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -785,8 +811,11 @@ class _InstallmentListItem extends StatelessWidget {
               Expanded(
                 child: Text(
                   expense.subCategory?.isNotEmpty == true
-                      ? '${expense.category} - ${expense.subCategory}'
-                      : expense.category,
+                      ? '${CategoryUtils.getLocalizedName(context, expense.category)} - ${expense.subCategory}'
+                      : CategoryUtils.getLocalizedName(
+                          context,
+                          expense.category,
+                        ),
                   style: TextStyle(
                     color: context.appColors.textPrimary,
                     fontSize: 16,
@@ -798,7 +827,7 @@ class _InstallmentListItem extends StatelessWidget {
               Text(
                 '${formatTurkishCurrency(installmentAmount, decimalDigits: 0, showDecimals: false)}/${l10n.monthAbbreviation}',
                 style: TextStyle(
-                  color: Colors.orange.shade300,
+                  color: context.appColors.warning,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -812,7 +841,7 @@ class _InstallmentListItem extends StatelessWidget {
           Container(
             height: 8,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.1),
+              color: context.appColors.cardBorder,
               borderRadius: BorderRadius.circular(4),
             ),
             child: FractionallySizedBox(
@@ -822,8 +851,14 @@ class _InstallmentListItem extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: progress > 0.8
-                        ? [context.appColors.success, context.appColors.success.withValues(alpha: 0.8)]
-                        : [Colors.orange, Colors.orange.shade600],
+                        ? [
+                            context.appColors.success,
+                            context.appColors.success.withValues(alpha: 0.8),
+                          ]
+                        : [
+                            context.appColors.warning,
+                            context.appColors.warning.withValues(alpha: 0.8),
+                          ],
                   ),
                   borderRadius: BorderRadius.circular(4),
                 ),

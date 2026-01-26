@@ -38,7 +38,7 @@ class AnimatedBottomSheet extends StatefulWidget {
       isDismissible: isDismissible,
       enableDrag: enableDrag,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.transparent,
+      barrierColor: Colors.black.withOpacity(0.85),
       builder: (context) => _AnimatedBottomSheetWrapper(
         initialHeight: initialHeight,
         maxHeight: maxHeight,
@@ -228,7 +228,7 @@ class AnimatedModal extends StatefulWidget {
       context: context,
       barrierDismissible: barrierDismissible,
       barrierLabel: 'Dismiss',
-      barrierColor: Colors.transparent,
+      barrierColor: Colors.black.withOpacity(0.85),
       transitionDuration: AppAnimations.medium,
       pageBuilder: (context, animation, secondaryAnimation) {
         return _AnimatedModalWrapper(

@@ -33,8 +33,8 @@ class _ReportScreenState extends State<ReportScreen>
   late Animation<double> _contentAnimation;
   bool _showCharts = false;
 
-  // Heatmap selected day
-  DateTime? _selectedHeatmapDay;
+  // Spending trend selected month
+  int? _selectedMonthIndex;
 
   @override
   void initState() {
@@ -278,17 +278,20 @@ class _ReportScreenState extends State<ReportScreen>
               if (_selectedFilter == TimeFilter.month)
                 const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-              // Sub-category comparison insight (if any)
+              // Sub-category comparison insight (PRO) (if any)
               if (_hasComparisonInsight(expenses, allExpenses))
                 SliverToBoxAdapter(
                   child: _AnimatedSlideIn(
                     delay: const Duration(milliseconds: 100),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: _buildSubCategoryInsightCard(
-                        expenses,
-                        allExpenses,
-                        l10n,
+                      child: LockedProFeature(
+                        featureName: l10n.proFeatureTimeAnalysis,
+                        child: _buildSubCategoryInsightCard(
+                          expenses,
+                          allExpenses,
+                          l10n,
+                        ),
                       ),
                     ),
                   ),
@@ -297,47 +300,59 @@ class _ReportScreenState extends State<ReportScreen>
               if (_hasComparisonInsight(expenses, allExpenses))
                 const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
-              // Category chart with animation
+              // Category chart with animation (PRO - pie chart)
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: _buildAnimatedCategoryChart(expenses, l10n),
-                ),
-              ),
-
-              const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-              // Category Budget Progress
-              SliverToBoxAdapter(
-                child: _AnimatedSlideIn(
-                  delay: const Duration(milliseconds: 150),
-                  child: _buildBudgetSection(l10n),
-                ),
-              ),
-
-              const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-              // NEW: Category-based Work Hours Bar Chart
-              SliverToBoxAdapter(
-                child: _AnimatedSlideIn(
-                  delay: const Duration(milliseconds: 200),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: _buildWorkHoursBarChart(expenses, l10n),
+                  child: LockedProFeature(
+                    featureName: l10n.proFeatureCategoryBreakdown,
+                    child: _buildAnimatedCategoryChart(expenses, l10n),
                   ),
                 ),
               ),
 
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-              // Sub-category breakdown (if any)
+              // Category Budget Progress (PRO)
+              SliverToBoxAdapter(
+                child: _AnimatedSlideIn(
+                  delay: const Duration(milliseconds: 150),
+                  child: LockedProFeature(
+                    featureName: l10n.proFeatureBudgetBreakdown,
+                    child: _buildBudgetSection(l10n),
+                  ),
+                ),
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 24)),
+
+              // Category-based Work Hours Bar Chart (PRO)
+              SliverToBoxAdapter(
+                child: _AnimatedSlideIn(
+                  delay: const Duration(milliseconds: 200),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: LockedProFeature(
+                      featureName: l10n.proFeatureTimeAnalysis,
+                      child: _buildWorkHoursBarChart(expenses, l10n),
+                    ),
+                  ),
+                ),
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 24)),
+
+              // Sub-category breakdown (PRO) (if any)
               if (_hasSubCategories(expenses))
                 SliverToBoxAdapter(
                   child: _AnimatedSlideIn(
                     delay: const Duration(milliseconds: 250),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: _buildSubCategoryBreakdown(expenses, l10n),
+                      child: LockedProFeature(
+                        featureName: l10n.proFeatureCategoryBreakdown,
+                        child: _buildSubCategoryBreakdown(expenses, l10n),
+                      ),
                     ),
                   ),
                 ),
@@ -345,40 +360,53 @@ class _ReportScreenState extends State<ReportScreen>
               if (_hasSubCategories(expenses))
                 const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-              // Statistics with animation
+              // Statistics with animation (PRO)
               SliverToBoxAdapter(
                 child: _AnimatedSlideIn(
                   delay: const Duration(milliseconds: 300),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: _buildStatistics(expenses, l10n),
+                    child: LockedProFeature(
+                      featureName: l10n.proFeatureTimeAnalysis,
+                      child: _buildStatistics(expenses, l10n),
+                    ),
                   ),
                 ),
               ),
 
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-              // NEW: Smart Insight Cards
+              // Smart Insight Cards (PRO)
               SliverToBoxAdapter(
                 child: _AnimatedSlideIn(
                   delay: const Duration(milliseconds: 350),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: _buildSmartInsightCards(expenses, allExpenses, l10n),
+                    child: LockedProFeature(
+                      featureName: l10n.proFeatureSpendingTrends,
+                      child: _buildSmartInsightCards(
+                        expenses,
+                        allExpenses,
+                        l10n,
+                      ),
+                    ),
                   ),
                 ),
               ),
 
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-              // Trend with animation
+              // Trend with animation (PRO)
               if (_selectedFilter != TimeFilter.all)
                 SliverToBoxAdapter(
                   child: _AnimatedSlideIn(
                     delay: const Duration(milliseconds: 400),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: _buildTrendCard(expenses, allExpenses, l10n),
+                      child: LockedProFeature(
+                        featureName: l10n.proFeatureSpendingTrends,
+                        child: _buildTrendCard(expenses, allExpenses, l10n),
+                      ),
                     ),
                   ),
                 ),
@@ -386,13 +414,16 @@ class _ReportScreenState extends State<ReportScreen>
               if (_selectedFilter != TimeFilter.all)
                 const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-              // NEW: Yearly Heatmap (GitHub style)
+              // Yearly Heatmap (PRO)
               SliverToBoxAdapter(
                 child: _AnimatedSlideIn(
                   delay: const Duration(milliseconds: 450),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: _buildYearlyHeatmap(allExpenses, l10n),
+                    child: LockedProFeature(
+                      featureName: l10n.proFeatureHeatmap,
+                      child: _buildYearlyHeatmap(allExpenses, l10n),
+                    ),
                   ),
                 ),
               ),
@@ -450,10 +481,7 @@ class _ReportScreenState extends State<ReportScreen>
           onTap: () {
             if (isLocked) {
               // Show upgrade dialog for locked filters
-              UpgradeDialog.show(
-                context,
-                l10n.reportsPremiumOnly,
-              );
+              UpgradeDialog.show(context, l10n.reportsPremiumOnly);
               return;
             }
             setState(() {
@@ -466,44 +494,46 @@ class _ReportScreenState extends State<ReportScreen>
             });
           },
           child: AnimatedContainer(
-          duration: AppAnimations.short,
-          curve: AppAnimations.standardCurve,
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          decoration: BoxDecoration(
-            color: isSelected ? context.appColors.primary : Colors.transparent,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (isLocked) ...[
-                Icon(
-                  PhosphorIconsRegular.lock,
-                  size: 12,
-                  color: context.appColors.textTertiary,
-                ),
-                const SizedBox(width: 4),
-              ],
-              Flexible(
-                child: Text(
-                  label,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: isLocked
-                        ? context.appColors.textTertiary
-                        : isSelected
-                        ? context.appColors.background
-                        : context.appColors.textSecondary,
+            duration: AppAnimations.short,
+            curve: AppAnimations.standardCurve,
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? context.appColors.primary
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (isLocked) ...[
+                  Icon(
+                    PhosphorIconsRegular.lock,
+                    size: 12,
+                    color: context.appColors.textTertiary,
+                  ),
+                  const SizedBox(width: 4),
+                ],
+                Flexible(
+                  child: Text(
+                    label,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: isLocked
+                          ? context.appColors.textTertiary
+                          : isSelected
+                          ? context.appColors.background
+                          : context.appColors.textSecondary,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
         ),
       ),
     );
@@ -1261,76 +1291,89 @@ class _ReportScreenState extends State<ReportScreen>
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // NEW: YEARLY HEATMAP (GitHub Style)
+  // SPENDING TREND CHART (Area Chart)
   // ═══════════════════════════════════════════════════════════════════════════
 
   Widget _buildYearlyHeatmap(List<Expense> allExpenses, AppLocalizations l10n) {
-    // Group expenses by day
-    final dailyTotals = <DateTime, double>{};
+    // Get last 12 months data
+    final now = DateTime.now();
+    final monthlyData = <int, _MonthData>{};
+
+    // Initialize last 12 months
+    for (int i = 11; i >= 0; i--) {
+      final monthDate = DateTime(now.year, now.month - i, 1);
+      final normalizedMonth = DateTime(monthDate.year, monthDate.month, 1);
+      monthlyData[11 - i] = _MonthData(
+        month: normalizedMonth.month,
+        year: normalizedMonth.year,
+        total: 0,
+        count: 0,
+      );
+    }
+
+    // Group expenses by month
     for (final expense in allExpenses) {
       if (expense.decision == ExpenseDecision.yes) {
-        final day = DateTime(
-          expense.date.year,
-          expense.date.month,
-          expense.date.day,
-        );
-        dailyTotals[day] = (dailyTotals[day] ?? 0) + expense.amount;
-      }
-    }
-
-    // Find max for color scaling
-    final maxAmount = dailyTotals.values.isNotEmpty
-        ? dailyTotals.values.reduce((a, b) => a > b ? a : b)
-        : 1.0;
-
-    // Get last 365 days
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final startDate = today.subtract(const Duration(days: 364));
-
-    // Generate weeks
-    final weeks = <List<DateTime?>>[];
-    var currentDate = startDate;
-
-    // Adjust to start on Monday
-    while (currentDate.weekday != 1) {
-      currentDate = currentDate.subtract(const Duration(days: 1));
-    }
-
-    while (currentDate.isBefore(today) || currentDate.isAtSameMomentAs(today)) {
-      final week = <DateTime?>[];
-      for (int i = 0; i < 7; i++) {
-        if (currentDate.isAfter(startDate.subtract(const Duration(days: 1))) &&
-            (currentDate.isBefore(today) ||
-                currentDate.isAtSameMomentAs(today))) {
-          week.add(currentDate);
-        } else {
-          week.add(null);
+        // Find which index this expense belongs to
+        for (int i = 0; i < 12; i++) {
+          final data = monthlyData[i]!;
+          if (expense.date.year == data.year &&
+              expense.date.month == data.month) {
+            monthlyData[i] = _MonthData(
+              month: data.month,
+              year: data.year,
+              total: data.total + expense.amount,
+              count: data.count + 1,
+            );
+            break;
+          }
         }
-        currentDate = currentDate.add(const Duration(days: 1));
       }
-      weeks.add(week);
     }
 
-    // Selected day info
-    String? selectedDayInfo;
-    if (_selectedHeatmapDay != null) {
-      final amount = dailyTotals[_selectedHeatmapDay] ?? 0;
-      final count = allExpenses
-          .where(
-            (e) =>
-                e.decision == ExpenseDecision.yes &&
-                e.date.year == _selectedHeatmapDay!.year &&
-                e.date.month == _selectedHeatmapDay!.month &&
-                e.date.day == _selectedHeatmapDay!.day,
-          )
-          .length;
-      final dateStr =
-          '${_selectedHeatmapDay!.day}/${_selectedHeatmapDay!.month}';
-      selectedDayInfo = l10n.selectedDayExpenses(
-        dateStr,
-        formatTurkishCurrency(amount, decimalDigits: 0),
-        count,
+    // Find max for scaling
+    final maxAmount = monthlyData.values
+        .map((d) => d.total)
+        .fold(0.0, (a, b) => a > b ? a : b);
+    final safeMax = maxAmount > 0 ? maxAmount : 1.0;
+
+    // Create chart spots
+    final spots = <FlSpot>[];
+    for (int i = 0; i < 12; i++) {
+      spots.add(FlSpot(i.toDouble(), monthlyData[i]!.total));
+    }
+
+    // Get month names
+    final monthNames = [
+      l10n.monthJan,
+      l10n.monthFeb,
+      l10n.monthMar,
+      l10n.monthApr,
+      l10n.monthMay,
+      l10n.monthJun,
+      l10n.monthJul,
+      l10n.monthAug,
+      l10n.monthSep,
+      l10n.monthOct,
+      l10n.monthNov,
+      l10n.monthDec,
+    ];
+
+    // Currency symbol
+    final currencyProvider = context.read<CurrencyProvider>();
+    final symbol = currencyProvider.currency.symbol;
+
+    // Selected month info
+    String? selectedMonthInfo;
+    if (_selectedMonthIndex != null &&
+        _selectedMonthIndex! >= 0 &&
+        _selectedMonthIndex! < 12) {
+      final data = monthlyData[_selectedMonthIndex!]!;
+      final monthName = monthNames[data.month - 1];
+      selectedMonthInfo = l10n.selectedMonthExpenses(
+        monthName,
+        '$symbol${formatTurkishCurrency(data.total, decimalDigits: 0)}',
+        data.count,
       );
     }
 
@@ -1344,19 +1387,20 @@ class _ReportScreenState extends State<ReportScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header
           Row(
             children: [
               Container(
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: context.appColors.success.withValues(alpha: 0.15),
+                  color: context.appColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.calendarDots,
+                  PhosphorIconsDuotone.chartLineUp,
                   size: 18,
-                  color: context.appColors.success,
+                  color: context.appColors.primary,
                 ),
               ),
               const SizedBox(width: 12),
@@ -1390,133 +1434,199 @@ class _ReportScreenState extends State<ReportScreen>
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          // Heatmap grid
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: weeks.map((week) {
-                return Column(
-                  children: week.map((day) {
-                    if (day == null) {
-                      return const SizedBox(width: 12, height: 12);
-                    }
+          const SizedBox(height: 20),
 
-                    final amount = dailyTotals[day] ?? 0;
-                    final intensity = maxAmount > 0
-                        ? (amount / maxAmount)
-                        : 0.0;
-                    final isSelected =
-                        _selectedHeatmapDay != null &&
-                        day.year == _selectedHeatmapDay!.year &&
-                        day.month == _selectedHeatmapDay!.month &&
-                        day.day == _selectedHeatmapDay!.day;
-
-                    final dateStr = '${day.day}/${day.month}';
-                    final semanticLabel = amount > 0
-                        ? l10n.heatmapDayWithSpending(dateStr, formatTurkishCurrency(amount, decimalDigits: 0))
-                        : l10n.heatmapDayNoSpending(dateStr);
-
-                    return Semantics(
-                      label: semanticLabel,
-                      button: true,
-                      selected: isSelected,
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedHeatmapDay = day;
-                          });
-                        },
-                        child: Container(
-                          width: 10,
-                          height: 10,
-                          margin: const EdgeInsets.all(1),
-                          decoration: BoxDecoration(
-                            color: amount == 0
-                                ? context.appColors.surfaceLight
-                                : _getHeatmapColor(intensity),
-                            borderRadius: BorderRadius.circular(2),
-                            border: isSelected
-                                ? Border.all(
-                                    color: context.appColors.textPrimary,
-                                    width: 1,
-                                  )
-                                : null,
-                          ),
-                        ),
-                      ),
+          // Area Chart
+          SizedBox(
+            height: 180,
+            child: LineChart(
+              LineChartData(
+                gridData: FlGridData(
+                  show: true,
+                  drawVerticalLine: false,
+                  horizontalInterval: safeMax / 4,
+                  getDrawingHorizontalLine: (value) {
+                    return FlLine(
+                      color: context.appColors.cardBorder,
+                      strokeWidth: 0.5,
                     );
-                  }).toList(),
-                );
-              }).toList(),
+                  },
+                ),
+                titlesData: FlTitlesData(
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 45,
+                      getTitlesWidget: (value, meta) {
+                        if (value == 0) return const SizedBox.shrink();
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Text(
+                            _formatAmount(value),
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: context.appColors.textTertiary,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 28,
+                      interval: 1,
+                      getTitlesWidget: (value, meta) {
+                        final index = value.toInt();
+                        if (index < 0 || index >= 12)
+                          return const SizedBox.shrink();
+                        // Show every other month to prevent crowding
+                        if (index % 2 != 0 && index != 11)
+                          return const SizedBox.shrink();
+                        final data = monthlyData[index]!;
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            monthNames[data.month - 1],
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: _selectedMonthIndex == index
+                                  ? context.appColors.primary
+                                  : context.appColors.textTertiary,
+                              fontWeight: _selectedMonthIndex == index
+                                  ? FontWeight.w600
+                                  : FontWeight.w400,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                ),
+                borderData: FlBorderData(show: false),
+                minX: 0,
+                maxX: 11,
+                minY: 0,
+                maxY: safeMax * 1.1,
+                lineTouchData: LineTouchData(
+                  enabled: true,
+                  touchTooltipData: LineTouchTooltipData(
+                    getTooltipColor: (touchedSpot) =>
+                        context.appColors.cardBackground,
+                    tooltipBorder: BorderSide(
+                      color: context.appColors.primary,
+                      width: 1,
+                    ),
+                    getTooltipItems: (touchedSpots) {
+                      return touchedSpots.map((spot) {
+                        final index = spot.x.toInt();
+                        final data = monthlyData[index]!;
+                        final monthName = monthNames[data.month - 1];
+                        return LineTooltipItem(
+                          '$monthName\n$symbol${formatTurkishCurrency(data.total, decimalDigits: 0)}',
+                          TextStyle(
+                            color: context.appColors.textPrimary,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                          ),
+                        );
+                      }).toList();
+                    },
+                  ),
+                  touchCallback: (event, response) {
+                    if (event is FlTapUpEvent &&
+                        response?.lineBarSpots != null) {
+                      final spot = response!.lineBarSpots!.first;
+                      setState(() {
+                        _selectedMonthIndex = spot.x.toInt();
+                      });
+                    }
+                  },
+                  handleBuiltInTouches: true,
+                ),
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: spots,
+                    isCurved: true,
+                    curveSmoothness: 0.3,
+                    color: context.appColors.primary,
+                    barWidth: 3,
+                    isStrokeCapRound: true,
+                    dotData: FlDotData(
+                      show: true,
+                      getDotPainter: (spot, percent, bar, index) {
+                        final isSelected = _selectedMonthIndex == index;
+                        return FlDotCirclePainter(
+                          radius: isSelected ? 6 : 4,
+                          color: isSelected
+                              ? context.appColors.primary
+                              : context.appColors.primary.withValues(
+                                  alpha: 0.8,
+                                ),
+                          strokeWidth: isSelected ? 2 : 0,
+                          strokeColor: context.appColors.textPrimary,
+                        );
+                      },
+                    ),
+                    belowBarData: BarAreaData(
+                      show: true,
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          context.appColors.primary.withValues(alpha: 0.4),
+                          context.appColors.primary.withValues(alpha: 0.1),
+                          context.appColors.primary.withValues(alpha: 0.0),
+                        ],
+                        stops: const [0.0, 0.5, 1.0],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          const SizedBox(height: 12),
-          // Legend
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                l10n.lowSpending,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: context.appColors.textTertiary,
-                ),
-              ),
-              const SizedBox(width: 8),
-              ...[0.0, 0.25, 0.5, 0.75, 1.0].map((intensity) {
-                return Container(
-                  width: 10,
-                  height: 10,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
-                    color: intensity == 0
-                        ? context.appColors.surfaceLight
-                        : _getHeatmapColor(intensity),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                );
-              }),
-              const SizedBox(width: 8),
-              Text(
-                l10n.highSpending,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: context.appColors.textTertiary,
-                ),
-              ),
-            ],
-          ),
-          if (selectedDayInfo != null) ...[
-            const SizedBox(height: 12),
+
+          // Selected month info or hint
+          if (selectedMonthInfo != null) ...[
+            const SizedBox(height: 16),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: context.appColors.primary.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: context.appColors.primary.withValues(alpha: 0.3),
+                ),
               ),
               child: Text(
-                selectedDayInfo,
+                selectedMonthInfo,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: context.appColors.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
-          ],
-          if (selectedDayInfo == null) ...[
-            const SizedBox(height: 8),
-            Text(
-              l10n.tapDayForDetails,
-              style: TextStyle(
-                fontSize: 10,
-                color: context.appColors.textTertiary,
+          ] else ...[
+            const SizedBox(height: 12),
+            Center(
+              child: Text(
+                l10n.tapMonthForDetails,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: context.appColors.textTertiary,
+                ),
               ),
-              textAlign: TextAlign.center,
             ),
           ],
         ],
@@ -1524,17 +1634,14 @@ class _ReportScreenState extends State<ReportScreen>
     );
   }
 
-  Color _getHeatmapColor(double intensity) {
-    // Green gradient from light to dark
-    if (intensity < 0.25) {
-      return AppColors.heatmapLow.withValues(alpha: 0.4);
-    } else if (intensity < 0.5) {
-      return AppColors.heatmapLow.withValues(alpha: 0.6);
-    } else if (intensity < 0.75) {
-      return AppColors.heatmapMedium;
-    } else {
-      return AppColors.heatmapHigh;
+  /// Format amount with K/M suffix
+  String _formatAmount(double value) {
+    if (value >= 1000000) {
+      return '${(value / 1000000).toStringAsFixed(1)}M';
+    } else if (value >= 1000) {
+      return '${(value / 1000).toStringAsFixed(1)}K';
     }
+    return value.toStringAsFixed(0);
   }
 
   /// Build the category budget progress section
@@ -1589,7 +1696,9 @@ class _ReportScreenState extends State<ReportScreen>
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: context.appColors.primary.withValues(alpha: 0.1),
+                          color: context.appColors.primary.withValues(
+                            alpha: 0.1,
+                          ),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -1638,24 +1747,26 @@ class _ReportScreenState extends State<ReportScreen>
                   children: budgetProvider.budgets
                       .asMap()
                       .entries
-                      .map((entry) => Padding(
-                            padding: EdgeInsets.only(
-                              bottom: entry.key <
-                                      budgetProvider.budgets.length - 1
-                                  ? 12
-                                  : 0,
-                            ),
-                            child: CategoryBudgetCard(
-                              budget: entry.value,
-                              animationIndex: entry.key,
-                              onTap: () {
-                                CreateBudgetSheet.show(
-                                  context,
-                                  existingBudget: entry.value.budget,
-                                );
-                              },
-                            ),
-                          ))
+                      .map(
+                        (entry) => Padding(
+                          padding: EdgeInsets.only(
+                            bottom:
+                                entry.key < budgetProvider.budgets.length - 1
+                                ? 12
+                                : 0,
+                          ),
+                          child: CategoryBudgetCard(
+                            budget: entry.value,
+                            animationIndex: entry.key,
+                            onTap: () {
+                              CreateBudgetSheet.show(
+                                context,
+                                existingBudget: entry.value.budget,
+                              );
+                            },
+                          ),
+                        ),
+                      )
                       .toList(),
                 ),
               ),
@@ -2519,6 +2630,25 @@ class _ReportScreenState extends State<ReportScreen>
       ),
     );
   }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DATA CLASSES
+// ═══════════════════════════════════════════════════════════════════════════
+
+/// Monthly data for spending trend chart
+class _MonthData {
+  final int month;
+  final int year;
+  final double total;
+  final int count;
+
+  const _MonthData({
+    required this.month,
+    required this.year,
+    required this.total,
+    required this.count,
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

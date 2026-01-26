@@ -128,7 +128,9 @@ class StatementParseService {
 
     // Extract text from all pages
     for (int i = 0; i < document.pages.count; i++) {
-      final text = PdfTextExtractor(document).extractText(startPageIndex: i, endPageIndex: i);
+      final text = PdfTextExtractor(
+        document,
+      ).extractText(startPageIndex: i, endPageIndex: i);
       textBuffer.writeln(text);
     }
 
@@ -140,8 +142,10 @@ class StatementParseService {
   /// Extract text from CSV
   Future<String> _extractTextFromCSV(File file) async {
     final csvString = await file.readAsString();
-    final rows = const CsvToListConverter(eol: '\n', shouldParseNumbers: false)
-        .convert(csvString);
+    final rows = const CsvToListConverter(
+      eol: '\n',
+      shouldParseNumbers: false,
+    ).convert(csvString);
 
     // Convert CSV to readable text format for AI
     final buffer = StringBuffer();
@@ -170,7 +174,8 @@ class StatementParseService {
       textToSend = rawText.substring(0, 15000);
     }
 
-    final prompt = '''You are a bank statement parser. Extract ALL expense transactions from this bank statement text.
+    final prompt =
+        '''You are a bank statement parser. Extract ALL expense transactions from this bank statement text.
 
 BANK STATEMENT TEXT:
 """
@@ -203,21 +208,23 @@ Return ONLY valid JSON array:
 If no transactions found, return: {"bank": null, "transactions": []}''';
 
     try {
-      final response = await http.post(
-        Uri.parse('https://api.openai.com/v1/chat/completions'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $apiKey',
-        },
-        body: jsonEncode({
-          'model': 'gpt-4o-mini',
-          'messages': [
-            {'role': 'user', 'content': prompt},
-          ],
-          'temperature': 0,
-          'max_tokens': 4000,
-        }),
-      ).timeout(const Duration(seconds: 60));
+      final response = await http
+          .post(
+            Uri.parse('https://api.openai.com/v1/chat/completions'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $apiKey',
+            },
+            body: jsonEncode({
+              'model': 'gpt-4o-mini',
+              'messages': [
+                {'role': 'user', 'content': prompt},
+              ],
+              'temperature': 0,
+              'max_tokens': 4000,
+            }),
+          )
+          .timeout(const Duration(seconds: 60));
 
       if (response.statusCode != 200) {
         debugPrint('[StatementParse] API error: ${response.statusCode}');
@@ -236,7 +243,9 @@ If no transactions found, return: {"bank": null, "transactions": []}''';
       // Extract JSON from response (handle markdown code blocks)
       String jsonStr = content.trim();
       if (jsonStr.contains('```')) {
-        final jsonMatch = RegExp(r'```(?:json)?\s*([\s\S]*?)```').firstMatch(jsonStr);
+        final jsonMatch = RegExp(
+          r'```(?:json)?\s*([\s\S]*?)```',
+        ).firstMatch(jsonStr);
         if (jsonMatch != null) {
           jsonStr = jsonMatch.group(1)!.trim();
         }
@@ -249,7 +258,9 @@ If no transactions found, return: {"bank": null, "transactions": []}''';
       final transactions = <ParsedTransaction>[];
       for (final t in transactionsJson) {
         try {
-          transactions.add(ParsedTransaction.fromJson(t as Map<String, dynamic>));
+          transactions.add(
+            ParsedTransaction.fromJson(t as Map<String, dynamic>),
+          );
         } catch (e) {
           debugPrint('[StatementParse] Failed to parse transaction: $e');
         }

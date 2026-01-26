@@ -69,10 +69,7 @@ class ShareCardWidget extends StatelessWidget {
           Text(
             l10n.shareCardDescription(categoryName),
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 18,
-              color: Color(0xCCFFFFFF),
-            ),
+            style: const TextStyle(fontSize: 18, color: Color(0xCCFFFFFF)),
           ),
 
           // Optional: Amount

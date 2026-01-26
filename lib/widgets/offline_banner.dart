@@ -172,9 +172,7 @@ class _OfflineBannerState extends State<OfflineBanner>
           boxShadow: [
             BoxShadow(
               color:
-                  (isBackOnline
-                          ? context.appColors.success
-                          : AppColors.error)
+                  (isBackOnline ? context.appColors.success : AppColors.error)
                       .withValues(alpha: 0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),

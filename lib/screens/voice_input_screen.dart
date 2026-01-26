@@ -176,7 +176,9 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
           });
 
           // Process only when we get final result
-          if (result.finalResult && _recognizedText.isNotEmpty && !_isProcessing) {
+          if (result.finalResult &&
+              _recognizedText.isNotEmpty &&
+              !_isProcessing) {
             _processVoiceInput();
           }
         }
@@ -343,8 +345,8 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 decision == ExpenseDecision.yes
                     ? PhosphorIconsDuotone.checkCircle
                     : decision == ExpenseDecision.no
-                        ? PhosphorIconsDuotone.xCircle
-                        : PhosphorIconsDuotone.clock,
+                    ? PhosphorIconsDuotone.xCircle
+                    : PhosphorIconsDuotone.clock,
                 color: Colors.white,
                 size: 20,
               ),
@@ -359,8 +361,8 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
           backgroundColor: decision == ExpenseDecision.yes
               ? context.appColors.success
               : decision == ExpenseDecision.no
-                  ? context.appColors.error
-                  : context.appColors.warning,
+              ? context.appColors.error
+              : context.appColors.warning,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -422,7 +424,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
       // Free user: show upgrade prompt
       showDialog(
         context: context,
-        barrierColor: Colors.black.withValues(alpha: 0.85),
+        barrierColor: Colors.black.withOpacity(0.85),
         builder: (ctx) => AlertDialog(
           backgroundColor: context.appColors.surface,
           shape: RoundedRectangleBorder(
@@ -489,7 +491,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
       // Pro user: show server busy message
       showDialog(
         context: context,
-        barrierColor: Colors.black.withValues(alpha: 0.85),
+        barrierColor: Colors.black.withOpacity(0.85),
         builder: (ctx) => AlertDialog(
           backgroundColor: context.appColors.surface,
           shape: RoundedRectangleBorder(
@@ -563,13 +565,20 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                     onPressed: () => Navigator.pop(context),
                   ),
                   const Spacer(),
-                  Text(
-                    l10n.voiceInput,
-                    style: TextStyle(
-                      color: context.appColors.textPrimary,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        l10n.voiceInput,
+                        style: TextStyle(
+                          color: context.appColors.textPrimary,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      // Usage indicator for free users
+                      _VoiceUsageIndicator(),
+                    ],
                   ),
                   const Spacer(),
                   const SizedBox(width: 48),
@@ -881,10 +890,7 @@ class _DecisionDialogState extends State<_DecisionDialog>
                 if (widget.result.item != null)
                   Text(
                     widget.result.item!,
-                    style: TextStyle(
-                      color: colors.textSecondary,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(color: colors.textSecondary, fontSize: 16),
                   ),
               ],
             ),
@@ -892,10 +898,7 @@ class _DecisionDialogState extends State<_DecisionDialog>
           ] else if (widget.result.description.isNotEmpty) ...[
             Text(
               widget.result.description,
-              style: TextStyle(
-                color: colors.textSecondary,
-                fontSize: 16,
-              ),
+              style: TextStyle(color: colors.textSecondary, fontSize: 16),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
@@ -910,10 +913,7 @@ class _DecisionDialogState extends State<_DecisionDialog>
             ),
             child: Text(
               widget.category,
-              style: TextStyle(
-                color: colors.textTertiary,
-                fontSize: 13,
-              ),
+              style: TextStyle(color: colors.textTertiary, fontSize: 13),
             ),
           ),
 
@@ -1011,10 +1011,7 @@ class _DecisionDialogState extends State<_DecisionDialog>
             ),
             label: Text(
               l10n.sayAgain,
-              style: TextStyle(
-                color: colors.textTertiary,
-                fontSize: 14,
-              ),
+              style: TextStyle(color: colors.textTertiary, fontSize: 14),
             ),
           ),
         ],
@@ -1075,6 +1072,69 @@ class _DecisionButton extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Voice usage indicator widget for free users
+class _VoiceUsageIndicator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final isPremium = context.watch<ProProvider>().isPro;
+
+    // PRO users don't need to see usage
+    if (isPremium) {
+      return const SizedBox.shrink();
+    }
+
+    return FutureBuilder<(int, int)>(
+      future: FreeTierService().getVoiceInputUsage(false),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const SizedBox.shrink();
+
+        final (used, total) = snapshot.data!;
+        final l10n = AppLocalizations.of(context);
+        final remaining = total - used;
+        final isLimitReached = remaining <= 0;
+
+        return Padding(
+          padding: const EdgeInsets.only(top: 4),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: isLimitReached
+                  ? context.appColors.error.withValues(alpha: 0.15)
+                  : context.appColors.primary.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  isLimitReached
+                      ? PhosphorIconsFill.warning
+                      : PhosphorIconsDuotone.microphone,
+                  size: 12,
+                  color: isLimitReached
+                      ? context.appColors.error
+                      : context.appColors.primary,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  l10n.voiceUsageIndicator(used, total),
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: isLimitReached
+                        ? context.appColors.error
+                        : context.appColors.primary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

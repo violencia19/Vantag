@@ -855,7 +855,8 @@ class NotificationService {
     scheduledTime = _getNextAvailableTime(scheduledTime);
 
     // Benzersiz ID oluştur (expenseId'nin hash'i)
-    final notificationId = _idThinkingReminderBase + (expenseId.hashCode.abs() % 100);
+    final notificationId =
+        _idThinkingReminderBase + (expenseId.hashCode.abs() % 100);
 
     // Display amount with description if available
     final itemDisplay = description != null && description.isNotEmpty
@@ -898,7 +899,8 @@ class NotificationService {
 
   /// Düşünüyorum hatırlatmasını iptal et
   Future<void> cancelThinkingReminder(String expenseId) async {
-    final notificationId = _idThinkingReminderBase + (expenseId.hashCode.abs() % 100);
+    final notificationId =
+        _idThinkingReminderBase + (expenseId.hashCode.abs() % 100);
     await cancel(notificationId);
   }
 

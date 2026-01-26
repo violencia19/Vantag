@@ -205,10 +205,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
         // Solid dark background - not transparent
         color: context.appColors.gradientMid, // #1A1A2E - solid dark
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        border: Border.all(
-          color: context.appColors.cardBorder,
-          width: 1,
-        ),
+        border: Border.all(color: context.appColors.cardBorder, width: 1),
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -445,62 +442,62 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                 child: GestureDetector(
                   onTap: () => _onCategorySelected(category),
                   child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? context.appColors.primary
-                        : _showCategoryWarning
-                        ? context.appColors.warning.withValues(alpha: 0.08)
-                        : context.appColors.surfaceLight,
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
                       color: isSelected
                           ? context.appColors.primary
                           : _showCategoryWarning
-                          ? context.appColors.warning.withValues(alpha: 0.3)
-                          : context.appColors.cardBorder,
-                      width: isSelected ? 2 : 1,
-                    ),
-                    boxShadow: isSelected
-                        ? [
-                            BoxShadow(
-                              color: context.appColors.primary.withValues(
-                                alpha: 0.3,
-                              ),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ]
-                        : null,
-                  ),
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        ExpenseCategory.getIcon(category),
-                        size: 20,
+                          ? context.appColors.warning.withValues(alpha: 0.08)
+                          : context.appColors.surfaceLight,
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
                         color: isSelected
-                            ? context.appColors.background
-                            : ExpenseCategory.getColor(category),
+                            ? context.appColors.primary
+                            : _showCategoryWarning
+                            ? context.appColors.warning.withValues(alpha: 0.3)
+                            : context.appColors.cardBorder,
+                        width: isSelected ? 2 : 1,
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        ExpenseCategory.getLocalizedName(category, l10n),
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: isSelected
-                              ? FontWeight.w600
-                              : FontWeight.w500,
+                      boxShadow: isSelected
+                          ? [
+                              BoxShadow(
+                                color: context.appColors.primary.withValues(
+                                  alpha: 0.3,
+                                ),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ]
+                          : null,
+                    ),
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          ExpenseCategory.getIcon(category),
+                          size: 20,
                           color: isSelected
                               ? context.appColors.background
-                              : context.appColors.textSecondary,
+                              : ExpenseCategory.getColor(category),
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 8),
+                        Text(
+                          ExpenseCategory.getLocalizedName(category, l10n),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: isSelected
+                                ? FontWeight.w600
+                                : FontWeight.w500,
+                            color: isSelected
+                                ? context.appColors.background
+                                : context.appColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
                 ),
               );
             },
@@ -781,7 +778,7 @@ void showQuickAddSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withValues(alpha: 0.95),
+    barrierColor: Colors.black.withOpacity(0.85),
     builder: (context) => QuickAddSheet(onAdd: onAdd),
   );
 }
@@ -798,7 +795,7 @@ void showPremiumExpenseModal(
     isDismissible: true,
     enableDrag: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withValues(alpha: 0.95),
+    barrierColor: Colors.black.withOpacity(0.85),
     transitionAnimationController: AnimationController(
       vsync: Navigator.of(context),
       duration: const Duration(milliseconds: 350),
@@ -977,7 +974,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                   )
                 else if (riskLevel.backgroundIntensity > 0.2)
                   BoxShadow(
-                    color: AppColors.categoryBills.withValues(alpha: riskLevel.backgroundIntensity * 0.3),
+                    color: AppColors.categoryBills.withValues(
+                      alpha: riskLevel.backgroundIntensity * 0.3,
+                    ),
                     blurRadius: 20,
                     spreadRadius: 2,
                   ),
@@ -1005,7 +1004,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                   child: Row(
                     children: [
                       Semantics(
-                        label: AppLocalizations.of(context).accessibilityCloseSheet,
+                        label: AppLocalizations.of(
+                          context,
+                        ).accessibilityCloseSheet,
                         button: true,
                         child: GestureDetector(
                           onTap: () => Navigator.pop(context),
@@ -1309,7 +1310,9 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: isRecent ? context.appColors.primary : context.appColors.textPrimary,
+                  color: isRecent
+                      ? context.appColors.primary
+                      : context.appColors.textPrimary,
                 ),
               ),
             ],
@@ -1408,7 +1411,9 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
               shadows: widget.isSelected || _isPressed
                   ? [
                       Shadow(
-                        color: context.appColors.textPrimary.withValues(alpha: 0.5),
+                        color: context.appColors.textPrimary.withValues(
+                          alpha: 0.5,
+                        ),
                         blurRadius: 8,
                       ),
                     ]

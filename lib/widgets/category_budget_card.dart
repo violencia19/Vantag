@@ -52,13 +52,16 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
-    _progressAnimation = Tween<double>(
-      begin: 0,
-      end: widget.budget.percentUsedClamped / 100,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.3, 1.0, curve: Curves.easeOutCubic),
-    ));
+    _progressAnimation =
+        Tween<double>(
+          begin: 0,
+          end: widget.budget.percentUsedClamped / 100,
+        ).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: const Interval(0.3, 1.0, curve: Curves.easeOutCubic),
+          ),
+        );
 
     // Staggered delay
     Future.delayed(Duration(milliseconds: 80 * widget.animationIndex), () {
@@ -70,13 +73,13 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
   void didUpdateWidget(CategoryBudgetCard oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.budget.percentUsed != widget.budget.percentUsed) {
-      _progressAnimation = Tween<double>(
-        begin: _progressAnimation.value,
-        end: widget.budget.percentUsedClamped / 100,
-      ).animate(CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeOutCubic,
-      ));
+      _progressAnimation =
+          Tween<double>(
+            begin: _progressAnimation.value,
+            end: widget.budget.percentUsedClamped / 100,
+          ).animate(
+            CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
+          );
       _controller.forward(from: 0);
     }
   }
@@ -125,10 +128,7 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
               },
               onLongPress: () {
                 HapticFeedback.mediumImpact();
-                CreateBudgetSheet.show(
-                  context,
-                  existingBudget: budget.budget,
-                );
+                CreateBudgetSheet.show(context, existingBudget: budget.budget);
               },
               child: Container(
                 padding: const EdgeInsets.all(16),
@@ -139,8 +139,8 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
                     color: budget.isOverBudget
                         ? context.appColors.error.withValues(alpha: 0.3)
                         : budget.isNearLimit
-                            ? context.appColors.warning.withValues(alpha: 0.3)
-                            : context.appColors.cardBorder,
+                        ? context.appColors.warning.withValues(alpha: 0.3)
+                        : context.appColors.cardBorder,
                     width: budget.isOverBudget || budget.isNearLimit ? 1.5 : 1,
                   ),
                   boxShadow: [
@@ -192,8 +192,8 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
                                 budget.isOverBudget
                                     ? l10n.overLimit
                                     : budget.isNearLimit
-                                        ? l10n.nearLimit
-                                        : l10n.onTrack,
+                                    ? l10n.nearLimit
+                                    : l10n.onTrack,
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
@@ -241,7 +241,8 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
                               children: [
                                 AnimatedContainer(
                                   duration: const Duration(milliseconds: 300),
-                                  width: constraints.maxWidth *
+                                  width:
+                                      constraints.maxWidth *
                                       _progressAnimation.value,
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -335,11 +336,7 @@ class CompactBudgetCard extends StatelessWidget {
   final CategoryBudgetWithSpent budget;
   final VoidCallback? onTap;
 
-  const CompactBudgetCard({
-    super.key,
-    required this.budget,
-    this.onTap,
-  });
+  const CompactBudgetCard({super.key, required this.budget, this.onTap});
 
   Color _getProgressColor(BuildContext context) {
     final percent = budget.percentUsed;
@@ -360,9 +357,7 @@ class CompactBudgetCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: progressColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: progressColor.withValues(alpha: 0.2),
-          ),
+          border: Border.all(color: progressColor.withValues(alpha: 0.2)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

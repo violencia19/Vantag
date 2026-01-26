@@ -14,7 +14,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
     HapticFeedback.mediumImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (_) => const MultiCurrencyProSheet(),

@@ -49,23 +49,11 @@ class _AIFloatingButtonState extends State<AIFloatingButton>
           button: true,
           child: Tooltip(
             message: l10n.featureAiChat,
-            child: GestureDetector(
-              onTap: () {
-                HapticFeedback.lightImpact();
-                widget.onTap();
-              },
-              child: Container(
-                width: 56,
-                height: 56,
+            child: SizedBox(
+              width: 56,
+              height: 56,
+              child: DecoratedBox(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      context.appColors.primary,
-                      context.appColors.primaryDark,
-                    ],
-                  ),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
@@ -77,10 +65,36 @@ class _AIFloatingButtonState extends State<AIFloatingButton>
                     ),
                   ],
                 ),
-                child: const Icon(
-                  PhosphorIconsDuotone.sparkle,
-                  color: Colors.white,
-                  size: 26,
+                child: Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.antiAlias,
+                  child: InkWell(
+                    onTap: () {
+                      HapticFeedback.lightImpact();
+                      widget.onTap();
+                    },
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            context.appColors.primary,
+                            context.appColors.primaryDark,
+                          ],
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Center(
+                        child: Icon(
+                          PhosphorIconsDuotone.sparkle,
+                          color: Colors.white,
+                          size: 26,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

@@ -42,97 +42,100 @@ class PendingReviewBanner extends StatelessWidget {
           onTap();
         },
         child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [AppColors.warning.withValues(alpha: 0.9), AppColors.warning],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.orange.withValues(alpha: 0.3),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppColors.warning.withValues(alpha: 0.9),
+                AppColors.warning,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-          ],
-        ),
-        child: Stack(
-          children: [
-            // Main content
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  // Icon with pulse animation
-                  _buildPulsingIcon(),
-                  const SizedBox(width: 12),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.orange.withValues(alpha: 0.3),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Stack(
+            children: [
+              // Main content
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    // Icon with pulse animation
+                    _buildPulsingIcon(),
+                    const SizedBox(width: 12),
 
-                  // Text content
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          l10n.pendingCategorization(totalCount),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                        if (suggestionCount > 0) ...[
-                          const SizedBox(height: 2),
+                    // Text content
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
                           Text(
-                            l10n.suggestionsAvailable(suggestionCount),
-                            style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.85),
-                              fontSize: 13,
+                            l10n.pendingCategorization(totalCount),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
                             ),
                           ),
+                          if (suggestionCount > 0) ...[
+                            const SizedBox(height: 2),
+                            Text(
+                              l10n.suggestionsAvailable(suggestionCount),
+                              style: TextStyle(
+                                color: Colors.white.withValues(alpha: 0.85),
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
-                  ),
 
-                  // Arrow
-                  const PhosphorIcon(
-                    PhosphorIconsFill.caretRight,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ],
-              ),
-            ),
-
-            // Dismiss button (if provided)
-            if (onDismiss != null)
-              Positioned(
-                top: 4,
-                right: 4,
-                child: IconButton(
-                  icon: PhosphorIcon(
-                    PhosphorIconsRegular.x,
-                    color: Colors.white.withValues(alpha: 0.7),
-                    size: 18,
-                  ),
-                  tooltip: l10n.close,
-                  onPressed: () {
-                    HapticFeedback.lightImpact();
-                    onDismiss!();
-                  },
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(
-                    minWidth: 32,
-                    minHeight: 32,
-                  ),
+                    // Arrow
+                    const PhosphorIcon(
+                      PhosphorIconsFill.caretRight,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ],
                 ),
               ),
-          ],
+
+              // Dismiss button (if provided)
+              if (onDismiss != null)
+                Positioned(
+                  top: 4,
+                  right: 4,
+                  child: IconButton(
+                    icon: PhosphorIcon(
+                      PhosphorIconsRegular.x,
+                      color: Colors.white.withValues(alpha: 0.7),
+                      size: 18,
+                    ),
+                    tooltip: l10n.close,
+                    onPressed: () {
+                      HapticFeedback.lightImpact();
+                      onDismiss!();
+                    },
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(
+                      minWidth: 32,
+                      minHeight: 32,
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

@@ -40,7 +40,9 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
 
   Future<void> _checkLimit() async {
     final isPro = context.read<ProProvider>().isPro;
-    final remaining = await FreeTierService().getRemainingStatementImports(isPro);
+    final remaining = await FreeTierService().getRemainingStatementImports(
+      isPro,
+    );
     if (mounted) {
       setState(() {
         _remainingImports = remaining;
@@ -154,9 +156,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
         ),
         content: Text(
           l10n.importStatementLimitReachedDesc,
-          style: TextStyle(
-            color: context.appColors.textSecondary,
-          ),
+          style: TextStyle(color: context.appColors.textSecondary),
         ),
         actions: [
           TextButton(
@@ -206,7 +206,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
             category: transaction.category,
             date: transaction.date,
             hoursRequired: 0, // Not calculated for imported transactions
-            daysRequired: 0,  // Not calculated for imported transactions
+            daysRequired: 0, // Not calculated for imported transactions
             decision: ExpenseDecision.yes,
           );
 
@@ -306,7 +306,10 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
               padding: const EdgeInsets.only(right: 16),
               child: Center(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: context.appColors.surfaceLight,
                     borderRadius: BorderRadius.circular(12),
@@ -443,9 +446,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                 Expanded(
                   child: Text(
                     _error!,
-                    style: TextStyle(
-                      color: context.appColors.error,
-                    ),
+                    style: TextStyle(color: context.appColors.error),
                   ),
                 ),
               ],
@@ -613,7 +614,9 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: context.appColors.primary,
                   foregroundColor: Colors.white,
-                  disabledBackgroundColor: context.appColors.primary.withValues(alpha: 0.3),
+                  disabledBackgroundColor: context.appColors.primary.withValues(
+                    alpha: 0.3,
+                  ),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -629,7 +632,9 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                         ),
                       )
                     : Text(
-                        l10n.importStatementImportSelected(_selectedIndices.length),
+                        l10n.importStatementImportSelected(
+                          _selectedIndices.length,
+                        ),
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,

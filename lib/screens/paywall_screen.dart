@@ -308,7 +308,11 @@ class _PaywallScreenState extends State<PaywallScreen>
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(LucideIcons.crown, color: context.appColors.textPrimary, size: 24),
+          Icon(
+            LucideIcons.crown,
+            color: context.appColors.textPrimary,
+            size: 24,
+          ),
           const SizedBox(width: 8),
           Text(
             'VANTAG PRO',
@@ -361,7 +365,11 @@ class _PaywallScreenState extends State<PaywallScreen>
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(LucideIcons.gift, color: context.appColors.textPrimary, size: 18),
+                Icon(
+                  LucideIcons.gift,
+                  color: context.appColors.textPrimary,
+                  size: 18,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   l10n.freeTrialBanner,
@@ -475,9 +483,9 @@ class _PaywallScreenState extends State<PaywallScreen>
                   ).createShader(bounds),
                   child: Text(
                     'Pro',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.labelLarge?.copyWith(color: context.appColors.textPrimary),
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: context.appColors.textPrimary,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -555,206 +563,219 @@ class _PaywallScreenState extends State<PaywallScreen>
         return Semantics(
           button: true,
           selected: isSelected,
-          label: '${_getPackageTitle(package)} ${package.storeProduct.priceString}',
+          label:
+              '${_getPackageTitle(package)} ${package.storeProduct.priceString}',
           child: GestureDetector(
             onTap: () {
               HapticFeedback.selectionClick();
               setState(() => _selectedPackage = package);
             },
             child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              gradient: isSelected
-                  ? LinearGradient(
-                      colors: [AppColors.surfaceElevated, AppColors.cardBackground],
-                    )
-                  : null,
-              color: isSelected ? null : context.appColors.cardBackground,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: isSelected
-                    ? context.appColors.primary
-                    : context.appColors.cardBorder,
-                width: isSelected ? 2 : 1,
-              ),
-              boxShadow: isSelected
-                  ? [
-                      BoxShadow(
-                        color: context.appColors.primary.withValues(alpha: 0.2),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
-                    ]
-                  : null,
-            ),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Row(
-                  children: [
-                    // Radio indicator
-                    Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: isSelected
-                              ? context.appColors.primary
-                              : context.appColors.textTertiary,
-                          width: 2,
+              duration: const Duration(milliseconds: 200),
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: isSelected
+                    ? LinearGradient(
+                        colors: [
+                          AppColors.surfaceElevated,
+                          AppColors.cardBackground,
+                        ],
+                      )
+                    : null,
+                color: isSelected ? null : context.appColors.cardBackground,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: isSelected
+                      ? context.appColors.primary
+                      : context.appColors.cardBorder,
+                  width: isSelected ? 2 : 1,
+                ),
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          color: context.appColors.primary.withValues(
+                            alpha: 0.2,
+                          ),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
                         ),
-                      ),
-                      child: isSelected
-                          ? Center(
-                              child: Container(
-                                width: 12,
-                                height: 12,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      context.appColors.primary,
-                                      context.appColors.secondary,
-                                    ],
+                      ]
+                    : null,
+              ),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Row(
+                    children: [
+                      // Radio indicator
+                      Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: isSelected
+                                ? context.appColors.primary
+                                : context.appColors.textTertiary,
+                            width: 2,
+                          ),
+                        ),
+                        child: isSelected
+                            ? Center(
+                                child: Container(
+                                  width: 12,
+                                  height: 12,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        context.appColors.primary,
+                                        context.appColors.secondary,
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            )
-                          : null,
-                    ),
-                    const SizedBox(width: 16),
+                              )
+                            : null,
+                      ),
+                      const SizedBox(width: 16),
 
-                    // Package info
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      // Package info
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _getPackageTitle(package),
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              _getPackageSubtitle(package),
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    color: context.appColors.textSecondary,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Price
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            _getPackageTitle(package),
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(fontWeight: FontWeight.w600),
+                            package.storeProduct.priceString,
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(height: 4),
                           Text(
-                            _getPackageSubtitle(package),
+                            _getPricePeriod(package),
                             style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(
-                                  color: context.appColors.textSecondary,
+                                  color: context.appColors.textTertiary,
                                 ),
                           ),
                         ],
                       ),
-                    ),
-
-                    // Price
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          package.storeProduct.priceString,
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          _getPricePeriod(package),
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: context.appColors.textTertiary),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-
-                // Lifetime badge (purple)
-                if (isLifetime)
-                  Positioned(
-                    top: -8,
-                    right: -8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [AppColors.premiumPurple, AppColors.premiumPurple.withValues(alpha: 0.8)],
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.premiumPurple.withValues(alpha: 0.4),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            LucideIcons.infinity,
-                            size: 10,
-                            color: context.appColors.textPrimary,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            l10n.forever,
-                            style: TextStyle(
-                              color: context.appColors.textPrimary,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    ],
                   ),
 
-                // Most popular badge (yearly - gold)
-                if (isYearly && !isLifetime)
-                  Positioned(
-                    top: -10,
-                    left: 40,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            context.appColors.gold,
-                            AppColors.currencyGold,
+                  // Lifetime badge (purple)
+                  if (isLifetime)
+                    Positioned(
+                      top: -8,
+                      right: -8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              AppColors.premiumPurple,
+                              AppColors.premiumPurple.withValues(alpha: 0.8),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.premiumPurple.withValues(
+                                alpha: 0.4,
+                              ),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
                           ],
                         ),
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: context.appColors.gold.withValues(
-                              alpha: 0.4,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              LucideIcons.infinity,
+                              size: 10,
+                              color: context.appColors.textPrimary,
                             ),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Text(
-                        l10n.mostPopular,
-                        style: TextStyle(
-                          color: context.appColors.background,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
+                            const SizedBox(width: 4),
+                            Text(
+                              l10n.forever,
+                              style: TextStyle(
+                                color: context.appColors.textPrimary,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ),
-              ],
+
+                  // Most popular badge (yearly - gold)
+                  if (isYearly && !isLifetime)
+                    Positioned(
+                      top: -10,
+                      left: 40,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              context.appColors.gold,
+                              AppColors.currencyGold,
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: context.appColors.gold.withValues(
+                                alpha: 0.4,
+                              ),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          l10n.mostPopular,
+                          style: TextStyle(
+                            color: context.appColors.background,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
-        ),
         );
       }).toList(),
     );

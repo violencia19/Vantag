@@ -54,7 +54,9 @@ class CategoryBudgetService {
     final budgets = await getAllBudgets();
 
     // Check if budget already exists for this category
-    final existingIndex = budgets.indexWhere((b) => b.category == budget.category);
+    final existingIndex = budgets.indexWhere(
+      (b) => b.category == budget.category,
+    );
 
     if (existingIndex >= 0) {
       // Update existing
@@ -117,11 +119,13 @@ class CategoryBudgetService {
     int year,
   ) {
     return expenses
-        .where((e) =>
-            e.category == category &&
-            e.date.month == month &&
-            e.date.year == year &&
-            e.decision == ExpenseDecision.yes)
+        .where(
+          (e) =>
+              e.category == category &&
+              e.date.month == month &&
+              e.date.year == year &&
+              e.decision == ExpenseDecision.yes,
+        )
         .fold(0.0, (sum, e) => sum + e.amount);
   }
 
@@ -176,9 +180,7 @@ class CategoryBudgetService {
     int year,
   ) async {
     final budgetsWithSpent = await getBudgetsWithSpent(expenses, month, year);
-    return budgetsWithSpent
-        .where((b) => b.percentUsed >= 80)
-        .toList()
+    return budgetsWithSpent.where((b) => b.percentUsed >= 80).toList()
       ..sort((a, b) => b.percentUsed.compareTo(a.percentUsed));
   }
 
@@ -243,7 +245,9 @@ class CategoryBudgetService {
       totalSpent: budgetsWithSpent.fold(0.0, (sum, b) => sum + b.spent),
       categoriesOnTrack: budgetsWithSpent.where((b) => b.isOnTrack).length,
       categoriesNearLimit: budgetsWithSpent.where((b) => b.isNearLimit).length,
-      categoriesOverBudget: budgetsWithSpent.where((b) => b.isOverBudget).length,
+      categoriesOverBudget: budgetsWithSpent
+          .where((b) => b.isOverBudget)
+          .length,
       totalCategories: budgetsWithSpent.length,
     );
   }

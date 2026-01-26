@@ -454,11 +454,7 @@ class _CurrencyItem extends StatelessWidget {
 class _Divider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 1,
-      height: 30,
-      color: context.appColors.cardBorder,
-    );
+    return Container(width: 1, height: 30, color: context.appColors.cardBorder);
   }
 }
 

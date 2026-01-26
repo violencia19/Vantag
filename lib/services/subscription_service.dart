@@ -229,7 +229,8 @@ class SubscriptionService {
       // Saatlik ücret hesapla
       double hourlyRate = 50.0; // Varsayılan
       if (profile != null && profile.dailyHours > 0) {
-        hourlyRate = profile.monthlyIncome /
+        hourlyRate =
+            profile.monthlyIncome /
             (profile.dailyHours * profile.workDaysPerWeek * 4);
       }
 
@@ -238,7 +239,9 @@ class SubscriptionService {
       for (final sub in subs) {
         // Bugün zaten kaydedildi mi kontrol et
         if (await wasRecordedToday(sub.id)) {
-          debugPrint('[SubscriptionService] Already recorded today: ${sub.name}');
+          debugPrint(
+            '[SubscriptionService] Already recorded today: ${sub.name}',
+          );
           continue;
         }
 
@@ -267,7 +270,9 @@ class SubscriptionService {
         await markAsRecordedToday(sub.id);
         count++;
 
-        debugPrint('[SubscriptionService] Auto-recorded: ${sub.name} - ${sub.amount}₺');
+        debugPrint(
+          '[SubscriptionService] Auto-recorded: ${sub.name} - ${sub.amount}₺',
+        );
       }
 
       // Eski flag'leri temizle

@@ -39,7 +39,7 @@ class BudgetShiftDialog extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withValues(alpha: 0.9),
+      barrierColor: Colors.black.withOpacity(0.85),
       builder: (context) => BudgetShiftDialog(
         shortfall: shortfall,
         totalAmount: totalAmount,

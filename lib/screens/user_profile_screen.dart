@@ -147,7 +147,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     // Map locale to currency code
     String currencyCode;
-    switch (locale.countryCode?.toUpperCase() ?? locale.languageCode.toUpperCase()) {
+    switch (locale.countryCode?.toUpperCase() ??
+        locale.languageCode.toUpperCase()) {
       case 'TR':
         currencyCode = 'TRY';
         break;
@@ -1046,7 +1047,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: context.appColors.info.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8),
@@ -1077,7 +1081,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
               // Currency options - ALL available during onboarding
               ...supportedCurrencies.map((currency) {
-                final isSelected = currencyProvider.currency.code == currency.code;
+                final isSelected =
+                    currencyProvider.currency.code == currency.code;
 
                 return ListTile(
                   leading: Text(
@@ -1090,7 +1095,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         currency.code,
                         style: TextStyle(
                           color: context.appColors.textPrimary,
-                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                          fontWeight: isSelected
+                              ? FontWeight.w600
+                              : FontWeight.w500,
                           fontSize: 16,
                         ),
                       ),

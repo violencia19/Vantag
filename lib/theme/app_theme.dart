@@ -139,11 +139,11 @@ class AppColors {
   // ═══════════════════════════════════════════════════════════════
   // ACHIEVEMENT COLORS
   // ═══════════════════════════════════════════════════════════════
-  static const Color achievementStreak = Color(0xFFFF6B35);    // Orange flame
-  static const Color achievementSavings = Color(0xFF2ECC71);   // Green money
-  static const Color achievementGoals = Color(0xFF9B59B6);     // Purple target
-  static const Color achievementTracker = Color(0xFF3498DB);   // Blue notepad
-  static const Color achievementMystery = Color(0xFFE91E63);   // Pink mystery
+  static const Color achievementStreak = Color(0xFFFF6B35); // Orange flame
+  static const Color achievementSavings = Color(0xFF2ECC71); // Green money
+  static const Color achievementGoals = Color(0xFF9B59B6); // Purple target
+  static const Color achievementTracker = Color(0xFF3498DB); // Blue notepad
+  static const Color achievementMystery = Color(0xFFE91E63); // Pink mystery
 
   // ═══════════════════════════════════════════════════════════════
   // INCOME TYPE COLORS

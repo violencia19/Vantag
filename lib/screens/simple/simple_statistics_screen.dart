@@ -58,10 +58,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
   void _previousMonth() {
     HapticFeedback.selectionClick();
     setState(() {
-      _selectedMonth = DateTime(
-        _selectedMonth.year,
-        _selectedMonth.month - 1,
-      );
+      _selectedMonth = DateTime(_selectedMonth.year, _selectedMonth.month - 1);
     });
   }
 
@@ -183,8 +180,8 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
 
   Widget _buildMonthSelector(AppLocalizations l10n) {
     final now = DateTime.now();
-    final isCurrentMonth = _selectedMonth.year == now.year &&
-        _selectedMonth.month == now.month;
+    final isCurrentMonth =
+        _selectedMonth.year == now.year && _selectedMonth.month == now.month;
 
     final locale = Localizations.localeOf(context).languageCode;
     final monthFormat = DateFormat.yMMMM(locale);
@@ -308,8 +305,8 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
           // Category List
           ...categoryTotals.entries.map((entry) {
             final percentage = (entry.value / totalExpense * 100);
-            final color = _categoryColors[entry.key] ??
-                context.appColors.textTertiary;
+            final color =
+                _categoryColors[entry.key] ?? context.appColors.textTertiary;
 
             return Container(
               margin: const EdgeInsets.only(bottom: 8),
@@ -371,8 +368,8 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
   ) {
     return categoryTotals.entries.map((entry) {
       final percentage = entry.value / total * 100;
-      final color = _categoryColors[entry.key] ??
-          context.appColors.textTertiary;
+      final color =
+          _categoryColors[entry.key] ?? context.appColors.textTertiary;
 
       return PieChartSectionData(
         value: entry.value,

@@ -72,70 +72,70 @@ class StreakWidgetState extends State<StreakWidget>
       label: semanticLabel,
       button: true,
       child: GestureDetector(
-      onTap: () {
-        HapticFeedback.lightImpact();
-        (widget.onTap ?? () => _showStreakDetails(context))();
-      },
-      child: AnimatedBuilder(
-        animation: _glowAnimation,
-        builder: (context, child) {
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: hasStreak
-                  ? context.appColors.warning.withValues(alpha: 0.15)
-                  : context.appColors.surface,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
+        onTap: () {
+          HapticFeedback.lightImpact();
+          (widget.onTap ?? () => _showStreakDetails(context))();
+        },
+        child: AnimatedBuilder(
+          animation: _glowAnimation,
+          builder: (context, child) {
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
                 color: hasStreak
-                    ? context.appColors.warning.withValues(alpha: 0.3)
-                    : context.appColors.cardBorder,
-              ),
-              boxShadow: hasStreak
-                  ? [
-                      BoxShadow(
-                        color: context.appColors.warning.withValues(
-                          alpha: _glowAnimation.value,
-                        ),
-                        blurRadius: 12,
-                        spreadRadius: -2,
-                      ),
-                    ]
-                  : null,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                PhosphorIcon(
-                  PhosphorIconsDuotone.flame,
-                  size: 18,
+                    ? context.appColors.warning.withValues(alpha: 0.15)
+                    : context.appColors.surface,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
                   color: hasStreak
-                      ? context.appColors.warning
-                      : context.appColors.textTertiary,
-                  duotoneSecondaryColor: hasStreak
-                      ? context.appColors.warning.withValues(alpha: 0.5)
-                      : context.appColors.textTertiary.withValues(alpha: 0.3),
+                      ? context.appColors.warning.withValues(alpha: 0.3)
+                      : context.appColors.cardBorder,
                 ),
-                const SizedBox(width: 6),
-                Text(
-                  hasStreak
-                      ? l10n.streakDays(streak.displayStreak)
-                      : l10n.startToday,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
+                boxShadow: hasStreak
+                    ? [
+                        BoxShadow(
+                          color: context.appColors.warning.withValues(
+                            alpha: _glowAnimation.value,
+                          ),
+                          blurRadius: 12,
+                          spreadRadius: -2,
+                        ),
+                      ]
+                    : null,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  PhosphorIcon(
+                    PhosphorIconsDuotone.flame,
+                    size: 18,
                     color: hasStreak
                         ? context.appColors.warning
-                        : context.appColors.textSecondary,
-                    letterSpacing: 0.3,
+                        : context.appColors.textTertiary,
+                    duotoneSecondaryColor: hasStreak
+                        ? context.appColors.warning.withValues(alpha: 0.5)
+                        : context.appColors.textTertiary.withValues(alpha: 0.3),
                   ),
-                ),
-              ],
-            ),
-          );
-        },
+                  const SizedBox(width: 6),
+                  Text(
+                    hasStreak
+                        ? l10n.streakDays(streak.displayStreak)
+                        : l10n.startToday,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: hasStreak
+                          ? context.appColors.warning
+                          : context.appColors.textSecondary,
+                      letterSpacing: 0.3,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
-    ),
     );
   }
 
@@ -147,7 +147,7 @@ class StreakWidgetState extends State<StreakWidget>
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),

@@ -225,7 +225,10 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
             Expanded(
               child: Text(
                 label,
-                style: TextStyle(color: context.appColors.textPrimary, fontSize: 16),
+                style: TextStyle(
+                  color: context.appColors.textPrimary,
+                  fontSize: 16,
+                ),
               ),
             ),
             if (locked)

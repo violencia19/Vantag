@@ -861,11 +861,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           SnackBar(
             content: Row(
               children: [
-                Icon(
-                  PhosphorIconsFill.star,
-                  color: Colors.white,
-                  size: 20,
-                ),
+                Icon(PhosphorIconsFill.star, color: Colors.white, size: 20),
                 const SizedBox(width: 12),
                 Expanded(child: Text(message)),
               ],
@@ -901,7 +897,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       await NotificationService().scheduleThinkingReminder(
         expenseId: expenseKey,
         amount: amount,
-        description: expenseWithDecision.subCategory ?? expenseWithDecision.category,
+        description:
+            expenseWithDecision.subCategory ?? expenseWithDecision.category,
         currencySymbol: currencyProvider.currency.symbol,
       );
     }
@@ -931,11 +928,17 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               SnackBar(
                 content: Row(
                   children: [
-                    Icon(PhosphorIconsFill.warning, color: Colors.white, size: 20),
+                    Icon(
+                      PhosphorIconsFill.warning,
+                      color: Colors.white,
+                      size: 20,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        l10n.debtWarningOnPurchase('$symbol${debtAmount.toStringAsFixed(0)}'),
+                        l10n.debtWarningOnPurchase(
+                          '$symbol${debtAmount.toStringAsFixed(0)}',
+                        ),
                       ),
                     ),
                   ],
@@ -996,9 +999,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         backgroundColor: decision == ExpenseDecision.thinking
             ? context.appColors.warning
             : context.appColors.primary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
 
@@ -1260,11 +1261,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         SnackBar(
           content: Row(
             children: [
-              Icon(
-                PhosphorIconsFill.warning,
-                color: Colors.white,
-                size: 20,
-              ),
+              Icon(PhosphorIconsFill.warning, color: Colors.white, size: 20),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -1559,9 +1556,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           TextField(
             controller: _amountController,
             autofocus: true,
-            keyboardType: const TextInputType.numberWithOptions(
-              decimal: true,
-            ),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [TurkishCurrencyInputFormatter()],
             style: TextStyle(
               fontSize: 40,
@@ -1575,9 +1570,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               hintStyle: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.w700,
-                color: context.appColors.textTertiary.withValues(
-                  alpha: 0.5,
-                ),
+                color: context.appColors.textTertiary.withValues(alpha: 0.5),
               ),
               border: InputBorder.none,
               contentPadding: EdgeInsets.zero,
@@ -2218,62 +2211,65 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         // Taksitli mi toggle
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Builder(builder: (context) {
-            final isDark = Theme.of(context).brightness == Brightness.dark;
-            return Container(
-              decoration: BoxDecoration(
-                color: isDark
-                    ? Colors.white.withValues(alpha: 0.05)
-                    : Colors.black.withValues(alpha: 0.03),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: _expenseType == ExpenseType.installment
-                      ? context.appColors.warning.withValues(alpha: 0.5)
-                      : context.appColors.cardBorder,
+          child: Builder(
+            builder: (context) {
+              final isDark = Theme.of(context).brightness == Brightness.dark;
+              return Container(
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? Colors.white.withValues(alpha: 0.05)
+                      : Colors.black.withValues(alpha: 0.03),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: _expenseType == ExpenseType.installment
+                        ? context.appColors.warning.withValues(alpha: 0.5)
+                        : context.appColors.cardBorder,
+                  ),
                 ),
-              ),
-            child: SwitchListTile(
-              title: Text(
-                'Taksitli Alım',
-                style: TextStyle(
-                  color: context.appColors.textPrimary,
-                  fontWeight: _expenseType == ExpenseType.installment
-                      ? FontWeight.w600
-                      : FontWeight.normal,
+                child: SwitchListTile(
+                  title: Text(
+                    'Taksitli Alım',
+                    style: TextStyle(
+                      color: context.appColors.textPrimary,
+                      fontWeight: _expenseType == ExpenseType.installment
+                          ? FontWeight.w600
+                          : FontWeight.normal,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Kredi kartı veya mağaza taksiti',
+                    style: TextStyle(
+                      color: context.appColors.textSecondary,
+                      fontSize: 12,
+                    ),
+                  ),
+                  secondary: Icon(
+                    PhosphorIconsDuotone.creditCard,
+                    color: _expenseType == ExpenseType.installment
+                        ? context.appColors.warning
+                        : context.appColors.textTertiary,
+                  ),
+                  value: _expenseType == ExpenseType.installment,
+                  onChanged: (value) {
+                    setState(() {
+                      _expenseType = value
+                          ? ExpenseType.installment
+                          : ExpenseType.single;
+                      _showInstallmentDetails = value;
+                      // Auto-copy amount to installment total when toggle is enabled
+                      if (value &&
+                          _installmentTotalController.text.isEmpty &&
+                          _amountController.text.isNotEmpty) {
+                        _installmentTotalController.text =
+                            _amountController.text;
+                      }
+                    });
+                  },
+                  activeTrackColor: context.appColors.warning,
                 ),
-              ),
-              subtitle: Text(
-                'Kredi kartı veya mağaza taksiti',
-                style: TextStyle(
-                  color: context.appColors.textSecondary,
-                  fontSize: 12,
-                ),
-              ),
-              secondary: Icon(
-                PhosphorIconsDuotone.creditCard,
-                color: _expenseType == ExpenseType.installment
-                    ? context.appColors.warning
-                    : context.appColors.textTertiary,
-              ),
-              value: _expenseType == ExpenseType.installment,
-              onChanged: (value) {
-                setState(() {
-                  _expenseType = value
-                      ? ExpenseType.installment
-                      : ExpenseType.single;
-                  _showInstallmentDetails = value;
-                  // Auto-copy amount to installment total when toggle is enabled
-                  if (value &&
-                      _installmentTotalController.text.isEmpty &&
-                      _amountController.text.isNotEmpty) {
-                    _installmentTotalController.text = _amountController.text;
-                  }
-                });
-              },
-              activeTrackColor: context.appColors.warning,
-            ),
-          );
-          }),
+              );
+            },
+          ),
         ),
 
         // Taksit detayları (animasyonlu açılır)

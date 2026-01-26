@@ -187,9 +187,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 decoration: BoxDecoration(
                   color: context.appColors.surfaceLight,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: context.appColors.cardBorder,
-                  ),
+                  border: Border.all(color: context.appColors.cardBorder),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

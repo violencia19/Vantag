@@ -166,9 +166,7 @@ class _ProfileModalState extends State<ProfileModal> {
         Positioned.fill(
           child: GestureDetector(
             onTap: () => Navigator.of(context).pop(),
-            child: Container(
-              color: Colors.black.withOpacity(0.85),
-            ),
+            child: Container(color: Colors.black.withOpacity(0.85)),
           ),
         ),
         // The actual draggable sheet
@@ -180,65 +178,83 @@ class _ProfileModalState extends State<ProfileModal> {
             return Container(
               decoration: BoxDecoration(
                 color: context.appColors.surface,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(24),
+                ),
                 border: Border.all(
                   color: context.appColors.cardBorder,
                   width: 1,
                 ),
               ),
-          child: Column(
-            children: [
-              // Handle bar
-              Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.only(top: 12),
-                decoration: BoxDecoration(
-                  color: context.appColors.textTertiary.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    children: [
-                      // Avatar + Name + Email
-                      _buildProfileHeader(context, authService, isPro, l10n),
-
-                      const SizedBox(height: 20),
-
-                      // Action Buttons Row (Photo, Salary, Add Income)
-                      _buildActionButtonsRow(context, l10n, financeProvider),
-
-                      const SizedBox(height: 24),
-
-                      // Saved Time Counter
-                      _buildSavedTimeCard(context, savedHours, l10n),
-
-                      const SizedBox(height: 24),
-
-                      // Stats Row
-                      _buildStatsRow(context, memberDays, badgesEarned, l10n),
-
-                      const SizedBox(height: 24),
-
-                      // Google Connection Status
-                      _buildGoogleStatus(context, authService, l10n),
-
-                      const SizedBox(height: 32),
-
-                      // Sign Out Button
-                      _buildSignOutButton(context, authService, l10n),
-                    ],
+              child: Column(
+                children: [
+                  // Handle bar
+                  Container(
+                    width: 40,
+                    height: 4,
+                    margin: const EdgeInsets.only(top: 12),
+                    decoration: BoxDecoration(
+                      color: context.appColors.textTertiary.withValues(
+                        alpha: 0.3,
+                      ),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
                   ),
-                ),
+
+                  Expanded(
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        children: [
+                          // Avatar + Name + Email
+                          _buildProfileHeader(
+                            context,
+                            authService,
+                            isPro,
+                            l10n,
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          // Action Buttons Row (Photo, Salary, Add Income)
+                          _buildActionButtonsRow(
+                            context,
+                            l10n,
+                            financeProvider,
+                          ),
+
+                          const SizedBox(height: 24),
+
+                          // Saved Time Counter
+                          _buildSavedTimeCard(context, savedHours, l10n),
+
+                          const SizedBox(height: 24),
+
+                          // Stats Row
+                          _buildStatsRow(
+                            context,
+                            memberDays,
+                            badgesEarned,
+                            l10n,
+                          ),
+
+                          const SizedBox(height: 24),
+
+                          // Google Connection Status
+                          _buildGoogleStatus(context, authService, l10n),
+
+                          const SizedBox(height: 32),
+
+                          // Sign Out Button
+                          _buildSignOutButton(context, authService, l10n),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        );
+            );
           },
         ),
       ],
@@ -303,15 +319,15 @@ class _ProfileModalState extends State<ProfileModal> {
                           ),
                         )
                       : _localPhotoPath != null
-                          ? Image.file(
-                              File(_localPhotoPath!),
-                              fit: BoxFit.cover,
-                              width: 100,
-                              height: 100,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  _buildAvatarContent(googlePhotoUrl),
-                            )
-                          : _buildAvatarContent(googlePhotoUrl),
+                      ? Image.file(
+                          File(_localPhotoPath!),
+                          fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,
+                          errorBuilder: (context, error, stackTrace) =>
+                              _buildAvatarContent(googlePhotoUrl),
+                        )
+                      : _buildAvatarContent(googlePhotoUrl),
                 ),
               ),
               // Camera edit indicator
@@ -474,11 +490,7 @@ class _ProfileModalState extends State<ProfileModal> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              size: 18,
-              color: context.appColors.primary,
-            ),
+            Icon(icon, size: 18, color: context.appColors.primary),
             const SizedBox(width: 6),
             Text(
               label,
@@ -736,9 +748,7 @@ class _ProfileModalState extends State<ProfileModal> {
             if (_isLinkingGoogle)
               Text(
                 '...',
-                style: TextStyle(
-                  color: context.appColors.textTertiary,
-                ),
+                style: TextStyle(color: context.appColors.textTertiary),
               )
             else if (isLinked)
               Icon(
@@ -783,7 +793,9 @@ class _ProfileModalState extends State<ProfileModal> {
             ),
             backgroundColor: context.appColors.success,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
         // Refresh UI to show linked status
@@ -802,7 +814,9 @@ class _ProfileModalState extends State<ProfileModal> {
             ),
             backgroundColor: context.appColors.error,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
       }
@@ -1291,8 +1305,9 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                         boxShadow: _canSave && !_isLoading
                             ? [
                                 BoxShadow(
-                                  color: context.appColors.primary
-                                      .withValues(alpha: 0.3),
+                                  color: context.appColors.primary.withValues(
+                                    alpha: 0.3,
+                                  ),
                                   blurRadius: 16,
                                   offset: const Offset(0, 6),
                                 ),

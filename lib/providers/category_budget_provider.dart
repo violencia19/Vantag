@@ -196,8 +196,6 @@ class CategoryBudgetProvider extends ChangeNotifier {
   /// Get categories without budgets
   List<String> getCategoriesWithoutBudget(List<String> allCategories) {
     final budgetedCategories = _budgets.map((b) => b.budget.category).toSet();
-    return allCategories
-        .where((c) => !budgetedCategories.contains(c))
-        .toList();
+    return allCategories.where((c) => !budgetedCategories.contains(c)).toList();
   }
 }

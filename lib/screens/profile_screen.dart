@@ -398,7 +398,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: context.appColors.success.withValues(alpha: 0.15),
+                              color: context.appColors.success.withValues(
+                                alpha: 0.15,
+                              ),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
@@ -422,7 +424,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             TextButton(
                               onPressed: () {
                                 selectedItems.value = Set.from(
-                                  List.generate(result.transactions.length, (i) => i),
+                                  List.generate(
+                                    result.transactions.length,
+                                    (i) => i,
+                                  ),
                                 );
                               },
                               child: Text(l10n.selectAll),
@@ -477,7 +482,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? context.appColors.primary.withValues(alpha: 0.1)
+                                  ? context.appColors.primary.withValues(
+                                      alpha: 0.1,
+                                    )
                                   : context.appColors.surfaceLight,
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(
@@ -504,7 +511,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 // Details
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         t.merchant ?? t.description,
@@ -523,20 +531,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             t.category,
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color: context.appColors.textSecondary,
+                                              color: context
+                                                  .appColors
+                                                  .textSecondary,
                                             ),
                                           ),
                                           Text(
                                             ' • ',
                                             style: TextStyle(
-                                              color: context.appColors.textTertiary,
+                                              color: context
+                                                  .appColors
+                                                  .textTertiary,
                                             ),
                                           ),
                                           Text(
                                             '${t.date.day}/${t.date.month}/${t.date.year}',
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color: context.appColors.textTertiary,
+                                              color: context
+                                                  .appColors
+                                                  .textTertiary,
                                             ),
                                           ),
                                         ],
@@ -568,58 +582,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: const EdgeInsets.all(16),
                   child: ValueListenableBuilder<Set<int>>(
                     valueListenable: selectedItems,
-                    builder: (context, selected, _) => ValueListenableBuilder<bool>(
-                      valueListenable: isSaving,
-                      builder: (context, saving, _) => SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton.icon(
-                          onPressed: selected.isEmpty || saving
-                              ? null
-                              : () async {
-                                  isSaving.value = true;
-                                  await _saveAIParsedExpenses(
-                                    result.transactions,
-                                    selected,
-                                  );
-                                  if (context.mounted) {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          l10n.importSuccess(selected.length),
-                                        ),
-                                        behavior: SnackBarBehavior.floating,
-                                        backgroundColor: context.appColors.success,
+                    builder: (context, selected, _) =>
+                        ValueListenableBuilder<bool>(
+                          valueListenable: isSaving,
+                          builder: (context, saving, _) => SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              onPressed: selected.isEmpty || saving
+                                  ? null
+                                  : () async {
+                                      isSaving.value = true;
+                                      await _saveAIParsedExpenses(
+                                        result.transactions,
+                                        selected,
+                                      );
+                                      if (context.mounted) {
+                                        Navigator.pop(context);
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              l10n.importSuccess(
+                                                selected.length,
+                                              ),
+                                            ),
+                                            behavior: SnackBarBehavior.floating,
+                                            backgroundColor:
+                                                context.appColors.success,
+                                          ),
+                                        );
+                                      }
+                                    },
+                              icon: saving
+                                  ? const SizedBox(
+                                      width: 18,
+                                      height: 18,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: Colors.white,
                                       ),
-                                    );
-                                  }
-                                },
-                          icon: saving
-                              ? const SizedBox(
-                                  width: 18,
-                                  height: 18,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : const Icon(PhosphorIconsRegular.floppyDisk, size: 20),
-                          label: Text(
-                            saving
-                                ? l10n.saving
-                                : l10n.importSelected(selected.length),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: context.appColors.primary,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                                    )
+                                  : const Icon(
+                                      PhosphorIconsRegular.floppyDisk,
+                                      size: 20,
+                                    ),
+                              label: Text(
+                                saving
+                                    ? l10n.saving
+                                    : l10n.importSelected(selected.length),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: context.appColors.primary,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
                   ),
                 ),
               ],
@@ -748,16 +773,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ? null
                               : () async {
                                   isSaving.value = true;
-                                  await _saveRecognizedExpenses(result.recognized);
+                                  await _saveRecognizedExpenses(
+                                    result.recognized,
+                                  );
                                   if (context.mounted) {
                                     Navigator.pop(context);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        content: Text(l10n.saveAllRecognizedSuccess(
-                                          result.recognized.length,
-                                        )),
+                                        content: Text(
+                                          l10n.saveAllRecognizedSuccess(
+                                            result.recognized.length,
+                                          ),
+                                        ),
                                         behavior: SnackBarBehavior.floating,
-                                        backgroundColor: context.appColors.success,
+                                        backgroundColor:
+                                            context.appColors.success,
                                       ),
                                     );
                                     // If there are pending items, open review sheet
@@ -787,7 +817,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   PhosphorIconsRegular.floppyDisk,
                                   size: 18,
                                 ),
-                          label: Text(l10n.saveAllRecognized(result.recognized.length)),
+                          label: Text(
+                            l10n.saveAllRecognized(result.recognized.length),
+                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: context.appColors.success,
                             foregroundColor: Colors.white,
@@ -811,7 +843,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onPressed: () => Navigator.pop(context),
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 14),
-                            side: BorderSide(color: context.appColors.cardBorder),
+                            side: BorderSide(
+                              color: context.appColors.cardBorder,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -826,7 +860,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
 
                       // Review button (if there are pending items and no recognized)
-                      if (result.needsReviewCount > 0 && result.recognized.isEmpty) ...[
+                      if (result.needsReviewCount > 0 &&
+                          result.recognized.isEmpty) ...[
                         const SizedBox(width: 12),
                         Expanded(
                           flex: 2,
@@ -915,7 +950,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // Simplified hourly rate calculation
     final userProfile = financeProvider.userProfile;
     final hourlyRate = userProfile != null
-        ? (userProfile.monthlyIncome / (userProfile.dailyHours * userProfile.workDaysPerWeek * 4))
+        ? (userProfile.monthlyIncome /
+              (userProfile.dailyHours * userProfile.workDaysPerWeek * 4))
         : 50.0;
 
     for (final expense in recognized) {
@@ -1386,43 +1422,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-        decoration: BoxDecoration(
-          color: highlight
-              ? context.appColors.primary.withValues(alpha: 0.15)
-              : context.appColors.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+          decoration: BoxDecoration(
             color: highlight
-                ? context.appColors.primary.withValues(alpha: 0.3)
-                : context.appColors.cardBorder,
-          ),
-        ),
-        child: Column(
-          children: [
-            Icon(
-              icon,
-              size: 22,
+                ? context.appColors.primary.withValues(alpha: 0.15)
+                : context.appColors.surface,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
               color: highlight
-                  ? context.appColors.primary
-                  : context.appColors.textSecondary,
+                  ? context.appColors.primary.withValues(alpha: 0.3)
+                  : context.appColors.cardBorder,
             ),
-            const SizedBox(height: 6),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
+          ),
+          child: Column(
+            children: [
+              Icon(
+                icon,
+                size: 22,
                 color: highlight
                     ? context.appColors.primary
                     : context.appColors.textSecondary,
               ),
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
+              const SizedBox(height: 6),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: highlight
+                      ? context.appColors.primary
+                      : context.appColors.textSecondary,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -1868,39 +1904,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onTap: onTap,
           borderRadius: BorderRadius.circular(12),
           child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          child: Row(
-            children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: iconColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            child: Row(
+              children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: iconColor.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(icon, size: 20, color: iconColor),
                 ),
-                child: Icon(icon, size: 20, color: iconColor),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: titleColor ?? context.appColors.textPrimary,
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: titleColor ?? context.appColors.textPrimary,
+                    ),
                   ),
                 ),
-              ),
-              if (trailing != null) trailing,
-              if (showArrow && trailing == null)
-                Icon(
-                  PhosphorIconsDuotone.caretRight,
-                  size: 18,
-                  color: context.appColors.textTertiary,
-                ),
-            ],
+                if (trailing != null) trailing,
+                if (showArrow && trailing == null)
+                  Icon(
+                    PhosphorIconsDuotone.caretRight,
+                    size: 18,
+                    color: context.appColors.textTertiary,
+                  ),
+              ],
+            ),
           ),
-        ),
         ),
       ),
     );
@@ -2083,9 +2119,8 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                     disabledBackgroundColor: context.appColors.error.withValues(
                       alpha: 0.3,
                     ),
-                    disabledForegroundColor: context.appColors.textPrimary.withValues(
-                      alpha: 0.5,
-                    ),
+                    disabledForegroundColor: context.appColors.textPrimary
+                        .withValues(alpha: 0.5),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),

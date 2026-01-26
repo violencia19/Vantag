@@ -9,8 +9,8 @@ class AppLimits {
   static const int freeAiChatsPerDay = 4;
 
   // ===== VOICE INPUT =====
-  /// Free users can use voice input 1 time per day.
-  static const int freeVoiceInputPerDay = 1;
+  /// Free users can use voice input 3 times per day (very cheap, good UX).
+  static const int freeVoiceInputPerDay = 3;
 
   /// Pro users can use voice input 10 times per day (shown as unlimited).
   static const int proVoiceInputPerDay = 10;

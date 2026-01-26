@@ -18,11 +18,7 @@ class BudgetSummaryCard extends StatelessWidget {
   final VoidCallback? onViewAll;
   final VoidCallback? onAddBudget;
 
-  const BudgetSummaryCard({
-    super.key,
-    this.onViewAll,
-    this.onAddBudget,
-  });
+  const BudgetSummaryCard({super.key, this.onViewAll, this.onAddBudget});
 
   @override
   Widget build(BuildContext context) {
@@ -179,8 +175,10 @@ class BudgetSummaryCard extends StatelessWidget {
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: _getOverallColor(context, summary)
-                            .withValues(alpha: 0.15),
+                        color: _getOverallColor(
+                          context,
+                          summary,
+                        ).withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
@@ -252,10 +250,7 @@ class BudgetSummaryCard extends StatelessWidget {
                     children: budgetProvider.warningBudgets
                         .take(3)
                         .map(
-                          (b) => CompactBudgetCard(
-                            budget: b,
-                            onTap: onViewAll,
-                          ),
+                          (b) => CompactBudgetCard(budget: b, onTap: onViewAll),
                         )
                         .toList(),
                   ),
@@ -324,10 +319,7 @@ class BudgetSummaryCard extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: context.appColors.primary,
               foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 12,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -381,11 +373,7 @@ class BudgetWarningBanner extends StatelessWidget {
   final List<CategoryBudgetWithSpent> budgets;
   final VoidCallback? onTap;
 
-  const BudgetWarningBanner({
-    super.key,
-    required this.budgets,
-    this.onTap,
-  });
+  const BudgetWarningBanner({super.key, required this.budgets, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -394,8 +382,9 @@ class BudgetWarningBanner extends StatelessWidget {
     if (budgets.isEmpty) return const SizedBox.shrink();
 
     final hasOverBudget = budgets.any((b) => b.isOverBudget);
-    final color =
-        hasOverBudget ? context.appColors.error : context.appColors.warning;
+    final color = hasOverBudget
+        ? context.appColors.error
+        : context.appColors.warning;
 
     return GestureDetector(
       onTap: onTap,
@@ -405,9 +394,7 @@ class BudgetWarningBanner extends StatelessWidget {
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: color.withValues(alpha: 0.3),
-          ),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Row(
           children: [
@@ -452,11 +439,7 @@ class BudgetWarningBanner extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(
-              PhosphorIconsDuotone.caretRight,
-              color: color,
-              size: 20,
-            ),
+            Icon(PhosphorIconsDuotone.caretRight, color: color, size: 20),
           ],
         ),
       ),

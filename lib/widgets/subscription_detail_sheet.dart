@@ -154,7 +154,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
     HapticFeedback.lightImpact();
     showDialog(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withOpacity(0.85),
       builder: (context) => AlertDialog(
         backgroundColor: context.appColors.gradientMid,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -463,7 +463,10 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               label: Text(l10n.deleteSubscription),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.categoryBills,
-                side: const BorderSide(color: AppColors.categoryBills, width: 1),
+                side: const BorderSide(
+                  color: AppColors.categoryBills,
+                  width: 1,
+                ),
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),

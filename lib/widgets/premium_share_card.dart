@@ -675,7 +675,7 @@ void showShareCardPreview(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withValues(alpha: 0.9),
+    barrierColor: Colors.black.withOpacity(0.85),
     builder: (context) => _ShareCardPreviewSheet(
       amount: amount,
       hoursRequired: hoursRequired,
@@ -1053,14 +1053,13 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
       }
 
       final shareText = await _getShareText();
-      final whatsappUrl = Uri.parse('whatsapp://send?text=${Uri.encodeComponent(shareText)}');
+      final whatsappUrl = Uri.parse(
+        'whatsapp://send?text=${Uri.encodeComponent(shareText)}',
+      );
 
       if (await canLaunchUrl(whatsappUrl)) {
         // Share with image and text
-        await Share.shareXFiles(
-          [XFile(filePath)],
-          text: shareText,
-        );
+        await Share.shareXFiles([XFile(filePath)], text: shareText);
         haptics.success();
         if (mounted) Navigator.pop(context);
       } else {
@@ -1089,10 +1088,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
       final shareText = await _getShareText();
 
       // Use share_plus to share to Twitter
-      await Share.shareXFiles(
-        [XFile(filePath)],
-        text: shareText,
-      );
+      await Share.shareXFiles([XFile(filePath)], text: shareText);
       haptics.success();
       if (mounted) Navigator.pop(context);
     } catch (_) {
@@ -1124,14 +1120,20 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
             SnackBar(
               content: Row(
                 children: [
-                  Icon(PhosphorIconsFill.checkCircle, color: Colors.white, size: 20),
+                  Icon(
+                    PhosphorIconsFill.checkCircle,
+                    color: Colors.white,
+                    size: 20,
+                  ),
                   const SizedBox(width: 12),
                   Text(l10n.savedToGallery),
                 ],
               ),
               backgroundColor: context.appColors.success,
               behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
           );
         }
@@ -1275,10 +1277,7 @@ class _ShareButton extends StatelessWidget {
               SizedBox(
                 width: 24,
                 height: 24,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: color,
-                ),
+                child: CircularProgressIndicator(strokeWidth: 2, color: color),
               )
             else
               Icon(icon, size: 24, color: color),
@@ -1557,10 +1556,7 @@ class _HabitShareCardState extends State<HabitShareCard>
           ShaderMask(
             shaderCallback: (bounds) {
               return LinearGradient(
-                colors: [
-                  Colors.white,
-                  widget.iconColor.withValues(alpha: 0.9),
-                ],
+                colors: [Colors.white, widget.iconColor.withValues(alpha: 0.9)],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ).createShader(bounds);
@@ -1627,41 +1623,50 @@ class _HabitShareCardState extends State<HabitShareCard>
 
     // Monthly work time
     if (widget.monthlyDays != null) {
-      final monthlyText = widget.monthlyExtraHours != null && widget.monthlyExtraHours! > 0
+      final monthlyText =
+          widget.monthlyExtraHours != null && widget.monthlyExtraHours! > 0
           ? '${widget.monthlyDays}d ${widget.monthlyExtraHours}h'
           : '${widget.monthlyDays} ${l10n.daysAbbrev}';
-      details.add(_DetailItem(
-        icon: PhosphorIconsDuotone.calendarBlank,
-        label: l10n.monthly,
-        value: monthlyText,
-      ));
+      details.add(
+        _DetailItem(
+          icon: PhosphorIconsDuotone.calendarBlank,
+          label: l10n.monthly,
+          value: monthlyText,
+        ),
+      );
     }
 
     // Yearly amount
     if (widget.yearlyAmount != null) {
-      details.add(_DetailItem(
-        icon: PhosphorIconsDuotone.coins,
-        label: l10n.yearly,
-        value: '$symbol${_formatAmount(widget.yearlyAmount!)}',
-      ));
+      details.add(
+        _DetailItem(
+          icon: PhosphorIconsDuotone.coins,
+          label: l10n.yearly,
+          value: '$symbol${_formatAmount(widget.yearlyAmount!)}',
+        ),
+      );
     }
 
     // Monthly amount
     if (widget.monthlyAmount != null) {
-      details.add(_DetailItem(
-        icon: PhosphorIconsDuotone.wallet,
-        label: l10n.monthly,
-        value: '$symbol${_formatAmount(widget.monthlyAmount!)}',
-      ));
+      details.add(
+        _DetailItem(
+          icon: PhosphorIconsDuotone.wallet,
+          label: l10n.monthly,
+          value: '$symbol${_formatAmount(widget.monthlyAmount!)}',
+        ),
+      );
     }
 
     // Frequency
     if (widget.frequency != null) {
-      details.add(_DetailItem(
-        icon: PhosphorIconsDuotone.repeat,
-        label: l10n.frequency,
-        value: widget.frequency!,
-      ));
+      details.add(
+        _DetailItem(
+          icon: PhosphorIconsDuotone.repeat,
+          label: l10n.frequency,
+          value: widget.frequency!,
+        ),
+      );
     }
 
     if (details.isEmpty) return const SizedBox.shrink();
@@ -1670,10 +1675,14 @@ class _HabitShareCardState extends State<HabitShareCard>
     if (details.length <= 2) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: details.map((d) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: _buildDetailChip(d),
-        )).toList(),
+        children: details
+            .map(
+              (d) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: _buildDetailChip(d),
+              ),
+            )
+            .toList(),
       );
     }
 
@@ -1691,18 +1700,12 @@ class _HabitShareCardState extends State<HabitShareCard>
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.1),
-        ),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            item.icon,
-            size: 14,
-            color: Colors.white.withValues(alpha: 0.7),
-          ),
+          Icon(item.icon, size: 14, color: Colors.white.withValues(alpha: 0.7)),
           const SizedBox(width: 6),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -2045,7 +2048,7 @@ void showHabitShareCardPreview(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withValues(alpha: 0.9),
+    barrierColor: Colors.black.withOpacity(0.85),
     builder: (context) => _HabitShareCardPreviewSheet(
       icon: icon,
       iconColor: iconColor,

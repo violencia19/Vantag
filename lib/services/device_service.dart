@@ -46,7 +46,9 @@ class DeviceService {
     if (token == null || token.isEmpty) {
       token = _generateDeviceToken();
       await prefs.setString(_deviceTokenKey, token);
-      debugPrint('📱 [Device] New device token generated: ${token.substring(0, 8)}...');
+      debugPrint(
+        '📱 [Device] New device token generated: ${token.substring(0, 8)}...',
+      );
     }
 
     _cachedDeviceToken = token;
@@ -56,7 +58,9 @@ class DeviceService {
   /// Generate a unique device token
   String _generateDeviceToken() {
     final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final platform = Platform.isAndroid ? 'android' : (Platform.isIOS ? 'ios' : 'other');
+    final platform = Platform.isAndroid
+        ? 'android'
+        : (Platform.isIOS ? 'ios' : 'other');
     final random = DateTime.now().microsecondsSinceEpoch.toString();
     return '${platform}_${timestamp}_$random';
   }
@@ -76,10 +80,14 @@ class DeviceService {
       await _firestore.collection('users').doc(user.uid).set({
         'currentDevice': deviceToken,
         'lastDeviceLoginAt': FieldValue.serverTimestamp(),
-        'devicePlatform': Platform.isAndroid ? 'android' : (Platform.isIOS ? 'ios' : 'other'),
+        'devicePlatform': Platform.isAndroid
+            ? 'android'
+            : (Platform.isIOS ? 'ios' : 'other'),
       }, SetOptions(merge: true));
 
-      debugPrint('✅ [Device] Device registered for user ${user.uid.substring(0, 8)}...');
+      debugPrint(
+        '✅ [Device] Device registered for user ${user.uid.substring(0, 8)}...',
+      );
     } catch (e) {
       debugPrint('❌ [Device] Failed to register device: $e');
     }
@@ -118,7 +126,9 @@ class DeviceService {
       }
 
       if (serverToken == deviceToken) {
-        debugPrint('✅ [Device] Device token matches - this is the active device');
+        debugPrint(
+          '✅ [Device] Device token matches - this is the active device',
+        );
         return DeviceCheckResult.valid;
       } else {
         debugPrint('⚠️ [Device] Device token mismatch!');
@@ -164,11 +174,9 @@ class DeviceService {
       return Stream.value(false);
     }
 
-    return _firestore
-        .collection('users')
-        .doc(user.uid)
-        .snapshots()
-        .asyncMap((snapshot) async {
+    return _firestore.collection('users').doc(user.uid).snapshots().asyncMap((
+      snapshot,
+    ) async {
       if (!snapshot.exists) return false;
 
       final serverToken = snapshot.data()?['currentDevice'] as String?;

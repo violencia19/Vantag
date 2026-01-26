@@ -95,18 +95,14 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color:
-                  (isUrgent ? AppColors.urgentOrange : AppColors.secondary)
-                      .withValues(alpha: 0.5 * _pulseAnimation.value),
+              color: (isUrgent ? AppColors.urgentOrange : AppColors.secondary)
+                  .withValues(alpha: 0.5 * _pulseAnimation.value),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color:
-                    (isUrgent
-                            ? AppColors.urgentOrange
-                            : AppColors.secondary)
-                        .withValues(alpha: 0.2 * _pulseAnimation.value),
+                color: (isUrgent ? AppColors.urgentOrange : AppColors.secondary)
+                    .withValues(alpha: 0.2 * _pulseAnimation.value),
                 blurRadius: 16,
                 spreadRadius: 2,
               ),
@@ -137,14 +133,8 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: isUrgent
-                                    ? [
-                                        AppColors.urgentOrange,
-                                        AppColors.error,
-                                      ]
-                                    : [
-                                        AppColors.secondary,
-                                        AppColors.primary,
-                                      ],
+                                    ? [AppColors.urgentOrange, AppColors.error]
+                                    : [AppColors.secondary, AppColors.primary],
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),

@@ -24,10 +24,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
   void _previousMonth() {
     HapticFeedback.selectionClick();
     setState(() {
-      _selectedMonth = DateTime(
-        _selectedMonth.year,
-        _selectedMonth.month - 1,
-      );
+      _selectedMonth = DateTime(_selectedMonth.year, _selectedMonth.month - 1);
     });
   }
 
@@ -46,8 +43,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
     return allExpenses.where((e) {
       return e.date.year == _selectedMonth.year &&
           e.date.month == _selectedMonth.month;
-    }).toList()
-      ..sort((a, b) => b.date.compareTo(a.date));
+    }).toList()..sort((a, b) => b.date.compareTo(a.date));
   }
 
   @override
@@ -90,10 +86,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
             ),
 
             // Divider
-            Divider(
-              color: context.appColors.cardBorder,
-              height: 1,
-            ),
+            Divider(color: context.appColors.cardBorder, height: 1),
 
             // Transaction List
             Expanded(
@@ -109,8 +102,8 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
 
   Widget _buildMonthSelector(AppLocalizations l10n) {
     final now = DateTime.now();
-    final isCurrentMonth = _selectedMonth.year == now.year &&
-        _selectedMonth.month == now.month;
+    final isCurrentMonth =
+        _selectedMonth.year == now.year && _selectedMonth.month == now.month;
 
     final locale = Localizations.localeOf(context).languageCode;
     final monthFormat = DateFormat.yMMMM(locale);
@@ -170,11 +163,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
               color: context.appColors.success,
             ),
           ),
-          Container(
-            width: 1,
-            height: 40,
-            color: context.appColors.cardBorder,
-          ),
+          Container(width: 1, height: 40, color: context.appColors.cardBorder),
           // Expense
           Expanded(
             child: _buildSummaryItem(
@@ -184,11 +173,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
               color: context.appColors.error,
             ),
           ),
-          Container(
-            width: 1,
-            height: 40,
-            color: context.appColors.cardBorder,
-          ),
+          Container(width: 1, height: 40, color: context.appColors.cardBorder),
           // Balance
           Expanded(
             child: _buildSummaryItem(

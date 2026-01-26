@@ -42,31 +42,31 @@ class VoiceInputButton extends StatelessWidget {
           ).push(MaterialPageRoute(builder: (_) => const VoiceInputScreen()));
         },
         child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [primary, secondary],
-          ),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: primary.withValues(alpha: 0.4),
-              blurRadius: 16,
-              offset: const Offset(0, 6),
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [primary, secondary],
             ),
-          ],
-        ),
-        child: Center(
-          child: PhosphorIcon(
-            PhosphorIconsFill.microphone,
-            color: Colors.white,
-            size: size * 0.45,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: primary.withValues(alpha: 0.4),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Center(
+            child: PhosphorIcon(
+              PhosphorIconsFill.microphone,
+              color: Colors.white,
+              size: size * 0.45,
+            ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -218,7 +218,9 @@ class _AnimatedVoiceButtonState extends State<AnimatedVoiceButton>
                           (widget.isListening
                                   ? AppColors.categoryBills
                                   : context.appColors.primary)
-                              .withValues(alpha: widget.isListening ? 0.6 : 0.4),
+                              .withValues(
+                                alpha: widget.isListening ? 0.6 : 0.4,
+                              ),
                       blurRadius: widget.isListening ? 50 : 25,
                       spreadRadius: widget.isListening ? 10 : 0,
                     ),

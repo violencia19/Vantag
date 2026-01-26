@@ -508,13 +508,13 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   /// Start watching for device changes in real-time
   void _startDeviceWatcher() {
-    _deviceChangeSubscription = _deviceService.watchDeviceChanges().listen(
-      (anotherDeviceLoggedIn) {
-        if (anotherDeviceLoggedIn && mounted) {
-          _handleDeviceMismatch();
-        }
-      },
-    );
+    _deviceChangeSubscription = _deviceService.watchDeviceChanges().listen((
+      anotherDeviceLoggedIn,
+    ) {
+      if (anotherDeviceLoggedIn && mounted) {
+        _handleDeviceMismatch();
+      }
+    });
   }
 
   /// Handle device mismatch - show dialog and sign out
@@ -533,9 +533,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         backgroundColor: context.appColors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
             Icon(
@@ -779,8 +777,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               onAddLongPress: _openVoiceInput,
             ),
             // AI Chat FAB (hidden in Simple Mode)
-            floatingActionButton:
-                _isSimpleMode ? null : AIFloatingButton(onTap: _showAIChat),
+            floatingActionButton: _isSimpleMode
+                ? null
+                : AIFloatingButton(onTap: _showAIChat),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           );
         },
@@ -818,7 +817,9 @@ class _OfflineBanner extends StatelessWidget {
                     width: 28,
                     height: 28,
                     decoration: BoxDecoration(
-                      color: context.appColors.textPrimary.withValues(alpha: 0.2),
+                      color: context.appColors.textPrimary.withValues(
+                        alpha: 0.2,
+                      ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(

@@ -283,37 +283,39 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
               });
             },
             child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? QuietLuxury.positive.withValues(alpha: 0.2)
-                  : QuietLuxury.cardBackground,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
+              duration: const Duration(milliseconds: 200),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
                 color: isSelected
-                    ? QuietLuxury.positive.withValues(alpha: 0.5)
-                    : QuietLuxury.cardBorder,
-                width: isSelected ? 1.5 : 0.5,
+                    ? QuietLuxury.positive.withValues(alpha: 0.2)
+                    : QuietLuxury.cardBackground,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: isSelected
+                      ? QuietLuxury.positive.withValues(alpha: 0.5)
+                      : QuietLuxury.cardBorder,
+                  width: isSelected ? 1.5 : 0.5,
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(category.emoji, style: const TextStyle(fontSize: 16)),
+                  const SizedBox(width: 6),
+                  Text(
+                    _getCategoryLabel(category),
+                    style: QuietLuxury.label.copyWith(
+                      color: isSelected
+                          ? QuietLuxury.positive
+                          : QuietLuxury.textSecondary,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w400,
+                    ),
+                  ),
+                ],
               ),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(category.emoji, style: const TextStyle(fontSize: 16)),
-                const SizedBox(width: 6),
-                Text(
-                  _getCategoryLabel(category),
-                  style: QuietLuxury.label.copyWith(
-                    color: isSelected
-                        ? QuietLuxury.positive
-                        : QuietLuxury.textSecondary,
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-          ),
           ),
         );
       }).toList(),

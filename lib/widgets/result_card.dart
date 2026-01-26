@@ -13,7 +13,8 @@ class ResultCard extends StatelessWidget {
   final String? emotionalMessage;
   final double? amount;
   final ExchangeRates? exchangeRates;
-  final String? amountCurrencyCode; // Currency of the amount (TRY, USD, EUR, etc.)
+  final String?
+  amountCurrencyCode; // Currency of the amount (TRY, USD, EUR, etc.)
 
   const ResultCard({
     super.key,
@@ -233,7 +234,9 @@ class ResultCard extends StatelessWidget {
     // Debug logging for currency conversion
     debugPrint('💱 [ResultCard] Currency Conversion Debug:');
     debugPrint('   Input: $amount $currencyCode');
-    debugPrint('   Rates: USD=${exchangeRates!.usdRate}, EUR=${exchangeRates!.eurRate}, GOLD=${exchangeRates!.goldRate}');
+    debugPrint(
+      '   Rates: USD=${exchangeRates!.usdRate}, EUR=${exchangeRates!.eurRate}, GOLD=${exchangeRates!.goldRate}',
+    );
     debugPrint('   TRY equivalent: $amountInTRY');
     debugPrint('   Output: USD=$usdAmount, EUR=$eurAmount, GOLD=${goldGrams}g');
 

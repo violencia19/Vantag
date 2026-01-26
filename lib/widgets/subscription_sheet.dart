@@ -53,7 +53,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
   void _showAddEditDialog({Subscription? existing}) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withOpacity(0.85),
       isScrollControlled: true,
       backgroundColor: QuietLuxury.background,
       shape: const RoundedRectangleBorder(
@@ -302,7 +302,10 @@ class _SubscriptionCard extends StatelessWidget {
   Color _getRenewalColor() {
     final days = subscription.daysUntilRenewal;
     if (days <= 1) return QuietLuxury.warning;
-    if (days <= 3) return AppColors.categoryEntertainment.withValues(alpha: 0.7); // Subtle blue
+    if (days <= 3)
+      return AppColors.categoryEntertainment.withValues(
+        alpha: 0.7,
+      ); // Subtle blue
     return QuietLuxury.textTertiary;
   }
 
@@ -460,7 +463,7 @@ class _SubscriptionCard extends StatelessWidget {
   void _showOptionsMenu(BuildContext context, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: QuietLuxury.background,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -484,7 +487,9 @@ class _SubscriptionCard extends StatelessWidget {
                 context: context,
                 icon: PhosphorIconsDuotone.pencilSimple,
                 label: l10n.edit,
-                color: AppColors.categoryEntertainment.withValues(alpha: 0.7), // Subtle blue
+                color: AppColors.categoryEntertainment.withValues(
+                  alpha: 0.7,
+                ), // Subtle blue
                 onTap: () {
                   Navigator.pop(context);
                   onEdit();

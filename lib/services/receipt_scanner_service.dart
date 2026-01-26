@@ -10,12 +10,7 @@ class ScanResult {
   final DateTime? date;
   final String? currency;
 
-  const ScanResult({
-    this.amount,
-    this.merchant,
-    this.date,
-    this.currency,
-  });
+  const ScanResult({this.amount, this.merchant, this.date, this.currency});
 
   bool get hasAmount => amount != null && amount! > 0;
 
@@ -80,13 +75,11 @@ class ReceiptScannerService {
     // Extract total amount
     final amount = _extractTotal(lines);
 
-    debugPrint('[ReceiptScanner] Extracted: amount=$amount, currency=$currency, merchant=$merchant');
-
-    return ScanResult(
-      amount: amount,
-      merchant: merchant,
-      currency: currency,
+    debugPrint(
+      '[ReceiptScanner] Extracted: amount=$amount, currency=$currency, merchant=$merchant',
     );
+
+    return ScanResult(amount: amount, merchant: merchant, currency: currency);
   }
 
   /// Legacy method for backwards compatibility
@@ -101,7 +94,9 @@ class ReceiptScannerService {
 
     // Check for currency symbols and codes
     // Order matters - check specific symbols first
-    if (text.contains('₺') || RegExp(r'\bTL\b').hasMatch(text) || text.contains('TRY')) {
+    if (text.contains('₺') ||
+        RegExp(r'\bTL\b').hasMatch(text) ||
+        text.contains('TRY')) {
       return 'TRY';
     }
     if (text.contains('€') || RegExp(r'\bEUR\b').hasMatch(text)) {
@@ -125,9 +120,11 @@ class ReceiptScannerService {
       if (cleaned.isEmpty || cleaned.length < 3) continue;
       if (RegExp(r'^[\d\s\-\.\,\/]+$').hasMatch(cleaned)) continue;
       // Skip lines that look like addresses or dates
-      if (RegExp(r'\d{2}[\/\-\.]\d{2}[\/\-\.]\d{2,4}').hasMatch(cleaned)) continue;
+      if (RegExp(r'\d{2}[\/\-\.]\d{2}[\/\-\.]\d{2,4}').hasMatch(cleaned))
+        continue;
       if (cleaned.toLowerCase().contains('tel:') ||
-          cleaned.toLowerCase().contains('fax:')) continue;
+          cleaned.toLowerCase().contains('fax:'))
+        continue;
 
       // Found a potential merchant name
       return cleaned;

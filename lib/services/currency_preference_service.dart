@@ -31,7 +31,9 @@ class CurrencyPreferenceService {
       final defaultCurrency = _isPhoneTurkish() ? 'TRY' : 'USD';
       await prefs.setString(_key, defaultCurrency);
       await prefs.setBool(_firstLaunchKey, true);
-      debugPrint('[CurrencyPreference] First launch - default currency: $defaultCurrency');
+      debugPrint(
+        '[CurrencyPreference] First launch - default currency: $defaultCurrency',
+      );
       return defaultCurrency;
     }
 

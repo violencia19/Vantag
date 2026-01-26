@@ -72,7 +72,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: context.appColors.background.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withOpacity(0.85),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => AddSubscriptionSheet(
@@ -89,7 +89,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: context.appColors.background.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withOpacity(0.85),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => SubscriptionDetailSheet(
@@ -198,7 +198,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         onPressed: _showAddSheet,
         backgroundColor: context.appColors.primary,
         tooltip: AppLocalizations.of(context).addSubscription,
-        child: Icon(PhosphorIconsDuotone.plus, color: context.appColors.textPrimary),
+        child: Icon(
+          PhosphorIconsDuotone.plus,
+          color: context.appColors.textPrimary,
+        ),
       ),
     );
   }
@@ -309,41 +312,64 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       child: GestureDetector(
         onTap: () => _showDetailSheet(subscription),
         child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: context.appColors.surface.withValues(alpha: 0.6),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: subscription.color.withValues(alpha: 0.3),
-            width: 1,
-          ),
-        ),
-        child: Row(
-          children: [
-            // Color dot
-            Container(
-              width: 12,
-              height: 12,
-              decoration: BoxDecoration(
-                color: subscription.color,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: subscription.color.withValues(alpha: 0.4),
-                    blurRadius: 6,
-                    spreadRadius: 1,
-                  ),
-                ],
-              ),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: context.appColors.surface.withValues(alpha: 0.6),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: subscription.color.withValues(alpha: 0.3),
+              width: 1,
             ),
-            const SizedBox(width: 14),
-            // Name and category
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          ),
+          child: Row(
+            children: [
+              // Color dot
+              Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  color: subscription.color,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: subscription.color.withValues(alpha: 0.4),
+                      blurRadius: 6,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 14),
+              // Name and category
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      subscription.name,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: context.appColors.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      subscription.category,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.appColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Amount and renewal day
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    subscription.name,
+                    '${formatTurkishCurrency(subscription.amount, decimalDigits: 0)} ₺',
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
@@ -352,49 +378,26 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    subscription.category,
+                    AppLocalizations.of(
+                      context,
+                    ).everyMonthDay(subscription.renewalDay),
                     style: TextStyle(
-                      fontSize: 12,
-                      color: context.appColors.textSecondary,
+                      fontSize: 11,
+                      color: context.appColors.textTertiary,
                     ),
                   ),
                 ],
               ),
-            ),
-            // Amount and renewal day
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  '${formatTurkishCurrency(subscription.amount, decimalDigits: 0)} ₺',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: context.appColors.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  AppLocalizations.of(
-                    context,
-                  ).everyMonthDay(subscription.renewalDay),
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: context.appColors.textTertiary,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(width: 8),
-            // Arrow
-            Icon(
-              PhosphorIconsDuotone.caretRight,
-              size: 20,
-              color: context.appColors.textTertiary,
-            ),
-          ],
+              const SizedBox(width: 8),
+              // Arrow
+              Icon(
+                PhosphorIconsDuotone.caretRight,
+                size: 20,
+                color: context.appColors.textTertiary,
+              ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -445,7 +448,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: context.appColors.background.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         margin: const EdgeInsets.all(16),
@@ -485,12 +488,16 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       padding: const EdgeInsets.only(bottom: 12),
                       child: Semantics(
                         button: true,
-                        label: AppLocalizations.of(context).accessibilitySubscriptionCard(
-                          sub.name,
-                          formatTurkishCurrency(sub.amount, decimalDigits: 0),
-                          AppLocalizations.of(context).monthly,
-                          sub.renewalDay,
-                        ),
+                        label: AppLocalizations.of(context)
+                            .accessibilitySubscriptionCard(
+                              sub.name,
+                              formatTurkishCurrency(
+                                sub.amount,
+                                decimalDigits: 0,
+                              ),
+                              AppLocalizations.of(context).monthly,
+                              sub.renewalDay,
+                            ),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);

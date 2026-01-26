@@ -89,9 +89,7 @@ class AIInsightsCard extends StatelessWidget {
           icon: comparison.isDown
               ? PhosphorIconsBold.trendDown
               : PhosphorIconsBold.trendUp,
-          iconColor: comparison.isDown
-              ? AppColors.success
-              : AppColors.error,
+          iconColor: comparison.isDown ? AppColors.success : AppColors.error,
           title: 'Bu Ay vs Geçen Ay',
           subtitle: comparison.text,
         ),

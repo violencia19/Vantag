@@ -145,7 +145,6 @@ class SavingsPoolCard extends StatelessWidget {
               ],
             ),
           ),
-
         ],
       ),
     );

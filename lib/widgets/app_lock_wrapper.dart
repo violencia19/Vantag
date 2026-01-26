@@ -78,9 +78,7 @@ class _AppLockWrapperState extends State<AppLockWrapper>
         home: Scaffold(
           backgroundColor: AppColors.background,
           body: Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primary,
-            ),
+            child: CircularProgressIndicator(color: AppColors.primary),
           ),
         ),
       );

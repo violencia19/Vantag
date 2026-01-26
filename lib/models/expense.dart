@@ -271,7 +271,8 @@ class Expense {
 
   // Simulation thresholds (fixed, salary-independent)
   static const double _realMaxThreshold = 250000; // Below this: always real
-  static const double _simulationMinThreshold = 750000; // Above this: always simulation
+  static const double _simulationMinThreshold =
+      750000; // Above this: always simulation
 
   /// Check if amount requires user dialog (middle range: 250k - 750k)
   static bool needsSimulationDialog(double amount) {

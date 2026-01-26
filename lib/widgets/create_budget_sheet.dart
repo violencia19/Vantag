@@ -35,7 +35,7 @@ class CreateBudgetSheet extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withValues(alpha: 0.8),
+      barrierColor: Colors.black.withOpacity(0.85),
       builder: (context) => CreateBudgetSheet(
         existingBudget: existingBudget,
         preselectedCategory: preselectedCategory,
@@ -95,10 +95,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
               monthlyLimit: amount,
               category: _selectedCategory,
             )
-          : CategoryBudget(
-              category: _selectedCategory!,
-              monthlyLimit: amount,
-            );
+          : CategoryBudget(category: _selectedCategory!, monthlyLimit: amount);
 
       final success = widget.isEditMode
           ? await budgetProvider.updateBudget(budget)
@@ -337,10 +334,12 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                                       color: context.appColors.primary,
                                     ),
                                     const SizedBox(width: 12),
-                                    Text(ExpenseCategory.getLocalizedName(
-                                      category,
-                                      l10n,
-                                    )),
+                                    Text(
+                                      ExpenseCategory.getLocalizedName(
+                                        category,
+                                        l10n,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               );
@@ -424,8 +423,8 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                                     controller: _amountController,
                                     keyboardType:
                                         const TextInputType.numberWithOptions(
-                                      decimal: true,
-                                    ),
+                                          decimal: true,
+                                        ),
                                     inputFormatters: [
                                       TurkishCurrencyInputFormatter(),
                                     ],

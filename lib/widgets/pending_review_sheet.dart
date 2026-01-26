@@ -312,7 +312,9 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                       ),
                       label: Text(
                         l10n.skip,
-                        style: TextStyle(color: context.appColors.textSecondary),
+                        style: TextStyle(
+                          color: context.appColors.textSecondary,
+                        ),
                       ),
                     ),
                   ),
@@ -587,64 +589,66 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
       button: true,
       label: semanticLabel,
       child: GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        decoration: BoxDecoration(
-          color: isSuggested
-              ? category.color.withValues(alpha: 0.2)
-              : context.appColors.cardBackground,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isSuggested ? category.color : context.appColors.cardBorder,
-            width: isSuggested ? 2 : 1,
-          ),
-          boxShadow: isSuggested
-              ? [
-                  BoxShadow(
-                    color: category.color.withValues(alpha: 0.3),
-                    blurRadius: 12,
-                    spreadRadius: -2,
-                  ),
-                ]
-              : null,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            PhosphorIcon(
-              category.icon,
-              size: 28,
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          decoration: BoxDecoration(
+            color: isSuggested
+                ? category.color.withValues(alpha: 0.2)
+                : context.appColors.cardBackground,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
               color: isSuggested
                   ? category.color
-                  : context.appColors.textSecondary,
+                  : context.appColors.cardBorder,
+              width: isSuggested ? 2 : 1,
             ),
-            const SizedBox(height: 6),
-            Text(
-              category.label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isSuggested ? FontWeight.w600 : FontWeight.w500,
+            boxShadow: isSuggested
+                ? [
+                    BoxShadow(
+                      color: category.color.withValues(alpha: 0.3),
+                      blurRadius: 12,
+                      spreadRadius: -2,
+                    ),
+                  ]
+                : null,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              PhosphorIcon(
+                category.icon,
+                size: 28,
                 color: isSuggested
                     ? category.color
                     : context.appColors.textSecondary,
               ),
-              textAlign: TextAlign.center,
-            ),
-            if (isSuggested) ...[
-              const SizedBox(height: 2),
+              const SizedBox(height: 6),
               Text(
-                AppLocalizations.of(context).suggested,
+                category.label,
                 style: TextStyle(
-                  fontSize: 10,
-                  color: category.color,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                  fontWeight: isSuggested ? FontWeight.w600 : FontWeight.w500,
+                  color: isSuggested
+                      ? category.color
+                      : context.appColors.textSecondary,
                 ),
+                textAlign: TextAlign.center,
               ),
+              if (isSuggested) ...[
+                const SizedBox(height: 2),
+                Text(
+                  AppLocalizations.of(context).suggested,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: category.color,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
-      ),
       ),
     );
   }

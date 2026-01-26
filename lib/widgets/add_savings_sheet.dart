@@ -221,9 +221,8 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        disabledBackgroundColor: QuietLuxury.positive.withValues(
-                          alpha: 0.5,
-                        ),
+                        disabledBackgroundColor: QuietLuxury.positive
+                            .withValues(alpha: 0.5),
                       ),
                       child: _isLoading
                           ? const SizedBox(

@@ -9,7 +9,7 @@ class ThemeProvider extends ChangeNotifier {
   static const String _themeKey = 'app_theme_mode';
 
   // Time-based automatic theme settings
-  static const int _dayStartHour = 7;   // 07:00 - Light mode starts
+  static const int _dayStartHour = 7; // 07:00 - Light mode starts
   static const int _nightStartHour = 19; // 19:00 - Dark mode starts
 
   AppThemeMode _themeMode = AppThemeMode.dark;

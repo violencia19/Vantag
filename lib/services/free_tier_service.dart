@@ -145,6 +145,21 @@ class FreeTierService {
     debugPrint('[FreeTierService] Voice input count reset');
   }
 
+  /// Get remaining voice inputs for today
+  /// Returns (used, total) tuple
+  Future<(int used, int total)> getVoiceInputUsage(bool isPremium) async {
+    final count = await getTodayVoiceInputCount();
+    final maxLimit = isPremium ? maxProVoiceInputs : maxFreeVoiceInputs;
+    return (count, maxLimit);
+  }
+
+  /// Get remaining AI chats for today (free users)
+  /// Returns (used, total) tuple
+  Future<(int used, int total)> getAiChatUsage() async {
+    final count = await getTodayAiChatCount();
+    return (count, maxFreeAiChats);
+  }
+
   // ═══════════════════════════════════════════════════════════════════════════
   // STATEMENT IMPORT LIMITS (1/month free, 10/month pro)
   // ═══════════════════════════════════════════════════════════════════════════
@@ -183,7 +198,9 @@ class FreeTierService {
   /// Check if user can import a statement
   Future<StatementImportLimitResult> canImportStatement(bool isPremium) async {
     final count = await getMonthlyStatementImportCount();
-    final maxLimit = isPremium ? maxProStatementImports : maxFreeStatementImports;
+    final maxLimit = isPremium
+        ? maxProStatementImports
+        : maxFreeStatementImports;
 
     if (count >= maxLimit) {
       return StatementImportLimitResult(
@@ -213,7 +230,9 @@ class FreeTierService {
   /// Get remaining statement imports for this month
   Future<int> getRemainingStatementImports(bool isPremium) async {
     final count = await getMonthlyStatementImportCount();
-    final maxLimit = isPremium ? maxProStatementImports : maxFreeStatementImports;
+    final maxLimit = isPremium
+        ? maxProStatementImports
+        : maxFreeStatementImports;
     return max(0, maxLimit - count);
   }
 
@@ -302,10 +321,7 @@ class VoiceInputLimitResult {
   final bool canUse;
   final VoiceInputLimitType? limitType;
 
-  const VoiceInputLimitResult({
-    required this.canUse,
-    this.limitType,
-  });
+  const VoiceInputLimitResult({required this.canUse, this.limitType});
 }
 
 /// Result of statement import limit check

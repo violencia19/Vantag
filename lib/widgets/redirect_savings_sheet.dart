@@ -363,79 +363,79 @@ class _PursuitSelectionTile extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
         child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? QuietLuxury.positive.withValues(alpha: 0.15)
-              : QuietLuxury.cardBackground,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
             color: isSelected
-                ? QuietLuxury.positive.withValues(alpha: 0.5)
-                : QuietLuxury.cardBorder,
-            width: isSelected ? 1.5 : 0.5,
+                ? QuietLuxury.positive.withValues(alpha: 0.15)
+                : QuietLuxury.cardBackground,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isSelected
+                  ? QuietLuxury.positive.withValues(alpha: 0.5)
+                  : QuietLuxury.cardBorder,
+              width: isSelected ? 1.5 : 0.5,
+            ),
           ),
-        ),
-        child: Row(
-          children: [
-            // Progress visual
-            PursuitCircularProgress(
-              progress: pursuit.progressPercent,
-              emoji: pursuit.emoji,
-              size: 44,
-              strokeWidth: 3,
-              progressColor: isSelected
-                  ? QuietLuxury.positive
-                  : QuietLuxury.textTertiary,
-            ),
-            const SizedBox(width: 12),
-            // Info
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    pursuit.name,
-                    style: QuietLuxury.body.copyWith(
-                      color: QuietLuxury.textPrimary,
-                      fontWeight: isSelected
-                          ? FontWeight.w600
-                          : FontWeight.w400,
+          child: Row(
+            children: [
+              // Progress visual
+              PursuitCircularProgress(
+                progress: pursuit.progressPercent,
+                emoji: pursuit.emoji,
+                size: 44,
+                strokeWidth: 3,
+                progressColor: isSelected
+                    ? QuietLuxury.positive
+                    : QuietLuxury.textTertiary,
+              ),
+              const SizedBox(width: 12),
+              // Info
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      pursuit.name,
+                      style: QuietLuxury.body.copyWith(
+                        color: QuietLuxury.textPrimary,
+                        fontWeight: isSelected
+                            ? FontWeight.w600
+                            : FontWeight.w400,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '$currencySymbol${pursuit.savedAmount.toStringAsFixed(0)} / $currencySymbol${pursuit.targetAmount.toStringAsFixed(0)}',
-                    style: QuietLuxury.label,
-                  ),
-                ],
-              ),
-            ),
-            // Progress badge
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? QuietLuxury.positive.withValues(alpha: 0.2)
-                    : QuietLuxury.cardBorder.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                '${pursuit.progressPercentDisplay}%',
-                style: QuietLuxury.label.copyWith(
-                  color: isSelected
-                      ? QuietLuxury.positive
-                      : QuietLuxury.textTertiary,
-                  fontWeight: FontWeight.w600,
+                    const SizedBox(height: 2),
+                    Text(
+                      '$currencySymbol${pursuit.savedAmount.toStringAsFixed(0)} / $currencySymbol${pursuit.targetAmount.toStringAsFixed(0)}',
+                      style: QuietLuxury.label,
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+              // Progress badge
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? QuietLuxury.positive.withValues(alpha: 0.2)
+                      : QuietLuxury.cardBorder.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  '${pursuit.progressPercentDisplay}%',
+                  style: QuietLuxury.label.copyWith(
+                    color: isSelected
+                        ? QuietLuxury.positive
+                        : QuietLuxury.textTertiary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

@@ -8,10 +8,13 @@ import '../theme/theme.dart';
 enum PoolAllocationChoice {
   /// Use available pool + add difference from pocket
   fromPocket,
+
   /// Create shadow debt (pool goes negative)
   createDebt,
+
   /// Only transfer available amount
   availableOnly,
+
   /// Cancel the operation
   cancel,
 }
@@ -20,8 +23,10 @@ enum PoolAllocationChoice {
 enum DebtSourceChoice {
   /// One-time income - doesn't affect pool
   oneTimeIncome,
+
   /// From savings - pool goes more negative
   fromSavings,
+
   /// Cancel
   cancel,
 }
@@ -53,9 +58,7 @@ class PoolAllocationDialog extends StatelessWidget {
         decoration: BoxDecoration(
           color: context.appColors.surface,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: context.appColors.cardBorder,
-          ),
+          border: Border.all(color: context.appColors.cardBorder),
         ),
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -158,9 +161,7 @@ class PoolAllocationDialog extends StatelessWidget {
               },
               child: Text(
                 l10n.cancel,
-                style: TextStyle(
-                  color: context.appColors.textSecondary,
-                ),
+                style: TextStyle(color: context.appColors.textSecondary),
               ),
             ),
           ],
@@ -192,9 +193,7 @@ class DebtSourceDialog extends StatelessWidget {
         decoration: BoxDecoration(
           color: context.appColors.surface,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: context.appColors.cardBorder,
-          ),
+          border: Border.all(color: context.appColors.cardBorder),
         ),
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -274,9 +273,7 @@ class DebtSourceDialog extends StatelessWidget {
               },
               child: Text(
                 l10n.cancel,
-                style: TextStyle(
-                  color: context.appColors.textSecondary,
-                ),
+                style: TextStyle(color: context.appColors.textSecondary),
               ),
             ),
           ],
@@ -313,9 +310,7 @@ class _OptionButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: context.appColors.cardBackground,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: context.appColors.cardBorder,
-            ),
+            border: Border.all(color: context.appColors.cardBorder),
           ),
           child: Row(
             children: [
@@ -374,7 +369,7 @@ Future<PoolAllocationChoice?> showPoolAllocationDialog(
 }) {
   return showDialog<PoolAllocationChoice>(
     context: context,
-    barrierColor: Colors.black.withValues(alpha: 0.85),
+    barrierColor: Colors.black.withOpacity(0.85),
     builder: (context) => PoolAllocationDialog(
       available: available,
       requested: requested,
@@ -391,7 +386,7 @@ Future<DebtSourceChoice?> showDebtSourceDialog(
 }) {
   return showDialog<DebtSourceChoice>(
     context: context,
-    barrierColor: Colors.black.withValues(alpha: 0.85),
+    barrierColor: Colors.black.withOpacity(0.85),
     builder: (context) => DebtSourceDialog(
       debtAmount: debtAmount,
       currencySymbol: currencySymbol,

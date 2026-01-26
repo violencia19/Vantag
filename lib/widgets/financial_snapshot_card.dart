@@ -565,7 +565,6 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
     const double iconInnerSize = 24;
     const double labelFontSize = 12;
     const double amountFontSize = 28;
-    const double spacing = 14;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -590,11 +589,25 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
             padding: const EdgeInsets.all(20), // Design System: 20px padding
             child: Row(
               children: [
-                // Income - Sol taraf
+                // Income - Sol taraf (Label → Arrow → Amount vertical layout)
                 Expanded(
-                  child: Row(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Icon with glow halo - enhanced
+                      // Label on top
+                      Text(
+                        l10n.income.toUpperCase(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: labelFontSize,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.2,
+                          color: context.appColors.textTertiary,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      // Arrow icon in middle
                       Container(
                         width: iconSize,
                         height: iconSize,
@@ -617,50 +630,30 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                           ),
                         ),
                       ),
-                      SizedBox(width: spacing),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Design System: uppercase label, letterSpacing 1.2
-                            Text(
-                              l10n.income.toUpperCase(),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: labelFontSize,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1.2,
-                                color: context.appColors.textTertiary,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            // Design System: fontSize 28, bold - FittedBox for responsive
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                formatTurkishCurrency(
-                                  incomeConverted,
-                                  decimalDigits: 0,
-                                  showDecimals: false,
+                      const SizedBox(height: 8),
+                      // Amount at bottom
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          formatTurkishCurrency(
+                            incomeConverted,
+                            decimalDigits: 0,
+                            showDecimals: false,
+                          ),
+                          style: TextStyle(
+                            fontSize: responsiveAmountSize,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: -0.5,
+                            color: Colors.white,
+                            shadows: [
+                              Shadow(
+                                color: context.appColors.success.withValues(
+                                  alpha: 0.4,
                                 ),
-                                style: TextStyle(
-                                  fontSize: responsiveAmountSize,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: -0.5,
-                                  color: Colors.white,
-                                  shadows: [
-                                    Shadow(
-                                      color: context.appColors.success
-                                          .withValues(alpha: 0.4),
-                                      blurRadius: 16,
-                                    ),
-                                  ],
-                                ),
+                                blurRadius: 16,
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -670,7 +663,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                 // Dikey Divider - subtle gradient
                 Container(
                   width: 1,
-                  height: 56,
+                  height: 80,
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -685,59 +678,25 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                   ),
                 ),
 
-                // Expense - Sağ taraf (MIRROR)
+                // Expense - Sağ taraf (Label → Arrow → Amount vertical layout)
                 Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            // Design System: uppercase label, letterSpacing 1.2
-                            Text(
-                              l10n.expense.toUpperCase(),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: labelFontSize,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1.2,
-                                color: context.appColors.textTertiary,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            // Design System: fontSize 28, bold - FittedBox for responsive
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                formatTurkishCurrency(
-                                  spentConverted,
-                                  decimalDigits: 0,
-                                  showDecimals: false,
-                                ),
-                                style: TextStyle(
-                                  fontSize: responsiveAmountSize,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: -0.5,
-                                  color: Colors.white,
-                                  shadows: [
-                                    Shadow(
-                                      color: context.appColors.error.withValues(
-                                        alpha: 0.4,
-                                      ),
-                                      blurRadius: 16,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                      // Label on top
+                      Text(
+                        l10n.expense.toUpperCase(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: labelFontSize,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.2,
+                          color: context.appColors.textTertiary,
                         ),
                       ),
-                      SizedBox(width: spacing),
-                      // Icon with glow halo - enhanced
+                      const SizedBox(height: 8),
+                      // Arrow icon in middle
                       Container(
                         width: iconSize,
                         height: iconSize,
@@ -757,6 +716,32 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                           color: context.appColors.error,
                           shadows: PremiumShadows.iconHalo(
                             context.appColors.error,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      // Amount at bottom
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          formatTurkishCurrency(
+                            spentConverted,
+                            decimalDigits: 0,
+                            showDecimals: false,
+                          ),
+                          style: TextStyle(
+                            fontSize: responsiveAmountSize,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: -0.5,
+                            color: Colors.white,
+                            shadows: [
+                              Shadow(
+                                color: context.appColors.error.withValues(
+                                  alpha: 0.4,
+                                ),
+                                blurRadius: 16,
+                              ),
+                            ],
                           ),
                         ),
                       ),

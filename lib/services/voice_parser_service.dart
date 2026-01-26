@@ -14,49 +14,177 @@ class VoiceParserService {
   /// Category keywords for regex matching - keys match ExpenseCategory.all
   static const Map<String, List<String>> _categoryKeywords = {
     'Yiyecek': [
-      'kahve', 'coffee', 'yemek', 'food', 'restoran', 'restaurant',
-      'market', 'migros', 'bim', 'a101', 'şok', 'carrefour',
-      'starbucks', 'mcdonalds', 'burger', 'pizza', 'döner', 'kebap',
-      'lokanta', 'cafe', 'kafe', 'çay', 'içecek', 'atıştırmalık',
-      'kahvaltı', 'öğle yemeği', 'akşam yemeği', 'getir', 'yemeksepeti', 'glovo',
+      'kahve',
+      'coffee',
+      'yemek',
+      'food',
+      'restoran',
+      'restaurant',
+      'market',
+      'migros',
+      'bim',
+      'a101',
+      'şok',
+      'carrefour',
+      'starbucks',
+      'mcdonalds',
+      'burger',
+      'pizza',
+      'döner',
+      'kebap',
+      'lokanta',
+      'cafe',
+      'kafe',
+      'çay',
+      'içecek',
+      'atıştırmalık',
+      'kahvaltı',
+      'öğle yemeği',
+      'akşam yemeği',
+      'getir',
+      'yemeksepeti',
+      'glovo',
     ],
     'Ulaşım': [
-      'uber', 'taksi', 'taxi', 'benzin', 'akaryakıt', 'shell', 'opet', 'bp',
-      'otobüs', 'metro', 'metrobüs', 'tramvay', 'vapur', 'ferry',
-      'uçak', 'bilet', 'thy', 'pegasus', 'ulaşım', 'yol', 'otopark',
-      'parking', 'bitaksi', 'bolt', 'grab',
+      'uber',
+      'taksi',
+      'taxi',
+      'benzin',
+      'akaryakıt',
+      'shell',
+      'opet',
+      'bp',
+      'otobüs',
+      'metro',
+      'metrobüs',
+      'tramvay',
+      'vapur',
+      'ferry',
+      'uçak',
+      'bilet',
+      'thy',
+      'pegasus',
+      'ulaşım',
+      'yol',
+      'otopark',
+      'parking',
+      'bitaksi',
+      'bolt',
+      'grab',
     ],
     'Giyim': [
-      'giyim', 'ayakkabı', 'çanta', 'saat', 'aksesuar', 'kıyafet',
-      'zara', 'h&m', 'lcw', 'defacto', 'koton', 'mavi', 'pantolon',
-      'gömlek', 'elbise', 'ceket', 'mont', 'kazak',
+      'giyim',
+      'ayakkabı',
+      'çanta',
+      'saat',
+      'aksesuar',
+      'kıyafet',
+      'zara',
+      'h&m',
+      'lcw',
+      'defacto',
+      'koton',
+      'mavi',
+      'pantolon',
+      'gömlek',
+      'elbise',
+      'ceket',
+      'mont',
+      'kazak',
     ],
     'Elektronik': [
-      'telefon', 'bilgisayar', 'laptop', 'tablet', 'kulaklık', 'elektronik',
-      'iphone', 'samsung', 'apple', 'macbook', 'airpods', 'şarj',
-      'kablo', 'adaptör', 'monitor', 'klavye', 'mouse',
+      'telefon',
+      'bilgisayar',
+      'laptop',
+      'tablet',
+      'kulaklık',
+      'elektronik',
+      'iphone',
+      'samsung',
+      'apple',
+      'macbook',
+      'airpods',
+      'şarj',
+      'kablo',
+      'adaptör',
+      'monitor',
+      'klavye',
+      'mouse',
     ],
     'Eğlence': [
-      'netflix', 'spotify', 'youtube', 'prime', 'disney', 'eğlence',
-      'sinema', 'film', 'konser', 'tiyatro', 'oyun', 'game',
-      'steam', 'playstation', 'xbox', 'twitch', 'müzik', 'kitap', 'dergi',
+      'netflix',
+      'spotify',
+      'youtube',
+      'prime',
+      'disney',
+      'eğlence',
+      'sinema',
+      'film',
+      'konser',
+      'tiyatro',
+      'oyun',
+      'game',
+      'steam',
+      'playstation',
+      'xbox',
+      'twitch',
+      'müzik',
+      'kitap',
+      'dergi',
     ],
     'Sağlık': [
-      'eczane', 'pharmacy', 'ilaç', 'medicine', 'doktor', 'doctor',
-      'hastane', 'hospital', 'klinik', 'clinic', 'sağlık', 'health',
-      'diş', 'göz', 'check-up', 'muayene', 'tedavi',
+      'eczane',
+      'pharmacy',
+      'ilaç',
+      'medicine',
+      'doktor',
+      'doctor',
+      'hastane',
+      'hospital',
+      'klinik',
+      'clinic',
+      'sağlık',
+      'health',
+      'diş',
+      'göz',
+      'check-up',
+      'muayene',
+      'tedavi',
     ],
     'Eğitim': [
-      'kurs', 'course', 'eğitim', 'education', 'okul', 'school',
-      'üniversite', 'university', 'udemy', 'coursera', 'özel ders',
-      'dershane', 'sınav', 'exam',
+      'kurs',
+      'course',
+      'eğitim',
+      'education',
+      'okul',
+      'school',
+      'üniversite',
+      'university',
+      'udemy',
+      'coursera',
+      'özel ders',
+      'dershane',
+      'sınav',
+      'exam',
     ],
     'Faturalar': [
-      'fatura', 'bill', 'elektrik', 'doğalgaz', 'aidat', 'kira', 'rent',
+      'fatura',
+      'bill',
+      'elektrik',
+      'doğalgaz',
+      'aidat',
+      'kira',
+      'rent',
     ],
     'Abonelik': [
-      'abonelik', 'subscription', 'turkcell', 'vodafone', 'türk telekom',
-      'internet', 'telefon faturası', 'aylık',
+      'abonelik',
+      'subscription',
+      'turkcell',
+      'vodafone',
+      'türk telekom',
+      'internet',
+      'telefon faturası',
+      'aylık',
     ],
   };
 
@@ -193,7 +321,8 @@ class VoiceParserService {
     }
 
     // Use exact app category names from ExpenseCategory.all
-    final prompt = '''Extract expense info from this sentence (any language):
+    final prompt =
+        '''Extract expense info from this sentence (any language):
 
 "$text"
 
@@ -228,21 +357,23 @@ Examples:
 - "Markete 200 verdim" → {"amount": 200, "category": "Yiyecek", "store": null, "item": null, "description": "Market alışverişi"}''';
 
     try {
-      final response = await http.post(
-        Uri.parse('https://api.openai.com/v1/chat/completions'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $apiKey',
-        },
-        body: jsonEncode({
-          'model': 'gpt-4o-mini',
-          'messages': [
-            {'role': 'user', 'content': prompt},
-          ],
-          'temperature': 0,
-          'max_tokens': 100,
-        }),
-      ).timeout(const Duration(seconds: 30));
+      final response = await http
+          .post(
+            Uri.parse('https://api.openai.com/v1/chat/completions'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $apiKey',
+            },
+            body: jsonEncode({
+              'model': 'gpt-4o-mini',
+              'messages': [
+                {'role': 'user', 'content': prompt},
+              ],
+              'temperature': 0,
+              'max_tokens': 100,
+            }),
+          )
+          .timeout(const Duration(seconds: 30));
 
       if (response.statusCode != 200) {
         throw Exception('AI API error: ${response.statusCode}');
@@ -267,10 +398,20 @@ Examples:
       // Validate category is in allowed list
       final rawCategory = parsed['category'] as String? ?? 'Diğer';
       final validCategories = [
-        'Yiyecek', 'Ulaşım', 'Giyim', 'Elektronik', 'Eğlence',
-        'Sağlık', 'Eğitim', 'Faturalar', 'Abonelik', 'Diğer',
+        'Yiyecek',
+        'Ulaşım',
+        'Giyim',
+        'Elektronik',
+        'Eğlence',
+        'Sağlık',
+        'Eğitim',
+        'Faturalar',
+        'Abonelik',
+        'Diğer',
       ];
-      final category = validCategories.contains(rawCategory) ? rawCategory : 'Diğer';
+      final category = validCategories.contains(rawCategory)
+          ? rawCategory
+          : 'Diğer';
 
       // Extract store and item
       final store = parsed['store'] as String?;
@@ -353,8 +494,16 @@ Examples:
 
     // Valid app categories (must match ExpenseCategory.all)
     const validCategories = [
-      'Yiyecek', 'Ulaşım', 'Giyim', 'Elektronik', 'Eğlence',
-      'Sağlık', 'Eğitim', 'Faturalar', 'Abonelik', 'Diğer',
+      'Yiyecek',
+      'Ulaşım',
+      'Giyim',
+      'Elektronik',
+      'Eğlence',
+      'Sağlık',
+      'Eğitim',
+      'Faturalar',
+      'Abonelik',
+      'Diğer',
     ];
 
     // If already a valid category, return as-is

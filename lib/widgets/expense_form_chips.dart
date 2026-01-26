@@ -19,6 +19,7 @@ class ExpenseDateChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -29,12 +30,18 @@ class ExpenseDateChip extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           gradient: isSelected ? AppGradients.primaryButton : null,
-          color: isSelected ? null : Colors.white.withValues(alpha: 0.05),
+          color: isSelected
+              ? null
+              : (isDark
+                    ? Colors.white.withValues(alpha: 0.05)
+                    : Colors.black.withValues(alpha: 0.04)),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected
                 ? Colors.transparent
-                : Colors.white.withValues(alpha: 0.1),
+                : (isDark
+                      ? Colors.white.withValues(alpha: 0.1)
+                      : Colors.black.withValues(alpha: 0.1)),
             width: 1,
           ),
         ),
@@ -83,6 +90,7 @@ class ExpenseSubCategoryChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -91,12 +99,16 @@ class ExpenseSubCategoryChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: isRecent
               ? context.appColors.primary.withValues(alpha: 0.15)
-              : Colors.white.withValues(alpha: 0.05),
+              : (isDark
+                    ? Colors.white.withValues(alpha: 0.05)
+                    : Colors.black.withValues(alpha: 0.04)),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isRecent
                 ? context.appColors.primary.withValues(alpha: 0.5)
-                : Colors.white.withValues(alpha: 0.1),
+                : (isDark
+                      ? Colors.white.withValues(alpha: 0.1)
+                      : Colors.black.withValues(alpha: 0.1)),
             width: 1,
           ),
         ),

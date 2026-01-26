@@ -98,7 +98,9 @@ class ExportService {
   static const _fileSaverChannel = MethodChannel('com.vantag.app/file_saver');
 
   /// Downloads klasörüne kaydet (MediaStore API ile Android 10+ uyumlu)
-  Future<({File? file, String? path, String? error})> saveToDownloads(File sourceFile) async {
+  Future<({File? file, String? path, String? error})> saveToDownloads(
+    File sourceFile,
+  ) async {
     debugPrint('[ExportService] ═══════════════════════════════════════');
     debugPrint('[ExportService] Starting saveToDownloads with MediaStore...');
     debugPrint('[ExportService] Source file: ${sourceFile.path}');
@@ -113,7 +115,9 @@ class ExportService {
 
       // Step 2: Get source file size
       final sourceSize = await sourceFile.length();
-      debugPrint('[ExportService] Step 2 - Source file size: $sourceSize bytes');
+      debugPrint(
+        '[ExportService] Step 2 - Source file size: $sourceSize bytes',
+      );
       if (sourceSize == 0) {
         return (file: null, path: null, error: 'Source file is empty');
       }
@@ -124,19 +128,21 @@ class ExportService {
 
       String mimeType = 'application/octet-stream';
       if (fileName.endsWith('.xlsx')) {
-        mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        mimeType =
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
       } else if (fileName.endsWith('.csv')) {
         mimeType = 'text/csv';
       }
 
       // Step 4: Save using platform channel (MediaStore API)
       debugPrint('[ExportService] Step 4 - Calling platform channel...');
-      final savedPath = await _fileSaverChannel.invokeMethod<String>('saveToDownloads', {
-        'sourcePath': sourceFile.path,
-        'fileName': fileName,
-        'mimeType': mimeType,
-        'subFolder': 'Vantag',
-      });
+      final savedPath = await _fileSaverChannel
+          .invokeMethod<String>('saveToDownloads', {
+            'sourcePath': sourceFile.path,
+            'fileName': fileName,
+            'mimeType': mimeType,
+            'subFolder': 'Vantag',
+          });
 
       if (savedPath != null) {
         debugPrint('[ExportService] ✅ SUCCESS - Saved to: $savedPath');
@@ -171,22 +177,22 @@ class ExportService {
 
     // Header row
     final headers = [
-      l10n.csvHeaderDate,           // Tarih
-      l10n.excelHeaderDay,          // Gün
-      l10n.csvHeaderTime,           // Saat
-      l10n.csvHeaderAmount,         // Tutar
-      l10n.csvHeaderCurrency,       // Para Birimi
-      l10n.csvHeaderCategory,       // Kategori
-      l10n.csvHeaderSubcategory,    // Alt Kategori
-      l10n.excelHeaderStore,        // Mağaza/Yer
-      l10n.csvHeaderProduct,        // Ürün/Açıklama
-      l10n.csvHeaderDecision,       // Karar
-      l10n.excelHeaderHoursEquiv,   // Saat Karşılığı
-      l10n.excelHeaderMinutes,      // Dakika Karşılığı
+      l10n.csvHeaderDate, // Tarih
+      l10n.excelHeaderDay, // Gün
+      l10n.csvHeaderTime, // Saat
+      l10n.csvHeaderAmount, // Tutar
+      l10n.csvHeaderCurrency, // Para Birimi
+      l10n.csvHeaderCategory, // Kategori
+      l10n.csvHeaderSubcategory, // Alt Kategori
+      l10n.excelHeaderStore, // Mağaza/Yer
+      l10n.csvHeaderProduct, // Ürün/Açıklama
+      l10n.csvHeaderDecision, // Karar
+      l10n.excelHeaderHoursEquiv, // Saat Karşılığı
+      l10n.excelHeaderMinutes, // Dakika Karşılığı
       l10n.excelHeaderInstallmentCount, // Taksit
       l10n.excelHeaderMonthlyInstallment, // Aylık Taksit
-      l10n.csvHeaderMandatory,      // Zorunlu
-      l10n.excelHeaderSimulation,   // Simülasyon
+      l10n.csvHeaderMandatory, // Zorunlu
+      l10n.excelHeaderSimulation, // Simülasyon
     ];
 
     for (var i = 0; i < headers.length; i++) {
@@ -211,40 +217,76 @@ class ExportService {
       final isAlternate = i % 2 == 1;
 
       // Tarih
-      _setCell(sheet, 'A$row', DateFormat('dd/MM/yyyy').format(expense.date),
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'A$row',
+        DateFormat('dd/MM/yyyy').format(expense.date),
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Gün (lokalize)
-      _setCell(sheet, 'B$row', _getLocalizedDayName(l10n, expense.date.weekday),
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'B$row',
+        _getLocalizedDayName(l10n, expense.date.weekday),
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Saat
-      _setCell(sheet, 'C$row', DateFormat('HH:mm').format(expense.date),
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'C$row',
+        DateFormat('HH:mm').format(expense.date),
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Tutar
-      _setCell(sheet, 'D$row', _formatCurrency(expense.amount),
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'D$row',
+        _formatCurrency(expense.amount),
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Para Birimi
-      _setCell(sheet, 'E$row', expense.originalCurrency ?? 'TRY',
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'E$row',
+        expense.originalCurrency ?? 'TRY',
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Kategori (lokalize)
-      _setCell(sheet, 'F$row', ExpenseCategory.getLocalizedName(expense.category, l10n),
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'F$row',
+        ExpenseCategory.getLocalizedName(expense.category, l10n),
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Alt Kategori
-      _setCell(sheet, 'G$row', expense.subCategory ?? '-',
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'G$row',
+        expense.subCategory ?? '-',
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Mağaza/Yer - subCategory'den çıkar veya boş bırak
-      _setCell(sheet, 'H$row', expense.subCategory ?? '-',
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'H$row',
+        expense.subCategory ?? '-',
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Ürün/Açıklama
-      _setCell(sheet, 'I$row', expense.subCategory ?? expense.category,
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'I$row',
+        expense.subCategory ?? expense.category,
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Karar (renkli)
       String? decisionBgColor;
@@ -259,53 +301,84 @@ class ExportService {
         decisionBgColor = _negativeColor;
         decisionText = l10n.excelDecisionsPassed;
       }
-      _setCell(sheet, 'J$row', decisionText,
-          bgColor: decisionBgColor,
-          textColor: decisionBgColor != null ? '#FFFFFF' : null);
+      _setCell(
+        sheet,
+        'J$row',
+        decisionText,
+        bgColor: decisionBgColor,
+        textColor: decisionBgColor != null ? '#FFFFFF' : null,
+      );
 
       // Saat Karşılığı
-      _setCell(sheet, 'K$row', '${expense.hoursRequired.toStringAsFixed(1)} h',
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'K$row',
+        '${expense.hoursRequired.toStringAsFixed(1)} h',
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Dakika Karşılığı
       final minutes = (expense.hoursRequired * 60).round();
-      _setCell(sheet, 'L$row', '$minutes dk',
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'L$row',
+        '$minutes dk',
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Taksit
       final installmentText = expense.installmentCount != null
           ? '${expense.currentInstallment ?? 1}/${expense.installmentCount}'
           : '-';
-      _setCell(sheet, 'M$row', installmentText,
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'M$row',
+        installmentText,
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Aylık Taksit
-      final monthlyPayment = expense.installmentCount != null && expense.installmentCount! > 0
+      final monthlyPayment =
+          expense.installmentCount != null && expense.installmentCount! > 0
           ? expense.amount / expense.installmentCount!
           : 0.0;
-      _setCell(sheet, 'N$row', expense.installmentCount != null ? _formatCurrency(monthlyPayment) : '-',
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'N$row',
+        expense.installmentCount != null
+            ? _formatCurrency(monthlyPayment)
+            : '-',
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Zorunlu
-      _setCell(sheet, 'O$row', expense.isMandatory ? l10n.excelYes : l10n.excelNo,
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'O$row',
+        expense.isMandatory ? l10n.excelYes : l10n.excelNo,
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Simülasyon
-      _setCell(sheet, 'P$row', expense.isSimulation ? l10n.excelSimulation : l10n.excelReal,
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'P$row',
+        expense.isSimulation ? l10n.excelSimulation : l10n.excelReal,
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
     }
 
     // Column widths
-    sheet.setColumnWidth(0, 12);  // Tarih
-    sheet.setColumnWidth(1, 12);  // Gün
-    sheet.setColumnWidth(2, 8);   // Saat
-    sheet.setColumnWidth(3, 15);  // Tutar
-    sheet.setColumnWidth(4, 10);  // Para Birimi
-    sheet.setColumnWidth(5, 14);  // Kategori
-    sheet.setColumnWidth(6, 18);  // Alt Kategori
-    sheet.setColumnWidth(7, 18);  // Mağaza
-    sheet.setColumnWidth(8, 20);  // Ürün
-    sheet.setColumnWidth(9, 14);  // Karar
+    sheet.setColumnWidth(0, 12); // Tarih
+    sheet.setColumnWidth(1, 12); // Gün
+    sheet.setColumnWidth(2, 8); // Saat
+    sheet.setColumnWidth(3, 15); // Tutar
+    sheet.setColumnWidth(4, 10); // Para Birimi
+    sheet.setColumnWidth(5, 14); // Kategori
+    sheet.setColumnWidth(6, 18); // Alt Kategori
+    sheet.setColumnWidth(7, 18); // Mağaza
+    sheet.setColumnWidth(8, 20); // Ürün
+    sheet.setColumnWidth(9, 14); // Karar
     sheet.setColumnWidth(10, 12); // Saat
     sheet.setColumnWidth(11, 12); // Dakika
     sheet.setColumnWidth(12, 10); // Taksit
@@ -329,25 +402,41 @@ class ExportService {
     // Title
     _setMergedCell(sheet, 'A1', 'VANTAG', 4);
     _setCell(sheet, 'A3', l10n.excelReportTitle, isBold: true, fontSize: 16);
-    _setCell(sheet, 'A4', '${l10n.excelReportGeneratedAt}: ${DateFormat('dd.MM.yyyy HH:mm').format(DateTime.now())}');
+    _setCell(
+      sheet,
+      'A4',
+      '${l10n.excelReportGeneratedAt}: ${DateFormat('dd.MM.yyyy HH:mm').format(DateTime.now())}',
+    );
 
     // Calculate period
     DateTime? firstDate;
     DateTime? lastDate;
     if (expenses.isNotEmpty) {
-      firstDate = expenses.map((e) => e.date).reduce((a, b) => a.isBefore(b) ? a : b);
-      lastDate = expenses.map((e) => e.date).reduce((a, b) => a.isAfter(b) ? a : b);
+      firstDate = expenses
+          .map((e) => e.date)
+          .reduce((a, b) => a.isBefore(b) ? a : b);
+      lastDate = expenses
+          .map((e) => e.date)
+          .reduce((a, b) => a.isAfter(b) ? a : b);
     }
 
     if (firstDate != null && lastDate != null) {
       final periodStart = DateFormat('dd.MM.yyyy').format(firstDate);
       final periodEnd = DateFormat('dd.MM.yyyy').format(lastDate);
-      _setCell(sheet, 'A5', '${l10n.excelReportPeriod}: $periodStart - $periodEnd');
+      _setCell(
+        sheet,
+        'A5',
+        '${l10n.excelReportPeriod}: $periodStart - $periodEnd',
+      );
     }
 
     // Calculations
-    final yesExpenses = expenses.where((e) => e.decision == ExpenseDecision.yes).toList();
-    final noExpenses = expenses.where((e) => e.decision == ExpenseDecision.no).toList();
+    final yesExpenses = expenses
+        .where((e) => e.decision == ExpenseDecision.yes)
+        .toList();
+    final noExpenses = expenses
+        .where((e) => e.decision == ExpenseDecision.no)
+        .toList();
 
     final totalSpent = yesExpenses.fold<double>(0, (sum, e) => sum + e.amount);
     final totalSaved = noExpenses.fold<double>(0, (sum, e) => sum + e.amount);
@@ -364,13 +453,23 @@ class ExportService {
     row++;
 
     _setCell(sheet, 'A$row', l10n.excelTotalExpenses, isBold: true);
-    _setCell(sheet, 'B$row', _formatCurrency(totalSpent),
-        bgColor: _negativeColor, textColor: '#FFFFFF');
+    _setCell(
+      sheet,
+      'B$row',
+      _formatCurrency(totalSpent),
+      bgColor: _negativeColor,
+      textColor: '#FFFFFF',
+    );
     row++;
 
     _setCell(sheet, 'A$row', l10n.totalSaved, isBold: true);
-    _setCell(sheet, 'B$row', _formatCurrency(totalSaved),
-        bgColor: _positiveColor, textColor: '#FFFFFF');
+    _setCell(
+      sheet,
+      'B$row',
+      _formatCurrency(totalSaved),
+      bgColor: _positiveColor,
+      textColor: '#FFFFFF',
+    );
     row++;
 
     _setCell(sheet, 'A$row', l10n.excelSavingsRate, isBold: true);
@@ -423,11 +522,19 @@ class ExportService {
     row++;
 
     _setCell(sheet, 'A$row', l10n.excelTotalWorkHours, isBold: true);
-    _setCell(sheet, 'B$row', '${totalWorkHours.toStringAsFixed(1)} ${l10n.hours}');
+    _setCell(
+      sheet,
+      'B$row',
+      '${totalWorkHours.toStringAsFixed(1)} ${l10n.hours}',
+    );
     row++;
 
     _setCell(sheet, 'A$row', l10n.excelTotalWorkDays, isBold: true);
-    _setCell(sheet, 'B$row', '${totalWorkDays.toStringAsFixed(1)} ${l10n.days}');
+    _setCell(
+      sheet,
+      'B$row',
+      '${totalWorkDays.toStringAsFixed(1)} ${l10n.days}',
+    );
 
     // Column widths
     sheet.setColumnWidth(0, 28);
@@ -468,7 +575,9 @@ class ExportService {
     }
 
     // Only "bought" expenses
-    final yesExpenses = expenses.where((e) => e.decision == ExpenseDecision.yes).toList();
+    final yesExpenses = expenses
+        .where((e) => e.decision == ExpenseDecision.yes)
+        .toList();
     final totalSpent = yesExpenses.fold<double>(0, (sum, e) => sum + e.amount);
 
     // Group by category
@@ -494,41 +603,76 @@ class ExportService {
       final isAlternate = i % 2 == 1;
       final isTop = i == 0;
 
-      final catTotal = categoryExpenses.fold<double>(0, (sum, e) => sum + e.amount);
+      final catTotal = categoryExpenses.fold<double>(
+        0,
+        (sum, e) => sum + e.amount,
+      );
       final catCount = categoryExpenses.length;
       final catAverage = catCount > 0 ? catTotal / catCount : 0.0;
       final catPercentage = totalSpent > 0 ? (catTotal / totalSpent * 100) : 0;
       final catHours = hourlyRate > 0 ? catTotal / hourlyRate : 0.0;
 
       // Sıra
-      _setCell(sheet, 'A$row', '#${i + 1}',
-          isBold: isTop,
-          bgColor: isTop ? _warningColor : (isAlternate ? _alternateRowColor : null));
+      _setCell(
+        sheet,
+        'A$row',
+        '#${i + 1}',
+        isBold: isTop,
+        bgColor: isTop
+            ? _warningColor
+            : (isAlternate ? _alternateRowColor : null),
+      );
 
       // Kategori
-      _setCell(sheet, 'B$row', ExpenseCategory.getLocalizedName(category, l10n),
-          isBold: isTop,
-          bgColor: isTop ? _warningColor : (isAlternate ? _alternateRowColor : null));
+      _setCell(
+        sheet,
+        'B$row',
+        ExpenseCategory.getLocalizedName(category, l10n),
+        isBold: isTop,
+        bgColor: isTop
+            ? _warningColor
+            : (isAlternate ? _alternateRowColor : null),
+      );
 
       // Toplam
-      _setCell(sheet, 'C$row', _formatCurrency(catTotal),
-          bgColor: isAlternate && !isTop ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'C$row',
+        _formatCurrency(catTotal),
+        bgColor: isAlternate && !isTop ? _alternateRowColor : null,
+      );
 
       // Adet
-      _setCell(sheet, 'D$row', catCount.toString(),
-          bgColor: isAlternate && !isTop ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'D$row',
+        catCount.toString(),
+        bgColor: isAlternate && !isTop ? _alternateRowColor : null,
+      );
 
       // Ortalama
-      _setCell(sheet, 'E$row', _formatCurrency(catAverage),
-          bgColor: isAlternate && !isTop ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'E$row',
+        _formatCurrency(catAverage),
+        bgColor: isAlternate && !isTop ? _alternateRowColor : null,
+      );
 
       // Pay %
-      _setCell(sheet, 'F$row', '${catPercentage.toStringAsFixed(1)}%',
-          bgColor: isAlternate && !isTop ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'F$row',
+        '${catPercentage.toStringAsFixed(1)}%',
+        bgColor: isAlternate && !isTop ? _alternateRowColor : null,
+      );
 
       // Çalışma Saati
-      _setCell(sheet, 'G$row', '${catHours.toStringAsFixed(1)}h',
-          bgColor: isAlternate && !isTop ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'G$row',
+        '${catHours.toStringAsFixed(1)}h',
+        bgColor: isAlternate && !isTop ? _alternateRowColor : null,
+      );
     }
 
     // Total row
@@ -537,16 +681,21 @@ class ExportService {
     _setCell(sheet, 'C$totalRow', _formatCurrency(totalSpent), isBold: true);
     _setCell(sheet, 'D$totalRow', yesExpenses.length.toString(), isBold: true);
     _setCell(sheet, 'F$totalRow', '100%', isBold: true);
-    _setCell(sheet, 'G$totalRow', '${(hourlyRate > 0 ? totalSpent / hourlyRate : 0).toStringAsFixed(1)}h', isBold: true);
+    _setCell(
+      sheet,
+      'G$totalRow',
+      '${(hourlyRate > 0 ? totalSpent / hourlyRate : 0).toStringAsFixed(1)}h',
+      isBold: true,
+    );
 
     // Column widths
-    sheet.setColumnWidth(0, 8);   // Sıra
-    sheet.setColumnWidth(1, 18);  // Kategori
-    sheet.setColumnWidth(2, 18);  // Toplam
-    sheet.setColumnWidth(3, 12);  // Adet
-    sheet.setColumnWidth(4, 16);  // Ortalama
-    sheet.setColumnWidth(5, 12);  // Pay %
-    sheet.setColumnWidth(6, 14);  // Çalışma Saati
+    sheet.setColumnWidth(0, 8); // Sıra
+    sheet.setColumnWidth(1, 18); // Kategori
+    sheet.setColumnWidth(2, 18); // Toplam
+    sheet.setColumnWidth(3, 12); // Adet
+    sheet.setColumnWidth(4, 16); // Ortalama
+    sheet.setColumnWidth(5, 12); // Pay %
+    sheet.setColumnWidth(6, 14); // Çalışma Saati
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -563,7 +712,9 @@ class ExportService {
     _setCell(sheet, 'A1', l10n.excelTimeTitle, isBold: true, fontSize: 14);
 
     // Only "bought" expenses
-    final yesExpenses = expenses.where((e) => e.decision == ExpenseDecision.yes).toList();
+    final yesExpenses = expenses
+        .where((e) => e.decision == ExpenseDecision.yes)
+        .toList();
 
     if (yesExpenses.isEmpty) {
       _setCell(sheet, 'A3', '-');
@@ -587,7 +738,10 @@ class ExportService {
     }
 
     // By time of day
-    double morningTotal = 0, afternoonTotal = 0, eveningTotal = 0, nightTotal = 0;
+    double morningTotal = 0,
+        afternoonTotal = 0,
+        eveningTotal = 0,
+        nightTotal = 0;
 
     for (final expense in yesExpenses) {
       final weekday = expense.date.weekday;
@@ -609,32 +763,58 @@ class ExportService {
     }
 
     // Most active day
-    final mostActiveDay = dayTotals.entries.reduce((a, b) => a.value > b.value ? a : b);
+    final mostActiveDay = dayTotals.entries.reduce(
+      (a, b) => a.value > b.value ? a : b,
+    );
     _setCell(sheet, 'A$row', l10n.excelMostActiveDay, isBold: true);
     _setCell(sheet, 'B$row', _getLocalizedDayName(l10n, mostActiveDay.key));
     _setCell(sheet, 'C$row', _formatCurrency(mostActiveDay.value));
     row++;
 
     // Most active hour
-    final mostActiveHour = hourTotals.entries.reduce((a, b) => a.value > b.value ? a : b);
+    final mostActiveHour = hourTotals.entries.reduce(
+      (a, b) => a.value > b.value ? a : b,
+    );
     _setCell(sheet, 'A$row', l10n.excelMostActiveHour, isBold: true);
-    _setCell(sheet, 'B$row', '${mostActiveHour.key.toString().padLeft(2, '0')}:00');
+    _setCell(
+      sheet,
+      'B$row',
+      '${mostActiveHour.key.toString().padLeft(2, '0')}:00',
+    );
     _setCell(sheet, 'C$row', _formatCurrency(mostActiveHour.value));
     row++;
 
     // Weekday vs Weekend average
-    final weekdayTotal = dayTotals[1]! + dayTotals[2]! + dayTotals[3]! + dayTotals[4]! + dayTotals[5]!;
+    final weekdayTotal =
+        dayTotals[1]! +
+        dayTotals[2]! +
+        dayTotals[3]! +
+        dayTotals[4]! +
+        dayTotals[5]!;
     final weekendTotal = dayTotals[6]! + dayTotals[7]!;
-    final weekdayCount = dayCounts[1]! + dayCounts[2]! + dayCounts[3]! + dayCounts[4]! + dayCounts[5]!;
+    final weekdayCount =
+        dayCounts[1]! +
+        dayCounts[2]! +
+        dayCounts[3]! +
+        dayCounts[4]! +
+        dayCounts[5]!;
     final weekendCount = dayCounts[6]! + dayCounts[7]!;
 
     row++;
     _setCell(sheet, 'A$row', l10n.excelWeekdayAvg, isBold: true);
-    _setCell(sheet, 'B$row', weekdayCount > 0 ? _formatCurrency(weekdayTotal / weekdayCount) : '-');
+    _setCell(
+      sheet,
+      'B$row',
+      weekdayCount > 0 ? _formatCurrency(weekdayTotal / weekdayCount) : '-',
+    );
     row++;
 
     _setCell(sheet, 'A$row', l10n.excelWeekendAvg, isBold: true);
-    _setCell(sheet, 'B$row', weekendCount > 0 ? _formatCurrency(weekendTotal / weekendCount) : '-');
+    _setCell(
+      sheet,
+      'B$row',
+      weekendCount > 0 ? _formatCurrency(weekendTotal / weekendCount) : '-',
+    );
     row++;
 
     // ═══════════════════════════════════════════════════════════════════════
@@ -679,12 +859,24 @@ class ExportService {
 
     for (var i = 1; i <= 7; i++) {
       final isAlternate = i % 2 == 0;
-      _setCell(sheet, 'A$row', dayNames[i - 1],
-          bgColor: isAlternate ? _alternateRowColor : null);
-      _setCell(sheet, 'B$row', _formatCurrency(dayTotals[i] ?? 0),
-          bgColor: isAlternate ? _alternateRowColor : null);
-      _setCell(sheet, 'C$row', '${dayCounts[i] ?? 0} ${l10n.excelDecisionCount.toLowerCase()}',
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'A$row',
+        dayNames[i - 1],
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
+      _setCell(
+        sheet,
+        'B$row',
+        _formatCurrency(dayTotals[i] ?? 0),
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
+      _setCell(
+        sheet,
+        'C$row',
+        '${dayCounts[i] ?? 0} ${l10n.excelDecisionCount.toLowerCase()}',
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
       row++;
     }
 
@@ -727,38 +919,110 @@ class ExportService {
     }
 
     // Calculate stats
-    final yesExpenses = expenses.where((e) => e.decision == ExpenseDecision.yes).toList();
-    final thinkingExpenses = expenses.where((e) => e.decision == ExpenseDecision.thinking).toList();
-    final noExpenses = expenses.where((e) => e.decision == ExpenseDecision.no).toList();
+    final yesExpenses = expenses
+        .where((e) => e.decision == ExpenseDecision.yes)
+        .toList();
+    final thinkingExpenses = expenses
+        .where((e) => e.decision == ExpenseDecision.thinking)
+        .toList();
+    final noExpenses = expenses
+        .where((e) => e.decision == ExpenseDecision.no)
+        .toList();
 
     final yesTotal = yesExpenses.fold<double>(0, (sum, e) => sum + e.amount);
-    final thinkingTotal = thinkingExpenses.fold<double>(0, (sum, e) => sum + e.amount);
+    final thinkingTotal = thinkingExpenses.fold<double>(
+      0,
+      (sum, e) => sum + e.amount,
+    );
     final noTotal = noExpenses.fold<double>(0, (sum, e) => sum + e.amount);
     final grandTotal = yesTotal + thinkingTotal + noTotal;
 
     // Row 2: Bought
-    _setCell(sheet, 'A2', l10n.excelDecisionsBought, isBold: true, bgColor: _positiveColor, textColor: '#FFFFFF');
+    _setCell(
+      sheet,
+      'A2',
+      l10n.excelDecisionsBought,
+      isBold: true,
+      bgColor: _positiveColor,
+      textColor: '#FFFFFF',
+    );
     _setCell(sheet, 'B2', yesExpenses.length.toString());
     _setCell(sheet, 'C2', _formatCurrency(yesTotal));
-    _setCell(sheet, 'D2', '${grandTotal > 0 ? (yesTotal / grandTotal * 100).toStringAsFixed(1) : 0}%');
-    _setCell(sheet, 'E2', yesExpenses.isNotEmpty ? _formatCurrency(yesTotal / yesExpenses.length) : '-');
-    _setCell(sheet, 'F2', '${(hourlyRate > 0 ? yesTotal / hourlyRate : 0).toStringAsFixed(1)}h');
+    _setCell(
+      sheet,
+      'D2',
+      '${grandTotal > 0 ? (yesTotal / grandTotal * 100).toStringAsFixed(1) : 0}%',
+    );
+    _setCell(
+      sheet,
+      'E2',
+      yesExpenses.isNotEmpty
+          ? _formatCurrency(yesTotal / yesExpenses.length)
+          : '-',
+    );
+    _setCell(
+      sheet,
+      'F2',
+      '${(hourlyRate > 0 ? yesTotal / hourlyRate : 0).toStringAsFixed(1)}h',
+    );
 
     // Row 3: Thinking
-    _setCell(sheet, 'A3', l10n.excelDecisionsThinking, isBold: true, bgColor: _warningColor, textColor: '#FFFFFF');
+    _setCell(
+      sheet,
+      'A3',
+      l10n.excelDecisionsThinking,
+      isBold: true,
+      bgColor: _warningColor,
+      textColor: '#FFFFFF',
+    );
     _setCell(sheet, 'B3', thinkingExpenses.length.toString());
     _setCell(sheet, 'C3', _formatCurrency(thinkingTotal));
-    _setCell(sheet, 'D3', '${grandTotal > 0 ? (thinkingTotal / grandTotal * 100).toStringAsFixed(1) : 0}%');
-    _setCell(sheet, 'E3', thinkingExpenses.isNotEmpty ? _formatCurrency(thinkingTotal / thinkingExpenses.length) : '-');
-    _setCell(sheet, 'F3', '${(hourlyRate > 0 ? thinkingTotal / hourlyRate : 0).toStringAsFixed(1)}h');
+    _setCell(
+      sheet,
+      'D3',
+      '${grandTotal > 0 ? (thinkingTotal / grandTotal * 100).toStringAsFixed(1) : 0}%',
+    );
+    _setCell(
+      sheet,
+      'E3',
+      thinkingExpenses.isNotEmpty
+          ? _formatCurrency(thinkingTotal / thinkingExpenses.length)
+          : '-',
+    );
+    _setCell(
+      sheet,
+      'F3',
+      '${(hourlyRate > 0 ? thinkingTotal / hourlyRate : 0).toStringAsFixed(1)}h',
+    );
 
     // Row 4: Passed
-    _setCell(sheet, 'A4', l10n.excelDecisionsPassed, isBold: true, bgColor: _negativeColor, textColor: '#FFFFFF');
+    _setCell(
+      sheet,
+      'A4',
+      l10n.excelDecisionsPassed,
+      isBold: true,
+      bgColor: _negativeColor,
+      textColor: '#FFFFFF',
+    );
     _setCell(sheet, 'B4', noExpenses.length.toString());
     _setCell(sheet, 'C4', _formatCurrency(noTotal));
-    _setCell(sheet, 'D4', '${grandTotal > 0 ? (noTotal / grandTotal * 100).toStringAsFixed(1) : 0}%');
-    _setCell(sheet, 'E4', noExpenses.isNotEmpty ? _formatCurrency(noTotal / noExpenses.length) : '-');
-    _setCell(sheet, 'F4', '${(hourlyRate > 0 ? noTotal / hourlyRate : 0).toStringAsFixed(1)}h');
+    _setCell(
+      sheet,
+      'D4',
+      '${grandTotal > 0 ? (noTotal / grandTotal * 100).toStringAsFixed(1) : 0}%',
+    );
+    _setCell(
+      sheet,
+      'E4',
+      noExpenses.isNotEmpty
+          ? _formatCurrency(noTotal / noExpenses.length)
+          : '-',
+    );
+    _setCell(
+      sheet,
+      'F4',
+      '${(hourlyRate > 0 ? noTotal / hourlyRate : 0).toStringAsFixed(1)}h',
+    );
 
     // Total row
     _setCell(sheet, 'A6', l10n.total, isBold: true);
@@ -768,21 +1032,49 @@ class ExportService {
 
     // Additional insights
     int row = 8;
-    _setCell(sheet, 'A$row', l10n.excelSavingsFromPassed, isBold: true, fontSize: 12);
+    _setCell(
+      sheet,
+      'A$row',
+      l10n.excelSavingsFromPassed,
+      isBold: true,
+      fontSize: 12,
+    );
     row++;
     _setCell(sheet, 'A$row', l10n.totalSaved);
-    _setCell(sheet, 'B$row', _formatCurrency(noTotal), bgColor: _positiveColor, textColor: '#FFFFFF');
+    _setCell(
+      sheet,
+      'B$row',
+      _formatCurrency(noTotal),
+      bgColor: _positiveColor,
+      textColor: '#FFFFFF',
+    );
     row++;
 
     _setCell(sheet, 'A$row', l10n.excelTotalWorkHours);
-    _setCell(sheet, 'B$row', '${(hourlyRate > 0 ? noTotal / hourlyRate : 0).toStringAsFixed(1)} ${l10n.hours}');
+    _setCell(
+      sheet,
+      'B$row',
+      '${(hourlyRate > 0 ? noTotal / hourlyRate : 0).toStringAsFixed(1)} ${l10n.hours}',
+    );
     row++;
 
     row++;
-    _setCell(sheet, 'A$row', l10n.excelPotentialSavings, isBold: true, fontSize: 12);
+    _setCell(
+      sheet,
+      'A$row',
+      l10n.excelPotentialSavings,
+      isBold: true,
+      fontSize: 12,
+    );
     row++;
     _setCell(sheet, 'A$row', l10n.excelDecisionAmount);
-    _setCell(sheet, 'B$row', _formatCurrency(thinkingTotal), bgColor: _warningColor, textColor: '#FFFFFF');
+    _setCell(
+      sheet,
+      'B$row',
+      _formatCurrency(thinkingTotal),
+      bgColor: _warningColor,
+      textColor: '#FFFFFF',
+    );
 
     // Column widths
     sheet.setColumnWidth(0, 20);
@@ -840,8 +1132,12 @@ class ExportService {
 
     // Sort by remaining amount (highest first)
     installmentExpenses.sort((a, b) {
-      final remainingA = (a.installmentCount! - (a.currentInstallment ?? 1)) * a.installmentAmount;
-      final remainingB = (b.installmentCount! - (b.currentInstallment ?? 1)) * b.installmentAmount;
+      final remainingA =
+          (a.installmentCount! - (a.currentInstallment ?? 1)) *
+          a.installmentAmount;
+      final remainingB =
+          (b.installmentCount! - (b.currentInstallment ?? 1)) *
+          b.installmentAmount;
       return remainingB.compareTo(remainingA);
     });
 
@@ -864,56 +1160,115 @@ class ExportService {
       totalRemaining += remaining;
 
       // Açıklama
-      _setCell(sheet, 'A$row', expense.subCategory ?? expense.category,
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'A$row',
+        expense.subCategory ?? expense.category,
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Kategori
-      _setCell(sheet, 'B$row', ExpenseCategory.getLocalizedName(expense.category, l10n),
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'B$row',
+        ExpenseCategory.getLocalizedName(expense.category, l10n),
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Toplam Tutar
-      _setCell(sheet, 'C$row', _formatCurrency(expense.installmentTotal ?? expense.amount),
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'C$row',
+        _formatCurrency(expense.installmentTotal ?? expense.amount),
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Aylık Ödeme
-      _setCell(sheet, 'D$row', _formatCurrency(monthlyPayment),
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'D$row',
+        _formatCurrency(monthlyPayment),
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // İlerleme
-      _setCell(sheet, 'E$row', '$current/$total (${progress.toStringAsFixed(0)}%)',
-          bgColor: progress >= 80 ? _positiveColor : (isAlternate ? _alternateRowColor : null),
-          textColor: progress >= 80 ? '#FFFFFF' : null);
+      _setCell(
+        sheet,
+        'E$row',
+        '$current/$total (${progress.toStringAsFixed(0)}%)',
+        bgColor: progress >= 80
+            ? _positiveColor
+            : (isAlternate ? _alternateRowColor : null),
+        textColor: progress >= 80 ? '#FFFFFF' : null,
+      );
 
       // Kalan
-      _setCell(sheet, 'F$row', _formatCurrency(remaining),
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'F$row',
+        _formatCurrency(remaining),
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Başlangıç Tarihi
-      _setCell(sheet, 'G$row', DateFormat('dd.MM.yyyy').format(expense.installmentStartDate ?? expense.date),
-          bgColor: isAlternate ? _alternateRowColor : null);
+      _setCell(
+        sheet,
+        'G$row',
+        DateFormat(
+          'dd.MM.yyyy',
+        ).format(expense.installmentStartDate ?? expense.date),
+        bgColor: isAlternate ? _alternateRowColor : null,
+      );
 
       // Vade Farkı
       final interest = expense.interestAmount;
-      _setCell(sheet, 'H$row', interest > 0 ? _formatCurrency(interest) : '-',
-          bgColor: interest > 0 ? _warningColor : (isAlternate ? _alternateRowColor : null),
-          textColor: interest > 0 ? '#FFFFFF' : null);
+      _setCell(
+        sheet,
+        'H$row',
+        interest > 0 ? _formatCurrency(interest) : '-',
+        bgColor: interest > 0
+            ? _warningColor
+            : (isAlternate ? _alternateRowColor : null),
+        textColor: interest > 0 ? '#FFFFFF' : null,
+      );
     }
 
     // Summary rows
     final summaryRow = installmentExpenses.length + 4;
-    _setCell(sheet, 'A$summaryRow', l10n.excelTotalMonthlyPayments, isBold: true);
-    _setCell(sheet, 'D$summaryRow', _formatCurrency(totalMonthlyPayments), isBold: true,
-        bgColor: _warningColor, textColor: '#FFFFFF');
+    _setCell(
+      sheet,
+      'A$summaryRow',
+      l10n.excelTotalMonthlyPayments,
+      isBold: true,
+    );
+    _setCell(
+      sheet,
+      'D$summaryRow',
+      _formatCurrency(totalMonthlyPayments),
+      isBold: true,
+      bgColor: _warningColor,
+      textColor: '#FFFFFF',
+    );
 
     final debtRow = summaryRow + 1;
     _setCell(sheet, 'A$debtRow', l10n.excelTotalRemainingDebt, isBold: true);
-    _setCell(sheet, 'F$debtRow', _formatCurrency(totalRemaining), isBold: true,
-        bgColor: _negativeColor, textColor: '#FFFFFF');
+    _setCell(
+      sheet,
+      'F$debtRow',
+      _formatCurrency(totalRemaining),
+      isBold: true,
+      bgColor: _negativeColor,
+      textColor: '#FFFFFF',
+    );
 
     // Work hours equivalent
     final hoursRow = debtRow + 1;
     _setCell(sheet, 'A$hoursRow', l10n.workHoursEquivalent, isBold: true);
-    _setCell(sheet, 'D$hoursRow', '${(hourlyRate > 0 ? totalMonthlyPayments / hourlyRate : 0).toStringAsFixed(1)}h/${l10n.monthly.toLowerCase()}');
+    _setCell(
+      sheet,
+      'D$hoursRow',
+      '${(hourlyRate > 0 ? totalMonthlyPayments / hourlyRate : 0).toStringAsFixed(1)}h/${l10n.monthly.toLowerCase()}',
+    );
 
     // Column widths
     sheet.setColumnWidth(0, 22);
@@ -932,14 +1287,22 @@ class ExportService {
 
   String _getLocalizedDayName(AppLocalizations l10n, int weekday) {
     switch (weekday) {
-      case 1: return l10n.excelDayMonday;
-      case 2: return l10n.excelDayTuesday;
-      case 3: return l10n.excelDayWednesday;
-      case 4: return l10n.excelDayThursday;
-      case 5: return l10n.excelDayFriday;
-      case 6: return l10n.excelDaySaturday;
-      case 7: return l10n.excelDaySunday;
-      default: return '-';
+      case 1:
+        return l10n.excelDayMonday;
+      case 2:
+        return l10n.excelDayTuesday;
+      case 3:
+        return l10n.excelDayWednesday;
+      case 4:
+        return l10n.excelDayThursday;
+      case 5:
+        return l10n.excelDayFriday;
+      case 6:
+        return l10n.excelDaySaturday;
+      case 7:
+        return l10n.excelDaySunday;
+      default:
+        return '-';
     }
   }
 

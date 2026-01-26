@@ -160,7 +160,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           child: _AnimatedStatItem(
                             index: 0,
                             icon: PhosphorIconsDuotone.lock,
-                            iconColor: Colors.blue,
+                            iconColor: context.appColors.info,
                             label: l10n.mandatoryExpenses,
                             amount: mandatoryConverted,
                             hours: mandatoryHours,
@@ -175,7 +175,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           child: _AnimatedStatItem(
                             index: 1,
                             icon: PhosphorIconsDuotone.shoppingBag,
-                            iconColor: Colors.orange,
+                            iconColor: context.appColors.warning,
                             label: l10n.discretionaryExpenses,
                             amount: discretionaryConverted,
                             hours: discretionaryHours,
@@ -345,12 +345,17 @@ class _AnimatedStackedProgressState extends State<_AnimatedStackedProgress>
         final animatedDiscretionary =
             widget.discretionaryPercent * _animation.value;
 
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        final trackColor = isDark
+            ? Colors.white.withValues(alpha: 0.1)
+            : Colors.black.withValues(alpha: 0.08);
+
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
-                color: PremiumColors.purple.withValues(alpha: 0.2),
+                color: context.appColors.primary.withValues(alpha: 0.2),
                 blurRadius: 12,
                 spreadRadius: 0,
               ),
@@ -360,10 +365,10 @@ class _AnimatedStackedProgressState extends State<_AnimatedStackedProgress>
             borderRadius: BorderRadius.circular(8),
             child: Container(
               height: 10,
-              color: Colors.white.withValues(alpha: 0.1),
+              color: trackColor,
               child: Row(
                 children: [
-                  // Zorunlu (mavi)
+                  // Zorunlu (mavi/info)
                   if (animatedMandatory > 0)
                     Expanded(
                       flex: animatedMandatory.round().clamp(1, 100),
@@ -371,14 +376,14 @@ class _AnimatedStackedProgressState extends State<_AnimatedStackedProgress>
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Colors.blue.shade400,
-                              Colors.blue.shade600,
+                              context.appColors.info,
+                              context.appColors.info.withValues(alpha: 0.8),
                             ],
                           ),
                         ),
                       ),
                     ),
-                  // İsteğe bağlı (turuncu)
+                  // İsteğe bağlı (turuncu/warning)
                   if (animatedDiscretionary > 0)
                     Expanded(
                       flex: animatedDiscretionary.round().clamp(1, 100),
@@ -386,8 +391,8 @@ class _AnimatedStackedProgressState extends State<_AnimatedStackedProgress>
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Colors.orange.shade400,
-                              Colors.orange.shade600,
+                              context.appColors.warning,
+                              context.appColors.warning.withValues(alpha: 0.8),
                             ],
                           ),
                         ),

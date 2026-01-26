@@ -70,7 +70,9 @@ class ProProvider extends ChangeNotifier {
       _isPromo = prefs.getBool(_keyIsPromo) ?? false;
     } finally {
       _isLoading = false;
-      debugPrint('✅ [ProProvider] Initialized - isPro: $isPro (RevenueCat: $_isPro, Promo: $_isPromo)');
+      debugPrint(
+        '✅ [ProProvider] Initialized - isPro: $isPro (RevenueCat: $_isPro, Promo: $_isPromo)',
+      );
       notifyListeners();
     }
   }
@@ -232,7 +234,9 @@ class ProProvider extends ChangeNotifier {
     await _checkPromoStatus();
     _listenToPromoStatus();
 
-    debugPrint('✅ [ProProvider] Final isPro: $isPro (RevenueCat: $_isPro, Promo: $_isPromo)');
+    debugPrint(
+      '✅ [ProProvider] Final isPro: $isPro (RevenueCat: $_isPro, Promo: $_isPromo)',
+    );
     notifyListeners();
   }
 

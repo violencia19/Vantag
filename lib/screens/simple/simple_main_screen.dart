@@ -163,10 +163,7 @@ class _SimpleMainScreenState extends State<SimpleMainScreen>
       decoration: BoxDecoration(
         color: context.appColors.surface,
         border: Border(
-          top: BorderSide(
-            color: context.appColors.cardBorder,
-            width: 1,
-          ),
+          top: BorderSide(color: context.appColors.cardBorder, width: 1),
         ),
       ),
       child: SafeArea(

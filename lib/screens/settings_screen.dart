@@ -174,9 +174,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
             // Security Section
-            SliverToBoxAdapter(
-              child: _buildSecuritySection(l10n),
-            ),
+            SliverToBoxAdapter(child: _buildSecuritySection(l10n)),
 
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
@@ -205,9 +203,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
             // Voice & Shortcuts Section (NEW)
-            SliverToBoxAdapter(
-              child: _buildVoiceSection(l10n),
-            ),
+            SliverToBoxAdapter(child: _buildVoiceSection(l10n)),
 
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
@@ -310,7 +306,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         l10n.referralRewardInfo,
                         style: TextStyle(
                           fontSize: 12,
-                          color: context.appColors.textPrimary.withValues(alpha: 0.9),
+                          color: context.appColors.textPrimary.withValues(
+                            alpha: 0.9,
+                          ),
                         ),
                       ),
                     ],
@@ -347,10 +345,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       vertical: 12,
                     ),
                     decoration: BoxDecoration(
-                      color: context.appColors.textPrimary.withValues(alpha: 0.15),
+                      color: context.appColors.textPrimary.withValues(
+                        alpha: 0.15,
+                      ),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: context.appColors.textPrimary.withValues(alpha: 0.2),
+                        color: context.appColors.textPrimary.withValues(
+                          alpha: 0.2,
+                        ),
                         width: 1,
                       ),
                     ),
@@ -365,7 +367,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,
-                                color: context.appColors.textPrimary.withValues(alpha: 0.9),
+                                color: context.appColors.textPrimary.withValues(
+                                  alpha: 0.9,
+                                ),
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -383,7 +387,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: context.appColors.textPrimary.withValues(alpha: 0.2),
+                            color: context.appColors.textPrimary.withValues(
+                              alpha: 0.2,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Icon(
@@ -408,7 +414,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
-                        color: context.appColors.textPrimary.withValues(alpha: 0.1),
+                        color: context.appColors.textPrimary.withValues(
+                          alpha: 0.1,
+                        ),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -428,7 +436,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 .replaceAll('$_referralCount ', ''),
                             style: TextStyle(
                               fontSize: 11,
-                              color: context.appColors.textPrimary.withValues(alpha: 0.9),
+                              color: context.appColors.textPrimary.withValues(
+                                alpha: 0.9,
+                              ),
                             ),
                           ),
                         ],
@@ -574,8 +584,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const SizedBox(width: 8),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     color: context.appColors.primary,
                     borderRadius: BorderRadius.circular(10),
@@ -608,16 +620,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onTap: () => _showVoiceHelpSheet(context, l10n),
                   borderRadius: BorderRadius.circular(16),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
                     child: Row(
                       children: [
                         Container(
                           width: 36,
                           height: 36,
                           decoration: BoxDecoration(
-                            color:
-                                context.appColors.primary.withValues(alpha: 0.15),
+                            color: context.appColors.primary.withValues(
+                              alpha: 0.15,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Icon(
@@ -961,10 +976,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               onChanged: (value) async {
                                 if (value) {
                                   // Test biometric before enabling
-                                  final success = await LockService
-                                      .authenticateWithBiometrics(
-                                    l10n.unlockWithBiometric,
-                                  );
+                                  final success =
+                                      await LockService.authenticateWithBiometrics(
+                                        l10n.unlockWithBiometric,
+                                      );
                                   if (success) {
                                     await LockService.setBiometricEnabled(true);
                                   }
@@ -996,7 +1011,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     required ValueChanged<bool> onChanged,
   }) {
     final l10n = AppLocalizations.of(context);
-    final toggleState = value ? l10n.accessibilityToggleOn : l10n.accessibilityToggleOff;
+    final toggleState = value
+        ? l10n.accessibilityToggleOn
+        : l10n.accessibilityToggleOff;
 
     return Semantics(
       toggled: value,
@@ -1013,11 +1030,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: context.appColors.primary.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(
-                icon,
-                size: 20,
-                color: context.appColors.primary,
-              ),
+              child: Icon(icon, size: 20, color: context.appColors.primary),
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -1472,9 +1485,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildProTile(AppLocalizations l10n, bool isPro) {
     return _buildListTile(
       icon: PhosphorIconsDuotone.lightning,
-      iconColor: isPro
-          ? AppColors.medalGold
-          : context.appColors.textTertiary,
+      iconColor: isPro ? AppColors.medalGold : context.appColors.textTertiary,
       title: l10n.settingsVantagPro,
       trailing: isPro
           ? Container(
@@ -1641,9 +1652,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
-                        color: context.appColors.warning.withValues(alpha: 0.15),
+                        color: context.appColors.warning.withValues(
+                          alpha: 0.15,
+                        ),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
@@ -1700,7 +1716,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             backgroundColor: context.appColors.success,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
         // Refresh state to show linked status
@@ -1719,7 +1737,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             backgroundColor: context.appColors.error,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
       }
@@ -1849,7 +1869,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               debugPrint('[Export] Save failed: ${result.error}');
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('${l10n.exportError}: ${result.error ?? "Unknown"}'),
+                  content: Text(
+                    '${l10n.exportError}: ${result.error ?? "Unknown"}',
+                  ),
                   backgroundColor: AppColors.categoryBills,
                   behavior: SnackBarBehavior.floating,
                   action: SnackBarAction(
@@ -2299,9 +2321,8 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                     disabledBackgroundColor: context.appColors.error.withValues(
                       alpha: 0.3,
                     ),
-                    disabledForegroundColor: context.appColors.textPrimary.withValues(
-                      alpha: 0.5,
-                    ),
+                    disabledForegroundColor: context.appColors.textPrimary
+                        .withValues(alpha: 0.5),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),

@@ -16,8 +16,8 @@ class CategoryBudget {
     DateTime? createdAt,
     this.updatedAt,
     this.isActive = true,
-  })  : id = id ?? const Uuid().v4(),
-        createdAt = createdAt ?? DateTime.now();
+  }) : id = id ?? const Uuid().v4(),
+       createdAt = createdAt ?? DateTime.now();
 
   CategoryBudget copyWith({
     String? id,

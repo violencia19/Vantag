@@ -39,7 +39,9 @@ class CurrencyProvider extends ChangeNotifier {
     try {
       final currencyService = CurrencyService();
       _tcmbRates = await currencyService.getRates();
-      debugPrint('💱 [CurrencyProvider] Initialized with TCMB rates: USD=${_tcmbRates?.usdRate}, EUR=${_tcmbRates?.eurRate}');
+      debugPrint(
+        '💱 [CurrencyProvider] Initialized with TCMB rates: USD=${_tcmbRates?.usdRate}, EUR=${_tcmbRates?.eurRate}',
+      );
     } catch (e) {
       debugPrint('⚠️ [CurrencyProvider] Failed to load TCMB rates: $e');
     }
@@ -72,7 +74,9 @@ class CurrencyProvider extends ChangeNotifier {
       final currencyService = CurrencyService();
       _tcmbRates = await currencyService.getRates(forceRefresh: forceRefresh);
 
-      debugPrint('💱 [CurrencyProvider] TCMB rates loaded: USD=${_tcmbRates?.usdRate}, EUR=${_tcmbRates?.eurRate}');
+      debugPrint(
+        '💱 [CurrencyProvider] TCMB rates loaded: USD=${_tcmbRates?.usdRate}, EUR=${_tcmbRates?.eurRate}',
+      );
 
       if (!_exchangeService.hasRates && _tcmbRates == null) {
         _rateError = 'Failed to fetch exchange rates';
@@ -262,11 +266,7 @@ class CurrencyProvider extends ChangeNotifier {
     }
 
     // Fallback to ExchangeRateService
-    final converted = _exchangeService.convert(
-      amount,
-      _currency.code,
-      'TRY',
-    );
+    final converted = _exchangeService.convert(amount, _currency.code, 'TRY');
     return converted ?? amount;
   }
 

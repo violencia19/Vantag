@@ -186,7 +186,10 @@ KURAL:
 SADECE karşılama cümlesini yaz:
 ''';
 
-      final response = await AIService().getGreeting(prompt, languageCode: locale);
+      final response = await AIService().getGreeting(
+        prompt,
+        languageCode: locale,
+      );
 
       // Cache'e kaydet
       await _cacheGreeting(cacheKey, response);
@@ -289,8 +292,7 @@ SADECE karşılama cümlesini yaz:
           _buildHandle(),
           _buildHeader(),
           // Free tier remaining chats indicator
-          if (!isPremium)
-            _buildRemainingChatsIndicator(l10n),
+          if (!isPremium) _buildRemainingChatsIndicator(l10n),
           Expanded(child: _buildMessageList(isPremium)),
           _buildInput(isPremium),
         ],
@@ -310,15 +312,15 @@ SADECE karşılama cümlesini yaz:
         color: isLimitReached
             ? context.appColors.error.withValues(alpha: 0.15)
             : isLow
-                ? context.appColors.warning.withValues(alpha: 0.15)
-                : context.appColors.primary.withValues(alpha: 0.1),
+            ? context.appColors.warning.withValues(alpha: 0.15)
+            : context.appColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: isLimitReached
               ? context.appColors.error.withValues(alpha: 0.3)
               : isLow
-                  ? context.appColors.warning.withValues(alpha: 0.3)
-                  : context.appColors.primary.withValues(alpha: 0.2),
+              ? context.appColors.warning.withValues(alpha: 0.3)
+              : context.appColors.primary.withValues(alpha: 0.2),
         ),
       ),
       child: Row(
@@ -328,14 +330,14 @@ SADECE karşılama cümlesini yaz:
             isLimitReached
                 ? PhosphorIconsFill.warning
                 : isLow
-                    ? PhosphorIconsDuotone.warning
-                    : PhosphorIconsDuotone.chatCircle,
+                ? PhosphorIconsDuotone.warning
+                : PhosphorIconsDuotone.chatCircle,
             size: 16,
             color: isLimitReached
                 ? context.appColors.error
                 : isLow
-                    ? context.appColors.warning
-                    : context.appColors.primary,
+                ? context.appColors.warning
+                : context.appColors.primary,
           ),
           const SizedBox(width: 8),
           Text(
@@ -348,8 +350,8 @@ SADECE karşılama cümlesini yaz:
               color: isLimitReached
                   ? context.appColors.error
                   : isLow
-                      ? context.appColors.warning
-                      : context.appColors.textSecondary,
+                  ? context.appColors.warning
+                  : context.appColors.textSecondary,
             ),
           ),
         ],
@@ -461,7 +463,8 @@ SADECE karşılama cümlesini yaz:
                 child: GestureDetector(
                   onTap: _togglePersonality,
                   child: Tooltip(
-                    message: AIService().personalityMode == PersonalityMode.friendly
+                    message:
+                        AIService().personalityMode == PersonalityMode.friendly
                         ? l10n.professionalMode
                         : l10n.friendlyMode,
                     child: Container(
@@ -472,15 +475,14 @@ SADECE karşılama cümlesini yaz:
                       decoration: BoxDecoration(
                         color: context.appColors.surfaceLight,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: context.appColors.cardBorder,
-                        ),
+                        border: Border.all(color: context.appColors.cardBorder),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            AIService().personalityMode == PersonalityMode.friendly
+                            AIService().personalityMode ==
+                                    PersonalityMode.friendly
                                 ? PhosphorIconsDuotone.smiley
                                 : PhosphorIconsDuotone.briefcase,
                             size: 16,
@@ -902,9 +904,7 @@ SADECE karşılama cümlesini yaz:
       ),
       decoration: BoxDecoration(
         color: context.appColors.surface,
-        border: Border(
-          top: BorderSide(color: context.appColors.cardBorder),
-        ),
+        border: Border(top: BorderSide(color: context.appColors.cardBorder)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -936,46 +936,49 @@ SADECE karşılama cümlesini yaz:
                   decoration: BoxDecoration(
                     color: context.appColors.surfaceLight,
                     borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
-                      color: context.appColors.cardBorder,
-                    ),
+                    border: Border.all(color: context.appColors.cardBorder),
                   ),
                   child: Semantics(
                     label: l10n.accessibilityAiChatInput,
                     textField: true,
                     child: TextField(
-                    controller: _controller,
-                    readOnly: !isPremium,
-                    onTap: () {
-                      if (!isPremium) {
-                        _showPaywall(context);
-                      }
-                    },
-                    style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
-                    decoration: InputDecoration(
-                      hintText: isPremium
-                          ? l10n.aiInputPlaceholder
-                          : l10n.aiInputPlaceholderFree,
-                      hintStyle: TextStyle(
-                        color: context.appColors.textTertiary,
+                      controller: _controller,
+                      readOnly: !isPremium,
+                      onTap: () {
+                        if (!isPremium) {
+                          _showPaywall(context);
+                        }
+                      },
+                      style: TextStyle(
+                        color: context.appColors.textPrimary,
+                        fontSize: 14,
                       ),
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                      suffixIcon: !isPremium
-                          ? Icon(
-                              PhosphorIconsRegular.lock,
-                              size: 18,
-                              color: context.appColors.textTertiary,
-                            )
-                          : null,
+                      decoration: InputDecoration(
+                        hintText: isPremium
+                            ? l10n.aiInputPlaceholder
+                            : l10n.aiInputPlaceholderFree,
+                        hintStyle: TextStyle(
+                          color: context.appColors.textTertiary,
+                        ),
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                        ),
+                        suffixIcon: !isPremium
+                            ? Icon(
+                                PhosphorIconsRegular.lock,
+                                size: 18,
+                                color: context.appColors.textTertiary,
+                              )
+                            : null,
+                      ),
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.send,
+                      enableSuggestions: true,
+                      autocorrect: false,
+                      enableIMEPersonalizedLearning: true,
+                      onSubmitted: isPremium ? (_) => _sendMessage() : null,
                     ),
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.send,
-                    enableSuggestions: true,
-                    autocorrect: false,
-                    enableIMEPersonalizedLearning: true,
-                    onSubmitted: isPremium ? (_) => _sendMessage() : null,
-                  ),
                   ),
                 ),
               ),
@@ -986,7 +989,9 @@ SADECE karşılama cümlesini yaz:
                 child: Tooltip(
                   message: l10n.accessibilityAiSendButton,
                   child: GestureDetector(
-                    onTap: isPremium ? _sendMessage : () => _showPaywall(context),
+                    onTap: isPremium
+                        ? _sendMessage
+                        : () => _showPaywall(context),
                     child: Container(
                       width: 48,
                       height: 48,
@@ -1156,12 +1161,7 @@ SADECE karşılama cümlesini yaz:
             ? 'You\'ve reached your $limitTypeText AI limit. Try again in ${_formatResetTime(resetTime, isEnglish)}.'
             : '$limitTypeText AI limitine ulaştın. ${_formatResetTime(resetTime, isEnglish)} sonra tekrar deneyebilirsin.';
         setState(() {
-          _messages.add(
-            ChatMessage(
-              role: 'assistant',
-              content: limitMessage,
-            ),
-          );
+          _messages.add(ChatMessage(role: 'assistant', content: limitMessage));
           _isLoading = false;
           _showUpsell = true;
         });
@@ -1189,7 +1189,9 @@ SADECE karşılama cümlesini yaz:
     final now = DateTime.now();
     final diff = resetDate.difference(now);
     if (diff.inHours < 1) {
-      return isEnglish ? '${diff.inMinutes} minutes' : '${diff.inMinutes} dakika';
+      return isEnglish
+          ? '${diff.inMinutes} minutes'
+          : '${diff.inMinutes} dakika';
     } else if (diff.inHours < 24) {
       return isEnglish ? '${diff.inHours} hours' : '${diff.inHours} saat';
     } else {

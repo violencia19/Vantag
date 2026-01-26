@@ -296,7 +296,7 @@ Future<void> showPursuitCompletionModal(
   return showDialog(
     context: context,
     barrierDismissible: false,
-    barrierColor: Colors.transparent,
+    barrierColor: Colors.black.withOpacity(0.85),
     builder: (_) => PursuitCompletionModal(
       pursuit: pursuit,
       formatAmount: formatAmount,

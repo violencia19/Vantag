@@ -26,14 +26,26 @@ class HabitCategoryDef {
 
 const List<HabitCategoryDef> _habitCategoryDefs = [
   HabitCategoryDef('coffee', PhosphorIconsFill.coffee, AppColors.coffeeColor),
-  HabitCategoryDef('smoking', PhosphorIconsFill.cigarette, AppColors.smokingGray),
-  HabitCategoryDef('eatingOut', PhosphorIconsFill.hamburger, AppColors.categoryFood),
+  HabitCategoryDef(
+    'smoking',
+    PhosphorIconsFill.cigarette,
+    AppColors.smokingGray,
+  ),
+  HabitCategoryDef(
+    'eatingOut',
+    PhosphorIconsFill.hamburger,
+    AppColors.categoryFood,
+  ),
   HabitCategoryDef(
     'gaming',
     PhosphorIconsFill.gameController,
     AppColors.categoryBills,
   ),
-  HabitCategoryDef('clothing', PhosphorIconsFill.tShirt, AppColors.categoryShopping),
+  HabitCategoryDef(
+    'clothing',
+    PhosphorIconsFill.tShirt,
+    AppColors.categoryShopping,
+  ),
   HabitCategoryDef('taxi', PhosphorIconsFill.car, AppColors.secondary),
 ];
 
@@ -73,7 +85,12 @@ List<HabitCategory> getLocalizedHabitCategories(AppLocalizations l10n) {
 
 /// Legacy: for backward compatibility (returns Turkish names)
 const List<HabitCategory> defaultHabitCategories = [
-  HabitCategory('coffee', 'Kahve', PhosphorIconsFill.coffee, AppColors.coffeeColor),
+  HabitCategory(
+    'coffee',
+    'Kahve',
+    PhosphorIconsFill.coffee,
+    AppColors.coffeeColor,
+  ),
   HabitCategory(
     'smoking',
     'Sigara',
@@ -98,7 +115,12 @@ const List<HabitCategory> defaultHabitCategories = [
     PhosphorIconsFill.tShirt,
     AppColors.categoryShopping,
   ),
-  HabitCategory('taxi', 'Taksi/Uber', PhosphorIconsFill.car, AppColors.secondary),
+  HabitCategory(
+    'taxi',
+    'Taksi/Uber',
+    PhosphorIconsFill.car,
+    AppColors.secondary,
+  ),
 ];
 
 class HabitResult {

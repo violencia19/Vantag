@@ -24,7 +24,7 @@ class AILimitDialog {
   }) {
     return showDialog(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: Colors.black.withOpacity(0.85),
       barrierDismissible: false,
       builder: (context) => _AILimitDialogContent(
         type: type,
@@ -57,10 +57,7 @@ class _AILimitDialogContent extends StatelessWidget {
         decoration: BoxDecoration(
           color: context.appColors.surface,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: context.appColors.cardBorder,
-            width: 1,
-          ),
+          border: Border.all(color: context.appColors.cardBorder, width: 1),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.3),

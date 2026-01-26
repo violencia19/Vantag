@@ -112,7 +112,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: context.appColors.background.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withOpacity(0.85),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => StatefulBuilder(
@@ -1029,12 +1029,18 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
             ),
             const SizedBox(height: 32),
             // Divider
-            Container(height: 1, color: context.appColors.textPrimary.withValues(alpha: 0.2)),
+            Container(
+              height: 1,
+              color: context.appColors.textPrimary.withValues(alpha: 0.2),
+            ),
             const SizedBox(height: 24),
             // Detail row
             Text(
               l10n.monthlyYearlyCost(
-                l10n.habitMonthlyDetail(_result!.monthlyDays, _result!.monthlyExtraHours),
+                l10n.habitMonthlyDetail(
+                  _result!.monthlyDays,
+                  _result!.monthlyExtraHours,
+                ),
                 _formatCurrency(_result!.yearlyAmount),
               ),
               style: TextStyle(

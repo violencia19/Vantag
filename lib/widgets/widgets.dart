@@ -52,6 +52,7 @@ export 'ai_insights_card.dart';
 export 'vertical_budget_indicator.dart';
 export 'budget_breakdown_card.dart';
 export 'installment_summary_card.dart';
+export 'locked_pro_feature.dart';
 
 // Merchant Learning
 export 'pending_review_banner.dart';

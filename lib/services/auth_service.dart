@@ -382,7 +382,8 @@ class AuthService {
 
     try {
       final storage = FirebaseStorage.instance;
-      final fileName = 'profile_${user.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final fileName =
+          'profile_${user.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg';
       final ref = storage.ref().child('profile_photos/$fileName');
 
       // Dosyayı yükle

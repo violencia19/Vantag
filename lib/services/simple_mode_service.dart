@@ -67,7 +67,9 @@ class SimpleModeService extends ChangeNotifier {
     await prefs.setBool(_keySimpleModeEnabled, value);
     _isEnabled = value;
     notifyListeners();
-    debugPrint('[SimpleModeService] Simple mode ${value ? 'enabled' : 'disabled'}');
+    debugPrint(
+      '[SimpleModeService] Simple mode ${value ? 'enabled' : 'disabled'}',
+    );
   }
 
   /// Toggle simple mode on/off

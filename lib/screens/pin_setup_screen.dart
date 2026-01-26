@@ -33,9 +33,10 @@ class _PinSetupScreenState extends State<PinSetupScreen>
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
-    _shakeAnimation = Tween<double>(begin: 0, end: 24)
-        .chain(CurveTween(curve: Curves.elasticIn))
-        .animate(_shakeController);
+    _shakeAnimation = Tween<double>(
+      begin: 0,
+      end: 24,
+    ).chain(CurveTween(curve: Curves.elasticIn)).animate(_shakeController);
   }
 
   @override
@@ -307,10 +308,7 @@ class _PinSetupScreenState extends State<PinSetupScreen>
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: context.appColors.surface,
-          border: Border.all(
-            color: context.appColors.cardBorder,
-            width: 1,
-          ),
+          border: Border.all(color: context.appColors.cardBorder, width: 1),
         ),
         child: Center(
           child: Text(

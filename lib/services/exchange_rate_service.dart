@@ -226,7 +226,9 @@ class ExchangeRateService {
       if (gold != null) {
         _goldUSD = (gold['usdPerOz'] as num?)?.toDouble();
         _goldTRYPerGram = (gold['tryPerGram'] as num?)?.toDouble();
-        debugPrint('📊 [ExchangeRate] Gold - USD/oz: $_goldUSD, TRY/gr: $_goldTRYPerGram');
+        debugPrint(
+          '📊 [ExchangeRate] Gold - USD/oz: $_goldUSD, TRY/gr: $_goldTRYPerGram',
+        );
       }
 
       // Parse timestamp
@@ -237,7 +239,9 @@ class ExchangeRateService {
       }
 
       _source = 'firestore';
-      debugPrint('📊 [ExchangeRate] ✅ Loaded ${_ratesInUSD.length} rates from Firestore');
+      debugPrint(
+        '📊 [ExchangeRate] ✅ Loaded ${_ratesInUSD.length} rates from Firestore',
+      );
       return _ratesInUSD.isNotEmpty;
     } catch (e) {
       debugPrint('📊 [ExchangeRate] ❌ Firestore error: $e');
@@ -383,7 +387,9 @@ class ExchangeRateService {
     }
 
     final result = amount * (toRate / fromRate);
-    debugPrint('   ✅ Result: $result (formula: $amount * ($toRate / $fromRate))');
+    debugPrint(
+      '   ✅ Result: $result (formula: $amount * ($toRate / $fromRate))',
+    );
     return result;
   }
 

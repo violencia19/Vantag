@@ -279,7 +279,10 @@ class AIService {
     return json;
   }
 
-  Future<String> getGreeting(String prompt, {String languageCode = 'tr'}) async {
+  Future<String> getGreeting(
+    String prompt, {
+    String languageCode = 'tr',
+  }) async {
     final isEnglish = languageCode == 'en';
     final defaultGreeting = isEnglish
         ? 'Hello! How can I help you today?'

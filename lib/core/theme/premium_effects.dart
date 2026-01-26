@@ -212,7 +212,7 @@ class GradientBorder extends StatelessWidget {
 // ===========================================
 
 /// Glass Card Widget - Design System Compliant
-/// blur: 25px, border: 0.2 opacity, background: koyu mor 0.6 opacity
+/// Theme-aware: adapts to light/dark mode
 class GlassCard extends StatelessWidget {
   final Widget child;
   final double borderRadius;
@@ -237,6 +237,14 @@ class GlassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final defaultBgColor = isDark
+        ? const Color(0xFF2D1B4E).withValues(alpha: 0.6)
+        : const Color(0xFFFFFFFF).withValues(alpha: 0.9);
+    final borderColor = isDark
+        ? Colors.white.withValues(alpha: 0.2)
+        : Colors.black.withValues(alpha: 0.1);
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
       child: BackdropFilter(
@@ -245,16 +253,12 @@ class GlassCard extends StatelessWidget {
           padding: padding ?? const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: backgroundGradient == null
-                ? (backgroundColor ??
-                      const Color(0xFF2D1B4E).withValues(alpha: 0.6))
+                ? (backgroundColor ?? defaultBgColor)
                 : null,
             gradient: backgroundGradient,
             borderRadius: BorderRadius.circular(borderRadius),
             border: showBorder
-                ? Border.all(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    width: 1.5,
-                  )
+                ? Border.all(color: borderColor, width: 1.5)
                 : null,
             boxShadow: boxShadow,
           ),

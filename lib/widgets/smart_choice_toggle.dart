@@ -145,7 +145,9 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
             boxShadow: _isExpanded
                 ? [
                     BoxShadow(
-                      color: AppColors.medalGold.withValues(alpha: 0.3 * _glowAnimation.value),
+                      color: AppColors.medalGold.withValues(
+                        alpha: 0.3 * _glowAnimation.value,
+                      ),
                       blurRadius: 20,
                       spreadRadius: 2,
                     ),
@@ -354,9 +356,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
           ],
         ),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppColors.medalGold.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: AppColors.medalGold.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [

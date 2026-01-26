@@ -43,10 +43,7 @@ class PremiumNavBar extends StatelessWidget {
                   ? const Color(0xF20D0D1A) // Dark: rgba(13,13,26,0.95)
                   : const Color(0xF2FFFFFF), // Light: rgba(255,255,255,0.95)
               borderRadius: BorderRadius.circular(28),
-              border: Border.all(
-                color: context.appColors.cardBorder,
-                width: 1,
-              ),
+              border: Border.all(color: context.appColors.cardBorder, width: 1),
               boxShadow: [
                 BoxShadow(
                   color: context.appColors.cardShadow,
@@ -452,10 +449,7 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   ? const Color(0xF20D0D1A) // Dark: rgba(13,13,26,0.95)
                   : const Color(0xF2FFFFFF), // Light: rgba(255,255,255,0.95)
               borderRadius: BorderRadius.circular(28),
-              border: Border.all(
-                color: context.appColors.cardBorder,
-                width: 1,
-              ),
+              border: Border.all(color: context.appColors.cardBorder, width: 1),
               boxShadow: [
                 BoxShadow(
                   color: context.appColors.cardShadow,

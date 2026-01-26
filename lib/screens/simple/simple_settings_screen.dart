@@ -298,7 +298,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -359,7 +359,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.85),
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),

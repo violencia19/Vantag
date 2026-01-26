@@ -302,7 +302,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
       );
 
       // Save base currency from primary income (for FREE user currency lock)
-      final primarySource = _incomeSources.where((s) => s.isPrimary).firstOrNull;
+      final primarySource = _incomeSources
+          .where((s) => s.isPrimary)
+          .firstOrNull;
       if (primarySource != null && provider.userProfile?.baseCurrency == null) {
         await provider.setBaseCurrency(primarySource.currencyCode);
       }
@@ -317,7 +319,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
         SnackBar(
           content: Row(
             children: [
-              Icon(PhosphorIconsDuotone.checkCircle, color: context.appColors.textPrimary),
+              Icon(
+                PhosphorIconsDuotone.checkCircle,
+                color: context.appColors.textPrimary,
+              ),
               const SizedBox(width: 12),
               Text(widget.isEditing ? l10n.incomesUpdated : l10n.incomesSaved),
             ],
@@ -377,56 +382,56 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
           }
         },
         child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-        decoration: BoxDecoration(
-          color: context.appColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isLocked
-                ? context.appColors.textTertiary.withValues(alpha: 0.3)
-                : context.appColors.cardBorder,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(currency.flag, style: const TextStyle(fontSize: 24)),
-            const SizedBox(width: 12),
-            Text(
-              '${currency.code} - ${currency.name}',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: isLocked
-                    ? context.appColors.textTertiary
-                    : context.appColors.textPrimary,
-              ),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          decoration: BoxDecoration(
+            color: context.appColors.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: isLocked
+                  ? context.appColors.textTertiary.withValues(alpha: 0.3)
+                  : context.appColors.cardBorder,
             ),
-            const Spacer(),
-            if (isLocked) ...[
-              Icon(
-                PhosphorIconsRegular.lock,
-                size: 18,
-                color: context.appColors.textTertiary,
-              ),
-            ] else ...[
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(currency.flag, style: const TextStyle(fontSize: 24)),
+              const SizedBox(width: 12),
               Text(
-                l10n.change,
+                '${currency.code} - ${currency.name}',
                 style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: context.appColors.primary,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: isLocked
+                      ? context.appColors.textTertiary
+                      : context.appColors.textPrimary,
                 ),
               ),
-              const SizedBox(width: 4),
-              Icon(
-                PhosphorIconsDuotone.caretRight,
-                size: 18,
-                color: context.appColors.primary,
-              ),
+              const Spacer(),
+              if (isLocked) ...[
+                Icon(
+                  PhosphorIconsRegular.lock,
+                  size: 18,
+                  color: context.appColors.textTertiary,
+                ),
+              ] else ...[
+                Text(
+                  l10n.change,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: context.appColors.primary,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Icon(
+                  PhosphorIconsDuotone.caretRight,
+                  size: 18,
+                  color: context.appColors.primary,
+                ),
+              ],
             ],
-          ],
-        ),
+          ),
         ),
       ),
     );
@@ -438,7 +443,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
 
     showModalBottomSheet(
       context: context,
-      barrierColor: context.appColors.background.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -485,76 +490,76 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                       HapticFeedback.selectionClick();
                     },
                     child: Container(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? context.appColors.primary.withValues(alpha: 0.1)
-                          : context.appColors.surfaceLight,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
+                      decoration: BoxDecoration(
                         color: isSelected
-                            ? context.appColors.primary
-                            : context.appColors.cardBorder,
-                        width: isSelected ? 2 : 1,
+                            ? context.appColors.primary.withValues(alpha: 0.1)
+                            : context.appColors.surfaceLight,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: isSelected
+                              ? context.appColors.primary
+                              : context.appColors.cardBorder,
+                          width: isSelected ? 2 : 1,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            currency.flag,
+                            style: const TextStyle(fontSize: 24),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  currency.code,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: isSelected
+                                        ? context.appColors.primary
+                                        : context.appColors.textPrimary,
+                                  ),
+                                ),
+                                Text(
+                                  currency.name,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: context.appColors.textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            currency.symbol,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: isSelected
+                                  ? context.appColors.primary
+                                  : context.appColors.textSecondary,
+                            ),
+                          ),
+                          if (isSelected) ...[
+                            const SizedBox(width: 8),
+                            Icon(
+                              PhosphorIconsDuotone.checkCircle,
+                              size: 22,
+                              color: context.appColors.primary,
+                            ),
+                          ],
+                        ],
                       ),
                     ),
-                    child: Row(
-                      children: [
-                        Text(
-                          currency.flag,
-                          style: const TextStyle(fontSize: 24),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                currency.code,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: isSelected
-                                      ? context.appColors.primary
-                                      : context.appColors.textPrimary,
-                                ),
-                              ),
-                              Text(
-                                currency.name,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: context.appColors.textSecondary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Text(
-                          currency.symbol,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: isSelected
-                                ? context.appColors.primary
-                                : context.appColors.textSecondary,
-                          ),
-                        ),
-                        if (isSelected) ...[
-                          const SizedBox(width: 8),
-                          Icon(
-                            PhosphorIconsDuotone.checkCircle,
-                            size: 22,
-                            color: context.appColors.primary,
-                          ),
-                        ],
-                      ],
-                    ),
                   ),
-                ),
                 );
               }),
 
@@ -1029,50 +1034,50 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                         HapticFeedback.selectionClick();
                       },
                       child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? context.appColors.primary.withValues(alpha: 0.1)
-                            : context.appColors.surface,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
+                        duration: const Duration(milliseconds: 200),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        decoration: BoxDecoration(
                           color: isSelected
-                              ? context.appColors.primary
-                              : context.appColors.cardBorder,
-                          width: isSelected ? 2 : 1,
+                              ? context.appColors.primary.withValues(alpha: 0.1)
+                              : context.appColors.surface,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: isSelected
+                                ? context.appColors.primary
+                                : context.appColors.cardBorder,
+                            width: isSelected ? 2 : 1,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              category.icon,
+                              size: 22,
+                              color: isSelected
+                                  ? category.color
+                                  : context.appColors.textSecondary,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              category.getLocalizedLabel(l10n),
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.w500,
+                                color: isSelected
+                                    ? context.appColors.primary
+                                    : context.appColors.textPrimary,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            category.icon,
-                            size: 22,
-                            color: isSelected
-                                ? category.color
-                                : context.appColors.textSecondary,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            category.getLocalizedLabel(l10n),
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: isSelected
-                                  ? FontWeight.w600
-                                  : FontWeight.w500,
-                              color: isSelected
-                                  ? context.appColors.primary
-                                  : context.appColors.textPrimary,
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
-                  ),
                   );
                 })
                 .toList(),
@@ -1345,7 +1350,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               children: [
                 Text(
                   l10n.totalMonthlyIncome,
-                  style: TextStyle(fontSize: 14, color: context.appColors.textPrimary.withValues(alpha: 0.7)),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: context.appColors.textPrimary.withValues(alpha: 0.7),
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -1359,7 +1367,10 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 const SizedBox(height: 8),
                 Text(
                   l10n.incomeSourceCount(_incomeSources.length),
-                  style: TextStyle(fontSize: 14, color: context.appColors.textPrimary.withValues(alpha: 0.7)),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: context.appColors.textPrimary.withValues(alpha: 0.7),
+                  ),
                 ),
               ],
             ),

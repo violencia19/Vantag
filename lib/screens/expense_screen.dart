@@ -113,53 +113,55 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       child: GestureDetector(
         onTap: onTap,
         child: ClipRRect(
-        borderRadius: BorderRadius.circular(14),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: context.appColors.surfaceLight.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: context.appColors.cardBorder),
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Icon(icon, size: 20, color: context.appColors.textSecondary),
-                if (badge != null)
-                  Positioned(
-                    top: 6,
-                    right: 6,
-                    child: Container(
-                      width: 16,
-                      height: 16,
-                      decoration: BoxDecoration(
-                        color: context.appColors.gold.withValues(alpha: 0.15),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: context.appColors.gold.withValues(alpha: 0.3),
-                          width: 1,
+          borderRadius: BorderRadius.circular(14),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: context.appColors.surfaceLight.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: context.appColors.cardBorder),
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Icon(icon, size: 20, color: context.appColors.textSecondary),
+                  if (badge != null)
+                    Positioned(
+                      top: 6,
+                      right: 6,
+                      child: Container(
+                        width: 16,
+                        height: 16,
+                        decoration: BoxDecoration(
+                          color: context.appColors.gold.withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: context.appColors.gold.withValues(
+                              alpha: 0.3,
+                            ),
+                            width: 1,
+                          ),
                         ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '$badge',
-                          style: TextStyle(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w700,
-                            color: context.appColors.gold,
+                        child: Center(
+                          child: Text(
+                            '$badge',
+                            style: TextStyle(
+                              fontSize: 9,
+                              fontWeight: FontWeight.w700,
+                              color: context.appColors.gold,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -177,40 +179,40 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       child: GestureDetector(
         onTap: () => ProfileModal.show(context),
         child: Container(
-        width: 48,
-        height: 48,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              context.appColors.primary.withValues(alpha: 0.3),
-              context.appColors.secondary.withValues(alpha: 0.3),
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                context.appColors.primary.withValues(alpha: 0.3),
+                context.appColors.secondary.withValues(alpha: 0.3),
+              ],
+            ),
+            border: Border.all(
+              color: context.appColors.primary.withValues(alpha: 0.5),
+              width: 2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: context.appColors.primary.withValues(alpha: 0.3),
+                blurRadius: 12,
+                spreadRadius: 0,
+              ),
             ],
           ),
-          border: Border.all(
-            color: context.appColors.primary.withValues(alpha: 0.5),
-            width: 2,
+          child: ClipOval(
+            child: photoUrl != null
+                ? Image.network(
+                    photoUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => _buildDefaultAvatarIcon(),
+                  )
+                : _buildDefaultAvatarIcon(),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: context.appColors.primary.withValues(alpha: 0.3),
-              blurRadius: 12,
-              spreadRadius: 0,
-            ),
-          ],
         ),
-        child: ClipOval(
-          child: photoUrl != null
-              ? Image.network(
-                  photoUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => _buildDefaultAvatarIcon(),
-                )
-              : _buildDefaultAvatarIcon(),
-        ),
-      ),
       ),
     );
   }
@@ -236,61 +238,61 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       button: true,
       child: GestureDetector(
         onTap: () {
-        if (isPro) {
-          // Show toast for Pro users
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(l10n.proMemberToast),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: context.appColors.success,
-              duration: const Duration(seconds: 2),
-            ),
-          );
-        } else {
-          // Open Paywall for Free users
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const PaywallScreen()),
-          );
-        }
-      },
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(14),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: isPro
-                  ? AppColors.medalGold.withValues(alpha: 0.15)
-                  : context.appColors.surfaceLight.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: isPro
-                    ? AppColors.medalGold.withValues(alpha: 0.5)
-                    : context.appColors.cardBorder,
+          if (isPro) {
+            // Show toast for Pro users
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(l10n.proMemberToast),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: context.appColors.success,
+                duration: const Duration(seconds: 2),
               ),
-              boxShadow: isPro
-                  ? [
-                      BoxShadow(
-                        color: AppColors.medalGold.withValues(alpha: 0.3),
-                        blurRadius: 12,
-                        spreadRadius: 0,
-                      ),
-                    ]
-                  : null,
-            ),
-            child: Icon(
-              PhosphorIconsDuotone.lightning,
-              size: 20,
-              color: isPro
-                  ? AppColors.medalGold
-                  : context.appColors.textTertiary,
+            );
+          } else {
+            // Open Paywall for Free users
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const PaywallScreen()),
+            );
+          }
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(14),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: isPro
+                    ? AppColors.medalGold.withValues(alpha: 0.15)
+                    : context.appColors.surfaceLight.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: isPro
+                      ? AppColors.medalGold.withValues(alpha: 0.5)
+                      : context.appColors.cardBorder,
+                ),
+                boxShadow: isPro
+                    ? [
+                        BoxShadow(
+                          color: AppColors.medalGold.withValues(alpha: 0.3),
+                          blurRadius: 12,
+                          spreadRadius: 0,
+                        ),
+                      ]
+                    : null,
+              ),
+              child: Icon(
+                PhosphorIconsDuotone.lightning,
+                size: 20,
+                color: isPro
+                    ? AppColors.medalGold
+                    : context.appColors.textTertiary,
+              ),
             ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -305,84 +307,91 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
         child: GestureDetector(
           onTap: _openHabitCalculator,
           child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [AppColors.primary, AppColors.secondary],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withValues(alpha: 0.3),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColors.primary, AppColors.secondary],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
               ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: context.appColors.textPrimary.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: context.appColors.textPrimary.withValues(alpha: 0.2),
-                      blurRadius: 8,
-                      spreadRadius: -2,
-                    ),
-                  ],
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primary.withValues(alpha: 0.3),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
                 ),
-                child: Center(
-                  child: PhosphorIcon(
-                    PhosphorIconsDuotone.lightning,
-                    size: 28,
-                    color: context.appColors.textPrimary,
-                    duotoneSecondaryColor: context.appColors.textPrimary.withValues(alpha: 0.5),
+              ],
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: context.appColors.textPrimary.withValues(
+                      alpha: 0.15,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: context.appColors.textPrimary.withValues(
+                          alpha: 0.2,
+                        ),
+                        blurRadius: 8,
+                        spreadRadius: -2,
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: PhosphorIcon(
+                      PhosphorIconsDuotone.lightning,
+                      size: 28,
+                      color: context.appColors.textPrimary,
+                      duotoneSecondaryColor: context.appColors.textPrimary
+                          .withValues(alpha: 0.5),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Builder(
-                  builder: (context) {
-                    final l10n = AppLocalizations.of(context);
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.habitQuestion,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: context.appColors.textPrimary,
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Builder(
+                    builder: (context) {
+                      final l10n = AppLocalizations.of(context);
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.habitQuestion,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: context.appColors.textPrimary,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          l10n.calculateAndShock,
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: context.appColors.textPrimary.withValues(alpha: 0.9),
+                          const SizedBox(height: 2),
+                          Text(
+                            l10n.calculateAndShock,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: context.appColors.textPrimary.withValues(
+                                alpha: 0.9,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
+                        ],
+                      );
+                    },
+                  ),
                 ),
-              ),
-              Icon(
-                PhosphorIconsDuotone.caretRight,
-                color: context.appColors.textPrimary.withValues(alpha: 0.9),
-                size: 24,
-              ),
-            ],
+                Icon(
+                  PhosphorIconsDuotone.caretRight,
+                  color: context.appColors.textPrimary.withValues(alpha: 0.9),
+                  size: 24,
+                ),
+              ],
+            ),
           ),
-        ),
         ),
       ),
     );
@@ -415,7 +424,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               // Show snackbar directing to Reports tab
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(AppLocalizations.of(context).viewBudgetsInReports),
+                  content: Text(
+                    AppLocalizations.of(context).viewBudgetsInReports,
+                  ),
                   behavior: SnackBarBehavior.floating,
                   action: SnackBarAction(
                     label: AppLocalizations.of(context).viewAll,
@@ -487,7 +498,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withValues(alpha: 0.95),
+      barrierColor: Colors.black.withOpacity(0.85),
       builder: (context) => DraggableScrollableSheet(
         initialChildSize: 0.9,
         minChildSize: 0.5,
@@ -693,7 +704,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             child: GestureDetector(
               onTap: () => _showPaywall(),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 14,
+                ),
                 decoration: BoxDecoration(
                   gradient: AppGradients.primaryButton,
                   borderRadius: BorderRadius.circular(12),
@@ -757,28 +771,12 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Top row: Avatar + Finansal Durum + Calendar + Streak
+                      // Top row: Avatar + Calendar + Streak
                       Row(
                         children: [
                           // Avatar
                           _buildAvatarButton(context),
-                          const SizedBox(width: 12),
-                          // Finansal Durum button
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () => ProfileModal.show(context),
-                              child: Text(
-                                l10n.financialStatus,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                  color: colors.textPrimary,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
+                          const Spacer(),
                           // Calendar button
                           Showcase(
                             key: TourKeys.subscriptionButton,
@@ -829,14 +827,27 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
-                      // Bottom row: Greeting
+                      const SizedBox(height: 12),
+                      // Greeting
                       Text(
                         '${_getGreeting(l10n)} 👋',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                           color: colors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      // Finansal Durum title - on its own line to prevent truncation
+                      GestureDetector(
+                        onTap: () => ProfileModal.show(context),
+                        child: Text(
+                          l10n.financialStatus,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                            color: colors.textPrimary,
+                          ),
                         ),
                       ),
                     ],
@@ -862,9 +873,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               const SliverToBoxAdapter(child: SizedBox(height: 12)),
 
               // Category Budget Warning Banner
-              SliverToBoxAdapter(
-                child: _buildBudgetWarningBanner(),
-              ),
+              SliverToBoxAdapter(child: _buildBudgetWarningBanner()),
 
               // Financial Snapshot Card
               SliverToBoxAdapter(
@@ -901,21 +910,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
 
               const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
-              // Budget Breakdown Card
-              SliverToBoxAdapter(
-                child: BudgetBreakdownCard(budgetService: budgetService),
-              ),
-
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
-
-              // Installment Summary Card
-              SliverToBoxAdapter(
-                child: InstallmentSummaryCard(budgetService: budgetService),
-              ),
-
-              const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-              // Currency Rates
+              // Currency Rates - moved right after Financial Snapshot
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -944,6 +939,20 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     ),
                   ),
                 ),
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
+              // Budget Breakdown Card
+              SliverToBoxAdapter(
+                child: BudgetBreakdownCard(budgetService: budgetService),
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
+              // Installment Summary Card
+              SliverToBoxAdapter(
+                child: InstallmentSummaryCard(budgetService: budgetService),
               ),
 
               const SliverToBoxAdapter(child: SizedBox(height: 32)),
