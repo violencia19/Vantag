@@ -216,4 +216,58 @@ class AnalyticsService {
   Future<void> setUserLanguage(String language) async {
     await _analytics.setUserProperty(name: 'language', value: language);
   }
+
+  /// Set app version
+  Future<void> setAppVersion(String version) async {
+    await _analytics.setUserProperty(name: 'app_version', value: version);
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // FUNNEL EVENTS
+  // ─────────────────────────────────────────────────────────────────
+
+  /// Track first expense added (milestone)
+  Future<void> logFirstExpense() async {
+    await _analytics.logEvent(name: 'first_expense');
+  }
+
+  /// Track first pursuit created (milestone)
+  Future<void> logFirstPursuit() async {
+    await _analytics.logEvent(name: 'first_pursuit');
+  }
+
+  /// Track upgrade button clicked
+  Future<void> logUpgradeClicked({String? source}) async {
+    await _analytics.logEvent(
+      name: 'upgrade_clicked',
+      parameters: {'source': source ?? 'unknown'},
+    );
+  }
+
+  /// Track AI chat used
+  Future<void> logAiChatUsed({required bool isPremium}) async {
+    await _analytics.logEvent(
+      name: 'ai_chat_used',
+      parameters: {'is_premium': isPremium ? 1 : 0},
+    );
+  }
+
+  /// Track voice input used
+  Future<void> logVoiceInputUsed() async {
+    await _analytics.logEvent(name: 'voice_input_used');
+  }
+
+  /// Track backup created
+  Future<void> logBackupCreated() async {
+    await _analytics.logEvent(name: 'backup_created');
+  }
+
+  /// Track backup restored
+  Future<void> logBackupRestored() async {
+    await _analytics.logEvent(name: 'backup_restored');
+  }
+
+  /// Get analytics observer for navigation
+  FirebaseAnalyticsObserver get observer =>
+      FirebaseAnalyticsObserver(analytics: _analytics);
 }

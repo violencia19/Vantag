@@ -2273,7 +2273,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       iconColor: AppColors.categoryOther,
       title: l10n.settingsVersion,
       trailing: Text(
-        '1.0.0',
+        '1.0.3+5',
         style: TextStyle(
           color: context.appColors.textSecondary,
           fontSize: 14,

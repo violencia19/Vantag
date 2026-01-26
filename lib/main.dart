@@ -257,6 +257,9 @@ class _VantagAppState extends State<VantagApp> {
             title: 'Vantag',
             navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
+            navigatorObservers: [
+              FirebaseAnalyticsObserver(analytics: analytics),
+            ],
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: themeProvider.materialThemeMode,
