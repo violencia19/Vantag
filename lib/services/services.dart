@@ -66,3 +66,5 @@ export 'lock_service.dart';
 export 'backup_service.dart';
 // Update
 export 'force_update_service.dart';
+// Promo Codes
+export 'promo_service.dart';

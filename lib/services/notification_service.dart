@@ -179,6 +179,10 @@ class NotificationService {
   // Thinking items reminder base ID (200+)
   static const _idThinkingReminderBase = 200;
   static const _idSubscriptionBase = 100; // Abonelikler için 100+ ID
+  // Achievement & Streak notifications
+  static const _idAchievementUnlocked = 12;
+  static const _idStreakRiskAlert = 13;
+  static const _idStreakMilestoneReward = 14;
 
   // Pref keys
   static const _keyLastReinforceDate = 'notif_last_reinforce_date';
@@ -902,6 +906,123 @@ class NotificationService {
     final notificationId =
         _idThinkingReminderBase + (expenseId.hashCode.abs() % 100);
     await cancel(notificationId);
+  }
+
+  // ============================================
+  // 11. ACHIEVEMENT NOTIFICATION (Task 57)
+  // ============================================
+
+  /// Show achievement unlocked notification
+  Future<void> showAchievementUnlocked({
+    required String achievementTitle,
+    required String achievementDescription,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!(prefs.getBool(_keyNotificationsEnabled) ?? true)) return;
+
+    final androidDetails = AndroidNotificationDetails(
+      'achievement_channel',
+      'Başarılar',
+      channelDescription: 'Başarı bildirimleri',
+      importance: Importance.high,
+      priority: Priority.high,
+      styleInformation: BigTextStyleInformation(achievementDescription),
+    );
+
+    const darwinDetails = DarwinNotificationDetails();
+
+    final details = NotificationDetails(
+      android: androidDetails,
+      iOS: darwinDetails,
+      macOS: darwinDetails,
+    );
+
+    try {
+      await _notifications.show(
+        _idAchievementUnlocked,
+        'Başarı Açıldı! $achievementTitle',
+        achievementDescription,
+        details,
+      );
+    } catch (e) {
+      // Ignore notification errors
+    }
+  }
+
+  // ============================================
+  // 12. STREAK RISK ALERT (Task 58)
+  // ============================================
+
+  /// Show streak risk alert (4 hours before midnight, no entry today)
+  Future<void> scheduleStreakRiskAlert({
+    required int currentStreak,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!(prefs.getBool(_keyNotificationsEnabled) ?? true)) return;
+    if (!(prefs.getBool(_keyStreakReminderEnabled) ?? true)) return;
+    if (currentStreak < 3) return; // Only alert for meaningful streaks
+
+    // Schedule for 20:00 (8 PM)
+    final now = DateTime.now();
+    var scheduledTime = DateTime(now.year, now.month, now.day, 20, 0);
+
+    if (scheduledTime.isBefore(now)) return;
+
+    await _scheduleNotification(
+      id: _idStreakRiskAlert,
+      title: 'Serin tehlikede!',
+      body: '$currentStreak günlük serin bozulmak üzere. Gün bitmeden bir kayıt ekle!',
+      scheduledTime: scheduledTime,
+      channelId: 'streak_risk_channel',
+      channelName: 'Streak Uyarıları',
+      importance: Importance.high,
+      priority: Priority.high,
+    );
+  }
+
+  /// Cancel streak risk alert
+  Future<void> cancelStreakRiskAlert() async {
+    await cancel(_idStreakRiskAlert);
+  }
+
+  // ============================================
+  // 13. STREAK MILESTONE REWARD (Task 53)
+  // ============================================
+
+  /// Show streak milestone reward notification
+  Future<void> showStreakMilestoneReward({
+    required int milestone,
+    required int proDaysGranted,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!(prefs.getBool(_keyNotificationsEnabled) ?? true)) return;
+
+    final androidDetails = AndroidNotificationDetails(
+      'streak_reward_channel',
+      'Streak Ödülleri',
+      channelDescription: 'Streak milestone ödül bildirimleri',
+      importance: Importance.high,
+      priority: Priority.high,
+    );
+
+    const darwinDetails = DarwinNotificationDetails();
+
+    final details = NotificationDetails(
+      android: androidDetails,
+      iOS: darwinDetails,
+      macOS: darwinDetails,
+    );
+
+    try {
+      await _notifications.show(
+        _idStreakMilestoneReward,
+        '$milestone Gün Serisi!',
+        'Tebrikler! $proDaysGranted gün ücretsiz Pro kazandın!',
+        details,
+      );
+    } catch (e) {
+      // Ignore notification errors
+    }
   }
 
   /// Thinking hatırlatması aktif mi?

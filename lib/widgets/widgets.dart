@@ -99,3 +99,9 @@ export 'whats_new_dialog.dart';
 
 // Usage
 export 'usage_limits_card.dart';
+
+// Data Visualization
+export 'spending_heatmap.dart';
+
+// Paywall
+export 'paywall_variants.dart';
