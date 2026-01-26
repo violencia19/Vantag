@@ -50,6 +50,7 @@ export 'pursuit_service.dart';
 export 'savings_pool_service.dart';
 // Analytics & Crashlytics
 export 'analytics_service.dart';
+export 'error_logging_service.dart';
 // Exchange Rates
 export 'exchange_rate_service.dart';
 // Referral System
@@ -61,3 +62,7 @@ export 'simple_mode_service.dart';
 export 'category_budget_service.dart';
 // Security
 export 'lock_service.dart';
+// Backup
+export 'backup_service.dart';
+// Update
+export 'force_update_service.dart';

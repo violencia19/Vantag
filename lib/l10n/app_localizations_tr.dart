@@ -5732,4 +5732,98 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get unlimitedWithPro => 'Pro ile sınırsız';
+
+  @override
+  String get backupData => 'Verileri Yedekle';
+
+  @override
+  String get backupDataDesc => 'Verilerini JSON dosyası olarak dışa aktar';
+
+  @override
+  String get restoreData => 'Yedeği Geri Yükle';
+
+  @override
+  String get restoreDataDesc => 'Yedek dosyasından verileri içe aktar';
+
+  @override
+  String get backupCreating => 'Yedek oluşturuluyor...';
+
+  @override
+  String get backupSuccess => 'Yedek başarıyla oluşturuldu';
+
+  @override
+  String get backupError => 'Yedek oluşturulamadı';
+
+  @override
+  String get restoreConfirmTitle => 'Verileri Geri Yükle?';
+
+  @override
+  String get restoreConfirmMessage =>
+      'Yedek verileri mevcut verilerine eklenecek. Devam edilsin mi?';
+
+  @override
+  String restoreSuccess(int expenses, int pursuits, int subscriptions) {
+    return 'Veriler geri yüklendi! $expenses harcama, $pursuits hedef, $subscriptions abonelik içe aktarıldı.';
+  }
+
+  @override
+  String get restoreError => 'Veriler geri yüklenemedi';
+
+  @override
+  String get noFileSelected => 'Dosya seçilmedi';
+
+  @override
+  String get invalidBackupFormat => 'Geçersiz yedek dosyası formatı';
+
+  @override
+  String get shareApp => 'Arkadaşına Öner';
+
+  @override
+  String get shareAppDesc => 'Vantag\'ı arkadaşlarına öner';
+
+  @override
+  String get shareAppMessage =>
+      'Vantag\'a bak - Her harcamanın kaç saat çalışmana mal olduğunu gösteriyor! İndir: https://play.google.com/store/apps/details?id=com.vantag.app';
+
+  @override
+  String get sendFeedback => 'Geri Bildirim Gönder';
+
+  @override
+  String get sendFeedbackDesc => 'Vantag\'ı geliştirmemize yardım et';
+
+  @override
+  String get feedbackEmailSubject => 'Vantag Geri Bildirim';
+
+  @override
+  String get rateApp => 'Uygulamayı Puanla';
+
+  @override
+  String get rateAppDesc => 'Play Store\'da puanla';
+
+  @override
+  String get whatsNew => 'Yenilikler';
+
+  @override
+  String whatsNewInVersion(String version) {
+    return 'v$version Yenilikleri';
+  }
+
+  @override
+  String get updateRequired => 'Güncelleme Gerekli';
+
+  @override
+  String get updateRequiredMessage =>
+      'Vantag\'ın yeni bir sürümü mevcut. Devam etmek için lütfen güncelle.';
+
+  @override
+  String get updateNow => 'Şimdi Güncelle';
+
+  @override
+  String get dailyLimits => 'Günlük Limitler';
+
+  @override
+  String get aiChat => 'AI Sohbet';
+
+  @override
+  String get statementImport => 'Ekstre İçe Aktarma';
 }

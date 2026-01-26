@@ -8,6 +8,7 @@ import '../providers/pro_provider.dart';
 import 'ai_tool_handler.dart';
 import 'ai_memory_service.dart';
 import 'connectivity_service.dart';
+import 'error_logging_service.dart';
 
 /// AI Chat limit aşıldığında dönen hata
 class AILimitExceededException implements Exception {
@@ -211,6 +212,14 @@ class AIService {
     } catch (e, stack) {
       debugPrint('❌ [AIService] Hata: $e');
       debugPrint('❌ [AIService] Stack: $stack');
+
+      // Log to Crashlytics
+      await errorLogger.logApiError(
+        endpoint: 'AI Chat Cloud Function',
+        statusCode: null,
+        error: e,
+        stackTrace: stack,
+      );
 
       if (e.toString().contains('LIMIT_EXCEEDED')) {
         return languageCode == 'en'

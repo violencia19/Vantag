@@ -2632,5 +2632,55 @@
   },
   "dailyLimitReached": "Günlük limit doldu",
   "dailyLimitReachedDesc": "Günlük kullanım hakkın bitti. Sınırsız erişim için Pro'ya geç!",
-  "unlimitedWithPro": "Pro ile sınırsız"
+  "unlimitedWithPro": "Pro ile sınırsız",
+
+  "backupData": "Verileri Yedekle",
+  "backupDataDesc": "Verilerini JSON dosyası olarak dışa aktar",
+  "restoreData": "Yedeği Geri Yükle",
+  "restoreDataDesc": "Yedek dosyasından verileri içe aktar",
+  "backupCreating": "Yedek oluşturuluyor...",
+  "backupSuccess": "Yedek başarıyla oluşturuldu",
+  "backupError": "Yedek oluşturulamadı",
+  "restoreConfirmTitle": "Verileri Geri Yükle?",
+  "restoreConfirmMessage": "Yedek verileri mevcut verilerine eklenecek. Devam edilsin mi?",
+  "restoreSuccess": "Veriler geri yüklendi! {expenses} harcama, {pursuits} hedef, {subscriptions} abonelik içe aktarıldı.",
+  "@restoreSuccess": {
+    "placeholders": {
+      "expenses": {"type": "int"},
+      "pursuits": {"type": "int"},
+      "subscriptions": {"type": "int"}
+    }
+  },
+  "restoreError": "Veriler geri yüklenemedi",
+  "noFileSelected": "Dosya seçilmedi",
+  "invalidBackupFormat": "Geçersiz yedek dosyası formatı",
+
+  "shareApp": "Arkadaşına Öner",
+  "shareAppDesc": "Vantag'ı arkadaşlarına öner",
+  "shareAppMessage": "Vantag'a bak - Her harcamanın kaç saat çalışmana mal olduğunu gösteriyor! İndir: https://play.google.com/store/apps/details?id=com.vantag.app",
+
+  "sendFeedback": "Geri Bildirim Gönder",
+  "sendFeedbackDesc": "Vantag'ı geliştirmemize yardım et",
+  "feedbackEmailSubject": "Vantag Geri Bildirim",
+
+  "rateApp": "Uygulamayı Puanla",
+  "rateAppDesc": "Play Store'da puanla",
+
+  "whatsNew": "Yenilikler",
+  "whatsNewInVersion": "v{version} Yenilikleri",
+  "@whatsNewInVersion": {
+    "placeholders": {
+      "version": {"type": "String"}
+    }
+  },
+  "gotIt": "Anladım",
+
+  "updateRequired": "Güncelleme Gerekli",
+  "updateRequiredMessage": "Vantag'ın yeni bir sürümü mevcut. Devam etmek için lütfen güncelle.",
+  "updateNow": "Şimdi Güncelle",
+
+  "dailyLimits": "Günlük Limitler",
+  "aiChat": "AI Sohbet",
+  "voiceInput": "Sesli Giriş",
+  "statementImport": "Ekstre İçe Aktarma"
 }

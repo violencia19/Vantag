@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xml/xml.dart' as xml;
+import 'error_logging_service.dart';
 
 class ExchangeRates {
   final double usdBuying;
@@ -92,7 +93,13 @@ class CurrencyService {
         await _cacheRates(rates);
       }
       return rates;
-    } catch (e) {
+    } catch (e, stack) {
+      await errorLogger.logApiError(
+        endpoint: _tcmbUrl,
+        statusCode: null,
+        error: e,
+        stackTrace: stack,
+      );
       return null;
     }
   }

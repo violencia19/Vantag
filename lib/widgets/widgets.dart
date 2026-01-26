@@ -93,3 +93,9 @@ export 'lottie_animations.dart';
 
 // Security
 export 'app_lock_wrapper.dart';
+
+// Dialogs
+export 'whats_new_dialog.dart';
+
+// Usage
+export 'usage_limits_card.dart';

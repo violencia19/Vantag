@@ -271,6 +271,7 @@ class _AnimatedModalState extends State<AnimatedModal> {
                   PhosphorIconsDuotone.x,
                   color: context.appColors.textSecondary,
                 ),
+                tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
                 onPressed: widget.onClose ?? () => Navigator.of(context).pop(),
               ),
             ),

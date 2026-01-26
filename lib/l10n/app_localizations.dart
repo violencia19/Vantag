@@ -6185,7 +6185,7 @@ abstract class AppLocalizations {
   /// No description provided for @gotIt.
   ///
   /// In en, this message translates to:
-  /// **'Got it'**
+  /// **'Got It'**
   String get gotIt;
 
   /// No description provided for @tryNow.
@@ -10461,6 +10461,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unlimited with Pro'**
   String get unlimitedWithPro;
+
+  /// No description provided for @backupData.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Data'**
+  String get backupData;
+
+  /// No description provided for @backupDataDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Export your data as a JSON file'**
+  String get backupDataDesc;
+
+  /// No description provided for @restoreData.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Data'**
+  String get restoreData;
+
+  /// No description provided for @restoreDataDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Import data from a backup file'**
+  String get restoreDataDesc;
+
+  /// No description provided for @backupCreating.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating backup...'**
+  String get backupCreating;
+
+  /// No description provided for @backupSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup created successfully'**
+  String get backupSuccess;
+
+  /// No description provided for @backupError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create backup'**
+  String get backupError;
+
+  /// No description provided for @restoreConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Data?'**
+  String get restoreConfirmTitle;
+
+  /// No description provided for @restoreConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will add the backup data to your existing data. Continue?'**
+  String get restoreConfirmMessage;
+
+  /// No description provided for @restoreSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Data restored! {expenses} expenses, {pursuits} goals, {subscriptions} subscriptions imported.'**
+  String restoreSuccess(int expenses, int pursuits, int subscriptions);
+
+  /// No description provided for @restoreError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to restore data'**
+  String get restoreError;
+
+  /// No description provided for @noFileSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'No file selected'**
+  String get noFileSelected;
+
+  /// No description provided for @invalidBackupFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid backup file format'**
+  String get invalidBackupFormat;
+
+  /// No description provided for @shareApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Share App'**
+  String get shareApp;
+
+  /// No description provided for @shareAppDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommend Vantag to friends'**
+  String get shareAppDesc;
+
+  /// No description provided for @shareAppMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Check out Vantag - It shows you how many work hours each expense costs! Download: https://play.google.com/store/apps/details?id=com.vantag.app'**
+  String get shareAppMessage;
+
+  /// No description provided for @sendFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Feedback'**
+  String get sendFeedback;
+
+  /// No description provided for @sendFeedbackDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Help us improve Vantag'**
+  String get sendFeedbackDesc;
+
+  /// No description provided for @feedbackEmailSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Vantag Feedback'**
+  String get feedbackEmailSubject;
+
+  /// No description provided for @rateApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate App'**
+  String get rateApp;
+
+  /// No description provided for @rateAppDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate us on Play Store'**
+  String get rateAppDesc;
+
+  /// No description provided for @whatsNew.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s New'**
+  String get whatsNew;
+
+  /// No description provided for @whatsNewInVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s New in v{version}'**
+  String whatsNewInVersion(String version);
+
+  /// No description provided for @updateRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Required'**
+  String get updateRequired;
+
+  /// No description provided for @updateRequiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'A new version of Vantag is available. Please update to continue.'**
+  String get updateRequiredMessage;
+
+  /// No description provided for @updateNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Now'**
+  String get updateNow;
+
+  /// No description provided for @dailyLimits.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Limits'**
+  String get dailyLimits;
+
+  /// No description provided for @aiChat.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Chat'**
+  String get aiChat;
+
+  /// No description provided for @statementImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Statement Import'**
+  String get statementImport;
 }
 
 class _AppLocalizationsDelegate

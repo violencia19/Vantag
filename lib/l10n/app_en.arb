@@ -2998,5 +2998,55 @@
   },
   "dailyLimitReached": "Daily limit reached",
   "dailyLimitReachedDesc": "You've used all your daily quota. Upgrade to Pro for unlimited access!",
-  "unlimitedWithPro": "Unlimited with Pro"
+  "unlimitedWithPro": "Unlimited with Pro",
+
+  "backupData": "Backup Data",
+  "backupDataDesc": "Export your data as a JSON file",
+  "restoreData": "Restore Data",
+  "restoreDataDesc": "Import data from a backup file",
+  "backupCreating": "Creating backup...",
+  "backupSuccess": "Backup created successfully",
+  "backupError": "Failed to create backup",
+  "restoreConfirmTitle": "Restore Data?",
+  "restoreConfirmMessage": "This will add the backup data to your existing data. Continue?",
+  "restoreSuccess": "Data restored! {expenses} expenses, {pursuits} goals, {subscriptions} subscriptions imported.",
+  "@restoreSuccess": {
+    "placeholders": {
+      "expenses": {"type": "int"},
+      "pursuits": {"type": "int"},
+      "subscriptions": {"type": "int"}
+    }
+  },
+  "restoreError": "Failed to restore data",
+  "noFileSelected": "No file selected",
+  "invalidBackupFormat": "Invalid backup file format",
+
+  "shareApp": "Share App",
+  "shareAppDesc": "Recommend Vantag to friends",
+  "shareAppMessage": "Check out Vantag - It shows you how many work hours each expense costs! Download: https://play.google.com/store/apps/details?id=com.vantag.app",
+
+  "sendFeedback": "Send Feedback",
+  "sendFeedbackDesc": "Help us improve Vantag",
+  "feedbackEmailSubject": "Vantag Feedback",
+
+  "rateApp": "Rate App",
+  "rateAppDesc": "Rate us on Play Store",
+
+  "whatsNew": "What's New",
+  "whatsNewInVersion": "What's New in v{version}",
+  "@whatsNewInVersion": {
+    "placeholders": {
+      "version": {"type": "String"}
+    }
+  },
+  "gotIt": "Got It",
+
+  "updateRequired": "Update Required",
+  "updateRequiredMessage": "A new version of Vantag is available. Please update to continue.",
+  "updateNow": "Update Now",
+
+  "dailyLimits": "Daily Limits",
+  "aiChat": "AI Chat",
+  "voiceInput": "Voice Input",
+  "statementImport": "Statement Import"
 }

@@ -3351,7 +3351,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Add expenses faster! Long-press + button and say: \"50 lira coffee\"';
 
   @override
-  String get gotIt => 'Got it';
+  String get gotIt => 'Got It';
 
   @override
   String get tryNow => 'Try Now';
@@ -5744,4 +5744,98 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unlimitedWithPro => 'Unlimited with Pro';
+
+  @override
+  String get backupData => 'Backup Data';
+
+  @override
+  String get backupDataDesc => 'Export your data as a JSON file';
+
+  @override
+  String get restoreData => 'Restore Data';
+
+  @override
+  String get restoreDataDesc => 'Import data from a backup file';
+
+  @override
+  String get backupCreating => 'Creating backup...';
+
+  @override
+  String get backupSuccess => 'Backup created successfully';
+
+  @override
+  String get backupError => 'Failed to create backup';
+
+  @override
+  String get restoreConfirmTitle => 'Restore Data?';
+
+  @override
+  String get restoreConfirmMessage =>
+      'This will add the backup data to your existing data. Continue?';
+
+  @override
+  String restoreSuccess(int expenses, int pursuits, int subscriptions) {
+    return 'Data restored! $expenses expenses, $pursuits goals, $subscriptions subscriptions imported.';
+  }
+
+  @override
+  String get restoreError => 'Failed to restore data';
+
+  @override
+  String get noFileSelected => 'No file selected';
+
+  @override
+  String get invalidBackupFormat => 'Invalid backup file format';
+
+  @override
+  String get shareApp => 'Share App';
+
+  @override
+  String get shareAppDesc => 'Recommend Vantag to friends';
+
+  @override
+  String get shareAppMessage =>
+      'Check out Vantag - It shows you how many work hours each expense costs! Download: https://play.google.com/store/apps/details?id=com.vantag.app';
+
+  @override
+  String get sendFeedback => 'Send Feedback';
+
+  @override
+  String get sendFeedbackDesc => 'Help us improve Vantag';
+
+  @override
+  String get feedbackEmailSubject => 'Vantag Feedback';
+
+  @override
+  String get rateApp => 'Rate App';
+
+  @override
+  String get rateAppDesc => 'Rate us on Play Store';
+
+  @override
+  String get whatsNew => 'What\'s New';
+
+  @override
+  String whatsNewInVersion(String version) {
+    return 'What\'s New in v$version';
+  }
+
+  @override
+  String get updateRequired => 'Update Required';
+
+  @override
+  String get updateRequiredMessage =>
+      'A new version of Vantag is available. Please update to continue.';
+
+  @override
+  String get updateNow => 'Update Now';
+
+  @override
+  String get dailyLimits => 'Daily Limits';
+
+  @override
+  String get aiChat => 'AI Chat';
+
+  @override
+  String get statementImport => 'Statement Import';
 }

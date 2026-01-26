@@ -19,6 +19,8 @@ import '../services/referral_service.dart';
 import '../services/deep_link_service.dart';
 import '../services/simple_mode_service.dart';
 import '../services/lock_service.dart';
+import '../services/backup_service.dart';
+import 'dart:io' show Platform;
 import '../theme/theme.dart';
 import '../widgets/currency_selector.dart';
 import 'paywall_screen.dart';
@@ -229,11 +231,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
+            // Backup & Share Section
+            SliverToBoxAdapter(
+              child: _buildSection(
+                title: l10n.settingsDataPrivacy,
+                children: [
+                  _buildBackupTile(l10n),
+                  _buildDivider(),
+                  _buildRestoreTile(l10n),
+                ],
+              ),
+            ),
+
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
             // About Section
             SliverToBoxAdapter(
               child: _buildSection(
                 title: l10n.settingsAbout,
                 children: [
+                  _buildShareAppTile(l10n),
+                  _buildDivider(),
+                  _buildRateAppTile(l10n),
+                  _buildDivider(),
+                  _buildFeedbackTile(l10n),
+                  _buildDivider(),
                   _buildVersionTile(l10n),
                   _buildDivider(),
                   _buildContactUsTile(l10n),
@@ -2134,6 +2156,115 @@ class _SettingsScreenState extends State<SettingsScreen> {
         }
       }
     }
+  }
+
+  Widget _buildBackupTile(AppLocalizations l10n) {
+    return _buildListTile(
+      icon: PhosphorIconsDuotone.cloudArrowUp,
+      iconColor: AppColors.categoryHealth,
+      title: l10n.backupData,
+      onTap: _handleBackup,
+    );
+  }
+
+  Widget _buildRestoreTile(AppLocalizations l10n) {
+    return _buildListTile(
+      icon: PhosphorIconsDuotone.cloudArrowDown,
+      iconColor: AppColors.categoryEducation,
+      title: l10n.restoreData,
+      onTap: _handleRestore,
+    );
+  }
+
+  Future<void> _handleBackup() async {
+    final l10n = AppLocalizations.of(context);
+    final backupService = BackupService();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.backupCreating)),
+    );
+
+    final path = await backupService.exportBackup();
+    if (!mounted) return;
+
+    if (path != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.backupSuccess)),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.backupError)),
+      );
+    }
+  }
+
+  Future<void> _handleRestore() async {
+    final l10n = AppLocalizations.of(context);
+    final backupService = BackupService();
+
+    final result = await backupService.importBackup();
+    if (!mounted) return;
+
+    if (result.success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.restoreSuccess(
+          result.expensesRestored,
+          result.pursuitsRestored,
+          result.subscriptionsRestored,
+        ))),
+      );
+      // Reload data
+      await context.read<FinanceProvider>().refresh();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result.error ?? l10n.restoreError)),
+      );
+    }
+  }
+
+  Widget _buildShareAppTile(AppLocalizations l10n) {
+    return _buildListTile(
+      icon: PhosphorIconsDuotone.shareFat,
+      iconColor: AppColors.categoryEntertainment,
+      title: l10n.shareApp,
+      onTap: _shareApp,
+    );
+  }
+
+  Widget _buildRateAppTile(AppLocalizations l10n) {
+    return _buildListTile(
+      icon: PhosphorIconsDuotone.star,
+      iconColor: AppColors.gold,
+      title: l10n.rateApp,
+      onTap: _rateAppFromAbout,
+    );
+  }
+
+  Widget _buildFeedbackTile(AppLocalizations l10n) {
+    return _buildListTile(
+      icon: PhosphorIconsDuotone.chatCircleText,
+      iconColor: AppColors.categoryTransport,
+      title: l10n.sendFeedback,
+      onTap: _sendFeedbackFromAbout,
+    );
+  }
+
+  Future<void> _rateAppFromAbout() async {
+    final url = Platform.isIOS
+        ? 'https://apps.apple.com/app/id6740157696?action=write-review'
+        : 'https://play.google.com/store/apps/details?id=com.vantag.app';
+
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  }
+
+  Future<void> _sendFeedbackFromAbout() async {
+    final url = Uri(
+      scheme: 'mailto',
+      path: 'feedback@vantag.app',
+      queryParameters: {'subject': 'Vantag App Feedback'},
+    );
+
+    await launchUrl(url);
   }
 
   Widget _buildVersionTile(AppLocalizations l10n) {
