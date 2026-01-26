@@ -28,9 +28,34 @@ class WidgetService {
       // Register interactivity callback for widget taps
       await HomeWidget.registerInteractivityCallback(widgetBackgroundCallback);
 
+      // Populate default data if not exists (prevents "Can't load widget" error)
+      final existingTime = await HomeWidget.getWidgetData<String>('formattedTime');
+      if (existingTime == null || existingTime.isEmpty) {
+        await _populateDefaultData();
+      }
+
       debugPrint('[Widget] Service initialized');
     } catch (e) {
       debugPrint('[Widget] Initialization error: $e');
+    }
+  }
+
+  /// Populate default widget data for first-time use
+  Future<void> _populateDefaultData() async {
+    try {
+      await HomeWidget.saveWidgetData<String>('formattedTime', '0h 0m');
+      await HomeWidget.saveWidgetData<String>('formattedAmount', '₺0');
+      await HomeWidget.saveWidgetData<String>('spendingLevel', 'low');
+      await HomeWidget.saveWidgetData<String>('locale', 'tr');
+      await HomeWidget.saveWidgetData<bool>('hasPursuit', false);
+      await HomeWidget.saveWidgetData<String>('pursuitName', '');
+      await HomeWidget.saveWidgetData<String>('pursuitProgressText', '');
+      await HomeWidget.saveWidgetData<double>('pursuitProgress', 0.0);
+      await HomeWidget.saveWidgetData<double>('pursuitTarget', 0.0);
+      await _updateWidgets();
+      debugPrint('[Widget] Default data populated');
+    } catch (e) {
+      debugPrint('[Widget] Error populating default data: $e');
     }
   }
 

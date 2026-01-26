@@ -136,6 +136,7 @@ class DeepLinkService {
         break;
       case 'add-expense':
       case 'add':
+      case 'expense':
         _handleAddExpense(uri);
         break;
 
@@ -157,6 +158,7 @@ class DeepLinkService {
         break;
 
       case 'pursuits':
+      case 'pursuit':
       case 'dreams':
         _handleNavigate('pursuits');
         break;

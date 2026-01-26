@@ -208,6 +208,8 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 ? Image.network(
                     photoUrl,
                     fit: BoxFit.cover,
+                    cacheWidth: 100,
+                    cacheHeight: 100,
                     errorBuilder: (_, __, ___) => _buildDefaultAvatarIcon(),
                   )
                 : _buildDefaultAvatarIcon(),

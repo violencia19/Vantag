@@ -7,6 +7,7 @@ import '../providers/finance_provider.dart';
 import '../providers/pro_provider.dart';
 import 'ai_tool_handler.dart';
 import 'ai_memory_service.dart';
+import 'connectivity_service.dart';
 
 /// AI Chat limit aşıldığında dönen hata
 class AILimitExceededException implements Exception {
@@ -34,6 +35,7 @@ class AIService {
       'https://europe-west1-flutter-ai-playground-b188b.cloudfunctions.net/aiChat';
 
   final AIMemoryService _memory = AIMemoryService();
+  final ConnectivityService _connectivity = ConnectivityService();
   bool _isInitialized = false;
 
   PersonalityMode _personalityMode = PersonalityMode.friendly;
@@ -100,6 +102,15 @@ class AIService {
       return languageCode == 'en'
           ? 'Please sign in first.'
           : 'Lütfen önce giriş yapın.';
+    }
+
+    // Check connectivity before making API call
+    final isOnline = await _connectivity.checkConnectivity();
+    if (!isOnline) {
+      debugPrint('⚠️ [AIService] Çevrimdışı!');
+      return languageCode == 'en'
+          ? 'You are offline. Please check your internet connection.'
+          : 'Çevrimdışısın. Lütfen internet bağlantını kontrol et.';
     }
 
     try {

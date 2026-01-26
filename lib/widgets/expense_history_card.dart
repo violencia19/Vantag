@@ -133,12 +133,15 @@ class ExpenseHistoryCard extends StatelessWidget {
     required Color color,
     required VoidCallback onTap,
   }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
+    return Semantics(
+      label: label,
+      button: true,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.1),
@@ -160,6 +163,7 @@ class ExpenseHistoryCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }

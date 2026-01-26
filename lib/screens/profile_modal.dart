@@ -421,6 +421,8 @@ class _ProfileModalState extends State<ProfileModal> {
         fit: BoxFit.cover,
         width: 100,
         height: 100,
+        cacheWidth: 200,
+        cacheHeight: 200,
         errorBuilder: (context, error, stackTrace) => _defaultAvatar(),
       );
     }
