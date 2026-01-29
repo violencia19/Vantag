@@ -316,7 +316,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                           ),
                           const SizedBox(height: 8),
                           DropdownButtonFormField<String>(
-                            value: _selectedCategory,
+                            initialValue: _selectedCategory,
                             hint: Text(
                               l10n.selectCategory,
                               style: TextStyle(

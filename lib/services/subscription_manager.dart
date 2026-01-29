@@ -227,8 +227,9 @@ class SubscriptionStats {
 
   /// Durum rengi
   Color get statusColor {
-    if (renewingTodayCount > 0)
+    if (renewingTodayCount > 0) {
       return AppColors.subscriptionColors[4]; // Orange
+    }
     if (renewingTomorrowCount > 0) return AppColors.warning; // Yellow
     return AppColors.secondary; // Turquoise
   }

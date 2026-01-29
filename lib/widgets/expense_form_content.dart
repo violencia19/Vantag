@@ -478,7 +478,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                       : null,
                 ),
                 child: DropdownButtonFormField<String>(
-                  value: _selectedCategory,
+                  initialValue: _selectedCategory,
                   hint: Text(
                     l10n.selectCategory,
                     style: TextStyle(

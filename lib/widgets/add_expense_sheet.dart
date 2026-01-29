@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -1877,7 +1876,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DropdownButtonFormField<String>(
-                  value: _selectedCategory,
+                  initialValue: _selectedCategory,
                   hint: Text(
                     l10n.selectCategory,
                     style: TextStyle(
@@ -2350,7 +2349,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
           // Taksit sayısı
           DropdownButtonFormField<int>(
-            value: int.tryParse(_installmentCountController.text),
+            initialValue: int.tryParse(_installmentCountController.text),
             dropdownColor: context.appColors.cardBackground,
             style: TextStyle(color: context.appColors.textPrimary),
             decoration: InputDecoration(
@@ -2707,6 +2706,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
   }
 
   Widget _buildResultSection(AppLocalizations l10n) {
+    final financeProvider = context.read<FinanceProvider>();
+    final userProfile = financeProvider.userProfile;
+
     return Column(
       children: [
         // Result Card
@@ -2717,6 +2719,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           amount: _pendingExpense?.amount,
           exchangeRates: widget.exchangeRates,
           amountCurrencyCode: _incomeCurrency.code,
+          dailyHours: userProfile?.dailyHours.toDouble() ?? 8,
+          workDaysPerWeek: userProfile?.workDaysPerWeek ?? 5,
         ),
 
         const SizedBox(height: 20),

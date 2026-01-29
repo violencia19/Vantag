@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -667,6 +666,6 @@ class TodaySpendingData {
 
   /// Formatted time string (e.g., "2h 45m")
   String formattedTime(String hourAbbrev, String minAbbrev) {
-    return '${hours.toInt()}$hourAbbrev ${minutes}$minAbbrev';
+    return '${hours.toInt()}$hourAbbrev $minutes$minAbbrev';
   }
 }

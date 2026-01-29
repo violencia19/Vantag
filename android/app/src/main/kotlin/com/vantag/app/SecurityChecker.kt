@@ -1,5 +1,6 @@
 package com.vantag.app
 
+import com.vantag.app.BuildConfig
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo

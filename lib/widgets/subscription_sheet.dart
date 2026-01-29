@@ -302,10 +302,11 @@ class _SubscriptionCard extends StatelessWidget {
   Color _getRenewalColor() {
     final days = subscription.daysUntilRenewal;
     if (days <= 1) return QuietLuxury.warning;
-    if (days <= 3)
+    if (days <= 3) {
       return AppColors.categoryEntertainment.withValues(
         alpha: 0.7,
       ); // Subtle blue
+    }
     return QuietLuxury.textTertiary;
   }
 
@@ -787,8 +788,9 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                                 )
                                 .toList(),
                             onChanged: (val) {
-                              if (val != null)
+                              if (val != null) {
                                 setState(() => _renewalDay = val);
+                              }
                             },
                           ),
                         ),

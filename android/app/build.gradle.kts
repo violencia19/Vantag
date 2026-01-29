@@ -33,6 +33,10 @@ android {
     compileSdk = 36
     ndkVersion = "28.2.13676358"
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.vantag.app"
         minSdk = 24

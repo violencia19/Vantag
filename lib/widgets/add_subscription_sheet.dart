@@ -242,10 +242,11 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                             )
                                             .toList(),
                                         onChanged: (v) {
-                                          if (v != null)
+                                          if (v != null) {
                                             setState(
                                               () => _selectedCategory = v,
                                             );
+                                          }
                                         },
                                       ),
                                     ),
@@ -295,8 +296,9 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                             )
                                             .toList(),
                                         onChanged: (v) {
-                                          if (v != null)
+                                          if (v != null) {
                                             setState(() => _selectedDay = v);
+                                          }
                                         },
                                       ),
                                     ),

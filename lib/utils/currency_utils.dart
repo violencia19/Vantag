@@ -430,13 +430,18 @@ class SimulationTimeDisplay {
 }
 
 /// Saatleri iki ayrı birime çevirir (yan yana gösterim için)
-/// 1 Yıl = 8760 saat, 1 Gün = 24 saat
+/// workHoursPerDay: Kullanıcının günlük çalışma saati (varsayılan 8)
+/// workDaysPerWeek: Kullanıcının haftalık çalışma günü (varsayılan 5)
 ///
-/// < 8760 saat: Sol blok = Toplam SAAT, Sağ blok = Toplam GÜN
-/// >= 8760 saat: Sol blok = Toplam YIL, Sağ blok = Toplam GÜN
-SimulationTimeDisplay getSimulationTimeDisplay(double totalHours) {
-  const double hoursPerDay = 24;
-  const double hoursPerYear = 8760;
+/// < 1 yıllık çalışma: Sol blok = Toplam SAAT, Sağ blok = Toplam İŞ GÜNÜ
+/// >= 1 yıllık çalışma: Sol blok = Toplam YIL, Sağ blok = Toplam İŞ GÜNÜ
+SimulationTimeDisplay getSimulationTimeDisplay(
+  double totalHours, {
+  double workHoursPerDay = 8,
+  int workDaysPerWeek = 5,
+}) {
+  // Yıllık çalışma saati: haftalık iş günü * 52 hafta * günlük saat
+  final double hoursPerYear = workDaysPerWeek * 52 * workHoursPerDay;
 
   if (totalHours <= 0) {
     return const SimulationTimeDisplay(
@@ -449,15 +454,15 @@ SimulationTimeDisplay getSimulationTimeDisplay(double totalHours) {
   }
 
   if (totalHours >= hoursPerYear) {
-    // 1 yıl ve üstü: Yıl + Gün (toplam değerler, birbirine eklenmemiş)
+    // 1 yıl ve üstü: Yıl + İş Günü (toplam değerler)
     final totalYears = totalHours / hoursPerYear;
-    final totalDays = totalHours / hoursPerDay;
+    final totalWorkDays = totalHours / workHoursPerDay;
 
     return SimulationTimeDisplay(
       value1: totalYears.toStringAsFixed(1),
       unit1: 'Yıl',
       value2: formatTurkishCurrency(
-        totalDays,
+        totalWorkDays,
         decimalDigits: 0,
         showDecimals: false,
       ),
@@ -465,13 +470,13 @@ SimulationTimeDisplay getSimulationTimeDisplay(double totalHours) {
       isYearMode: true,
     );
   } else {
-    // 1 yılın altı: Saat + Gün (toplam değerler)
-    final totalDays = totalHours / hoursPerDay;
+    // 1 yılın altı: Saat + İş Günü (toplam değerler)
+    final totalWorkDays = totalHours / workHoursPerDay;
 
     return SimulationTimeDisplay(
       value1: formatTurkishCurrency(totalHours, decimalDigits: 1),
       unit1: 'Saat',
-      value2: totalDays.toStringAsFixed(1),
+      value2: totalWorkDays.toStringAsFixed(1),
       unit2: 'Gün',
       isYearMode: false,
     );

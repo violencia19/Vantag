@@ -12,8 +12,6 @@
 
     <!-- Exclude sensitive data -->
     <exclude domain="sharedpref" path="FlutterSecureStorage" />
-    <exclude domain="file" path="cache/" />
-    <exclude domain="external" path="." />
 
     <!-- Exclude Firebase instance tokens -->
     <exclude domain="sharedpref" path="com.google.firebase.messaging_preferences.xml" />

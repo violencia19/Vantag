@@ -120,11 +120,13 @@ class ReceiptScannerService {
       if (cleaned.isEmpty || cleaned.length < 3) continue;
       if (RegExp(r'^[\d\s\-\.\,\/]+$').hasMatch(cleaned)) continue;
       // Skip lines that look like addresses or dates
-      if (RegExp(r'\d{2}[\/\-\.]\d{2}[\/\-\.]\d{2,4}').hasMatch(cleaned))
+      if (RegExp(r'\d{2}[\/\-\.]\d{2}[\/\-\.]\d{2,4}').hasMatch(cleaned)) {
         continue;
+      }
       if (cleaned.toLowerCase().contains('tel:') ||
-          cleaned.toLowerCase().contains('fax:'))
+          cleaned.toLowerCase().contains('fax:')) {
         continue;
+      }
 
       // Found a potential merchant name
       return cleaned;

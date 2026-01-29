@@ -101,7 +101,7 @@ class LockService {
 
   /// Hash PIN for secure storage
   static String _hashPin(String pin) {
-    final bytes = utf8.encode(pin + 'vantag_salt_2024');
+    final bytes = utf8.encode('${pin}vantag_salt_2024');
     final digest = sha256.convert(bytes);
     return digest.toString();
   }

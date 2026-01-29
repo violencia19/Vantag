@@ -5,6 +5,12 @@ All notable changes to Vantag will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2026-01-26
+
+### Changed
+- Production release build
+- Version bump for Play Store release
+
 ## [1.0.3] - 2026-01-26
 
 ### Added
@@ -128,6 +134,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| 1.0.4 | 2026-01-26 | Production release, build fixes |
 | 1.0.3 | 2026-01-26 | AI language fix, documentation |
 | 1.0.2 | 2026-01-25 | Google account linking, currency fixes |
 | 1.0.1 | 2026-01-24 | Crashlytics, Analytics, Light mode |

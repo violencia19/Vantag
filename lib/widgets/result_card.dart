@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -14,7 +13,9 @@ class ResultCard extends StatelessWidget {
   final double? amount;
   final ExchangeRates? exchangeRates;
   final String?
-  amountCurrencyCode; // Currency of the amount (TRY, USD, EUR, etc.)
+      amountCurrencyCode; // Currency of the amount (TRY, USD, EUR, etc.)
+  final double dailyHours; // User's work hours per day
+  final int workDaysPerWeek; // User's work days per week
 
   const ResultCard({
     super.key,
@@ -24,6 +25,8 @@ class ResultCard extends StatelessWidget {
     this.amount,
     this.exchangeRates,
     this.amountCurrencyCode,
+    this.dailyHours = 8,
+    this.workDaysPerWeek = 5,
   });
 
   String _formatCurrency(double value, {int decimals = 2}) {
@@ -51,6 +54,8 @@ class ResultCard extends StatelessWidget {
             builder: (context) {
               final timeDisplay = getSimulationTimeDisplay(
                 result.hoursRequired,
+                workHoursPerDay: dailyHours,
+                workDaysPerWeek: workDaysPerWeek,
               );
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,

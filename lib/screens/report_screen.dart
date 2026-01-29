@@ -1479,11 +1479,13 @@ class _ReportScreenState extends State<ReportScreen>
                       interval: 1,
                       getTitlesWidget: (value, meta) {
                         final index = value.toInt();
-                        if (index < 0 || index >= 12)
+                        if (index < 0 || index >= 12) {
                           return const SizedBox.shrink();
+                        }
                         // Show every other month to prevent crowding
-                        if (index % 2 != 0 && index != 11)
+                        if (index % 2 != 0 && index != 11) {
                           return const SizedBox.shrink();
+                        }
                         final data = monthlyData[index]!;
                         return Padding(
                           padding: const EdgeInsets.only(top: 8),
@@ -2038,8 +2040,9 @@ class _ReportScreenState extends State<ReportScreen>
       final totals = <String, double>{};
       for (final expense in expenses) {
         if (expense.decision != ExpenseDecision.yes) continue;
-        if (expense.subCategory == null || expense.subCategory!.isEmpty)
+        if (expense.subCategory == null || expense.subCategory!.isEmpty) {
           continue;
+        }
         totals[expense.subCategory!] =
             (totals[expense.subCategory!] ?? 0) + expense.amount;
       }

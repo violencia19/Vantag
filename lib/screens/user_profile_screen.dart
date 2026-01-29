@@ -4,17 +4,12 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
-import '../models/currency.dart';
 import '../services/services.dart';
-import '../services/referral_service.dart';
-import '../services/deep_link_service.dart';
 import '../providers/providers.dart';
 import '../widgets/widgets.dart';
-import '../widgets/currency_selector.dart';
 import '../theme/theme.dart';
 import 'income_wizard_screen.dart';
 import 'onboarding_try_screen.dart';
-import 'paywall_screen.dart';
 
 class UserProfileScreen extends StatefulWidget {
   final UserProfile? existingProfile;

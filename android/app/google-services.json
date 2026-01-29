@@ -12,7 +12,28 @@
           "package_name": "com.vantag.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "240571866446-m9i297pgjr9ka3uo4fiorcluoqvj52g0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vantag.app",
+            "certificate_hash": "50aa0c7ccdfa28d0d6a63cfb390396277fedfca1"
+          }
+        },
+        {
+          "client_id": "240571866446-o2kq4d4mh51opgaf6e7fmldlb18rbl7b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vantag.app",
+            "certificate_hash": "74b405e3fb85aa4ff0b94b64de58d5ba60167474"
+          }
+        },
+        {
+          "client_id": "240571866446-2b3ao8ege7rnqefr9eq2qefusutio4k3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBsYnOnzX0JYGVsWY9zAiBU9bNsL2fA9T4"
@@ -20,7 +41,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "240571866446-2b3ao8ege7rnqefr9eq2qefusutio4k3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "240571866446-cb0lfpci86pj2gsauv0t0f84d8r2jg1m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.vantag.app"
+              }
+            }
+          ]
         }
       }
     }
