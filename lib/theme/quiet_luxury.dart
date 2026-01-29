@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'app_theme.dart';
 
 /// Wealth Coach: Quiet Luxury Design System
 /// JPMorgan & Goldman Sachs özel bankacılık şıklığı
@@ -43,6 +44,9 @@ class QuietLuxury {
 
   /// Gölge rengi
   static const Color shadowColor = Color(0x33000000); // 0.2 opacity
+
+  /// Premium mor gölge
+  static const Color premiumShadow = Color(0x4D8B5CF6); // 0.3 opacity purple
 
   // ═══════════════════════════════════════════════════════
   // TİPOGRAFİ
@@ -134,17 +138,28 @@ class QuietLuxury {
   /// Glassmorphism kart dekorasyonu
   static BoxDecoration get cardDecoration => BoxDecoration(
     color: cardBackground,
-    borderRadius: BorderRadius.circular(16),
+    borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
     border: Border.all(color: cardBorder, width: 0.5),
     boxShadow: [
       BoxShadow(color: shadowColor, blurRadius: 20, offset: const Offset(0, 8)),
     ],
   );
 
+  /// Premium kart dekorasyonu (gradient + purple glow)
+  static BoxDecoration get premiumCardDecoration => BoxDecoration(
+    gradient: AppGradients.premiumCard,
+    borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
+    border: Border.all(
+      color: AppColors.primary.withValues(alpha: 0.2),
+      width: 1.5,
+    ),
+    boxShadow: AppDesign.premiumCardShadow,
+  );
+
   /// Subtle kart dekorasyonu (gölgesiz)
   static BoxDecoration get subtleCardDecoration => BoxDecoration(
     color: cardBackground,
-    borderRadius: BorderRadius.circular(16),
+    borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
     border: Border.all(color: cardBorder, width: 0.5),
   );
 
@@ -164,8 +179,8 @@ class QuietLuxury {
       );
 
   /// Border radius
-  static BorderRadius get cardRadius => BorderRadius.circular(16);
-  static BorderRadius get buttonRadius => BorderRadius.circular(12);
+  static BorderRadius get cardRadius => BorderRadius.circular(AppDesign.radiusLarge);
+  static BorderRadius get buttonRadius => BorderRadius.circular(AppDesign.radiusSmall);
 }
 
 /// Glassmorphism Card Widget
@@ -173,20 +188,25 @@ class GlassCard extends StatelessWidget {
   final Widget child;
   final EdgeInsets? padding;
   final BoxDecoration? decoration;
+  final bool premium;
 
   const GlassCard({
     super.key,
     required this.child,
     this.padding,
     this.decoration,
+    this.premium = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final effectiveDecoration = decoration ??
+        (premium ? QuietLuxury.premiumCardDecoration : QuietLuxury.cardDecoration);
+
     return Container(
-      decoration: decoration ?? QuietLuxury.cardDecoration,
+      decoration: effectiveDecoration,
       child: ClipRRect(
-        borderRadius: QuietLuxury.cardRadius,
+        borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Padding(

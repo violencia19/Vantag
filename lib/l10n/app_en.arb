@@ -251,6 +251,26 @@
   "googleLinkedSuccess": "Google account linked successfully!",
   "googleLinkFailed": "Failed to link Google account",
 
+  "appleAccount": "Apple Account",
+  "appleLinked": "Apple Linked",
+  "appleNotLinked": "Apple Not Linked",
+  "linkWithApple": "Link with Apple",
+  "profileAppleConnected": "Apple Account Connected",
+  "profileAppleNotConnected": "Apple Account Not Connected",
+  "appleLinkedSuccess": "Apple account linked successfully!",
+  "appleLinkFailed": "Failed to link Apple account",
+  "appleSignInNotAvailable": "Apple Sign In is not available on this device",
+
+  "editWorkHours": "Work Hours",
+  "editWorkHoursSubtitle": "Your daily work hours for time calculations",
+  "hoursPerDay": "{hours} hours/day",
+  "@hoursPerDay": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "workHoursUpdated": "Work hours updated",
+
   "freeCurrencyNote": "Free users can only use TRY. Upgrade to Pro for all currencies.",
   "currencyLockNote": "Selected currency will be locked. Pro users can change anytime.",
 

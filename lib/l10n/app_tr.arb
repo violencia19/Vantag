@@ -216,6 +216,26 @@
   "googleLinkedSuccess": "Google hesabı başarıyla bağlandı!",
   "googleLinkFailed": "Google hesabı bağlanamadı",
 
+  "appleAccount": "Apple Hesabı",
+  "appleLinked": "Apple Bağlandı",
+  "appleNotLinked": "Apple Bağlı Değil",
+  "linkWithApple": "Apple ile Bağla",
+  "profileAppleConnected": "Apple Hesabı Bağlı",
+  "profileAppleNotConnected": "Apple Hesabı Bağlı Değil",
+  "appleLinkedSuccess": "Apple hesabı başarıyla bağlandı!",
+  "appleLinkFailed": "Apple hesabı bağlanamadı",
+  "appleSignInNotAvailable": "Apple ile giriş bu cihazda kullanılamıyor",
+
+  "editWorkHours": "Çalışma Saati",
+  "editWorkHoursSubtitle": "Zaman hesaplamaları için günlük çalışma saatiniz",
+  "hoursPerDay": "{hours} saat/gün",
+  "@hoursPerDay": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "workHoursUpdated": "Çalışma saati güncellendi",
+
   "freeCurrencyNote": "Ücretsiz kullanıcılar sadece TL kullanabilir. Tüm para birimleri için Pro'ya yükseltin.",
   "currencyLockNote": "Seçilen para birimi kilitlenecek. Pro kullanıcılar istediği zaman değiştirebilir.",
 

@@ -537,6 +537,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String get googleLinkFailed => 'Failed to link Google account';
 
   @override
+  String get appleAccount => 'Apple Account';
+
+  @override
+  String get appleLinked => 'Apple Linked';
+
+  @override
+  String get appleNotLinked => 'Apple Not Linked';
+
+  @override
+  String get linkWithApple => 'Link with Apple';
+
+  @override
+  String get profileAppleConnected => 'Apple Account Connected';
+
+  @override
+  String get profileAppleNotConnected => 'Apple Account Not Connected';
+
+  @override
+  String get appleLinkedSuccess => 'Apple account linked successfully!';
+
+  @override
+  String get appleLinkFailed => 'Failed to link Apple account';
+
+  @override
+  String get appleSignInNotAvailable =>
+      'Apple Sign In is not available on this device';
+
+  @override
+  String get editWorkHours => 'Work Hours';
+
+  @override
+  String get editWorkHoursSubtitle =>
+      'Your daily work hours for time calculations';
+
+  @override
+  String hoursPerDay(String hours) {
+    return '$hours hours/day';
+  }
+
+  @override
+  String get workHoursUpdated => 'Work hours updated';
+
+  @override
   String get freeCurrencyNote =>
       'Free users can only use TRY. Upgrade to Pro for all currencies.';
 

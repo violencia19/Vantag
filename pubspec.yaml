@@ -42,7 +42,7 @@ dependencies:
   shared_preferences: ^2.2.2
   image_picker: ^1.0.7
   path_provider: ^2.1.2
-  google_mlkit_text_recognition: ^0.15.0
+  # google_mlkit_text_recognition: ^0.15.0  # TEMPORARILY DISABLED for iOS Simulator (ML Kit doesn't support arm64 simulator)
   http: ^1.2.0
   crypto: ^3.0.3
   connectivity_plus: ^7.0.0
@@ -61,6 +61,7 @@ dependencies:
   # Icons
   lucide_icons: ^0.257.0
   phosphor_flutter: ^2.1.0
+  font_awesome_flutter: ^10.7.0
 
   # Fonts
   google_fonts: ^6.1.0
@@ -89,6 +90,7 @@ dependencies:
   firebase_remote_config: ^6.1.3
   firebase_storage: ^13.0.5
   google_sign_in: 6.2.1
+  sign_in_with_apple: ^6.1.0
 
   # AI
   flutter_dotenv: ^5.1.0

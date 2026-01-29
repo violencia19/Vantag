@@ -11,6 +11,7 @@ class AnimatedExpenseList extends StatefulWidget {
   final Function(Expense, ExpenseDecision)? onDecisionUpdate;
   final Function(Expense)? onDelete;
   final ScrollController? scrollController;
+  final double dailyWorkHours;
 
   const AnimatedExpenseList({
     super.key,
@@ -18,6 +19,7 @@ class AnimatedExpenseList extends StatefulWidget {
     this.onDecisionUpdate,
     this.onDelete,
     this.scrollController,
+    this.dailyWorkHours = 8,
   });
 
   @override
@@ -107,6 +109,7 @@ class AnimatedExpenseListState extends State<AnimatedExpenseList> {
             padding: const EdgeInsets.only(bottom: 12),
             child: ExpenseHistoryCard(
               expense: expense,
+              dailyWorkHours: widget.dailyWorkHours,
               onDecisionUpdate: widget.onDecisionUpdate != null
                   ? (decision) => widget.onDecisionUpdate!(expense, decision)
                   : null,
@@ -132,7 +135,10 @@ class AnimatedExpenseListState extends State<AnimatedExpenseList> {
           sizeFactor: animation,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 12),
-            child: ExpenseHistoryCard(expense: expense),
+            child: ExpenseHistoryCard(
+              expense: expense,
+              dailyWorkHours: widget.dailyWorkHours,
+            ),
           ),
         ),
       ),

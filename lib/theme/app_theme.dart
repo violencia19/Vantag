@@ -282,6 +282,115 @@ class AppGradients {
   static const LinearGradient success = LinearGradient(
     colors: [AppColors.secondary, Color(0xFF3DBDB5)],
   );
+
+  /// Premium Card Gradient (mor → mavi)
+  static const LinearGradient premiumCard = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF2A2545), // Koyu mor
+      Color(0xFF1E293B), // Koyu mavi
+    ],
+  );
+
+  /// Premium Card Gradient Light variant
+  static const LinearGradient premiumCardLight = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF3D3560), // Orta mor
+      Color(0xFF2D3A50), // Orta mavi
+    ],
+  );
+
+  /// Subtle card overlay gradient
+  static const LinearGradient cardOverlay = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0x10FFFFFF), // %6 beyaz
+      Color(0x00FFFFFF), // Şeffaf
+    ],
+  );
+
+  /// Expense card gradient
+  static const LinearGradient expenseCard = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF252540), // Mor-gri
+      Color(0xFF1A1A2E), // Koyu
+    ],
+  );
+}
+
+/// Premium Design Tokens
+class AppDesign {
+  AppDesign._();
+
+  // Border Radius
+  static const double radiusSmall = 12.0;
+  static const double radiusMedium = 16.0;
+  static const double radiusLarge = 20.0;
+  static const double radiusXLarge = 24.0;
+
+  // Spacing
+  static const double spacingXs = 8.0;
+  static const double spacingSm = 12.0;
+  static const double spacingMd = 16.0;
+  static const double spacingLg = 20.0;
+  static const double spacingXl = 24.0;
+
+  // Card Shadow
+  static List<BoxShadow> get cardShadow => [
+        BoxShadow(
+          color: const Color(0xFF8B5CF6).withValues(alpha: 0.15),
+          blurRadius: 24,
+          offset: const Offset(0, 8),
+          spreadRadius: 0,
+        ),
+        BoxShadow(
+          color: Colors.black.withValues(alpha: 0.2),
+          blurRadius: 16,
+          offset: const Offset(0, 4),
+          spreadRadius: 0,
+        ),
+      ];
+
+  // Premium Card Shadow
+  static List<BoxShadow> get premiumCardShadow => [
+        BoxShadow(
+          color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
+          blurRadius: 32,
+          offset: const Offset(0, 8),
+          spreadRadius: 0,
+        ),
+        BoxShadow(
+          color: Colors.black.withValues(alpha: 0.25),
+          blurRadius: 20,
+          offset: const Offset(0, 4),
+          spreadRadius: 0,
+        ),
+      ];
+
+  // Subtle Shadow
+  static List<BoxShadow> get subtleShadow => [
+        BoxShadow(
+          color: const Color(0xFF8B5CF6).withValues(alpha: 0.1),
+          blurRadius: 16,
+          offset: const Offset(0, 4),
+          spreadRadius: 0,
+        ),
+      ];
+
+  // Typography
+  static const double fontSizeXs = 10.0;
+  static const double fontSizeSm = 12.0;
+  static const double fontSizeMd = 14.0;
+  static const double fontSizeLg = 16.0;
+  static const double fontSizeXl = 20.0;
+  static const double fontSizeXxl = 28.0;
+  static const double fontSizeDisplay = 32.0;
 }
 
 /// Premium Font Families

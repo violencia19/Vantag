@@ -41,11 +41,15 @@ class ResultCard extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(AppDesign.spacingXl),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: context.appColors.cardBorder),
+        gradient: AppGradients.premiumCard,
+        borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
+        border: Border.all(
+          color: context.appColors.primary.withValues(alpha: 0.2),
+          width: 1.5,
+        ),
+        boxShadow: AppDesign.premiumCardShadow,
       ),
       child: Column(
         children: [
@@ -247,12 +251,20 @@ class ResultCard extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppDesign.spacingMd),
       decoration: BoxDecoration(
-        color: context.appColors.surfaceLighter,
-        borderRadius: BorderRadius.circular(12),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            context.appColors.surfaceLight.withValues(alpha: 0.8),
+            context.appColors.surfaceLight.withValues(alpha: 0.4),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(AppDesign.radiusMedium),
         border: Border.all(
-          color: context.appColors.cardBorder.withValues(alpha: 0.5),
+          color: context.appColors.primary.withValues(alpha: 0.1),
+          width: 1,
         ),
       ),
       child: Column(
@@ -335,15 +347,27 @@ class ResultCard extends StatelessWidget {
   }) {
     return Column(
       children: [
-        Icon(icon, size: 20, color: context.appColors.textTertiary),
-        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                context.appColors.primary.withValues(alpha: 0.2),
+                context.appColors.primary.withValues(alpha: 0.1),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(AppDesign.radiusSmall),
+          ),
+          child: Icon(icon, size: 22, color: context.appColors.primary),
+        ),
+        const SizedBox(height: AppDesign.spacingSm),
         Text(
           value,
           style: TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.w700,
+            fontSize: AppDesign.fontSizeDisplay,
+            fontWeight: FontWeight.w800,
             color: context.appColors.textPrimary,
-            letterSpacing: -1,
+            letterSpacing: -1.5,
             height: 1,
           ),
         ),
@@ -351,9 +375,9 @@ class ResultCard extends StatelessWidget {
         Text(
           unit,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: AppDesign.fontSizeSm,
             fontWeight: FontWeight.w500,
-            color: context.appColors.textSecondary,
+            color: context.appColors.textSecondary.withValues(alpha: 0.6),
           ),
         ),
       ],

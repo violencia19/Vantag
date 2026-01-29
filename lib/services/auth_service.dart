@@ -1,9 +1,13 @@
 import 'dart:io';
+import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypto/crypto.dart';
 import 'device_service.dart';
 
 /// Firebase kullanıcı profil modeli (Auth bilgileri için)
@@ -110,6 +114,13 @@ class AuthService {
     final user = currentUser;
     if (user == null) return false;
     return user.providerData.any((info) => info.providerId == 'google.com');
+  }
+
+  /// Kullanıcı Apple ile bağlı mı?
+  bool get isLinkedWithApple {
+    final user = currentUser;
+    if (user == null) return false;
+    return user.providerData.any((info) => info.providerId == 'apple.com');
   }
 
   /// Auth state stream
@@ -245,6 +256,151 @@ class AuthService {
       debugPrint("❌ [Auth] Beklenmeyen Hata: $e");
       return AuthResult.failure(
         "Google ile giriş sırasında bir hata oluştu: $e",
+      );
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // APPLE SIGN-IN
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  /// Generate a random nonce for Apple Sign-In
+  String _generateNonce([int length = 32]) {
+    const charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
+  }
+
+  /// SHA256 hash of the nonce
+  String _sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
+  /// Apple ile giriş yap
+  /// Eğer anonim kullanıcı varsa, hesapları birleştirir (linkWithCredential)
+  Future<AuthResult> signInWithApple() async {
+    debugPrint("🔐 [Auth] Apple Sign-In başlıyor...");
+
+    try {
+      // Check if Apple Sign-In is available on this device
+      final isAvailable = await SignInWithApple.isAvailable();
+      if (!isAvailable) {
+        debugPrint("❌ [Auth] Apple Sign-In bu cihazda kullanılamıyor");
+        return AuthResult.failure("Apple ile giriş bu cihazda kullanılamıyor");
+      }
+
+      // Generate nonce for security
+      final rawNonce = _generateNonce();
+      final nonce = _sha256ofString(rawNonce);
+
+      // Request Apple Sign-In
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
+
+      debugPrint("📧 [Auth] Apple hesabı seçildi: ${appleCredential.email ?? 'email gizli'}");
+
+      // Create Firebase credential
+      final oauthCredential = OAuthProvider('apple.com').credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+      );
+
+      // Check if there's an existing anonymous user
+      final existingUser = currentUser;
+      final wasAnonymous = existingUser?.isAnonymous ?? false;
+
+      User? user;
+      bool wasLinked = false;
+
+      if (wasAnonymous && existingUser != null) {
+        // Link anonymous account with Apple
+        debugPrint("🔗 [Auth] Anonim hesap Apple ile birleştiriliyor...");
+        try {
+          final linkedCredential = await existingUser.linkWithCredential(
+            oauthCredential,
+          );
+          user = linkedCredential.user;
+          wasLinked = true;
+          debugPrint(
+            "✅ [Auth] Hesaplar birleştirildi! UID korundu: ${user?.uid}",
+          );
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'credential-already-in-use') {
+            // This Apple account is linked to another account
+            debugPrint(
+              "⚠️ [Auth] Apple hesabı zaten kullanımda, yeni hesapla giriş yapılıyor...",
+            );
+            await existingUser.delete();
+            final signInResult = await _auth.signInWithCredential(oauthCredential);
+            user = signInResult.user;
+            wasLinked = false;
+          } else {
+            rethrow;
+          }
+        }
+      } else {
+        // Direct Apple sign-in
+        debugPrint("🔐 [Auth] Apple ile direkt giriş yapılıyor...");
+        final signInResult = await _auth.signInWithCredential(oauthCredential);
+        user = signInResult.user;
+      }
+
+      if (user != null) {
+        // Update display name if provided by Apple (only on first sign-in)
+        if (appleCredential.givenName != null || appleCredential.familyName != null) {
+          final displayName = [
+            appleCredential.givenName,
+            appleCredential.familyName,
+          ].where((s) => s != null && s.isNotEmpty).join(' ');
+
+          if (displayName.isNotEmpty && (user.displayName == null || user.displayName!.isEmpty)) {
+            await user.updateDisplayName(displayName);
+            // Reload user to get updated info
+            await user.reload();
+            user = _auth.currentUser;
+          }
+        }
+
+        debugPrint("✅ [Auth] Apple Sign-In başarılı!");
+        debugPrint("   UID: ${user?.uid}");
+        debugPrint("   Email: ${user?.email ?? 'gizli'}");
+        debugPrint("   İsim: ${user?.displayName ?? 'Yok'}");
+        debugPrint("   Birleştirildi mi: $wasLinked");
+
+        if (user != null) {
+          await _saveUserProfile(user);
+
+          // Register this device as the active device (single device policy)
+          await DeviceService().registerDevice();
+
+          return AuthResult.success(user, wasLinked: wasLinked);
+        }
+      }
+
+      return AuthResult.failure("Apple ile giriş başarısız");
+    } on SignInWithAppleAuthorizationException catch (e) {
+      if (e.code == AuthorizationErrorCode.canceled) {
+        debugPrint("ℹ️ [Auth] Kullanıcı Apple Sign-In'i iptal etti");
+        return AuthResult.failure("Giriş iptal edildi");
+      }
+      debugPrint("❌ [Auth] Apple Auth Hatası: ${e.code} - ${e.message}");
+      return AuthResult.failure("Apple ile giriş başarısız: ${e.message}");
+    } on FirebaseAuthException catch (e) {
+      debugPrint("❌ [Auth] Firebase Auth Hatası: ${e.code} - ${e.message}");
+      return AuthResult.failure(_getAuthErrorMessage(e.code));
+    } catch (e) {
+      debugPrint("❌ [Auth] Beklenmeyen Hata: $e");
+      return AuthResult.failure(
+        "Apple ile giriş sırasında bir hata oluştu: $e",
       );
     }
   }

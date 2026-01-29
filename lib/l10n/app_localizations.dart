@@ -1094,6 +1094,84 @@ abstract class AppLocalizations {
   /// **'Failed to link Google account'**
   String get googleLinkFailed;
 
+  /// No description provided for @appleAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Account'**
+  String get appleAccount;
+
+  /// No description provided for @appleLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Linked'**
+  String get appleLinked;
+
+  /// No description provided for @appleNotLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Not Linked'**
+  String get appleNotLinked;
+
+  /// No description provided for @linkWithApple.
+  ///
+  /// In en, this message translates to:
+  /// **'Link with Apple'**
+  String get linkWithApple;
+
+  /// No description provided for @profileAppleConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Account Connected'**
+  String get profileAppleConnected;
+
+  /// No description provided for @profileAppleNotConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Account Not Connected'**
+  String get profileAppleNotConnected;
+
+  /// No description provided for @appleLinkedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple account linked successfully!'**
+  String get appleLinkedSuccess;
+
+  /// No description provided for @appleLinkFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to link Apple account'**
+  String get appleLinkFailed;
+
+  /// No description provided for @appleSignInNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Sign In is not available on this device'**
+  String get appleSignInNotAvailable;
+
+  /// No description provided for @editWorkHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Work Hours'**
+  String get editWorkHours;
+
+  /// No description provided for @editWorkHoursSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your daily work hours for time calculations'**
+  String get editWorkHoursSubtitle;
+
+  /// No description provided for @hoursPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours/day'**
+  String hoursPerDay(String hours);
+
+  /// No description provided for @workHoursUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Work hours updated'**
+  String get workHoursUpdated;
+
   /// No description provided for @freeCurrencyNote.
   ///
   /// In en, this message translates to:

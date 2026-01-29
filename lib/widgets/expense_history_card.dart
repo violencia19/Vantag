@@ -16,6 +16,7 @@ class ExpenseHistoryCard extends StatelessWidget {
   final Function(ExpenseDecision)? onDecisionUpdate;
   final bool showHint;
   final String currencySymbol;
+  final double dailyWorkHours;
 
   const ExpenseHistoryCard({
     super.key,
@@ -25,6 +26,7 @@ class ExpenseHistoryCard extends StatelessWidget {
     this.onDecisionUpdate,
     this.showHint = false,
     this.currencySymbol = '₺',
+    this.dailyWorkHours = 8,
   });
 
   String _formatDate(BuildContext context, DateTime date) {
@@ -309,36 +311,51 @@ class ExpenseHistoryCard extends StatelessWidget {
       label: semanticLabel,
       button: isThinking,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
+        margin: const EdgeInsets.only(bottom: AppDesign.spacingMd),
         decoration: BoxDecoration(
-          color: context.appColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: context.appColors.cardBorder),
+          gradient: AppGradients.expenseCard,
+          borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
+          border: Border.all(
+            color: context.appColors.primary.withValues(alpha: 0.15),
+            width: 1,
+          ),
+          boxShadow: AppDesign.subtleShadow,
         ),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
             onTap: isThinking ? () => _showDecisionDialog(context) : null,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppDesign.spacingLg),
               child: Row(
                 children: [
-                  // Decision indicator
+                  // Decision indicator with gradient background
                   Container(
-                    width: 44,
-                    height: 44,
+                    width: 48,
+                    height: 48,
                     decoration: BoxDecoration(
-                      color: decisionColor.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          decisionColor.withValues(alpha: 0.25),
+                          decisionColor.withValues(alpha: 0.1),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(
+                        color: decisionColor.withValues(alpha: 0.3),
+                        width: 1,
+                      ),
                     ),
                     child: Icon(
                       _getDecisionIcon(expense.decision),
-                      size: 22,
+                      size: 24,
                       color: decisionColor,
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: AppDesign.spacingMd),
 
                   // Content
                   Expanded(
@@ -353,26 +370,34 @@ class ExpenseHistoryCard extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   '${formatTurkishCurrency(expense.amount, decimalDigits: 2)} TL',
-                                  style: AccessibleText.scaled(
-                                    context,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
+                                  style: TextStyle(
+                                    fontSize: AppDesign.fontSizeXl,
+                                    fontWeight: FontWeight.w800,
                                     color: context.appColors.textPrimary,
-                                    maxScale: 1.4,
+                                    letterSpacing: -0.5,
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: AppDesign.spacingSm),
                             Flexible(
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
+                                  horizontal: 10,
+                                  vertical: 5,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: context.appColors.surfaceLight,
-                                  borderRadius: BorderRadius.circular(8),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      context.appColors.primary.withValues(alpha: 0.2),
+                                      context.appColors.primary.withValues(alpha: 0.1),
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(AppDesign.radiusSmall),
+                                  border: Border.all(
+                                    color: context.appColors.primary.withValues(alpha: 0.2),
+                                    width: 0.5,
+                                  ),
                                 ),
                                 child: Text(
                                   CategoryUtils.getLocalizedName(
@@ -380,9 +405,9 @@ class ExpenseHistoryCard extends StatelessWidget {
                                     expense.category,
                                   ),
                                   style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: context.appColors.textSecondary,
+                                    fontSize: AppDesign.fontSizeSm,
+                                    fontWeight: FontWeight.w600,
+                                    color: context.appColors.primary,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -471,7 +496,11 @@ class ExpenseHistoryCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              '${expense.hoursRequired.toStringAsFixed(1)}s / ${expense.daysRequired.toStringAsFixed(1)}g',
+                              formatWorkTime(
+                                expense.hoursRequired,
+                                workHoursPerDay: dailyWorkHours,
+                                locale: Localizations.localeOf(context).languageCode,
+                              ),
                               style: TextStyle(
                                 fontSize: 13,
                                 color: context.appColors.textTertiary,

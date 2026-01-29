@@ -619,6 +619,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                             padding: const EdgeInsets.only(bottom: 12),
                             child: ExpenseHistoryCard(
                               expense: visibleExpenses[index],
+                              dailyWorkHours: widget.userProfile.dailyHours,
                               onDelete: () async {
                                 await _deleteExpense(index);
                                 if (context.mounted) Navigator.pop(context);
@@ -1048,6 +1049,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                         delegate: SliverChildBuilderDelegate((context, index) {
                           return ExpenseHistoryCard(
                                 expense: recentExpenses[index],
+                                dailyWorkHours: widget.userProfile.dailyHours,
                                 onDelete: () => _deleteExpense(index),
                                 onEdit: () => _editExpense(index),
                                 onDecisionUpdate: (decision) =>

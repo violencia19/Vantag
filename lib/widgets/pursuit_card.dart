@@ -40,7 +40,8 @@ class PursuitCard extends StatelessWidget {
       child: Pressable(
         onTap: onTap,
         child: GlassCard(
-          padding: const EdgeInsets.all(16),
+          premium: true,
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -77,27 +78,31 @@ class PursuitCard extends StatelessWidget {
                   // Progress badge
                   Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
+                      horizontal: 12,
+                      vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: _getProgressColor(
-                        pursuit.progressPercent,
-                      ).withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(12),
+                      gradient: LinearGradient(
+                        colors: [
+                          _getProgressColor(pursuit.progressPercent)
+                              .withValues(alpha: 0.25),
+                          _getProgressColor(pursuit.progressPercent)
+                              .withValues(alpha: 0.15),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: _getProgressColor(
-                          pursuit.progressPercent,
-                        ).withValues(alpha: 0.4),
-                        width: 0.5,
+                        color: _getProgressColor(pursuit.progressPercent)
+                            .withValues(alpha: 0.4),
+                        width: 1,
                       ),
                     ),
                     child: Text(
                       '${pursuit.progressPercentDisplay}%',
                       style: AccessibleText.scaled(
                         context,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
                         color: _getProgressColor(pursuit.progressPercent),
                         maxScale: 1.3,
                       ),
@@ -125,30 +130,33 @@ class PursuitCard extends StatelessWidget {
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.centerLeft,
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
                             children: [
                               Text(
                                 formatAmount(pursuit.savedAmount),
                                 style: AccessibleText.scaled(
                                   context,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
                                   color: QuietLuxury.positive,
                                   maxScale: 1.3,
-                                ).copyWith(letterSpacing: 0.5),
+                                ).copyWith(letterSpacing: -0.5),
                               ),
                               Text(
                                 ' / ${formatAmount(pursuit.targetAmount)}',
                                 style: AccessibleText.scaled(
                                   context,
                                   fontSize: 14,
-                                  color: QuietLuxury.textSecondary,
+                                  fontWeight: FontWeight.w500,
+                                  color: QuietLuxury.textSecondary.withValues(alpha: 0.7),
                                   maxScale: 1.3,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: 4),
                         Text(
                           l10n.remainingAmount(
                             formatAmount(pursuit.remainingAmount),
@@ -156,7 +164,8 @@ class PursuitCard extends StatelessWidget {
                           style: AccessibleText.scaled(
                             context,
                             fontSize: 12,
-                            color: QuietLuxury.textTertiary,
+                            fontWeight: FontWeight.w400,
+                            color: QuietLuxury.textTertiary.withValues(alpha: 0.6),
                             maxScale: 1.4,
                           ),
                         ),
@@ -220,19 +229,31 @@ class _AddSavingsButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(12),
           child: Tooltip(
             message: l10n.addSavings,
             child: Container(
               constraints: const BoxConstraints(minHeight: 44),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: QuietLuxury.positive.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: QuietLuxury.positive.withValues(alpha: 0.3),
-                  width: 0.5,
+                gradient: LinearGradient(
+                  colors: [
+                    QuietLuxury.positive.withValues(alpha: 0.2),
+                    QuietLuxury.positive.withValues(alpha: 0.12),
+                  ],
                 ),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: QuietLuxury.positive.withValues(alpha: 0.4),
+                  width: 1,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: QuietLuxury.positive.withValues(alpha: 0.15),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -242,12 +263,13 @@ class _AddSavingsButton extends StatelessWidget {
                     size: 14,
                     color: QuietLuxury.positive,
                   ),
-                  const SizedBox(width: 4),
+                  const SizedBox(width: 6),
                   Text(
                     l10n.addSavings,
                     style: QuietLuxury.label.copyWith(
                       color: QuietLuxury.positive,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 13,
                     ),
                   ),
                 ],

@@ -429,6 +429,112 @@ class SimulationTimeDisplay {
   });
 }
 
+/// Saatleri okunabilir formata çevirir
+/// "1 gün 5.5 saat" veya "2 hours 30 min" formatında döndürür
+/// workHoursPerDay: Kullanıcının günlük çalışma saati (varsayılan 8)
+/// locale: 'tr' veya 'en' - dil desteği
+String formatWorkTime(
+  double totalHours, {
+  double workHoursPerDay = 8,
+  String locale = 'tr',
+}) {
+  if (totalHours <= 0) {
+    return locale == 'tr' ? '0 saat' : '0 hours';
+  }
+
+  final days = (totalHours / workHoursPerDay).floor();
+  final remainingHours = totalHours - (days * workHoursPerDay);
+
+  if (locale == 'tr') {
+    if (days > 0 && remainingHours > 0.1) {
+      return '$days gün ${remainingHours.toStringAsFixed(1)} saat';
+    } else if (days > 0) {
+      return '$days gün';
+    } else {
+      return '${totalHours.toStringAsFixed(1)} saat';
+    }
+  } else {
+    if (days > 0 && remainingHours > 0.1) {
+      return '$days day${days > 1 ? 's' : ''} ${remainingHours.toStringAsFixed(1)} hr';
+    } else if (days > 0) {
+      return '$days day${days > 1 ? 's' : ''}';
+    } else {
+      return '${totalHours.toStringAsFixed(1)} hours';
+    }
+  }
+}
+
+/// Locale'e göre para formatı için binlik ayraç
+/// Türkçe: 100.000 (nokta ile)
+/// İngilizce: 100,000 (virgül ile)
+String formatCurrencyWithLocale(
+  double value, {
+  String locale = 'tr',
+  int decimalDigits = 2,
+  bool showDecimals = true,
+  String? currencySymbol,
+}) {
+  if (value.isNaN || value.isInfinite) return '0';
+
+  final isNegative = value < 0;
+  final absValue = value.abs();
+
+  // Tam sayı mı kontrol et
+  final isWholeNumber = absValue == absValue.truncateToDouble();
+
+  String result;
+  if (!showDecimals || (isWholeNumber && decimalDigits == 0)) {
+    // Tam sayı formatı
+    result = _formatIntegerWithLocale(absValue.truncate(), locale);
+  } else {
+    // Ondalıklı format
+    final multiplier = pow(10, decimalDigits);
+    final truncated = (absValue * multiplier).truncate() / multiplier;
+    final parts = truncated.toString().split('.');
+    final integerPart = int.parse(parts[0]);
+    final decimalPart = parts.length > 1
+        ? parts[1].padRight(decimalDigits, '0').substring(0, decimalDigits)
+        : '0'.padRight(decimalDigits, '0');
+
+    final decimalSeparator = locale == 'tr' ? ',' : '.';
+    result = '${_formatIntegerWithLocale(integerPart, locale)}$decimalSeparator$decimalPart';
+  }
+
+  final prefix = isNegative ? '-' : '';
+  if (currencySymbol != null) {
+    // Türkçe için sembol sonda, İngilizce için başta
+    if (locale == 'tr') {
+      return '$prefix$result $currencySymbol';
+    } else {
+      return '$prefix$currencySymbol$result';
+    }
+  }
+  return '$prefix$result';
+}
+
+/// Integer'ı locale'e göre binlik ayraçlı string'e çevir
+String _formatIntegerWithLocale(int value, String locale) {
+  if (value == 0) return '0';
+
+  final isNegative = value < 0;
+  final absValue = value.abs();
+  final str = absValue.toString();
+  final buffer = StringBuffer();
+  final length = str.length;
+
+  // Türkçe için nokta, İngilizce için virgül
+  final separator = locale == 'tr' ? '.' : ',';
+
+  for (int i = 0; i < length; i++) {
+    if (i > 0 && (length - i) % 3 == 0) {
+      buffer.write(separator);
+    }
+    buffer.write(str[i]);
+  }
+
+  return isNegative ? '-${buffer.toString()}' : buffer.toString();
+}
+
 /// Saatleri iki ayrı birime çevirir (yan yana gösterim için)
 /// workHoursPerDay: Kullanıcının günlük çalışma saati (varsayılan 8)
 /// workDaysPerWeek: Kullanıcının haftalık çalışma günü (varsayılan 5)

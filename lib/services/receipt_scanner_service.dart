@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+// TEMPORARILY DISABLED for iOS Simulator - ML Kit doesn't support arm64 simulator
+// import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 
 /// Result from scanning a receipt
@@ -20,7 +21,8 @@ class ScanResult {
 }
 
 class ReceiptScannerService {
-  final _textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
+  // TEMPORARILY DISABLED for iOS Simulator
+  // final _textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
   final _imagePicker = ImagePicker();
 
   // Total keywords in multiple languages
@@ -50,16 +52,29 @@ class ReceiptScannerService {
   }
 
   /// Scan receipt and extract amount, merchant, and currency
+  /// TEMPORARILY DISABLED - Returns empty result for simulator testing
   Future<ScanResult> scanReceipt() async {
+    // TEMPORARILY DISABLED for iOS Simulator
+    debugPrint('[ReceiptScanner] ML Kit temporarily disabled for simulator testing');
+    return const ScanResult();
+
+    /* ORIGINAL CODE - Re-enable when ML Kit is restored:
     final imageFile = await pickImage(fromCamera: true);
     if (imageFile == null) {
       return const ScanResult();
     }
     return extractFromReceipt(imageFile);
+    */
   }
 
   /// Extract data from receipt image
+  /// TEMPORARILY DISABLED - Returns empty result for simulator testing
   Future<ScanResult> extractFromReceipt(File imageFile) async {
+    // TEMPORARILY DISABLED for iOS Simulator
+    debugPrint('[ReceiptScanner] ML Kit temporarily disabled for simulator testing');
+    return const ScanResult();
+
+    /* ORIGINAL CODE - Re-enable when ML Kit is restored:
     final inputImage = InputImage.fromFile(imageFile);
     final recognizedText = await _textRecognizer.processImage(inputImage);
 
@@ -80,6 +95,7 @@ class ReceiptScannerService {
     );
 
     return ScanResult(amount: amount, merchant: merchant, currency: currency);
+    */
   }
 
   /// Legacy method for backwards compatibility
@@ -250,6 +266,7 @@ class ReceiptScannerService {
   }
 
   void dispose() {
-    _textRecognizer.close();
+    // TEMPORARILY DISABLED for iOS Simulator
+    // _textRecognizer.close();
   }
 }

@@ -204,20 +204,17 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                 }, childCount: pursuits.length),
               ),
             ),
-        ],
-      ),
-      floatingActionButton: _showCompleted
-          ? null
-          : Padding(
-              padding: const EdgeInsets.only(bottom: 140),
-              child: FloatingActionButton(
-                onPressed: _createPursuit,
-                tooltip: l10n.createPursuit,
-                backgroundColor: context.appColors.success,
-                foregroundColor: context.appColors.textPrimary,
-                child: Icon(PhosphorIconsBold.plus),
+
+          // "Add New Dream" card at bottom (only for active pursuits)
+          if (!_showCompleted && pursuits.isNotEmpty)
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 120),
+              sliver: SliverToBoxAdapter(
+                child: _buildAddNewPursuitCard(l10n),
               ),
             ),
+        ],
+      ),
     );
   }
 
@@ -284,6 +281,79 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                 label: Text(l10n.addFirstPursuit),
               ),
             ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAddNewPursuitCard(AppLocalizations l10n) {
+    return GestureDetector(
+      onTap: _createPursuit,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              context.appColors.success.withValues(alpha: 0.15),
+              context.appColors.success.withValues(alpha: 0.05),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: context.appColors.success.withValues(alpha: 0.3),
+            width: 1.5,
+            strokeAlign: BorderSide.strokeAlignOutside,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 52,
+              height: 52,
+              decoration: BoxDecoration(
+                color: context.appColors.success.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(
+                PhosphorIconsDuotone.plus,
+                color: context.appColors.success,
+                size: 28,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.createPursuit,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: context.appColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.emptyPursuitsMessage,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.appColors.textSecondary,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              PhosphorIconsDuotone.caretRight,
+              color: context.appColors.success,
+              size: 24,
+            ),
           ],
         ),
       ),

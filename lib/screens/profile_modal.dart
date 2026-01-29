@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +42,7 @@ class _ProfileModalState extends State<ProfileModal> {
   String? _localPhotoPath;
   bool _isPhotoLoading = false;
   bool _isLinkingGoogle = false;
+  bool _isLinkingApple = false;
 
   @override
   void initState() {
@@ -244,6 +246,11 @@ class _ProfileModalState extends State<ProfileModal> {
                           // Google Connection Status
                           _buildGoogleStatus(context, authService, l10n),
 
+                          const SizedBox(height: 12),
+
+                          // Apple Connection Status
+                          _buildAppleStatus(context, authService, l10n),
+
                           const SizedBox(height: 32),
 
                           // Sign Out Button
@@ -445,8 +452,10 @@ class _ProfileModalState extends State<ProfileModal> {
     AppLocalizations l10n,
     FinanceProvider financeProvider,
   ) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 12,
+      runSpacing: 12,
       children: [
         // Photo Button
         _buildActionButton(
@@ -454,14 +463,18 @@ class _ProfileModalState extends State<ProfileModal> {
           label: l10n.changePhoto,
           onTap: () => _showPhotoOptions(l10n),
         ),
-        const SizedBox(width: 12),
         // Salary Button
         _buildActionButton(
           icon: PhosphorIconsDuotone.money,
           label: l10n.editSalary,
           onTap: () => _showEditSalarySheet(context, l10n, financeProvider),
         ),
-        const SizedBox(width: 12),
+        // Work Hours Button
+        _buildActionButton(
+          icon: PhosphorIconsDuotone.clock,
+          label: l10n.editWorkHours,
+          onTap: () => _showEditWorkHoursSheet(context, l10n, financeProvider),
+        ),
         // Add Income Button
         _buildActionButton(
           icon: PhosphorIconsDuotone.plusCircle,
@@ -519,6 +532,26 @@ class _ProfileModalState extends State<ProfileModal> {
       barrierColor: Colors.black.withOpacity(0.85),
       backgroundColor: Colors.transparent,
       builder: (ctx) => _EditSalarySheet(
+        financeProvider: financeProvider,
+        l10n: l10n,
+        onSaved: () {
+          if (mounted) setState(() {});
+        },
+      ),
+    );
+  }
+
+  void _showEditWorkHoursSheet(
+    BuildContext context,
+    AppLocalizations l10n,
+    FinanceProvider financeProvider,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      barrierColor: Colors.black.withOpacity(0.85),
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => _EditWorkHoursSheet(
         financeProvider: financeProvider,
         l10n: l10n,
         onSaved: () {
@@ -672,99 +705,183 @@ class _ProfileModalState extends State<ProfileModal> {
   ) {
     final isLinked = authService.isLinkedWithGoogle;
 
-    return GestureDetector(
-      onTap: isLinked || _isLinkingGoogle
-          ? null
-          : () => _linkGoogleAccount(authService, l10n),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: context.appColors.surfaceLight,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: !isLinked && !_isLinkingGoogle
-                ? context.appColors.warning.withValues(alpha: 0.5)
-                : context.appColors.cardBorder,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: isLinked
+                ? LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      context.appColors.success.withValues(alpha: 0.15),
+                      context.appColors.success.withValues(alpha: 0.05),
+                    ],
+                  )
+                : LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      context.appColors.primary.withValues(alpha: 0.15),
+                      context.appColors.primary.withValues(alpha: 0.05),
+                    ],
+                  ),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isLinked
+                  ? context.appColors.success.withValues(alpha: 0.3)
+                  : context.appColors.primary.withValues(alpha: 0.3),
+              width: 1.5,
+            ),
           ),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: isLinked
-                    ? context.appColors.success.withValues(alpha: 0.15)
-                    : context.appColors.warning.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: _isLinkingGoogle
-                  ? Center(
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: context.appColors.primary,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: isLinked || _isLinkingGoogle
+                  ? null
+                  : () => _linkGoogleAccount(authService, l10n),
+              borderRadius: BorderRadius.circular(20),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    // Google Logo Container
+                    Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.1),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: _isLinkingGoogle
+                          ? Center(
+                              child: SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.5,
+                                  valueColor: AlwaysStoppedAnimation(
+                                    context.appColors.primary,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const Center(
+                              child: FaIcon(
+                                FontAwesomeIcons.google,
+                                size: 22,
+                                color: Color(0xFF4285F4), // Google Blue
+                              ),
+                            ),
+                    ),
+                    const SizedBox(width: 16),
+                    // Text Content
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Google',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: context.appColors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            isLinked
+                                ? l10n.profileGoogleConnected
+                                : l10n.dataNotBackedUp,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: isLinked
+                                  ? context.appColors.success
+                                  : context.appColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Status / Action Button
+                    if (_isLinkingGoogle)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: context.appColors.surfaceLight,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          l10n.linking,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: context.appColors.textSecondary,
+                          ),
+                        ),
+                      )
+                    else if (isLinked)
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: context.appColors.success.withValues(alpha: 0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          PhosphorIconsBold.check,
+                          size: 18,
+                          color: context.appColors.success,
+                        ),
+                      )
+                    else
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              context.appColors.primary,
+                              context.appColors.primaryDark,
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: context.appColors.primary.withValues(alpha: 0.4),
+                              blurRadius: 8,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          l10n.linkWithGoogle,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    )
-                  : Icon(
-                      PhosphorIconsDuotone.googleLogo,
-                      size: 20,
-                      color: isLinked
-                          ? context.appColors.success
-                          : context.appColors.warning,
-                    ),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    isLinked
-                        ? l10n.profileGoogleConnected
-                        : l10n.profileGoogleNotConnected,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: isLinked
-                          ? context.appColors.success
-                          : context.appColors.textPrimary,
-                    ),
-                  ),
-                  if (!isLinked && !_isLinkingGoogle) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      l10n.dataNotBackedUp,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: context.appColors.warning,
-                      ),
-                    ),
                   ],
-                ],
+                ),
               ),
             ),
-            if (_isLinkingGoogle)
-              Text(
-                '...',
-                style: TextStyle(color: context.appColors.textTertiary),
-              )
-            else if (isLinked)
-              Icon(
-                PhosphorIconsDuotone.checkCircle,
-                size: 20,
-                color: context.appColors.success,
-              )
-            else
-              Icon(
-                PhosphorIconsDuotone.caretRight,
-                size: 20,
-                color: context.appColors.warning,
-              ),
-          ],
+          ),
         ),
       ),
     );
@@ -835,6 +952,270 @@ class _ProfileModalState extends State<ProfileModal> {
     } finally {
       if (mounted) {
         setState(() => _isLinkingGoogle = false);
+      }
+    }
+  }
+
+  Widget _buildAppleStatus(
+    BuildContext context,
+    AuthService authService,
+    AppLocalizations l10n,
+  ) {
+    final isLinked = authService.isLinkedWithApple;
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: isLinked
+                ? LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      context.appColors.success.withValues(alpha: 0.15),
+                      context.appColors.success.withValues(alpha: 0.05),
+                    ],
+                  )
+                : LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      context.appColors.textPrimary.withValues(alpha: 0.1),
+                      context.appColors.textPrimary.withValues(alpha: 0.03),
+                    ],
+                  ),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isLinked
+                  ? context.appColors.success.withValues(alpha: 0.3)
+                  : context.appColors.textSecondary.withValues(alpha: 0.2),
+              width: 1.5,
+            ),
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: isLinked || _isLinkingApple
+                  ? null
+                  : () => _linkAppleAccount(authService, l10n),
+              borderRadius: BorderRadius.circular(20),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    // Apple Logo Container
+                    Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: _isLinkingApple
+                          ? Center(
+                              child: SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.5,
+                                  valueColor: const AlwaysStoppedAnimation(
+                                    Colors.white,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const Center(
+                              child: FaIcon(
+                                FontAwesomeIcons.apple,
+                                size: 24,
+                                color: Colors.white,
+                              ),
+                            ),
+                    ),
+                    const SizedBox(width: 16),
+                    // Text Content
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Apple',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: context.appColors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            isLinked
+                                ? l10n.profileAppleConnected
+                                : l10n.profileAppleNotConnected,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: isLinked
+                                  ? context.appColors.success
+                                  : context.appColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Status / Action Button
+                    if (_isLinkingApple)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: context.appColors.surfaceLight,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          l10n.linking,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: context.appColors.textSecondary,
+                          ),
+                        ),
+                      )
+                    else if (isLinked)
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: context.appColors.success.withValues(alpha: 0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          PhosphorIconsBold.check,
+                          size: 18,
+                          color: context.appColors.success,
+                        ),
+                      )
+                    else
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.3),
+                              blurRadius: 8,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const FaIcon(
+                              FontAwesomeIcons.apple,
+                              size: 14,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              l10n.linkWithApple,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _linkAppleAccount(
+    AuthService authService,
+    AppLocalizations l10n,
+  ) async {
+    setState(() => _isLinkingApple = true);
+    HapticFeedback.mediumImpact();
+
+    try {
+      final result = await authService.signInWithApple();
+
+      if (!mounted) return;
+
+      if (result.success) {
+        HapticFeedback.heavyImpact();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle, color: Colors.white, size: 20),
+                const SizedBox(width: 12),
+                Expanded(child: Text(l10n.appleLinkedSuccess)),
+              ],
+            ),
+            backgroundColor: context.appColors.success,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+        // Refresh UI to show linked status
+        setState(() {});
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.error_outline, color: Colors.white, size: 20),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(result.errorMessage ?? l10n.appleLinkFailed),
+                ),
+              ],
+            ),
+            backgroundColor: context.appColors.error,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.appleLinkFailed),
+            backgroundColor: context.appColors.error,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLinkingApple = false);
       }
     }
   }
@@ -1348,6 +1729,303 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                                     color: _canSave
                                         ? context.appColors.background
                                         : context.appColors.textTertiary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ============================================================================
+// EDIT WORK HOURS SHEET
+// ============================================================================
+
+class _EditWorkHoursSheet extends StatefulWidget {
+  final FinanceProvider financeProvider;
+  final AppLocalizations l10n;
+  final VoidCallback onSaved;
+
+  const _EditWorkHoursSheet({
+    required this.financeProvider,
+    required this.l10n,
+    required this.onSaved,
+  });
+
+  @override
+  State<_EditWorkHoursSheet> createState() => _EditWorkHoursSheetState();
+}
+
+class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
+  final _profileService = ProfileService();
+  late double _selectedHours;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedHours = widget.financeProvider.userProfile?.dailyHours ?? 8;
+  }
+
+  Future<void> _saveWorkHours() async {
+    if (_isLoading) return;
+
+    setState(() => _isLoading = true);
+    HapticFeedback.mediumImpact();
+
+    try {
+      final profile = widget.financeProvider.userProfile;
+      if (profile == null) return;
+
+      final updatedProfile = profile.copyWith(dailyHours: _selectedHours);
+      await _profileService.saveProfile(updatedProfile);
+
+      if (mounted) {
+        widget.financeProvider.setUserProfile(updatedProfile);
+        widget.onSaved();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(widget.l10n.workHoursUpdated),
+            backgroundColor: context.appColors.success,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: context.appColors.error,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = widget.l10n;
+    final bottomPadding = MediaQuery.of(context).viewInsets.bottom;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: context.appColors.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(20, 12, 20, 20 + bottomPadding),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Handle bar
+                  Center(
+                    child: Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: context.appColors.textTertiary.withValues(
+                          alpha: 0.3,
+                        ),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Header
+                  Row(
+                    children: [
+                      Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: context.appColors.primary.withValues(
+                            alpha: 0.15,
+                          ),
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Icon(
+                          PhosphorIconsDuotone.clock,
+                          color: context.appColors.primary,
+                          size: 24,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.editWorkHours,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: context.appColors.textPrimary,
+                              ),
+                            ),
+                            Text(
+                              l10n.editWorkHoursSubtitle,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: context.appColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+
+                  // Hours Display
+                  Center(
+                    child: Text(
+                      l10n.hoursPerDay(_selectedHours.toStringAsFixed(1)),
+                      style: TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.w800,
+                        color: context.appColors.textPrimary,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Slider
+                  SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      activeTrackColor: context.appColors.primary,
+                      inactiveTrackColor: context.appColors.surfaceLight,
+                      thumbColor: context.appColors.primary,
+                      overlayColor: context.appColors.primary.withValues(alpha: 0.2),
+                      trackHeight: 8,
+                      thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 14),
+                    ),
+                    child: Slider(
+                      value: _selectedHours,
+                      min: 1,
+                      max: 16,
+                      divisions: 30,
+                      onChanged: (value) {
+                        HapticFeedback.selectionClick();
+                        setState(() => _selectedHours = value);
+                      },
+                    ),
+                  ),
+
+                  // Quick select buttons
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [4.0, 6.0, 8.0, 10.0, 12.0].map((hours) {
+                      final isSelected = _selectedHours == hours;
+                      return GestureDetector(
+                        onTap: () {
+                          HapticFeedback.selectionClick();
+                          setState(() => _selectedHours = hours);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? context.appColors.primary
+                                : context.appColors.surfaceLight,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: isSelected
+                                  ? context.appColors.primary
+                                  : context.appColors.cardBorder,
+                            ),
+                          ),
+                          child: Text(
+                            '${hours.toInt()}h',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: isSelected
+                                  ? context.appColors.background
+                                  : context.appColors.textSecondary,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Save Button
+                  GestureDetector(
+                    onTap: _isLoading ? null : _saveWorkHours,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      decoration: BoxDecoration(
+                        color: context.appColors.primary,
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: [
+                          BoxShadow(
+                            color: context.appColors.primary.withValues(
+                              alpha: 0.3,
+                            ),
+                            blurRadius: 16,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      child: _isLoading
+                          ? Center(
+                              child: SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation(
+                                    context.appColors.background,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  PhosphorIconsBold.check,
+                                  size: 20,
+                                  color: context.appColors.background,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  l10n.save,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: context.appColors.background,
                                   ),
                                 ),
                               ],

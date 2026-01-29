@@ -538,6 +538,49 @@ class AppLocalizationsTr extends AppLocalizations {
   String get googleLinkFailed => 'Google hesabı bağlanamadı';
 
   @override
+  String get appleAccount => 'Apple Hesabı';
+
+  @override
+  String get appleLinked => 'Apple Bağlandı';
+
+  @override
+  String get appleNotLinked => 'Apple Bağlı Değil';
+
+  @override
+  String get linkWithApple => 'Apple ile Bağla';
+
+  @override
+  String get profileAppleConnected => 'Apple Hesabı Bağlı';
+
+  @override
+  String get profileAppleNotConnected => 'Apple Hesabı Bağlı Değil';
+
+  @override
+  String get appleLinkedSuccess => 'Apple hesabı başarıyla bağlandı!';
+
+  @override
+  String get appleLinkFailed => 'Apple hesabı bağlanamadı';
+
+  @override
+  String get appleSignInNotAvailable =>
+      'Apple ile giriş bu cihazda kullanılamıyor';
+
+  @override
+  String get editWorkHours => 'Çalışma Saati';
+
+  @override
+  String get editWorkHoursSubtitle =>
+      'Zaman hesaplamaları için günlük çalışma saatiniz';
+
+  @override
+  String hoursPerDay(String hours) {
+    return '$hours saat/gün';
+  }
+
+  @override
+  String get workHoursUpdated => 'Çalışma saati güncellendi';
+
+  @override
   String get freeCurrencyNote =>
       'Ücretsiz kullanıcılar sadece TL kullanabilir. Tüm para birimleri için Pro\'ya yükseltin.';
 
