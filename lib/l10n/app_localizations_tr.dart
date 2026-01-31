@@ -5869,4 +5869,8 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get statementImport => 'Ekstre İçe Aktarma';
+
+  @override
+  String get subscriptionAutoRenewalNotice =>
+      'Abonelik, mevcut dönem sona ermeden en az 24 saat önce iptal edilmediği sürece otomatik olarak yenilenir. Abonelikleri Ayarlar\'dan yönetin.';
 }

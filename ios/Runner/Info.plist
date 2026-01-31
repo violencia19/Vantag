@@ -48,7 +48,7 @@
 
 	<!-- Face ID / Biometric Authentication -->
 	<key>NSFaceIDUsageDescription</key>
-	<string>Uygulamanin kilidini acmak icin Face ID kullanin</string>
+	<string>Use Face ID to unlock the app</string>
 
 	<!-- Camera & Photo Library for Receipt Scanning -->
 	<key>NSCameraUsageDescription</key>

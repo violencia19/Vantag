@@ -5881,4 +5881,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statementImport => 'Statement Import';
+
+  @override
+  String get subscriptionAutoRenewalNotice =>
+      'Subscription automatically renews unless canceled at least 24 hours before the end of the current period. Manage subscriptions in Settings.';
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vantag/l10n/app_localizations.dart';
+import 'package:vantag/providers/locale_provider.dart';
 import 'package:vantag/services/purchase_service.dart';
 import 'package:vantag/theme/app_theme.dart';
 
@@ -229,6 +232,21 @@ class _PaywallScreenState extends State<PaywallScreen>
                       _buildTrustIndicators(l10n),
                       const SizedBox(height: 16),
 
+                      // Auto-renewal disclosure (Apple App Store requirement)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          l10n.subscriptionAutoRenewalNotice,
+                          style: TextStyle(
+                            color: context.appColors.textTertiary,
+                            fontSize: 10,
+                            height: 1.4,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
                       // Restore purchases
                       TextButton(
                         onPressed: _isPurchasing ? null : _restorePurchases,
@@ -247,7 +265,12 @@ class _PaywallScreenState extends State<PaywallScreen>
                         children: [
                           TextButton(
                             onPressed: () {
-                              // Privacy policy link
+                              final localeProvider = context.read<LocaleProvider>();
+                              final langCode = localeProvider.locale?.languageCode ?? 'tr';
+                              final privacyUrl = langCode == 'tr'
+                                  ? 'https://violencia19.github.io/Vantag/privacy-tr'
+                                  : 'https://violencia19.github.io/Vantag/privacy-en';
+                              launchUrl(Uri.parse(privacyUrl));
                             },
                             child: Text(
                               l10n.privacyPolicy,
@@ -265,7 +288,12 @@ class _PaywallScreenState extends State<PaywallScreen>
                           ),
                           TextButton(
                             onPressed: () {
-                              // Terms of use link
+                              final localeProvider = context.read<LocaleProvider>();
+                              final langCode = localeProvider.locale?.languageCode ?? 'tr';
+                              final termsUrl = langCode == 'tr'
+                                  ? 'https://violencia19.github.io/Vantag/terms-tr'
+                                  : 'https://violencia19.github.io/Vantag/terms-en';
+                              launchUrl(Uri.parse(termsUrl));
                             },
                             child: Text(
                               l10n.termsOfService,

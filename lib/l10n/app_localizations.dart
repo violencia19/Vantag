@@ -10713,6 +10713,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Statement Import'**
   String get statementImport;
+
+  /// Apple App Store required auto-renewal disclosure
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription automatically renews unless canceled at least 24 hours before the end of the current period. Manage subscriptions in Settings.'**
+  String get subscriptionAutoRenewalNotice;
 }
 
 class _AppLocalizationsDelegate

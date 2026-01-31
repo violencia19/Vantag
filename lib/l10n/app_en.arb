@@ -3068,5 +3068,10 @@
   "dailyLimits": "Daily Limits",
   "aiChat": "AI Chat",
   "voiceInput": "Voice Input",
-  "statementImport": "Statement Import"
+  "statementImport": "Statement Import",
+
+  "subscriptionAutoRenewalNotice": "Subscription automatically renews unless canceled at least 24 hours before the end of the current period. Manage subscriptions in Settings.",
+  "@subscriptionAutoRenewalNotice": {
+    "description": "Apple App Store required auto-renewal disclosure"
+  }
 }

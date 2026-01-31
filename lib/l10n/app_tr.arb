@@ -2702,5 +2702,10 @@
   "dailyLimits": "Günlük Limitler",
   "aiChat": "AI Sohbet",
   "voiceInput": "Sesli Giriş",
-  "statementImport": "Ekstre İçe Aktarma"
+  "statementImport": "Ekstre İçe Aktarma",
+
+  "subscriptionAutoRenewalNotice": "Abonelik, mevcut dönem sona ermeden en az 24 saat önce iptal edilmediği sürece otomatik olarak yenilenir. Abonelikleri Ayarlar'dan yönetin.",
+  "@subscriptionAutoRenewalNotice": {
+    "description": "Apple App Store required auto-renewal disclosure"
+  }
 }
