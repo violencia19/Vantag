@@ -1,7 +1,7 @@
 import 'dart:math' as math;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../screens/voice_input_screen.dart';
 import '../theme/theme.dart';
@@ -60,8 +60,8 @@ class VoiceInputButton extends StatelessWidget {
             ],
           ),
           child: Center(
-            child: PhosphorIcon(
-              PhosphorIconsFill.microphone,
+            child: Icon(
+              CupertinoIcons.mic_fill,
               color: Colors.white,
               size: size * 0.45,
             ),
@@ -119,8 +119,8 @@ class CompactVoiceButton extends StatelessWidget {
             ],
           ),
           child: Center(
-            child: PhosphorIcon(
-              PhosphorIconsFill.microphone,
+            child: Icon(
+              CupertinoIcons.mic_fill,
               color: Colors.white,
               size: size * 0.5,
             ),
@@ -227,10 +227,10 @@ class _AnimatedVoiceButtonState extends State<AnimatedVoiceButton>
                   ],
                 ),
                 child: Center(
-                  child: PhosphorIcon(
+                  child: Icon(
                     widget.isListening
-                        ? PhosphorIconsFill.stop
-                        : PhosphorIconsFill.microphone,
+                        ? CupertinoIcons.stop_fill
+                        : CupertinoIcons.mic_fill,
                     color: Colors.white,
                     size: widget.size * 0.4,
                   ),

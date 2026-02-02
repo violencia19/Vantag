@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -194,7 +194,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
     final l10n = AppLocalizations.of(context);
     final picked = await showDatePicker(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       initialDate: _selectedDate,
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now(),
@@ -304,19 +304,19 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: context.appColors.surfaceLight,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: context.appColors.cardBorder),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: _selectedCurrencyCode,
           icon: Icon(
-            PhosphorIconsFill.caretDown,
+            CupertinoIcons.chevron_down,
             size: 14,
             color: context.appColors.textSecondary,
           ),
           dropdownColor: context.appColors.cardBackground,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
@@ -416,15 +416,15 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
               vertical: 14,
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(color: context.appColors.cardBorder),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(color: context.appColors.cardBorder),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(
                 color: context.appColors.primary,
                 width: 1.5,
@@ -434,7 +434,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                 ? Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: Icon(
-                      PhosphorIconsDuotone.sparkle,
+                      CupertinoIcons.sparkles,
                       size: 18,
                       color: context.appColors.success,
                     ),
@@ -454,7 +454,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
               scale: _smartMatchActive ? _smartMatchScale.value : 1.0,
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                   boxShadow: _smartMatchActive
                       ? [
                           BoxShadow(
@@ -520,7 +520,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                       vertical: 14,
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
                         color: _categoryValidationError
                             ? context.appColors.error
@@ -528,7 +528,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
                         color: _categoryValidationError
                             ? context.appColors.error
@@ -541,7 +541,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
                         color: context.appColors.primary,
                         width: 1.5,
@@ -566,7 +566,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
             child: Row(
               children: [
                 Icon(
-                  PhosphorIconsDuotone.sparkle,
+                  CupertinoIcons.sparkles,
                   size: 14,
                   color: context.appColors.success,
                 ),
@@ -608,15 +608,15 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
               vertical: 14,
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(color: context.appColors.cardBorder),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(color: context.appColors.cardBorder),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(
                 color: context.appColors.primary,
                 width: 1.5,
@@ -641,13 +641,13 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
               color: context.appColors.surfaceLight,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(color: context.appColors.cardBorder),
             ),
             child: Row(
               children: [
                 Icon(
-                  PhosphorIconsDuotone.calendar,
+                  CupertinoIcons.calendar,
                   size: 20,
                   color: context.appColors.textSecondary,
                 ),
@@ -676,7 +676,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
                   ),
                 ),
                 Icon(
-                  PhosphorIconsDuotone.caretRight,
+                  CupertinoIcons.chevron_right,
                   color: context.appColors.textTertiary,
                 ),
               ],
@@ -696,7 +696,7 @@ class ExpenseFormContentState extends State<ExpenseFormContent>
               foregroundColor: context.appColors.background,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
               elevation: 0,
             ),
@@ -788,7 +788,7 @@ class _SubCatChip extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 4),
                 child: Icon(
-                  PhosphorIconsDuotone.clockCounterClockwise,
+                  CupertinoIcons.clock_fill,
                   size: 12,
                   color: context.appColors.primary.withValues(alpha: 0.7),
                 ),

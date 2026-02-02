@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/providers.dart';
+import '../services/analytics_service.dart';
 import '../theme/quiet_luxury.dart';
 import '../utils/emoji_helper.dart';
 import 'upgrade_dialog.dart';
@@ -188,7 +189,7 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         disabledBackgroundColor: QuietLuxury.positive
                             .withValues(alpha: 0.5),
@@ -242,21 +243,21 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
       filled: true,
       fillColor: QuietLuxury.cardBackground,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(color: QuietLuxury.cardBorder),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(color: QuietLuxury.cardBorder),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(
           color: QuietLuxury.positive.withValues(alpha: 0.5),
         ),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(color: QuietLuxury.negative),
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -289,7 +290,7 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                 color: isSelected
                     ? QuietLuxury.positive.withValues(alpha: 0.2)
                     : QuietLuxury.cardBackground,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(24),
                 border: Border.all(
                   color: isSelected
                       ? QuietLuxury.positive.withValues(alpha: 0.5)
@@ -413,6 +414,13 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
           return;
         }
 
+        // Track pursuit created
+        AnalyticsService().logPursuitCreatedSimple();
+        AnalyticsService().logPursuitCreated(
+          category: _selectedCategory.name,
+          targetAmount: targetAmount,
+        );
+
         HapticFeedback.mediumImpact();
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -421,7 +429,7 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
               backgroundColor: QuietLuxury.positive,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
           );
@@ -487,7 +495,7 @@ Future<bool?> showCreatePursuitSheet(BuildContext context, {Pursuit? pursuit}) {
   return showModalBottomSheet<bool>(
     context: context,
     isScrollControlled: true,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     backgroundColor: Colors.transparent,
     builder: (_) => CreatePursuitSheet(pursuit: pursuit),
   );

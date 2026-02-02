@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import '../providers/currency_provider.dart';
 
@@ -347,7 +347,7 @@ class _GradientButtonState extends State<GradientButton>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (widget.icon != null) ...[
-                            PhosphorIcon(
+                            Icon(
                               widget.icon!,
                               color: Colors.white,
                               size: 22,
@@ -406,7 +406,7 @@ class GlowingIcon extends StatelessWidget {
         ],
       ),
       child: Center(
-        child: PhosphorIcon(icon, color: color, size: size),
+        child: Icon(icon, color: color, size: size),
       ),
     );
   }
@@ -593,111 +593,108 @@ class PremiumStatCard extends StatelessWidget {
   }
 }
 
-/// Phosphor Icons Mapping (Lucide → Phosphor Duotone)
+/// Cupertino Icons Mapping
 class PremiumIcons {
   PremiumIcons._();
 
   // Navigation
-  static PhosphorIconData get home => PhosphorIconsDuotone.house;
-  static PhosphorIconData get chart => PhosphorIconsDuotone.chartBar;
-  static PhosphorIconData get trophy => PhosphorIconsDuotone.trophy;
-  static PhosphorIconData get user => PhosphorIconsDuotone.user;
-  static PhosphorIconData get plus => PhosphorIconsDuotone.plus;
-  static PhosphorIconData get plusCircle => PhosphorIconsDuotone.plusCircle;
+  static IconData get home => CupertinoIcons.house_fill;
+  static IconData get chart => CupertinoIcons.chart_bar_fill;
+  static IconData get trophy => CupertinoIcons.rosette;
+  static IconData get user => CupertinoIcons.person_fill;
+  static IconData get plus => CupertinoIcons.plus;
+  static IconData get plusCircle => CupertinoIcons.plus_circle_fill;
 
   // Finance
-  static PhosphorIconData get wallet => PhosphorIconsDuotone.wallet;
-  static PhosphorIconData get money => PhosphorIconsDuotone.money;
-  static PhosphorIconData get creditCard => PhosphorIconsDuotone.creditCard;
-  static PhosphorIconData get bank => PhosphorIconsDuotone.bank;
-  static PhosphorIconData get piggyBank => PhosphorIconsDuotone.piggyBank;
-  static PhosphorIconData get coins => PhosphorIconsDuotone.coins;
-  static PhosphorIconData get currencyDollar =>
-      PhosphorIconsDuotone.currencyDollar;
-  static PhosphorIconData get trendUp => PhosphorIconsDuotone.trendUp;
-  static PhosphorIconData get trendDown => PhosphorIconsDuotone.trendDown;
-  static PhosphorIconData get receipt => PhosphorIconsDuotone.receipt;
+  static IconData get wallet => CupertinoIcons.creditcard_fill;
+  static IconData get money => CupertinoIcons.money_dollar;
+  static IconData get creditCard => CupertinoIcons.creditcard_fill;
+  static IconData get bank => CupertinoIcons.building_2_fill;
+  static IconData get piggyBank => CupertinoIcons.money_dollar_circle_fill;
+  static IconData get coins => CupertinoIcons.bitcoin_circle_fill;
+  static IconData get currencyDollar => CupertinoIcons.money_dollar;
+  static IconData get trendUp => CupertinoIcons.arrow_up_right;
+  static IconData get trendDown => CupertinoIcons.arrow_down_right;
+  static IconData get receipt => CupertinoIcons.doc_text_fill;
 
   // Actions
-  static PhosphorIconData get check => PhosphorIconsDuotone.check;
-  static PhosphorIconData get checkCircle => PhosphorIconsDuotone.checkCircle;
-  static PhosphorIconData get x => PhosphorIconsDuotone.x;
-  static PhosphorIconData get xCircle => PhosphorIconsDuotone.xCircle;
-  static PhosphorIconData get edit => PhosphorIconsDuotone.pencilSimple;
-  static PhosphorIconData get delete => PhosphorIconsDuotone.trash;
-  static PhosphorIconData get settings => PhosphorIconsDuotone.gear;
-  static PhosphorIconData get share => PhosphorIconsDuotone.shareNetwork;
-  static PhosphorIconData get download => PhosphorIconsDuotone.downloadSimple;
-  static PhosphorIconData get refresh => PhosphorIconsDuotone.arrowClockwise;
+  static IconData get check => CupertinoIcons.checkmark;
+  static IconData get checkCircle => CupertinoIcons.checkmark_circle_fill;
+  static IconData get x => CupertinoIcons.xmark;
+  static IconData get xCircle => CupertinoIcons.xmark_circle_fill;
+  static IconData get edit => CupertinoIcons.pencil;
+  static IconData get delete => CupertinoIcons.trash_fill;
+  static IconData get settings => CupertinoIcons.gear_alt_fill;
+  static IconData get share => CupertinoIcons.share;
+  static IconData get download => CupertinoIcons.arrow_down_circle_fill;
+  static IconData get refresh => CupertinoIcons.arrow_clockwise;
 
   // Time & Calendar
-  static PhosphorIconData get calendar => PhosphorIconsDuotone.calendar;
-  static PhosphorIconData get calendarCheck =>
-      PhosphorIconsDuotone.calendarCheck;
-  static PhosphorIconData get clock => PhosphorIconsDuotone.clock;
-  static PhosphorIconData get timer => PhosphorIconsDuotone.timer;
-  static PhosphorIconData get hourglass => PhosphorIconsDuotone.hourglass;
+  static IconData get calendar => CupertinoIcons.calendar;
+  static IconData get calendarCheck => CupertinoIcons.calendar_badge_plus;
+  static IconData get clock => CupertinoIcons.clock_fill;
+  static IconData get timer => CupertinoIcons.timer;
+  static IconData get hourglass => CupertinoIcons.hourglass;
 
   // Categories
-  static PhosphorIconData get food => PhosphorIconsDuotone.forkKnife;
-  static PhosphorIconData get shopping => PhosphorIconsDuotone.shoppingCart;
-  static PhosphorIconData get transport => PhosphorIconsDuotone.car;
-  static PhosphorIconData get entertainment =>
-      PhosphorIconsDuotone.gameController;
-  static PhosphorIconData get health => PhosphorIconsDuotone.heartbeat;
-  static PhosphorIconData get education => PhosphorIconsDuotone.graduationCap;
-  static PhosphorIconData get home_ => PhosphorIconsDuotone.house;
-  static PhosphorIconData get utilities => PhosphorIconsDuotone.lightning;
-  static PhosphorIconData get subscription => PhosphorIconsDuotone.repeat;
-  static PhosphorIconData get gift => PhosphorIconsDuotone.gift;
-  static PhosphorIconData get travel => PhosphorIconsDuotone.airplane;
-  static PhosphorIconData get coffee => PhosphorIconsDuotone.coffee;
+  static IconData get food => CupertinoIcons.cart_fill;
+  static IconData get shopping => CupertinoIcons.bag_fill;
+  static IconData get transport => CupertinoIcons.car_fill;
+  static IconData get entertainment => CupertinoIcons.gamecontroller_fill;
+  static IconData get health => CupertinoIcons.heart_fill;
+  static IconData get education => CupertinoIcons.book_fill;
+  static IconData get home_ => CupertinoIcons.house_fill;
+  static IconData get utilities => CupertinoIcons.bolt_fill;
+  static IconData get subscription => CupertinoIcons.repeat;
+  static IconData get gift => CupertinoIcons.gift_fill;
+  static IconData get travel => CupertinoIcons.airplane;
+  static IconData get coffee => CupertinoIcons.cart_fill;
 
   // Misc
-  static PhosphorIconData get fire => PhosphorIconsDuotone.flame;
-  static PhosphorIconData get lightning => PhosphorIconsDuotone.lightning;
-  static PhosphorIconData get star => PhosphorIconsDuotone.star;
-  static PhosphorIconData get heart => PhosphorIconsDuotone.heart;
-  static PhosphorIconData get bell => PhosphorIconsDuotone.bell;
-  static PhosphorIconData get info => PhosphorIconsDuotone.info;
-  static PhosphorIconData get warning => PhosphorIconsDuotone.warning;
-  static PhosphorIconData get question => PhosphorIconsDuotone.question;
-  static PhosphorIconData get link => PhosphorIconsDuotone.link;
-  static PhosphorIconData get lock => PhosphorIconsDuotone.lock;
-  static PhosphorIconData get unlock => PhosphorIconsDuotone.lockOpen;
-  static PhosphorIconData get eye => PhosphorIconsDuotone.eye;
-  static PhosphorIconData get eyeOff => PhosphorIconsDuotone.eyeSlash;
-  static PhosphorIconData get camera => PhosphorIconsDuotone.camera;
-  static PhosphorIconData get image => PhosphorIconsDuotone.image;
-  static PhosphorIconData get sparkle => PhosphorIconsDuotone.sparkle;
-  static PhosphorIconData get confetti => PhosphorIconsDuotone.confetti;
-  static PhosphorIconData get target => PhosphorIconsDuotone.target;
-  static PhosphorIconData get rocket => PhosphorIconsDuotone.rocket;
-  static PhosphorIconData get crown => PhosphorIconsDuotone.crown;
-  static PhosphorIconData get shield => PhosphorIconsDuotone.shield;
-  static PhosphorIconData get arrowLeft => PhosphorIconsDuotone.arrowLeft;
-  static PhosphorIconData get arrowRight => PhosphorIconsDuotone.arrowRight;
-  static PhosphorIconData get chevronDown => PhosphorIconsDuotone.caretDown;
-  static PhosphorIconData get chevronUp => PhosphorIconsDuotone.caretUp;
-  static PhosphorIconData get chevronLeft => PhosphorIconsDuotone.caretLeft;
-  static PhosphorIconData get chevronRight => PhosphorIconsDuotone.caretRight;
-  static PhosphorIconData get menu => PhosphorIconsDuotone.list;
-  static PhosphorIconData get more => PhosphorIconsDuotone.dotsThree;
-  static PhosphorIconData get search => PhosphorIconsDuotone.magnifyingGlass;
-  static PhosphorIconData get filter => PhosphorIconsDuotone.funnel;
-  static PhosphorIconData get sort => PhosphorIconsDuotone.sortAscending;
-  static PhosphorIconData get google => PhosphorIconsDuotone.googleLogo;
-  static PhosphorIconData get globe => PhosphorIconsDuotone.globe;
-  static PhosphorIconData get language => PhosphorIconsDuotone.translate;
-  static PhosphorIconData get moon => PhosphorIconsDuotone.moon;
-  static PhosphorIconData get sun => PhosphorIconsDuotone.sun;
-  static PhosphorIconData get chatBubble => PhosphorIconsDuotone.chatCircle;
-  static PhosphorIconData get help => PhosphorIconsDuotone.lifebuoy;
-  static PhosphorIconData get signOut => PhosphorIconsDuotone.signOut;
-  static PhosphorIconData get briefcase => PhosphorIconsDuotone.briefcase;
-  static PhosphorIconData get building => PhosphorIconsDuotone.buildings;
-  static PhosphorIconData get handCoins => PhosphorIconsDuotone.handCoins;
-  static PhosphorIconData get chartLine => PhosphorIconsDuotone.chartLine;
-  static PhosphorIconData get medal => PhosphorIconsDuotone.medal;
-  static PhosphorIconData get partyPopper => PhosphorIconsDuotone.confetti;
+  static IconData get fire => CupertinoIcons.flame_fill;
+  static IconData get lightning => CupertinoIcons.bolt_fill;
+  static IconData get star => CupertinoIcons.star_fill;
+  static IconData get heart => CupertinoIcons.heart_fill;
+  static IconData get bell => CupertinoIcons.bell_fill;
+  static IconData get info => CupertinoIcons.info_circle_fill;
+  static IconData get warning => CupertinoIcons.exclamationmark_triangle_fill;
+  static IconData get question => CupertinoIcons.question_circle_fill;
+  static IconData get link => CupertinoIcons.link;
+  static IconData get lock => CupertinoIcons.lock_fill;
+  static IconData get unlock => CupertinoIcons.lock_open_fill;
+  static IconData get eye => CupertinoIcons.eye_fill;
+  static IconData get eyeOff => CupertinoIcons.eye_slash_fill;
+  static IconData get camera => CupertinoIcons.camera_fill;
+  static IconData get image => CupertinoIcons.photo_fill;
+  static IconData get sparkle => CupertinoIcons.sparkles;
+  static IconData get confetti => CupertinoIcons.sparkles;
+  static IconData get target => CupertinoIcons.scope;
+  static IconData get rocket => CupertinoIcons.rocket_fill;
+  static IconData get crown => CupertinoIcons.star_circle_fill;
+  static IconData get shield => CupertinoIcons.shield_fill;
+  static IconData get arrowLeft => CupertinoIcons.arrow_left;
+  static IconData get arrowRight => CupertinoIcons.arrow_right;
+  static IconData get chevronDown => CupertinoIcons.chevron_down;
+  static IconData get chevronUp => CupertinoIcons.chevron_up;
+  static IconData get chevronLeft => CupertinoIcons.chevron_left;
+  static IconData get chevronRight => CupertinoIcons.chevron_right;
+  static IconData get menu => CupertinoIcons.line_horizontal_3;
+  static IconData get more => CupertinoIcons.ellipsis;
+  static IconData get search => CupertinoIcons.search;
+  static IconData get filter => CupertinoIcons.slider_horizontal_3;
+  static IconData get sort => CupertinoIcons.sort_down;
+  static IconData get google => CupertinoIcons.globe;
+  static IconData get globe => CupertinoIcons.globe;
+  static IconData get language => CupertinoIcons.textformat;
+  static IconData get moon => CupertinoIcons.moon_fill;
+  static IconData get sun => CupertinoIcons.sun_max_fill;
+  static IconData get chatBubble => CupertinoIcons.chat_bubble_fill;
+  static IconData get help => CupertinoIcons.question_circle_fill;
+  static IconData get signOut => CupertinoIcons.square_arrow_right;
+  static IconData get briefcase => CupertinoIcons.briefcase_fill;
+  static IconData get building => CupertinoIcons.building_2_fill;
+  static IconData get handCoins => CupertinoIcons.hand_raised_fill;
+  static IconData get chartLine => CupertinoIcons.graph_square_fill;
+  static IconData get medal => CupertinoIcons.rosette;
+  static IconData get partyPopper => CupertinoIcons.sparkles;
 }

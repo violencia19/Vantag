@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/finance_provider.dart';
@@ -115,7 +115,7 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.calendarCheck,
+                  CupertinoIcons.calendar_badge_plus,
                   size: 40,
                   color: context.appColors.primary,
                 ),
@@ -201,7 +201,7 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
                   ),
                   decoration: BoxDecoration(
                     color: context.appColors.surface,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: context.appColors.cardBorder),
                   ),
                   child: Row(
@@ -209,7 +209,7 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
-                        PhosphorIconsFill.calendarCheck,
+                        CupertinoIcons.calendar_badge_plus,
                         size: 20,
                         color: context.appColors.primary,
                       ),

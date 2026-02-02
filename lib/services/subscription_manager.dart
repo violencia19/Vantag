@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/theme/app_theme.dart';
 import '../models/models.dart';
 import 'subscription_service.dart';
@@ -236,9 +236,9 @@ class SubscriptionStats {
 
   /// Durum ikonu
   IconData get statusIcon {
-    if (renewingTodayCount > 0) return PhosphorIconsDuotone.bellRinging;
-    if (renewingTomorrowCount > 0) return PhosphorIconsDuotone.clock;
-    return PhosphorIconsDuotone.checkCircle;
+    if (renewingTodayCount > 0) return CupertinoIcons.bell_fill;
+    if (renewingTomorrowCount > 0) return CupertinoIcons.clock_fill;
+    return CupertinoIcons.checkmark_circle_fill;
   }
 }
 

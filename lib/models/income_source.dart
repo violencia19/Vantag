@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:vantag/theme/app_theme.dart';
 
@@ -18,15 +18,15 @@ enum IncomeCategory {
   IconData get icon {
     switch (this) {
       case IncomeCategory.salary:
-        return PhosphorIconsFill.briefcase;
+        return CupertinoIcons.briefcase_fill;
       case IncomeCategory.freelance:
-        return PhosphorIconsFill.laptop;
+        return CupertinoIcons.desktopcomputer;
       case IncomeCategory.rental:
-        return PhosphorIconsFill.house;
+        return CupertinoIcons.house_fill;
       case IncomeCategory.passive:
-        return PhosphorIconsFill.chartLineUp;
+        return CupertinoIcons.chart_bar_fill;
       case IncomeCategory.other:
-        return PhosphorIconsFill.coins;
+        return CupertinoIcons.money_dollar_circle_fill;
     }
   }
 

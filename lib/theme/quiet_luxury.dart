@@ -135,32 +135,36 @@ class QuietLuxury {
   // KART DEKORASYONLARI
   // ═══════════════════════════════════════════════════════
 
-  /// Glassmorphism kart dekorasyonu
+  /// Glassmorphism kart dekorasyonu (Revolut style)
   static BoxDecoration get cardDecoration => BoxDecoration(
-    color: cardBackground,
-    borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
-    border: Border.all(color: cardBorder, width: 0.5),
-    boxShadow: [
-      BoxShadow(color: shadowColor, blurRadius: 20, offset: const Offset(0, 8)),
-    ],
+    color: AppColors.surface,
+    borderRadius: BorderRadius.circular(AppDesign.radiusXLarge),
+    border: Border.all(
+      color: Colors.white.withValues(alpha: 0.06),
+      width: 1,
+    ),
+    boxShadow: AppDesign.shadowMedium,
   );
 
-  /// Premium kart dekorasyonu (gradient + purple glow)
+  /// Premium kart dekorasyonu (Revolut style)
   static BoxDecoration get premiumCardDecoration => BoxDecoration(
-    gradient: AppGradients.premiumCard,
-    borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
+    color: AppColors.surface,
+    borderRadius: BorderRadius.circular(AppDesign.radiusXLarge),
     border: Border.all(
-      color: AppColors.primary.withValues(alpha: 0.2),
-      width: 1.5,
+      color: Colors.white.withValues(alpha: 0.06),
+      width: 1,
     ),
-    boxShadow: AppDesign.premiumCardShadow,
+    boxShadow: AppDesign.cardShadow,
   );
 
   /// Subtle kart dekorasyonu (gölgesiz)
   static BoxDecoration get subtleCardDecoration => BoxDecoration(
-    color: cardBackground,
-    borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
-    border: Border.all(color: cardBorder, width: 0.5),
+    color: AppColors.surface,
+    borderRadius: BorderRadius.circular(AppDesign.radiusXLarge),
+    border: Border.all(
+      color: Colors.white.withValues(alpha: 0.06),
+      width: 1,
+    ),
   );
 
   /// Vurgulu kart dekorasyonu (pozitif)
@@ -183,7 +187,7 @@ class QuietLuxury {
   static BorderRadius get buttonRadius => BorderRadius.circular(AppDesign.radiusSmall);
 }
 
-/// Glassmorphism Card Widget
+/// Glassmorphism Card Widget (Revolut Style)
 class GlassCard extends StatelessWidget {
   final Widget child;
   final EdgeInsets? padding;
@@ -203,16 +207,16 @@ class GlassCard extends StatelessWidget {
     final effectiveDecoration = decoration ??
         (premium ? QuietLuxury.premiumCardDecoration : QuietLuxury.cardDecoration);
 
-    return Container(
-      decoration: effectiveDecoration,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Padding(
-            padding: padding ?? QuietLuxury.cardPadding,
-            child: child,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(AppDesign.radiusXLarge),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+        child: Container(
+          padding: padding ?? AppDesign.cardPaddingLarge,
+          decoration: effectiveDecoration.copyWith(
+            color: Colors.white.withValues(alpha: 0.05),
           ),
+          child: child,
         ),
       ),
     );

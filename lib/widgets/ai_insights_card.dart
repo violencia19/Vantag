@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
 import '../core/theme/premium_effects.dart';
@@ -60,7 +60,7 @@ class AIInsightsCard extends StatelessWidget {
     if (peakDay != null) {
       insights.add(
         _Insight(
-          icon: PhosphorIconsBold.calendarBlank,
+          icon: CupertinoIcons.calendar,
           iconColor: AppColors.premiumPurple,
           title: 'En Çok Harcama Günü',
           subtitle: peakDay,
@@ -73,7 +73,7 @@ class AIInsightsCard extends StatelessWidget {
     if (topCategory != null) {
       insights.add(
         _Insight(
-          icon: PhosphorIconsBold.target,
+          icon: CupertinoIcons.scope,
           iconColor: AppColors.premiumCyan,
           title: 'En Büyük Kategori',
           subtitle: topCategory,
@@ -87,8 +87,8 @@ class AIInsightsCard extends StatelessWidget {
       insights.add(
         _Insight(
           icon: comparison.isDown
-              ? PhosphorIconsBold.trendDown
-              : PhosphorIconsBold.trendUp,
+              ? CupertinoIcons.arrow_down_right
+              : CupertinoIcons.arrow_up_right,
           iconColor: comparison.isDown ? AppColors.success : AppColors.error,
           title: 'Bu Ay vs Geçen Ay',
           subtitle: comparison.text,
@@ -267,7 +267,7 @@ class _InsightCardState extends State<_InsightCard>
                       height: 44,
                       decoration: BoxDecoration(
                         color: widget.insight.iconColor.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
                             color: widget.insight.iconColor.withValues(

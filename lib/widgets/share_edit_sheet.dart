@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 import '../theme/app_theme.dart';
@@ -79,7 +79,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
                     onPressed: () => Navigator.pop(context),
                     tooltip: l10n.close,
                     icon: Icon(
-                      PhosphorIconsRegular.x,
+                      CupertinoIcons.xmark,
                       color: context.appColors.textPrimary,
                     ),
                   ),
@@ -112,7 +112,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
               children: [
                 // Duration - always on, cannot be changed
                 _buildToggleRow(
-                  PhosphorIconsDuotone.timer,
+                  CupertinoIcons.timer,
                   l10n.shareCardDuration(widget.yearlyDays),
                   true,
                   null,
@@ -121,7 +121,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
 
                 // Amount
                 _buildToggleRow(
-                  PhosphorIconsDuotone.coins,
+                  CupertinoIcons.money_dollar_circle,
                   l10n.shareCardAmountLabel(
                     _formatCurrency(widget.yearlyAmount),
                   ),
@@ -134,7 +134,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
 
                 // Frequency
                 _buildToggleRow(
-                  PhosphorIconsDuotone.calendarBlank,
+                  CupertinoIcons.calendar,
                   l10n.shareCardFrequency(widget.frequency),
                   showFrequency,
                   (val) {
@@ -183,7 +183,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(PhosphorIconsFill.shareFat, size: 22),
+                      const Icon(CupertinoIcons.share_solid, size: 22),
                       const SizedBox(width: 8),
                       Text(
                         l10n.share,
@@ -216,7 +216,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
           color: context.appColors.surfaceLight,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
           children: [
@@ -233,7 +233,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
             ),
             if (locked)
               const Icon(
-                PhosphorIconsDuotone.lock,
+                CupertinoIcons.lock_fill,
                 color: Color(0x60FFFFFF),
                 size: 20,
               )

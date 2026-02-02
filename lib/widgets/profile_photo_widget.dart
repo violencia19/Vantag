@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 
@@ -90,7 +90,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
   void _showOptions() {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -120,7 +120,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
               ),
               const SizedBox(height: 20),
               _buildOption(
-                icon: PhosphorIconsDuotone.camera,
+                icon: CupertinoIcons.camera,
                 label: 'Kameradan çek',
                 onTap: () {
                   Navigator.pop(context);
@@ -129,7 +129,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
               ),
               const SizedBox(height: 12),
               _buildOption(
-                icon: PhosphorIconsDuotone.image,
+                icon: CupertinoIcons.photo,
                 label: 'Galeriden seç',
                 onTap: () {
                   Navigator.pop(context);
@@ -139,7 +139,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
               if (_photoPath != null) ...[
                 const SizedBox(height: 12),
                 _buildOption(
-                  icon: PhosphorIconsDuotone.trash,
+                  icon: CupertinoIcons.trash,
                   label: 'Fotoğrafı kaldır',
                   isDestructive: true,
                   onTap: () {
@@ -169,14 +169,14 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: isDestructive
                 ? context.appColors.error.withValues(alpha: 0.1)
                 : context.appColors.surfaceLight,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
             children: [
@@ -242,14 +242,14 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                       height: widget.size,
                       errorBuilder: (context, error, stackTrace) {
                         return Icon(
-                          PhosphorIconsDuotone.user,
+                          CupertinoIcons.person,
                           size: widget.size * 0.48,
                           color: context.appColors.primary,
                         );
                       },
                     )
                   : Icon(
-                      PhosphorIconsDuotone.user,
+                      CupertinoIcons.person,
                       size: widget.size * 0.48,
                       color: context.appColors.primary,
                     ),
@@ -272,7 +272,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                   ),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.camera,
+                  CupertinoIcons.camera,
                   size: widget.size * 0.16,
                   color: context.appColors.background,
                 ),

@@ -8,6 +8,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:fvp/fvp.dart' as fvp;
 import 'firebase_options.dart';
@@ -15,6 +16,7 @@ import 'firebase_options.dart';
 import 'screens/screens.dart';
 import 'theme/theme.dart';
 import 'providers/providers.dart';
+import 'services/analytics_service.dart';
 import 'services/auth_service.dart';
 import 'services/expense_history_service.dart';
 import 'services/ai_service.dart';
@@ -43,19 +45,26 @@ void main() async {
       fvp.registerWith();
 
       // Load environment variables
+      bool envLoaded = false;
       try {
         await dotenv.load(fileName: ".env");
+        envLoaded = true;
         debugPrint("✅ .env dosyası yüklendi");
       } catch (e) {
-        debugPrint("❌ .env dosyası yüklenemedi: $e");
+        debugPrint("⚠️ .env dosyası yüklenemedi, AI özellikleri devre dışı: $e");
+        envLoaded = false;
       }
 
-      // Initialize AI Service (Memory + Models)
-      try {
-        await AIService().initialize();
-        debugPrint("✅ AI Service başlatıldı");
-      } catch (e) {
-        debugPrint("❌ AI Service hatası: $e");
+      // Initialize AI Service (Memory + Models) - only if env loaded
+      if (envLoaded) {
+        try {
+          await AIService().initialize();
+          debugPrint("✅ AI Service başlatıldı");
+        } catch (e) {
+          debugPrint("⚠️ AI Service başlatılamadı: $e");
+        }
+      } else {
+        debugPrint("ℹ️ AI Service atlandı (.env yüklenemedi)");
       }
 
       // Initialize RevenueCat for in-app purchases
@@ -110,6 +119,15 @@ void main() async {
         analytics = FirebaseAnalytics.instance;
         await analytics.setAnalyticsCollectionEnabled(true);
         debugPrint("✅ ADIM 2.2: Analytics Başarılı");
+
+        // Set first open date for cohort analysis (only on first launch)
+        final prefs = await SharedPreferences.getInstance();
+        final hasSetFirstOpen = prefs.getBool('has_set_first_open') ?? false;
+        if (!hasSetFirstOpen) {
+          await AnalyticsService().setUserFirstOpenDate();
+          await prefs.setBool('has_set_first_open', true);
+          debugPrint("✅ ADIM 2.3: First Open Date Set");
+        }
       } catch (e) {
         debugPrint("❌ HATA: Firebase Core Bağlanamadı: $e");
       }

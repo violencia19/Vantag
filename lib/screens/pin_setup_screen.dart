@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../services/lock_service.dart';
 import '../services/haptic_service.dart';
@@ -107,7 +107,7 @@ class _PinSetupScreenState extends State<PinSetupScreen>
           backgroundColor: context.appColors.success,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
           ),
         ),
       );
@@ -136,7 +136,7 @@ class _PinSetupScreenState extends State<PinSetupScreen>
         elevation: 0,
         leading: IconButton(
           icon: Icon(
-            PhosphorIconsRegular.arrowLeft,
+            CupertinoIcons.arrow_left,
             color: context.appColors.textPrimary,
           ),
           onPressed: () => Navigator.pop(context, false),
@@ -169,8 +169,8 @@ class _PinSetupScreenState extends State<PinSetupScreen>
                 ),
                 child: Icon(
                   _isConfirming
-                      ? PhosphorIconsFill.lockKey
-                      : PhosphorIconsFill.lock,
+                      ? CupertinoIcons.lock_shield_fill
+                      : CupertinoIcons.lock_fill,
                   size: 40,
                   color: context.appColors.primary,
                 ),
@@ -332,7 +332,7 @@ class _PinSetupScreenState extends State<PinSetupScreen>
         height: 72,
         child: Center(
           child: Icon(
-            PhosphorIconsRegular.backspace,
+            CupertinoIcons.delete_left,
             size: 28,
             color: context.appColors.textSecondary,
           ),

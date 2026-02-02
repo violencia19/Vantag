@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/security_utils.dart';
 
 /// Alt kategori öneri ve geçmiş yönetimi servisi
 class SubCategoryService {
@@ -19,16 +20,22 @@ class SubCategoryService {
     'Diğer': ['Hediye', 'Abonelik', 'Bakım'],
   };
 
-  /// Alt kategori metnini normalize et
+  /// Alt kategori metnini normalize ve sanitize et
+  /// - Sanitize (control karakterleri kaldır)
   /// - trim
+  /// - Max length limit
   /// - İlk harf büyük, geri kalan küçük
   /// - Türkçe karakterleri koru
   static String normalize(String text) {
-    final trimmed = text.trim();
-    if (trimmed.isEmpty) return '';
+    // First sanitize to remove control characters
+    final sanitized = SecurityUtils.sanitizeAndTrim(
+      text,
+      maxLength: SecurityUtils.maxDescriptionLength,
+    );
+    if (sanitized.isEmpty) return '';
 
     // İlk harfi büyük, gerisini küçük yap (Türkçe uyumlu)
-    return _toTitleCase(trimmed);
+    return _toTitleCase(sanitized);
   }
 
   /// Türkçe uyumlu title case

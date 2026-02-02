@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 import '../services/services.dart';
@@ -50,7 +50,7 @@ List<OnboardingPageData> _buildOnboardingPages(
     OnboardingPageData(
       title: l10n.oneExpenseEnough,
       subtitle: l10n.startSmall,
-      icon: PhosphorIconsDuotone.rocketLaunch,
+      icon: CupertinoIcons.rocket_fill,
       iconColor: context.appColors.primary,
       showStartButton: true,
     ),
@@ -445,13 +445,13 @@ class _CoffeeClockAnimation extends StatelessWidget {
         },
         child: showClock
             ? Icon(
-                PhosphorIconsDuotone.clock,
+                CupertinoIcons.clock_fill,
                 key: const ValueKey('clock'),
                 size: 72,
                 color: context.appColors.primary,
               )
             : Icon(
-                PhosphorIconsDuotone.coffee,
+                CupertinoIcons.cart_fill,
                 key: const ValueKey('coffee'),
                 size: 72,
                 color: context.appColors.accent,
@@ -473,19 +473,19 @@ class _DecisionButtonsVisual extends StatelessWidget {
       children: [
         _DecisionButton(
           color: context.appColors.decisionNo,
-          icon: PhosphorIconsDuotone.x,
+          icon: CupertinoIcons.xmark,
           label: l10n.passed,
         ),
         const SizedBox(width: 12),
         _DecisionButton(
           color: context.appColors.decisionThinking,
-          icon: PhosphorIconsDuotone.hourglass,
+          icon: CupertinoIcons.hourglass,
           label: l10n.thinking,
         ),
         const SizedBox(width: 12),
         _DecisionButton(
           color: context.appColors.decisionYes,
-          icon: PhosphorIconsDuotone.check,
+          icon: CupertinoIcons.checkmark,
           label: l10n.bought,
         ),
       ],

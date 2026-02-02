@@ -1,6 +1,6 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/currency_provider.dart';
@@ -41,9 +41,13 @@ class FinancialSnapshotCard extends StatefulWidget {
 }
 
 class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _countController;
   late Animation<double> _countAnimation;
+
+  // iOS 26 Liquid Glass: Animated breathing glow
+  late AnimationController _glowController;
+  late Animation<double> _glowAnimation;
 
   double _previousNetBalance = 0;
   double _previousIncome = 0;
@@ -87,6 +91,16 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
       curve: Curves.easeOutCubic,
     );
     _countController.forward();
+
+    // iOS 26 Liquid Glass: Breathing glow effect (2.5s cycle)
+    _glowController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2500),
+    )..repeat(reverse: true);
+
+    _glowAnimation = Tween<double>(begin: 0.4, end: 0.7).animate(
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -104,6 +118,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
   @override
   void dispose() {
     _countController.dispose();
+    _glowController.dispose();
     super.dispose();
   }
 
@@ -153,38 +168,83 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
             onTap: widget.onTap,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF7C3AED), // Parlak mor - SOL ÜST
-                      Color(0xFF5B21B6), // Orta mor
-                      Color(0xFF1E1B4B), // Koyu mor - SAĞ ALT
-                    ],
-                  ),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.15),
-                    width: 1.5,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF8B5CF6).withValues(alpha: 0.4),
-                      blurRadius: 32,
-                      spreadRadius: 0,
-                      offset: const Offset(0, 8),
+              // iOS 26 Liquid Glass: Animated outer glow container
+              child: AnimatedBuilder(
+                animation: _glowAnimation,
+                builder: (context, child) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(28),
+                      boxShadow: [
+                        // Animated breathing glow
+                        BoxShadow(
+                          color: const Color(0xFF8B5CF6).withValues(
+                            alpha: _glowAnimation.value,
+                          ),
+                          blurRadius: 40,
+                          spreadRadius: 0,
+                          offset: const Offset(0, 8),
+                        ),
+                        // Deep shadow for depth
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.4),
+                          blurRadius: 24,
+                          offset: const Offset(0, 12),
+                        ),
+                      ],
                     ),
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.3),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
-                ),
-                child: Column(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(28),
+                      child: BackdropFilter(
+                        // iOS 26: Enhanced 30σ blur
+                        filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                        child: Container(
+                          padding: const EdgeInsets.all(24),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(28),
+                            // iOS 26 Liquid Glass: Premium 3-stop gradient
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                const Color(0xFF8B5CF6).withValues(alpha: 0.35),
+                                const Color(0xFF7C3AED).withValues(alpha: 0.25),
+                                const Color(0xFF1E1B4B).withValues(alpha: 0.4),
+                              ],
+                              stops: const [0.0, 0.5, 1.0],
+                            ),
+                            // Glass border with highlight
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              width: 1.5,
+                            ),
+                          ),
+                          child: Stack(
+                            children: [
+                              // iOS 26: Top highlight for glass light refraction
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                height: 60,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.vertical(
+                                      top: Radius.circular(28),
+                                    ),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.white.withValues(alpha: 0.12),
+                                        Colors.white.withValues(alpha: 0.0),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // Content
+                              Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Header: Label + Badge
@@ -238,7 +298,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                                 color: context.appColors.primary.withValues(
                                   alpha: 0.15,
                                 ),
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
                                   color: context.appColors.primary.withValues(
                                     alpha: 0.3,
@@ -250,7 +310,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(
-                                    PhosphorIconsDuotone.wallet,
+                                    CupertinoIcons.creditcard_fill,
                                     size: 14,
                                     color: context.appColors.primary,
                                   ),
@@ -360,7 +420,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                                         ? context.appColors.success
                                         : context.appColors.error)
                                     .withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                             border: Border.all(
                               color:
                                   (isHealthy
@@ -386,8 +446,8 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                             children: [
                               Icon(
                                 isHealthy
-                                    ? PhosphorIconsBold.trendUp
-                                    : PhosphorIconsBold.trendDown,
+                                    ? CupertinoIcons.arrow_up_right
+                                    : CupertinoIcons.arrow_down_right,
                                 size: 18,
                                 color: isHealthy
                                     ? context.appColors.success
@@ -426,18 +486,25 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                       height: 24,
                     ), // Design System: section spacing
                     // Income / Expense - Mirror Layout with GradientBorder
-                    _buildIncomeExpenseRow(
-                      l10n,
-                      animatedIncome,
-                      animatedSpent,
-                      currencyProvider,
+                                _buildIncomeExpenseRow(
+                                  l10n,
+                                  animatedIncome,
+                                  animatedSpent,
+                                  currencyProvider,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
           ),
-        );
+        ),
+      );
       },
     );
   }
@@ -622,7 +689,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                           ),
                         ),
                         child: Icon(
-                          PhosphorIconsDuotone.arrowDown,
+                          CupertinoIcons.arrow_down,
                           size: iconInnerSize,
                           color: context.appColors.success,
                           shadows: PremiumShadows.iconHalo(
@@ -711,7 +778,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                           ),
                         ),
                         child: Icon(
-                          PhosphorIconsDuotone.arrowUp,
+                          CupertinoIcons.arrow_up,
                           size: iconInnerSize,
                           color: context.appColors.error,
                           shadows: PremiumShadows.iconHalo(
@@ -776,23 +843,47 @@ class CompactFinancialBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.03),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(
-                color:
-                    (isHealthy
-                            ? context.appColors.success
-                            : context.appColors.error)
-                        .withValues(alpha: 0.3),
-              ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            // Subtle glow
+            BoxShadow(
+              color: (isHealthy
+                      ? context.appColors.success
+                      : context.appColors.error)
+                  .withValues(alpha: 0.3),
+              blurRadius: 16,
+              spreadRadius: 0,
             ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: BackdropFilter(
+            // iOS 26: Enhanced blur
+            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                // iOS 26 Liquid Glass gradient
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.white.withValues(alpha: 0.08),
+                    Colors.white.withValues(alpha: 0.04),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(
+                  color: (isHealthy
+                          ? context.appColors.success
+                          : context.appColors.error)
+                      .withValues(alpha: 0.35),
+                  width: 1,
+                ),
+              ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -842,6 +933,7 @@ class CompactFinancialBadge extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }

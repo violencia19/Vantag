@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
@@ -53,7 +53,7 @@ class WhatsNewDialog extends StatelessWidget {
 
     await showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => WhatsNewDialog(
         version: _currentVersion,
         changes: changes,
@@ -69,7 +69,7 @@ class WhatsNewDialog extends StatelessWidget {
 
     return Dialog(
       backgroundColor: context.appColors.surface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -84,7 +84,7 @@ class WhatsNewDialog extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                PhosphorIconsDuotone.sparkle,
+                CupertinoIcons.sparkles,
                 size: 32,
                 color: context.appColors.primary,
               ),
@@ -111,7 +111,7 @@ class WhatsNewDialog extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Icon(
-                        PhosphorIconsDuotone.checkCircle,
+                        CupertinoIcons.checkmark_circle,
                         size: 20,
                         color: context.appColors.success,
                       ),
@@ -141,7 +141,7 @@ class WhatsNewDialog extends StatelessWidget {
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: Text(

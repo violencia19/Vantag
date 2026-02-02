@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
 
@@ -42,7 +42,7 @@ class IncomeSummaryWidget extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: context.appColors.surface,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: context.appColors.cardBorder.withValues(
               alpha: 0.5 + (0.3 * expandRatio),
@@ -61,7 +61,7 @@ class IncomeSummaryWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
-                PhosphorIconsDuotone.wallet,
+                CupertinoIcons.creditcard_fill,
                 size: iconSize,
                 color: context.appColors.success,
               ),
@@ -129,8 +129,8 @@ class IncomeSummaryWidget extends StatelessWidget {
                   children: [
                     Icon(
                       isPositive
-                          ? PhosphorIconsDuotone.trendUp
-                          : PhosphorIconsDuotone.trendDown,
+                          ? CupertinoIcons.arrow_up_right
+                          : CupertinoIcons.arrow_down_right,
                       size: subFontSize + 2,
                       color: isPositive
                           ? context.appColors.success
@@ -156,7 +156,7 @@ class IncomeSummaryWidget extends StatelessWidget {
             if (expandRatio > 0.5 && onTap != null) ...[
               SizedBox(width: 8 + (4 * expandRatio)),
               Icon(
-                PhosphorIconsDuotone.caretRight,
+                CupertinoIcons.chevron_right,
                 size: iconSize,
                 color: context.appColors.textTertiary,
               ),
@@ -194,7 +194,7 @@ class CompactIncomeIndicator extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           color: context.appColors.surface,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8),
           border: Border.all(color: context.appColors.cardBorder),
         ),
         child: Row(
@@ -285,7 +285,7 @@ class IncomeProgressBar extends StatelessWidget {
                       borderRadius: BorderRadius.circular(height / 2),
                     ),
                     child: Icon(
-                      PhosphorIconsDuotone.warningCircle,
+                      CupertinoIcons.exclamationmark_circle_fill,
                       size: height - 2,
                       color: Colors.white,
                     ),

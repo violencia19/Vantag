@@ -1,15 +1,17 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'secure_storage_service.dart';
 
 /// App lock service with PIN and biometric authentication
 class LockService {
   static final LocalAuthentication _auth = LocalAuthentication();
-  static const String _pinHashKey = 'app_pin_hash';
   static const String _lockEnabledKey = 'lock_enabled';
   static const String _biometricEnabledKey = 'biometric_enabled';
+  static const String _pinSaltKey = 'pin_salt';
 
   // ============================================================
   // BIOMETRIC METHODS
@@ -56,10 +58,8 @@ class LockService {
     try {
       return await _auth.authenticate(
         localizedReason: reason,
-        options: const AuthenticationOptions(
-          stickyAuth: true,
-          biometricOnly: true,
-        ),
+        biometricOnly: true,
+        persistAcrossBackgrounding: true,
       );
     } catch (e) {
       debugPrint('[LockService] Biometric auth error: $e');
@@ -96,43 +96,68 @@ class LockService {
   }
 
   // ============================================================
-  // PIN METHODS
+  // PIN METHODS (Using Secure Storage)
   // ============================================================
 
-  /// Hash PIN for secure storage
-  static String _hashPin(String pin) {
-    final bytes = utf8.encode('${pin}vantag_salt_2024');
-    final digest = sha256.convert(bytes);
-    return digest.toString();
+  /// Generate random salt for PIN hashing
+  static String _generateSalt() {
+    final random = Random.secure();
+    final bytes = List<int>.generate(32, (_) => random.nextInt(256));
+    return base64Encode(bytes);
   }
 
-  /// Save PIN (hashed)
+  /// Hash PIN with salt using PBKDF2-like approach
+  static String _hashPin(String pin, String salt) {
+    // Multiple rounds for brute-force resistance
+    List<int> hash = utf8.encode('$pin$salt');
+    for (var i = 0; i < 10000; i++) {
+      hash = sha256.convert(hash).bytes;
+    }
+    return base64Encode(hash);
+  }
+
+  /// Save PIN (hashed with random salt, stored in secure storage)
   static Future<void> setPin(String pin) async {
     final prefs = await SharedPreferences.getInstance();
-    final hashedPin = _hashPin(pin);
-    await prefs.setString(_pinHashKey, hashedPin);
+    final salt = _generateSalt();
+    final hashedPin = _hashPin(pin, salt);
+
+    // Store salt in SharedPreferences (not sensitive)
+    await prefs.setString(_pinSaltKey, salt);
+    // Store hash in secure storage
+    await secureStorage.savePinHash(hashedPin);
   }
 
   /// Verify PIN
   static Future<bool> verifyPin(String pin) async {
     final prefs = await SharedPreferences.getInstance();
-    final savedHash = prefs.getString(_pinHashKey);
+    final salt = prefs.getString(_pinSaltKey);
+    if (salt == null) return false;
+
+    final savedHash = await secureStorage.getPinHash();
     if (savedHash == null) return false;
 
-    final inputHash = _hashPin(pin);
-    return savedHash == inputHash;
+    final inputHash = _hashPin(pin, salt);
+
+    // Constant-time comparison to prevent timing attacks
+    if (savedHash.length != inputHash.length) return false;
+    var result = 0;
+    for (var i = 0; i < savedHash.length; i++) {
+      result |= savedHash.codeUnitAt(i) ^ inputHash.codeUnitAt(i);
+    }
+    return result == 0;
   }
 
   /// Check if PIN is set
   static Future<bool> hasPinSet() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_pinHashKey) != null;
+    return await secureStorage.hasPinSet();
   }
 
   /// Remove PIN and disable lock
   static Future<void> removePin() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_pinHashKey);
+    await prefs.remove(_pinSaltKey);
+    await secureStorage.deletePinHash();
     await prefs.setBool(_lockEnabledKey, false);
     await prefs.setBool(_biometricEnabledKey, false);
   }

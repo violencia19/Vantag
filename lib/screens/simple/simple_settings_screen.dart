@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../../providers/locale_provider.dart';
@@ -69,7 +69,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
                 children: [
                   // Currency
                   _buildSettingTile(
-                    icon: PhosphorIconsDuotone.currencyCircleDollar,
+                    icon: CupertinoIcons.money_dollar_circle,
                     iconColor: AppColors.achievementStreak,
                     title: l10n.settingsCurrency,
                     trailing: _buildCurrencyTrailing(),
@@ -80,7 +80,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
 
                   // Language
                   _buildSettingTile(
-                    icon: PhosphorIconsDuotone.translate,
+                    icon: CupertinoIcons.globe,
                     iconColor: AppColors.categoryEntertainment,
                     title: l10n.settingsLanguage,
                     trailing: _buildLanguageTrailing(),
@@ -91,7 +91,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
 
                   // Theme
                   _buildSettingTile(
-                    icon: PhosphorIconsDuotone.moon,
+                    icon: CupertinoIcons.moon_fill,
                     iconColor: AppColors.categoryShopping,
                     title: l10n.settingsTheme,
                     trailing: _buildThemeTrailing(),
@@ -102,7 +102,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
 
                   // Simple Mode Toggle
                   _buildSettingTile(
-                    icon: PhosphorIconsDuotone.leaf,
+                    icon: CupertinoIcons.leaf_arrow_circlepath,
                     iconColor: AppColors.premiumGreen,
                     title: l10n.simpleMode,
                     subtitle: l10n.simpleModeDescription,
@@ -147,13 +147,13 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
     return Container(
       decoration: BoxDecoration(
         color: context.appColors.surfaceLight,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
@@ -163,7 +163,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
                   height: 36,
                   decoration: BoxDecoration(
                     color: iconColor.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(icon, size: 20, color: iconColor),
                 ),
@@ -221,7 +221,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
         ),
         const SizedBox(width: 4),
         Icon(
-          PhosphorIconsDuotone.caretRight,
+          CupertinoIcons.chevron_right,
           size: 18,
           color: context.appColors.textTertiary,
         ),
@@ -247,7 +247,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
         ),
         const SizedBox(width: 4),
         Icon(
-          PhosphorIconsDuotone.caretRight,
+          CupertinoIcons.chevron_right,
           size: 18,
           color: context.appColors.textTertiary,
         ),
@@ -285,7 +285,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
         ),
         const SizedBox(width: 4),
         Icon(
-          PhosphorIconsDuotone.caretRight,
+          CupertinoIcons.chevron_right,
           size: 18,
           color: context.appColors.textTertiary,
         ),
@@ -298,7 +298,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -321,7 +321,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
               title: const Text('Turkce'),
               trailing: localeProvider.locale?.languageCode == 'tr'
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
+                      CupertinoIcons.checkmark_circle_fill,
                       color: context.appColors.primary,
                     )
                   : null,
@@ -336,7 +336,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
               title: const Text('English'),
               trailing: localeProvider.locale?.languageCode == 'en'
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
+                      CupertinoIcons.checkmark_circle_fill,
                       color: context.appColors.primary,
                     )
                   : null,
@@ -359,7 +359,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -379,13 +379,13 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
             ),
             ListTile(
               leading: Icon(
-                PhosphorIconsDuotone.moon,
+                CupertinoIcons.moon_fill,
                 color: context.appColors.textPrimary,
               ),
               title: Text(l10n.settingsThemeDark),
               trailing: themeProvider.themeMode == AppThemeMode.dark
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
+                      CupertinoIcons.checkmark_circle_fill,
                       color: context.appColors.primary,
                     )
                   : null,
@@ -397,13 +397,13 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
             ),
             ListTile(
               leading: Icon(
-                PhosphorIconsDuotone.sun,
+                CupertinoIcons.sun_max_fill,
                 color: context.appColors.textPrimary,
               ),
               title: Text(l10n.settingsThemeLight),
               trailing: themeProvider.themeMode == AppThemeMode.light
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
+                      CupertinoIcons.checkmark_circle_fill,
                       color: context.appColors.primary,
                     )
                   : null,
@@ -415,7 +415,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
             ),
             ListTile(
               leading: Icon(
-                PhosphorIconsDuotone.clock,
+                CupertinoIcons.clock_fill,
                 color: context.appColors.textPrimary,
               ),
               title: Text(l10n.settingsThemeAutomatic),
@@ -428,7 +428,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
               ),
               trailing: themeProvider.themeMode == AppThemeMode.automatic
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
+                      CupertinoIcons.checkmark_circle_fill,
                       color: context.appColors.primary,
                     )
                   : null,

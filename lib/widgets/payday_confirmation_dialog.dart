@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -185,7 +185,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                       borderRadius: BorderRadius.circular(24),
                     ),
                     child: Icon(
-                      PhosphorIconsDuotone.confetti,
+                      CupertinoIcons.gift_fill,
                       size: 40,
                       color: context.appColors.success,
                     ),
@@ -249,7 +249,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                       filled: true,
                       fillColor: context.appColors.surfaceLight,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: const EdgeInsets.symmetric(
@@ -279,13 +279,13 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                       ),
                       decoration: BoxDecoration(
                         color: context.appColors.surfaceLight,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            PhosphorIconsFill.pencilSimple,
+                            CupertinoIcons.pencil,
                             size: 18,
                             color: context.appColors.textSecondary,
                           ),
@@ -315,7 +315,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                     child: _isLoading
@@ -330,7 +330,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(PhosphorIconsBold.check, size: 20),
+                              const Icon(CupertinoIcons.checkmark_alt, size: 20),
                               const SizedBox(width: 8),
                               Text(
                                 l10n.paydayConfirm,

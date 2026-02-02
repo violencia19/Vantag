@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -443,7 +443,7 @@ class _ReportScreenState extends State<ReportScreen>
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Row(
@@ -501,7 +501,7 @@ class _ReportScreenState extends State<ReportScreen>
               color: isSelected
                   ? context.appColors.primary
                   : Colors.transparent,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -509,7 +509,7 @@ class _ReportScreenState extends State<ReportScreen>
               children: [
                 if (isLocked) ...[
                   Icon(
-                    PhosphorIconsRegular.lock,
+                    CupertinoIcons.lock,
                     size: 12,
                     color: context.appColors.textTertiary,
                   ),
@@ -564,7 +564,7 @@ class _ReportScreenState extends State<ReportScreen>
                 suffix: ' TL',
                 subtitle: l10n.hoursEquivalent(spentHours.toStringAsFixed(1)),
                 color: context.appColors.decisionYes,
-                icon: PhosphorIconsDuotone.shoppingCart,
+                icon: CupertinoIcons.cart_fill,
               ),
             ),
             const SizedBox(width: 12),
@@ -578,7 +578,7 @@ class _ReportScreenState extends State<ReportScreen>
                   stats.savedHours.toStringAsFixed(1),
                 ),
                 color: context.appColors.decisionNo,
-                icon: PhosphorIconsDuotone.shieldCheck,
+                icon: CupertinoIcons.shield_fill,
               ),
             ),
           ],
@@ -594,7 +594,7 @@ class _ReportScreenState extends State<ReportScreen>
                 isInteger: true,
                 subtitle: l10n.boughtPassed(stats.yesCount, stats.noCount),
                 color: context.appColors.info,
-                icon: PhosphorIconsDuotone.receipt,
+                icon: CupertinoIcons.doc_text_fill,
               ),
             ),
             const SizedBox(width: 12),
@@ -611,7 +611,7 @@ class _ReportScreenState extends State<ReportScreen>
                 color: savingsRate >= 50
                     ? context.appColors.success
                     : context.appColors.warning,
-                icon: PhosphorIconsDuotone.trendUp,
+                icon: CupertinoIcons.arrow_up_right,
               ),
             ),
           ],
@@ -625,7 +625,7 @@ class _ReportScreenState extends State<ReportScreen>
             suffix: ' TL',
             subtitle: l10n.activeSubscriptions(_subscriptionCount),
             color: context.appColors.primary,
-            icon: PhosphorIconsDuotone.calendar,
+            icon: CupertinoIcons.calendar,
             isFullWidth: true,
           ),
         ],
@@ -687,7 +687,7 @@ class _ReportScreenState extends State<ReportScreen>
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.chartLineUp,
+                  CupertinoIcons.chart_bar_alt_fill,
                   size: 18,
                   color: context.appColors.primary,
                 ),
@@ -898,7 +898,7 @@ class _ReportScreenState extends State<ReportScreen>
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.clock,
+                  CupertinoIcons.clock_fill,
                   size: 18,
                   color: context.appColors.warning,
                 ),
@@ -1177,7 +1177,7 @@ class _ReportScreenState extends State<ReportScreen>
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.lightbulb,
+                  CupertinoIcons.lightbulb_fill,
                   size: 18,
                   color: context.appColors.secondary,
                 ),
@@ -1199,7 +1199,7 @@ class _ReportScreenState extends State<ReportScreen>
             children: [
               Expanded(
                 child: _InsightMiniCard(
-                  icon: PhosphorIconsDuotone.calendarBlank,
+                  icon: CupertinoIcons.calendar,
                   iconColor: context.appColors.warning,
                   title: l10n.mostExpensiveDay,
                   value: mostExpensiveDay != null
@@ -1216,7 +1216,7 @@ class _ReportScreenState extends State<ReportScreen>
               const SizedBox(width: 12),
               Expanded(
                 child: _InsightMiniCard(
-                  icon: PhosphorIconsDuotone.prohibit,
+                  icon: CupertinoIcons.nosign,
                   iconColor: context.appColors.success,
                   title: l10n.mostPassedCategory,
                   value: mostPassedCategory != null
@@ -1237,7 +1237,7 @@ class _ReportScreenState extends State<ReportScreen>
             children: [
               Expanded(
                 child: _InsightMiniCard(
-                  icon: PhosphorIconsDuotone.piggyBank,
+                  icon: CupertinoIcons.money_dollar_circle_fill,
                   iconColor: context.appColors.primary,
                   title: l10n.savingsOpportunity,
                   value: highestCategory != null
@@ -1254,7 +1254,7 @@ class _ReportScreenState extends State<ReportScreen>
               const SizedBox(width: 12),
               Expanded(
                 child: _InsightMiniCard(
-                  icon: PhosphorIconsDuotone.chartLine,
+                  icon: CupertinoIcons.chart_bar_alt_fill,
                   iconColor: context.appColors.info,
                   title: l10n.weeklyTrend,
                   value: trendArrows.isNotEmpty
@@ -1398,7 +1398,7 @@ class _ReportScreenState extends State<ReportScreen>
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.chartLineUp,
+                  CupertinoIcons.chart_bar_alt_fill,
                   size: 18,
                   color: context.appColors.primary,
                 ),
@@ -1604,7 +1604,7 @@ class _ReportScreenState extends State<ReportScreen>
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: context.appColors.primary.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
                 border: Border.all(
                   color: context.appColors.primary.withValues(alpha: 0.3),
                 ),
@@ -1672,7 +1672,7 @@ class _ReportScreenState extends State<ReportScreen>
                   Row(
                     children: [
                       Icon(
-                        PhosphorIconsDuotone.wallet,
+                        CupertinoIcons.creditcard_fill,
                         size: 20,
                         color: context.appColors.primary,
                       ),
@@ -1707,7 +1707,7 @@ class _ReportScreenState extends State<ReportScreen>
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                              PhosphorIconsDuotone.plus,
+                              CupertinoIcons.plus,
                               size: 16,
                               color: context.appColors.primary,
                             ),
@@ -2123,7 +2123,7 @@ class _ReportScreenState extends State<ReportScreen>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: accentColor.withValues(alpha: 0.15)),
       ),
       child: Row(
@@ -2133,12 +2133,12 @@ class _ReportScreenState extends State<ReportScreen>
             height: 40,
             decoration: BoxDecoration(
               color: accentColor.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
               insight.isIncrease
-                  ? PhosphorIconsDuotone.trendUp
-                  : PhosphorIconsDuotone.trendDown,
+                  ? CupertinoIcons.arrow_up_right
+                  : CupertinoIcons.arrow_down_right,
               size: 20,
               color: accentColor,
             ),
@@ -2260,7 +2260,7 @@ class _ReportScreenState extends State<ReportScreen>
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.squaresFour,
+                  CupertinoIcons.square_grid_2x2_fill,
                   size: 18,
                   color: context.appColors.primary,
                 ),
@@ -2464,14 +2464,14 @@ class _ReportScreenState extends State<ReportScreen>
           ),
           const SizedBox(height: 16),
           _buildStatRow(
-            icon: PhosphorIconsDuotone.calendar,
+            icon: CupertinoIcons.calendar,
             label: l10n.avgDailyExpense,
             value:
                 '${formatTurkishCurrency(dailyAverage, decimalDigits: 2)} TL',
           ),
           const SizedBox(height: 12),
           _buildStatRow(
-            icon: PhosphorIconsDuotone.arrowUp,
+            icon: CupertinoIcons.arrow_up,
             label: l10n.highestSingleExpense,
             value: highestExpense != null
                 ? '${formatTurkishCurrency(highestExpense.amount, decimalDigits: 2)} TL (${CategoryUtils.getLocalizedName(context, highestExpense.category)})'
@@ -2479,7 +2479,7 @@ class _ReportScreenState extends State<ReportScreen>
           ),
           const SizedBox(height: 12),
           _buildStatRow(
-            icon: PhosphorIconsDuotone.prohibit,
+            icon: CupertinoIcons.nosign,
             label: l10n.mostDeclinedCategory,
             value: mostDeclinedCategory != null
                 ? '${CategoryUtils.getLocalizedName(context, mostDeclinedCategory)} (${l10n.times(mostDeclinedCount)})'
@@ -2591,12 +2591,12 @@ class _ReportScreenState extends State<ReportScreen>
               color: isPositive
                   ? context.appColors.success.withValues(alpha: 0.2)
                   : context.appColors.warning.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
               isPositive
-                  ? PhosphorIconsDuotone.trendDown
-                  : PhosphorIconsDuotone.trendUp,
+                  ? CupertinoIcons.arrow_down_right
+                  : CupertinoIcons.arrow_up_right,
               color: isPositive
                   ? context.appColors.success
                   : context.appColors.warning,
@@ -2713,7 +2713,7 @@ class _InsightMiniCard extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: context.appColors.surfaceLight,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(

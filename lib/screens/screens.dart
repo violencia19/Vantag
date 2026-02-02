@@ -27,6 +27,7 @@ export 'pursuit_list_screen.dart';
 export 'onboarding_try_screen.dart';
 export 'onboarding_pursuit_screen.dart';
 export 'onboarding_salary_day_screen.dart';
+export 'onboarding_v2_screen.dart';
 // Security
 export 'lock_screen.dart';
 export 'pin_setup_screen.dart';

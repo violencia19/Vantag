@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 import '../services/purchase_service.dart';
@@ -74,7 +74,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
               content: Row(
                 children: [
                   Icon(
-                    PhosphorIconsDuotone.checkCircle,
+                    CupertinoIcons.checkmark_circle_fill,
                     color: context.appColors.textPrimary,
                     size: 20,
                   ),
@@ -92,7 +92,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
               behavior: SnackBarBehavior.floating,
               backgroundColor: context.appColors.success,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
           );
@@ -103,7 +103,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
               behavior: SnackBarBehavior.floating,
               backgroundColor: context.appColors.error,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
           );
@@ -130,7 +130,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(
-            PhosphorIconsDuotone.caretLeft,
+            CupertinoIcons.chevron_left,
             color: context.appColors.textPrimary,
           ),
           tooltip: l10n.goBack,
@@ -200,7 +200,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
             context.appColors.secondary.withValues(alpha: 0.15),
           ],
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: context.appColors.primary.withValues(alpha: 0.3),
         ),
@@ -217,10 +217,10 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
                   context.appColors.secondary,
                 ],
               ),
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
-              PhosphorIconsDuotone.coins,
+              CupertinoIcons.money_dollar_circle_fill,
               size: 24,
               color: context.appColors.textPrimary,
             ),
@@ -269,10 +269,10 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
                 context.appColors.secondary.withValues(alpha: 0.2),
               ],
             ),
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Icon(
-            PhosphorIconsDuotone.batteryCharging,
+            CupertinoIcons.bolt_fill,
             size: 32,
             color: context.appColors.primary,
           ),
@@ -314,7 +314,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
       child: Container(
         decoration: BoxDecoration(
           color: context.appColors.surface,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: badge != null
                 ? context.appColors.primary.withValues(alpha: 0.5)
@@ -335,7 +335,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
           color: Colors.transparent,
           child: InkWell(
             onTap: isDisabled ? null : () => _purchasePack(pack),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
             child: Stack(
               children: [
                 Padding(
@@ -412,7 +412,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
                               context.appColors.secondary,
                             ],
                           ),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         child: isLoading
                             ? SizedBox(
@@ -487,7 +487,7 @@ class _CreditPurchaseScreenState extends State<CreditPurchaseScreen> {
       child: Row(
         children: [
           Icon(
-            PhosphorIconsDuotone.infinity,
+            CupertinoIcons.infinite,
             size: 24,
             color: context.appColors.primary,
           ),

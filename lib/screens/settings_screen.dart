@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -282,7 +282,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             end: Alignment.bottomRight,
             colors: [context.appColors.primary, context.appColors.secondary],
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
               color: context.appColors.primary.withValues(alpha: 0.4),
@@ -302,10 +302,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   height: 48,
                   decoration: BoxDecoration(
                     color: context.appColors.textPrimary.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
-                    PhosphorIconsDuotone.gift,
+                    CupertinoIcons.gift_fill,
                     size: 24,
                     color: context.appColors.textPrimary,
                   ),
@@ -370,7 +370,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       color: context.appColors.textPrimary.withValues(
                         alpha: 0.15,
                       ),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: context.appColors.textPrimary.withValues(
                           alpha: 0.2,
@@ -412,10 +412,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             color: context.appColors.textPrimary.withValues(
                               alpha: 0.2,
                             ),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: Icon(
-                            PhosphorIconsDuotone.copy,
+                            CupertinoIcons.doc_on_doc_fill,
                             size: 20,
                             color: context.appColors.textPrimary,
                           ),
@@ -439,7 +439,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         color: context.appColors.textPrimary.withValues(
                           alpha: 0.1,
                         ),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: Column(
                         children: [
@@ -479,13 +479,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                PhosphorIconsDuotone.shareFat,
+                                CupertinoIcons.share,
                                 size: 18,
                                 color: context.appColors.primary,
                               ),
@@ -543,7 +543,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         backgroundColor: context.appColors.success,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         duration: const Duration(seconds: 2),
       ),
     );
@@ -612,7 +612,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   decoration: BoxDecoration(
                     color: context.appColors.primary,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     l10n.newBadge,
@@ -655,10 +655,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             color: context.appColors.primary.withValues(
                               alpha: 0.15,
                             ),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: Icon(
-                            PhosphorIconsFill.microphone,
+                            CupertinoIcons.mic_fill,
                             size: 20,
                             color: context.appColors.primary,
                           ),
@@ -688,7 +688,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                         ),
                         Icon(
-                          PhosphorIconsRegular.arrowRight,
+                          CupertinoIcons.arrow_right,
                           size: 20,
                           color: context.appColors.textTertiary,
                         ),
@@ -708,7 +708,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showVoiceHelpSheet(BuildContext context, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -719,7 +719,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              PhosphorIconsFill.microphone,
+              CupertinoIcons.mic_fill,
               size: 48,
               color: context.appColors.primary,
             ),
@@ -739,7 +739,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: context.appColors.cardBackground,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Row(
                 children: [
@@ -748,10 +748,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 40,
                     decoration: BoxDecoration(
                       color: context.appColors.primary.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
-                      PhosphorIconsFill.plusCircle,
+                      CupertinoIcons.plus_circle_fill,
                       color: context.appColors.primary,
                     ),
                   ),
@@ -788,7 +788,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: context.appColors.cardBackground,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Row(
                 children: [
@@ -797,10 +797,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 40,
                     decoration: BoxDecoration(
                       color: context.appColors.primary.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
-                      PhosphorIconsFill.microphone,
+                      CupertinoIcons.mic_fill,
                       color: context.appColors.primary,
                     ),
                   ),
@@ -860,14 +860,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 label: l10n.tryNow,
                 hint: l10n.voiceInput,
                 child: ElevatedButton.icon(
-                  icon: const Icon(PhosphorIconsFill.microphone),
+                  icon: const Icon(CupertinoIcons.mic_fill),
                   label: Text(l10n.tryNow),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: context.appColors.primary,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
                   onPressed: () {
@@ -894,7 +894,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: context.appColors.primary.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: context.appColors.primary.withValues(alpha: 0.3),
         ),
@@ -944,7 +944,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   builder: (context, snapshot) {
                     final isEnabled = snapshot.data ?? false;
                     return _buildSecurityTile(
-                      icon: PhosphorIconsFill.lock,
+                      icon: CupertinoIcons.lock_fill,
                       title: l10n.pinLock,
                       subtitle: l10n.pinLockDescription,
                       value: isEnabled,
@@ -991,7 +991,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           future: LockService.isBiometricEnabled(),
                           builder: (context, bioSnapshot) {
                             return _buildSecurityTile(
-                              icon: PhosphorIconsFill.fingerprint,
+                              icon: CupertinoIcons.hand_raised_fill,
                               title: l10n.biometricUnlock,
                               subtitle: l10n.biometricDescription,
                               value: bioSnapshot.data ?? false,
@@ -1050,7 +1050,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               height: 36,
               decoration: BoxDecoration(
                 color: context.appColors.primary.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(icon, size: 20, color: context.appColors.primary),
             ),
@@ -1107,7 +1107,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
@@ -1117,7 +1117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   height: 36,
                   decoration: BoxDecoration(
                     color: iconColor.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(icon, size: 20, color: iconColor),
                 ),
@@ -1135,7 +1135,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 if (trailing != null) trailing,
                 if (showArrow && trailing == null)
                   Icon(
-                    PhosphorIconsDuotone.caretRight,
+                    CupertinoIcons.chevron_right,
                     size: 18,
                     color: context.appColors.textTertiary,
                   ),
@@ -1159,7 +1159,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final currency = currencyProvider.currency;
 
     return _buildListTile(
-      icon: PhosphorIconsDuotone.currencyCircleDollar,
+      icon: CupertinoIcons.money_dollar_circle_fill,
       iconColor: AppColors.achievementStreak,
       title: l10n.settingsCurrency,
       trailing: Row(
@@ -1177,7 +1177,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(width: 4),
           Icon(
-            PhosphorIconsDuotone.caretRight,
+            CupertinoIcons.chevron_right,
             size: 18,
             color: context.appColors.textTertiary,
           ),
@@ -1194,7 +1194,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final langName = currentLang == 'tr' ? 'Türkçe' : 'English';
 
     return _buildListTile(
-      icon: PhosphorIconsDuotone.translate,
+      icon: CupertinoIcons.globe,
       iconColor: AppColors.categoryEntertainment,
       title: l10n.settingsLanguage,
       trailing: Row(
@@ -1210,7 +1210,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(width: 4),
           Icon(
-            PhosphorIconsDuotone.caretRight,
+            CupertinoIcons.chevron_right,
             size: 18,
             color: context.appColors.textTertiary,
           ),
@@ -1227,7 +1227,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   ) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1250,7 +1250,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: const Text('Türkçe'),
               trailing: localeProvider.locale?.languageCode == 'tr'
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
+                      CupertinoIcons.checkmark_circle_fill,
                       color: context.appColors.primary,
                     )
                   : null,
@@ -1265,7 +1265,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: const Text('English'),
               trailing: localeProvider.locale?.languageCode == 'en'
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
+                      CupertinoIcons.checkmark_circle_fill,
                       color: context.appColors.primary,
                     )
                   : null,
@@ -1291,15 +1291,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     switch (currentTheme) {
       case AppThemeMode.dark:
         themeName = l10n.settingsThemeDark;
-        themeIcon = PhosphorIconsDuotone.moon;
+        themeIcon = CupertinoIcons.moon_fill;
         break;
       case AppThemeMode.light:
         themeName = l10n.settingsThemeLight;
-        themeIcon = PhosphorIconsDuotone.sun;
+        themeIcon = CupertinoIcons.sun_max_fill;
         break;
       case AppThemeMode.automatic:
         themeName = l10n.settingsThemeAutomatic;
-        themeIcon = PhosphorIconsDuotone.clock;
+        themeIcon = CupertinoIcons.clock_fill;
         break;
     }
 
@@ -1320,7 +1320,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(width: 4),
           Icon(
-            PhosphorIconsDuotone.caretRight,
+            CupertinoIcons.chevron_right,
             size: 18,
             color: context.appColors.textTertiary,
           ),
@@ -1334,7 +1334,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showThemeSelector(ThemeProvider themeProvider, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1369,10 +1369,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 height: 40,
                 decoration: BoxDecoration(
                   color: AppColors.background,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.moon,
+                  CupertinoIcons.moon_fill,
                   color: context.appColors.textPrimary,
                   size: 20,
                 ),
@@ -1380,7 +1380,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: Text(l10n.settingsThemeDark),
               trailing: themeProvider.themeMode == AppThemeMode.dark
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
+                      CupertinoIcons.checkmark_circle_fill,
                       color: context.appColors.primary,
                     )
                   : null,
@@ -1396,10 +1396,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 height: 40,
                 decoration: BoxDecoration(
                   color: AppColorsLight.background,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.sun,
+                  CupertinoIcons.sun_max_fill,
                   color: AppColorsLight.textPrimary,
                   size: 20,
                 ),
@@ -1407,7 +1407,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: Text(l10n.settingsThemeLight),
               trailing: themeProvider.themeMode == AppThemeMode.light
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
+                      CupertinoIcons.checkmark_circle_fill,
                       color: context.appColors.primary,
                     )
                   : null,
@@ -1427,10 +1427,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.clock,
+                  CupertinoIcons.clock_fill,
                   color: context.appColors.textPrimary,
                   size: 20,
                 ),
@@ -1445,7 +1445,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               trailing: themeProvider.themeMode == AppThemeMode.automatic
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
+                      CupertinoIcons.checkmark_circle_fill,
                       color: context.appColors.primary,
                     )
                   : null,
@@ -1464,7 +1464,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildSimpleModeTile(AppLocalizations l10n) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.leaf,
+      icon: CupertinoIcons.leaf_arrow_circlepath,
       iconColor: AppColors.premiumGreen,
       title: l10n.simpleMode,
       trailing: Switch.adaptive(
@@ -1478,7 +1478,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildRemindersTile(AppLocalizations l10n) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.bellRinging,
+      icon: CupertinoIcons.bell_fill,
       iconColor: AppColors.categoryEducation,
       title: l10n.notificationSettings,
       onTap: () {
@@ -1492,7 +1492,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildSoundEffectsTile(AppLocalizations l10n) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.speakerHigh,
+      icon: CupertinoIcons.speaker_3_fill,
       iconColor: AppColors.categoryShopping,
       title: l10n.settingsSoundEffects,
       trailing: Switch.adaptive(
@@ -1506,7 +1506,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildProTile(AppLocalizations l10n, bool isPro) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.lightning,
+      icon: CupertinoIcons.bolt_fill,
       iconColor: isPro ? AppColors.medalGold : context.appColors.textTertiary,
       title: l10n.settingsVantagPro,
       trailing: isPro
@@ -1528,7 +1528,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             )
           : Icon(
-              PhosphorIconsDuotone.caretRight,
+              CupertinoIcons.chevron_right,
               size: 18,
               color: context.appColors.textTertiary,
             ),
@@ -1555,7 +1555,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildRestorePurchasesTile(AppLocalizations l10n) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.arrowCounterClockwise,
+      icon: CupertinoIcons.arrow_counterclockwise,
       iconColor: AppColors.secondary,
       title: l10n.settingsRestorePurchases,
       trailing: _isRestoring
@@ -1572,7 +1572,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildAchievementsTile(AppLocalizations l10n) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.trophy,
+      icon: CupertinoIcons.rosette,
       iconColor: AppColors.medalGold,
       title: l10n.badges,
       onTap: () {
@@ -1623,7 +1623,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (!isAnonymous && isLinkedWithGoogle) {
       // User is linked with Google - show account info
       return _buildListTile(
-        icon: PhosphorIconsDuotone.googleLogo,
+        icon: CupertinoIcons.globe,
         iconColor: AppColors.premiumGreen,
         title: l10n.googleLinked,
         trailing: Row(
@@ -1643,7 +1643,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             const SizedBox(width: 8),
             Icon(
-              PhosphorIconsFill.checkCircle,
+              CupertinoIcons.checkmark_circle_fill,
               size: 18,
               color: AppColors.premiumGreen,
             ),
@@ -1658,7 +1658,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return StatefulBuilder(
       builder: (context, setLocalState) {
         return _buildListTile(
-          icon: PhosphorIconsDuotone.googleLogo,
+          icon: CupertinoIcons.globe,
           iconColor: AppColors.categoryBills,
           title: l10n.googleNotLinked,
           trailing: _isLinkingGoogle
@@ -1695,7 +1695,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     const SizedBox(width: 4),
                     Icon(
-                      PhosphorIconsDuotone.caretRight,
+                      CupertinoIcons.chevron_right,
                       size: 18,
                       color: context.appColors.textTertiary,
                     ),
@@ -1739,7 +1739,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             backgroundColor: context.appColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
           ),
         );
@@ -1760,7 +1760,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             backgroundColor: context.appColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
           ),
         );
@@ -1784,7 +1784,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildExportTile(AppLocalizations l10n, bool isPro) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.fileXls,
+      icon: CupertinoIcons.doc_chart_fill,
       iconColor: AppColors.premiumGreen,
       title: l10n.settingsExportData,
       trailing: _isExporting
@@ -1937,7 +1937,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: Row(
           children: [
             Icon(
-              PhosphorIconsDuotone.fileArrowDown,
+              CupertinoIcons.arrow_down_doc_fill,
               color: context.appColors.primary,
               size: 24,
             ),
@@ -1966,7 +1966,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           TextButton.icon(
             onPressed: () => Navigator.pop(context, 'save'),
             icon: Icon(
-              PhosphorIconsDuotone.folderOpen,
+              CupertinoIcons.folder_fill,
               size: 18,
               color: context.appColors.textSecondary,
             ),
@@ -1978,7 +1978,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // Share button
           ElevatedButton.icon(
             onPressed: () => Navigator.pop(context, 'share'),
-            icon: const Icon(PhosphorIconsDuotone.shareFat, size: 18),
+            icon: const Icon(CupertinoIcons.share, size: 18),
             style: ElevatedButton.styleFrom(
               backgroundColor: context.appColors.primary,
               foregroundColor: Colors.white,
@@ -1992,7 +1992,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildImportStatementTile(AppLocalizations l10n, bool isPro) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.fileArrowUp,
+      icon: CupertinoIcons.arrow_up_doc_fill,
       iconColor: AppColors.categoryBills,
       title: l10n.settingsImportStatement,
       trailing: !isPro
@@ -2046,7 +2046,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         : 'https://violencia19.github.io/Vantag/privacy-en';
 
     return _buildListTile(
-      icon: PhosphorIconsDuotone.shieldCheck,
+      icon: CupertinoIcons.shield_fill,
       iconColor: AppColors.categoryEntertainment,
       title: l10n.settingsPrivacyPolicy,
       onTap: () => launchUrl(Uri.parse(privacyUrl)),
@@ -2061,7 +2061,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         : 'https://violencia19.github.io/Vantag/terms-en';
 
     return _buildListTile(
-      icon: PhosphorIconsDuotone.fileText,
+      icon: CupertinoIcons.doc_text_fill,
       iconColor: AppColors.categoryShopping,
       title: l10n.termsOfService,
       onTap: () => launchUrl(Uri.parse(termsUrl)),
@@ -2070,7 +2070,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildDeleteAccountTile(AppLocalizations l10n) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.userMinus,
+      icon: CupertinoIcons.person_badge_minus_fill,
       iconColor: context.appColors.error,
       title: l10n.deleteAccount,
       titleColor: context.appColors.error,
@@ -2084,7 +2084,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     final confirmed = await showDialog<bool>(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       barrierDismissible: false,
       builder: (context) =>
           _DeleteAccountDialog(confirmWord: confirmWord, l10n: l10n),
@@ -2097,7 +2097,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: Colors.black.withOpacity(0.85),
+        barrierColor: Colors.black.withValues(alpha: 0.85),
         builder: (context) => Center(
           child: CircularProgressIndicator(color: context.appColors.primary),
         ),
@@ -2160,7 +2160,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildBackupTile(AppLocalizations l10n) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.cloudArrowUp,
+      icon: CupertinoIcons.cloud_upload_fill,
       iconColor: AppColors.categoryHealth,
       title: l10n.backupData,
       onTap: _handleBackup,
@@ -2169,7 +2169,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildRestoreTile(AppLocalizations l10n) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.cloudArrowDown,
+      icon: CupertinoIcons.cloud_download_fill,
       iconColor: AppColors.categoryEducation,
       title: l10n.restoreData,
       onTap: _handleRestore,
@@ -2224,7 +2224,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildShareAppTile(AppLocalizations l10n) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.shareFat,
+      icon: CupertinoIcons.share,
       iconColor: AppColors.categoryEntertainment,
       title: l10n.shareApp,
       onTap: _shareApp,
@@ -2233,7 +2233,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildRateAppTile(AppLocalizations l10n) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.star,
+      icon: CupertinoIcons.star_fill,
       iconColor: AppColors.gold,
       title: l10n.rateApp,
       onTap: _rateAppFromAbout,
@@ -2242,7 +2242,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildFeedbackTile(AppLocalizations l10n) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.chatCircleText,
+      icon: CupertinoIcons.chat_bubble_text_fill,
       iconColor: AppColors.categoryTransport,
       title: l10n.sendFeedback,
       onTap: _sendFeedbackFromAbout,
@@ -2269,7 +2269,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildVersionTile(AppLocalizations l10n) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.info,
+      icon: CupertinoIcons.info_circle_fill,
       iconColor: AppColors.categoryOther,
       title: l10n.settingsVersion,
       trailing: Text(
@@ -2286,7 +2286,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildContactUsTile(AppLocalizations l10n) {
     return _buildListTile(
-      icon: PhosphorIconsDuotone.envelope,
+      icon: CupertinoIcons.envelope_fill,
       iconColor: AppColors.categoryBills,
       title: l10n.settingsContactUs,
       onTap: () => launchUrl(Uri.parse('mailto:support@vantag.app')),
@@ -2334,7 +2334,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
 
     return AlertDialog(
       backgroundColor: context.appColors.surface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -2347,7 +2347,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
-              PhosphorIconsDuotone.warning,
+              CupertinoIcons.exclamationmark_triangle_fill,
               color: context.appColors.error,
               size: 32,
             ),
@@ -2384,15 +2384,15 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
               filled: true,
               fillColor: context.appColors.background,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 borderSide: BorderSide(color: context.appColors.cardBorder),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 borderSide: BorderSide(color: context.appColors.cardBorder),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 borderSide: BorderSide(
                   color: context.appColors.error,
                   width: 2,
@@ -2427,7 +2427,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                   style: TextButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
                   child: Text(
@@ -2456,7 +2456,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                         .withValues(alpha: 0.5),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     elevation: 0,
                   ),

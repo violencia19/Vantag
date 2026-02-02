@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
@@ -31,7 +31,7 @@ final List<_PresetGoal> _presetGoals = [
   _PresetGoal(
     id: 'airpods',
     getName: (l10n) => l10n.pursuitOnboardingAirpods,
-    icon: PhosphorIconsDuotone.headphones,
+    icon: CupertinoIcons.headphones,
     estimatedHours: 50,
     targetAmount: 8000,
     emoji: '🎧',
@@ -39,7 +39,7 @@ final List<_PresetGoal> _presetGoals = [
   _PresetGoal(
     id: 'iphone',
     getName: (l10n) => l10n.pursuitOnboardingIphone,
-    icon: PhosphorIconsDuotone.deviceMobile,
+    icon: CupertinoIcons.device_phone_portrait,
     estimatedHours: 400,
     targetAmount: 65000,
     emoji: '📱',
@@ -47,7 +47,7 @@ final List<_PresetGoal> _presetGoals = [
   _PresetGoal(
     id: 'vacation',
     getName: (l10n) => l10n.pursuitOnboardingVacation,
-    icon: PhosphorIconsDuotone.airplane,
+    icon: CupertinoIcons.airplane,
     estimatedHours: 200,
     targetAmount: 30000,
     emoji: '✈️',
@@ -55,7 +55,7 @@ final List<_PresetGoal> _presetGoals = [
   _PresetGoal(
     id: 'custom',
     getName: (l10n) => l10n.pursuitOnboardingCustom,
-    icon: PhosphorIconsDuotone.plus,
+    icon: CupertinoIcons.add,
     estimatedHours: 0,
     targetAmount: 0,
     emoji: '✨',
@@ -335,7 +335,7 @@ class _GoalCard extends StatelessWidget {
         curve: Curves.easeOutCubic,
         decoration: BoxDecoration(
           color: context.appColors.surface,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: isSelected
                 ? context.appColors.primary
@@ -353,7 +353,7 @@ class _GoalCard extends StatelessWidget {
               : null,
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Stack(
@@ -425,7 +425,7 @@ class _GoalCard extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
-                        PhosphorIconsBold.check,
+                        CupertinoIcons.checkmark,
                         size: 14,
                         color: context.appColors.background,
                       ),

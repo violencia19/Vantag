@@ -2477,6 +2477,7 @@
   "notifTitleSubscriptionReminder": "Subscription reminder",
 
   "aiGreeting": "Hello! I'm Vantag.\nReady to answer your financial questions.",
+  "aiServiceUnavailable": "AI assistant is currently unavailable. Please try again later.",
 
   "onboardingHookTitle": "This coffee is 47 minutes",
   "onboardingHookSubtitle": "See the real cost of every purchase",
@@ -2846,6 +2847,102 @@
   "onboardingBalanceTitle": "Starting Balance",
   "onboardingBalanceDesc": "Enter your current balance to track your finances accurately",
 
+  "onboardingV2Step1Title": "See expenses differently",
+  "onboardingV2Step1Subtitle": "See how many hours each purchase costs you",
+  "onboardingV2Step1Demo": "$500 phone = 20 hours of work",
+  "onboardingV2Step1Cta": "Calculate",
+
+  "onboardingV2Step2Title": "Let's get to know you",
+  "onboardingV2Step2Income": "Monthly income",
+  "onboardingV2Step2Hours": "Daily work hours",
+  "onboardingV2Step2Days": "Work days per week",
+  "onboardingV2Step2Cta": "Continue",
+
+  "onboardingV2Step3Title": "Add your first expense",
+  "onboardingV2Step3Subtitle": "See its value in hours",
+  "onboardingV2Step3Result": "= {hours}h {minutes}m",
+  "@onboardingV2Step3Result": {
+    "placeholders": {
+      "hours": {"type": "int"},
+      "minutes": {"type": "int"}
+    }
+  },
+  "onboardingV2Step3Success": "Great! Now you'll know the true cost of every purchase",
+  "onboardingV2Step3Cta": "Start",
+
+  "onboardingV2SkipSetup": "Later",
+  "onboardingV2Progress": "Step {current}/{total}",
+  "@onboardingV2Progress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+
+  "checklistTitle": "Getting Started",
+  "checklistProgress": "{completed}/{total} completed",
+  "@checklistProgress": {
+    "placeholders": {
+      "completed": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "checklistFirstExpenseTitle": "Add your first expense",
+  "checklistFirstExpenseSubtitle": "See its value in hours",
+  "checklistViewReportTitle": "View your report",
+  "checklistViewReportSubtitle": "Discover spending patterns",
+  "checklistCreatePursuitTitle": "Set a savings goal",
+  "checklistCreatePursuitSubtitle": "Start saving for something",
+  "checklistNotificationsTitle": "Enable notifications",
+  "checklistNotificationsSubtitle": "Get daily reminders",
+  "checklistCelebrationTitle": "Great start!",
+  "checklistCelebrationSubtitle": "You're ready to use Vantag",
+
+  "emptyStateExampleTitle": "Example",
+  "emptyStateExpensesMessage": "See how many hours each purchase costs you",
+  "emptyStateExpensesCta": "Add Expense",
+  "emptyStatePursuitsMessage": "Set a goal and track your progress",
+  "emptyStatePursuitsCta": "Create Goal",
+  "emptyStateReportsMessage": "Discover your spending patterns",
+  "emptyStateReportsCta": "Add Expense",
+  "emptyStateSubscriptionsMessage": "Track your subscriptions, never forget",
+  "emptyStateSubscriptionsCta": "Add Subscription",
+  "emptyStateAchievementsMessage": "Add expenses to earn badges",
+  "emptyStateSavingsPoolMessage": "Pool your savings together",
+
+  "milestone3DayStreakTitle": "3 Day Streak!",
+  "milestone3DayStreakMessage": "Great start, keep going!",
+  "milestone7DayStreakTitle": "1 Week Streak!",
+  "milestone7DayStreakMessage": "A whole week of tracking",
+  "milestone14DayStreakTitle": "2 Week Streak!",
+  "milestone14DayStreakMessage": "You're building a habit",
+  "milestone30DayStreakTitle": "1 Month Streak!",
+  "milestone30DayStreakMessage": "A full month! Incredible",
+  "milestone60DayStreakTitle": "2 Month Streak!",
+  "milestone60DayStreakMessage": "You're a financial awareness pro",
+  "milestone100DayStreakTitle": "100 Day Streak!",
+  "milestone100DayStreakMessage": "Legendary achievement! You're a champion",
+  "milestoneFirstSavedTitle": "First Savings!",
+  "milestoneFirstSavedMessage": "You saved your first money",
+  "milestoneSaved100Title": "Saved $100!",
+  "milestoneSaved100Message": "Your savings habit is growing",
+  "milestoneSaved1000Title": "Saved $1,000!",
+  "milestoneSaved1000Message": "You're saving seriously",
+  "milestoneSaved5000Title": "Saved $5,000!",
+  "milestoneSaved5000Message": "You're a savings master!",
+  "milestoneFirstExpenseTitle": "First Step!",
+  "milestoneFirstExpenseMessage": "You logged your first expense",
+  "milestone10ExpensesTitle": "10 Expenses!",
+  "milestone10ExpensesMessage": "You have a tracking habit now",
+  "milestone50ExpensesTitle": "50 Expenses!",
+  "milestone50ExpensesMessage": "You're a financial awareness pro",
+  "milestoneFirstPursuitTitle": "First Goal!",
+  "milestoneFirstPursuitMessage": "Your savings journey has begun",
+  "milestoneFirstPursuitCompletedTitle": "Goal Completed!",
+  "milestoneFirstPursuitCompletedMessage": "You reached your first goal!",
+  "milestoneUsedAiChatTitle": "AI Discovery!",
+  "milestoneUsedAiChatMessage": "You met your financial assistant",
+
   "selectTimeFilter": "Select time filter: {filter}",
   "@selectTimeFilter": {
     "placeholders": {
@@ -3073,5 +3170,111 @@
   "subscriptionAutoRenewalNotice": "Subscription automatically renews unless canceled at least 24 hours before the end of the current period. Manage subscriptions in Settings.",
   "@subscriptionAutoRenewalNotice": {
     "description": "Apple App Store required auto-renewal disclosure"
-  }
+  },
+
+  "welcomeBackTitle3Days": "Welcome Back!",
+  "welcomeBackSubtitle3Days": "We missed you. Keep tracking your expenses.",
+  "welcomeBackCta3Days": "Add Expense",
+
+  "welcomeBackTitle7Days": "You're Back!",
+  "welcomeBackSubtitle7Days": "It's been a week. Let's continue towards your financial goals.",
+  "welcomeBackCta7Days": "Where Did We Leave Off?",
+
+  "welcomeBackTitle14Days": "Hello Again!",
+  "welcomeBackSubtitle14Days": "We've been waiting. Ready for a fresh start?",
+  "welcomeBackCta14Days": "Start Fresh",
+
+  "welcomeBackTitle30Days": "Welcome Back!",
+  "welcomeBackSubtitle30Days": "It's been a while, but reaching your goals is still possible!",
+  "welcomeBackCta30Days": "Get Started",
+
+  "welcomeBackStreakLost": "Your streak was reset",
+  "welcomeBackStreakRecovered": "{percent}% of your streak recovered!",
+  "@welcomeBackStreakRecovered": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+
+  "reengagementPushTitle3Days": "Don't forget to track your expenses!",
+  "reengagementPushBody3Days": "How much did you save today? Check now.",
+
+  "reengagementPushTitle5Days": "We miss you!",
+  "reengagementPushBody5Days": "Keep going to reach your financial goals.",
+
+  "reengagementPushTitle7Days": "Come back before you lose your streak!",
+  "reengagementPushBody7Days": "Don't lose your streak, add an expense now.",
+
+  "reengagementUrgentTitle": "Don't lose control of your finances!",
+  "reengagementUrgentBody": "Update your expenses and stay on track.",
+
+  "pushOnboardingDay1Title": "Add your first expense!",
+  "pushOnboardingDay1Body": "A coffee or meal - start small, see the difference.",
+
+  "pushOnboardingDay3Title": "Do you know how many hours you worked?",
+  "pushOnboardingDay3Body": "Keep seeing your expenses as hours worked.",
+
+  "pushOnboardingDay7Title": "It's been 7 days!",
+  "pushOnboardingDay7Body": "Add an expense daily to start a streak.",
+
+  "pushWeeklyInsightTitle": "Weekly Summary Ready",
+  "pushWeeklyInsightBody": "How much did you save this week? Check now.",
+
+  "pushStreakReminderNewTitle": "Start a new streak!",
+  "pushStreakReminderNewBody": "Add your first expense today and begin your journey.",
+
+  "pushStreakReminderShortTitle": "You have a {days} day streak!",
+  "@pushStreakReminderShortTitle": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "pushStreakReminderShortBody": "Add one today to keep it going.",
+
+  "pushStreakReminderMediumTitle": "{days} days! You're doing great!",
+  "@pushStreakReminderMediumTitle": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "pushStreakReminderMediumBody": "Add today to keep your streak alive.",
+
+  "pushStreakReminderLongTitle": "{days} day streak!",
+  "@pushStreakReminderLongTitle": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "pushStreakReminderLongBody": "Incredible achievement! Keep it up.",
+
+  "pushMorningMotivationTitle": "Good morning!",
+  "pushMorningMotivationWithSavingsBody": "You saved {symbol}{amount} this month. Keep going!",
+  "@pushMorningMotivationWithSavingsBody": {
+    "placeholders": {
+      "symbol": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "pushMorningMotivationDefaultBody": "Add an expense today to boost your financial awareness.",
+
+  "notificationSettingsTitle": "Notification Settings",
+  "notificationSettingsQuietHours": "Quiet Hours",
+  "notificationSettingsQuietHoursDesc": "No notifications during these hours",
+  "notificationSettingsPreferredTime": "Preferred Time",
+  "notificationSettingsPreferredTimeDesc": "Time to receive notifications",
+  "notificationSettingsStreakReminders": "Streak Reminders",
+  "notificationSettingsStreakRemindersDesc": "Get evening reminders about your streak",
+  "notificationSettingsMorningMotivation": "Morning Motivation",
+  "notificationSettingsMorningMotivationDesc": "Get motivation messages in the morning",
+  "notificationSettingsWeeklyInsights": "Weekly Insights",
+  "notificationSettingsWeeklyInsightsDesc": "Get weekly summary on Sunday mornings",
+
+  "loginPromptTitle": "Save Your Data",
+  "loginPromptSubtitle": "Link your account so you don't lose your data",
+  "loginPromptLater": "Maybe later",
+
+  "additionalIncomePromptTitle": "Do you have additional income?",
+  "additionalIncomePromptSubtitle": "Side job, rent, freelance...",
+  "additionalIncomeYes": "Yes, add",
+  "additionalIncomeNo": "No, I don't"
 }

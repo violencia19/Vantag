@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/app_limits.dart';
+import 'analytics_service.dart';
 import 'notification_service.dart';
 
 /// RevenueCat-based purchase service for Vantag Pro subscriptions
@@ -129,7 +130,8 @@ class PurchaseService {
     }
 
     try {
-      final customerInfo = await Purchases.purchasePackage(package);
+      final purchaseResult = await Purchases.purchasePackage(package);
+      final customerInfo = purchaseResult.customerInfo;
       final isPro = _checkEntitlement(customerInfo);
       _proStatusController.add(isPro);
 
@@ -149,6 +151,15 @@ class PurchaseService {
             '[PurchaseService] Error cancelling trial notifications: $e',
           );
         }
+
+        // Track subscription started
+        final planType = package.identifier.toLowerCase().contains('lifetime')
+            ? 'lifetime'
+            : package.identifier.toLowerCase().contains('yearly') ||
+                    package.identifier.toLowerCase().contains('annual')
+                ? 'yearly'
+                : 'monthly';
+        AnalyticsService().logSubscriptionStarted(planType);
       }
 
       return PurchaseResult(

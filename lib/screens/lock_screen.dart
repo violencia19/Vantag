@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../services/lock_service.dart';
 import '../services/haptic_service.dart';
@@ -136,7 +136,7 @@ class _LockScreenState extends State<LockScreen>
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Icon(
-                  PhosphorIconsFill.lock,
+                  CupertinoIcons.lock_fill,
                   size: 40,
                   color: context.appColors.primary,
                 ),
@@ -235,8 +235,8 @@ class _LockScreenState extends State<LockScreen>
                     builder: (context, snapshot) {
                       return Icon(
                         snapshot.data == true
-                            ? PhosphorIconsRegular.scan
-                            : PhosphorIconsRegular.fingerprint,
+                            ? CupertinoIcons.viewfinder
+                            : CupertinoIcons.hand_raised,
                         color: context.appColors.primary,
                       );
                     },
@@ -323,7 +323,7 @@ class _LockScreenState extends State<LockScreen>
         height: 72,
         child: Center(
           child: Icon(
-            PhosphorIconsRegular.backspace,
+            CupertinoIcons.delete_left,
             size: 28,
             color: context.appColors.textSecondary,
           ),

@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 
 class LabeledDropdown<T> extends StatelessWidget {
@@ -40,7 +40,7 @@ class LabeledDropdown<T> extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             color: context.appColors.surface,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(color: context.appColors.cardBorder),
           ),
           child: DropdownButtonHideUnderline(
@@ -48,11 +48,11 @@ class LabeledDropdown<T> extends StatelessWidget {
               value: value,
               isExpanded: true,
               icon: Icon(
-                PhosphorIconsDuotone.caretDown,
+                CupertinoIcons.chevron_down,
                 color: context.appColors.textSecondary,
               ),
               dropdownColor: context.appColors.surfaceLight,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,

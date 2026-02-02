@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../../theme/theme.dart';
@@ -174,8 +174,8 @@ class _SimpleMainScreenState extends State<SimpleMainScreen>
             children: [
               // Transactions Tab
               _buildNavItem(
-                icon: PhosphorIconsBold.listBullets,
-                iconOutline: PhosphorIconsRegular.listBullets,
+                icon: CupertinoIcons.list_bullet,
+                iconOutline: CupertinoIcons.list_bullet,
                 label: l10n.simpleTransactions,
                 index: 0,
               ),
@@ -185,16 +185,16 @@ class _SimpleMainScreenState extends State<SimpleMainScreen>
 
               // Statistics Tab
               _buildNavItem(
-                icon: PhosphorIconsBold.chartPie,
-                iconOutline: PhosphorIconsRegular.chartPie,
+                icon: CupertinoIcons.chart_pie_fill,
+                iconOutline: CupertinoIcons.chart_pie,
                 label: l10n.simpleStatistics,
                 index: 1,
               ),
 
               // Settings Tab
               _buildNavItem(
-                icon: PhosphorIconsBold.gear,
-                iconOutline: PhosphorIconsRegular.gear,
+                icon: CupertinoIcons.gear_solid,
+                iconOutline: CupertinoIcons.gear,
                 label: l10n.simpleSettings,
                 index: 2,
               ),
@@ -216,7 +216,7 @@ class _SimpleMainScreenState extends State<SimpleMainScreen>
     return Expanded(
       child: InkWell(
         onTap: () => _onNavTap(index),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Column(
@@ -272,7 +272,7 @@ class _SimpleMainScreenState extends State<SimpleMainScreen>
           onTap: _showAddExpenseSheet,
           borderRadius: BorderRadius.circular(28),
           child: Icon(
-            PhosphorIconsBold.plus,
+            CupertinoIcons.plus,
             size: 28,
             color: context.appColors.textPrimary,
           ),

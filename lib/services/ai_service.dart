@@ -61,6 +61,10 @@ class AIService {
   }
 
   bool get isInitialized => _isInitialized;
+
+  /// Check if AI service is available and ready to use
+  bool get isAvailable => _isInitialized;
+
   void setPersonalityMode(PersonalityMode mode) => _personalityMode = mode;
   PersonalityMode get personalityMode => _personalityMode;
   List<String> get userFacts => _memory.facts;

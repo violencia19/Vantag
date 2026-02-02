@@ -1,7 +1,9 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart' as lg;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -15,6 +17,8 @@ import 'subscription_screen.dart';
 import 'habit_calculator_screen.dart';
 import 'profile_modal.dart';
 import 'paywall_screen.dart';
+import 'report_screen.dart';
+import 'pursuit_list_screen.dart';
 
 class ExpenseScreen extends StatefulWidget {
   final UserProfile userProfile;
@@ -40,13 +44,21 @@ class ExpenseScreen extends StatefulWidget {
 
 class _ExpenseScreenState extends State<ExpenseScreen> {
   final _subscriptionService = SubscriptionService();
+  final _authService = AuthService();
   final ScrollController _scrollController = ScrollController();
   final _streakWidgetKey = GlobalKey<StreakWidgetState>();
 
   int _upcomingSubscriptionCount = 0;
   bool _showSwipeHint = false;
 
+  // Post-onboarding prompt states
+  bool _loginPromptDismissed = false;
+  bool _additionalIncomeAsked = false;
+  bool _promptStatesLoaded = false;
+
   static const _keySwipeHintShown = 'swipe_hint_shown';
+  static const _keyLoginPromptDismissed = 'login_prompt_dismissed';
+  static const _keyAdditionalIncomeAsked = 'additional_income_asked';
   static const int _recentExpensesLimit = 5;
 
   @override
@@ -54,6 +66,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     super.initState();
     _checkSwipeHint();
     _loadUpcomingSubscriptions();
+    _loadPromptStates();
   }
 
   @override
@@ -78,6 +91,107 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     if (mounted) {
       setState(() => _upcomingSubscriptionCount = upcoming.length);
     }
+  }
+
+  Future<void> _loadPromptStates() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (mounted) {
+      setState(() {
+        _loginPromptDismissed = prefs.getBool(_keyLoginPromptDismissed) ?? false;
+        _additionalIncomeAsked = prefs.getBool(_keyAdditionalIncomeAsked) ?? false;
+        _promptStatesLoaded = true;
+      });
+    }
+  }
+
+  Future<void> _dismissLoginPrompt() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_keyLoginPromptDismissed, true);
+    if (mounted) {
+      setState(() => _loginPromptDismissed = true);
+    }
+  }
+
+  Future<void> _onLoginSuccess() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_keyLoginPromptDismissed, true);
+    if (mounted) {
+      setState(() => _loginPromptDismissed = true);
+    }
+  }
+
+  Future<void> _dismissAdditionalIncomePrompt() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_keyAdditionalIncomeAsked, true);
+    if (mounted) {
+      setState(() => _additionalIncomeAsked = true);
+    }
+  }
+
+  /// Determines which prompt card to show (if any)
+  /// Order: Login Prompt -> Additional Income -> Onboarding Checklist
+  Widget? _buildPromptCard() {
+    if (!_promptStatesLoaded) return null;
+
+    final isLoggedIn = !_authService.isAnonymous;
+
+    // 1. Login Prompt: Show if not logged in and not dismissed
+    if (!isLoggedIn && !_loginPromptDismissed) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: LoginPromptCard(
+          onDismiss: _dismissLoginPrompt,
+          onLoginSuccess: _onLoginSuccess,
+        ),
+      );
+    }
+
+    // 2. Additional Income Prompt: Show after login prompt is handled
+    if (!_additionalIncomeAsked) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: AdditionalIncomePrompt(
+          onYes: _dismissAdditionalIncomePrompt,
+          onNo: _dismissAdditionalIncomePrompt,
+        ),
+      );
+    }
+
+    // 3. Onboarding Checklist: Show after both prompts are handled
+    // OnboardingChecklist handles its own dismissal state internally
+    return OnboardingChecklist(
+      onAddExpense: () {
+        HapticFeedback.lightImpact();
+        showAddExpenseSheet(
+          context,
+          exchangeRates: widget.exchangeRates,
+          onExpenseAdded: () {
+            _streakWidgetKey.currentState?.refresh();
+            widget.onStreakUpdated?.call();
+          },
+        );
+      },
+      onViewReport: () {
+        HapticFeedback.lightImpact();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ReportScreen(
+              userProfile: widget.userProfile,
+            ),
+          ),
+        );
+      },
+      onCreatePursuit: () {
+        HapticFeedback.lightImpact();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const PursuitListScreen(),
+          ),
+        );
+      },
+    );
   }
 
   void _showSubscriptionSheet() {
@@ -111,55 +225,46 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       label: semanticLabel,
       button: true,
       child: GestureDetector(
-        onTap: onTap,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(14),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: context.appColors.surfaceLight.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: context.appColors.cardBorder),
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Icon(icon, size: 20, color: context.appColors.textSecondary),
-                  if (badge != null)
-                    Positioned(
-                      top: 6,
-                      right: 6,
-                      child: Container(
-                        width: 16,
-                        height: 16,
-                        decoration: BoxDecoration(
-                          color: context.appColors.gold.withValues(alpha: 0.15),
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: context.appColors.gold.withValues(
-                              alpha: 0.3,
-                            ),
-                            width: 1,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            '$badge',
-                            style: TextStyle(
-                              fontSize: 9,
-                              fontWeight: FontWeight.w700,
-                              color: context.appColors.gold,
-                            ),
-                          ),
+        onTap: () {
+          HapticFeedback.lightImpact();
+          onTap();
+        },
+        child: lg.GlassContainer(
+          width: 44,
+          height: 44,
+          shape: const lg.LiquidRoundedSuperellipse(borderRadius: 16),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Icon(icon, size: 20, color: context.appColors.textSecondary),
+              if (badge != null)
+                Positioned(
+                  top: 6,
+                  right: 6,
+                  child: Container(
+                    width: 16,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      color: context.appColors.gold.withValues(alpha: 0.15),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: context.appColors.gold.withValues(alpha: 0.3),
+                        width: 1,
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '$badge',
+                        style: TextStyle(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w700,
+                          color: context.appColors.gold,
                         ),
                       ),
                     ),
-                ],
-              ),
-            ),
+                  ),
+                ),
+            ],
           ),
         ),
       ),
@@ -223,78 +328,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     return Container(
       color: context.appColors.surfaceLight,
       child: Icon(
-        PhosphorIconsDuotone.user,
+        CupertinoIcons.person_fill,
         size: 24,
         color: context.appColors.textTertiary,
-      ),
-    );
-  }
-
-  /// Pro lightning button - gold if Pro, gray if Free
-  Widget _buildProLightningButton(BuildContext context, AppLocalizations l10n) {
-    final proProvider = context.watch<ProProvider>();
-    final isPro = proProvider.isPro;
-
-    return Semantics(
-      label: isPro ? l10n.proMember : l10n.upgradeToPro,
-      button: true,
-      child: GestureDetector(
-        onTap: () {
-          if (isPro) {
-            // Show toast for Pro users
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(l10n.proMemberToast),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: context.appColors.success,
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          } else {
-            // Open Paywall for Free users
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const PaywallScreen()),
-            );
-          }
-        },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(14),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: isPro
-                    ? AppColors.medalGold.withValues(alpha: 0.15)
-                    : context.appColors.surfaceLight.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(
-                  color: isPro
-                      ? AppColors.medalGold.withValues(alpha: 0.5)
-                      : context.appColors.cardBorder,
-                ),
-                boxShadow: isPro
-                    ? [
-                        BoxShadow(
-                          color: AppColors.medalGold.withValues(alpha: 0.3),
-                          blurRadius: 12,
-                          spreadRadius: 0,
-                        ),
-                      ]
-                    : null,
-              ),
-              child: Icon(
-                PhosphorIconsDuotone.lightning,
-                size: 20,
-                color: isPro
-                    ? AppColors.medalGold
-                    : context.appColors.textTertiary,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -307,91 +343,77 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
         label: l10n.habitCalculator,
         button: true,
         child: GestureDetector(
-          onTap: _openHabitCalculator,
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [AppColors.primary, AppColors.secondary],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
+          onTap: () {
+            HapticFeedback.mediumImpact();
+            _openHabitCalculator();
+          },
+          child: lg.GlassCard(
+            shape: const lg.LiquidRoundedSuperellipse(borderRadius: 16),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.primary.withValues(alpha: 0.8),
+                    AppColors.secondary.withValues(alpha: 0.8),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
               ),
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.3),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: context.appColors.textPrimary.withValues(
-                      alpha: 0.15,
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: context.appColors.textPrimary.withValues(
-                          alpha: 0.2,
-                        ),
-                        blurRadius: 8,
-                        spreadRadius: -2,
+              child: Row(
+                children: [
+                  lg.GlassContainer(
+                    width: 48,
+                    height: 48,
+                    shape: const lg.LiquidRoundedSuperellipse(borderRadius: 16),
+                    child: Center(
+                      child: Icon(
+                        CupertinoIcons.bolt_fill,
+                        size: 28,
+                        color: context.appColors.textPrimary,
                       ),
-                    ],
-                  ),
-                  child: Center(
-                    child: PhosphorIcon(
-                      PhosphorIconsDuotone.lightning,
-                      size: 28,
-                      color: context.appColors.textPrimary,
-                      duotoneSecondaryColor: context.appColors.textPrimary
-                          .withValues(alpha: 0.5),
                     ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Builder(
-                    builder: (context) {
-                      final l10n = AppLocalizations.of(context);
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            l10n.habitQuestion,
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: context.appColors.textPrimary,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            l10n.calculateAndShock,
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: context.appColors.textPrimary.withValues(
-                                alpha: 0.9,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Builder(
+                      builder: (context) {
+                        final l10n = AppLocalizations.of(context);
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.habitQuestion,
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: context.appColors.textPrimary,
                               ),
                             ),
-                          ),
-                        ],
-                      );
-                    },
+                            const SizedBox(height: 2),
+                            Text(
+                              l10n.calculateAndShock,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: context.appColors.textPrimary.withValues(
+                                  alpha: 0.9,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                   ),
-                ),
-                Icon(
-                  PhosphorIconsDuotone.caretRight,
-                  color: context.appColors.textPrimary.withValues(alpha: 0.9),
-                  size: 24,
-                ),
-              ],
+                  Icon(
+                    CupertinoIcons.chevron_right,
+                    color: context.appColors.textPrimary.withValues(alpha: 0.9),
+                    size: 24,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -500,7 +522,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => DraggableScrollableSheet(
         initialChildSize: 0.9,
         minChildSize: 0.5,
@@ -586,7 +608,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
-                                PhosphorIconsDuotone.x,
+                                CupertinoIcons.xmark,
                                 size: 20,
                                 color: context.appColors.textSecondary,
                               ),
@@ -651,77 +673,61 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   Widget _buildProUpsell(AppLocalizations l10n, int lockedCount) {
     return Container(
       margin: const EdgeInsets.only(bottom: 24, top: 8),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            context.appColors.primary.withValues(alpha: 0.2),
-            context.appColors.primary.withValues(alpha: 0.1),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: context.appColors.primary.withValues(alpha: 0.3),
-        ),
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(
-              color: context.appColors.primary.withValues(alpha: 0.15),
-              shape: BoxShape.circle,
+      child: lg.GlassCard(
+        shape: const lg.LiquidRoundedSuperellipse(borderRadius: 16),
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                context.appColors.primary.withValues(alpha: 0.15),
+                context.appColors.primary.withValues(alpha: 0.05),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            child: Icon(
-              PhosphorIconsDuotone.crownSimple,
-              size: 28,
-              color: context.appColors.primary,
-            ),
+            borderRadius: BorderRadius.circular(16),
           ),
-          const SizedBox(height: 16),
-          Text(
-            l10n.unlockFullHistory,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l10n.proHistoryDescription(lockedCount),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: context.appColors.textSecondary,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 20),
-          Semantics(
-            label: l10n.upgradeToPro,
-            button: true,
-            child: GestureDetector(
-              onTap: () => _showPaywall(),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                  vertical: 14,
+          child: Column(
+            children: [
+              lg.GlassContainer(
+                width: 56,
+                height: 56,
+                shape: const lg.LiquidOval(),
+                child: Icon(
+                  CupertinoIcons.star_fill,
+                  size: 28,
+                  color: context.appColors.primary,
                 ),
-                decoration: BoxDecoration(
-                  gradient: AppGradients.primaryButton,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: context.appColors.primary.withValues(alpha: 0.3),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
+              ),
+              const SizedBox(height: 16),
+              Text(
+                l10n.unlockFullHistory,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: context.appColors.textPrimary,
                 ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                l10n.proHistoryDescription(lockedCount),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: context.appColors.textSecondary,
+                  height: 1.4,
+                ),
+              ),
+              const SizedBox(height: 20),
+              lg.GlassButton.custom(
+                onTap: () {
+                  HapticFeedback.mediumImpact();
+                  _showPaywall();
+                },
+                width: 180,
+                height: 48,
+                shape: const lg.LiquidRoundedSuperellipse(borderRadius: 16),
                 child: Text(
                   l10n.upgradeToPro,
                   style: TextStyle(
@@ -731,9 +737,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -759,12 +765,24 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     final hasMoreExpenses = expenses.length > _recentExpensesLimit;
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Container(
-        decoration: BoxDecoration(gradient: colors.backgroundGradient),
-        child: SafeArea(
-          bottom: false,
-          child: CustomScrollView(
+      backgroundColor: colors.background,
+      body: lg.LiquidGlassLayer(
+        settings: lg.LiquidGlassSettings(
+          thickness: 0.8,
+          blur: 15.0,
+          refractiveIndex: 1.4,
+          glassColor: Colors.white.withValues(alpha: 0.08),
+          lightAngle: 135.0,
+          lightIntensity: 0.7,
+          ambientStrength: 0.25,
+          saturation: 1.1,
+          chromaticAberration: 0.001,
+        ),
+        child: Container(
+          decoration: BoxDecoration(gradient: colors.backgroundGradient),
+          child: SafeArea(
+            bottom: false,
+            child: CustomScrollView(
             controller: _scrollController,
             slivers: [
               // Premium Header
@@ -797,9 +815,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                             tooltipBackgroundColor: context.appColors.surface,
                             overlayColor: Colors.black,
                             overlayOpacity: 0.95,
-                            targetBorderRadius: BorderRadius.circular(14),
+                            targetBorderRadius: BorderRadius.circular(16),
                             child: _buildHeaderAction(
-                              icon: PhosphorIconsDuotone.calendar,
+                              icon: CupertinoIcons.calendar,
                               badge: _upcomingSubscriptionCount > 0
                                   ? _upcomingSubscriptionCount
                                   : null,
@@ -825,7 +843,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                             tooltipBackgroundColor: context.appColors.surface,
                             overlayColor: Colors.black,
                             overlayOpacity: 0.95,
-                            targetBorderRadius: BorderRadius.circular(14),
+                            targetBorderRadius: BorderRadius.circular(16),
                             child: StreakWidget(key: _streakWidgetKey),
                           ),
                         ],
@@ -859,6 +877,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               ),
 
               const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
+              // Post-onboarding prompt cards (Login, Additional Income, Checklist)
+              if (_buildPromptCard() != null)
+                SliverToBoxAdapter(child: _buildPromptCard()!),
 
               // Renewal Warning Banner
               SliverToBoxAdapter(
@@ -896,7 +918,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   tooltipBackgroundColor: context.appColors.surface,
                   overlayColor: Colors.black,
                   overlayOpacity: 0.95,
-                  targetBorderRadius: BorderRadius.circular(20),
+                  targetBorderRadius: BorderRadius.circular(24),
                   child: FinancialSnapshotCard(
                     totalIncome: financeProvider.totalMonthlyIncome,
                     totalSpent: stats.yesTotal,
@@ -999,7 +1021,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                 color: context.appColors.primary.withValues(
                                   alpha: 0.15,
                                 ),
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
                                   color: context.appColors.primary.withValues(
                                     alpha: 0.3,
@@ -1019,7 +1041,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                   ),
                                   const SizedBox(width: 4),
                                   Icon(
-                                    PhosphorIconsDuotone.caretRight,
+                                    CupertinoIcons.chevron_right,
                                     size: 14,
                                     color: context.appColors.primary,
                                   ),
@@ -1074,60 +1096,49 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             ],
           ),
         ),
+        ),
       ),
     );
   }
 
   Widget _buildEmptyState(AppLocalizations l10n) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
-      decoration: BoxDecoration(
-        color: context.appColors.surfaceLight.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: context.appColors.cardBorder),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-              child: Container(
-                width: 72,
-                height: 72,
-                decoration: BoxDecoration(
-                  color: context.appColors.surfaceLight,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: context.appColors.cardBorder),
-                ),
-                child: Icon(
-                  PhosphorIconsDuotone.receipt,
-                  size: 32,
-                  color: context.appColors.textSecondary,
-                ),
+    return lg.GlassCard(
+      shape: const lg.LiquidRoundedSuperellipse(borderRadius: 24),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            lg.GlassContainer(
+              width: 72,
+              height: 72,
+              shape: const lg.LiquidRoundedSuperellipse(borderRadius: 24),
+              child: Icon(
+                CupertinoIcons.doc_text,
+                size: 32,
+                color: context.appColors.textSecondary,
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            l10n.noExpenses,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+            const SizedBox(height: 20),
+            Text(
+              l10n.noExpenses,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: context.appColors.textPrimary,
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l10n.tapPlusToAdd,
-            style: TextStyle(
-              fontSize: 14,
-              color: context.appColors.textSecondary,
+            const SizedBox(height: 8),
+            Text(
+              l10n.tapPlusToAdd,
+              style: TextStyle(
+                fontSize: 14,
+                color: context.appColors.textSecondary,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

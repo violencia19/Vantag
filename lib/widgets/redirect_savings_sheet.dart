@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -70,10 +70,10 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: QuietLuxury.positive.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     child: Icon(
-                      PhosphorIconsDuotone.piggyBank,
+                      CupertinoIcons.money_dollar_circle_fill,
                       color: QuietLuxury.positive,
                       size: 24,
                     ),
@@ -141,7 +141,7 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
                         side: BorderSide(color: QuietLuxury.cardBorder),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                       ),
                       child: Text(l10n.skipRedirect),
@@ -162,7 +162,7 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           disabledBackgroundColor: QuietLuxury.positive
                               .withValues(alpha: 0.3),
@@ -201,13 +201,13 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: QuietLuxury.cardBackground,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
       ),
       child: Column(
         children: [
           Icon(
-            PhosphorIconsDuotone.star,
+            CupertinoIcons.star_fill,
             size: 48,
             color: QuietLuxury.textTertiary,
           ),
@@ -270,7 +270,7 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
               backgroundColor: QuietLuxury.positive,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
           );
@@ -361,7 +361,7 @@ class _PursuitSelectionTile extends StatelessWidget {
       button: true,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.all(12),
@@ -369,7 +369,7 @@ class _PursuitSelectionTile extends StatelessWidget {
             color: isSelected
                 ? QuietLuxury.positive.withValues(alpha: 0.15)
                 : QuietLuxury.cardBackground,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: isSelected
                   ? QuietLuxury.positive.withValues(alpha: 0.5)
@@ -449,7 +449,7 @@ Future<bool?> showRedirectSavingsSheet(
 }) {
   return showModalBottomSheet<bool>(
     context: context,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
     builder: (_) => RedirectSavingsSheet(amount: amount, currency: currency),

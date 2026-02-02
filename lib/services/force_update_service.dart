@@ -1,6 +1,6 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import '../theme/theme.dart';
@@ -102,7 +102,7 @@ class ForceUpdateService {
     await showDialog(
       context: context,
       barrierDismissible: false,
-      barrierColor: Colors.black.withOpacity(0.9),
+      barrierColor: Colors.black.withValues(alpha: 0.9),
       builder: (context) => WillPopScope(
         onWillPop: () async => false,
         child: Dialog(
@@ -121,7 +121,7 @@ class ForceUpdateService {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    PhosphorIconsDuotone.arrowsClockwise,
+                    CupertinoIcons.arrow_2_circlepath,
                     size: 36,
                     color: context.appColors.warning,
                   ),

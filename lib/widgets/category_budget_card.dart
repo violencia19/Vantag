@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/category_budget.dart';
@@ -163,7 +163,7 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
                           height: 40,
                           decoration: BoxDecoration(
                             color: progressColor.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Icon(
                             ExpenseCategory.getIcon(budget.budget.category),
@@ -292,8 +292,8 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
                           children: [
                             Icon(
                               budget.isOverBudget
-                                  ? PhosphorIconsFill.warning
-                                  : PhosphorIconsFill.checkCircle,
+                                  ? CupertinoIcons.exclamationmark_triangle_fill
+                                  : CupertinoIcons.checkmark_circle_fill,
                               size: 14,
                               color: budget.isOverBudget
                                   ? context.appColors.error
@@ -356,7 +356,7 @@ class CompactBudgetCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
           color: progressColor.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: progressColor.withValues(alpha: 0.2)),
         ),
         child: Row(

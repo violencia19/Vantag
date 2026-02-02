@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:confetti/confetti.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 
 /// Wealth Coach: Victory Manager
@@ -262,7 +262,7 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
-                          PhosphorIconsFill.trophy,
+                          CupertinoIcons.rosette,
                           size: 48,
                           color: AppColors.medalGold,
                         ),
@@ -319,8 +319,8 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                               ),
                             ),
                             const SizedBox(width: 6),
-                            Icon(
-                              PhosphorIconsFill.handFist,
+                            const Icon(
+                              CupertinoIcons.hand_raised_fill,
                               size: 16,
                               color: Colors.white,
                             ),

@@ -238,7 +238,7 @@ class NotificationService {
     );
 
     await _notifications.initialize(
-      initSettings,
+      settings: initSettings,
       onDidReceiveNotificationResponse: _onNotificationTap,
     );
 
@@ -737,11 +737,11 @@ class NotificationService {
     try {
       // Her gün tekrarlayan bildirim
       await _notifications.zonedSchedule(
-        _idDailyReminder,
-        'Harcamalarını girmeyi unutma! 📝',
-        'Bugünkü harcamalarını saniyeler içinde gir',
-        tz.TZDateTime.from(scheduledTime, tz.local),
-        details,
+        id: _idDailyReminder,
+        title: 'Harcamalarını girmeyi unutma! 📝',
+        body: 'Bugünkü harcamalarını saniyeler içinde gir',
+        scheduledDate: tz.TZDateTime.from(scheduledTime, tz.local),
+        notificationDetails: details,
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         matchDateTimeComponents: DateTimeComponents.time, // Her gün aynı saatte
       );
@@ -807,11 +807,11 @@ class NotificationService {
     try {
       // Her ay aynı günde tekrarlayan bildirim
       await _notifications.zonedSchedule(
-        _idPayday,
-        'Maaş Günü! 💰',
-        message,
-        tz.TZDateTime.from(nextPayday, tz.local),
-        details,
+        id: _idPayday,
+        title: 'Maaş Günü! 💰',
+        body: message,
+        scheduledDate: tz.TZDateTime.from(nextPayday, tz.local),
+        notificationDetails: details,
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         matchDateTimeComponents:
             DateTimeComponents.dayOfMonthAndTime, // Ayın aynı gününde
@@ -888,11 +888,11 @@ class NotificationService {
 
     try {
       await _notifications.zonedSchedule(
-        notificationId,
-        'Hala düşünüyor musun? 🤔',
-        'Karar verdin mi? $itemDisplay',
-        tz.TZDateTime.from(scheduledTime, tz.local),
-        details,
+        id: notificationId,
+        title: 'Hala düşünüyor musun? 🤔',
+        body: 'Karar verdin mi? $itemDisplay',
+        scheduledDate: tz.TZDateTime.from(scheduledTime, tz.local),
+        notificationDetails: details,
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         payload: 'thinking_$expenseId',
       );
@@ -939,10 +939,10 @@ class NotificationService {
 
     try {
       await _notifications.show(
-        _idAchievementUnlocked,
-        'Başarı Açıldı! $achievementTitle',
-        achievementDescription,
-        details,
+        id: _idAchievementUnlocked,
+        title: 'Başarı Açıldı! $achievementTitle',
+        body: achievementDescription,
+        notificationDetails: details,
       );
     } catch (e) {
       // Ignore notification errors
@@ -1015,10 +1015,10 @@ class NotificationService {
 
     try {
       await _notifications.show(
-        _idStreakMilestoneReward,
-        '$milestone Gün Serisi!',
-        'Tebrikler! $proDaysGranted gün ücretsiz Pro kazandın!',
-        details,
+        id: _idStreakMilestoneReward,
+        title: '$milestone Gün Serisi!',
+        body: 'Tebrikler! $proDaysGranted gün ücretsiz Pro kazandın!',
+        notificationDetails: details,
       );
     } catch (e) {
       // Ignore notification errors
@@ -1091,11 +1091,11 @@ class NotificationService {
 
     try {
       await _notifications.zonedSchedule(
-        id,
-        title,
-        body,
-        tz.TZDateTime.from(scheduledTime, tz.local),
-        details,
+        id: id,
+        title: title,
+        body: body,
+        scheduledDate: tz.TZDateTime.from(scheduledTime, tz.local),
+        notificationDetails: details,
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       );
     } on UnimplementedError {
@@ -1117,7 +1117,7 @@ class NotificationService {
   Future<void> cancel(int id) async {
     if (Platform.isWindows || Platform.isLinux) return;
     try {
-      await _notifications.cancel(id);
+      await _notifications.cancel(id: id);
     } on UnimplementedError {
       // Windows/Linux'ta desteklenmiyor
     }

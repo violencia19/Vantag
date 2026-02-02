@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../../models/models.dart';
@@ -130,13 +130,13 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
               margin: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: context.appColors.surfaceLight,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: TabBar(
                 controller: _tabController,
                 indicator: BoxDecoration(
                   color: context.appColors.primary,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 indicatorSize: TabBarIndicatorSize.tab,
                 labelColor: context.appColors.textPrimary,
@@ -195,7 +195,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
           IconButton(
             onPressed: _previousMonth,
             icon: Icon(
-              PhosphorIconsBold.caretLeft,
+              CupertinoIcons.chevron_left,
               color: context.appColors.textPrimary,
               size: 20,
             ),
@@ -211,7 +211,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
           IconButton(
             onPressed: isCurrentMonth ? null : _nextMonth,
             icon: Icon(
-              PhosphorIconsBold.caretRight,
+              CupertinoIcons.chevron_right,
               color: isCurrentMonth
                   ? context.appColors.textTertiary
                   : context.appColors.textPrimary,
@@ -235,7 +235,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              PhosphorIconsDuotone.chartPie,
+              CupertinoIcons.chart_pie,
               size: 64,
               color: context.appColors.textTertiary,
             ),
@@ -275,7 +275,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: context.appColors.surfaceLight,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -313,7 +313,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: context.appColors.surfaceLight,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 children: [
@@ -452,7 +452,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   color: context.appColors.surfaceLight,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
                   children: [

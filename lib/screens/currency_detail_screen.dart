@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 
@@ -49,7 +49,7 @@ class CurrencyDetailScreen extends StatelessWidget {
         backgroundColor: context.appColors.background,
         leading: IconButton(
           icon: Icon(
-            PhosphorIconsDuotone.arrowLeft,
+            CupertinoIcons.arrow_left,
             color: context.appColors.textPrimary,
           ),
           onPressed: () => Navigator.pop(context),
@@ -74,7 +74,7 @@ class CurrencyDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: context.appColors.surface,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: context.appColors.cardBorder),
               ),
               child: Row(
@@ -84,10 +84,10 @@ class CurrencyDetailScreen extends StatelessWidget {
                     height: 40,
                     decoration: BoxDecoration(
                       color: context.appColors.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
-                      PhosphorIconsDuotone.arrowsClockwise,
+                      CupertinoIcons.arrow_2_circlepath,
                       size: 20,
                       color: context.appColors.primary,
                     ),
@@ -197,13 +197,13 @@ class CurrencyDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: context.appColors.surfaceLight,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(
-                    PhosphorIconsDuotone.info,
+                    CupertinoIcons.info_circle,
                     size: 18,
                     color: context.appColors.textTertiary.withValues(
                       alpha: 0.8,
@@ -244,7 +244,7 @@ class CurrencyDetailScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(
@@ -257,7 +257,7 @@ class CurrencyDetailScreen extends StatelessWidget {
                 height: 44,
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
                   child: Text(

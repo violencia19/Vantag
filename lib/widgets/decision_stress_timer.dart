@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../services/sensory_feedback_service.dart';
 import '../theme/theme.dart';
@@ -163,7 +163,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
                   height: 44,
                   decoration: BoxDecoration(
                     color: _riskColor.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(_getWarningIcon(), color: _riskColor, size: 24),
                 ),
@@ -219,15 +219,15 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
   IconData _getWarningIcon() {
     switch (widget.riskLevel) {
       case RiskLevel.none:
-        return PhosphorIconsDuotone.checkCircle;
+        return CupertinoIcons.checkmark_circle;
       case RiskLevel.low:
-        return PhosphorIconsDuotone.info;
+        return CupertinoIcons.info_circle;
       case RiskLevel.medium:
-        return PhosphorIconsDuotone.warningCircle;
+        return CupertinoIcons.exclamationmark_circle;
       case RiskLevel.high:
-        return PhosphorIconsDuotone.warningOctagon;
+        return CupertinoIcons.exclamationmark_octagon;
       case RiskLevel.extreme:
-        return PhosphorIconsDuotone.skull;
+        return CupertinoIcons.xmark_octagon;
     }
   }
 
@@ -303,8 +303,8 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
           children: [
             Icon(
               widget.riskLevel == RiskLevel.none
-                  ? PhosphorIconsDuotone.check
-                  : PhosphorIconsDuotone.warningCircle,
+                  ? CupertinoIcons.checkmark
+                  : CupertinoIcons.exclamationmark_circle,
               size: 22,
             ),
             const SizedBox(width: 10),

@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -322,7 +322,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.cardBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -356,10 +356,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: context.appColors.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
-                    PhosphorIconsDuotone.camera,
+                    CupertinoIcons.camera,
                     color: context.appColors.primary,
                   ),
                 ),
@@ -378,10 +378,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: context.appColors.secondary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
-                    PhosphorIconsDuotone.image,
+                    CupertinoIcons.photo,
                     color: context.appColors.secondary,
                   ),
                 ),
@@ -497,7 +497,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     final l10n = AppLocalizations.of(context);
     final picked = await showDatePicker(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       initialDate: _selectedDate,
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now(),
@@ -749,31 +749,6 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     });
   }
 
-  String _getEmotionalMessage(ExpenseDecision decision, double amount) {
-    final decisionType = switch (decision) {
-      ExpenseDecision.yes => DecisionType.yes,
-      ExpenseDecision.no => DecisionType.no,
-      ExpenseDecision.thinking => DecisionType.thinking,
-    };
-
-    final message = _messagesService.getMessageForDecision(
-      context,
-      decisionType,
-    );
-
-    if (decision == ExpenseDecision.no) {
-      final rates = widget.exchangeRates;
-      if (rates != null && rates.goldRate > 0) {
-        final goldGrams = amount / rates.goldRate;
-        return '$message (${goldGrams.toStringAsFixed(1)}g altın)';
-      }
-      final currencyProvider = context.read<CurrencyProvider>();
-      return '$message (${formatTurkishCurrency(amount, decimalDigits: 2)} ${currencyProvider.code})';
-    }
-
-    return message;
-  }
-
   Future<void> _onDecision(
     ExpenseDecision decision, {
     bool force = false,
@@ -813,6 +788,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         decisionDate: DateTime.now(),
       );
       await financeProvider.addExpense(expenseWithDecision);
+
+      // Track expense added (manual method, decision: no)
+      AnalyticsService().logExpenseAdded(
+        method: 'manual',
+        amount: expenseWithDecision.amount,
+        category: expenseWithDecision.category,
+        decision: 'no',
+      );
 
       // Calculate hours for display
       final userProfile = financeProvider.userProfile;
@@ -860,7 +843,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           SnackBar(
             content: Row(
               children: [
-                Icon(PhosphorIconsFill.star, color: Colors.white, size: 20),
+                Icon(CupertinoIcons.star_fill, color: Colors.white, size: 20),
                 const SizedBox(width: 12),
                 Expanded(child: Text(message)),
               ],
@@ -869,7 +852,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             behavior: SnackBarBehavior.floating,
             backgroundColor: context.appColors.success,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
           ),
         );
@@ -886,6 +869,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     );
 
     await financeProvider.addExpense(expenseWithDecision);
+
+    // Track expense added (manual method)
+    AnalyticsService().logExpenseAdded(
+      method: 'manual',
+      amount: expenseWithDecision.amount,
+      category: expenseWithDecision.category,
+      decision: decision.name,
+    );
 
     // Schedule 72h reminder for "thinking" decisions
     if (decision == ExpenseDecision.thinking && !isSimulation) {
@@ -928,7 +919,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 content: Row(
                   children: [
                     Icon(
-                      PhosphorIconsFill.warning,
+                      CupertinoIcons.exclamationmark_triangle_fill,
                       color: Colors.white,
                       size: 20,
                     ),
@@ -946,7 +937,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: context.appColors.warning,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                 ),
               ),
             );
@@ -984,8 +975,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           children: [
             Icon(
               decision == ExpenseDecision.thinking
-                  ? PhosphorIconsFill.clock
-                  : PhosphorIconsFill.checkCircle,
+                  ? CupertinoIcons.clock_fill
+                  : CupertinoIcons.checkmark_circle_fill,
               color: Colors.white,
               size: 20,
             ),
@@ -998,7 +989,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         backgroundColor: decision == ExpenseDecision.thinking
             ? context.appColors.warning
             : context.appColors.primary,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );
 
@@ -1045,7 +1036,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         backgroundColor: context.appColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         icon: Icon(
-          PhosphorIconsFill.microphone,
+          CupertinoIcons.mic_fill,
           size: 48,
           color: context.appColors.primary,
         ),
@@ -1113,7 +1104,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         title: Row(
           children: [
             Icon(
-              PhosphorIconsFill.currencyCircleDollar,
+              CupertinoIcons.money_dollar_circle_fill,
               color: context.appColors.primary,
               size: 24,
             ),
@@ -1174,7 +1165,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            Icon(PhosphorIconsFill.warning, color: Colors.amber, size: 24),
+            Icon(CupertinoIcons.exclamationmark_triangle_fill, color: Colors.amber, size: 24),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -1260,7 +1251,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         SnackBar(
           content: Row(
             children: [
-              Icon(PhosphorIconsFill.warning, color: Colors.white, size: 20),
+              Icon(CupertinoIcons.exclamationmark_triangle_fill, color: Colors.white, size: 20),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -1292,7 +1283,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           content: Row(
             children: [
               Icon(
-                PhosphorIconsFill.warningCircle,
+                CupertinoIcons.exclamationmark_circle_fill,
                 color: Colors.white,
                 size: 20,
               ),
@@ -1380,7 +1371,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                             Row(
                               children: [
                                 Icon(
-                                  PhosphorIconsDuotone.calendar,
+                                  CupertinoIcons.calendar,
                                   size: 14,
                                   color: context.appColors.textTertiary,
                                 ),
@@ -1408,7 +1399,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
-                              PhosphorIconsDuotone.x,
+                              CupertinoIcons.xmark,
                               size: 20,
                               color: context.appColors.textSecondary,
                             ),
@@ -1516,7 +1507,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         ),
         const SizedBox(width: 8),
         ExpenseDateChip(
-          icon: PhosphorIconsDuotone.calendar,
+          icon: CupertinoIcons.calendar,
           label: _selectedDateChip == 'custom'
               ? '${_selectedDate.day}/${_selectedDate.month}'
               : null,
@@ -1546,7 +1537,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       decoration: BoxDecoration(
         color: context.appColors.surfaceLight,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(
@@ -1610,13 +1601,13 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           height: 44,
           decoration: BoxDecoration(
             color: context.appColors.primary.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: context.appColors.primary.withValues(alpha: 0.3),
             ),
           ),
           child: Icon(
-            PhosphorIconsFill.microphone,
+            CupertinoIcons.mic_fill,
             size: 22,
             color: context.appColors.primary,
           ),
@@ -1667,7 +1658,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           height: 44,
           decoration: BoxDecoration(
             color: context.appColors.secondary.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: context.appColors.secondary.withValues(alpha: 0.3),
             ),
@@ -1684,7 +1675,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   ),
                 )
               : Icon(
-                  PhosphorIconsDuotone.camera,
+                  CupertinoIcons.camera,
                   size: 22,
                   color: context.appColors.secondary,
                 ),
@@ -1704,7 +1695,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
             color: context.appColors.textTertiary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: context.appColors.textTertiary.withValues(alpha: 0.3),
               width: 1,
@@ -1723,7 +1714,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               ),
               const SizedBox(width: 6),
               Icon(
-                PhosphorIconsRegular.lock,
+                CupertinoIcons.lock,
                 size: 14,
                 color: context.appColors.textTertiary,
               ),
@@ -1738,7 +1729,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
         color: context.appColors.primary.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: context.appColors.primary.withValues(alpha: 0.3),
           width: 1,
@@ -1748,12 +1739,12 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         child: DropdownButton<String>(
           value: _expenseCurrency.code,
           icon: Icon(
-            PhosphorIconsFill.caretDown,
+            CupertinoIcons.chevron_down,
             size: 16,
             color: context.appColors.primary,
           ),
           dropdownColor: context.appColors.cardBackground,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -1813,22 +1804,22 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           vertical: 14,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(color: context.appColors.cardBorder),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(color: context.appColors.cardBorder),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(color: context.appColors.primary, width: 1.5),
         ),
         suffixIcon: _smartMatchActive
             ? Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: Icon(
-                  PhosphorIconsDuotone.sparkle,
+                  CupertinoIcons.sparkles,
                   size: 18,
                   color: context.appColors.success,
                 ),
@@ -1853,7 +1844,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           scale: scale,
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               boxShadow: _smartMatchActive
                   ? [
                       BoxShadow(
@@ -1908,7 +1899,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       vertical: 14,
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
                         color: _categoryValidationError
                             ? context.appColors.error
@@ -1916,7 +1907,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
                         color: _categoryValidationError
                             ? context.appColors.error
@@ -1929,7 +1920,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
                         color: context.appColors.primary,
                         width: 1.5,
@@ -1959,7 +1950,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     child: Row(
                       children: [
                         Icon(
-                          PhosphorIconsDuotone.sparkle,
+                          CupertinoIcons.sparkles,
                           size: 14,
                           color: context.appColors.success,
                         ),
@@ -2013,15 +2004,15 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               vertical: 14,
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(color: context.appColors.cardBorder),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(color: context.appColors.cardBorder),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(
                 color: context.appColors.primary,
                 width: 1.5,
@@ -2029,7 +2020,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             ),
             suffixIcon: _subCategoryController.text.isNotEmpty
                 ? IconButton(
-                    icon: const Icon(PhosphorIconsDuotone.x, size: 18),
+                    icon: const Icon(CupertinoIcons.xmark, size: 18),
                     color: context.appColors.textTertiary,
                     onPressed: () {
                       _subCategoryController.clear();
@@ -2138,7 +2129,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(PhosphorIconsDuotone.calculator, size: 22),
+              const Icon(CupertinoIcons.equal_square, size: 22),
               const SizedBox(width: 10),
               Text(
                 l10n.calculate,
@@ -2164,7 +2155,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           color: isDark
               ? Colors.white.withValues(alpha: 0.05)
               : Colors.black.withValues(alpha: 0.03),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: _isMandatory
                 ? context.appColors.info.withValues(alpha: 0.5)
@@ -2188,8 +2179,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           ),
           secondary: Icon(
             _isMandatory
-                ? PhosphorIconsFill.lockKey
-                : PhosphorIconsDuotone.lockKeyOpen,
+                ? CupertinoIcons.lock_fill
+                : CupertinoIcons.lock_open,
             color: _isMandatory
                 ? context.appColors.info
                 : context.appColors.textTertiary,
@@ -2218,7 +2209,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   color: isDark
                       ? Colors.white.withValues(alpha: 0.05)
                       : Colors.black.withValues(alpha: 0.03),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: _expenseType == ExpenseType.installment
                         ? context.appColors.warning.withValues(alpha: 0.5)
@@ -2243,7 +2234,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     ),
                   ),
                   secondary: Icon(
-                    PhosphorIconsDuotone.creditCard,
+                    CupertinoIcons.creditcard,
                     color: _expenseType == ExpenseType.installment
                         ? context.appColors.warning
                         : context.appColors.textTertiary,
@@ -2291,7 +2282,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.appColors.warning.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: context.appColors.warning.withValues(alpha: 0.3),
         ),
@@ -2303,7 +2294,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           Row(
             children: [
               Icon(
-                PhosphorIconsDuotone.info,
+                CupertinoIcons.info,
                 color: context.appColors.warning,
                 size: 18,
               ),
@@ -2493,7 +2484,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               child: Row(
                 children: [
                   Icon(
-                    PhosphorIconsFill.warning,
+                    CupertinoIcons.exclamationmark_triangle_fill,
                     color: context.appColors.error,
                     size: 18,
                   ),
@@ -2569,7 +2560,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             child: Row(
               children: [
                 Icon(
-                  PhosphorIconsDuotone.info,
+                  CupertinoIcons.info,
                   color: context.appColors.info,
                   size: 20,
                 ),
@@ -2600,7 +2591,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
                     color: context.appColors.info.withValues(alpha: 0.3),
@@ -2611,7 +2602,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               ),
               child: ElevatedButton.icon(
                 onPressed: _saveMandatoryExpense,
-                icon: Icon(PhosphorIconsDuotone.check, size: 20),
+                icon: Icon(CupertinoIcons.checkmark, size: 20),
                 label: const Text('Kaydet'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
@@ -2619,7 +2610,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
               ),
@@ -2776,7 +2767,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             child: Container(
               decoration: BoxDecoration(
                 gradient: AppGradients.primaryButton,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
                     color: context.appColors.primary.withValues(alpha: 0.3),
@@ -2787,7 +2778,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               ),
               child: ElevatedButton.icon(
                 onPressed: _updateExpense,
-                icon: Icon(PhosphorIconsDuotone.pencilSimple, size: 20),
+                icon: Icon(CupertinoIcons.pencil, size: 20),
                 label: Text(l10n.updateExpense),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
@@ -2795,7 +2786,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
               ),
@@ -2831,7 +2822,7 @@ void showAddExpenseSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     builder: (context) => AddExpenseSheet(
       exchangeRates: exchangeRates,
       onExpenseAdded: onExpenseAdded,

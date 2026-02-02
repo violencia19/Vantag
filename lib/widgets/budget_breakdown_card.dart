@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/currency_provider.dart';
@@ -116,14 +116,14 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                             color: context.appColors.primary.withValues(
                               alpha: 0.15,
                             ),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(8),
                             boxShadow: PremiumShadows.coloredGlow(
                               context.appColors.primary,
                               intensity: 0.3,
                             ),
                           ),
                           child: Icon(
-                            PhosphorIconsDuotone.chartPie,
+                            CupertinoIcons.chart_pie_fill,
                             color: context.appColors.primary,
                             size: 18,
                             shadows: PremiumShadows.iconHalo(
@@ -159,7 +159,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                         Expanded(
                           child: _AnimatedStatItem(
                             index: 0,
-                            icon: PhosphorIconsDuotone.lock,
+                            icon: CupertinoIcons.lock_fill,
                             iconColor: context.appColors.info,
                             label: l10n.mandatoryExpenses,
                             amount: mandatoryConverted,
@@ -174,7 +174,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                         Expanded(
                           child: _AnimatedStatItem(
                             index: 1,
-                            icon: PhosphorIconsDuotone.shoppingBag,
+                            icon: CupertinoIcons.bag_fill,
                             iconColor: context.appColors.warning,
                             label: l10n.discretionaryExpenses,
                             amount: discretionaryConverted,
@@ -196,7 +196,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           color: context.appColors.success.withValues(
                             alpha: 0.08,
                           ),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: context.appColors.success.withValues(
                               alpha: 0.2,
@@ -207,7 +207,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                         child: Row(
                           children: [
                             Icon(
-                              PhosphorIconsDuotone.checkCircle,
+                              CupertinoIcons.checkmark_circle_fill,
                               color: context.appColors.success,
                               size: 20,
                               shadows: PremiumShadows.iconHalo(
@@ -242,7 +242,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           color: context.appColors.error.withValues(
                             alpha: 0.08,
                           ),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: context.appColors.error.withValues(
                               alpha: 0.2,
@@ -253,7 +253,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                         child: Row(
                           children: [
                             Icon(
-                              PhosphorIconsDuotone.warning,
+                              CupertinoIcons.exclamationmark_triangle_fill,
                               color: context.appColors.error,
                               size: 20,
                               shadows: PremiumShadows.iconHalo(
@@ -493,7 +493,7 @@ class _AnimatedStatItemState extends State<_AnimatedStatItem>
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 color: widget.iconColor.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: widget.iconColor.withValues(alpha: 0.15),
                   width: 1,

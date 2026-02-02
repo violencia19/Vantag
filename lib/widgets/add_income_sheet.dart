@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -176,10 +176,10 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                           color: context.appColors.success.withValues(
                             alpha: 0.15,
                           ),
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         child: Icon(
-                          PhosphorIconsDuotone.arrowCircleDown,
+                          CupertinoIcons.arrow_down_circle_fill,
                           color: context.appColors.success,
                           size: 24,
                         ),
@@ -299,7 +299,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                       filled: true,
                       fillColor: context.appColors.surfaceLight,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: const EdgeInsets.symmetric(
@@ -335,7 +335,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                             color: _canSave && !_isLoading
                                 ? context.appColors.success
                                 : context.appColors.surfaceLight,
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius: BorderRadius.circular(16),
                             boxShadow: _canSave && !_isLoading
                                 ? [
                                     BoxShadow(
@@ -364,7 +364,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
-                                      PhosphorIconsBold.plus,
+                                      CupertinoIcons.add,
                                       size: 20,
                                       color: _canSave
                                           ? context.appColors.background
@@ -423,7 +423,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
               color: isSelected
                   ? type.color.withValues(alpha: 0.15)
                   : context.appColors.surfaceLight,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: isSelected ? type.color : context.appColors.cardBorder,
                 width: isSelected ? 2 : 1,

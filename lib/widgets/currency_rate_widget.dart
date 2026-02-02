@@ -1,5 +1,6 @@
+import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/currency.dart';
@@ -181,14 +182,32 @@ class CurrencyRateWidget extends StatelessWidget {
             );
           }
         },
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: BoxDecoration(
-            color: context.appColors.surface,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: context.appColors.cardBorder),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                // Glass effect: semi-transparent with blur
+                color: context.appColors.surface.withValues(alpha: 0.6),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  width: 1,
+                ),
+                // Subtle inner glow
+                boxShadow: [
+                  BoxShadow(
+                    color: context.appColors.primary.withValues(alpha: 0.1),
+                    blurRadius: 12,
+                    spreadRadius: 0,
+                  ),
+                ],
+              ),
+              child: _buildContent(context, l10n, selectedCurrency),
+            ),
           ),
-          child: _buildContent(context, l10n, selectedCurrency),
         ),
       ),
     );
@@ -232,7 +251,7 @@ class CurrencyRateWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            PhosphorIconsDuotone.warningCircle,
+            CupertinoIcons.exclamationmark_circle,
             size: 14,
             color: context.appColors.textTertiary,
           ),
@@ -282,7 +301,7 @@ class CurrencyRateWidget extends StatelessWidget {
           ],
           const SizedBox(width: 8),
           Icon(
-            PhosphorIconsDuotone.caretRight,
+            CupertinoIcons.chevron_right,
             size: 16,
             color: context.appColors.textTertiary.withValues(alpha: 0.7),
           ),
@@ -321,7 +340,7 @@ class CurrencyRateWidget extends StatelessWidget {
           Tooltip(
             message: l10n.goldPriceNotUpdated,
             child: Icon(
-              PhosphorIconsDuotone.info,
+              CupertinoIcons.info_circle,
               size: 12,
               color: context.appColors.warning.withValues(alpha: 0.8),
             ),

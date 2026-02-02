@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 import '../services/free_tier_service.dart';
@@ -64,7 +64,7 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
           Row(
             children: [
               Icon(
-                PhosphorIconsDuotone.chartBar,
+                CupertinoIcons.chart_bar_fill,
                 size: 20,
                 color: context.appColors.primary,
               ),
@@ -84,7 +84,7 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
 
           _buildLimitRow(
             context,
-            icon: PhosphorIconsDuotone.chatCircleDots,
+            icon: CupertinoIcons.chat_bubble_2_fill,
             label: l10n.aiChat,
             used: _aiChatsUsed,
             total: _aiChatsTotal,
@@ -95,7 +95,7 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
 
           _buildLimitRow(
             context,
-            icon: PhosphorIconsDuotone.microphone,
+            icon: CupertinoIcons.mic_fill,
             label: l10n.voiceInput,
             used: _voiceUsed,
             total: _voiceTotal,
@@ -122,7 +122,7 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
       child: Row(
         children: [
           Icon(
-            PhosphorIconsDuotone.infinity,
+            CupertinoIcons.infinite,
             size: 28,
             color: context.appColors.primary,
           ),
@@ -150,7 +150,7 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
             ),
           ),
           Icon(
-            PhosphorIconsDuotone.crownSimple,
+            CupertinoIcons.star_fill,
             size: 24,
             color: AppColors.gold,
           ),

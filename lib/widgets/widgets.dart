@@ -108,3 +108,11 @@ export 'paywall_variants.dart';
 
 // Debug
 export 'debug_menu.dart';
+
+// Onboarding
+export 'onboarding_checklist.dart';
+export 'login_prompt_card.dart';
+export 'additional_income_prompt.dart';
+
+// Re-engagement
+export 'welcome_back_sheet.dart';

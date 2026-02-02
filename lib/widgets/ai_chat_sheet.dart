@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -10,6 +10,7 @@ import '../providers/finance_provider.dart';
 import '../providers/currency_provider.dart';
 import '../providers/pro_provider.dart';
 import '../services/ai_service.dart';
+import '../services/analytics_service.dart';
 import '../services/free_tier_service.dart';
 import '../theme/theme.dart';
 import '../constants/app_limits.dart';
@@ -44,6 +45,8 @@ class _AIChatSheetState extends State<AIChatSheet> {
     super.initState();
     _loadAIGreeting();
     _loadChatUsage();
+    // Track AI Chat opened
+    AnalyticsService().logAIChatUsed();
   }
 
   Future<void> _loadChatUsage() async {
@@ -314,7 +317,7 @@ SADECE karşılama cümlesini yaz:
             : isLow
             ? context.appColors.warning.withValues(alpha: 0.15)
             : context.appColors.primary.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: isLimitReached
               ? context.appColors.error.withValues(alpha: 0.3)
@@ -328,10 +331,10 @@ SADECE karşılama cümlesini yaz:
         children: [
           Icon(
             isLimitReached
-                ? PhosphorIconsFill.warning
+                ? CupertinoIcons.exclamationmark_triangle_fill
                 : isLow
-                ? PhosphorIconsDuotone.warning
-                : PhosphorIconsDuotone.chatCircle,
+                ? CupertinoIcons.exclamationmark_triangle
+                : CupertinoIcons.chat_bubble,
             size: 16,
             color: isLimitReached
                 ? context.appColors.error
@@ -391,10 +394,10 @@ SADECE karşılama cümlesini yaz:
                       context.appColors.primaryDark.withValues(alpha: 0.1),
                     ],
                   ),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.sparkle,
+                  CupertinoIcons.sparkles,
                   size: 22,
                   color: context.appColors.primary,
                 ),
@@ -446,7 +449,7 @@ SADECE karşılama cümlesini yaz:
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(
-                        PhosphorIcons.trash(),
+                        CupertinoIcons.trash,
                         size: 16,
                         color: context.appColors.textTertiary,
                       ),
@@ -474,7 +477,7 @@ SADECE karşılama cümlesini yaz:
                       ),
                       decoration: BoxDecoration(
                         color: context.appColors.surfaceLight,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: context.appColors.cardBorder),
                       ),
                       child: Row(
@@ -483,14 +486,14 @@ SADECE karşılama cümlesini yaz:
                           Icon(
                             AIService().personalityMode ==
                                     PersonalityMode.friendly
-                                ? PhosphorIconsDuotone.smiley
-                                : PhosphorIconsDuotone.briefcase,
+                                ? CupertinoIcons.smiley
+                                : CupertinoIcons.briefcase,
                             size: 16,
                             color: context.appColors.primary,
                           ),
                           const SizedBox(width: 6),
                           Icon(
-                            PhosphorIcons.caretDown(),
+                            CupertinoIcons.chevron_down,
                             size: 12,
                             color: context.appColors.textSecondary,
                           ),
@@ -516,7 +519,7 @@ SADECE karşılama cümlesini yaz:
                       ),
                       decoration: BoxDecoration(
                         color: context.appColors.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(24),
                         border: Border.all(
                           color: context.appColors.primary.withValues(
                             alpha: 0.2,
@@ -527,7 +530,7 @@ SADECE karşılama cümlesini yaz:
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            PhosphorIconsDuotone.lightbulb,
+                            CupertinoIcons.lightbulb,
                             size: 12,
                             color: context.appColors.primary,
                           ),
@@ -576,7 +579,7 @@ SADECE karşılama cümlesini yaz:
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.sparkle,
+                  CupertinoIcons.sparkles,
                   size: 32,
                   color: PremiumColors.purple,
                   shadows: PremiumShadows.iconHalo(PremiumColors.purple),
@@ -692,7 +695,7 @@ SADECE karşılama cümlesini yaz:
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
           decoration: BoxDecoration(
             color: context.appColors.surfaceLight,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(color: context.appColors.cardBorder),
           ),
           child: Row(
@@ -733,7 +736,7 @@ SADECE karşılama cümlesini yaz:
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: context.appColors.primary.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: context.appColors.primary.withValues(alpha: 0.3),
           ),
@@ -744,7 +747,7 @@ SADECE karşılama cümlesini yaz:
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  PhosphorIconsDuotone.lock,
+                  CupertinoIcons.lock,
                   size: 18,
                   color: context.appColors.primary,
                 ),
@@ -780,7 +783,7 @@ SADECE karşılama cümlesini yaz:
                         context.appColors.primaryDark,
                       ],
                     ),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(24),
                   ),
                   child: Text(
                     l10n.aiPremiumButton,
@@ -966,7 +969,7 @@ SADECE karşılama cümlesini yaz:
                         ),
                         suffixIcon: !isPremium
                             ? Icon(
-                                PhosphorIconsRegular.lock,
+                                CupertinoIcons.lock,
                                 size: 18,
                                 color: context.appColors.textTertiary,
                               )
@@ -1024,8 +1027,8 @@ SADECE karşılama cümlesini yaz:
                       ),
                       child: Icon(
                         isPremium
-                            ? PhosphorIconsBold.paperPlaneTilt
-                            : PhosphorIconsBold.lock,
+                            ? CupertinoIcons.paperplane_fill
+                            : CupertinoIcons.lock_fill,
                         size: 20,
                         color: Colors.white,
                       ),
@@ -1085,6 +1088,18 @@ SADECE karşılama cümlesini yaz:
     final proProvider = context.read<ProProvider>();
     final isPremium = proProvider.isPro;
     final l10n = AppLocalizations.of(context);
+
+    // Check if AI service is available
+    if (!AIService().isAvailable) {
+      setState(() {
+        _messages.add(ChatMessage(
+          role: 'assistant',
+          content: l10n.aiServiceUnavailable,
+        ));
+      });
+      _scrollToBottom();
+      return;
+    }
 
     // Check free tier limit before sending
     if (!isPremium) {

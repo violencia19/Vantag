@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/savings_pool.dart';
@@ -39,7 +39,7 @@ class BudgetShiftDialog extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => BudgetShiftDialog(
         shortfall: shortfall,
         totalAmount: totalAmount,
@@ -210,7 +210,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                     height: 48,
                     decoration: BoxDecoration(
                       color: context.appColors.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     child: const Center(
                       child: Text('✨', style: TextStyle(fontSize: 24)),
@@ -291,7 +291,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                                       alpha: 0.15,
                                     ))
                             : context.appColors.surfaceLight,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: isSelected
                               ? (option.isJoker
@@ -344,7 +344,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     disabledBackgroundColor: context.appColors.surfaceLight,
                   ),
@@ -374,7 +374,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                 child: TextButton.icon(
                   onPressed: _isLoading ? null : _createDebt,
                   icon: Icon(
-                    PhosphorIconsDuotone.warning,
+                    CupertinoIcons.exclamationmark_triangle,
                     size: 18,
                     color: context.appColors.error,
                   ),

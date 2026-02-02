@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -53,7 +53,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
   void _showAddEditDialog({Subscription? existing}) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       isScrollControlled: true,
       backgroundColor: QuietLuxury.background,
       shape: const RoundedRectangleBorder(
@@ -108,14 +108,14 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                     height: 44,
                     decoration: BoxDecoration(
                       color: QuietLuxury.textSecondary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: QuietLuxury.cardBorder,
                         width: 0.5,
                       ),
                     ),
                     child: Icon(
-                      PhosphorIconsDuotone.calendar,
+                      CupertinoIcons.calendar,
                       color: QuietLuxury.textSecondary,
                       size: 20,
                     ),
@@ -147,14 +147,14 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                       height: 44,
                       decoration: BoxDecoration(
                         color: QuietLuxury.positive.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: QuietLuxury.positive.withValues(alpha: 0.2),
                           width: 0.5,
                         ),
                       ),
                       child: Icon(
-                        PhosphorIconsDuotone.plus,
+                        CupertinoIcons.plus,
                         color: QuietLuxury.positive,
                         size: 22,
                       ),
@@ -224,11 +224,11 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
             height: 64,
             decoration: BoxDecoration(
               color: QuietLuxury.cardBackground,
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
             ),
             child: Icon(
-              PhosphorIconsDuotone.repeat,
+              CupertinoIcons.repeat,
               size: 26,
               color: QuietLuxury.textTertiary,
             ),
@@ -257,7 +257,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    PhosphorIconsDuotone.plus,
+                    CupertinoIcons.plus,
                     size: 18,
                     color: QuietLuxury.positive,
                   ),
@@ -328,7 +328,7 @@ class _SubscriptionCard extends StatelessWidget {
         ),
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 24),
-        child: Icon(PhosphorIconsDuotone.trash, color: QuietLuxury.negative),
+        child: Icon(CupertinoIcons.trash, color: QuietLuxury.negative),
       ),
       child: Pressable(
         onTap: onEdit,
@@ -355,7 +355,7 @@ class _SubscriptionCard extends StatelessWidget {
                       QuietLuxury.textSecondary.withValues(alpha: 0.05),
                     ],
                   ),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
                 ),
                 child: Center(
@@ -402,7 +402,7 @@ class _SubscriptionCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Icon(
-                          PhosphorIconsDuotone.clock,
+                          CupertinoIcons.clock,
                           size: 11,
                           color: _getRenewalColor(),
                         ),
@@ -464,7 +464,7 @@ class _SubscriptionCard extends StatelessWidget {
   void _showOptionsMenu(BuildContext context, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: QuietLuxury.background,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -486,7 +486,7 @@ class _SubscriptionCard extends StatelessWidget {
               const SizedBox(height: 24),
               _buildMenuTile(
                 context: context,
-                icon: PhosphorIconsDuotone.pencilSimple,
+                icon: CupertinoIcons.pencil,
                 label: l10n.edit,
                 color: AppColors.categoryEntertainment.withValues(
                   alpha: 0.7,
@@ -499,7 +499,7 @@ class _SubscriptionCard extends StatelessWidget {
               const SizedBox(height: 12),
               _buildMenuTile(
                 context: context,
-                icon: PhosphorIconsDuotone.trash,
+                icon: CupertinoIcons.trash,
                 label: l10n.delete,
                 color: QuietLuxury.negative,
                 onTap: () {
@@ -528,7 +528,7 @@ class _SubscriptionCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: color.withValues(alpha: 0.2), width: 0.5),
         ),
         child: Row(
@@ -706,7 +706,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                 filled: true,
                 fillColor: context.appColors.surfaceLight,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                   borderSide: BorderSide.none,
                 ),
               ),
@@ -739,7 +739,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                           filled: true,
                           fillColor: context.appColors.surfaceLight,
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                             borderSide: BorderSide.none,
                           ),
                         ),
@@ -766,7 +766,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         decoration: BoxDecoration(
                           color: context.appColors.surfaceLight,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<int>(
@@ -816,7 +816,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                 color: context.appColors.surfaceLight,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
@@ -873,7 +873,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: _isSaving
@@ -912,7 +912,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: context.appColors.surfaceLight,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
@@ -1004,7 +1004,7 @@ class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
           color: accentColor.withValues(alpha: 0.08),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: accentColor.withValues(alpha: 0.2),
             width: 0.5,
@@ -1013,7 +1013,7 @@ class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
         child: Row(
           children: [
             // Icon
-            Icon(PhosphorIconsDuotone.calendar, size: 20, color: accentColor),
+            Icon(CupertinoIcons.calendar, size: 20, color: accentColor),
             const SizedBox(width: 12),
 
             // Text
@@ -1048,7 +1048,7 @@ class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
 
             // Arrow
             Icon(
-              PhosphorIconsDuotone.caretRight,
+              CupertinoIcons.chevron_right,
               size: 12,
               color: accentColor.withValues(alpha: 0.5),
             ),

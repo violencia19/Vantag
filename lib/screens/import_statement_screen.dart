@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/pro_provider.dart';
@@ -136,11 +136,11 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: context.appColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Row(
           children: [
             Icon(
-              PhosphorIconsDuotone.warning,
+              CupertinoIcons.exclamationmark_triangle_fill,
               color: context.appColors.warning,
             ),
             const SizedBox(width: 12),
@@ -288,7 +288,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(
-            PhosphorIconsRegular.arrowLeft,
+            CupertinoIcons.arrow_left,
             color: context.appColors.textPrimary,
           ),
           onPressed: () => Navigator.pop(context),
@@ -312,7 +312,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                   ),
                   decoration: BoxDecoration(
                     color: context.appColors.surfaceLight,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
                     l10n.importStatementMonthlyLimit(_remainingImports),
@@ -384,7 +384,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
             padding: const EdgeInsets.symmetric(vertical: 60),
             decoration: BoxDecoration(
               color: context.appColors.surface,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24),
               border: Border.all(
                 color: context.appColors.primary.withValues(alpha: 0.3),
                 width: 2,
@@ -398,10 +398,10 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                   height: 80,
                   decoration: BoxDecoration(
                     color: context.appColors.primary.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(24),
                   ),
                   child: Icon(
-                    PhosphorIconsDuotone.fileArrowUp,
+                    CupertinoIcons.arrow_up_doc_fill,
                     size: 40,
                     color: context.appColors.primary,
                   ),
@@ -434,12 +434,12 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: context.appColors.error.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
               children: [
                 Icon(
-                  PhosphorIconsDuotone.warning,
+                  CupertinoIcons.exclamationmark_triangle_fill,
                   color: context.appColors.error,
                 ),
                 const SizedBox(width: 12),
@@ -458,14 +458,14 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
           width: double.infinity,
           child: ElevatedButton.icon(
             onPressed: _pickFile,
-            icon: const Icon(PhosphorIconsRegular.folderOpen),
+            icon: const Icon(CupertinoIcons.folder_open),
             label: Text(l10n.importStatementSelectFile),
             style: ElevatedButton.styleFrom(
               backgroundColor: context.appColors.primary,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
           ),
@@ -538,7 +538,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                 margin: const EdgeInsets.only(bottom: 8),
                 decoration: BoxDecoration(
                   color: context.appColors.surface,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                   border: isSelected
                       ? Border.all(color: context.appColors.primary, width: 2)
                       : null,
@@ -619,7 +619,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: _isImporting

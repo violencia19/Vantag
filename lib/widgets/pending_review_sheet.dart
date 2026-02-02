@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -53,7 +53,7 @@ class PendingReviewSheet extends StatefulWidget {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: Colors.transparent,
       builder: (context) => PendingReviewSheet(
         expenses: expenses,
@@ -78,55 +78,55 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
     _CategoryOption(
       id: 'Yiyecek',
       label: AppLocalizations.of(context).categoryFood,
-      icon: PhosphorIconsDuotone.hamburger,
+      icon: CupertinoIcons.cart,
       color: AppColors.categoryBills,
     ),
     _CategoryOption(
-      id: 'Ulaşım',
+      id: 'Ulasim',
       label: AppLocalizations.of(context).categoryTransport,
-      icon: PhosphorIconsDuotone.car,
+      icon: CupertinoIcons.car,
       color: AppColors.categoryEntertainment,
     ),
     _CategoryOption(
       id: 'Giyim',
       label: AppLocalizations.of(context).categoryClothing,
-      icon: PhosphorIconsDuotone.tShirt,
+      icon: CupertinoIcons.bag,
       color: AppColors.categoryShopping,
     ),
     _CategoryOption(
       id: 'Elektronik',
       label: AppLocalizations.of(context).categoryElectronics,
-      icon: PhosphorIconsDuotone.devices,
+      icon: CupertinoIcons.device_phone_portrait,
       color: AppColors.secondary,
     ),
     _CategoryOption(
-      id: 'Eğlence',
+      id: 'Eglence',
       label: AppLocalizations.of(context).categoryEntertainment,
-      icon: PhosphorIconsDuotone.gameController,
+      icon: CupertinoIcons.game_controller,
       color: AppColors.categoryEducation,
     ),
     _CategoryOption(
-      id: 'Sağlık',
+      id: 'Saglik',
       label: AppLocalizations.of(context).categoryHealth,
-      icon: PhosphorIconsDuotone.heartbeat,
+      icon: CupertinoIcons.heart,
       color: AppColors.achievementMystery,
     ),
     _CategoryOption(
-      id: 'Eğitim',
+      id: 'Egitim',
       label: AppLocalizations.of(context).categoryEducation,
-      icon: PhosphorIconsDuotone.graduationCap,
+      icon: CupertinoIcons.book,
       color: AppColors.categoryHealth,
     ),
     _CategoryOption(
       id: 'Faturalar',
       label: AppLocalizations.of(context).categoryBills,
-      icon: PhosphorIconsDuotone.receipt,
+      icon: CupertinoIcons.doc_text,
       color: AppColors.categoryOther,
     ),
     _CategoryOption(
-      id: 'Diğer',
+      id: 'Diger',
       label: AppLocalizations.of(context).categoryOther,
-      icon: PhosphorIconsDuotone.dotsThree,
+      icon: CupertinoIcons.ellipsis,
       color: AppColors.categoryDefault,
     ),
   ];
@@ -255,7 +255,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                   ),
                   decoration: BoxDecoration(
                     color: context.appColors.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(24),
                   ),
                   child: Text(
                     '${_remaining.length}',
@@ -306,8 +306,8 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                       onPressed: _remaining.isEmpty
                           ? null
                           : () => _skipExpense(_remaining.first),
-                      icon: PhosphorIcon(
-                        PhosphorIconsRegular.skipForward,
+                      icon: Icon(
+                        CupertinoIcons.forward,
                         color: context.appColors.textSecondary,
                       ),
                       label: Text(
@@ -333,7 +333,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                           vertical: 12,
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                       ),
                       child: Text(l10n.close),
@@ -360,8 +360,8 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
               color: context.appColors.success.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: PhosphorIcon(
-              PhosphorIconsDuotone.checkCircle,
+            child: Icon(
+              CupertinoIcons.checkmark_circle,
               size: 40,
               color: context.appColors.success,
             ),
@@ -403,7 +403,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: context.appColors.cardBackground,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24),
               border: Border.all(color: context.appColors.cardBorder),
             ),
             child: Column(
@@ -435,8 +435,8 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                 // Date
                 Row(
                   children: [
-                    PhosphorIcon(
-                      PhosphorIconsRegular.calendar,
+                    Icon(
+                      CupertinoIcons.calendar,
                       size: 16,
                       color: context.appColors.textTertiary,
                     ),
@@ -469,8 +469,8 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        PhosphorIcon(
-                          PhosphorIconsFill.lightbulb,
+                        Icon(
+                          CupertinoIcons.lightbulb_fill,
                           size: 16,
                           color: context.appColors.primary,
                         ),
@@ -616,7 +616,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              PhosphorIcon(
+              Icon(
                 category.icon,
                 size: 28,
                 color: isSuggested

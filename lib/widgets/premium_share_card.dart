@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
@@ -136,7 +136,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              PhosphorIconsDuotone.sparkle,
+              CupertinoIcons.sparkles,
               size: 14,
               color: Colors.white.withValues(alpha: 0.8),
             ),
@@ -267,7 +267,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: Colors.white.withValues(alpha: 0.1),
           width: 1,
@@ -377,7 +377,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
                 context.appColors.primary.withValues(alpha: 0.1),
               ],
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(
               color: context.appColors.primary.withValues(alpha: 0.4),
               width: 1,
@@ -454,17 +454,17 @@ class _PremiumShareCardState extends State<PremiumShareCard>
     final decision = widget.decision!;
     final (icon, color, label) = switch (decision) {
       ExpenseDecision.yes => (
-        PhosphorIconsFill.checkCircle,
+        CupertinoIcons.checkmark_circle_fill,
         context.appColors.error,
         'Aldım',
       ),
       ExpenseDecision.no => (
-        PhosphorIconsFill.prohibit,
+        CupertinoIcons.nosign,
         context.appColors.success,
         'Vazgeçtim',
       ),
       ExpenseDecision.thinking => (
-        PhosphorIconsFill.clock,
+        CupertinoIcons.clock_fill,
         context.appColors.warning,
         'Düşünüyorum',
       ),
@@ -474,7 +474,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -675,7 +675,7 @@ void showShareCardPreview(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     builder: (context) => _ShareCardPreviewSheet(
       amount: amount,
       hoursRequired: hoursRequired,
@@ -766,7 +766,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                         onPressed: () => Navigator.pop(context),
                         tooltip: l10n.close,
                         icon: const Icon(
-                          PhosphorIconsRegular.x,
+                          CupertinoIcons.xmark,
                           color: Colors.white,
                         ),
                       ),
@@ -782,7 +782,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                   children: [
                     _FormatButton(
                       label: 'Story',
-                      icon: PhosphorIconsRegular.deviceMobile,
+                      icon: CupertinoIcons.device_phone_portrait,
                       isSelected: _selectedFormat == ShareCardFormat.story,
                       onTap: () => setState(
                         () => _selectedFormat = ShareCardFormat.story,
@@ -791,7 +791,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                     const SizedBox(width: 12),
                     _FormatButton(
                       label: 'Post',
-                      icon: PhosphorIconsRegular.squareLogo,
+                      icon: CupertinoIcons.square,
                       isSelected: _selectedFormat == ShareCardFormat.square,
                       onTap: () => setState(
                         () => _selectedFormat = ShareCardFormat.square,
@@ -838,7 +838,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                         button: true,
                         child: _ShareButton(
                           label: 'Instagram',
-                          icon: PhosphorIconsFill.instagramLogo,
+                          icon: CupertinoIcons.camera,
                           color: AppColors.instagram,
                           onTap: () => _shareToInstagram(l10n),
                         ),
@@ -851,7 +851,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                         button: true,
                         child: _ShareButton(
                           label: 'TikTok',
-                          icon: PhosphorIconsFill.tiktokLogo,
+                          icon: CupertinoIcons.music_note,
                           color: Colors.white,
                           onTap: () => _shareToTikTok(l10n),
                         ),
@@ -864,7 +864,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                         button: true,
                         child: _ShareButton(
                           label: 'WhatsApp',
-                          icon: PhosphorIconsFill.whatsappLogo,
+                          icon: CupertinoIcons.chat_bubble_fill,
                           color: AppColors.whatsapp,
                           onTap: () => _shareToWhatsApp(l10n),
                         ),
@@ -877,7 +877,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                         button: true,
                         child: _ShareButton(
                           label: 'X',
-                          icon: PhosphorIconsFill.xLogo,
+                          icon: CupertinoIcons.at,
                           color: Colors.white,
                           onTap: () => _shareToTwitter(l10n),
                         ),
@@ -898,7 +898,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                         button: true,
                         child: _ShareButton(
                           label: l10n.saveToGallery,
-                          icon: PhosphorIconsFill.downloadSimple,
+                          icon: CupertinoIcons.arrow_down_to_line,
                           color: context.appColors.primary,
                           onTap: () => _saveToGallery(l10n),
                           isLoading: _isProcessing,
@@ -912,7 +912,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                         button: true,
                         child: _ShareButton(
                           label: l10n.otherApps,
-                          icon: PhosphorIconsFill.shareNetwork,
+                          icon: CupertinoIcons.share,
                           color: context.appColors.textSecondary,
                           onTap: () => _shareGeneric(l10n),
                         ),
@@ -1121,7 +1121,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
               content: Row(
                 children: [
                   Icon(
-                    PhosphorIconsFill.checkCircle,
+                    CupertinoIcons.checkmark_circle_fill,
                     color: Colors.white,
                     size: 20,
                   ),
@@ -1132,7 +1132,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
               backgroundColor: context.appColors.success,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
           );
@@ -1209,7 +1209,7 @@ class _FormatButton extends StatelessWidget {
           color: isSelected
               ? context.appColors.primary.withValues(alpha: 0.2)
               : Colors.white.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected
                 ? context.appColors.primary
@@ -1268,7 +1268,7 @@ class _ShareButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
         ),
         child: Column(
@@ -1629,7 +1629,7 @@ class _HabitShareCardState extends State<HabitShareCard>
           : '${widget.monthlyDays} ${l10n.daysAbbrev}';
       details.add(
         _DetailItem(
-          icon: PhosphorIconsDuotone.calendarBlank,
+          icon: CupertinoIcons.calendar,
           label: l10n.monthly,
           value: monthlyText,
         ),
@@ -1640,7 +1640,7 @@ class _HabitShareCardState extends State<HabitShareCard>
     if (widget.yearlyAmount != null) {
       details.add(
         _DetailItem(
-          icon: PhosphorIconsDuotone.coins,
+          icon: CupertinoIcons.money_dollar_circle,
           label: l10n.yearly,
           value: '$symbol${_formatAmount(widget.yearlyAmount!)}',
         ),
@@ -1651,7 +1651,7 @@ class _HabitShareCardState extends State<HabitShareCard>
     if (widget.monthlyAmount != null) {
       details.add(
         _DetailItem(
-          icon: PhosphorIconsDuotone.wallet,
+          icon: CupertinoIcons.creditcard,
           label: l10n.monthly,
           value: '$symbol${_formatAmount(widget.monthlyAmount!)}',
         ),
@@ -1662,7 +1662,7 @@ class _HabitShareCardState extends State<HabitShareCard>
     if (widget.frequency != null) {
       details.add(
         _DetailItem(
-          icon: PhosphorIconsDuotone.repeat,
+          icon: CupertinoIcons.repeat,
           label: l10n.frequency,
           value: widget.frequency!,
         ),
@@ -1699,7 +1699,7 @@ class _HabitShareCardState extends State<HabitShareCard>
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
       child: Row(
@@ -1824,7 +1824,7 @@ class _HabitShareCardState extends State<HabitShareCard>
                 widget.iconColor.withValues(alpha: 0.1),
               ],
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(
               color: widget.iconColor.withValues(alpha: 0.4),
               width: 1,
@@ -1877,7 +1877,7 @@ class _HabitShareCardState extends State<HabitShareCard>
             children: [
               if (widget.yearlyAmount != null) ...[
                 Icon(
-                  PhosphorIconsDuotone.coins,
+                  CupertinoIcons.money_dollar_circle,
                   size: 18,
                   color: Colors.white.withValues(alpha: 0.7),
                 ),
@@ -1903,7 +1903,7 @@ class _HabitShareCardState extends State<HabitShareCard>
                 ),
               if (widget.frequency != null) ...[
                 Icon(
-                  PhosphorIconsDuotone.calendarBlank,
+                  CupertinoIcons.calendar,
                   size: 18,
                   color: Colors.white.withValues(alpha: 0.7),
                 ),
@@ -2048,7 +2048,7 @@ void showHabitShareCardPreview(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     builder: (context) => _HabitShareCardPreviewSheet(
       icon: icon,
       iconColor: iconColor,
@@ -2155,7 +2155,7 @@ class _HabitShareCardPreviewSheetState
                         onPressed: () => Navigator.pop(context),
                         tooltip: l10n.close,
                         icon: const Icon(
-                          PhosphorIconsRegular.x,
+                          CupertinoIcons.xmark,
                           color: Colors.white,
                         ),
                       ),
@@ -2171,7 +2171,7 @@ class _HabitShareCardPreviewSheetState
                   children: [
                     _FormatButton(
                       label: 'Story',
-                      icon: PhosphorIconsRegular.deviceMobile,
+                      icon: CupertinoIcons.device_phone_portrait,
                       isSelected: _selectedFormat == ShareCardFormat.story,
                       onTap: () => setState(
                         () => _selectedFormat = ShareCardFormat.story,
@@ -2180,7 +2180,7 @@ class _HabitShareCardPreviewSheetState
                     const SizedBox(width: 12),
                     _FormatButton(
                       label: 'Post',
-                      icon: PhosphorIconsRegular.squareLogo,
+                      icon: CupertinoIcons.square,
                       isSelected: _selectedFormat == ShareCardFormat.square,
                       onTap: () => setState(
                         () => _selectedFormat = ShareCardFormat.square,
@@ -2279,7 +2279,7 @@ class _HabitShareCardPreviewSheetState
                                 color: Colors.white,
                               ),
                             )
-                          : const Icon(PhosphorIconsFill.shareFat, size: 22),
+                          : const Icon(CupertinoIcons.share_solid, size: 22),
                       label: Text(
                         _isSharing ? l10n.sharing : l10n.share,
                         style: const TextStyle(
@@ -2402,7 +2402,7 @@ class _ToggleChip extends StatelessWidget {
           color: isSelected
               ? context.appColors.primary.withValues(alpha: 0.2)
               : Colors.white.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: isSelected
                 ? context.appColors.primary
@@ -2415,8 +2415,8 @@ class _ToggleChip extends StatelessWidget {
           children: [
             Icon(
               isSelected
-                  ? PhosphorIconsFill.checkCircle
-                  : PhosphorIconsRegular.circle,
+                  ? CupertinoIcons.checkmark_circle_fill
+                  : CupertinoIcons.circle,
               size: 16,
               color: isSelected
                   ? context.appColors.primary

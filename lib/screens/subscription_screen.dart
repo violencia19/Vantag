@@ -1,8 +1,8 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../models/models.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
@@ -72,7 +72,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => AddSubscriptionSheet(
@@ -89,7 +89,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => SubscriptionDetailSheet(
@@ -123,7 +123,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             pinned: true,
             expandedHeight: 0,
             leading: IconButton(
-              icon: Icon(PhosphorIconsDuotone.arrowLeft),
+              icon: Icon(CupertinoIcons.arrow_left),
               onPressed: () => Navigator.pop(context),
               tooltip: AppLocalizations.of(context).accessibilityBackButton,
             ),
@@ -136,8 +136,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               IconButton(
                 icon: Icon(
                   _isCalendarView
-                      ? PhosphorIconsDuotone.list
-                      : PhosphorIconsDuotone.calendar,
+                      ? CupertinoIcons.list_bullet
+                      : CupertinoIcons.calendar,
                 ),
                 onPressed: _toggleView,
                 tooltip: _isCalendarView
@@ -199,7 +199,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         backgroundColor: context.appColors.primary,
         tooltip: AppLocalizations.of(context).addSubscription,
         child: Icon(
-          PhosphorIconsDuotone.plus,
+          CupertinoIcons.add,
           color: context.appColors.textPrimary,
         ),
       ),
@@ -315,7 +315,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: context.appColors.surface.withValues(alpha: 0.6),
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: subscription.color.withValues(alpha: 0.3),
               width: 1,
@@ -391,7 +391,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               const SizedBox(width: 8),
               // Arrow
               Icon(
-                PhosphorIconsDuotone.caretRight,
+                CupertinoIcons.chevron_right,
                 size: 20,
                 color: context.appColors.textTertiary,
               ),
@@ -412,10 +412,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             height: 80,
             decoration: BoxDecoration(
               color: context.appColors.surface.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24),
             ),
             child: Icon(
-              PhosphorIconsDuotone.repeat,
+              CupertinoIcons.repeat,
               size: 40,
               color: context.appColors.textTertiary,
             ),
@@ -448,13 +448,13 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         margin: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: context.appColors.gradientMid,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -93,7 +93,7 @@ class SavedMoneyCounter extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
       decoration: BoxDecoration(
         color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: context.appColors.primary.withValues(alpha: 0.2),
           width: 1,
@@ -107,10 +107,10 @@ class SavedMoneyCounter extends StatelessWidget {
             height: 44,
             decoration: BoxDecoration(
               color: context.appColors.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
-              PhosphorIconsDuotone.shieldCheck,
+              CupertinoIcons.shield_lefthalf_fill,
               size: 22,
               color: context.appColors.primary,
             ),
@@ -193,7 +193,7 @@ class SavedMoneyCounter extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  PhosphorIconsDuotone.clock,
+                  CupertinoIcons.clock,
                   size: 14,
                   color: context.appColors.textSecondary,
                 ),
@@ -217,7 +217,7 @@ class SavedMoneyCounter extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
                 color: context.appColors.primary.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,

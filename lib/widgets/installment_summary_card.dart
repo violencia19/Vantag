@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/expense.dart';
@@ -74,7 +74,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => _AllInstallmentsSheet(
         installments: installments,
         currencyProvider: currencyProvider,
@@ -136,14 +136,14 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                               color: context.appColors.warning.withValues(
                                 alpha: 0.15,
                               ),
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(8),
                               boxShadow: PremiumShadows.coloredGlow(
                                 context.appColors.warning,
                                 intensity: 0.3,
                               ),
                             ),
                             child: Icon(
-                              PhosphorIconsDuotone.creditCard,
+                              CupertinoIcons.creditcard,
                               color: context.appColors.warning,
                               size: 18,
                               shadows: PremiumShadows.iconHalo(
@@ -171,7 +171,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                           color: context.appColors.warning.withValues(
                             alpha: 0.2,
                           ),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: context.appColors.warning.withValues(
                               alpha: 0.3,
@@ -239,7 +239,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                                 color: context.appColors.warning.withValues(
                                   alpha: 0.15,
                                 ),
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
                                   color: context.appColors.warning.withValues(
                                     alpha: 0.3,
@@ -259,7 +259,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                                   ),
                                   const SizedBox(width: 4),
                                   Icon(
-                                    PhosphorIconsBold.caretRight,
+                                    CupertinoIcons.chevron_right,
                                     color: context.appColors.warning,
                                     size: 12,
                                   ),
@@ -311,7 +311,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                       child: Row(
                         children: [
                           Icon(
-                            PhosphorIconsDuotone.trendUp,
+                            CupertinoIcons.arrow_up_right,
                             color: context.appColors.error,
                             size: 16,
                             shadows: PremiumShadows.iconHalo(
@@ -597,7 +597,7 @@ class _AnimatedSummaryItemState extends State<_AnimatedSummaryItem>
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: widget.color.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: widget.color.withValues(alpha: 0.2),
                   width: 1,
@@ -702,10 +702,10 @@ class _AllInstallmentsSheet extends StatelessWidget {
                             color: context.appColors.warning.withValues(
                               alpha: 0.15,
                             ),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: Icon(
-                            PhosphorIconsDuotone.creditCard,
+                            CupertinoIcons.creditcard,
                             color: context.appColors.warning,
                             size: 18,
                           ),
@@ -728,7 +728,7 @@ class _AllInstallmentsSheet extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: context.appColors.warning.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
                         l10n.installmentCount(installments.length),

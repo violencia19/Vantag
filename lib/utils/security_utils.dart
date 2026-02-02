@@ -1,6 +1,13 @@
+import 'package:flutter/foundation.dart';
+
 /// Security utilities for input validation and sanitization
 class SecurityUtils {
   SecurityUtils._();
+
+  // Maximum lengths for input fields
+  static const int maxDescriptionLength = 200;
+  static const int maxCategoryLength = 50;
+  static const int maxNameLength = 100;
 
   // ─────────────────────────────────────────────────────────────────
   // INPUT VALIDATION
@@ -118,5 +125,36 @@ class SecurityUtils {
       result |= a.codeUnitAt(i) ^ b.codeUnitAt(i);
     }
     return result == 0;
+  }
+}
+
+/// Throttle helper for preventing button spam
+/// Tracks last action time per key to prevent rapid repeated actions
+class ActionThrottle {
+  static final Map<String, DateTime> _lastActions = {};
+
+  /// Check if action is allowed (not throttled)
+  /// Returns true if action is allowed, false if throttled
+  static bool canPerform(String actionKey, {Duration minInterval = const Duration(milliseconds: 500)}) {
+    final now = DateTime.now();
+    final lastAction = _lastActions[actionKey];
+
+    if (lastAction != null && now.difference(lastAction) < minInterval) {
+      debugPrint('[Throttle] Action "$actionKey" throttled');
+      return false;
+    }
+
+    _lastActions[actionKey] = now;
+    return true;
+  }
+
+  /// Reset throttle for a specific action
+  static void reset(String actionKey) {
+    _lastActions.remove(actionKey);
+  }
+
+  /// Clear all throttles
+  static void clearAll() {
+    _lastActions.clear();
   }
 }

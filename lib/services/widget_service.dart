@@ -12,8 +12,9 @@ class WidgetService {
   // iOS App Group ID (must match widget extension)
   static const String appGroupId = 'group.com.vantag.app';
 
-  // Widget names
-  static const String iOSWidgetName = 'VantagWidget';
+  // Widget names (must match Swift widget kind names exactly)
+  static const String iOSSmallWidgetName = 'VantagSmallWidget';
+  static const String iOSMediumWidgetName = 'VantagMediumWidget';
   static const String androidSmallWidgetName = 'VantagSmallWidgetProvider';
   static const String androidMediumWidgetName = 'VantagMediumWidgetProvider';
 
@@ -139,9 +140,12 @@ class WidgetService {
   Future<void> _updateWidgets() async {
     try {
       if (Platform.isIOS) {
-        await HomeWidget.updateWidget(iOSName: iOSWidgetName);
+        // Update both widget sizes on iOS
+        await HomeWidget.updateWidget(iOSName: iOSSmallWidgetName);
+        await HomeWidget.updateWidget(iOSName: iOSMediumWidgetName);
+        debugPrint('[Widget] iOS widgets updated: $iOSSmallWidgetName, $iOSMediumWidgetName');
       } else if (Platform.isAndroid) {
-        // Update both widget sizes
+        // Update both widget sizes on Android
         await HomeWidget.updateWidget(androidName: androidSmallWidgetName);
         await HomeWidget.updateWidget(androidName: androidMediumWidgetName);
       }

@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
@@ -35,7 +35,7 @@ class DecisionButtons extends StatelessWidget {
             Expanded(
               child: _AnimatedDecisionButton(
                 label: l10n.bought,
-                icon: PhosphorIconsDuotone.check,
+                icon: CupertinoIcons.checkmark,
                 color: context.appColors.decisionYes,
                 decision: ExpenseDecision.yes,
                 onTap: enabled ? () => onDecision(ExpenseDecision.yes) : null,
@@ -45,7 +45,7 @@ class DecisionButtons extends StatelessWidget {
             Expanded(
               child: _AnimatedDecisionButton(
                 label: l10n.thinking,
-                icon: PhosphorIconsDuotone.clock,
+                icon: CupertinoIcons.clock,
                 color: context.appColors.decisionThinking,
                 decision: ExpenseDecision.thinking,
                 onTap: enabled
@@ -57,7 +57,7 @@ class DecisionButtons extends StatelessWidget {
             Expanded(
               child: _AnimatedDecisionButton(
                 label: l10n.passed,
-                icon: PhosphorIconsDuotone.x,
+                icon: CupertinoIcons.xmark,
                 color: context.appColors.decisionNo,
                 decision: ExpenseDecision.no,
                 onTap: enabled ? () => onDecision(ExpenseDecision.no) : null,
@@ -198,7 +198,7 @@ class _AnimatedDecisionButtonState extends State<_AnimatedDecisionButton>
                     color: widget.color.withValues(
                       alpha: _colorAnimation.value,
                     ),
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(16),
                     border: Border.all(
                       color: widget.color.withValues(
                         alpha: _isPressed ? 0.6 : 0.3,
@@ -227,7 +227,7 @@ class _AnimatedDecisionButtonState extends State<_AnimatedDecisionButton>
                           color: widget.color.withValues(
                             alpha: _isPressed ? 0.3 : 0.15,
                           ),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         child: Icon(widget.icon, size: 22, color: widget.color),
                       ),
@@ -339,7 +339,7 @@ class _SingleDecisionButtonState extends State<SingleDecisionButton>
                   color: widget.isSelected
                       ? widget.color.withValues(alpha: 0.2)
                       : widget.color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: widget.isSelected
                         ? widget.color

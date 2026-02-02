@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -119,7 +119,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(PhosphorIconsRegular.target, size: 18),
+                        Icon(CupertinoIcons.scope, size: 18),
                         const SizedBox(width: 8),
                         Text(l10n.activePursuits),
                         if (pursuitProvider.activePursuitCount > 0) ...[
@@ -135,7 +135,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(PhosphorIconsRegular.check, size: 18),
+                        Icon(CupertinoIcons.check_mark, size: 18),
                         const SizedBox(width: 8),
                         Text(l10n.completedPursuits),
                         if (pursuitProvider.completedPursuitCount > 0) ...[
@@ -237,8 +237,8 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               ),
               child: Icon(
                 _showCompleted
-                    ? PhosphorIconsDuotone.trophy
-                    : PhosphorIconsDuotone.star,
+                    ? CupertinoIcons.rosette
+                    : CupertinoIcons.star_fill,
                 size: 64,
                 color: context.appColors.textTertiary,
               ),
@@ -274,10 +274,10 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                     vertical: 12,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                icon: Icon(PhosphorIconsBold.plus, size: 18),
+                icon: Icon(CupertinoIcons.add, size: 18),
                 label: Text(l10n.addFirstPursuit),
               ),
             ],
@@ -301,7 +301,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               context.appColors.success.withValues(alpha: 0.05),
             ],
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: context.appColors.success.withValues(alpha: 0.3),
             width: 1.5,
@@ -318,7 +318,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
-                PhosphorIconsDuotone.plus,
+                CupertinoIcons.add,
                 color: context.appColors.success,
                 size: 28,
               ),
@@ -350,7 +350,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               ),
             ),
             Icon(
-              PhosphorIconsDuotone.caretRight,
+              CupertinoIcons.chevron_right,
               color: context.appColors.success,
               size: 24,
             ),
@@ -368,7 +368,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
         color: context.appColors.error.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Icon(PhosphorIconsBold.trash, color: context.appColors.error),
+      child: Icon(CupertinoIcons.trash_fill, color: context.appColors.error),
     );
   }
 
@@ -429,7 +429,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
     HapticFeedback.selectionClick();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (_) => _PursuitDetailSheet(
@@ -542,7 +542,7 @@ class _CountBadge extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
         color: effectiveColor.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
         count.toString(),
@@ -686,10 +686,10 @@ class _PursuitDetailSheet extends StatelessWidget {
                           foregroundColor: context.appColors.textPrimary,
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                        icon: Icon(PhosphorIconsBold.plus, size: 18),
+                        icon: Icon(CupertinoIcons.add, size: 18),
                         label: Text(l10n.addSavings),
                       ),
                     ),
@@ -702,12 +702,12 @@ class _PursuitDetailSheet extends StatelessWidget {
                     style: IconButton.styleFrom(
                       backgroundColor: colors.surfaceLight,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         side: BorderSide(color: colors.cardBorder),
                       ),
                     ),
                     icon: Icon(
-                      PhosphorIconsRegular.pencilSimple,
+                      CupertinoIcons.pencil,
                       color: colors.textSecondary,
                     ),
                   ),
@@ -719,13 +719,13 @@ class _PursuitDetailSheet extends StatelessWidget {
                     style: IconButton.styleFrom(
                       backgroundColor: colors.error.withValues(alpha: 0.1),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         side: BorderSide(
                           color: colors.error.withValues(alpha: 0.3),
                         ),
                       ),
                     ),
-                    icon: Icon(PhosphorIconsRegular.trash, color: colors.error),
+                    icon: Icon(CupertinoIcons.trash, color: colors.error),
                   ),
                 ],
               ),

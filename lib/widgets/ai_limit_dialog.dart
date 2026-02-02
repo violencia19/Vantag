@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 import '../screens/paywall_screen.dart';
@@ -24,7 +24,7 @@ class AILimitDialog {
   }) {
     return showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       barrierDismissible: false,
       builder: (context) => _AILimitDialogContent(
         type: type,
@@ -127,11 +127,11 @@ class _AILimitDialogContent extends StatelessWidget {
 
     switch (type) {
       case AILimitType.free:
-        icon = PhosphorIconsDuotone.lock;
+        icon = CupertinoIcons.lock_fill;
         color = context.appColors.warning;
       case AILimitType.proSubscription:
       case AILimitType.lifetime:
-        icon = PhosphorIconsDuotone.hourglassMedium;
+        icon = CupertinoIcons.hourglass;
         color = context.appColors.primary;
     }
 
@@ -144,7 +144,7 @@ class _AILimitDialogContent extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: [color.withValues(alpha: 0.2), color.withValues(alpha: 0.1)],
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
       ),
       child: Icon(icon, size: 36, color: color),
     );
@@ -183,7 +183,7 @@ class _AILimitDialogContent extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         color: context.appColors.primary.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: context.appColors.primary.withValues(alpha: 0.2),
         ),
@@ -192,7 +192,7 @@ class _AILimitDialogContent extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            PhosphorIconsDuotone.calendarCheck,
+            CupertinoIcons.calendar_badge_plus,
             size: 18,
             color: context.appColors.primary,
           ),
@@ -224,7 +224,7 @@ class _AILimitDialogContent extends StatelessWidget {
               MaterialPageRoute(builder: (_) => const PaywallScreen()),
             );
           },
-          icon: PhosphorIconsDuotone.rocketLaunch,
+          icon: CupertinoIcons.rocket_fill,
           label: l10n.aiLimitUpgradeToPro,
         );
 
@@ -241,7 +241,7 @@ class _AILimitDialogContent extends StatelessWidget {
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(16),
               ),
               elevation: 0,
             ),
@@ -262,7 +262,7 @@ class _AILimitDialogContent extends StatelessWidget {
               MaterialPageRoute(builder: (_) => const CreditPurchaseScreen()),
             );
           },
-          icon: PhosphorIconsDuotone.batteryCharging,
+          icon: CupertinoIcons.battery_charging,
           label: l10n.aiLimitBuyCredits,
         );
     }
@@ -337,7 +337,7 @@ class _GradientButton extends StatelessWidget {
         gradient: LinearGradient(
           colors: [context.appColors.primary, context.appColors.secondary],
         ),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
             color: context.appColors.primary.withValues(alpha: 0.4),
@@ -350,7 +350,7 @@ class _GradientButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onPressed,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Row(

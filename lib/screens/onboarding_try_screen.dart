@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/providers.dart';
@@ -146,7 +146,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
               ],
             ),
             child: Icon(
-              PhosphorIconsDuotone.target,
+              CupertinoIcons.scope,
               size: 40,
               color: context.appColors.textPrimary,
             ),
@@ -179,14 +179,14 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
 
           // Amount Input Card
           ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   color: context.appColors.surfaceLight,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(24),
                   border: Border.all(color: context.appColors.cardBorder),
                 ),
                 child: Column(
@@ -276,7 +276,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Icon(PhosphorIconsDuotone.calculator, size: 24),
+                    Icon(CupertinoIcons.equal_square, size: 24),
                   ],
                 ),
               ),
@@ -365,7 +365,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 Row(
                   children: [
                     Icon(
-                      PhosphorIconsDuotone.lightbulb,
+                      CupertinoIcons.lightbulb_fill,
                       size: 20,
                       color: context.appColors.warning,
                     ),
@@ -386,7 +386,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 Row(
                   children: [
                     Icon(
-                      PhosphorIconsDuotone.notepad,
+                      CupertinoIcons.doc_text_fill,
                       size: 20,
                       color: context.appColors.info,
                     ),
@@ -446,7 +446,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Icon(PhosphorIconsDuotone.arrowRight, size: 24),
+                    Icon(CupertinoIcons.arrow_right, size: 24),
                   ],
                 ),
               ),
@@ -510,7 +510,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    PhosphorIconsDuotone.clock,
+                    CupertinoIcons.clock_fill,
                     size: 32,
                     color: context.appColors.warning,
                   ),

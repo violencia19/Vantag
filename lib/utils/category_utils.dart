@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:vantag/theme/app_theme.dart';
 
@@ -87,38 +87,38 @@ class CategoryUtils {
     }
   }
 
-  /// Get category icon (Phosphor icon)
+  /// Get category icon (Cupertino icon)
   static IconData getIcon(String internalKey) {
     switch (internalKey) {
       case 'Yiyecek':
-        return PhosphorIconsFill.forkKnife;
+        return CupertinoIcons.cart_fill;
       case 'Ulaşım':
-        return PhosphorIconsFill.car;
+        return CupertinoIcons.car_fill;
       case 'Giyim':
-        return PhosphorIconsFill.tShirt;
+        return CupertinoIcons.tag_fill;
       case 'Elektronik':
-        return PhosphorIconsFill.deviceMobile;
+        return CupertinoIcons.device_phone_portrait;
       case 'Eğlence':
-        return PhosphorIconsFill.gameController;
+        return CupertinoIcons.gamecontroller_fill;
       case 'Sağlık':
-        return PhosphorIconsFill.pill;
+        return CupertinoIcons.heart_fill;
       case 'Eğitim':
-        return PhosphorIconsFill.graduationCap;
+        return CupertinoIcons.book_fill;
       case 'Faturalar':
-        return PhosphorIconsFill.fileText;
+        return CupertinoIcons.doc_text_fill;
       case 'Abonelik':
-        return PhosphorIconsFill.bellRinging;
+        return CupertinoIcons.bell_fill;
       case 'Alışveriş':
-        return PhosphorIconsFill.shoppingCart;
+        return CupertinoIcons.bag_fill;
       case 'Dijital':
-        return PhosphorIconsFill.laptop;
+        return CupertinoIcons.desktopcomputer;
       case 'Spor':
-        return PhosphorIconsFill.barbell;
+        return CupertinoIcons.sportscourt_fill;
       case 'Haberleşme':
-        return PhosphorIconsFill.phone;
+        return CupertinoIcons.phone_fill;
       case 'Diğer':
       default:
-        return PhosphorIconsFill.package;
+        return CupertinoIcons.cube_box_fill;
     }
   }
 

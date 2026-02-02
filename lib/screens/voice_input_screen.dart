@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -320,6 +320,13 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
 
     try {
       await expenseService.addExpense(expense);
+      // Track voice expense added
+      AnalyticsService().logExpenseAdded(
+        method: 'voice',
+        amount: expense.amount,
+        category: expense.category,
+        decision: decision.name,
+      );
     } catch (e) {
       debugPrint('[Voice] Error adding expense: $e');
     }
@@ -343,10 +350,10 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
             children: [
               Icon(
                 decision == ExpenseDecision.yes
-                    ? PhosphorIconsDuotone.checkCircle
+                    ? CupertinoIcons.checkmark_circle_fill
                     : decision == ExpenseDecision.no
-                    ? PhosphorIconsDuotone.xCircle
-                    : PhosphorIconsDuotone.clock,
+                    ? CupertinoIcons.xmark_circle_fill
+                    : CupertinoIcons.clock_fill,
                 color: Colors.white,
                 size: 20,
               ),
@@ -365,7 +372,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               : context.appColors.warning,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
         ),
       );
@@ -424,16 +431,16 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
       // Free user: show upgrade prompt
       showDialog(
         context: context,
-        barrierColor: Colors.black.withOpacity(0.85),
+        barrierColor: Colors.black.withValues(alpha: 0.85),
         builder: (ctx) => AlertDialog(
           backgroundColor: context.appColors.surface,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
           ),
           title: Row(
             children: [
               Icon(
-                PhosphorIconsDuotone.microphone,
+                CupertinoIcons.mic_fill,
                 color: context.appColors.warning,
                 size: 28,
               ),
@@ -478,10 +485,10 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 backgroundColor: context.appColors.primary,
                 foregroundColor: context.appColors.textPrimary,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              icon: const Icon(PhosphorIconsBold.crown, size: 18),
+              icon: const Icon(CupertinoIcons.star_fill, size: 18),
               label: Text(l10n.upgradeToPro),
             ),
           ],
@@ -491,16 +498,16 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
       // Pro user: show server busy message
       showDialog(
         context: context,
-        barrierColor: Colors.black.withOpacity(0.85),
+        barrierColor: Colors.black.withValues(alpha: 0.85),
         builder: (ctx) => AlertDialog(
           backgroundColor: context.appColors.surface,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
           ),
           title: Row(
             children: [
               Icon(
-                PhosphorIconsDuotone.clock,
+                CupertinoIcons.clock_fill,
                 color: context.appColors.warning,
                 size: 28,
               ),
@@ -531,7 +538,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 backgroundColor: context.appColors.primary,
                 foregroundColor: context.appColors.textPrimary,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                 ),
               ),
               child: Text(l10n.ok),
@@ -558,7 +565,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 children: [
                   IconButton(
                     icon: Icon(
-                      PhosphorIconsDuotone.x,
+                      CupertinoIcons.xmark,
                       color: context.appColors.textSecondary,
                     ),
                     tooltip: l10n.accessibilityCloseSheet,
@@ -644,10 +651,10 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                                     strokeWidth: 3,
                                   ),
                                 )
-                              : PhosphorIcon(
+                              : Icon(
                                   _isListening
-                                      ? PhosphorIconsFill.stop
-                                      : PhosphorIconsFill.microphone,
+                                      ? CupertinoIcons.stop_fill
+                                      : CupertinoIcons.mic_fill,
                                   color: context.appColors.textPrimary,
                                   size: 56,
                                 ),
@@ -741,8 +748,8 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      PhosphorIcon(
-                        PhosphorIconsDuotone.lightbulb,
+                      Icon(
+                        CupertinoIcons.lightbulb_fill,
                         color: context.appColors.warning,
                         size: 20,
                       ),
@@ -844,7 +851,7 @@ class _DecisionDialogState extends State<_DecisionDialog>
 
     return AlertDialog(
       backgroundColor: colors.surface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 16),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -926,7 +933,7 @@ class _DecisionDialogState extends State<_DecisionDialog>
               Expanded(
                 child: _DecisionButton(
                   label: l10n.passed,
-                  icon: PhosphorIconsDuotone.xCircle,
+                  icon: CupertinoIcons.xmark_circle_fill,
                   color: colors.error,
                   onTap: () {
                     _cancelAutoSelect();
@@ -939,7 +946,7 @@ class _DecisionDialogState extends State<_DecisionDialog>
               Expanded(
                 child: _DecisionButton(
                   label: l10n.thinking,
-                  icon: PhosphorIconsDuotone.clock,
+                  icon: CupertinoIcons.clock_fill,
                   color: colors.warning,
                   onTap: () {
                     _cancelAutoSelect();
@@ -954,7 +961,7 @@ class _DecisionDialogState extends State<_DecisionDialog>
                   children: [
                     _DecisionButton(
                       label: l10n.bought,
-                      icon: PhosphorIconsDuotone.checkCircle,
+                      icon: CupertinoIcons.checkmark_circle_fill,
                       color: colors.success,
                       isHighlighted: true,
                       onTap: () {
@@ -1005,7 +1012,7 @@ class _DecisionDialogState extends State<_DecisionDialog>
               widget.onRetry();
             },
             icon: Icon(
-              PhosphorIconsDuotone.arrowCounterClockwise,
+              CupertinoIcons.arrow_counterclockwise,
               size: 18,
               color: colors.textTertiary,
             ),
@@ -1051,7 +1058,7 @@ class _DecisionButton extends StatelessWidget {
           color: isHighlighted
               ? color.withValues(alpha: 0.15)
               : colors.surfaceLight,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: isHighlighted
               ? Border.all(color: color.withValues(alpha: 0.5), width: 1.5)
               : null,
@@ -1105,15 +1112,15 @@ class _VoiceUsageIndicator extends StatelessWidget {
               color: isLimitReached
                   ? context.appColors.error.withValues(alpha: 0.15)
                   : context.appColors.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   isLimitReached
-                      ? PhosphorIconsFill.warning
-                      : PhosphorIconsDuotone.microphone,
+                      ? CupertinoIcons.exclamationmark_triangle_fill
+                      : CupertinoIcons.mic_fill,
                   size: 12,
                   color: isLimitReached
                       ? context.appColors.error

@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -138,7 +138,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
           backgroundColor: context.appColors.error,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
         ),
       );
@@ -154,7 +154,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
           content: Row(
             children: [
               Icon(
-                PhosphorIconsDuotone.warningCircle,
+                CupertinoIcons.exclamationmark_circle_fill,
                 color: context.appColors.background,
                 size: 20,
               ),
@@ -170,7 +170,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
           backgroundColor: context.appColors.warning,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
           duration: const Duration(seconds: 3),
         ),
@@ -273,7 +273,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          PhosphorIconsDuotone.x,
+                          CupertinoIcons.xmark,
                           size: 20,
                           color: context.appColors.textSecondary,
                         ),
@@ -313,7 +313,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
       decoration: BoxDecoration(
         color: context.appColors.surfaceLight,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: _hasValidAmount
               ? context.appColors.primary.withValues(alpha: 0.5)
@@ -594,7 +594,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                 Container(
                   decoration: BoxDecoration(
                     color: context.appColors.surfaceLight,
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: context.appColors.cardBorder),
                   ),
                   child: TextField(
@@ -619,7 +619,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                         ),
                       ),
                       prefixIcon: Icon(
-                        PhosphorIconsDuotone.notepad,
+                        CupertinoIcons.doc_text,
                         size: 22,
                         color: context.appColors.textTertiary,
                       ),
@@ -663,7 +663,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                 : isRecent
                 ? Colors.transparent
                 : context.appColors.surfaceLighter,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(
               color: isSelected
                   ? context.appColors.secondary
@@ -680,7 +680,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
                 Padding(
                   padding: const EdgeInsets.only(right: 6),
                   child: Icon(
-                    PhosphorIconsDuotone.clockCounterClockwise,
+                    CupertinoIcons.clock_fill,
                     size: 14,
                     color: isSelected
                         ? context.appColors.secondary
@@ -728,8 +728,8 @@ class _QuickAddSheetState extends State<QuickAddSheet>
           children: [
             Icon(
               _canSubmit
-                  ? PhosphorIconsDuotone.calculator
-                  : PhosphorIconsDuotone.handTap,
+                  ? CupertinoIcons.plus_slash_minus
+                  : CupertinoIcons.hand_point_right_fill,
               size: 22,
             ),
             const SizedBox(width: 10),
@@ -778,7 +778,7 @@ void showQuickAddSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     builder: (context) => QuickAddSheet(onAdd: onAdd),
   );
 }
@@ -795,7 +795,7 @@ void showPremiumExpenseModal(
     isDismissible: true,
     enableDrag: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     transitionAnimationController: AnimationController(
       vsync: Navigator.of(context),
       duration: const Duration(milliseconds: 350),
@@ -1015,10 +1015,10 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                             height: 36,
                             decoration: BoxDecoration(
                               color: context.appColors.surfaceLight,
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(8),
                             ),
                             child: Icon(
-                              PhosphorIconsDuotone.x,
+                              CupertinoIcons.xmark,
                               size: 20,
                               color: context.appColors.textSecondary,
                             ),
@@ -1084,7 +1084,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
           decoration: BoxDecoration(
             color: context.appColors.surfaceLight,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(
               color: _hasValidAmount
                   ? borderColor
@@ -1251,12 +1251,12 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
               ),
               elevation: 0,
             ),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(PhosphorIconsDuotone.check, size: 22),
-                SizedBox(width: 10),
-                Text(
+                const Icon(CupertinoIcons.checkmark_alt, size: 22),
+                const SizedBox(width: 10),
+                const Text(
                   'Hesapla',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
@@ -1286,7 +1286,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
             color: isRecent
                 ? context.appColors.primary.withValues(alpha: 0.15)
                 : context.appColors.surfaceLight,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: isRecent
                   ? context.appColors.primary.withValues(alpha: 0.5)
@@ -1300,7 +1300,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                 Padding(
                   padding: const EdgeInsets.only(right: 6),
                   child: Icon(
-                    PhosphorIconsDuotone.clockCounterClockwise,
+                    CupertinoIcons.clock_fill,
                     size: 14,
                     color: context.appColors.primary,
                   ),
@@ -1370,7 +1370,7 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
               : widget.showWarning
               ? context.appColors.warning.withValues(alpha: 0.12)
               : context.appColors.surfaceLight,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: widget.isSelected
                 ? context.appColors.primary

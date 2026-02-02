@@ -4781,6 +4781,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Hello! I\'m Vantag.\nReady to answer your financial questions.';
 
   @override
+  String get aiServiceUnavailable =>
+      'AI assistant is currently unavailable. Please try again later.';
+
+  @override
   String get onboardingHookTitle => 'This coffee is 47 minutes';
 
   @override
@@ -5418,6 +5422,231 @@ class AppLocalizationsEn extends AppLocalizations {
       'Enter your current balance to track your finances accurately';
 
   @override
+  String get onboardingV2Step1Title => 'See expenses differently';
+
+  @override
+  String get onboardingV2Step1Subtitle =>
+      'See how many hours each purchase costs you';
+
+  @override
+  String get onboardingV2Step1Demo => '\$500 phone = 20 hours of work';
+
+  @override
+  String get onboardingV2Step1Cta => 'Calculate';
+
+  @override
+  String get onboardingV2Step2Title => 'Let\'s get to know you';
+
+  @override
+  String get onboardingV2Step2Income => 'Monthly income';
+
+  @override
+  String get onboardingV2Step2Hours => 'Daily work hours';
+
+  @override
+  String get onboardingV2Step2Days => 'Work days per week';
+
+  @override
+  String get onboardingV2Step2Cta => 'Continue';
+
+  @override
+  String get onboardingV2Step3Title => 'Add your first expense';
+
+  @override
+  String get onboardingV2Step3Subtitle => 'See its value in hours';
+
+  @override
+  String onboardingV2Step3Result(int hours, int minutes) {
+    return '= ${hours}h ${minutes}m';
+  }
+
+  @override
+  String get onboardingV2Step3Success =>
+      'Great! Now you\'ll know the true cost of every purchase';
+
+  @override
+  String get onboardingV2Step3Cta => 'Start';
+
+  @override
+  String get onboardingV2SkipSetup => 'Later';
+
+  @override
+  String onboardingV2Progress(int current, int total) {
+    return 'Step $current/$total';
+  }
+
+  @override
+  String get checklistTitle => 'Getting Started';
+
+  @override
+  String checklistProgress(int completed, int total) {
+    return '$completed/$total completed';
+  }
+
+  @override
+  String get checklistFirstExpenseTitle => 'Add your first expense';
+
+  @override
+  String get checklistFirstExpenseSubtitle => 'See its value in hours';
+
+  @override
+  String get checklistViewReportTitle => 'View your report';
+
+  @override
+  String get checklistViewReportSubtitle => 'Discover spending patterns';
+
+  @override
+  String get checklistCreatePursuitTitle => 'Set a savings goal';
+
+  @override
+  String get checklistCreatePursuitSubtitle => 'Start saving for something';
+
+  @override
+  String get checklistNotificationsTitle => 'Enable notifications';
+
+  @override
+  String get checklistNotificationsSubtitle => 'Get daily reminders';
+
+  @override
+  String get checklistCelebrationTitle => 'Great start!';
+
+  @override
+  String get checklistCelebrationSubtitle => 'You\'re ready to use Vantag';
+
+  @override
+  String get emptyStateExampleTitle => 'Example';
+
+  @override
+  String get emptyStateExpensesMessage =>
+      'See how many hours each purchase costs you';
+
+  @override
+  String get emptyStateExpensesCta => 'Add Expense';
+
+  @override
+  String get emptyStatePursuitsMessage => 'Set a goal and track your progress';
+
+  @override
+  String get emptyStatePursuitsCta => 'Create Goal';
+
+  @override
+  String get emptyStateReportsMessage => 'Discover your spending patterns';
+
+  @override
+  String get emptyStateReportsCta => 'Add Expense';
+
+  @override
+  String get emptyStateSubscriptionsMessage =>
+      'Track your subscriptions, never forget';
+
+  @override
+  String get emptyStateSubscriptionsCta => 'Add Subscription';
+
+  @override
+  String get emptyStateAchievementsMessage => 'Add expenses to earn badges';
+
+  @override
+  String get emptyStateSavingsPoolMessage => 'Pool your savings together';
+
+  @override
+  String get milestone3DayStreakTitle => '3 Day Streak!';
+
+  @override
+  String get milestone3DayStreakMessage => 'Great start, keep going!';
+
+  @override
+  String get milestone7DayStreakTitle => '1 Week Streak!';
+
+  @override
+  String get milestone7DayStreakMessage => 'A whole week of tracking';
+
+  @override
+  String get milestone14DayStreakTitle => '2 Week Streak!';
+
+  @override
+  String get milestone14DayStreakMessage => 'You\'re building a habit';
+
+  @override
+  String get milestone30DayStreakTitle => '1 Month Streak!';
+
+  @override
+  String get milestone30DayStreakMessage => 'A full month! Incredible';
+
+  @override
+  String get milestone60DayStreakTitle => '2 Month Streak!';
+
+  @override
+  String get milestone60DayStreakMessage => 'You\'re a financial awareness pro';
+
+  @override
+  String get milestone100DayStreakTitle => '100 Day Streak!';
+
+  @override
+  String get milestone100DayStreakMessage =>
+      'Legendary achievement! You\'re a champion';
+
+  @override
+  String get milestoneFirstSavedTitle => 'First Savings!';
+
+  @override
+  String get milestoneFirstSavedMessage => 'You saved your first money';
+
+  @override
+  String get milestoneSaved100Title => 'Saved \$100!';
+
+  @override
+  String get milestoneSaved100Message => 'Your savings habit is growing';
+
+  @override
+  String get milestoneSaved1000Title => 'Saved \$1,000!';
+
+  @override
+  String get milestoneSaved1000Message => 'You\'re saving seriously';
+
+  @override
+  String get milestoneSaved5000Title => 'Saved \$5,000!';
+
+  @override
+  String get milestoneSaved5000Message => 'You\'re a savings master!';
+
+  @override
+  String get milestoneFirstExpenseTitle => 'First Step!';
+
+  @override
+  String get milestoneFirstExpenseMessage => 'You logged your first expense';
+
+  @override
+  String get milestone10ExpensesTitle => '10 Expenses!';
+
+  @override
+  String get milestone10ExpensesMessage => 'You have a tracking habit now';
+
+  @override
+  String get milestone50ExpensesTitle => '50 Expenses!';
+
+  @override
+  String get milestone50ExpensesMessage => 'You\'re a financial awareness pro';
+
+  @override
+  String get milestoneFirstPursuitTitle => 'First Goal!';
+
+  @override
+  String get milestoneFirstPursuitMessage => 'Your savings journey has begun';
+
+  @override
+  String get milestoneFirstPursuitCompletedTitle => 'Goal Completed!';
+
+  @override
+  String get milestoneFirstPursuitCompletedMessage =>
+      'You reached your first goal!';
+
+  @override
+  String get milestoneUsedAiChatTitle => 'AI Discovery!';
+
+  @override
+  String get milestoneUsedAiChatMessage => 'You met your financial assistant';
+
+  @override
   String selectTimeFilter(String filter) {
     return 'Select time filter: $filter';
   }
@@ -5885,4 +6114,216 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get subscriptionAutoRenewalNotice =>
       'Subscription automatically renews unless canceled at least 24 hours before the end of the current period. Manage subscriptions in Settings.';
+
+  @override
+  String get welcomeBackTitle3Days => 'Welcome Back!';
+
+  @override
+  String get welcomeBackSubtitle3Days =>
+      'We missed you. Keep tracking your expenses.';
+
+  @override
+  String get welcomeBackCta3Days => 'Add Expense';
+
+  @override
+  String get welcomeBackTitle7Days => 'You\'re Back!';
+
+  @override
+  String get welcomeBackSubtitle7Days =>
+      'It\'s been a week. Let\'s continue towards your financial goals.';
+
+  @override
+  String get welcomeBackCta7Days => 'Where Did We Leave Off?';
+
+  @override
+  String get welcomeBackTitle14Days => 'Hello Again!';
+
+  @override
+  String get welcomeBackSubtitle14Days =>
+      'We\'ve been waiting. Ready for a fresh start?';
+
+  @override
+  String get welcomeBackCta14Days => 'Start Fresh';
+
+  @override
+  String get welcomeBackTitle30Days => 'Welcome Back!';
+
+  @override
+  String get welcomeBackSubtitle30Days =>
+      'It\'s been a while, but reaching your goals is still possible!';
+
+  @override
+  String get welcomeBackCta30Days => 'Get Started';
+
+  @override
+  String get welcomeBackStreakLost => 'Your streak was reset';
+
+  @override
+  String welcomeBackStreakRecovered(int percent) {
+    return '$percent% of your streak recovered!';
+  }
+
+  @override
+  String get reengagementPushTitle3Days =>
+      'Don\'t forget to track your expenses!';
+
+  @override
+  String get reengagementPushBody3Days =>
+      'How much did you save today? Check now.';
+
+  @override
+  String get reengagementPushTitle5Days => 'We miss you!';
+
+  @override
+  String get reengagementPushBody5Days =>
+      'Keep going to reach your financial goals.';
+
+  @override
+  String get reengagementPushTitle7Days =>
+      'Come back before you lose your streak!';
+
+  @override
+  String get reengagementPushBody7Days =>
+      'Don\'t lose your streak, add an expense now.';
+
+  @override
+  String get reengagementUrgentTitle => 'Don\'t lose control of your finances!';
+
+  @override
+  String get reengagementUrgentBody =>
+      'Update your expenses and stay on track.';
+
+  @override
+  String get pushOnboardingDay1Title => 'Add your first expense!';
+
+  @override
+  String get pushOnboardingDay1Body =>
+      'A coffee or meal - start small, see the difference.';
+
+  @override
+  String get pushOnboardingDay3Title =>
+      'Do you know how many hours you worked?';
+
+  @override
+  String get pushOnboardingDay3Body =>
+      'Keep seeing your expenses as hours worked.';
+
+  @override
+  String get pushOnboardingDay7Title => 'It\'s been 7 days!';
+
+  @override
+  String get pushOnboardingDay7Body =>
+      'Add an expense daily to start a streak.';
+
+  @override
+  String get pushWeeklyInsightTitle => 'Weekly Summary Ready';
+
+  @override
+  String get pushWeeklyInsightBody =>
+      'How much did you save this week? Check now.';
+
+  @override
+  String get pushStreakReminderNewTitle => 'Start a new streak!';
+
+  @override
+  String get pushStreakReminderNewBody =>
+      'Add your first expense today and begin your journey.';
+
+  @override
+  String pushStreakReminderShortTitle(int days) {
+    return 'You have a $days day streak!';
+  }
+
+  @override
+  String get pushStreakReminderShortBody => 'Add one today to keep it going.';
+
+  @override
+  String pushStreakReminderMediumTitle(int days) {
+    return '$days days! You\'re doing great!';
+  }
+
+  @override
+  String get pushStreakReminderMediumBody =>
+      'Add today to keep your streak alive.';
+
+  @override
+  String pushStreakReminderLongTitle(int days) {
+    return '$days day streak!';
+  }
+
+  @override
+  String get pushStreakReminderLongBody =>
+      'Incredible achievement! Keep it up.';
+
+  @override
+  String get pushMorningMotivationTitle => 'Good morning!';
+
+  @override
+  String pushMorningMotivationWithSavingsBody(String symbol, String amount) {
+    return 'You saved $symbol$amount this month. Keep going!';
+  }
+
+  @override
+  String get pushMorningMotivationDefaultBody =>
+      'Add an expense today to boost your financial awareness.';
+
+  @override
+  String get notificationSettingsTitle => 'Notification Settings';
+
+  @override
+  String get notificationSettingsQuietHours => 'Quiet Hours';
+
+  @override
+  String get notificationSettingsQuietHoursDesc =>
+      'No notifications during these hours';
+
+  @override
+  String get notificationSettingsPreferredTime => 'Preferred Time';
+
+  @override
+  String get notificationSettingsPreferredTimeDesc =>
+      'Time to receive notifications';
+
+  @override
+  String get notificationSettingsStreakReminders => 'Streak Reminders';
+
+  @override
+  String get notificationSettingsStreakRemindersDesc =>
+      'Get evening reminders about your streak';
+
+  @override
+  String get notificationSettingsMorningMotivation => 'Morning Motivation';
+
+  @override
+  String get notificationSettingsMorningMotivationDesc =>
+      'Get motivation messages in the morning';
+
+  @override
+  String get notificationSettingsWeeklyInsights => 'Weekly Insights';
+
+  @override
+  String get notificationSettingsWeeklyInsightsDesc =>
+      'Get weekly summary on Sunday mornings';
+
+  @override
+  String get loginPromptTitle => 'Save Your Data';
+
+  @override
+  String get loginPromptSubtitle =>
+      'Link your account so you don\'t lose your data';
+
+  @override
+  String get loginPromptLater => 'Maybe later';
+
+  @override
+  String get additionalIncomePromptTitle => 'Do you have additional income?';
+
+  @override
+  String get additionalIncomePromptSubtitle => 'Side job, rent, freelance...';
+
+  @override
+  String get additionalIncomeYes => 'Yes, add';
+
+  @override
+  String get additionalIncomeNo => 'No, I don\'t';
 }

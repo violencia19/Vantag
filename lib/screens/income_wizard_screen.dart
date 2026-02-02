@@ -1,8 +1,8 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
 import '../providers/providers.dart';
@@ -320,7 +320,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
           content: Row(
             children: [
               Icon(
-                PhosphorIconsDuotone.checkCircle,
+                CupertinoIcons.checkmark_alt_circle_fill,
                 color: context.appColors.textPrimary,
               ),
               const SizedBox(width: 12),
@@ -410,7 +410,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               const Spacer(),
               if (isLocked) ...[
                 Icon(
-                  PhosphorIconsRegular.lock,
+                  CupertinoIcons.lock,
                   size: 18,
                   color: context.appColors.textTertiary,
                 ),
@@ -425,7 +425,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 ),
                 const SizedBox(width: 4),
                 Icon(
-                  PhosphorIconsDuotone.caretRight,
+                  CupertinoIcons.chevron_right,
                   size: 18,
                   color: context.appColors.primary,
                 ),
@@ -443,7 +443,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -499,7 +499,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                         color: isSelected
                             ? context.appColors.primary.withValues(alpha: 0.1)
                             : context.appColors.surfaceLight,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: isSelected
                               ? context.appColors.primary
@@ -551,7 +551,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                           if (isSelected) ...[
                             const SizedBox(width: 8),
                             Icon(
-                              PhosphorIconsDuotone.checkCircle,
+                              CupertinoIcons.checkmark_alt_circle_fill,
                               size: 22,
                               color: context.appColors.primary,
                             ),
@@ -580,7 +580,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(PhosphorIconsDuotone.x),
+          icon: Icon(CupertinoIcons.xmark),
           tooltip: l10n.close,
           onPressed: () => Navigator.pop(context),
         ),
@@ -724,7 +724,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 color: context.appColors.textSecondary,
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(24),
                 borderSide: BorderSide.none,
               ),
               filled: true,
@@ -782,7 +782,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                           hintText: '8',
                           suffixText: l10n.hours,
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16,
@@ -802,7 +802,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                           border: Border.all(
                             color: context.appColors.cardBorder,
                           ),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<int>(
@@ -930,7 +930,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(PhosphorIconsDuotone.plusCircle, size: 24),
+                  Icon(CupertinoIcons.add_circled, size: 24),
                   const SizedBox(width: 12),
                   Text(
                     l10n.yesAddIncome,
@@ -1043,7 +1043,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                           color: isSelected
                               ? context.appColors.primary.withValues(alpha: 0.1)
                               : context.appColors.surface,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: isSelected
                                 ? context.appColors.primary
@@ -1099,7 +1099,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                   _selectedCategory?.getLocalizedLabel(l10n) ??
                   l10n.descriptionOptionalHint,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
@@ -1120,7 +1120,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               hintText: '0',
               suffixText: getCurrencyByCode(_additionalCurrencyCode).code,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
@@ -1147,14 +1147,14 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             width: double.infinity,
             child: ElevatedButton.icon(
               onPressed: _addAdditionalIncome,
-              icon: Icon(PhosphorIconsDuotone.plus),
+              icon: Icon(CupertinoIcons.add),
               label: Text(l10n.addIncome),
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.appColors.success,
                 foregroundColor: context.appColors.textPrimary,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                 ),
               ),
             ),
@@ -1178,7 +1178,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: context.appColors.surface,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: context.appColors.cardBorder),
                 ),
                 child: Row(
@@ -1221,7 +1221,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                     ),
                     const SizedBox(width: 8),
                     IconButton(
-                      icon: Icon(PhosphorIconsDuotone.x, size: 20),
+                      icon: Icon(CupertinoIcons.xmark, size: 20),
                       tooltip: l10n.delete,
                       color: context.appColors.error,
                       onPressed: () => _removeIncome(source.id),
@@ -1305,7 +1305,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               shape: BoxShape.circle,
             ),
             child: Icon(
-              PhosphorIconsDuotone.checkCircle,
+              CupertinoIcons.checkmark_alt_circle_fill,
               size: 48,
               color: context.appColors.success,
             ),
@@ -1337,7 +1337,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                   context.appColors.primaryDark,
                 ],
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
                   color: context.appColors.primary.withValues(alpha: 0.3),
@@ -1388,7 +1388,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: context.appColors.surface,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: context.appColors.cardBorder),
               ),
               child: Row(
@@ -1400,7 +1400,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                       color: source.isPrimary
                           ? context.appColors.primary.withValues(alpha: 0.1)
                           : context.appColors.success.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     child: Center(
                       child: Icon(

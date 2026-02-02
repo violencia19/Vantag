@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -154,7 +154,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
     HapticFeedback.lightImpact();
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => AlertDialog(
         backgroundColor: context.appColors.gradientMid,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -244,7 +244,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               height: 48,
               decoration: BoxDecoration(
                 color: sub.color.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Center(
                 child: Container(
@@ -294,7 +294,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               child: IconButton(
                 onPressed: _toggleEdit,
                 tooltip: l10n.edit,
-                icon: const Icon(PhosphorIconsDuotone.pencilSimple),
+                icon: const Icon(CupertinoIcons.pencil),
                 color: context.appColors.textSecondary,
               ),
             ),
@@ -345,7 +345,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                 ),
                 decoration: BoxDecoration(
                   color: context.appColors.surface.withValues(alpha: 0.8),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
                   children: [
@@ -379,7 +379,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               child: _buildStatCard(
                 l10n.subscriptionDuration,
                 l10n.daysCount(sub.daysSinceSubscription),
-                PhosphorIconsDuotone.calendar,
+                CupertinoIcons.calendar,
               ),
             ),
             const SizedBox(width: 12),
@@ -387,7 +387,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               child: _buildStatCard(
                 l10n.totalPaid,
                 '${formatTurkishCurrency(sub.totalPaid, decimalDigits: 0)} ₺',
-                PhosphorIconsDuotone.creditCard,
+                CupertinoIcons.creditcard,
               ),
             ),
           ],
@@ -401,7 +401,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                 _workHours != null
                     ? l10n.hoursCount(_workHours!.toStringAsFixed(1))
                     : '-',
-                PhosphorIconsDuotone.clock,
+                CupertinoIcons.clock,
               ),
             ),
             const SizedBox(width: 12),
@@ -411,7 +411,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                 _workDays != null
                     ? l10n.daysCountDecimal(_workDays!.toStringAsFixed(2))
                     : '-',
-                PhosphorIconsDuotone.briefcase,
+                CupertinoIcons.briefcase,
               ),
             ),
           ],
@@ -423,14 +423,14 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             color: context.appColors.surface.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
             children: [
               Icon(
                 sub.autoRecord
-                    ? PhosphorIconsDuotone.checkCircle
-                    : PhosphorIconsDuotone.xCircle,
+                    ? CupertinoIcons.checkmark_circle_fill
+                    : CupertinoIcons.xmark_circle_fill,
                 size: 20,
                 color: sub.autoRecord
                     ? AppColors.categoryHealth
@@ -459,7 +459,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
             width: double.infinity,
             child: OutlinedButton.icon(
               onPressed: _confirmDelete,
-              icon: const Icon(PhosphorIconsDuotone.trash, size: 18),
+              icon: const Icon(CupertinoIcons.trash, size: 18),
               label: Text(l10n.deleteSubscription),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.categoryBills,
@@ -469,7 +469,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                 ),
               ),
             ),
@@ -485,7 +485,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: context.appColors.surface.withValues(alpha: 0.4),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
@@ -619,12 +619,12 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             color: context.appColors.surface.withValues(alpha: 0.4),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
             children: [
               Icon(
-                PhosphorIconsDuotone.sparkle,
+                CupertinoIcons.sparkles,
                 size: 20,
                 color: _autoRecord
                     ? context.appColors.primary
@@ -660,7 +660,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
             child: Text(
@@ -690,7 +690,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
             color: context.appColors.surface.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
@@ -735,7 +735,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
             color: context.appColors.surface.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<int>(
@@ -769,7 +769,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
       filled: true,
       fillColor: context.appColors.surface.withValues(alpha: 0.5),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide.none,
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

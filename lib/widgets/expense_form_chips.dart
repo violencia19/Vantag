@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 
 /// Reusable date chip widget for expense form
@@ -35,7 +35,7 @@ class ExpenseDateChip extends StatelessWidget {
               : (isDark
                     ? Colors.white.withValues(alpha: 0.05)
                     : Colors.black.withValues(alpha: 0.04)),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected
                 ? Colors.transparent
@@ -102,7 +102,7 @@ class ExpenseSubCategoryChip extends StatelessWidget {
               : (isDark
                     ? Colors.white.withValues(alpha: 0.05)
                     : Colors.black.withValues(alpha: 0.04)),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isRecent
                 ? context.appColors.primary.withValues(alpha: 0.5)
@@ -119,7 +119,7 @@ class ExpenseSubCategoryChip extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 4),
                 child: Icon(
-                  PhosphorIconsDuotone.clockCounterClockwise,
+                  CupertinoIcons.clock_fill,
                   size: 12,
                   color: context.appColors.primary,
                 ),

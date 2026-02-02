@@ -194,8 +194,9 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
     Widget nextScreen;
 
     if (!_onboardingCompleted) {
-      debugPrint('[Splash] → OnboardingScreen (onboarding not completed)');
-      nextScreen = const OnboardingScreen();
+      // Use new 3-step onboarding flow
+      debugPrint('[Splash] → OnboardingV2Screen (new 3-step flow)');
+      nextScreen = const OnboardingV2Screen();
     } else if (_profile != null) {
       debugPrint('[Splash] → MainScreen (profile exists)');
       nextScreen = MainScreen(userProfile: _profile!);

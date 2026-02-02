@@ -2,7 +2,27 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 
 /// Centralized error logging service for Firebase Crashlytics
+/// Ensures sensitive data is not leaked to crash reports
 class ErrorLoggingService {
+  // Patterns to redact from logs
+  static final _sensitivePatterns = [
+    RegExp(r'Bearer\s+[\w.-]+', caseSensitive: false),
+    RegExp(r'api.?key\s*[=:]\s*\S+', caseSensitive: false),
+    RegExp(r'password\s*[=:]\s*\S+', caseSensitive: false),
+    RegExp(r'secret\s*[=:]\s*\S+', caseSensitive: false),
+    RegExp(r'token\s*[=:]\s*\S+', caseSensitive: false),
+    RegExp(r'sk-[A-Za-z0-9]{20,}'), // OpenAI API keys
+    RegExp(r'AIza[A-Za-z0-9_-]{35}'), // Google/Firebase API keys
+  ];
+
+  /// Redact sensitive data from string
+  static String _redactSensitive(String input) {
+    var result = input;
+    for (final pattern in _sensitivePatterns) {
+      result = result.replaceAll(pattern, '[REDACTED]');
+    }
+    return result;
+  }
   static final ErrorLoggingService _instance = ErrorLoggingService._internal();
   factory ErrorLoggingService() => _instance;
   ErrorLoggingService._internal();
@@ -53,7 +73,7 @@ class ErrorLoggingService {
     }
   }
 
-  /// Log API error with details
+  /// Log API error with details (redacts sensitive data)
   Future<void> logApiError({
     required String endpoint,
     required int? statusCode,
@@ -61,6 +81,11 @@ class ErrorLoggingService {
     StackTrace? stackTrace,
     String? responseBody,
   }) async {
+    // Redact sensitive data from response body
+    final safeResponseBody = responseBody != null
+        ? _redactSensitive(responseBody.substring(0, (responseBody.length).clamp(0, 500)))
+        : 'null';
+
     await logError(
       error,
       stackTrace,
@@ -68,25 +93,30 @@ class ErrorLoggingService {
       extraInfo: {
         'endpoint': endpoint,
         'statusCode': statusCode ?? 'null',
-        'responseBody': responseBody?.substring(0, (responseBody.length).clamp(0, 500)) ?? 'null',
+        'responseBody': safeResponseBody,
       },
     );
   }
 
-  /// Log parse error with details
+  /// Log parse error with details (redacts sensitive data)
   Future<void> logParseError({
     required String dataType,
     required dynamic error,
     StackTrace? stackTrace,
     String? rawData,
   }) async {
+    // Redact sensitive data from raw data
+    final safeRawData = rawData != null
+        ? _redactSensitive(rawData.substring(0, (rawData.length).clamp(0, 200)))
+        : 'null';
+
     await logError(
       error,
       stackTrace,
       reason: 'Parse Error: $dataType',
       extraInfo: {
         'dataType': dataType,
-        'rawDataPreview': rawData?.substring(0, (rawData.length).clamp(0, 200)) ?? 'null',
+        'rawDataPreview': safeRawData,
       },
     );
   }

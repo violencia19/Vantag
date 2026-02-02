@@ -87,8 +87,8 @@ class AppAnimations {
   static const Offset sheetSlideOffset = Offset(0, 50);
 
   // ========== BLUR ==========
-  /// Backdrop blur değeri
-  static const double backdropBlur = 10.0;
+  /// Backdrop blur değeri (premium glassmorphism)
+  static const double backdropBlur = 20.0;
 
   /// Kilitli rozet blur değeri
   static const double lockedBlur = 2.0;

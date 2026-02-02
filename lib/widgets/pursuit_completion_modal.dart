@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:confetti/confetti.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/pursuit.dart';
 import '../theme/quiet_luxury.dart';
@@ -194,7 +194,7 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: QuietLuxury.cardBackground,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: QuietLuxury.cardBorder,
                         width: 0.5,
@@ -240,11 +240,11 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
                             side: BorderSide(color: QuietLuxury.cardBorder),
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
                           icon: Icon(
-                            PhosphorIconsRegular.shareNetwork,
+                            CupertinoIcons.share,
                             size: 18,
                           ),
                           label: Text(l10n.shareProgress),
@@ -260,7 +260,7 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
                             foregroundColor: Colors.black,
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
                           child: Text(
@@ -296,7 +296,7 @@ Future<void> showPursuitCompletionModal(
   return showDialog(
     context: context,
     barrierDismissible: false,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     builder: (_) => PursuitCompletionModal(
       pursuit: pursuit,
       formatAmount: formatAmount,

@@ -1,7 +1,7 @@
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
 import '../theme/theme.dart' hide GlassCard;
@@ -386,7 +386,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           children: [
             Expanded(
               child: _buildStatCard(
-                icon: PhosphorIconsBold.star,
+                icon: CupertinoIcons.star_fill,
                 iconColor: AppColors.achievementYellow,
                 value: '$totalXP',
                 label: 'Total XP',
@@ -395,7 +395,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
             const SizedBox(width: 10),
             Expanded(
               child: _buildStatCard(
-                icon: PhosphorIconsBold.trophy,
+                icon: CupertinoIcons.rosette,
                 iconColor: PremiumColors.purple,
                 value: '$unlockedCount/$totalCount',
                 label: 'Rozetler',
@@ -404,7 +404,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
             const SizedBox(width: 10),
             Expanded(
               child: _buildStatCard(
-                icon: PhosphorIconsBold.flame,
+                icon: CupertinoIcons.flame_fill,
                 iconColor: AppColors.achievementOrange,
                 value: '$streak',
                 label: 'Gün Seri',
@@ -445,7 +445,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                               PremiumColors.gradientEnd,
                             ],
                           ),
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(16),
                           boxShadow: PremiumShadows.glowPurpleSoft,
                         ),
                         child: Center(
@@ -700,7 +700,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                           color: achievement.category.iconColor,
                         )
                       : Icon(
-                          PhosphorIconsDuotone.lock,
+                          CupertinoIcons.lock_fill,
                           size: 24,
                           color: context.appColors.textTertiary,
                         ),
@@ -925,12 +925,12 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 child: Center(
                   child: isUnlocked
                       ? Icon(
-                          PhosphorIconsDuotone.sparkle,
+                          CupertinoIcons.sparkles,
                           size: 26,
                           color: difficultyColor,
                         )
                       : Icon(
-                          PhosphorIconsDuotone.question,
+                          CupertinoIcons.question,
                           size: 24,
                           color: context.appColors.textTertiary,
                         ),

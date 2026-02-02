@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -92,8 +93,10 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // GoogleSignIn instance - scopes ile birlikte
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+  // GoogleSignIn v6 API
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email', 'profile'],
+  );
 
   // Singleton pattern
   static final AuthService _instance = AuthService._internal();
@@ -171,10 +174,10 @@ class AuthService {
     debugPrint("🔐 [Auth] Google Sign-In başlıyor...");
 
     try {
-      // 1. Önce mevcut Google oturumunu kapat (temiz başlangıç için)
+      // 1. Sign out first for clean start
       await _googleSignIn.signOut();
 
-      // 2. Google Sign-In dialog'unu göster
+      // 2. Sign in with Google (v6 API)
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       if (googleUser == null) {
@@ -184,9 +187,13 @@ class AuthService {
 
       debugPrint("📧 [Auth] Google hesabı seçildi: ${googleUser.email}");
 
-      // 3. Google Auth credential al
+      // 3. Get authentication tokens
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
+
+      if (googleAuth.idToken == null) {
+        return AuthResult.failure("Google token alınamadı");
+      }
 
       final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -249,6 +256,11 @@ class AuthService {
       } else {
         return AuthResult.failure("Google ile giriş başarısız");
       }
+    } on PlatformException catch (e) {
+      debugPrint("❌ [Auth] Google Sign In Platform Error: ${e.code} - ${e.message}");
+      return AuthResult.failure(
+        "Google ile giriş yapılamadı. Lütfen tekrar deneyin.",
+      );
     } on FirebaseAuthException catch (e) {
       debugPrint("❌ [Auth] Firebase Auth Hatası: ${e.code} - ${e.message}");
       return AuthResult.failure(_getAuthErrorMessage(e.code));
@@ -394,6 +406,11 @@ class AuthService {
       }
       debugPrint("❌ [Auth] Apple Auth Hatası: ${e.code} - ${e.message}");
       return AuthResult.failure("Apple ile giriş başarısız: ${e.message}");
+    } on PlatformException catch (e) {
+      debugPrint("❌ [Auth] Apple Sign In Platform Error: ${e.code} - ${e.message}");
+      return AuthResult.failure(
+        "Apple ile giriş yapılamadı. Lütfen tekrar deneyin.",
+      );
     } on FirebaseAuthException catch (e) {
       debugPrint("❌ [Auth] Firebase Auth Hatası: ${e.code} - ${e.message}");
       return AuthResult.failure(_getAuthErrorMessage(e.code));

@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../../models/models.dart';
@@ -117,7 +117,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
           IconButton(
             onPressed: _previousMonth,
             icon: Icon(
-              PhosphorIconsBold.caretLeft,
+              CupertinoIcons.chevron_left,
               color: context.appColors.textPrimary,
             ),
           ),
@@ -132,7 +132,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
           IconButton(
             onPressed: isCurrentMonth ? null : _nextMonth,
             icon: Icon(
-              PhosphorIconsBold.caretRight,
+              CupertinoIcons.chevron_right,
               color: isCurrentMonth
                   ? context.appColors.textTertiary
                   : context.appColors.textPrimary,
@@ -224,7 +224,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            PhosphorIconsDuotone.receipt,
+            CupertinoIcons.doc_text,
             size: 64,
             color: context.appColors.textTertiary,
           ),

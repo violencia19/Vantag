@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -31,7 +31,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final _referralService = ReferralService();
   int _workDaysPerWeek = 6;
   bool _isSaving = false;
-  bool _isLinkingGoogle = false;
   List<IncomeSource> _incomeSources = [];
   bool _hasPrefilledReferral = false;
 
@@ -61,7 +60,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   /// Google hesabını bağla
   Future<void> _linkWithGoogle() async {
     final l10n = AppLocalizations.of(context);
-    setState(() => _isLinkingGoogle = true);
 
     try {
       final result = await _authService.signInWithGoogle();
@@ -84,10 +82,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     } catch (e) {
       if (mounted) {
         _showError('${l10n.error}: $e');
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isLinkingGoogle = false);
       }
     }
   }
@@ -340,10 +334,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return showDialog<bool>(
       context: context,
       barrierDismissible: false,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => AlertDialog(
         backgroundColor: context.appColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -356,7 +350,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
-                PhosphorIconsDuotone.link,
+                CupertinoIcons.link,
                 color: context.appColors.primary,
                 size: 32,
               ),
@@ -391,7 +385,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   foregroundColor: context.appColors.background,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                     side: BorderSide(color: Colors.grey.shade300),
                   ),
                   elevation: 0,
@@ -401,7 +395,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   width: 20,
                   height: 20,
                   errorBuilder: (context, error, stackTrace) => Icon(
-                    PhosphorIconsDuotone.globe,
+                    CupertinoIcons.globe,
                     size: 20,
                     color: Colors.blue,
                   ),
@@ -443,7 +437,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               backgroundColor: context.appColors.background,
               leading: IconButton(
                 icon: Icon(
-                  PhosphorIconsDuotone.arrowLeft,
+                  CupertinoIcons.arrow_left,
                   color: context.appColors.textPrimary,
                 ),
                 onPressed: () => Navigator.pop(context),
@@ -473,10 +467,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     height: 64,
                     decoration: BoxDecoration(
                       color: context.appColors.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     child: Icon(
-                      PhosphorIconsDuotone.user,
+                      CupertinoIcons.person,
                       size: 32,
                       color: context.appColors.primary,
                     ),
@@ -548,7 +542,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     color: context.appColors.surface,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: context.appColors.cardBorder),
                   ),
                   child: Row(
@@ -564,7 +558,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               color: isSelected
                                   ? context.appColors.primary
                                   : Colors.transparent,
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
                               '$day',
@@ -622,7 +616,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           .withValues(alpha: 0.5),
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                     child: _isSaving
@@ -728,7 +722,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 }
               }
             },
-            icon: Icon(PhosphorIconsDuotone.plusCircle, size: 20),
+            icon: Icon(CupertinoIcons.plus_circle, size: 20),
             label: Text(l10n.addAdditionalIncome),
             style: OutlinedButton.styleFrom(
               foregroundColor: context.appColors.primary,
@@ -737,7 +731,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
               padding: const EdgeInsets.symmetric(vertical: 14),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
           ),
@@ -757,7 +751,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         Row(
           children: [
             Icon(
-              PhosphorIconsDuotone.chartPieSlice,
+              CupertinoIcons.chart_pie,
               color: context.appColors.secondary,
               size: 20,
             ),
@@ -783,7 +777,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         Container(
           decoration: BoxDecoration(
             color: context.appColors.surface,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(color: context.appColors.cardBorder),
           ),
           child: TextField(
@@ -804,7 +798,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               prefixIcon: Container(
                 margin: const EdgeInsets.only(left: 16, right: 12),
                 child: Icon(
-                  PhosphorIconsDuotone.wallet,
+                  CupertinoIcons.creditcard,
                   color: context.appColors.secondary,
                   size: 22,
                 ),
@@ -839,7 +833,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         Container(
           decoration: BoxDecoration(
             color: context.appColors.surface,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(color: context.appColors.cardBorder),
           ),
           child: TextField(
@@ -860,7 +854,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               prefixIcon: Container(
                 margin: const EdgeInsets.only(left: 16, right: 12),
                 child: Icon(
-                  PhosphorIconsDuotone.piggyBank,
+                  CupertinoIcons.money_dollar_circle,
                   color: context.appColors.success,
                   size: 22,
                 ),
@@ -895,7 +889,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: context.appColors.info.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: context.appColors.info.withValues(alpha: 0.3),
             ),
@@ -903,7 +897,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           child: Row(
             children: [
               Icon(
-                PhosphorIconsDuotone.lightbulb,
+                CupertinoIcons.lightbulb,
                 color: context.appColors.info,
                 size: 20,
               ),
@@ -963,7 +957,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               prefixIcon: Container(
                 margin: const EdgeInsets.only(left: 16, right: 12),
                 child: Icon(
-                  PhosphorIconsDuotone.gift,
+                  CupertinoIcons.gift,
                   color: _hasPrefilledReferral
                       ? context.appColors.success
                       : context.appColors.secondary,
@@ -976,7 +970,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
               suffixIcon: _hasPrefilledReferral
                   ? Icon(
-                      PhosphorIconsBold.checkCircle,
+                      CupertinoIcons.checkmark_circle_fill,
                       color: context.appColors.success,
                       size: 20,
                     )
@@ -1005,7 +999,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1056,7 +1050,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   child: Row(
                     children: [
                       Icon(
-                        PhosphorIconsDuotone.info,
+                        CupertinoIcons.info_circle,
                         size: 16,
                         color: context.appColors.info,
                       ),
@@ -1115,7 +1109,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ),
                   trailing: isSelected
                       ? Icon(
-                          PhosphorIconsDuotone.checkCircle,
+                          CupertinoIcons.checkmark_circle,
                           color: context.appColors.primary,
                         )
                       : null,
@@ -1203,7 +1197,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ),
                 ),
                 Icon(
-                  PhosphorIconsDuotone.caretDown,
+                  CupertinoIcons.chevron_down,
                   size: 20,
                   color: context.appColors.textSecondary,
                 ),
@@ -1216,7 +1210,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         Row(
           children: [
             Icon(
-              PhosphorIconsDuotone.info,
+              CupertinoIcons.info_circle,
               size: 14,
               color: context.appColors.textTertiary,
             ),
@@ -1288,7 +1282,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           prefixIcon: Container(
             margin: const EdgeInsets.only(left: 16, right: 12),
             child: Icon(
-              PhosphorIconsDuotone.wallet,
+              CupertinoIcons.creditcard,
               color: context.appColors.primary,
               size: 24,
             ),
@@ -1339,10 +1333,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       height: 40,
                       decoration: BoxDecoration(
                         color: context.appColors.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       child: Icon(
-                        PhosphorIconsDuotone.wallet,
+                        CupertinoIcons.creditcard,
                         color: context.appColors.primary,
                         size: 20,
                       ),
@@ -1378,7 +1372,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ),
                   decoration: BoxDecoration(
                     color: context.appColors.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(24),
                   ),
                   child: Text(
                     l10n.incomeSources(_incomeSources.length),

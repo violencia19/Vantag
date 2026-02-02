@@ -101,7 +101,7 @@ void main() {
       }
 
       // When disabled, callback should not be triggered
-      // Note: This depends on implementation details
+      expect(receivedDecision, isNull);
     });
 
     // ========================================

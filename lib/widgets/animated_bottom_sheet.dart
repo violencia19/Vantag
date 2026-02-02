@@ -1,6 +1,6 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 
 /// Animasyonlu bottom sheet
@@ -38,7 +38,7 @@ class AnimatedBottomSheet extends StatefulWidget {
       isDismissible: isDismissible,
       enableDrag: enableDrag,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => _AnimatedBottomSheetWrapper(
         initialHeight: initialHeight,
         maxHeight: maxHeight,
@@ -60,7 +60,7 @@ class _AnimatedBottomSheetState extends State<AnimatedBottomSheet> {
         maxHeight: widget.maxHeight ?? MediaQuery.of(context).size.height * 0.9,
       ),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.appColors.surface.withValues(alpha: 0.95),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
@@ -72,7 +72,7 @@ class _AnimatedBottomSheetState extends State<AnimatedBottomSheet> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: context.appColors.cardBorder,
+                color: context.appColors.textTertiary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -228,7 +228,7 @@ class AnimatedModal extends StatefulWidget {
       context: context,
       barrierDismissible: barrierDismissible,
       barrierLabel: 'Dismiss',
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       transitionDuration: AppAnimations.medium,
       pageBuilder: (context, animation, secondaryAnimation) {
         return _AnimatedModalWrapper(
@@ -251,7 +251,7 @@ class _AnimatedModalState extends State<AnimatedModal> {
       margin: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.3),
@@ -268,7 +268,7 @@ class _AnimatedModalState extends State<AnimatedModal> {
               alignment: Alignment.topRight,
               child: IconButton(
                 icon: Icon(
-                  PhosphorIconsDuotone.x,
+                  CupertinoIcons.xmark,
                   color: context.appColors.textSecondary,
                 ),
                 tooltip: MaterialLocalizations.of(context).closeButtonTooltip,

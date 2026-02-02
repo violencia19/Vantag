@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 
@@ -73,7 +73,7 @@ class PoolAllocationDialog extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                PhosphorIconsDuotone.warning,
+                CupertinoIcons.exclamationmark_triangle_fill,
                 color: context.appColors.warning,
                 size: 28,
               ),
@@ -108,7 +108,7 @@ class PoolAllocationDialog extends StatelessWidget {
 
             // Option 1: From pocket
             _OptionButton(
-              icon: PhosphorIconsDuotone.wallet,
+              icon: CupertinoIcons.creditcard_fill,
               iconColor: context.appColors.success,
               title: l10n.fromMyPocket,
               subtitle: l10n.fromMyPocketDesc(
@@ -123,7 +123,7 @@ class PoolAllocationDialog extends StatelessWidget {
 
             // Option 2: Create debt
             _OptionButton(
-              icon: PhosphorIconsDuotone.clock,
+              icon: CupertinoIcons.clock_fill,
               iconColor: context.appColors.warning,
               title: l10n.deductFromFuture,
               subtitle: l10n.deductFromFutureDesc(
@@ -139,7 +139,7 @@ class PoolAllocationDialog extends StatelessWidget {
             // Option 3: Available only
             if (available > 0)
               _OptionButton(
-                icon: PhosphorIconsDuotone.coins,
+                icon: CupertinoIcons.money_dollar_circle_fill,
                 iconColor: context.appColors.primary,
                 title: l10n.transferAvailableOnly(
                   '$currencySymbol${available.toStringAsFixed(0)}',
@@ -208,7 +208,7 @@ class DebtSourceDialog extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                PhosphorIconsDuotone.question,
+                CupertinoIcons.question_circle_fill,
                 color: context.appColors.error,
                 size: 28,
               ),
@@ -240,7 +240,7 @@ class DebtSourceDialog extends StatelessWidget {
 
             // Option 1: One-time income
             _OptionButton(
-              icon: PhosphorIconsDuotone.sparkle,
+              icon: CupertinoIcons.sparkles,
               iconColor: context.appColors.success,
               title: l10n.oneTimeIncomeOption,
               subtitle: l10n.oneTimeIncomeOptionDesc,
@@ -253,7 +253,7 @@ class DebtSourceDialog extends StatelessWidget {
 
             // Option 2: From savings
             _OptionButton(
-              icon: PhosphorIconsDuotone.piggyBank,
+              icon: CupertinoIcons.money_dollar_circle_fill,
               iconColor: context.appColors.warning,
               title: l10n.fromSavingsOption,
               subtitle: l10n.fromSavingsOptionDesc,
@@ -319,7 +319,7 @@ class _OptionButton extends StatelessWidget {
                 height: 44,
                 decoration: BoxDecoration(
                   color: iconColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: Icon(icon, color: iconColor, size: 22),
               ),
@@ -348,7 +348,7 @@ class _OptionButton extends StatelessWidget {
                 ),
               ),
               Icon(
-                PhosphorIconsRegular.caretRight,
+                CupertinoIcons.chevron_right,
                 color: context.appColors.textTertiary,
                 size: 18,
               ),
@@ -369,7 +369,7 @@ Future<PoolAllocationChoice?> showPoolAllocationDialog(
 }) {
   return showDialog<PoolAllocationChoice>(
     context: context,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     builder: (context) => PoolAllocationDialog(
       available: available,
       requested: requested,
@@ -386,7 +386,7 @@ Future<DebtSourceChoice?> showDebtSourceDialog(
 }) {
   return showDialog<DebtSourceChoice>(
     context: context,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     builder: (context) => DebtSourceDialog(
       debtAmount: debtAmount,
       currencySymbol: currencySymbol,

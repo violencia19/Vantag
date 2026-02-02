@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/pursuit.dart';
 import '../theme/app_theme.dart';
@@ -90,7 +90,7 @@ class PursuitCard extends StatelessWidget {
                               .withValues(alpha: 0.15),
                         ],
                       ),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                         color: _getProgressColor(pursuit.progressPercent)
                             .withValues(alpha: 0.4),
@@ -229,7 +229,7 @@ class _AddSavingsButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           child: Tooltip(
             message: l10n.addSavings,
             child: Container(
@@ -242,7 +242,7 @@ class _AddSavingsButton extends StatelessWidget {
                     QuietLuxury.positive.withValues(alpha: 0.12),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: QuietLuxury.positive.withValues(alpha: 0.4),
                   width: 1,
@@ -259,7 +259,7 @@ class _AddSavingsButton extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    PhosphorIconsBold.plus,
+                    CupertinoIcons.plus,
                     size: 14,
                     color: QuietLuxury.positive,
                   ),

@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -216,7 +216,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                     decoration: BoxDecoration(
                                       color: context.appColors.surface
                                           .withValues(alpha: 0.5),
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<String>(
@@ -275,7 +275,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                     decoration: BoxDecoration(
                                       color: context.appColors.surface
                                           .withValues(alpha: 0.5),
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<int>(
@@ -371,12 +371,12 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                             color: context.appColors.surface.withValues(
                               alpha: 0.4,
                             ),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Row(
                             children: [
                               Icon(
-                                PhosphorIconsDuotone.sparkle,
+                                CupertinoIcons.sparkles,
                                 size: 20,
                                 color: _autoRecord
                                     ? context.appColors.primary
@@ -426,7 +426,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
+                                borderRadius: BorderRadius.circular(16),
                               ),
                             ),
                             child: _isLoading
@@ -472,7 +472,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
       filled: true,
       fillColor: context.appColors.surface.withValues(alpha: 0.5),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide.none,
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

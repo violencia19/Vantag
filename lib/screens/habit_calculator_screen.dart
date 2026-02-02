@@ -1,9 +1,9 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../providers/currency_provider.dart';
 import '../providers/finance_provider.dart';
 import '../theme/theme.dart';
@@ -28,7 +28,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
   // State
   HabitCategory? _selectedCategory;
   String _customCategoryName = '';
-  IconData _customCategoryIcon = PhosphorIconsFill.sparkle;
+  IconData _customCategoryIcon = CupertinoIcons.sparkles;
   Color _customCategoryColor = AppColors.primary;
   double _price = 0;
   String? _selectedFrequency;
@@ -38,22 +38,22 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
 
   // Icon options for custom category
   static final List<IconData> _iconOptions = [
-    PhosphorIconsFill.sparkle,
-    PhosphorIconsFill.target,
-    PhosphorIconsFill.coins,
-    PhosphorIconsFill.gift,
-    PhosphorIconsFill.beerStein,
-    PhosphorIconsFill.wine,
-    PhosphorIconsFill.pizza,
-    PhosphorIconsFill.popcorn,
-    PhosphorIconsFill.filmSlate,
-    PhosphorIconsFill.deviceMobile,
-    PhosphorIconsFill.laptop,
-    PhosphorIconsFill.headphones,
-    PhosphorIconsFill.sneaker,
-    PhosphorIconsFill.heart,
-    PhosphorIconsFill.paintBrush,
-    PhosphorIconsFill.barbell,
+    CupertinoIcons.sparkles,
+    CupertinoIcons.scope,
+    CupertinoIcons.money_dollar_circle_fill,
+    CupertinoIcons.gift_fill,
+    CupertinoIcons.drop_fill,
+    CupertinoIcons.flame_fill,
+    CupertinoIcons.circle_grid_3x3_fill,
+    CupertinoIcons.ticket_fill,
+    CupertinoIcons.film_fill,
+    CupertinoIcons.device_phone_portrait,
+    CupertinoIcons.desktopcomputer,
+    CupertinoIcons.headphones,
+    CupertinoIcons.sportscourt_fill,
+    CupertinoIcons.heart_fill,
+    CupertinoIcons.paintbrush_fill,
+    CupertinoIcons.bolt_fill,
   ];
 
   static final List<Color> _colorOptions = [
@@ -112,7 +112,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => StatefulBuilder(
@@ -178,7 +178,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           color: isSelected
                               ? tempColor.withValues(alpha: 0.2)
                               : context.appColors.surfaceLight,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: isSelected ? tempColor : Colors.transparent,
                             width: 2,
@@ -232,7 +232,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                         ),
                         child: isSelected
                             ? Icon(
-                                PhosphorIconsBold.check,
+                                CupertinoIcons.checkmark,
                                 color: context.appColors.textPrimary,
                                 size: 18,
                               )
@@ -263,11 +263,11 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     filled: true,
                     fillColor: context.appColors.surfaceLight,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide.none,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(color: context.appColors.primary),
                     ),
                   ),
@@ -301,7 +301,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                       foregroundColor: context.appColors.textPrimary,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       disabledBackgroundColor: context.appColors.surfaceLight,
                     ),
@@ -429,10 +429,10 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                   height: 40,
                   decoration: BoxDecoration(
                     color: context.appColors.surfaceLight,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
-                    PhosphorIconsDuotone.x,
+                    CupertinoIcons.xmark,
                     color: context.appColors.textSecondary,
                     size: 20,
                   ),
@@ -492,7 +492,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
           padding: const EdgeInsets.all(24),
           child: TextButton.icon(
             onPressed: _showCustomCategoryDialog,
-            icon: Icon(PhosphorIconsDuotone.pencilSimple, size: 18),
+            icon: Icon(CupertinoIcons.pencil, size: 18),
             label: Text(l10n.addMyOwnCategory),
             style: TextButton.styleFrom(
               foregroundColor: context.appColors.textSecondary,
@@ -507,13 +507,13 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
     return GestureDetector(
       onTap: () => _selectCategory(category),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
             decoration: BoxDecoration(
               color: context.appColors.surface,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24),
               border: Border.all(color: context.appColors.cardBorder),
             ),
             child: Column(
@@ -571,10 +571,10 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                   height: 40,
                   decoration: BoxDecoration(
                     color: context.appColors.surfaceLight,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
-                    PhosphorIconsDuotone.caretLeft,
+                    CupertinoIcons.chevron_left,
                     color: context.appColors.textSecondary,
                     size: 20,
                   ),
@@ -605,7 +605,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          _selectedCategory?.icon ?? PhosphorIconsFill.sparkle,
+                          _selectedCategory?.icon ?? CupertinoIcons.sparkles,
                           size: 44,
                           color:
                               _selectedCategory?.color ??
@@ -678,11 +678,11 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                             vertical: 12,
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                             borderSide: BorderSide.none,
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                             borderSide: BorderSide(
                               color: context.appColors.primary,
                             ),
@@ -745,7 +745,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                                 : FontWeight.normal,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(24),
                             side: BorderSide(
                               color: isSelected
                                   ? context.appColors.primary
@@ -800,11 +800,11 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                             vertical: 16,
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                             borderSide: BorderSide.none,
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                             borderSide: BorderSide(
                               color: context.appColors.primary,
                             ),
@@ -923,7 +923,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           ),
                           const SizedBox(width: 8),
                           Icon(
-                            PhosphorIconsDuotone.arrowRight,
+                            CupertinoIcons.arrow_right,
                             size: 20,
                             color: _isValid
                                 ? context.appColors.textPrimary
@@ -988,7 +988,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                _selectedCategory?.icon ?? PhosphorIconsFill.sparkle,
+                _selectedCategory?.icon ?? CupertinoIcons.sparkles,
                 size: 64,
                 color: _selectedCategory?.color ?? context.appColors.primary,
               ),
@@ -1052,14 +1052,14 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
             const SizedBox(height: 48),
             // Buttons
             _buildGradientButton(
-              icon: PhosphorIconsFill.shareFat,
+              icon: CupertinoIcons.share_solid,
               text: l10n.shareOnStory,
               onTap: _shareResult,
             ),
             const SizedBox(height: 12),
             OutlinedButton.icon(
               onPressed: _resetAndRestart,
-              icon: Icon(PhosphorIconsDuotone.arrowCounterClockwise, size: 20),
+              icon: Icon(CupertinoIcons.arrow_counterclockwise, size: 20),
               label: Text(l10n.tryAnotherHabit),
               style: OutlinedButton.styleFrom(
                 foregroundColor: context.appColors.textPrimary,
@@ -1069,7 +1069,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                   vertical: 16,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 minimumSize: const Size(double.infinity, 50),
               ),
@@ -1077,7 +1077,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
             const SizedBox(height: 12),
             TextButton.icon(
               onPressed: () => Navigator.pop(context),
-              icon: Icon(PhosphorIconsDuotone.listChecks, size: 20),
+              icon: Icon(CupertinoIcons.list_bullet, size: 20),
               label: Text(l10n.trackAllExpenses),
               style: TextButton.styleFrom(
                 foregroundColor: context.appColors.textSecondary,

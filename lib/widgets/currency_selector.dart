@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/currency.dart';
@@ -22,7 +22,7 @@ void showCurrencySelector(BuildContext context) {
 
   showModalBottomSheet(
     context: context,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     backgroundColor: context.appColors.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -74,7 +74,7 @@ void showCurrencySelector(BuildContext context) {
                   child: Row(
                     children: [
                       Icon(
-                        PhosphorIconsDuotone.info,
+                        CupertinoIcons.info_circle_fill,
                         size: 16,
                         color: context.appColors.warning,
                       ),
@@ -145,13 +145,13 @@ void showCurrencySelector(BuildContext context) {
                 ),
                 trailing: isLocked
                     ? Icon(
-                        PhosphorIconsRegular.lock,
+                        CupertinoIcons.lock,
                         size: 20,
                         color: context.appColors.textTertiary,
                       )
                     : isSelected
                     ? Icon(
-                        PhosphorIconsDuotone.checkCircle,
+                        CupertinoIcons.checkmark_circle_fill,
                         color: context.appColors.primary,
                       )
                     : null,

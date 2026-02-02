@@ -72,7 +72,7 @@ class SavingsPoolCard extends StatelessWidget {
                   context.appColors.primary.withValues(alpha: 0.05),
                 ],
         ),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: hasDebt
               ? context.appColors.error.withValues(alpha: 0.3)
@@ -89,7 +89,7 @@ class SavingsPoolCard extends StatelessWidget {
               color: hasDebt
                   ? context.appColors.error.withValues(alpha: 0.15)
                   : context.appColors.primary.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Center(
               child: Text(
@@ -174,7 +174,7 @@ class SavingsPoolCard extends StatelessWidget {
                   context.appColors.surface,
                 ],
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: hasDebt
               ? context.appColors.error.withValues(alpha: 0.2)
@@ -247,7 +247,7 @@ class SavingsPoolCard extends StatelessWidget {
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: context.appColors.surfaceLight.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
               children: [

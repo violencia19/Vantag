@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 
@@ -84,7 +84,7 @@ class _NotificationSettingsScreenState
         backgroundColor: context.appColors.background,
         leading: IconButton(
           icon: Icon(
-            PhosphorIconsDuotone.arrowLeft,
+            CupertinoIcons.arrow_left,
             color: context.appColors.textPrimary,
           ),
           onPressed: () => Navigator.pop(context),
@@ -126,7 +126,7 @@ class _NotificationSettingsScreenState
                       title: l10n.awarenessReminder,
                       subtitle: l10n.awarenessReminderDesc,
                       key: 'delayedAwareness',
-                      icon: PhosphorIconsDuotone.brain,
+                      icon: CupertinoIcons.lightbulb_fill,
                     ),
                     const SizedBox(height: 12),
 
@@ -134,7 +134,7 @@ class _NotificationSettingsScreenState
                       title: l10n.giveUpCongrats,
                       subtitle: l10n.giveUpCongratsDesc,
                       key: 'reinforce',
-                      icon: PhosphorIconsDuotone.confetti,
+                      icon: CupertinoIcons.star_fill,
                     ),
                     const SizedBox(height: 12),
 
@@ -142,7 +142,7 @@ class _NotificationSettingsScreenState
                       title: l10n.streakReminder,
                       subtitle: l10n.streakReminderDesc,
                       key: 'streakReminder',
-                      icon: PhosphorIconsDuotone.flame,
+                      icon: CupertinoIcons.flame_fill,
                     ),
                     const SizedBox(height: 12),
 
@@ -150,7 +150,7 @@ class _NotificationSettingsScreenState
                       title: l10n.weeklySummary,
                       subtitle: l10n.weeklySummaryDesc,
                       key: 'weeklyInsight',
-                      icon: PhosphorIconsDuotone.chartBar,
+                      icon: CupertinoIcons.chart_bar_fill,
                     ),
                     const SizedBox(height: 12),
 
@@ -158,7 +158,7 @@ class _NotificationSettingsScreenState
                       title: l10n.subscriptionReminder,
                       subtitle: l10n.subscriptionReminderDesc,
                       key: 'subscriptionReminder',
-                      icon: PhosphorIconsDuotone.calendarCheck,
+                      icon: CupertinoIcons.calendar_badge_plus,
                     ),
 
                     const SizedBox(height: 24),
@@ -187,7 +187,7 @@ class _NotificationSettingsScreenState
                               context.appColors.accent.withValues(alpha: 0.1),
                             ],
                           ),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: context.appColors.primary.withValues(
                               alpha: 0.3,
@@ -197,7 +197,7 @@ class _NotificationSettingsScreenState
                         child: Row(
                           children: [
                             Icon(
-                              PhosphorIconsDuotone.clock,
+                              CupertinoIcons.clock_fill,
                               size: 24,
                               color: context.appColors.primary,
                             ),
@@ -220,7 +220,7 @@ class _NotificationSettingsScreenState
                       title: l10n.trialReminderEnabled,
                       subtitle: l10n.trialReminderDesc,
                       key: 'trialReminder',
-                      icon: PhosphorIconsDuotone.gift,
+                      icon: CupertinoIcons.gift_fill,
                     ),
                     const SizedBox(height: 12),
 
@@ -228,7 +228,7 @@ class _NotificationSettingsScreenState
                       title: l10n.dailyReminderEnabled,
                       subtitle: l10n.dailyReminderDesc,
                       key: 'dailyReminder',
-                      icon: PhosphorIconsDuotone.alarm,
+                      icon: CupertinoIcons.alarm_fill,
                     ),
 
                     // Daily reminder time picker
@@ -244,14 +244,14 @@ class _NotificationSettingsScreenState
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: context.appColors.surface,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: context.appColors.cardBorder),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Icon(
-                            PhosphorIconsDuotone.info,
+                            CupertinoIcons.info_circle_fill,
                             size: 18,
                             color: context.appColors.textTertiary,
                           ),
@@ -302,12 +302,12 @@ class _NotificationSettingsScreenState
               color: isEnabled
                   ? context.appColors.primary.withValues(alpha: 0.2)
                   : context.appColors.surfaceLight,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
               isEnabled
-                  ? PhosphorIconsDuotone.bellRinging
-                  : PhosphorIconsDuotone.bellSlash,
+                  ? CupertinoIcons.bell_fill
+                  : CupertinoIcons.bell_slash_fill,
               size: 24,
               color: isEnabled
                   ? context.appColors.primary
@@ -357,7 +357,7 @@ class _NotificationSettingsScreenState
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: context.appColors.surface,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: context.appColors.cardBorder),
         ),
         child: Row(
@@ -367,10 +367,10 @@ class _NotificationSettingsScreenState
               height: 40,
               decoration: BoxDecoration(
                 color: context.appColors.surfaceLight,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
-                PhosphorIconsDuotone.clockAfternoon,
+                CupertinoIcons.clock,
                 size: 20,
                 color: context.appColors.textSecondary,
               ),
@@ -401,7 +401,7 @@ class _NotificationSettingsScreenState
               ),
             ),
             Icon(
-              PhosphorIconsDuotone.caretRight,
+              CupertinoIcons.chevron_right,
               size: 20,
               color: context.appColors.textTertiary,
             ),
@@ -423,7 +423,7 @@ class _NotificationSettingsScreenState
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Row(
@@ -433,7 +433,7 @@ class _NotificationSettingsScreenState
             height: 40,
             decoration: BoxDecoration(
               color: context.appColors.surfaceLight,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
               icon,

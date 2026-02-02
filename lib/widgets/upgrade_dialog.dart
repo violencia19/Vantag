@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 
@@ -21,7 +21,7 @@ class UpgradeDialog extends StatelessWidget {
     HapticFeedback.mediumImpact();
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.90),
+      barrierColor: Colors.black.withValues(alpha: 0.90),
       builder: (_) => UpgradeDialog(message: message, onUpgrade: onUpgrade),
     );
   }
@@ -32,7 +32,7 @@ class UpgradeDialog extends StatelessWidget {
 
     return AlertDialog(
       backgroundColor: context.appColors.surface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       title: Row(
         children: [
           Container(
@@ -44,10 +44,10 @@ class UpgradeDialog extends StatelessWidget {
                   context.appColors.gold.withValues(alpha: 0.1),
                 ],
               ),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
-              PhosphorIconsDuotone.crown,
+              CupertinoIcons.star_fill,
               color: context.appColors.gold,
               size: 24,
             ),
@@ -89,32 +89,32 @@ class UpgradeDialog extends StatelessWidget {
           const SizedBox(height: 12),
           _buildBenefitRow(
             context,
-            PhosphorIconsDuotone.chatCircle,
+            CupertinoIcons.chat_bubble,
             l10n.unlimitedAiChat,
           ),
           _buildBenefitRow(
             context,
-            PhosphorIconsDuotone.target,
+            CupertinoIcons.scope,
             l10n.unlimitedPursuits,
           ),
           _buildBenefitRow(
             context,
-            PhosphorIconsDuotone.export,
+            CupertinoIcons.square_arrow_up,
             l10n.exportFeature,
           ),
           _buildBenefitRow(
             context,
-            PhosphorIconsDuotone.currencyCircleDollar,
+            CupertinoIcons.money_dollar_circle,
             l10n.allCurrencies,
           ),
           _buildBenefitRow(
             context,
-            PhosphorIconsDuotone.chartBar,
+            CupertinoIcons.chart_bar,
             l10n.fullReports,
           ),
           _buildBenefitRow(
             context,
-            PhosphorIconsDuotone.shareFat,
+            CupertinoIcons.share,
             l10n.cleanShareCards,
           ),
         ],
@@ -139,7 +139,7 @@ class UpgradeDialog extends StatelessWidget {
                 context.appColors.primaryDark,
               ],
             ),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
                 color: context.appColors.primary.withValues(alpha: 0.3),
@@ -163,7 +163,7 @@ class UpgradeDialog extends StatelessWidget {
               shadowColor: Colors.transparent,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
             child: Text(
@@ -221,7 +221,7 @@ class UpgradeBanner extends StatelessWidget {
               context.appColors.primaryDark.withValues(alpha: 0.1),
             ],
           ),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: context.appColors.primary.withValues(alpha: 0.3),
           ),
@@ -235,7 +235,7 @@ class UpgradeBanner extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
-                PhosphorIconsDuotone.crown,
+                CupertinoIcons.star_fill,
                 size: 18,
                 color: context.appColors.gold,
               ),
@@ -265,7 +265,7 @@ class UpgradeBanner extends StatelessWidget {
               ),
             ),
             Icon(
-              PhosphorIconsRegular.caretRight,
+              CupertinoIcons.chevron_right,
               size: 18,
               color: context.appColors.primary,
             ),

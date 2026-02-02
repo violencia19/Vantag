@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/category_budget.dart';
@@ -49,18 +49,15 @@ class BudgetSummaryCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         color: context.appColors.cardBackground,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: context.appColors.cardBorder),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.06),
+          width: 1,
+        ),
+        boxShadow: AppDesign.shadowMedium,
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Padding(
@@ -81,10 +78,10 @@ class BudgetSummaryCard extends StatelessWidget {
                             color: context.appColors.primary.withValues(
                               alpha: 0.15,
                             ),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: Icon(
-                            PhosphorIconsDuotone.wallet,
+                            CupertinoIcons.creditcard,
                             color: context.appColors.primary,
                             size: 18,
                           ),
@@ -129,7 +126,7 @@ class BudgetSummaryCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Icon(
-                              PhosphorIconsDuotone.caretRight,
+                              CupertinoIcons.chevron_right,
                               size: 14,
                               color: context.appColors.primary,
                             ),
@@ -179,7 +176,7 @@ class BudgetSummaryCard extends StatelessWidget {
                           context,
                           summary,
                         ).withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
                         '%${summary.overallPercentUsed.toStringAsFixed(0)}',
@@ -215,7 +212,7 @@ class BudgetSummaryCard extends StatelessWidget {
                   children: [
                     _buildStatusChip(
                       context,
-                      icon: PhosphorIconsFill.checkCircle,
+                      icon: CupertinoIcons.checkmark_circle_fill,
                       color: context.appColors.success,
                       label: l10n.categoriesOnTrack(summary.categoriesOnTrack),
                     ),
@@ -224,7 +221,7 @@ class BudgetSummaryCard extends StatelessWidget {
                         summary.categoriesOverBudget > 0)
                       _buildStatusChip(
                         context,
-                        icon: PhosphorIconsFill.warning,
+                        icon: CupertinoIcons.exclamationmark_triangle_fill,
                         color: summary.categoriesOverBudget > 0
                             ? context.appColors.error
                             : context.appColors.warning,
@@ -269,7 +266,7 @@ class BudgetSummaryCard extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: context.appColors.cardBackground,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: context.appColors.cardBorder,
           style: BorderStyle.solid,
@@ -285,7 +282,7 @@ class BudgetSummaryCard extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: Icon(
-              PhosphorIconsDuotone.wallet,
+              CupertinoIcons.creditcard,
               color: context.appColors.primary,
               size: 28,
             ),
@@ -314,14 +311,14 @@ class BudgetSummaryCard extends StatelessWidget {
               HapticFeedback.lightImpact();
               CreateBudgetSheet.show(context);
             },
-            icon: const Icon(PhosphorIconsDuotone.plus, size: 18),
+            icon: const Icon(CupertinoIcons.plus, size: 18),
             label: Text(l10n.addBudget),
             style: ElevatedButton.styleFrom(
               backgroundColor: context.appColors.primary,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
           ),
@@ -393,7 +390,7 @@ class BudgetWarningBanner extends StatelessWidget {
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Row(
@@ -403,12 +400,12 @@ class BudgetWarningBanner extends StatelessWidget {
               height: 36,
               decoration: BoxDecoration(
                 color: color.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
                 hasOverBudget
-                    ? PhosphorIconsDuotone.warning
-                    : PhosphorIconsDuotone.warningCircle,
+                    ? CupertinoIcons.exclamationmark_triangle
+                    : CupertinoIcons.exclamationmark_circle,
                 color: color,
                 size: 18,
               ),
@@ -439,7 +436,7 @@ class BudgetWarningBanner extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(PhosphorIconsDuotone.caretRight, color: color, size: 20),
+            Icon(CupertinoIcons.chevron_right, color: color, size: 20),
           ],
         ),
       ),

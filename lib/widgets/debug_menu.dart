@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
@@ -90,7 +90,7 @@ class _DebugMenuState extends State<DebugMenu> {
             child: Row(
               children: [
                 Icon(
-                  PhosphorIconsDuotone.bug,
+                  CupertinoIcons.ant,
                   color: context.appColors.warning,
                 ),
                 const SizedBox(width: 12),
@@ -140,7 +140,7 @@ class _DebugMenuState extends State<DebugMenu> {
                 _buildSection('Quick Actions', [
                   _buildActionButton(
                     'Reset Streak',
-                    PhosphorIconsDuotone.arrowCounterClockwise,
+                    CupertinoIcons.arrow_counterclockwise,
                     () async {
                       await _streakService.resetAllStreakData();
                       HapticFeedback.heavyImpact();
@@ -154,7 +154,7 @@ class _DebugMenuState extends State<DebugMenu> {
                   ),
                   _buildActionButton(
                     'Clear Notifications',
-                    PhosphorIconsDuotone.bellSlash,
+                    CupertinoIcons.bell_slash,
                     () async {
                       await _notificationService.cancelAll();
                       HapticFeedback.mediumImpact();
@@ -167,7 +167,7 @@ class _DebugMenuState extends State<DebugMenu> {
                   ),
                   _buildActionButton(
                     'Test Achievement Notification',
-                    PhosphorIconsDuotone.trophy,
+                    CupertinoIcons.rosette,
                     () async {
                       await _notificationService.showAchievementUnlocked(
                         achievementTitle: 'Test Achievement',
@@ -178,7 +178,7 @@ class _DebugMenuState extends State<DebugMenu> {
                   ),
                   _buildActionButton(
                     'Clear SharedPreferences',
-                    PhosphorIconsDuotone.trash,
+                    CupertinoIcons.trash,
                     () async {
                       final confirmed = await _showConfirmDialog(
                         context,
@@ -294,7 +294,7 @@ class _DebugMenuState extends State<DebugMenu> {
                   ),
                 ),
                 Icon(
-                  PhosphorIconsDuotone.caretRight,
+                  CupertinoIcons.chevron_right,
                   size: 16,
                   color: context.appColors.textTertiary,
                 ),

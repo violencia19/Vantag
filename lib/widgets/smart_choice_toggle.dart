@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import '../theme/theme.dart';
 import '../models/models.dart';
 import 'turkish_currency_input.dart';
@@ -191,12 +191,12 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                 color: _isExpanded
                                     ? AppColors.medalGold.withValues(alpha: 0.2)
                                     : context.appColors.surfaceLight,
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(16),
                               ),
                               child: Icon(
                                 _isExpanded
-                                    ? PhosphorIconsDuotone.trendDown
-                                    : PhosphorIconsDuotone.lightbulb,
+                                    ? CupertinoIcons.arrow_down_right
+                                    : CupertinoIcons.lightbulb,
                                 color: _isExpanded
                                     ? AppColors.medalGold
                                     : context.appColors.textSecondary,
@@ -244,7 +244,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                               turns: _isExpanded ? 0.5 : 0,
                               duration: const Duration(milliseconds: 200),
                               child: Icon(
-                                PhosphorIconsDuotone.caretDown,
+                                CupertinoIcons.chevron_down,
                                 color: _isExpanded
                                     ? AppColors.medalGold
                                     : context.appColors.textTertiary,
@@ -308,11 +308,11 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                       vertical: 14,
                                     ),
                                     border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(16),
                                       borderSide: BorderSide.none,
                                     ),
                                     prefixIcon: Icon(
-                                      PhosphorIconsDuotone.shoppingBag,
+                                      CupertinoIcons.bag,
                                       color: context.appColors.textTertiary,
                                       size: 20,
                                     ),
@@ -355,7 +355,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
             AppColors.categoryHealth.withValues(alpha: 0.15),
           ],
         ),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.medalGold.withValues(alpha: 0.3)),
       ),
       child: Row(
@@ -366,10 +366,10 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
             height: 36,
             decoration: BoxDecoration(
               color: AppColors.medalGold.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: const Icon(
-              PhosphorIconsDuotone.shieldCheck,
+              CupertinoIcons.shield_lefthalf_fill,
               color: AppColors.medalGold,
               size: 20,
             ),

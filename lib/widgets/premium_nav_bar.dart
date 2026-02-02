@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
@@ -30,25 +30,28 @@ class PremiumNavBar extends StatelessWidget {
     final isDark = context.isDarkMode;
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 34),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(32),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: Container(
-            height: 72,
+            height: 64,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
               color: isDark
-                  ? const Color(0xF20D0D1A) // Dark: rgba(13,13,26,0.95)
-                  : const Color(0xF2FFFFFF), // Light: rgba(255,255,255,0.95)
-              borderRadius: BorderRadius.circular(28),
-              border: Border.all(color: context.appColors.cardBorder, width: 1),
+                  ? AppColors.surface.withValues(alpha: 0.95)
+                  : const Color(0xF2FFFFFF),
+              borderRadius: BorderRadius.circular(32),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.06),
+                width: 1,
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: context.appColors.cardShadow,
-                  blurRadius: 25,
-                  offset: const Offset(0, 8),
+                  color: Colors.black.withValues(alpha: 0.3),
+                  blurRadius: 30,
+                  offset: const Offset(0, 10),
                 ),
               ],
             ),
@@ -57,7 +60,7 @@ class PremiumNavBar extends StatelessWidget {
               children: [
                 // Home
                 _NavItem(
-                  icon: PhosphorIconsDuotone.house,
+                  icon: CupertinoIcons.house_fill,
                   label: l10n.homePage,
                   tooltip: l10n.navHomeTooltip,
                   isActive: currentIndex == 0,
@@ -65,7 +68,7 @@ class PremiumNavBar extends StatelessWidget {
                 ),
                 // Reports
                 _NavItem(
-                  icon: PhosphorIconsDuotone.chartBar,
+                  icon: CupertinoIcons.chart_bar_fill,
                   label: l10n.analysis,
                   tooltip: l10n.navReportsTooltip,
                   isActive: currentIndex == 1,
@@ -82,7 +85,7 @@ class PremiumNavBar extends StatelessWidget {
                 ),
                 // Pursuits (Dreams)
                 _NavItem(
-                  icon: PhosphorIconsDuotone.star,
+                  icon: CupertinoIcons.star_fill,
                   label: l10n.navPursuits,
                   tooltip: l10n.navPursuitsTooltip,
                   isActive: currentIndex == 2,
@@ -90,7 +93,7 @@ class PremiumNavBar extends StatelessWidget {
                 ),
                 // Settings
                 _NavItem(
-                  icon: PhosphorIconsDuotone.gear,
+                  icon: CupertinoIcons.gear_alt_fill,
                   label: l10n.navSettings,
                   tooltip: l10n.navSettingsTooltip,
                   isActive: currentIndex == 3,
@@ -142,11 +145,11 @@ class _NavItem extends StatelessWidget {
             color: isActive
                 ? colors.primary.withValues(alpha: 0.15)
                 : Colors.transparent,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             boxShadow: isActive
                 ? [
                     BoxShadow(
-                      color: colors.primary.withValues(alpha: 0.3),
+                      color: colors.primary.withValues(alpha: 0.4),
                       blurRadius: 12,
                       spreadRadius: -2,
                     ),
@@ -156,13 +159,10 @@ class _NavItem extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              PhosphorIcon(
+              Icon(
                 icon,
                 size: 24,
                 color: isActive ? colors.primary : colors.textTertiary,
-                duotoneSecondaryColor: isActive
-                    ? colors.primary.withValues(alpha: 0.4)
-                    : colors.textTertiary.withValues(alpha: 0.3),
               ),
               const SizedBox(height: 4),
               AnimatedDefaultTextStyle(
@@ -276,11 +276,10 @@ class _CenterAddButtonState extends State<_CenterAddButton>
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: PhosphorIcon(
-                    PhosphorIconsDuotone.plus,
+                  child: Icon(
+                    CupertinoIcons.plus,
                     size: 28,
                     color: Colors.white,
-                    duotoneSecondaryColor: Colors.white.withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -340,7 +339,7 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
           color: widget.isActive
               ? context.appColors.primary.withValues(alpha: 0.15)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -375,8 +374,8 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                         width: 24,
                         height: 24,
                         errorBuilder: (context, error, stackTrace) {
-                          return PhosphorIcon(
-                            PhosphorIconsDuotone.user,
+                          return Icon(
+                            CupertinoIcons.person_fill,
                             size: 16,
                             color: widget.isActive
                                 ? context.appColors.primary
@@ -386,15 +385,12 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                       ),
                     ),
                   )
-                : PhosphorIcon(
-                    PhosphorIconsDuotone.user,
+                : Icon(
+                    CupertinoIcons.person_fill,
                     size: 24,
                     color: widget.isActive
                         ? context.appColors.primary
                         : context.appColors.textTertiary,
-                    duotoneSecondaryColor: widget.isActive
-                        ? context.appColors.primary.withValues(alpha: 0.4)
-                        : context.appColors.textTertiary.withValues(alpha: 0.3),
                   ),
             const SizedBox(height: 4),
             AnimatedDefaultTextStyle(
@@ -436,25 +432,28 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
     final isDark = context.isDarkMode;
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 34),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(32),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: Container(
-            height: 72,
+            height: 64,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
               color: isDark
-                  ? const Color(0xF20D0D1A) // Dark: rgba(13,13,26,0.95)
-                  : const Color(0xF2FFFFFF), // Light: rgba(255,255,255,0.95)
-              borderRadius: BorderRadius.circular(28),
-              border: Border.all(color: context.appColors.cardBorder, width: 1),
+                  ? AppColors.surface.withValues(alpha: 0.95)
+                  : const Color(0xF2FFFFFF),
+              borderRadius: BorderRadius.circular(32),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.06),
+                width: 1,
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: context.appColors.cardShadow,
-                  blurRadius: 25,
-                  offset: const Offset(0, 8),
+                  color: Colors.black.withValues(alpha: 0.3),
+                  blurRadius: 30,
+                  offset: const Offset(0, 10),
                 ),
               ],
             ),
@@ -463,7 +462,7 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
               children: [
                 // Home
                 _NavItem(
-                  icon: PhosphorIconsDuotone.house,
+                  icon: CupertinoIcons.house_fill,
                   label: l10n.homePage,
                   isActive: currentIndex == 0,
                   onTap: () => onTap(0),
@@ -485,9 +484,9 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   tooltipBackgroundColor: context.appColors.gradientMid,
                   overlayColor: Colors.black,
                   overlayOpacity: 0.95,
-                  targetBorderRadius: BorderRadius.circular(12),
+                  targetBorderRadius: BorderRadius.circular(16),
                   child: _NavItem(
-                    icon: PhosphorIconsDuotone.chartBar,
+                    icon: CupertinoIcons.chart_bar_fill,
                     label: l10n.analysis,
                     isActive: currentIndex == 1,
                     onTap: () => onTap(1),
@@ -538,9 +537,9 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   tooltipBackgroundColor: context.appColors.gradientMid,
                   overlayColor: Colors.black,
                   overlayOpacity: 0.95,
-                  targetBorderRadius: BorderRadius.circular(12),
+                  targetBorderRadius: BorderRadius.circular(16),
                   child: _NavItem(
-                    icon: PhosphorIconsDuotone.star,
+                    icon: CupertinoIcons.star_fill,
                     label: l10n.navPursuits,
                     isActive: currentIndex == 2,
                     onTap: () => onTap(2),
@@ -563,9 +562,9 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
                   tooltipBackgroundColor: context.appColors.gradientMid,
                   overlayColor: Colors.black,
                   overlayOpacity: 0.95,
-                  targetBorderRadius: BorderRadius.circular(12),
+                  targetBorderRadius: BorderRadius.circular(16),
                   child: _NavItem(
-                    icon: PhosphorIconsDuotone.gear,
+                    icon: CupertinoIcons.gear_alt_fill,
                     label: l10n.navSettings,
                     isActive: currentIndex == 3,
                     onTap: () => onTap(3),

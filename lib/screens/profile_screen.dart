@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:file_picker/file_picker.dart';
@@ -17,7 +17,6 @@ import '../providers/pro_provider.dart';
 import '../services/achievements_service.dart';
 import '../services/tour_service.dart';
 import '../services/export_service.dart';
-import '../services/import_service.dart';
 import '../services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../theme/theme.dart';
@@ -144,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.cardBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -167,7 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.crown,
+                  CupertinoIcons.star_fill,
                   size: 48,
                   color: context.appColors.warning,
                 ),
@@ -209,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     foregroundColor: context.appColors.textPrimary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
                   child: Text(l10n.upgradeToPro),
@@ -323,7 +322,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
@@ -363,8 +362,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           Icon(
                             isPDF
-                                ? PhosphorIconsDuotone.filePdf
-                                : PhosphorIconsDuotone.fileText,
+                                ? CupertinoIcons.doc_fill
+                                : CupertinoIcons.doc_text_fill,
                             color: context.appColors.primary,
                             size: 28,
                           ),
@@ -486,7 +485,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       alpha: 0.1,
                                     )
                                   : context.appColors.surfaceLight,
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(8),
                               border: Border.all(
                                 color: isSelected
                                     ? context.appColors.primary
@@ -499,8 +498,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 // Checkbox
                                 Icon(
                                   isSelected
-                                      ? PhosphorIconsFill.checkCircle
-                                      : PhosphorIconsRegular.circle,
+                                      ? CupertinoIcons.checkmark_circle_fill
+                                      : CupertinoIcons.circle,
                                   color: isSelected
                                       ? context.appColors.primary
                                       : context.appColors.textTertiary,
@@ -624,7 +623,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                     )
                                   : const Icon(
-                                      PhosphorIconsRegular.floppyDisk,
+                                      CupertinoIcons.floppy_disk,
                                       size: 20,
                                     ),
                               label: Text(
@@ -639,7 +638,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   vertical: 14,
                                 ),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                               ),
                             ),
@@ -686,298 +685,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  void _showImportSummary(
-    AppLocalizations l10n,
-    ImportResult result,
-    String userId,
-  ) {
-    showModalBottomSheet(
-      context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
-      backgroundColor: context.appColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        final ValueNotifier<bool> isSaving = ValueNotifier(false);
-
-        return StatefulBuilder(
-          builder: (context, setSheetState) => SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Handle
-                  Container(
-                    width: 40,
-                    height: 4,
-                    margin: const EdgeInsets.only(bottom: 20),
-                    decoration: BoxDecoration(
-                      color: context.appColors.textTertiary,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-
-                  // Title
-                  Text(
-                    l10n.importSummary,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: context.appColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Stats
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildImportStat(
-                        icon: PhosphorIconsDuotone.checkCircle,
-                        color: context.appColors.success,
-                        count: result.recognized.length,
-                        label: l10n.autoMatched,
-                      ),
-                      _buildImportStat(
-                        icon: PhosphorIconsDuotone.warningCircle,
-                        color: context.appColors.warning,
-                        count: result.needsReviewCount,
-                        label: l10n.needsReview,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Errors (if any)
-                  if (result.errors.isNotEmpty) ...[
-                    Text(
-                      '${result.errors.length} errors during import',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: context.appColors.error,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-
-                  // Save All Recognized button (if there are recognized items)
-                  if (result.recognized.isNotEmpty) ...[
-                    ValueListenableBuilder<bool>(
-                      valueListenable: isSaving,
-                      builder: (context, saving, _) => SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton.icon(
-                          onPressed: saving
-                              ? null
-                              : () async {
-                                  isSaving.value = true;
-                                  await _saveRecognizedExpenses(
-                                    result.recognized,
-                                  );
-                                  if (context.mounted) {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          l10n.saveAllRecognizedSuccess(
-                                            result.recognized.length,
-                                          ),
-                                        ),
-                                        behavior: SnackBarBehavior.floating,
-                                        backgroundColor:
-                                            context.appColors.success,
-                                      ),
-                                    );
-                                    // If there are pending items, open review sheet
-                                    if (result.needsReviewCount > 0) {
-                                      final allPending = [
-                                        ...result.suggestions,
-                                        ...result.pending,
-                                      ];
-                                      PendingReviewSheet.show(
-                                        context,
-                                        expenses: allPending,
-                                        userId: userId,
-                                      );
-                                    }
-                                  }
-                                },
-                          icon: saving
-                              ? SizedBox(
-                                  width: 18,
-                                  height: 18,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : PhosphorIcon(
-                                  PhosphorIconsRegular.floppyDisk,
-                                  size: 18,
-                                ),
-                          label: Text(
-                            l10n.saveAllRecognized(result.recognized.length),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: context.appColors.success,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                  ],
-
-                  // Action buttons
-                  Row(
-                    children: [
-                      // Close button
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () => Navigator.pop(context),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            side: BorderSide(
-                              color: context.appColors.cardBorder,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: Text(
-                            l10n.close,
-                            style: TextStyle(
-                              color: context.appColors.textSecondary,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      // Review button (if there are pending items and no recognized)
-                      if (result.needsReviewCount > 0 &&
-                          result.recognized.isEmpty) ...[
-                        const SizedBox(width: 12),
-                        Expanded(
-                          flex: 2,
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              // Open review sheet
-                              final allPending = [
-                                ...result.suggestions,
-                                ...result.pending,
-                              ];
-                              PendingReviewSheet.show(
-                                context,
-                                expenses: allPending,
-                                userId: userId,
-                              );
-                            },
-                            icon: PhosphorIcon(
-                              PhosphorIconsRegular.magnifyingGlass,
-                              size: 18,
-                            ),
-                            label: Text(l10n.startReview),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: context.appColors.primary,
-                              foregroundColor: context.appColors.textPrimary,
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildImportStat({
-    required IconData icon,
-    required Color color,
-    required int count,
-    required String label,
-  }) {
-    return Column(
-      children: [
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.1),
-            shape: BoxShape.circle,
-          ),
-          child: Center(child: PhosphorIcon(icon, size: 28, color: color)),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          count.toString(),
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: color,
-          ),
-        ),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: context.appColors.textSecondary,
-          ),
-        ),
-      ],
-    );
-  }
-
-  /// Save all auto-matched expenses from import
-  Future<void> _saveRecognizedExpenses(List<ParsedExpense> recognized) async {
-    final financeProvider = context.read<FinanceProvider>();
-
-    // Simplified hourly rate calculation
-    final userProfile = financeProvider.userProfile;
-    final hourlyRate = userProfile != null
-        ? (userProfile.monthlyIncome /
-              (userProfile.dailyHours * userProfile.workDaysPerWeek * 4))
-        : 50.0;
-
-    for (final expense in recognized) {
-      final hoursRequired = expense.amount / hourlyRate;
-      final daysRequired = hoursRequired / 8.0;
-
-      final newExpense = Expense(
-        amount: expense.amount,
-        category: expense.effectiveCategory ?? 'Diğer',
-        subCategory: expense.effectiveDisplayName ?? expense.rawDescription,
-        date: expense.date,
-        hoursRequired: hoursRequired,
-        daysRequired: daysRequired,
-        decision: ExpenseDecision.yes,
-      );
-      await financeProvider.addExpense(newExpense);
-    }
-  }
-
   void _showLanguageSelector() {
     final localeProvider = context.read<LocaleProvider>();
     final currentLocale = Localizations.localeOf(context);
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1039,7 +753,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       trailing: isSelected
           ? Icon(
-              PhosphorIconsDuotone.checkCircle,
+              CupertinoIcons.checkmark_circle_fill,
               color: context.appColors.primary,
             )
           : null,
@@ -1057,7 +771,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     final confirmed = await showDialog<bool>(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       barrierDismissible: false,
       builder: (context) =>
           _DeleteAccountDialog(confirmWord: confirmWord, l10n: l10n),
@@ -1070,7 +784,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: Colors.black.withOpacity(0.85),
+        barrierColor: Colors.black.withValues(alpha: 0.85),
         builder: (ctx) => Center(
           child: CircularProgressIndicator(color: ctx.appColors.primary),
         ),
@@ -1171,10 +885,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // Show achievement unlocked dialog
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => AlertDialog(
         backgroundColor: context.appColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1199,13 +913,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
               child: Center(
-                child: PhosphorIcon(
-                  PhosphorIconsDuotone.smileyWink,
+                child: Icon(
+                  CupertinoIcons.smiley,
                   size: 40,
                   color: context.appColors.warning,
-                  duotoneSecondaryColor: context.appColors.warning.withValues(
-                    alpha: 0.4,
-                  ),
                 ),
               ),
             ),
@@ -1246,7 +957,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   foregroundColor: context.appColors.textPrimary,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: Text(l10n.great),
@@ -1331,7 +1042,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Expanded(
               child: _buildCompactInfoCard(
-                icon: PhosphorIconsDuotone.wallet,
+                icon: CupertinoIcons.creditcard_fill,
                 title: l10n.monthlyIncome,
                 value: formatTurkishCurrency(
                   _userProfile.monthlyIncome,
@@ -1342,7 +1053,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: _buildCompactInfoCard(
-                icon: PhosphorIconsDuotone.clock,
+                icon: CupertinoIcons.clock_fill,
                 title: l10n.dailyWork,
                 value:
                     '${_userProfile.dailyHours.toStringAsFixed(0)} ${l10n.hours}',
@@ -1355,7 +1066,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Expanded(
               child: _buildCompactInfoCard(
-                icon: PhosphorIconsDuotone.calendarBlank,
+                icon: CupertinoIcons.calendar,
                 title: l10n.weeklyWorkingDays,
                 value: '${_userProfile.workDaysPerWeek} ${l10n.days}',
               ),
@@ -1363,7 +1074,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: _buildCompactInfoCard(
-                icon: PhosphorIconsDuotone.trendUp,
+                icon: CupertinoIcons.arrow_up_right,
                 title: l10n.hourlyEarnings,
                 value:
                     '${formatTurkishCurrency(_calculateHourlyWage(), decimalDigits: 2)}/${l10n.hourAbbreviation}',
@@ -1380,7 +1091,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Edit Photo button
             Expanded(
               child: _buildQuickActionButton(
-                icon: PhosphorIconsDuotone.camera,
+                icon: CupertinoIcons.camera_fill,
                 label: l10n.changePhoto,
                 onTap: () => _showPhotoOptions(l10n),
               ),
@@ -1389,7 +1100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Edit Income button
             Expanded(
               child: _buildQuickActionButton(
-                icon: PhosphorIconsDuotone.wallet,
+                icon: CupertinoIcons.creditcard_fill,
                 label: l10n.editIncome,
                 onTap: _editProfile,
               ),
@@ -1398,7 +1109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Add Income Source button
             Expanded(
               child: _buildQuickActionButton(
-                icon: PhosphorIconsDuotone.plusCircle,
+                icon: CupertinoIcons.plus_circle_fill,
                 label: l10n.addIncome,
                 onTap: _editProfile,
                 highlight: true,
@@ -1427,7 +1138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             color: highlight
                 ? context.appColors.primary.withValues(alpha: 0.15)
                 : context.appColors.surface,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: highlight
                   ? context.appColors.primary.withValues(alpha: 0.3)
@@ -1467,7 +1178,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _showPhotoOptions(AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.cardBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1480,7 +1191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               ListTile(
                 leading: Icon(
-                  PhosphorIconsDuotone.camera,
+                  CupertinoIcons.camera_fill,
                   color: context.appColors.primary,
                 ),
                 title: Text(l10n.takePhoto),
@@ -1491,7 +1202,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               ListTile(
                 leading: Icon(
-                  PhosphorIconsDuotone.image,
+                  CupertinoIcons.photo_fill,
                   color: context.appColors.primary,
                 ),
                 title: Text(l10n.chooseFromGallery),
@@ -1525,7 +1236,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         children: [
           _buildListTile(
-            icon: PhosphorIconsDuotone.bell,
+            icon: CupertinoIcons.bell_fill,
             iconColor: AppColors.categoryEntertainment,
             title: l10n.notificationSettings,
             onTap: () {
@@ -1539,7 +1250,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           _buildDivider(),
           _buildListTile(
-            icon: PhosphorIconsDuotone.compass,
+            icon: CupertinoIcons.compass_fill,
             iconColor: AppColors.categoryShopping,
             title: l10n.repeatTour,
             onTap: () async {
@@ -1551,7 +1262,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           _buildDivider(),
           _buildListTile(
-            icon: PhosphorIconsDuotone.globe,
+            icon: CupertinoIcons.globe,
             iconColor: AppColors.categoryHealth,
             title: l10n.language,
             trailing: Row(
@@ -1567,7 +1278,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const SizedBox(width: 4),
                 Icon(
-                  PhosphorIconsDuotone.caretRight,
+                  CupertinoIcons.chevron_right,
                   size: 18,
                   color: context.appColors.textTertiary,
                 ),
@@ -1592,7 +1303,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final currency = currencyProvider.currency;
 
     return _buildListTile(
-      icon: PhosphorIconsDuotone.currencyCircleDollar,
+      icon: CupertinoIcons.money_dollar_circle_fill,
       iconColor: AppColors.achievementStreak,
       title: l10n.currency,
       trailing: Row(
@@ -1610,7 +1321,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const SizedBox(width: 4),
           Icon(
-            PhosphorIconsDuotone.caretRight,
+            CupertinoIcons.chevron_right,
             size: 18,
             color: context.appColors.textTertiary,
           ),
@@ -1626,7 +1337,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final isPro = proProvider.isPro;
 
     return _buildListTile(
-      icon: PhosphorIconsDuotone.fileXls,
+      icon: CupertinoIcons.doc_chart_fill,
       iconColor: AppColors.premiumGreen,
       title: l10n.exportToExcel,
       trailing: Row(
@@ -1664,7 +1375,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             )
           else
             Icon(
-              PhosphorIconsDuotone.caretRight,
+              CupertinoIcons.chevron_right,
               size: 18,
               color: context.appColors.textTertiary,
             ),
@@ -1680,7 +1391,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final isPro = proProvider.isPro;
 
     return _buildListTile(
-      icon: PhosphorIconsDuotone.downloadSimple,
+      icon: CupertinoIcons.arrow_down_circle_fill,
       iconColor: AppColors.categoryEntertainment,
       title: l10n.importStatement,
       trailing: Row(
@@ -1718,7 +1429,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             )
           else
             Icon(
-              PhosphorIconsDuotone.caretRight,
+              CupertinoIcons.chevron_right,
               size: 18,
               color: context.appColors.textTertiary,
             ),
@@ -1753,21 +1464,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         children: [
           _buildListTile(
-            icon: PhosphorIconsDuotone.shieldCheck,
+            icon: CupertinoIcons.shield_fill,
             iconColor: AppColors.secondary,
             title: l10n.privacyPolicy,
             onTap: () => launchUrl(Uri.parse(privacyUrl)),
           ),
           _buildDivider(),
           _buildListTile(
-            icon: PhosphorIconsDuotone.fileText,
+            icon: CupertinoIcons.doc_text_fill,
             iconColor: AppColors.categoryEducation,
             title: l10n.termsOfService,
             onTap: () => launchUrl(Uri.parse(termsUrl)),
           ),
           _buildDivider(),
           _buildListTile(
-            icon: PhosphorIconsDuotone.info,
+            icon: CupertinoIcons.info_circle_fill,
             iconColor: AppColors.categoryOther,
             title: l10n.appVersion,
             trailing: Text(
@@ -1797,7 +1508,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       child: _buildListTile(
-        icon: PhosphorIconsDuotone.userMinus,
+        icon: CupertinoIcons.person_badge_minus_fill,
         iconColor: context.appColors.error,
         title: l10n.deleteAccount,
         titleColor: context.appColors.error,
@@ -1837,7 +1548,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         color: highlight
             ? context.appColors.primary.withValues(alpha: 0.1)
             : context.appColors.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: highlight
               ? context.appColors.primary.withValues(alpha: 0.3)
@@ -1902,7 +1613,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
@@ -1912,7 +1623,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 36,
                   decoration: BoxDecoration(
                     color: iconColor.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(icon, size: 20, color: iconColor),
                 ),
@@ -1930,7 +1641,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 if (trailing != null) trailing,
                 if (showArrow && trailing == null)
                   Icon(
-                    PhosphorIconsDuotone.caretRight,
+                    CupertinoIcons.chevron_right,
                     size: 18,
                     color: context.appColors.textTertiary,
                   ),
@@ -1990,7 +1701,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
 
     return AlertDialog(
       backgroundColor: context.appColors.surface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -2004,7 +1715,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
-              PhosphorIconsDuotone.warning,
+              CupertinoIcons.exclamationmark_triangle_fill,
               color: context.appColors.error,
               size: 32,
             ),
@@ -2047,15 +1758,15 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
               filled: true,
               fillColor: context.appColors.background,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 borderSide: BorderSide(color: context.appColors.cardBorder),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 borderSide: BorderSide(color: context.appColors.cardBorder),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 borderSide: BorderSide(
                   color: context.appColors.error,
                   width: 2,
@@ -2094,7 +1805,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                   style: TextButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
                   child: Text(
@@ -2123,7 +1834,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                         .withValues(alpha: 0.5),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     elevation: 0,
                   ),

@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -310,7 +310,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             backgroundColor: context.appColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
           ),
         );
@@ -400,7 +400,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: Colors.transparent,
       builder: (context) => const CreatePursuitSheet(),
     );
@@ -446,6 +446,15 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       pursuitProgress = pursuit.savedAmount;
       pursuitTarget = pursuit.targetAmount;
     }
+
+    // Cache widget params for auto-sync after expense changes
+    financeProvider.setWidgetParams(
+      currencySymbol: currencyProvider.currency.symbol,
+      locale: localeProvider.locale?.languageCode ?? 'en',
+      pursuitName: pursuitName,
+      pursuitProgress: pursuitProgress,
+      pursuitTarget: pursuitTarget,
+    );
 
     await financeProvider.syncWidgetData(
       currencySymbol: currencyProvider.currency.symbol,
@@ -537,7 +546,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         title: Row(
           children: [
             Icon(
-              PhosphorIconsDuotone.warning,
+              CupertinoIcons.exclamationmark_triangle_fill,
               color: context.appColors.warning,
               size: 28,
             ),
@@ -823,7 +832,7 @@ class _OfflineBanner extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
-                      PhosphorIconsDuotone.wifiSlash,
+                      CupertinoIcons.wifi_slash,
                       size: 16,
                       color: context.appColors.background,
                     ),

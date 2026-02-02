@@ -8725,6 +8725,12 @@ abstract class AppLocalizations {
   /// **'Hello! I\'m Vantag.\nReady to answer your financial questions.'**
   String get aiGreeting;
 
+  /// No description provided for @aiServiceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'AI assistant is currently unavailable. Please try again later.'**
+  String get aiServiceUnavailable;
+
   /// No description provided for @onboardingHookTitle.
   ///
   /// In en, this message translates to:
@@ -9850,6 +9856,432 @@ abstract class AppLocalizations {
   /// **'Enter your current balance to track your finances accurately'**
   String get onboardingBalanceDesc;
 
+  /// No description provided for @onboardingV2Step1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'See expenses differently'**
+  String get onboardingV2Step1Title;
+
+  /// No description provided for @onboardingV2Step1Subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See how many hours each purchase costs you'**
+  String get onboardingV2Step1Subtitle;
+
+  /// No description provided for @onboardingV2Step1Demo.
+  ///
+  /// In en, this message translates to:
+  /// **'\$500 phone = 20 hours of work'**
+  String get onboardingV2Step1Demo;
+
+  /// No description provided for @onboardingV2Step1Cta.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate'**
+  String get onboardingV2Step1Cta;
+
+  /// No description provided for @onboardingV2Step2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s get to know you'**
+  String get onboardingV2Step2Title;
+
+  /// No description provided for @onboardingV2Step2Income.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly income'**
+  String get onboardingV2Step2Income;
+
+  /// No description provided for @onboardingV2Step2Hours.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily work hours'**
+  String get onboardingV2Step2Hours;
+
+  /// No description provided for @onboardingV2Step2Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Work days per week'**
+  String get onboardingV2Step2Days;
+
+  /// No description provided for @onboardingV2Step2Cta.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get onboardingV2Step2Cta;
+
+  /// No description provided for @onboardingV2Step3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first expense'**
+  String get onboardingV2Step3Title;
+
+  /// No description provided for @onboardingV2Step3Subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See its value in hours'**
+  String get onboardingV2Step3Subtitle;
+
+  /// No description provided for @onboardingV2Step3Result.
+  ///
+  /// In en, this message translates to:
+  /// **'= {hours}h {minutes}m'**
+  String onboardingV2Step3Result(int hours, int minutes);
+
+  /// No description provided for @onboardingV2Step3Success.
+  ///
+  /// In en, this message translates to:
+  /// **'Great! Now you\'ll know the true cost of every purchase'**
+  String get onboardingV2Step3Success;
+
+  /// No description provided for @onboardingV2Step3Cta.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get onboardingV2Step3Cta;
+
+  /// No description provided for @onboardingV2SkipSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get onboardingV2SkipSetup;
+
+  /// No description provided for @onboardingV2Progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current}/{total}'**
+  String onboardingV2Progress(int current, int total);
+
+  /// No description provided for @checklistTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Getting Started'**
+  String get checklistTitle;
+
+  /// No description provided for @checklistProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{completed}/{total} completed'**
+  String checklistProgress(int completed, int total);
+
+  /// No description provided for @checklistFirstExpenseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first expense'**
+  String get checklistFirstExpenseTitle;
+
+  /// No description provided for @checklistFirstExpenseSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See its value in hours'**
+  String get checklistFirstExpenseSubtitle;
+
+  /// No description provided for @checklistViewReportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View your report'**
+  String get checklistViewReportTitle;
+
+  /// No description provided for @checklistViewReportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover spending patterns'**
+  String get checklistViewReportSubtitle;
+
+  /// No description provided for @checklistCreatePursuitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a savings goal'**
+  String get checklistCreatePursuitTitle;
+
+  /// No description provided for @checklistCreatePursuitSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start saving for something'**
+  String get checklistCreatePursuitSubtitle;
+
+  /// No description provided for @checklistNotificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications'**
+  String get checklistNotificationsTitle;
+
+  /// No description provided for @checklistNotificationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get daily reminders'**
+  String get checklistNotificationsSubtitle;
+
+  /// No description provided for @checklistCelebrationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Great start!'**
+  String get checklistCelebrationTitle;
+
+  /// No description provided for @checklistCelebrationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re ready to use Vantag'**
+  String get checklistCelebrationSubtitle;
+
+  /// No description provided for @emptyStateExampleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Example'**
+  String get emptyStateExampleTitle;
+
+  /// No description provided for @emptyStateExpensesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'See how many hours each purchase costs you'**
+  String get emptyStateExpensesMessage;
+
+  /// No description provided for @emptyStateExpensesCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Expense'**
+  String get emptyStateExpensesCta;
+
+  /// No description provided for @emptyStatePursuitsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a goal and track your progress'**
+  String get emptyStatePursuitsMessage;
+
+  /// No description provided for @emptyStatePursuitsCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Goal'**
+  String get emptyStatePursuitsCta;
+
+  /// No description provided for @emptyStateReportsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover your spending patterns'**
+  String get emptyStateReportsMessage;
+
+  /// No description provided for @emptyStateReportsCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Expense'**
+  String get emptyStateReportsCta;
+
+  /// No description provided for @emptyStateSubscriptionsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your subscriptions, never forget'**
+  String get emptyStateSubscriptionsMessage;
+
+  /// No description provided for @emptyStateSubscriptionsCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Subscription'**
+  String get emptyStateSubscriptionsCta;
+
+  /// No description provided for @emptyStateAchievementsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add expenses to earn badges'**
+  String get emptyStateAchievementsMessage;
+
+  /// No description provided for @emptyStateSavingsPoolMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Pool your savings together'**
+  String get emptyStateSavingsPoolMessage;
+
+  /// No description provided for @milestone3DayStreakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'3 Day Streak!'**
+  String get milestone3DayStreakTitle;
+
+  /// No description provided for @milestone3DayStreakMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Great start, keep going!'**
+  String get milestone3DayStreakMessage;
+
+  /// No description provided for @milestone7DayStreakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'1 Week Streak!'**
+  String get milestone7DayStreakTitle;
+
+  /// No description provided for @milestone7DayStreakMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'A whole week of tracking'**
+  String get milestone7DayStreakMessage;
+
+  /// No description provided for @milestone14DayStreakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'2 Week Streak!'**
+  String get milestone14DayStreakTitle;
+
+  /// No description provided for @milestone14DayStreakMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re building a habit'**
+  String get milestone14DayStreakMessage;
+
+  /// No description provided for @milestone30DayStreakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'1 Month Streak!'**
+  String get milestone30DayStreakTitle;
+
+  /// No description provided for @milestone30DayStreakMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'A full month! Incredible'**
+  String get milestone30DayStreakMessage;
+
+  /// No description provided for @milestone60DayStreakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'2 Month Streak!'**
+  String get milestone60DayStreakTitle;
+
+  /// No description provided for @milestone60DayStreakMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re a financial awareness pro'**
+  String get milestone60DayStreakMessage;
+
+  /// No description provided for @milestone100DayStreakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'100 Day Streak!'**
+  String get milestone100DayStreakTitle;
+
+  /// No description provided for @milestone100DayStreakMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Legendary achievement! You\'re a champion'**
+  String get milestone100DayStreakMessage;
+
+  /// No description provided for @milestoneFirstSavedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'First Savings!'**
+  String get milestoneFirstSavedTitle;
+
+  /// No description provided for @milestoneFirstSavedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You saved your first money'**
+  String get milestoneFirstSavedMessage;
+
+  /// No description provided for @milestoneSaved100Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved \$100!'**
+  String get milestoneSaved100Title;
+
+  /// No description provided for @milestoneSaved100Message.
+  ///
+  /// In en, this message translates to:
+  /// **'Your savings habit is growing'**
+  String get milestoneSaved100Message;
+
+  /// No description provided for @milestoneSaved1000Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved \$1,000!'**
+  String get milestoneSaved1000Title;
+
+  /// No description provided for @milestoneSaved1000Message.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re saving seriously'**
+  String get milestoneSaved1000Message;
+
+  /// No description provided for @milestoneSaved5000Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved \$5,000!'**
+  String get milestoneSaved5000Title;
+
+  /// No description provided for @milestoneSaved5000Message.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re a savings master!'**
+  String get milestoneSaved5000Message;
+
+  /// No description provided for @milestoneFirstExpenseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'First Step!'**
+  String get milestoneFirstExpenseTitle;
+
+  /// No description provided for @milestoneFirstExpenseMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You logged your first expense'**
+  String get milestoneFirstExpenseMessage;
+
+  /// No description provided for @milestone10ExpensesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'10 Expenses!'**
+  String get milestone10ExpensesTitle;
+
+  /// No description provided for @milestone10ExpensesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You have a tracking habit now'**
+  String get milestone10ExpensesMessage;
+
+  /// No description provided for @milestone50ExpensesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'50 Expenses!'**
+  String get milestone50ExpensesTitle;
+
+  /// No description provided for @milestone50ExpensesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re a financial awareness pro'**
+  String get milestone50ExpensesMessage;
+
+  /// No description provided for @milestoneFirstPursuitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'First Goal!'**
+  String get milestoneFirstPursuitTitle;
+
+  /// No description provided for @milestoneFirstPursuitMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your savings journey has begun'**
+  String get milestoneFirstPursuitMessage;
+
+  /// No description provided for @milestoneFirstPursuitCompletedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal Completed!'**
+  String get milestoneFirstPursuitCompletedTitle;
+
+  /// No description provided for @milestoneFirstPursuitCompletedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You reached your first goal!'**
+  String get milestoneFirstPursuitCompletedMessage;
+
+  /// No description provided for @milestoneUsedAiChatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Discovery!'**
+  String get milestoneUsedAiChatTitle;
+
+  /// No description provided for @milestoneUsedAiChatMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You met your financial assistant'**
+  String get milestoneUsedAiChatMessage;
+
   /// No description provided for @selectTimeFilter.
   ///
   /// In en, this message translates to:
@@ -10719,6 +11151,360 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Subscription automatically renews unless canceled at least 24 hours before the end of the current period. Manage subscriptions in Settings.'**
   String get subscriptionAutoRenewalNotice;
+
+  /// No description provided for @welcomeBackTitle3Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back!'**
+  String get welcomeBackTitle3Days;
+
+  /// No description provided for @welcomeBackSubtitle3Days.
+  ///
+  /// In en, this message translates to:
+  /// **'We missed you. Keep tracking your expenses.'**
+  String get welcomeBackSubtitle3Days;
+
+  /// No description provided for @welcomeBackCta3Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Expense'**
+  String get welcomeBackCta3Days;
+
+  /// No description provided for @welcomeBackTitle7Days.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re Back!'**
+  String get welcomeBackTitle7Days;
+
+  /// No description provided for @welcomeBackSubtitle7Days.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s been a week. Let\'s continue towards your financial goals.'**
+  String get welcomeBackSubtitle7Days;
+
+  /// No description provided for @welcomeBackCta7Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Where Did We Leave Off?'**
+  String get welcomeBackCta7Days;
+
+  /// No description provided for @welcomeBackTitle14Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello Again!'**
+  String get welcomeBackTitle14Days;
+
+  /// No description provided for @welcomeBackSubtitle14Days.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve been waiting. Ready for a fresh start?'**
+  String get welcomeBackSubtitle14Days;
+
+  /// No description provided for @welcomeBackCta14Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Fresh'**
+  String get welcomeBackCta14Days;
+
+  /// No description provided for @welcomeBackTitle30Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back!'**
+  String get welcomeBackTitle30Days;
+
+  /// No description provided for @welcomeBackSubtitle30Days.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s been a while, but reaching your goals is still possible!'**
+  String get welcomeBackSubtitle30Days;
+
+  /// No description provided for @welcomeBackCta30Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get welcomeBackCta30Days;
+
+  /// No description provided for @welcomeBackStreakLost.
+  ///
+  /// In en, this message translates to:
+  /// **'Your streak was reset'**
+  String get welcomeBackStreakLost;
+
+  /// No description provided for @welcomeBackStreakRecovered.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% of your streak recovered!'**
+  String welcomeBackStreakRecovered(int percent);
+
+  /// No description provided for @reengagementPushTitle3Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t forget to track your expenses!'**
+  String get reengagementPushTitle3Days;
+
+  /// No description provided for @reengagementPushBody3Days.
+  ///
+  /// In en, this message translates to:
+  /// **'How much did you save today? Check now.'**
+  String get reengagementPushBody3Days;
+
+  /// No description provided for @reengagementPushTitle5Days.
+  ///
+  /// In en, this message translates to:
+  /// **'We miss you!'**
+  String get reengagementPushTitle5Days;
+
+  /// No description provided for @reengagementPushBody5Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going to reach your financial goals.'**
+  String get reengagementPushBody5Days;
+
+  /// No description provided for @reengagementPushTitle7Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Come back before you lose your streak!'**
+  String get reengagementPushTitle7Days;
+
+  /// No description provided for @reengagementPushBody7Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t lose your streak, add an expense now.'**
+  String get reengagementPushBody7Days;
+
+  /// No description provided for @reengagementUrgentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t lose control of your finances!'**
+  String get reengagementUrgentTitle;
+
+  /// No description provided for @reengagementUrgentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your expenses and stay on track.'**
+  String get reengagementUrgentBody;
+
+  /// No description provided for @pushOnboardingDay1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first expense!'**
+  String get pushOnboardingDay1Title;
+
+  /// No description provided for @pushOnboardingDay1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'A coffee or meal - start small, see the difference.'**
+  String get pushOnboardingDay1Body;
+
+  /// No description provided for @pushOnboardingDay3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you know how many hours you worked?'**
+  String get pushOnboardingDay3Title;
+
+  /// No description provided for @pushOnboardingDay3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep seeing your expenses as hours worked.'**
+  String get pushOnboardingDay3Body;
+
+  /// No description provided for @pushOnboardingDay7Title.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s been 7 days!'**
+  String get pushOnboardingDay7Title;
+
+  /// No description provided for @pushOnboardingDay7Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an expense daily to start a streak.'**
+  String get pushOnboardingDay7Body;
+
+  /// No description provided for @pushWeeklyInsightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Summary Ready'**
+  String get pushWeeklyInsightTitle;
+
+  /// No description provided for @pushWeeklyInsightBody.
+  ///
+  /// In en, this message translates to:
+  /// **'How much did you save this week? Check now.'**
+  String get pushWeeklyInsightBody;
+
+  /// No description provided for @pushStreakReminderNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a new streak!'**
+  String get pushStreakReminderNewTitle;
+
+  /// No description provided for @pushStreakReminderNewBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first expense today and begin your journey.'**
+  String get pushStreakReminderNewBody;
+
+  /// No description provided for @pushStreakReminderShortTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You have a {days} day streak!'**
+  String pushStreakReminderShortTitle(int days);
+
+  /// No description provided for @pushStreakReminderShortBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add one today to keep it going.'**
+  String get pushStreakReminderShortBody;
+
+  /// No description provided for @pushStreakReminderMediumTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days! You\'re doing great!'**
+  String pushStreakReminderMediumTitle(int days);
+
+  /// No description provided for @pushStreakReminderMediumBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add today to keep your streak alive.'**
+  String get pushStreakReminderMediumBody;
+
+  /// No description provided for @pushStreakReminderLongTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} day streak!'**
+  String pushStreakReminderLongTitle(int days);
+
+  /// No description provided for @pushStreakReminderLongBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Incredible achievement! Keep it up.'**
+  String get pushStreakReminderLongBody;
+
+  /// No description provided for @pushMorningMotivationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning!'**
+  String get pushMorningMotivationTitle;
+
+  /// No description provided for @pushMorningMotivationWithSavingsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You saved {symbol}{amount} this month. Keep going!'**
+  String pushMorningMotivationWithSavingsBody(String symbol, String amount);
+
+  /// No description provided for @pushMorningMotivationDefaultBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an expense today to boost your financial awareness.'**
+  String get pushMorningMotivationDefaultBody;
+
+  /// No description provided for @notificationSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Settings'**
+  String get notificationSettingsTitle;
+
+  /// No description provided for @notificationSettingsQuietHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiet Hours'**
+  String get notificationSettingsQuietHours;
+
+  /// No description provided for @notificationSettingsQuietHoursDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications during these hours'**
+  String get notificationSettingsQuietHoursDesc;
+
+  /// No description provided for @notificationSettingsPreferredTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferred Time'**
+  String get notificationSettingsPreferredTime;
+
+  /// No description provided for @notificationSettingsPreferredTimeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Time to receive notifications'**
+  String get notificationSettingsPreferredTimeDesc;
+
+  /// No description provided for @notificationSettingsStreakReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak Reminders'**
+  String get notificationSettingsStreakReminders;
+
+  /// No description provided for @notificationSettingsStreakRemindersDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Get evening reminders about your streak'**
+  String get notificationSettingsStreakRemindersDesc;
+
+  /// No description provided for @notificationSettingsMorningMotivation.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning Motivation'**
+  String get notificationSettingsMorningMotivation;
+
+  /// No description provided for @notificationSettingsMorningMotivationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Get motivation messages in the morning'**
+  String get notificationSettingsMorningMotivationDesc;
+
+  /// No description provided for @notificationSettingsWeeklyInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Insights'**
+  String get notificationSettingsWeeklyInsights;
+
+  /// No description provided for @notificationSettingsWeeklyInsightsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Get weekly summary on Sunday mornings'**
+  String get notificationSettingsWeeklyInsightsDesc;
+
+  /// No description provided for @loginPromptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Your Data'**
+  String get loginPromptTitle;
+
+  /// No description provided for @loginPromptSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Link your account so you don\'t lose your data'**
+  String get loginPromptSubtitle;
+
+  /// No description provided for @loginPromptLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Maybe later'**
+  String get loginPromptLater;
+
+  /// No description provided for @additionalIncomePromptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you have additional income?'**
+  String get additionalIncomePromptTitle;
+
+  /// No description provided for @additionalIncomePromptSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Side job, rent, freelance...'**
+  String get additionalIncomePromptSubtitle;
+
+  /// No description provided for @additionalIncomeYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, add'**
+  String get additionalIncomeYes;
+
+  /// No description provided for @additionalIncomeNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No, I don\'t'**
+  String get additionalIncomeNo;
 }
 
 class _AppLocalizationsDelegate

@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 
@@ -14,7 +14,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
     HapticFeedback.mediumImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (_) => const MultiCurrencyProSheet(),
@@ -66,7 +66,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     Icon(
-                      PhosphorIconsDuotone.lock,
+                      CupertinoIcons.lock_fill,
                       size: 36,
                       color: context.appColors.gold,
                     ),
@@ -80,7 +80,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          PhosphorIconsFill.crown,
+                          CupertinoIcons.star_fill,
                           size: 14,
                           color: context.appColors.background,
                         ),
@@ -136,32 +136,32 @@ class MultiCurrencyProSheet extends StatelessWidget {
               // Benefits list
               _buildBenefitRow(
                 context,
-                PhosphorIconsDuotone.currencyCircleDollar,
+                CupertinoIcons.money_dollar_circle,
                 l10n.multiCurrencyBenefit,
               ),
               _buildBenefitRow(
                 context,
-                PhosphorIconsDuotone.chatCircle,
+                CupertinoIcons.chat_bubble_2,
                 l10n.unlimitedAiChat,
               ),
               _buildBenefitRow(
                 context,
-                PhosphorIconsDuotone.target,
+                CupertinoIcons.scope,
                 l10n.unlimitedPursuits,
               ),
               _buildBenefitRow(
                 context,
-                PhosphorIconsDuotone.export,
+                CupertinoIcons.square_arrow_up,
                 l10n.exportFeature,
               ),
               _buildBenefitRow(
                 context,
-                PhosphorIconsDuotone.chartBar,
+                CupertinoIcons.chart_bar,
                 l10n.fullReports,
               ),
               _buildBenefitRow(
                 context,
-                PhosphorIconsDuotone.shareFat,
+                CupertinoIcons.share,
                 l10n.cleanShareCards,
               ),
 
@@ -205,7 +205,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          PhosphorIconsDuotone.crown,
+                          CupertinoIcons.star_fill,
                           size: 20,
                           color: context.appColors.gold,
                         ),

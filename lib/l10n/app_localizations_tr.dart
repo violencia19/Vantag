@@ -4773,6 +4773,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Merhaba! Ben Vantag.\nFinansal sorularını yanıtlamaya hazırım.';
 
   @override
+  String get aiServiceUnavailable =>
+      'AI asistan şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin.';
+
+  @override
   String get onboardingHookTitle => 'Bu kahve 47 dakikan';
 
   @override
@@ -5408,6 +5412,235 @@ class AppLocalizationsTr extends AppLocalizations {
       'Finanslarınızı doğru takip etmek için güncel bakiyenizi girin';
 
   @override
+  String get onboardingV2Step1Title => 'Harcamalarına farklı bak';
+
+  @override
+  String get onboardingV2Step1Subtitle =>
+      'Her harcamanın sana kaç saat mal olduğunu gör';
+
+  @override
+  String get onboardingV2Step1Demo => '5.000₺\'lik telefon = 20 saat çalışman';
+
+  @override
+  String get onboardingV2Step1Cta => 'Hesapla';
+
+  @override
+  String get onboardingV2Step2Title => 'Seni tanıyalım';
+
+  @override
+  String get onboardingV2Step2Income => 'Aylık gelirin';
+
+  @override
+  String get onboardingV2Step2Hours => 'Günlük çalışma saatin';
+
+  @override
+  String get onboardingV2Step2Days => 'Haftalık çalışma günün';
+
+  @override
+  String get onboardingV2Step2Cta => 'Devam';
+
+  @override
+  String get onboardingV2Step3Title => 'İlk harcamanı gir';
+
+  @override
+  String get onboardingV2Step3Subtitle => 'Değerini saat olarak gör';
+
+  @override
+  String onboardingV2Step3Result(int hours, int minutes) {
+    return '= $hours saat $minutes dakika';
+  }
+
+  @override
+  String get onboardingV2Step3Success =>
+      'Harika! Artık her harcamanın değerini bileceksin';
+
+  @override
+  String get onboardingV2Step3Cta => 'Başla';
+
+  @override
+  String get onboardingV2SkipSetup => 'Daha sonra';
+
+  @override
+  String onboardingV2Progress(int current, int total) {
+    return 'Adım $current/$total';
+  }
+
+  @override
+  String get checklistTitle => 'Başlangıç Rehberi';
+
+  @override
+  String checklistProgress(int completed, int total) {
+    return '$completed/$total tamamlandı';
+  }
+
+  @override
+  String get checklistFirstExpenseTitle => 'İlk harcamanı ekle';
+
+  @override
+  String get checklistFirstExpenseSubtitle => 'Değerini saat olarak gör';
+
+  @override
+  String get checklistViewReportTitle => 'Raporunu incele';
+
+  @override
+  String get checklistViewReportSubtitle => 'Harcama alışkanlıklarını keşfet';
+
+  @override
+  String get checklistCreatePursuitTitle => 'Tasarruf hedefi koy';
+
+  @override
+  String get checklistCreatePursuitSubtitle =>
+      'Bir şey için biriktirmeye başla';
+
+  @override
+  String get checklistNotificationsTitle => 'Bildirimleri aç';
+
+  @override
+  String get checklistNotificationsSubtitle => 'Günlük hatırlatmalar al';
+
+  @override
+  String get checklistCelebrationTitle => 'Harika başlangıç!';
+
+  @override
+  String get checklistCelebrationSubtitle =>
+      'Artık Vantag\'ı kullanmaya hazırsın';
+
+  @override
+  String get emptyStateExampleTitle => 'Örnek';
+
+  @override
+  String get emptyStateExpensesMessage =>
+      'Harcamalarının sana kaç saat mal olduğunu gör';
+
+  @override
+  String get emptyStateExpensesCta => 'Harcama Ekle';
+
+  @override
+  String get emptyStatePursuitsMessage =>
+      'Bir hedef koy, ne kadar yaklaştığını takip et';
+
+  @override
+  String get emptyStatePursuitsCta => 'Hedef Oluştur';
+
+  @override
+  String get emptyStateReportsMessage => 'Harcama alışkanlıklarını keşfet';
+
+  @override
+  String get emptyStateReportsCta => 'Harcama Ekle';
+
+  @override
+  String get emptyStateSubscriptionsMessage =>
+      'Aboneliklerini takip et, unutma';
+
+  @override
+  String get emptyStateSubscriptionsCta => 'Abonelik Ekle';
+
+  @override
+  String get emptyStateAchievementsMessage =>
+      'Rozetler kazanmak için harcama ekle';
+
+  @override
+  String get emptyStateSavingsPoolMessage => 'Birikimlerini havuzda topla';
+
+  @override
+  String get milestone3DayStreakTitle => '3 Gün Serisi!';
+
+  @override
+  String get milestone3DayStreakMessage => 'Harika başlangıç, devam et!';
+
+  @override
+  String get milestone7DayStreakTitle => '1 Hafta Serisi!';
+
+  @override
+  String get milestone7DayStreakMessage =>
+      'Bir hafta boyunca düzenli kullandın';
+
+  @override
+  String get milestone14DayStreakTitle => '2 Hafta Serisi!';
+
+  @override
+  String get milestone14DayStreakMessage => 'Alışkanlık oluşturmaya başladın';
+
+  @override
+  String get milestone30DayStreakTitle => '1 Ay Serisi!';
+
+  @override
+  String get milestone30DayStreakMessage => 'Bir ay boyunca her gün! İnanılmaz';
+
+  @override
+  String get milestone60DayStreakTitle => '2 Ay Serisi!';
+
+  @override
+  String get milestone60DayStreakMessage => 'Finansal farkındalık uzmanı oldun';
+
+  @override
+  String get milestone100DayStreakTitle => '100 Gün Serisi!';
+
+  @override
+  String get milestone100DayStreakMessage =>
+      'Efsanevi başarı! Sen bir şampiyon';
+
+  @override
+  String get milestoneFirstSavedTitle => 'İlk Tasarruf!';
+
+  @override
+  String get milestoneFirstSavedMessage => 'İlk paranı kurtardın';
+
+  @override
+  String get milestoneSaved100Title => '100₺ Kurtardın!';
+
+  @override
+  String get milestoneSaved100Message => 'Tasarruf alışkanlığın gelişiyor';
+
+  @override
+  String get milestoneSaved1000Title => '1.000₺ Kurtardın!';
+
+  @override
+  String get milestoneSaved1000Message => 'Ciddi tasarruf yapıyorsun';
+
+  @override
+  String get milestoneSaved5000Title => '5.000₺ Kurtardın!';
+
+  @override
+  String get milestoneSaved5000Message => 'Tasarruf ustası oldun!';
+
+  @override
+  String get milestoneFirstExpenseTitle => 'İlk Adım!';
+
+  @override
+  String get milestoneFirstExpenseMessage => 'İlk harcamanı girdin';
+
+  @override
+  String get milestone10ExpensesTitle => '10 Harcama!';
+
+  @override
+  String get milestone10ExpensesMessage => 'Artık takip alışkanlığın var';
+
+  @override
+  String get milestone50ExpensesTitle => '50 Harcama!';
+
+  @override
+  String get milestone50ExpensesMessage => 'Finansal farkındalık uzmanısın';
+
+  @override
+  String get milestoneFirstPursuitTitle => 'İlk Hedef!';
+
+  @override
+  String get milestoneFirstPursuitMessage => 'Biriktirme yolculuğun başladı';
+
+  @override
+  String get milestoneFirstPursuitCompletedTitle => 'Hedef Tamamlandı!';
+
+  @override
+  String get milestoneFirstPursuitCompletedMessage => 'İlk hedefine ulaştın!';
+
+  @override
+  String get milestoneUsedAiChatTitle => 'AI Keşfi!';
+
+  @override
+  String get milestoneUsedAiChatMessage => 'Finansal asistanınla tanıştın';
+
+  @override
   String selectTimeFilter(String filter) {
     return 'Zaman filtresi seç: $filter';
   }
@@ -5873,4 +6106,211 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get subscriptionAutoRenewalNotice =>
       'Abonelik, mevcut dönem sona ermeden en az 24 saat önce iptal edilmediği sürece otomatik olarak yenilenir. Abonelikleri Ayarlar\'dan yönetin.';
+
+  @override
+  String get welcomeBackTitle3Days => 'Tekrar Hoş Geldin!';
+
+  @override
+  String get welcomeBackSubtitle3Days =>
+      'Seni özledik. Harcamalarını takip etmeye devam et.';
+
+  @override
+  String get welcomeBackCta3Days => 'Harcama Ekle';
+
+  @override
+  String get welcomeBackTitle7Days => 'Geri Döndün!';
+
+  @override
+  String get welcomeBackSubtitle7Days =>
+      'Bir hafta oldu. Finansal hedeflerine devam edelim.';
+
+  @override
+  String get welcomeBackCta7Days => 'Nereden Kaldık?';
+
+  @override
+  String get welcomeBackTitle14Days => 'Merhaba Yeniden!';
+
+  @override
+  String get welcomeBackSubtitle14Days =>
+      'Seni bekledik. Yeni bir başlangıç yapmaya hazır mısın?';
+
+  @override
+  String get welcomeBackCta14Days => 'Yeniden Başla';
+
+  @override
+  String get welcomeBackTitle30Days => 'Hoş Geldin Geri!';
+
+  @override
+  String get welcomeBackSubtitle30Days =>
+      'Uzun zaman oldu ama hedeflerine ulaşmak hâlâ mümkün!';
+
+  @override
+  String get welcomeBackCta30Days => 'Hemen Başla';
+
+  @override
+  String get welcomeBackStreakLost => 'Seriniz sıfırlandı';
+
+  @override
+  String welcomeBackStreakRecovered(int percent) {
+    return 'Serinin %$percent\'i kurtarıldı!';
+  }
+
+  @override
+  String get reengagementPushTitle3Days => 'Harcamalarını takip etmeyi unutma!';
+
+  @override
+  String get reengagementPushBody3Days =>
+      'Bugün ne kadar tasarruf ettin? Hemen gir ve gör.';
+
+  @override
+  String get reengagementPushTitle5Days => 'Seni özledik!';
+
+  @override
+  String get reengagementPushBody5Days =>
+      'Finansal hedeflerine ulaşmak için devam et.';
+
+  @override
+  String get reengagementPushTitle7Days => 'Geri dön, serinin bozulmasın!';
+
+  @override
+  String get reengagementPushBody7Days =>
+      'Streak\'ini kaybetme, hemen bir harcama ekle.';
+
+  @override
+  String get reengagementUrgentTitle => 'Finansal kontrolün elden kaçmasın!';
+
+  @override
+  String get reengagementUrgentBody =>
+      'Harcamalarını güncelle ve yoluna devam et.';
+
+  @override
+  String get pushOnboardingDay1Title => 'İlk harcamanı ekle!';
+
+  @override
+  String get pushOnboardingDay1Body =>
+      'Bir kahve veya yemek - küçük başla, farkı gör.';
+
+  @override
+  String get pushOnboardingDay3Title => 'Kaç saat çalıştığını biliyor musun?';
+
+  @override
+  String get pushOnboardingDay3Body =>
+      'Harcamalarını saat olarak görmeye devam et.';
+
+  @override
+  String get pushOnboardingDay7Title => '7 gün oldu!';
+
+  @override
+  String get pushOnboardingDay7Body =>
+      'Streak başlatmak için her gün bir harcama ekle.';
+
+  @override
+  String get pushWeeklyInsightTitle => 'Haftalık Özet Hazır';
+
+  @override
+  String get pushWeeklyInsightBody =>
+      'Bu hafta ne kadar tasarruf ettin? Hemen kontrol et.';
+
+  @override
+  String get pushStreakReminderNewTitle => 'Yeni bir seri başlat!';
+
+  @override
+  String get pushStreakReminderNewBody =>
+      'Bugün ilk harcamanı ekle ve yolculuğa başla.';
+
+  @override
+  String pushStreakReminderShortTitle(int days) {
+    return '$days günlük serin var!';
+  }
+
+  @override
+  String get pushStreakReminderShortBody => 'Bugün de ekle, serini koru.';
+
+  @override
+  String pushStreakReminderMediumTitle(int days) {
+    return '$days gün! Harika gidiyorsun!';
+  }
+
+  @override
+  String get pushStreakReminderMediumBody =>
+      'Seriyi bozmamak için bugün de ekle.';
+
+  @override
+  String pushStreakReminderLongTitle(int days) {
+    return '$days günlük seri!';
+  }
+
+  @override
+  String get pushStreakReminderLongBody => 'İnanılmaz bir başarı! Devam et.';
+
+  @override
+  String get pushMorningMotivationTitle => 'Günaydın!';
+
+  @override
+  String pushMorningMotivationWithSavingsBody(String symbol, String amount) {
+    return 'Bu ay $symbol$amount tasarruf ettin. Devam!';
+  }
+
+  @override
+  String get pushMorningMotivationDefaultBody =>
+      'Bugün bir harcama ekleyerek finansal farkındalığını artır.';
+
+  @override
+  String get notificationSettingsTitle => 'Bildirim Ayarları';
+
+  @override
+  String get notificationSettingsQuietHours => 'Sessiz Saatler';
+
+  @override
+  String get notificationSettingsQuietHoursDesc =>
+      'Bu saatler arasında bildirim gönderilmez';
+
+  @override
+  String get notificationSettingsPreferredTime => 'Tercih Edilen Saat';
+
+  @override
+  String get notificationSettingsPreferredTimeDesc =>
+      'Bildirimlerin gönderileceği saat';
+
+  @override
+  String get notificationSettingsStreakReminders => 'Seri Hatırlatıcıları';
+
+  @override
+  String get notificationSettingsStreakRemindersDesc =>
+      'Akşamları seri hatırlatması al';
+
+  @override
+  String get notificationSettingsMorningMotivation => 'Sabah Motivasyonu';
+
+  @override
+  String get notificationSettingsMorningMotivationDesc =>
+      'Sabahları motivasyon mesajı al';
+
+  @override
+  String get notificationSettingsWeeklyInsights => 'Haftalık Özetler';
+
+  @override
+  String get notificationSettingsWeeklyInsightsDesc =>
+      'Pazar sabahları haftalık özet al';
+
+  @override
+  String get loginPromptTitle => 'Verilerini Kaydet';
+
+  @override
+  String get loginPromptSubtitle => 'Hesabını bağla, verilerini kaybetme';
+
+  @override
+  String get loginPromptLater => 'Daha sonra';
+
+  @override
+  String get additionalIncomePromptTitle => 'Ek gelirin var mı?';
+
+  @override
+  String get additionalIncomePromptSubtitle => 'Yan iş, kira, freelance...';
+
+  @override
+  String get additionalIncomeYes => 'Evet, ekle';
+
+  @override
+  String get additionalIncomeNo => 'Hayır, yok';
 }

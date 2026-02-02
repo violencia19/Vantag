@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 
@@ -21,12 +21,12 @@ class PaywallVariantA extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     final features = [
-      (PhosphorIconsDuotone.infinity, l10n.unlimitedAiChat),
-      (PhosphorIconsDuotone.microphone, l10n.voiceInput),
-      (PhosphorIconsDuotone.target, l10n.unlimitedPursuits),
-      (PhosphorIconsDuotone.chartLine, 'Gelişmiş Raporlar'),
-      (PhosphorIconsDuotone.fileArrowUp, l10n.statementImport),
-      (PhosphorIconsDuotone.coins, 'Çoklu Para Birimi'),
+      (CupertinoIcons.infinite, l10n.unlimitedAiChat),
+      (CupertinoIcons.mic, l10n.voiceInput),
+      (CupertinoIcons.scope, l10n.unlimitedPursuits),
+      (CupertinoIcons.chart_bar_alt_fill, 'Gelismis Raporlar'),
+      (CupertinoIcons.doc_on_doc_fill, l10n.statementImport),
+      (CupertinoIcons.money_dollar_circle, 'Coklu Para Birimi'),
     ];
 
     return Column(
@@ -74,7 +74,7 @@ class PaywallVariantA extends StatelessWidget {
                     ),
                   ),
                   Icon(
-                    PhosphorIconsDuotone.checkCircle,
+                    CupertinoIcons.checkmark_circle,
                     size: 20,
                     color: context.appColors.success,
                   ),
@@ -93,7 +93,7 @@ class PaywallVariantA extends StatelessWidget {
               backgroundColor: context.appColors.primary,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
             child: Text(
@@ -142,7 +142,7 @@ class PaywallVariantB extends StatelessWidget {
                 context.appColors.secondary,
               ],
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
           ),
           child: Text(
             '%$discountPercent İndirim',
@@ -169,7 +169,7 @@ class PaywallVariantB extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             Icon(
-              PhosphorIconsDuotone.arrowRight,
+              CupertinoIcons.arrow_right,
               color: context.appColors.success,
             ),
             const SizedBox(width: 16),
@@ -198,7 +198,7 @@ class PaywallVariantB extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: context.appColors.warning.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: context.appColors.warning.withValues(alpha: 0.3),
             ),
@@ -206,7 +206,7 @@ class PaywallVariantB extends StatelessWidget {
           child: Row(
             children: [
               Icon(
-                PhosphorIconsDuotone.clock,
+                CupertinoIcons.clock,
                 color: context.appColors.warning,
               ),
               const SizedBox(width: 12),
@@ -235,7 +235,7 @@ class PaywallVariantB extends StatelessWidget {
               backgroundColor: context.appColors.success,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
             child: const Text(
@@ -277,7 +277,7 @@ class PaywallVariantC extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              PhosphorIconsDuotone.users,
+              CupertinoIcons.person_2,
               size: 24,
               color: context.appColors.primary,
             ),
@@ -310,8 +310,8 @@ class PaywallVariantC extends StatelessWidget {
               5,
               (i) => Icon(
                 i < rating.floor()
-                    ? PhosphorIconsFill.star
-                    : PhosphorIconsDuotone.star,
+                    ? CupertinoIcons.star_fill
+                    : CupertinoIcons.star,
                 size: 24,
                 color: AppColors.gold,
               ),
@@ -356,7 +356,7 @@ class PaywallVariantC extends StatelessWidget {
               backgroundColor: context.appColors.primary,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
             child: const Text(
@@ -391,7 +391,7 @@ class PaywallVariantC extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(

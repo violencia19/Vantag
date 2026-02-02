@@ -1,7 +1,8 @@
+import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
@@ -59,10 +60,10 @@ class ExpenseHistoryCard extends StatelessWidget {
 
   IconData _getDecisionIcon(ExpenseDecision? decision) {
     return switch (decision) {
-      ExpenseDecision.yes => PhosphorIconsDuotone.checkCircle,
-      ExpenseDecision.thinking => PhosphorIconsDuotone.clock,
-      ExpenseDecision.no => PhosphorIconsDuotone.xCircle,
-      null => PhosphorIconsDuotone.question,
+      ExpenseDecision.yes => CupertinoIcons.checkmark_circle_fill,
+      ExpenseDecision.thinking => CupertinoIcons.clock_fill,
+      ExpenseDecision.no => CupertinoIcons.xmark_circle_fill,
+      null => CupertinoIcons.question_circle_fill,
     };
   }
 
@@ -70,7 +71,7 @@ class ExpenseHistoryCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -101,7 +102,7 @@ class ExpenseHistoryCard extends StatelessWidget {
               const SizedBox(height: 24),
               _buildOptionTile(
                 context: context,
-                icon: PhosphorIconsDuotone.checkCircle,
+                icon: CupertinoIcons.checkmark_circle_fill,
                 label: l10n.bought,
                 color: context.appColors.decisionYes,
                 onTap: () {
@@ -112,7 +113,7 @@ class ExpenseHistoryCard extends StatelessWidget {
               const SizedBox(height: 12),
               _buildOptionTile(
                 context: context,
-                icon: PhosphorIconsDuotone.xCircle,
+                icon: CupertinoIcons.xmark_circle_fill,
                 label: l10n.passed,
                 color: context.appColors.decisionNo,
                 onTap: () {
@@ -142,12 +143,12 @@ class ExpenseHistoryCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(color: color.withValues(alpha: 0.2)),
           ),
           child: Row(
@@ -174,7 +175,7 @@ class ExpenseHistoryCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -196,7 +197,7 @@ class ExpenseHistoryCard extends StatelessWidget {
               const SizedBox(height: 24),
               _buildMenuTile(
                 context: context,
-                icon: PhosphorIconsDuotone.shareFat,
+                icon: CupertinoIcons.share,
                 label: l10n.share,
                 color: context.appColors.primary,
                 onTap: () {
@@ -207,7 +208,7 @@ class ExpenseHistoryCard extends StatelessWidget {
               const SizedBox(height: 12),
               _buildMenuTile(
                 context: context,
-                icon: PhosphorIconsDuotone.pencilSimple,
+                icon: CupertinoIcons.pencil,
                 label: l10n.edit,
                 color: context.appColors.info,
                 onTap: () {
@@ -218,7 +219,7 @@ class ExpenseHistoryCard extends StatelessWidget {
               const SizedBox(height: 12),
               _buildMenuTile(
                 context: context,
-                icon: PhosphorIconsDuotone.trash,
+                icon: CupertinoIcons.trash,
                 label: l10n.delete,
                 color: context.appColors.error,
                 onTap: () {
@@ -257,12 +258,12 @@ class ExpenseHistoryCard extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: context.appColors.surfaceLight,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
             children: [
@@ -310,211 +311,126 @@ class ExpenseHistoryCard extends StatelessWidget {
     Widget card = Semantics(
       label: semanticLabel,
       button: isThinking,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: AppDesign.spacingMd),
-        decoration: BoxDecoration(
-          gradient: AppGradients.expenseCard,
-          borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
-          border: Border.all(
-            color: context.appColors.primary.withValues(alpha: 0.15),
-            width: 1,
-          ),
-          boxShadow: AppDesign.subtleShadow,
-        ),
-        child: Material(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: AppDesign.spacingSm),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(AppDesign.radiusXLarge),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+            child: Container(
+              decoration: BoxDecoration(
+                // Glass effect: semi-transparent surface
+                color: context.appColors.surface.withValues(alpha: 0.7),
+                borderRadius: BorderRadius.circular(AppDesign.radiusXLarge),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.12),
+                  width: 1,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.15),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Material(
           color: Colors.transparent,
           child: InkWell(
             onTap: isThinking ? () => _showDecisionDialog(context) : null,
-            borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
+            borderRadius: BorderRadius.circular(AppDesign.radiusXLarge),
             child: Padding(
-              padding: const EdgeInsets.all(AppDesign.spacingLg),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
-                  // Decision indicator with gradient background
+                  // Decision indicator - Revolut style (44x44, radius 14)
                   Container(
-                    width: 48,
-                    height: 48,
+                    width: AppDesign.iconContainerSize,
+                    height: AppDesign.iconContainerSize,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          decisionColor.withValues(alpha: 0.25),
-                          decisionColor.withValues(alpha: 0.1),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
-                        color: decisionColor.withValues(alpha: 0.3),
-                        width: 1,
-                      ),
+                      color: decisionColor.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(AppDesign.iconContainerRadius),
                     ),
                     child: Icon(
                       _getDecisionIcon(expense.decision),
-                      size: 24,
+                      size: AppDesign.iconSize,
                       color: decisionColor,
                     ),
                   ),
-                  const SizedBox(width: AppDesign.spacingMd),
+                  const SizedBox(width: 16),
 
-                  // Content
+                  // Content - Revolut style
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Flexible(
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  '${formatTurkishCurrency(expense.amount, decimalDigits: 2)} TL',
-                                  style: TextStyle(
-                                    fontSize: AppDesign.fontSizeXl,
-                                    fontWeight: FontWeight.w800,
-                                    color: context.appColors.textPrimary,
-                                    letterSpacing: -0.5,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: AppDesign.spacingSm),
-                            Flexible(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 5,
-                                ),
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      context.appColors.primary.withValues(alpha: 0.2),
-                                      context.appColors.primary.withValues(alpha: 0.1),
-                                    ],
-                                  ),
-                                  borderRadius: BorderRadius.circular(AppDesign.radiusSmall),
-                                  border: Border.all(
-                                    color: context.appColors.primary.withValues(alpha: 0.2),
-                                    width: 0.5,
-                                  ),
-                                ),
-                                child: Text(
-                                  CategoryUtils.getLocalizedName(
-                                    context,
-                                    expense.category,
-                                  ),
-                                  style: TextStyle(
-                                    fontSize: AppDesign.fontSizeSm,
-                                    fontWeight: FontWeight.w600,
-                                    color: context.appColors.primary,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                            // Simulation badge - icon + text
-                            if (expense.isSimulation) ...[
-                              const SizedBox(width: 6),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: context.appColors.warning.withValues(
-                                    alpha: 0.15,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      PhosphorIconsDuotone.lightning,
-                                      size: 12,
-                                      color: context.appColors.warning,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      'Sim',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600,
-                                        color: context.appColors.warning,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                            // Auto-recorded badge
-                            if (expense.isAutoRecorded) ...[
-                              const SizedBox(width: 6),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: context.appColors.info.withValues(
-                                    alpha: 0.15,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      PhosphorIconsDuotone.repeat,
-                                      size: 12,
-                                      color: context.appColors.info,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      l10n.autoRecorded,
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600,
-                                        color: context.appColors.info,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ],
+                        // Title (amount + category)
+                        Text(
+                          '${formatTurkishCurrency(expense.amount, decimalDigits: 0)} $currencySymbol',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: context.appColors.textPrimary,
+                            letterSpacing: -0.2,
+                          ),
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 4),
+                        // Subtitle (category + badges)
                         Row(
                           children: [
-                            Icon(
-                              PhosphorIconsDuotone.clock,
-                              size: 14,
-                              color: context.appColors.textTertiary,
-                            ),
-                            const SizedBox(width: 4),
                             Text(
-                              formatWorkTime(
+                              CategoryUtils.getLocalizedName(
+                                context,
+                                expense.category,
+                              ),
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                color: context.appColors.textTertiary,
+                              ),
+                            ),
+                            // Work time
+                            Text(
+                              ' · ${formatWorkTime(
                                 expense.hoursRequired,
                                 workHoursPerDay: dailyWorkHours,
                                 locale: Localizations.localeOf(context).languageCode,
-                              ),
+                              )}',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: context.appColors.textTertiary,
                               ),
                             ),
-                            if (isThinking) ...[
-                              const SizedBox(width: 12),
+                            // Simulation badge
+                            if (expense.isSimulation) ...[
                               Text(
-                                l10n.tapToUpdate,
+                                ' · Sim',
                                 style: TextStyle(
-                                  fontSize: 11,
-                                  color: context.appColors.decisionThinking
-                                      .withValues(alpha: 0.8),
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w500,
+                                  color: context.appColors.warning,
+                                ),
+                              ),
+                            ],
+                            // Auto-recorded badge
+                            if (expense.isAutoRecorded) ...[
+                              Text(
+                                ' · ${l10n.autoRecorded}',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: context.appColors.info,
+                                ),
+                              ),
+                            ],
+                            // Tap to update hint
+                            if (isThinking) ...[
+                              Text(
+                                ' · ${l10n.tapToUpdate}',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: context.appColors.decisionThinking,
                                 ),
                               ),
                             ],
@@ -524,51 +440,50 @@ class ExpenseHistoryCard extends StatelessWidget {
                     ),
                   ),
 
-                  // Right side
+                  // Right side - Amount (Revolut style)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      // Date
                       Text(
                         _formatDate(context, expense.date),
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 13,
                           color: context.appColors.textTertiary,
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Semantics(
-                        label: l10n.accessibilityEditExpense,
-                        button: true,
-                        child: Tooltip(
-                          message: l10n.accessibilityEditExpense,
-                          child: GestureDetector(
-                            onTap: () => _showOptionsMenu(context),
-                            behavior: HitTestBehavior.opaque,
-                            child: Container(
-                              width: 44,
-                              height: 44,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: context.appColors.surfaceLight,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Icon(
-                                PhosphorIconsDuotone.dotsThree,
-                                size: 20,
-                                color: context.appColors.textSecondary,
-                              ),
-                            ),
-                          ),
+                    ],
+                  ),
+                  // Options menu button
+                  const SizedBox(width: 8),
+                  Semantics(
+                    label: l10n.accessibilityEditExpense,
+                    button: true,
+                    child: GestureDetector(
+                      onTap: () => _showOptionsMenu(context),
+                      behavior: HitTestBehavior.opaque,
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        alignment: Alignment.center,
+                        child: Icon(
+                          CupertinoIcons.ellipsis_vertical,
+                          size: 20,
+                          color: context.appColors.textTertiary,
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
             ),
           ),
         ),
-      ),
+      ), // Container
+    ), // BackdropFilter
+  ), // ClipRRect
+), // Padding
     );
 
     // Swipe actions with flutter_slidable
@@ -581,11 +496,11 @@ class ExpenseHistoryCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  PhosphorIconsDuotone.arrowsLeftRight,
+                  CupertinoIcons.arrow_left_right,
                   size: 16,
                   color: context.appColors.textTertiary,
                 ),
-                const SizedBox(width: 6),
+                const SizedBox(width: 8),
                 Text(
                   l10n.swipeToEditOrDelete,
                   style: TextStyle(
@@ -617,11 +532,11 @@ class ExpenseHistoryCard extends StatelessWidget {
                   },
                   backgroundColor: context.appColors.info,
                   foregroundColor: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(PhosphorIconsBold.pencilSimple, size: 22),
+                      const Icon(CupertinoIcons.pencil, size: 22),
                       const SizedBox(height: 4),
                       Text(
                         l10n.edit,
@@ -662,11 +577,11 @@ class ExpenseHistoryCard extends StatelessWidget {
                   },
                   backgroundColor: context.appColors.error,
                   foregroundColor: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(PhosphorIconsBold.trash, size: 22),
+                      const Icon(CupertinoIcons.trash, size: 22),
                       const SizedBox(height: 4),
                       Text(
                         l10n.delete,

@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/category_budget.dart';
@@ -35,7 +35,7 @@ class CreateBudgetSheet extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => CreateBudgetSheet(
         existingBudget: existingBudget,
         preselectedCategory: preselectedCategory,
@@ -258,7 +258,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                                   onPressed: _isSaving ? null : _deleteBudget,
                                   tooltip: l10n.delete,
                                   icon: Icon(
-                                    PhosphorIconsDuotone.trash,
+                                    CupertinoIcons.trash,
                                     color: context.appColors.error,
                                     size: 22,
                                   ),
@@ -278,7 +278,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Icon(
-                                    PhosphorIconsDuotone.x,
+                                    CupertinoIcons.xmark,
                                     size: 20,
                                     color: context.appColors.textSecondary,
                                   ),
@@ -357,19 +357,19 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                                 vertical: 14,
                               ),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(16),
                                 borderSide: BorderSide(
                                   color: context.appColors.cardBorder,
                                 ),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(16),
                                 borderSide: BorderSide(
                                   color: context.appColors.cardBorder,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(16),
                                 borderSide: BorderSide(
                                   color: context.appColors.primary,
                                   width: 1.5,
@@ -458,7 +458,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                               color: context.appColors.info.withValues(
                                 alpha: 0.1,
                               ),
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(16),
                               border: Border.all(
                                 color: context.appColors.info.withValues(
                                   alpha: 0.2,
@@ -468,7 +468,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                             child: Row(
                               children: [
                                 Icon(
-                                  PhosphorIconsDuotone.info,
+                                  CupertinoIcons.info_circle,
                                   color: context.appColors.info,
                                   size: 20,
                                 ),
@@ -529,7 +529,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Icon(
-                                            PhosphorIconsDuotone.floppyDisk,
+                                            CupertinoIcons.floppy_disk,
                                             size: 22,
                                           ),
                                           const SizedBox(width: 10),

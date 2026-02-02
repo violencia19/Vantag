@@ -1,113 +1,126 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-/// Premium Color Palette - Wealth Coach
-/// Hobi projesi değil, 1000 kişilik ekip arkasında varmış gibi
+/// Premium Color Palette - iOS 26 Liquid Glass
+/// 2026 Fintech Standard - Revolut Ultra, N26 Metal seviyesi
 class AppColors {
   AppColors._();
 
   // ═══════════════════════════════════════════════════════
-  // ARKA PLAN - PREMIUM DARK MOR
+  // ARKA PLAN - iOS 26 LIQUID GLASS DARK
   // ═══════════════════════════════════════════════════════
 
-  /// Ana arka plan - koyu mor (siyah değil!)
-  static const Color background = Color(0xFF0D0B14);
+  /// Ana arka plan - Ultra deep with purple undertone
+  static const Color background = Color(0xFF0A0A0F);
 
   /// Kart arka planı
-  static const Color cardBackground = Color(0xFF1A1625);
+  static const Color cardBackground = Color(0xFF12101A);
 
   /// Yükseltilmiş yüzey
-  static const Color surfaceElevated = Color(0xFF2D2440);
+  static const Color surfaceElevated = Color(0xFF1A1725);
 
-  /// Gradient başlangıç - Koyu mor
-  static const Color gradientStart = Color(0xFF0D0B14);
+  /// Surface overlay - Modals, sheets
+  static const Color surfaceOverlay = Color(0xFF231F2E);
 
-  /// Gradient orta - Orta mor
-  static const Color gradientMid = Color(0xFF1A1625);
+  /// Gradient başlangıç
+  static const Color gradientStart = Color(0xFF0A0A0F);
 
-  /// Gradient bitiş - Açık mor
-  static const Color gradientEnd = Color(0xFF2D2440);
+  /// Gradient orta
+  static const Color gradientMid = Color(0xFF12101A);
 
-  // Surface colors (glass effect)
-  static const Color surface = Color(0x08FFFFFF); // rgba(255,255,255,0.03)
-  static const Color surfaceLight = Color(0x0DFFFFFF); // rgba(255,255,255,0.05)
-  static const Color surfaceLighter = Color(
-    0x14FFFFFF,
-  ); // rgba(255,255,255,0.08)
+  /// Gradient bitiş
+  static const Color gradientEnd = Color(0xFF1A1725);
 
-  // ═══════════════════════════════════════════════════════
-  // ANA RENKLER
-  // ═══════════════════════════════════════════════════════
-
-  /// Primary - Soft mor (butonlar, aktif elementler)
-  static const Color primary = Color(0xFF6C63FF);
-  static const Color primaryDark = Color(0xFF5A52E0);
-  static const Color primaryLight = Color(0xFF8B85FF);
-
-  /// Secondary - Turkuaz (pozitif değerler, başarı)
-  static const Color secondary = Color(0xFF4ECDC4);
-  static const Color secondaryDark = Color(0xFF3DBDB5);
-  static const Color secondaryLight = Color(0xFF6EDDD6);
-
-  /// Accent - Altın (SADECE önemli başarılar)
-  static const Color accent = Color(0xFFFFD93D);
-  static const Color gold = Color(0xFFFFD93D);
+  // Surface colors (iOS 26 Liquid Glass style)
+  static const Color surface = Color(0xFF12101A);
+  static const Color surfaceLight = Color(0xFF1A1725);
+  static const Color surfaceLighter = Color(0xFF231F2E);
 
   // ═══════════════════════════════════════════════════════
-  // METİN RENKLERİ
+  // ANA RENKLER (iOS 26 Vibrant Purple)
   // ═══════════════════════════════════════════════════════
 
-  /// Primary text - Beyaz
-  static const Color textPrimary = Color(0xFFFFFFFF);
+  /// Primary - Vibrant Purple (iOS 26 style)
+  static const Color primary = Color(0xFF8B5CF6);
+  static const Color primaryDark = Color(0xFF7C3AED);
+  static const Color primaryLight = Color(0xFFA78BFA);
 
-  /// Secondary text - Soluk gri-mor
-  static const Color textSecondary = Color(0xFF8B8B9E);
+  /// Secondary - Cyan (Liquid Glass signature)
+  static const Color secondary = Color(0xFF06B6D4);
+  static const Color secondaryDark = Color(0xFF0891B2);
+  static const Color secondaryLight = Color(0xFF22D3EE);
 
-  /// Tertiary text - Daha soluk
-  static const Color textTertiary = Color(0xFF5A5A6E);
-
-  // ═══════════════════════════════════════════════════════
-  // DURUM RENKLERİ
-  // ═══════════════════════════════════════════════════════
-
-  /// Success - Turkuaz (yeşil yerine)
-  static const Color success = Color(0xFF4ECDC4);
-
-  /// Warning - Altın
-  static const Color warning = Color(0xFFFFD93D);
-
-  /// Error/Danger - Soft kırmızı
-  static const Color error = Color(0xFFFF6B6B);
-
-  /// Info - Primary mor
-  static const Color info = Color(0xFF6C63FF);
+  /// Accent - Gold
+  static const Color accent = Color(0xFFF59E0B);
+  static const Color gold = Color(0xFFF59E0B);
 
   // ═══════════════════════════════════════════════════════
-  // KARAR RENKLERİ
+  // METİN RENKLERİ (iOS 26 Style)
   // ═══════════════════════════════════════════════════════
 
-  /// Aldım/Harcandı - Soft kırmızı
-  static const Color decisionYes = Color(0xFFFF6B6B);
+  /// Primary text
+  static const Color textPrimary = Color(0xFFFAFAFA);
 
-  /// Düşünüyorum - Altın
-  static const Color decisionThinking = Color(0xFFFFD93D);
+  /// Secondary text
+  static const Color textSecondary = Color(0xFFA1A1AA);
 
-  /// Vazgeçtim/Kurtarılan - Turkuaz
-  static const Color decisionNo = Color(0xFF4ECDC4);
+  /// Tertiary text
+  static const Color textTertiary = Color(0xFF71717A);
+
+  /// Muted text
+  static const Color textMuted = Color(0xFF52525B);
 
   // ═══════════════════════════════════════════════════════
-  // KART RENKLERİ
+  // DURUM RENKLERİ (2026 Fintech Standard)
   // ═══════════════════════════════════════════════════════
 
-  /// Kart arka plan (glass effect) - rgba(255,255,255,0.03)
-  static const Color cardBackgroundGlass = Color(0x08FFFFFF);
+  /// Success - Emerald
+  static const Color success = Color(0xFF10B981);
 
-  /// Kart border - rgba(255,255,255,0.08)
-  static const Color cardBorder = Color(0x14FFFFFF);
+  /// Warning - Amber
+  static const Color warning = Color(0xFFF59E0B);
+
+  /// Error - Rose
+  static const Color error = Color(0xFFEF4444);
+
+  /// Info - Blue
+  static const Color info = Color(0xFF3B82F6);
+
+  // ═══════════════════════════════════════════════════════
+  // KARAR RENKLERİ (Vantag Decision)
+  // ═══════════════════════════════════════════════════════
+
+  /// Aldım/Harcandı - Soft red
+  static const Color decisionYes = Color(0xFFF87171);
+
+  /// Düşünüyorum - Amber
+  static const Color decisionThinking = Color(0xFFFBBF24);
+
+  /// Vazgeçtim/Kurtarılan - Cyan (pozitif!)
+  static const Color decisionNo = Color(0xFF06B6D4);
+
+  // ═══════════════════════════════════════════════════════
+  // GLASS EFFECTS (Liquid Glass)
+  // ═══════════════════════════════════════════════════════
+
+  /// Glass background - 8% white
+  static const Color glassWhite = Color(0x15FFFFFF);
+
+  /// Glass border - 12% white
+  static const Color glassBorder = Color(0x20FFFFFF);
+
+  /// Glass highlight - 19% white
+  static const Color glassHighlight = Color(0x30FFFFFF);
+
+  /// Kart arka plan (glass effect)
+  static const Color cardBackgroundGlass = Color(0x0AFFFFFF);
+
+  /// Kart border
+  static const Color cardBorder = Color(0x15FFFFFF);
 
   /// Kart gölge
-  static const Color cardShadow = Color(0x4D000000); // rgba(0,0,0,0.3)
+  static const Color cardShadow = Color(0x40000000);
 
   // ═══════════════════════════════════════════════════════════════
   // CHART PALETTE - 8 colors for pie/bar charts
@@ -324,66 +337,125 @@ class AppGradients {
   );
 }
 
-/// Premium Design Tokens
+/// Premium Design Tokens (Revolut Style)
 class AppDesign {
   AppDesign._();
 
-  // Border Radius
-  static const double radiusSmall = 12.0;
-  static const double radiusMedium = 16.0;
-  static const double radiusLarge = 20.0;
-  static const double radiusXLarge = 24.0;
+  // Border Radius (8pt Grid)
+  static const double radiusSmall = 8.0; // Küçük butonlar, chips
+  static const double radiusMedium = 12.0; // Input fields, küçük kartlar
+  static const double radiusLarge = 16.0; // Normal kartlar
+  static const double radiusXLarge = 20.0; // Büyük kartlar
+  static const double radiusXXLarge = 24.0; // Modal, bottom sheet
+  static const double radiusFull = 999.0; // Pill shape
 
-  // Spacing
-  static const double spacingXs = 8.0;
-  static const double spacingSm = 12.0;
-  static const double spacingMd = 16.0;
-  static const double spacingLg = 20.0;
-  static const double spacingXl = 24.0;
+  // Spacing (8pt Grid System)
+  static const double spacing4 = 4.0; // Micro
+  static const double spacingXs = 8.0; // Small
+  static const double spacingSm = 12.0; // Medium-small
+  static const double spacingMd = 16.0; // Medium (default card padding)
+  static const double spacingLg = 20.0; // Medium-large
+  static const double spacingXl = 24.0; // Large
+  static const double spacingXxl = 32.0; // XL
+  static const double spacing48 = 48.0; // XXL
 
-  // Card Shadow
-  static List<BoxShadow> get cardShadow => [
-        BoxShadow(
-          color: const Color(0xFF8B5CF6).withValues(alpha: 0.15),
-          blurRadius: 24,
-          offset: const Offset(0, 8),
-          spreadRadius: 0,
-        ),
-        BoxShadow(
-          color: Colors.black.withValues(alpha: 0.2),
-          blurRadius: 16,
-          offset: const Offset(0, 4),
-          spreadRadius: 0,
-        ),
-      ];
+  // Screen & Card Padding
+  static const EdgeInsets screenPadding = EdgeInsets.symmetric(horizontal: 20);
+  static const EdgeInsets cardPadding = EdgeInsets.all(16);
+  static const EdgeInsets cardPaddingLarge = EdgeInsets.all(20);
 
-  // Premium Card Shadow
-  static List<BoxShadow> get premiumCardShadow => [
+  // Transaction Item Dimensions
+  static const double iconContainerSize = 44.0;
+  static const double iconContainerRadius = 14.0;
+  static const double iconSize = 22.0;
+
+  // Subtle Shadow (kartlar için - Revolut style)
+  static List<BoxShadow> get shadowSubtle => [
         BoxShadow(
-          color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
-          blurRadius: 32,
-          offset: const Offset(0, 8),
-          spreadRadius: 0,
-        ),
-        BoxShadow(
-          color: Colors.black.withValues(alpha: 0.25),
+          color: Colors.black.withValues(alpha: 0.12),
           blurRadius: 20,
           offset: const Offset(0, 4),
-          spreadRadius: 0,
         ),
       ];
 
-  // Subtle Shadow
-  static List<BoxShadow> get subtleShadow => [
+  // Medium Shadow (elevated cards - soft)
+  static List<BoxShadow> get shadowMedium => [
         BoxShadow(
-          color: const Color(0xFF8B5CF6).withValues(alpha: 0.1),
-          blurRadius: 16,
-          offset: const Offset(0, 4),
-          spreadRadius: 0,
+          color: Colors.black.withValues(alpha: 0.2),
+          blurRadius: 20,
+          offset: const Offset(0, 8),
         ),
       ];
 
-  // Typography
+  // Card Shadow (premium cards)
+  static List<BoxShadow> get cardShadow => [
+        BoxShadow(
+          color: Colors.black.withValues(alpha: 0.2),
+          blurRadius: 20,
+          offset: const Offset(0, 10),
+        ),
+      ];
+
+  // Premium Card Shadow (with purple glow)
+  static List<BoxShadow> get premiumCardShadow => [
+        BoxShadow(
+          color: Colors.black.withValues(alpha: 0.2),
+          blurRadius: 20,
+          offset: const Offset(0, 10),
+        ),
+      ];
+
+  // ========== CARD DECORATIONS ==========
+
+  /// Standard card border
+  static Border get cardBorder => Border.all(
+        color: Colors.white.withValues(alpha: 0.06),
+        width: 1,
+      );
+
+  /// Small card decoration (borderRadius: 16)
+  static BoxDecoration cardDecorationSmall(Color surfaceColor) => BoxDecoration(
+        color: surfaceColor,
+        borderRadius: BorderRadius.circular(16),
+        border: cardBorder,
+        boxShadow: shadowMedium,
+      );
+
+  /// Large card decoration (borderRadius: 20)
+  static BoxDecoration cardDecorationLarge(Color surfaceColor) => BoxDecoration(
+        color: surfaceColor,
+        borderRadius: BorderRadius.circular(20),
+        border: cardBorder,
+        boxShadow: shadowMedium,
+      );
+
+  // Primary Glow Effect
+  static List<BoxShadow> primaryGlow(Color primary) => [
+        BoxShadow(
+          color: primary.withValues(alpha: 0.25),
+          blurRadius: 20,
+          spreadRadius: -5,
+        ),
+      ];
+
+  // Primary Button Shadow (for elevated buttons)
+  static List<BoxShadow> primaryButtonShadow(Color primary) => [
+        BoxShadow(
+          color: primary.withValues(alpha: 0.35),
+          blurRadius: 16,
+          offset: const Offset(0, 8),
+        ),
+      ];
+
+  // Typography (Revolut Style)
+  static const double fontSizeCaption = 12.0;
+  static const double fontSizeBody = 15.0;
+  static const double fontSizeSectionTitle = 13.0;
+  static const double fontSizeTitle = 16.0;
+  static const double fontSizeHeadline = 24.0;
+  static const double fontSizeLargeNumber = 48.0;
+
+  // Legacy support
   static const double fontSizeXs = 10.0;
   static const double fontSizeSm = 12.0;
   static const double fontSizeMd = 14.0;
@@ -391,17 +463,52 @@ class AppDesign {
   static const double fontSizeXl = 20.0;
   static const double fontSizeXxl = 28.0;
   static const double fontSizeDisplay = 32.0;
+
+  // Animation Durations
+  static const Duration animationFast = Duration(milliseconds: 150);
+  static const Duration animationNormal = Duration(milliseconds: 250);
+  static const Duration animationSlow = Duration(milliseconds: 400);
+
+  // Standard Curve
+  static const Curve animationCurve = Curves.easeOutCubic;
+
+  // ========== MODAL/SHEET STYLING ==========
+
+  /// Sheet border radius
+  static const double sheetBorderRadius = 24.0;
+
+  /// Sheet handle bar dimensions
+  static const double handleBarWidth = 40.0;
+  static const double handleBarHeight = 4.0;
+  static const double handleBarRadius = 2.0;
+
+  /// Standard sheet decoration
+  static BoxDecoration sheetDecoration(Color surfaceColor) => BoxDecoration(
+        color: surfaceColor.withValues(alpha: 0.95),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+      );
+
+  /// Standard handle bar decoration
+  static BoxDecoration handleBarDecoration(Color textTertiaryColor) =>
+      BoxDecoration(
+        color: textTertiaryColor.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(2),
+      );
 }
 
-/// Premium Font Families
-/// Headings/Numbers: Space Grotesk (modern fintech feel)
-/// Body: DM Sans (clean, readable)
+/// Premium Font Families - iOS HIG Compliant
+/// Uses system fonts (SF Pro on iOS, Roboto on Android)
 class AppFonts {
   AppFonts._();
 
-  static String get heading => GoogleFonts.spaceGrotesk().fontFamily!;
-  static String get body => GoogleFonts.dmSans().fontFamily!;
-  static String get mono => GoogleFonts.jetBrainsMono().fontFamily!;
+  /// System font for headings (SF Pro Display on iOS)
+  static String? get heading => null; // Uses system default
+
+  /// System font for body text (SF Pro Text on iOS)
+  static String? get body => null; // Uses system default
+
+  /// System monospace font (Menlo on iOS, Roboto Mono on Android)
+  static String get mono => Platform.isIOS ? 'Menlo' : 'Roboto Mono';
 
   /// Font fallback list for Turkish character support
   /// These system fonts are used when characters (ı, ğ, ü, ş, ö, ç, İ) are missing
@@ -744,16 +851,17 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.textPrimary,
+          foregroundColor: Colors.white,
           elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          minimumSize: const Size(double.infinity, 56),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(14),
           ),
           textStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            letterSpacing: 0.5,
+            letterSpacing: -0.2,
           ),
         ),
       ),
@@ -764,27 +872,54 @@ class AppTheme {
           textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
         ),
       ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.textPrimary,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          minimumSize: const Size(double.infinity, 56),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          side: BorderSide(
+            color: Colors.white.withValues(alpha: 0.12),
+            width: 1.5,
+          ),
+          textStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            letterSpacing: -0.2,
+          ),
+        ),
+      ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.surface,
+        fillColor: AppColors.surfaceLight,
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 18,
+          horizontal: 16,
+          vertical: 16,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.cardBorder),
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.cardBorder),
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(
+            color: Colors.white.withValues(alpha: 0.06),
+            width: 1,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.primary, width: 2),
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(
+            color: AppColors.primary.withValues(alpha: 0.5),
+            width: 1.5,
+          ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: AppColors.error),
         ),
         labelStyle: const TextStyle(
@@ -792,7 +927,7 @@ class AppTheme {
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
-        hintStyle: const TextStyle(color: AppColors.textTertiary, fontSize: 16),
+        hintStyle: const TextStyle(color: AppColors.textTertiary, fontSize: 15),
       ),
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: AppColors.gradientMid,
@@ -1121,63 +1256,57 @@ class _ThemeColors {
 // LIGHT MODE COLORS
 // ═══════════════════════════════════════════════════════════════════════════
 
-/// Light Mode Color Palette - Clean, Modern Finance App
+/// Light Mode Color Palette - iOS 26 Liquid Glass Premium White
 class AppColorsLight {
   AppColorsLight._();
 
   // ─────────────────────────────────────────────────────────────────
-  // BACKGROUNDS
+  // BACKGROUNDS (Premium White)
   // ─────────────────────────────────────────────────────────────────
 
-  /// Main background - Off-white
-  static const Color background = Color(0xFFF8F9FA);
+  /// Main background
+  static const Color background = Color(0xFFF8FAFC);
 
   /// Card background - Pure white
   static const Color cardBackground = Color(0xFFFFFFFF);
 
-  /// Elevated surface - Light gray
-  static const Color surfaceElevated = Color(0xFFF0F2F5);
+  /// Elevated surface
+  static const Color surfaceElevated = Color(0xFFF1F5F9);
 
   /// Gradient colors
-  static const Color gradientStart = Color(0xFFF8F9FA);
+  static const Color gradientStart = Color(0xFFF8FAFC);
   static const Color gradientMid = Color(0xFFFFFFFF);
-  static const Color gradientEnd = Color(0xFFF0F2F5);
+  static const Color gradientEnd = Color(0xFFF1F5F9);
 
   // Surface colors
   static const Color surface = Color(0xFFFFFFFF);
-  static const Color surfaceLight = Color(0xFFF0F2F5);
-  static const Color surfaceLighter = Color(0xFFE8EAED);
+  static const Color surfaceLight = Color(0xFFF1F5F9);
+  static const Color surfaceLighter = Color(0xFFE2E8F0);
 
   // ─────────────────────────────────────────────────────────────────
-  // PRIMARY COLORS
+  // PRIMARY COLORS (Same purple for consistency)
   // ─────────────────────────────────────────────────────────────────
 
-  /// Primary - Soft purple (same as dark mode for consistency)
-  static const Color primary = Color(0xFF6C63FF);
-  static const Color primaryDark = Color(0xFF5A52E0);
-  static const Color primaryLight = Color(0xFF8B85FF);
+  static const Color primary = Color(0xFF8B5CF6);
+  static const Color primaryDark = Color(0xFF7C3AED);
+  static const Color primaryLight = Color(0xFFC4B5FD);
 
-  /// Secondary - Turquoise
-  static const Color secondary = Color(0xFF4ECDC4);
-  static const Color secondaryDark = Color(0xFF3DBDB5);
-  static const Color secondaryLight = Color(0xFF6EDDD6);
+  /// Secondary - Cyan
+  static const Color secondary = Color(0xFF06B6D4);
+  static const Color secondaryDark = Color(0xFF0891B2);
+  static const Color secondaryLight = Color(0xFF22D3EE);
 
   /// Accent - Gold
-  static const Color accent = Color(0xFFFFD93D);
-  static const Color gold = Color(0xFFFFD93D);
+  static const Color accent = Color(0xFFF59E0B);
+  static const Color gold = Color(0xFFF59E0B);
 
   // ─────────────────────────────────────────────────────────────────
   // TEXT COLORS
   // ─────────────────────────────────────────────────────────────────
 
-  /// Primary text - Dark gray (almost black)
-  static const Color textPrimary = Color(0xFF1A1A2E);
-
-  /// Secondary text - Medium gray
-  static const Color textSecondary = Color(0xFF6B7280);
-
-  /// Tertiary text - Light gray
-  static const Color textTertiary = Color(0xFF9CA3AF);
+  static const Color textPrimary = Color(0xFF0F172A);
+  static const Color textSecondary = Color(0xFF475569);
+  static const Color textTertiary = Color(0xFF94A3B8);
 
   // ─────────────────────────────────────────────────────────────────
   // STATUS COLORS
@@ -1186,21 +1315,23 @@ class AppColorsLight {
   static const Color success = Color(0xFF10B981);
   static const Color warning = Color(0xFFF59E0B);
   static const Color error = Color(0xFFEF4444);
-  static const Color info = Color(0xFF6C63FF);
+  static const Color info = Color(0xFF3B82F6);
 
   // ─────────────────────────────────────────────────────────────────
   // DECISION COLORS
   // ─────────────────────────────────────────────────────────────────
 
-  static const Color decisionYes = Color(0xFFEF4444);
-  static const Color decisionThinking = Color(0xFFF59E0B);
-  static const Color decisionNo = Color(0xFF10B981);
+  static const Color decisionYes = Color(0xFFF87171);
+  static const Color decisionThinking = Color(0xFFFBBF24);
+  static const Color decisionNo = Color(0xFF06B6D4);
 
   // ─────────────────────────────────────────────────────────────────
-  // CARD COLORS
+  // GLASS EFFECTS (for light mode)
   // ─────────────────────────────────────────────────────────────────
 
+  static const Color glassBlack = Color(0x08000000);
+  static const Color glassBorder = Color(0x15000000);
   static const Color cardBackgroundGlass = Color(0xFFFFFFFF);
-  static const Color cardBorder = Color(0xFFE5E7EB);
-  static const Color cardShadow = Color(0x1A000000);
+  static const Color cardBorder = Color(0xFFE2E8F0);
+  static const Color cardShadow = Color(0x15000000);
 }

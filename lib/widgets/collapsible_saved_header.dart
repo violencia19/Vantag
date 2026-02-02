@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -174,14 +174,14 @@ class CollapsibleSavedHeader extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: context.appColors.cardBorder, width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            PhosphorIconsDuotone.shieldCheck,
+            CupertinoIcons.shield_lefthalf_fill,
             size: 20 + (12 * expandRatio),
             color: context.appColors.textTertiary,
           ),
@@ -263,7 +263,7 @@ class _AnimatedSavingsIconState extends State<_AnimatedSavingsIcon>
               ),
             ),
             child: Icon(
-              PhosphorIconsDuotone.shieldCheck,
+              CupertinoIcons.shield_lefthalf_fill,
               size: widget.iconSize,
               color: context.appColors.primary,
             ),

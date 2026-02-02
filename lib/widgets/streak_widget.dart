@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
@@ -85,7 +85,7 @@ class StreakWidgetState extends State<StreakWidget>
                 color: hasStreak
                     ? context.appColors.warning.withValues(alpha: 0.15)
                     : context.appColors.surface,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(24),
                 border: Border.all(
                   color: hasStreak
                       ? context.appColors.warning.withValues(alpha: 0.3)
@@ -106,15 +106,12 @@ class StreakWidgetState extends State<StreakWidget>
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  PhosphorIcon(
-                    PhosphorIconsDuotone.flame,
+                  Icon(
+                    CupertinoIcons.flame,
                     size: 18,
                     color: hasStreak
                         ? context.appColors.warning
                         : context.appColors.textTertiary,
-                    duotoneSecondaryColor: hasStreak
-                        ? context.appColors.warning.withValues(alpha: 0.5)
-                        : context.appColors.textTertiary.withValues(alpha: 0.3),
                   ),
                   const SizedBox(width: 6),
                   Text(
@@ -147,7 +144,7 @@ class StreakWidgetState extends State<StreakWidget>
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: context.appColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -190,19 +187,14 @@ class StreakWidgetState extends State<StreakWidget>
                   ],
                 ),
                 child: Center(
-                  child: PhosphorIcon(
+                  child: Icon(
                     streak.hasStreak
-                        ? PhosphorIconsDuotone.flame
-                        : PhosphorIconsDuotone.barbell,
+                        ? CupertinoIcons.flame
+                        : CupertinoIcons.sportscourt,
                     size: 40,
                     color: streak.hasStreak
                         ? context.appColors.warning
                         : context.appColors.primary,
-                    duotoneSecondaryColor:
-                        (streak.hasStreak
-                                ? context.appColors.warning
-                                : context.appColors.primary)
-                            .withValues(alpha: 0.4),
                   ),
                 ),
               ),
@@ -240,17 +232,15 @@ class StreakWidgetState extends State<StreakWidget>
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: context.appColors.surfaceLight,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      PhosphorIcon(
-                        PhosphorIconsDuotone.trophy,
+                      Icon(
+                        CupertinoIcons.rosette,
                         size: 20,
                         color: context.appColors.warning,
-                        duotoneSecondaryColor: context.appColors.warning
-                            .withValues(alpha: 0.4),
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -275,7 +265,7 @@ class StreakWidgetState extends State<StreakWidget>
                   ),
                   decoration: BoxDecoration(
                     color: context.appColors.success.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(24),
                     border: Border.all(
                       color: context.appColors.success.withValues(alpha: 0.3),
                     ),
@@ -283,12 +273,10 @@ class StreakWidgetState extends State<StreakWidget>
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      PhosphorIcon(
-                        PhosphorIconsDuotone.confetti,
+                      Icon(
+                        CupertinoIcons.star_circle_fill,
                         size: 16,
                         color: context.appColors.success,
-                        duotoneSecondaryColor: context.appColors.success
-                            .withValues(alpha: 0.4),
                       ),
                       const SizedBox(width: 6),
                       Text(

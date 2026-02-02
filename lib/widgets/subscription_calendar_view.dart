@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
@@ -116,7 +116,7 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
             children: [
               IconButton(
                 onPressed: _previousMonth,
-                icon: const Icon(PhosphorIconsDuotone.caretLeft),
+                icon: const Icon(CupertinoIcons.chevron_left),
                 color: context.appColors.textSecondary,
               ),
               Text(
@@ -129,7 +129,7 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
               ),
               IconButton(
                 onPressed: _nextMonth,
-                icon: const Icon(PhosphorIconsDuotone.caretRight),
+                icon: const Icon(CupertinoIcons.chevron_right),
                 color: context.appColors.textSecondary,
               ),
             ],
@@ -217,7 +217,7 @@ class _SubscriptionCalendarViewState extends State<SubscriptionCalendarView> {
               : hasSubscriptions
               ? context.appColors.surface.withValues(alpha: 0.5)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8),
           border: isToday
               ? Border.all(color: context.appColors.primary, width: 1.5)
               : null,

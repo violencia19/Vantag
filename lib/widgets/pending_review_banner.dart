@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 
@@ -101,8 +101,8 @@ class PendingReviewBanner extends StatelessWidget {
                     ),
 
                     // Arrow
-                    const PhosphorIcon(
-                      PhosphorIconsFill.caretRight,
+                    const Icon(
+                      CupertinoIcons.chevron_right,
                       color: Colors.white,
                       size: 24,
                     ),
@@ -116,8 +116,8 @@ class PendingReviewBanner extends StatelessWidget {
                   top: 4,
                   right: 4,
                   child: IconButton(
-                    icon: PhosphorIcon(
-                      PhosphorIconsRegular.x,
+                    icon: Icon(
+                      CupertinoIcons.xmark,
                       color: Colors.white.withValues(alpha: 0.7),
                       size: 18,
                     ),
@@ -153,11 +153,11 @@ class PendingReviewBanner extends StatelessWidget {
             height: 44,
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: const Center(
-              child: PhosphorIcon(
-                PhosphorIconsFill.warning,
+              child: Icon(
+                CupertinoIcons.exclamationmark_triangle_fill,
                 color: Colors.white,
                 size: 24,
               ),
@@ -198,7 +198,7 @@ class PendingReviewChip extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             color: context.appColors.warning.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(
               color: context.appColors.warning.withValues(alpha: 0.5),
             ),
@@ -206,8 +206,8 @@ class PendingReviewChip extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              PhosphorIcon(
-                PhosphorIconsFill.warning,
+              Icon(
+                CupertinoIcons.exclamationmark_triangle_fill,
                 color: context.appColors.warning,
                 size: 16,
               ),

@@ -1,11 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:vantag/providers/locale_provider.dart';
+import 'package:vantag/services/analytics_service.dart';
 import 'package:vantag/services/purchase_service.dart';
 import 'package:vantag/theme/app_theme.dart';
 
@@ -47,6 +48,8 @@ class _PaywallScreenState extends State<PaywallScreen>
         );
     _loadOfferings();
     _animationController.forward();
+    // Track paywall viewed for conversion funnel
+    AnalyticsService().logPaywallViewed(source: widget.featureName);
   }
 
   @override
@@ -161,7 +164,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                   children: [
                     IconButton(
                       onPressed: () => Navigator.of(context).pop(false),
-                      icon: const Icon(LucideIcons.x),
+                      icon: const Icon(CupertinoIcons.xmark),
                       tooltip: l10n.close,
                       style: IconButton.styleFrom(
                         backgroundColor: context.appColors.surface,
@@ -324,7 +327,7 @@ class _PaywallScreenState extends State<PaywallScreen>
         gradient: LinearGradient(
           colors: [context.appColors.primary, context.appColors.secondary],
         ),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(32),
         boxShadow: [
           BoxShadow(
             color: context.appColors.primary.withValues(alpha: 0.4),
@@ -337,7 +340,7 @@ class _PaywallScreenState extends State<PaywallScreen>
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            LucideIcons.crown,
+            CupertinoIcons.star_fill,
             color: context.appColors.textPrimary,
             size: 24,
           ),
@@ -368,7 +371,7 @@ class _PaywallScreenState extends State<PaywallScreen>
             context.appColors.success.withValues(alpha: 0.1),
           ],
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: context.appColors.success.withValues(alpha: 0.5),
           width: 2,
@@ -388,13 +391,13 @@ class _PaywallScreenState extends State<PaywallScreen>
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
               color: context.appColors.success,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  LucideIcons.gift,
+                  CupertinoIcons.gift_fill,
                   color: context.appColors.textPrimary,
                   size: 18,
                 ),
@@ -439,7 +442,7 @@ class _PaywallScreenState extends State<PaywallScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                LucideIcons.shieldCheck,
+                CupertinoIcons.checkmark_shield_fill,
                 color: context.appColors.success.withValues(alpha: 0.8),
                 size: 16,
               ),
@@ -479,7 +482,7 @@ class _PaywallScreenState extends State<PaywallScreen>
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: context.appColors.cardBackground,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(color: context.appColors.cardBorder),
       ),
       child: Column(
@@ -557,13 +560,13 @@ class _PaywallScreenState extends State<PaywallScreen>
                     feature.pro.toLowerCase() == 'evet' ||
                     feature.pro == AppLocalizations.of(context).featureUnlimited
                 ? Icon(
-                    LucideIcons.check,
+                    CupertinoIcons.checkmark,
                     color: context.appColors.success,
                     size: 20,
                   )
                 : feature.pro.toLowerCase() == 'no' ||
                       feature.pro.toLowerCase() == 'hayır'
-                ? Icon(LucideIcons.x, color: context.appColors.error, size: 20)
+                ? Icon(CupertinoIcons.xmark, color: context.appColors.error, size: 20)
                 : Text(
                     feature.pro,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -744,7 +747,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                              LucideIcons.infinity,
+                              CupertinoIcons.infinite,
                               size: 10,
                               color: context.appColors.textPrimary,
                             ),
@@ -895,7 +898,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                     children: [
                       if (isMonthlyWithTrial) ...[
                         Icon(
-                          LucideIcons.gift,
+                          CupertinoIcons.gift_fill,
                           color: context.appColors.textPrimary,
                           size: 20,
                         ),
@@ -923,9 +926,9 @@ class _PaywallScreenState extends State<PaywallScreen>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildTrustItem(LucideIcons.shieldCheck, l10n.securePayment),
-          _buildTrustItem(LucideIcons.lock, l10n.encrypted),
-          _buildTrustItem(LucideIcons.refreshCcw, l10n.cancelAnytime),
+          _buildTrustItem(CupertinoIcons.checkmark_shield_fill, l10n.securePayment),
+          _buildTrustItem(CupertinoIcons.lock_fill, l10n.encrypted),
+          _buildTrustItem(CupertinoIcons.arrow_counterclockwise, l10n.cancelAnytime),
         ],
       ),
     );
@@ -957,7 +960,7 @@ class _PaywallScreenState extends State<PaywallScreen>
       child: Column(
         children: [
           Icon(
-            LucideIcons.alertCircle,
+            CupertinoIcons.exclamationmark_circle_fill,
             color: context.appColors.error,
             size: 48,
           ),
@@ -970,7 +973,7 @@ class _PaywallScreenState extends State<PaywallScreen>
           const SizedBox(height: 16),
           TextButton.icon(
             onPressed: _loadOfferings,
-            icon: const Icon(LucideIcons.refreshCw),
+            icon: const Icon(CupertinoIcons.arrow_clockwise),
             label: Text(AppLocalizations.of(context).retry),
           ),
         ],

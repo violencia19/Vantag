@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:vantag/providers/pro_provider.dart';
@@ -57,10 +57,10 @@ class ProFeatureGate extends StatelessWidget {
                     context.appColors.secondary.withValues(alpha: 0.2),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
-                LucideIcons.crown,
+                CupertinoIcons.star_fill,
                 color: context.appColors.gold,
                 size: 24,
               ),
@@ -85,7 +85,7 @@ class ProFeatureGate extends StatelessWidget {
               ),
             ),
             Icon(
-              LucideIcons.chevronRight,
+              CupertinoIcons.chevron_right,
               color: context.appColors.textSecondary,
             ),
           ],
@@ -163,10 +163,10 @@ class ProFeatureGate extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: context.appColors.cardBackground,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Row(
           children: [
-            Icon(LucideIcons.sparkles, color: context.appColors.primary),
+            Icon(CupertinoIcons.sparkles, color: context.appColors.primary),
             const SizedBox(width: 12),
             Text(l10n.aiLimitReached),
           ],
@@ -205,10 +205,10 @@ class ProFeatureGate extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: context.appColors.cardBackground,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Row(
           children: [
-            Icon(LucideIcons.history, color: context.appColors.primary),
+            Icon(CupertinoIcons.clock, color: context.appColors.primary),
             const SizedBox(width: 12),
             Text(l10n.historyLimitReached),
           ],
@@ -242,10 +242,10 @@ class ProFeatureGate extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: context.appColors.cardBackground,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Row(
           children: [
-            Icon(LucideIcons.fileSpreadsheet, color: context.appColors.primary),
+            Icon(CupertinoIcons.doc_text, color: context.appColors.primary),
             const SizedBox(width: 12),
             Expanded(child: Text(l10n.exportProOnly)),
           ],
@@ -296,7 +296,7 @@ class AiUsageIndicator extends StatelessWidget {
             color: remaining <= 3
                 ? context.appColors.error.withValues(alpha: 0.2)
                 : context.appColors.surface,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(
               color: remaining <= 3
                   ? context.appColors.error.withValues(alpha: 0.5)
@@ -307,7 +307,7 @@ class AiUsageIndicator extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
-                LucideIcons.sparkles,
+                CupertinoIcons.sparkles,
                 size: 14,
                 color: remaining <= 3
                     ? context.appColors.error

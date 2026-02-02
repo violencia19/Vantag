@@ -1,10 +1,9 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/finance_provider.dart';
@@ -27,7 +26,7 @@ class ProfileModal extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => const ProfileModal(),
     );
   }
@@ -111,7 +110,7 @@ class _ProfileModalState extends State<ProfileModal> {
   void _showPhotoOptions(AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: Colors.transparent,
       builder: (context) => _PhotoOptionsSheet(
         localPhotoPath: _localPhotoPath,
@@ -168,7 +167,7 @@ class _ProfileModalState extends State<ProfileModal> {
         Positioned.fill(
           child: GestureDetector(
             onTap: () => Navigator.of(context).pop(),
-            child: Container(color: Colors.black.withOpacity(0.85)),
+            child: Container(color: Colors.black.withValues(alpha: 0.85)),
           ),
         ),
         // The actual draggable sheet
@@ -353,7 +352,7 @@ class _ProfileModalState extends State<ProfileModal> {
                     ),
                   ),
                   child: Icon(
-                    PhosphorIconsDuotone.camera,
+                    CupertinoIcons.camera,
                     size: 14,
                     color: context.appColors.background,
                   ),
@@ -373,7 +372,7 @@ class _ProfileModalState extends State<ProfileModal> {
                       gradient: const LinearGradient(
                         colors: [AppColors.medalGold, AppColors.orange],
                       ),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.medalGold.withValues(alpha: 0.5),
@@ -440,7 +439,7 @@ class _ProfileModalState extends State<ProfileModal> {
     return Container(
       color: context.appColors.surfaceLight,
       child: Icon(
-        PhosphorIconsDuotone.user,
+        CupertinoIcons.person,
         size: 50,
         color: context.appColors.textTertiary,
       ),
@@ -459,25 +458,25 @@ class _ProfileModalState extends State<ProfileModal> {
       children: [
         // Photo Button
         _buildActionButton(
-          icon: PhosphorIconsDuotone.camera,
+          icon: CupertinoIcons.camera,
           label: l10n.changePhoto,
           onTap: () => _showPhotoOptions(l10n),
         ),
         // Salary Button
         _buildActionButton(
-          icon: PhosphorIconsDuotone.money,
+          icon: CupertinoIcons.money_dollar_circle,
           label: l10n.editSalary,
           onTap: () => _showEditSalarySheet(context, l10n, financeProvider),
         ),
         // Work Hours Button
         _buildActionButton(
-          icon: PhosphorIconsDuotone.clock,
+          icon: CupertinoIcons.clock,
           label: l10n.editWorkHours,
           onTap: () => _showEditWorkHoursSheet(context, l10n, financeProvider),
         ),
         // Add Income Button
         _buildActionButton(
-          icon: PhosphorIconsDuotone.plusCircle,
+          icon: CupertinoIcons.plus_circle,
           label: l10n.addIncome,
           onTap: () => _navigateToAddIncome(context, financeProvider),
         ),
@@ -499,7 +498,7 @@ class _ProfileModalState extends State<ProfileModal> {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
           color: context.appColors.surfaceLight,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: context.appColors.cardBorder),
         ),
         child: Row(
@@ -529,7 +528,7 @@ class _ProfileModalState extends State<ProfileModal> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: Colors.transparent,
       builder: (ctx) => _EditSalarySheet(
         financeProvider: financeProvider,
@@ -549,7 +548,7 @@ class _ProfileModalState extends State<ProfileModal> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: Colors.transparent,
       builder: (ctx) => _EditWorkHoursSheet(
         financeProvider: financeProvider,
@@ -596,7 +595,7 @@ class _ProfileModalState extends State<ProfileModal> {
             context.appColors.secondary.withValues(alpha: 0.25),
           ],
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: context.appColors.primary.withValues(alpha: 0.4),
           width: 1,
@@ -605,7 +604,7 @@ class _ProfileModalState extends State<ProfileModal> {
       child: Column(
         children: [
           Icon(
-            PhosphorIconsDuotone.clock,
+            CupertinoIcons.clock,
             size: 32,
             color: context.appColors.primary,
           ),
@@ -643,7 +642,7 @@ class _ProfileModalState extends State<ProfileModal> {
       children: [
         Expanded(
           child: _buildStatCard(
-            icon: PhosphorIconsDuotone.calendarCheck,
+            icon: CupertinoIcons.calendar_badge_plus,
             label: l10n.profileMemberSince,
             value: l10n.profileDays(memberDays > 0 ? memberDays : 1),
           ),
@@ -651,7 +650,7 @@ class _ProfileModalState extends State<ProfileModal> {
         const SizedBox(width: 16),
         Expanded(
           child: _buildStatCard(
-            icon: PhosphorIconsDuotone.trophy,
+            icon: CupertinoIcons.rosette,
             label: l10n.profileBadgesEarned,
             value: badgesEarned.toString(),
           ),
@@ -705,181 +704,124 @@ class _ProfileModalState extends State<ProfileModal> {
   ) {
     final isLinked = authService.isLinkedWithGoogle;
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: isLinked
-                ? LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      context.appColors.success.withValues(alpha: 0.15),
-                      context.appColors.success.withValues(alpha: 0.05),
-                    ],
-                  )
-                : LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      context.appColors.primary.withValues(alpha: 0.15),
-                      context.appColors.primary.withValues(alpha: 0.05),
+    return Container(
+      decoration: BoxDecoration(
+        color: context.appColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.06),
+          width: 1,
+        ),
+        boxShadow: AppDesign.shadowSubtle,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: isLinked || _isLinkingGoogle
+              ? null
+              : () => _linkGoogleAccount(authService, l10n),
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            child: Row(
+              children: [
+                // Google Logo Container - Revolut style
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: _isLinkingGoogle
+                      ? Center(
+                          child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation(
+                                context.appColors.primary,
+                              ),
+                            ),
+                          ),
+                        )
+                      : const Center(
+                          child: Text(
+                            'G',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF4285F4),
+                            ),
+                          ),
+                        ),
+                ),
+                const SizedBox(width: 14),
+                // Text Content
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Google',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: context.appColors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        isLinked
+                            ? l10n.profileGoogleConnected
+                            : l10n.dataNotBackedUp,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: isLinked
+                              ? context.appColors.success
+                              : context.appColors.textTertiary,
+                        ),
+                      ),
                     ],
                   ),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: isLinked
-                  ? context.appColors.success.withValues(alpha: 0.3)
-                  : context.appColors.primary.withValues(alpha: 0.3),
-              width: 1.5,
-            ),
-          ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: isLinked || _isLinkingGoogle
-                  ? null
-                  : () => _linkGoogleAccount(authService, l10n),
-              borderRadius: BorderRadius.circular(20),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    // Google Logo Container
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(14),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: _isLinkingGoogle
-                          ? Center(
-                              child: SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2.5,
-                                  valueColor: AlwaysStoppedAnimation(
-                                    context.appColors.primary,
-                                  ),
-                                ),
-                              ),
-                            )
-                          : const Center(
-                              child: FaIcon(
-                                FontAwesomeIcons.google,
-                                size: 22,
-                                color: Color(0xFF4285F4), // Google Blue
-                              ),
-                            ),
-                    ),
-                    const SizedBox(width: 16),
-                    // Text Content
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Google',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: context.appColors.textPrimary,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            isLinked
-                                ? l10n.profileGoogleConnected
-                                : l10n.dataNotBackedUp,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: isLinked
-                                  ? context.appColors.success
-                                  : context.appColors.textSecondary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Status / Action Button
-                    if (_isLinkingGoogle)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: context.appColors.surfaceLight,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          l10n.linking,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: context.appColors.textSecondary,
-                          ),
-                        ),
-                      )
-                    else if (isLinked)
-                      Container(
-                        width: 36,
-                        height: 36,
-                        decoration: BoxDecoration(
-                          color: context.appColors.success.withValues(alpha: 0.2),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          PhosphorIconsBold.check,
-                          size: 18,
-                          color: context.appColors.success,
-                        ),
-                      )
-                    else
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              context.appColors.primary,
-                              context.appColors.primaryDark,
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: context.appColors.primary.withValues(alpha: 0.4),
-                              blurRadius: 8,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Text(
-                          l10n.linkWithGoogle,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                  ],
                 ),
-              ),
+                // Status / Action Button
+                if (_isLinkingGoogle)
+                  Text(
+                    l10n.linking,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: context.appColors.textTertiary,
+                    ),
+                  )
+                else if (isLinked)
+                  Icon(
+                    CupertinoIcons.checkmark_circle_fill,
+                    size: 22,
+                    color: context.appColors.success,
+                  )
+                else
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: context.appColors.primary,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      l10n.linkWithGoogle,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
         ),
@@ -913,7 +855,7 @@ class _ProfileModalState extends State<ProfileModal> {
             backgroundColor: context.appColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
           ),
         );
@@ -934,7 +876,7 @@ class _ProfileModalState extends State<ProfileModal> {
             backgroundColor: context.appColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
           ),
         );
@@ -963,95 +905,65 @@ class _ProfileModalState extends State<ProfileModal> {
   ) {
     final isLinked = authService.isLinkedWithApple;
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: isLinked
-                ? LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      context.appColors.success.withValues(alpha: 0.15),
-                      context.appColors.success.withValues(alpha: 0.05),
-                    ],
-                  )
-                : LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      context.appColors.textPrimary.withValues(alpha: 0.1),
-                      context.appColors.textPrimary.withValues(alpha: 0.03),
-                    ],
+    return Container(
+      decoration: BoxDecoration(
+        color: context.appColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.06),
+          width: 1,
+        ),
+        boxShadow: AppDesign.shadowSubtle,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: isLinked || _isLinkingApple
+              ? null
+              : () => _linkAppleAccount(authService, l10n),
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            child: Row(
+              children: [
+                // Apple Logo Container - Revolut style
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(16),
                   ),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: isLinked
-                  ? context.appColors.success.withValues(alpha: 0.3)
-                  : context.appColors.textSecondary.withValues(alpha: 0.2),
-              width: 1.5,
-            ),
-          ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: isLinked || _isLinkingApple
-                  ? null
-                  : () => _linkAppleAccount(authService, l10n),
-              borderRadius: BorderRadius.circular(20),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    // Apple Logo Container
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(14),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.2),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: _isLinkingApple
-                          ? Center(
-                              child: SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2.5,
-                                  valueColor: const AlwaysStoppedAnimation(
-                                    Colors.white,
-                                  ),
-                                ),
-                              ),
-                            )
-                          : const Center(
-                              child: FaIcon(
-                                FontAwesomeIcons.apple,
-                                size: 24,
-                                color: Colors.white,
-                              ),
+                  child: _isLinkingApple
+                      ? const Center(
+                          child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation(Colors.white),
                             ),
-                    ),
-                    const SizedBox(width: 16),
-                    // Text Content
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
+                        )
+                      : const Center(
+                          child: Icon(
+                            Icons.apple,
+                            size: 26,
+                            color: Colors.white,
+                          ),
+                        ),
+                ),
+                const SizedBox(width: 14),
+                // Text Content
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Apple',
                             style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
                               color: context.appColors.textPrimary,
                             ),
                           ),
@@ -1061,84 +973,48 @@ class _ProfileModalState extends State<ProfileModal> {
                                 ? l10n.profileAppleConnected
                                 : l10n.profileAppleNotConnected,
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 13,
                               color: isLinked
                                   ? context.appColors.success
-                                  : context.appColors.textSecondary,
+                                  : context.appColors.textTertiary,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    // Status / Action Button
+                    // Status / Action Button - Revolut style
                     if (_isLinkingApple)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: context.appColors.surfaceLight,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          l10n.linking,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: context.appColors.textSecondary,
-                          ),
+                      Text(
+                        l10n.linking,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: context.appColors.textTertiary,
                         ),
                       )
                     else if (isLinked)
-                      Container(
-                        width: 36,
-                        height: 36,
-                        decoration: BoxDecoration(
-                          color: context.appColors.success.withValues(alpha: 0.2),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          PhosphorIconsBold.check,
-                          size: 18,
-                          color: context.appColors.success,
-                        ),
+                      Icon(
+                        CupertinoIcons.checkmark_circle_fill,
+                        size: 22,
+                        color: context.appColors.success,
                       )
                     else
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 10,
+                          horizontal: 14,
+                          vertical: 8,
                         ),
                         decoration: BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.3),
-                              blurRadius: 8,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const FaIcon(
-                              FontAwesomeIcons.apple,
-                              size: 14,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              l10n.linkWithApple,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
+                        child: Text(
+                          l10n.linkWithApple,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                   ],
@@ -1146,8 +1022,6 @@ class _ProfileModalState extends State<ProfileModal> {
               ),
             ),
           ),
-        ),
-      ),
     );
   }
 
@@ -1177,7 +1051,7 @@ class _ProfileModalState extends State<ProfileModal> {
             backgroundColor: context.appColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
           ),
         );
@@ -1198,7 +1072,7 @@ class _ProfileModalState extends State<ProfileModal> {
             backgroundColor: context.appColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
           ),
         );
@@ -1235,11 +1109,11 @@ class _ProfileModalState extends State<ProfileModal> {
             color: context.appColors.error.withValues(alpha: 0.5),
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(16),
           ),
         ),
         icon: Icon(
-          PhosphorIconsDuotone.signOut,
+          CupertinoIcons.square_arrow_right,
           size: 20,
           color: context.appColors.error,
         ),
@@ -1262,10 +1136,10 @@ class _ProfileModalState extends State<ProfileModal> {
   ) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => AlertDialog(
         backgroundColor: context.appColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Text(
           l10n.profileSignOut,
           style: TextStyle(
@@ -1363,14 +1237,14 @@ class _PhotoOptionsSheet extends StatelessWidget {
               const SizedBox(height: 20),
               _buildOption(
                 context: context,
-                icon: PhosphorIconsDuotone.camera,
+                icon: CupertinoIcons.camera,
                 label: l10n.takePhoto,
                 onTap: onCameraTap,
               ),
               const SizedBox(height: 12),
               _buildOption(
                 context: context,
-                icon: PhosphorIconsDuotone.image,
+                icon: CupertinoIcons.photo,
                 label: l10n.selectFromGallery,
                 onTap: onGalleryTap,
               ),
@@ -1378,7 +1252,7 @@ class _PhotoOptionsSheet extends StatelessWidget {
                 const SizedBox(height: 12),
                 _buildOption(
                   context: context,
-                  icon: PhosphorIconsDuotone.trash,
+                  icon: CupertinoIcons.trash,
                   label: l10n.removePhoto,
                   onTap: onDeleteTap,
                   isDestructive: true,
@@ -1403,14 +1277,14 @@ class _PhotoOptionsSheet extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: isDestructive
                 ? context.appColors.error.withValues(alpha: 0.1)
                 : context.appColors.surfaceLight,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
             children: [
@@ -1587,10 +1461,10 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                           color: context.appColors.primary.withValues(
                             alpha: 0.15,
                           ),
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         child: Icon(
-                          PhosphorIconsDuotone.money,
+                          CupertinoIcons.money_dollar_circle,
                           color: context.appColors.primary,
                           size: 24,
                         ),
@@ -1684,7 +1558,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                         color: _canSave && !_isLoading
                             ? context.appColors.primary
                             : context.appColors.surfaceLight,
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(16),
                         boxShadow: _canSave && !_isLoading
                             ? [
                                 BoxShadow(
@@ -1714,7 +1588,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  PhosphorIconsBold.check,
+                                  CupertinoIcons.checkmark,
                                   size: 20,
                                   color: _canSave
                                       ? context.appColors.background
@@ -1865,10 +1739,10 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                           color: context.appColors.primary.withValues(
                             alpha: 0.15,
                           ),
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         child: Icon(
-                          PhosphorIconsDuotone.clock,
+                          CupertinoIcons.clock,
                           color: context.appColors.primary,
                           size: 24,
                         ),
@@ -1955,7 +1829,7 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                             color: isSelected
                                 ? context.appColors.primary
                                 : context.appColors.surfaceLight,
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                             border: Border.all(
                               color: isSelected
                                   ? context.appColors.primary
@@ -1987,7 +1861,7 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       decoration: BoxDecoration(
                         color: context.appColors.primary,
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
                             color: context.appColors.primary.withValues(
@@ -2015,7 +1889,7 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  PhosphorIconsBold.check,
+                                  CupertinoIcons.checkmark,
                                   size: 20,
                                   color: context.appColors.background,
                                 ),

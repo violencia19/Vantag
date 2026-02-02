@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -112,15 +112,15 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                     filled: true,
                     fillColor: QuietLuxury.cardBackground,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(color: QuietLuxury.cardBorder),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(color: QuietLuxury.cardBorder),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
                         color: QuietLuxury.positive.withValues(alpha: 0.5),
                       ),
@@ -179,15 +179,15 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                     filled: true,
                     fillColor: QuietLuxury.cardBackground,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(color: QuietLuxury.cardBorder),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(color: QuietLuxury.cardBorder),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
                         color: QuietLuxury.positive.withValues(alpha: 0.5),
                       ),
@@ -197,7 +197,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                       vertical: 14,
                     ),
                     prefixIcon: Icon(
-                      PhosphorIconsRegular.noteBlank,
+                      CupertinoIcons.doc_text,
                       color: QuietLuxury.textTertiary,
                       size: 20,
                     ),
@@ -219,7 +219,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         disabledBackgroundColor: QuietLuxury.positive
                             .withValues(alpha: 0.5),
@@ -238,7 +238,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(PhosphorIconsBold.plus, size: 18),
+                                Icon(CupertinoIcons.add, size: 18),
                                 const SizedBox(width: 8),
                                 Text(
                                   l10n.addSavings,
@@ -445,7 +445,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
             backgroundColor: QuietLuxury.positive,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
           ),
         );
@@ -488,12 +488,12 @@ class _QuickAmountChip extends StatelessWidget {
       button: true,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             color: QuietLuxury.cardBackground,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
           ),
           child: Text(
@@ -519,7 +519,7 @@ Future<bool?> showAddSavingsSheet(
   return showModalBottomSheet<bool>(
     context: context,
     isScrollControlled: true,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     backgroundColor: Colors.transparent,
     builder: (_) => AddSavingsSheet(
       pursuit: pursuit,
