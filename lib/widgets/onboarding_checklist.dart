@@ -55,13 +55,17 @@ class OnboardingChecklist extends StatefulWidget {
 }
 
 class _OnboardingChecklistState extends State<OnboardingChecklist>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   static const String _keyChecklistDismissed = 'onboarding_checklist_dismissed';
   static const String _keyNotificationsEnabled = 'checklist_notifications_done';
 
   late ConfettiController _confettiController;
   late AnimationController _celebrationController;
   late Animation<double> _celebrationScale;
+
+  // iOS 26 Liquid Glass: Animated breathing glow
+  late AnimationController _glowController;
+  late Animation<double> _glowAnimation;
 
   bool _isDismissed = false;
   bool _showCelebration = false;
@@ -83,6 +87,17 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
         curve: Curves.elasticOut,
       ),
     );
+
+    // iOS 26 Liquid Glass: Breathing glow effect
+    _glowController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2500),
+    )..repeat(reverse: true);
+
+    _glowAnimation = Tween<double>(begin: 0.2, end: 0.5).animate(
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
+    );
+
     _loadState();
   }
 
@@ -100,6 +115,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
   void dispose() {
     _confettiController.dispose();
     _celebrationController.dispose();
+    _glowController.dispose();
     super.dispose();
   }
 
@@ -302,31 +318,86 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
     double progress,
     int completedCount,
   ) {
-    return Padding(
-      key: const ValueKey('checklist'),
-      padding: const EdgeInsets.all(16),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+    // iOS 26 Liquid Glass: Animated card with breathing glow
+    return AnimatedBuilder(
+      animation: _glowAnimation,
+      builder: (context, child) {
+        return Padding(
+          key: const ValueKey('checklist'),
+          padding: const EdgeInsets.all(16),
+          // iOS 26: Outer glow container
           child: Container(
             decoration: BoxDecoration(
-              // Glass effect: semi-transparent with blur
-              color: context.appColors.surface.withValues(alpha: 0.65),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.18),
-                width: 1.5,
-              ),
+              borderRadius: BorderRadius.circular(28),
               boxShadow: [
+                // Animated breathing glow
                 BoxShadow(
-                  color: context.appColors.primary.withValues(alpha: 0.15),
-                  blurRadius: 24,
-                  offset: const Offset(0, 6),
+                  color: const Color(0xFF8B5CF6).withValues(
+                    alpha: _glowAnimation.value,
+                  ),
+                  blurRadius: 32,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 8),
+                ),
+                // Deep shadow for depth
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.35),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
                 ),
               ],
             ),
-      child: Column(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(28),
+              child: BackdropFilter(
+                // iOS 26: Enhanced 24σ blur
+                filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(28),
+                    // iOS 26 Liquid Glass: Premium gradient
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        const Color(0xFF8B5CF6).withValues(alpha: 0.25),
+                        const Color(0xFF7C3AED).withValues(alpha: 0.18),
+                        const Color(0xFF1E1B4B).withValues(alpha: 0.35),
+                      ],
+                      stops: const [0.0, 0.5, 1.0],
+                    ),
+                    // Glass border
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      width: 1.5,
+                    ),
+                  ),
+                  child: Stack(
+                    children: [
+                      // iOS 26: Top highlight for glass light refraction
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: 50,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(28),
+                            ),
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.white.withValues(alpha: 0.12),
+                                Colors.white.withValues(alpha: 0.0),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Content
+                      Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           // Header with progress
@@ -391,13 +462,18 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
           // Checklist items
           ...items.map((item) => _buildChecklistItem(item)),
 
-          const SizedBox(height: 8),
-        ],
-      ),
-    ), // Container
-  ), // BackdropFilter
-), // ClipRRect
-    ); // Padding
+                        const SizedBox(height: 8),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      },
+    );
   }
 
   Widget _buildChecklistItem(ChecklistItem item) {
@@ -505,22 +581,42 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
       child: Container(
         key: const ValueKey('celebration'),
         margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              context.appColors.success.withValues(alpha: 0.15),
-              context.appColors.primary.withValues(alpha: 0.1),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: context.appColors.success.withValues(alpha: 0.3),
-            width: 2,
-          ),
+          borderRadius: BorderRadius.circular(28),
+          boxShadow: [
+            // Success glow
+            BoxShadow(
+              color: context.appColors.success.withValues(alpha: 0.5),
+              blurRadius: 32,
+              spreadRadius: 0,
+              offset: const Offset(0, 8),
+            ),
+          ],
         ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(28),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+            child: Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                // iOS 26 Liquid Glass: Success gradient
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    context.appColors.success.withValues(alpha: 0.25),
+                    const Color(0xFF8B5CF6).withValues(alpha: 0.15),
+                    const Color(0xFF1E1B4B).withValues(alpha: 0.3),
+                  ],
+                  stops: const [0.0, 0.5, 1.0],
+                ),
+                borderRadius: BorderRadius.circular(28),
+                border: Border.all(
+                  color: context.appColors.success.withValues(alpha: 0.4),
+                  width: 2,
+                ),
+              ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -564,6 +660,9 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
           ],
         ),
       ),
+    ),
+  ),
+),
     );
   }
 }

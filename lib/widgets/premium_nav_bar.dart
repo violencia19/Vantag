@@ -412,7 +412,8 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
 }
 
 /// Premium Floating Navigation Bar with Showcase support
-class PremiumNavBarWithShowcase extends StatelessWidget {
+/// iOS 26 Liquid Glass Design
+class PremiumNavBarWithShowcase extends StatefulWidget {
   final int currentIndex;
   final Function(int) onTap;
   final VoidCallback onAddTap;
@@ -427,154 +428,220 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
   });
 
   @override
+  State<PremiumNavBarWithShowcase> createState() =>
+      _PremiumNavBarWithShowcaseState();
+}
+
+class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
+    with SingleTickerProviderStateMixin {
+  // iOS 26 Liquid Glass: Animated breathing glow
+  late AnimationController _glowController;
+  late Animation<double> _glowAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _glowController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 3000),
+    )..repeat(reverse: true);
+
+    _glowAnimation = Tween<double>(begin: 0.2, end: 0.5).animate(
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _glowController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final isDark = context.isDarkMode;
 
-    return Container(
-      margin: const EdgeInsets.fromLTRB(20, 0, 20, 34),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(32),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Container(
-            height: 64,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            decoration: BoxDecoration(
-              color: isDark
-                  ? AppColors.surface.withValues(alpha: 0.95)
-                  : const Color(0xF2FFFFFF),
-              borderRadius: BorderRadius.circular(32),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.06),
-                width: 1,
+    // iOS 26 Liquid Glass: Animated container with breathing glow
+    return AnimatedBuilder(
+      animation: _glowAnimation,
+      builder: (context, child) {
+        return Container(
+          margin: const EdgeInsets.fromLTRB(20, 0, 20, 34),
+          // iOS 26: Outer glow container
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(32),
+            boxShadow: [
+              // Animated breathing glow
+              BoxShadow(
+                color: const Color(0xFF8B5CF6).withValues(
+                  alpha: _glowAnimation.value,
+                ),
+                blurRadius: 24,
+                spreadRadius: 0,
+                offset: const Offset(0, 6),
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.3),
-                  blurRadius: 30,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // Home
-                _NavItem(
-                  icon: CupertinoIcons.house_fill,
-                  label: l10n.homePage,
-                  isActive: currentIndex == 0,
-                  onTap: () => onTap(0),
-                ),
-                // Reports - with Showcase
-                Showcase(
-                  key: TourKeys.navBarReport,
-                  title: l10n.reports,
-                  description: l10n.reportsDescription,
-                  titleTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
-                    fontSize: 16,
-                  ),
-                  descTextStyle: TextStyle(
-                    color: context.appColors.textSecondary,
-                    fontSize: 14,
-                  ),
-                  tooltipBackgroundColor: context.appColors.gradientMid,
-                  overlayColor: Colors.black,
-                  overlayOpacity: 0.95,
-                  targetBorderRadius: BorderRadius.circular(16),
-                  child: _NavItem(
-                    icon: CupertinoIcons.chart_bar_fill,
-                    label: l10n.analysis,
-                    isActive: currentIndex == 1,
-                    onTap: () => onTap(1),
+              // Deep shadow for depth
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.4),
+                blurRadius: 20,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(32),
+            child: BackdropFilter(
+              // iOS 26: Enhanced 24σ blur
+              filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+              child: Container(
+                height: 68,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                decoration: BoxDecoration(
+                  // iOS 26 Liquid Glass: Premium gradient
+                  gradient: isDark
+                      ? LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            const Color(0xFF8B5CF6).withValues(alpha: 0.15),
+                            AppColors.surface.withValues(alpha: 0.9),
+                          ],
+                        )
+                      : LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.white.withValues(alpha: 0.95),
+                            Colors.white.withValues(alpha: 0.85),
+                          ],
+                        ),
+                  borderRadius: BorderRadius.circular(32),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.15),
+                    width: 1.5,
                   ),
                 ),
-                // FAB - Center with Showcase
-                Showcase(
-                  key: TourKeys.navBarAddButton,
-                  title: l10n.quickAdd,
-                  description: l10n.quickAddDescription,
-                  titleTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
-                    fontSize: 16,
-                  ),
-                  descTextStyle: TextStyle(
-                    color: context.appColors.textSecondary,
-                    fontSize: 14,
-                  ),
-                  tooltipBackgroundColor: context.appColors.gradientMid,
-                  overlayColor: Colors.black,
-                  overlayOpacity: 0.95,
-                  targetShapeBorder: const CircleBorder(),
-                  targetPadding: EdgeInsets.zero,
-                  child: Semantics(
-                    label: l10n.accessibilityAddExpense,
-                    button: true,
-                    child: _CenterAddButton(
-                      onTap: onAddTap,
-                      onLongPress: onAddLongPress,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // Home
+                    _NavItem(
+                      icon: CupertinoIcons.house_fill,
+                      label: l10n.homePage,
+                      isActive: widget.currentIndex == 0,
+                      onTap: () => widget.onTap(0),
                     ),
-                  ),
+                    // Reports - with Showcase
+                    Showcase(
+                      key: TourKeys.navBarReport,
+                      title: l10n.reports,
+                      description: l10n.reportsDescription,
+                      titleTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: context.appColors.textPrimary,
+                        fontSize: 16,
+                      ),
+                      descTextStyle: TextStyle(
+                        color: context.appColors.textSecondary,
+                        fontSize: 14,
+                      ),
+                      tooltipBackgroundColor: context.appColors.gradientMid,
+                      overlayColor: Colors.black,
+                      overlayOpacity: 0.95,
+                      targetBorderRadius: BorderRadius.circular(16),
+                      child: _NavItem(
+                        icon: CupertinoIcons.chart_bar_fill,
+                        label: l10n.analysis,
+                        isActive: widget.currentIndex == 1,
+                        onTap: () => widget.onTap(1),
+                      ),
+                    ),
+                    // FAB - Center with Showcase
+                    Showcase(
+                      key: TourKeys.navBarAddButton,
+                      title: l10n.quickAdd,
+                      description: l10n.quickAddDescription,
+                      titleTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: context.appColors.textPrimary,
+                        fontSize: 16,
+                      ),
+                      descTextStyle: TextStyle(
+                        color: context.appColors.textSecondary,
+                        fontSize: 14,
+                      ),
+                      tooltipBackgroundColor: context.appColors.gradientMid,
+                      overlayColor: Colors.black,
+                      overlayOpacity: 0.95,
+                      targetShapeBorder: const CircleBorder(),
+                      targetPadding: EdgeInsets.zero,
+                      child: Semantics(
+                        label: l10n.accessibilityAddExpense,
+                        button: true,
+                        child: _CenterAddButton(
+                          onTap: widget.onAddTap,
+                          onLongPress: widget.onAddLongPress,
+                        ),
+                      ),
+                    ),
+                    // Pursuits (Dreams) - with Showcase
+                    Showcase(
+                      key: TourKeys.navBarAchievements,
+                      title: l10n.navPursuits,
+                      description: l10n.emptyPursuitsMessage,
+                      titleTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: context.appColors.textPrimary,
+                        fontSize: 16,
+                      ),
+                      descTextStyle: TextStyle(
+                        color: context.appColors.textSecondary,
+                        fontSize: 14,
+                      ),
+                      tooltipBackgroundColor: context.appColors.gradientMid,
+                      overlayColor: Colors.black,
+                      overlayOpacity: 0.95,
+                      targetBorderRadius: BorderRadius.circular(16),
+                      child: _NavItem(
+                        icon: CupertinoIcons.star_fill,
+                        label: l10n.navPursuits,
+                        isActive: widget.currentIndex == 2,
+                        onTap: () => widget.onTap(2),
+                      ),
+                    ),
+                    // Settings - with Showcase
+                    Showcase(
+                      key: TourKeys.navBarProfile,
+                      title: l10n.navSettings,
+                      description: l10n.profileAndSettingsDescription,
+                      titleTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: context.appColors.textPrimary,
+                        fontSize: 16,
+                      ),
+                      descTextStyle: TextStyle(
+                        color: context.appColors.textSecondary,
+                        fontSize: 14,
+                      ),
+                      tooltipBackgroundColor: context.appColors.gradientMid,
+                      overlayColor: Colors.black,
+                      overlayOpacity: 0.95,
+                      targetBorderRadius: BorderRadius.circular(16),
+                      child: _NavItem(
+                        icon: CupertinoIcons.gear_alt_fill,
+                        label: l10n.navSettings,
+                        isActive: widget.currentIndex == 3,
+                        onTap: () => widget.onTap(3),
+                      ),
+                    ),
+                  ],
                 ),
-                // Pursuits (Dreams) - with Showcase
-                Showcase(
-                  key: TourKeys.navBarAchievements,
-                  title: l10n.navPursuits,
-                  description: l10n.emptyPursuitsMessage,
-                  titleTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
-                    fontSize: 16,
-                  ),
-                  descTextStyle: TextStyle(
-                    color: context.appColors.textSecondary,
-                    fontSize: 14,
-                  ),
-                  tooltipBackgroundColor: context.appColors.gradientMid,
-                  overlayColor: Colors.black,
-                  overlayOpacity: 0.95,
-                  targetBorderRadius: BorderRadius.circular(16),
-                  child: _NavItem(
-                    icon: CupertinoIcons.star_fill,
-                    label: l10n.navPursuits,
-                    isActive: currentIndex == 2,
-                    onTap: () => onTap(2),
-                  ),
-                ),
-                // Settings - with Showcase
-                Showcase(
-                  key: TourKeys.navBarProfile,
-                  title: l10n.navSettings,
-                  description: l10n.profileAndSettingsDescription,
-                  titleTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
-                    fontSize: 16,
-                  ),
-                  descTextStyle: TextStyle(
-                    color: context.appColors.textSecondary,
-                    fontSize: 14,
-                  ),
-                  tooltipBackgroundColor: context.appColors.gradientMid,
-                  overlayColor: Colors.black,
-                  overlayOpacity: 0.95,
-                  targetBorderRadius: BorderRadius.circular(16),
-                  child: _NavItem(
-                    icon: CupertinoIcons.gear_alt_fill,
-                    label: l10n.navSettings,
-                    isActive: currentIndex == 3,
-                    onTap: () => onTap(3),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -10,7 +10,7 @@ import '../utils/category_utils.dart';
 import '../utils/currency_utils.dart';
 import 'premium_share_card.dart';
 
-class ExpenseHistoryCard extends StatelessWidget {
+class ExpenseHistoryCard extends StatefulWidget {
   final Expense expense;
   final VoidCallback? onDelete;
   final VoidCallback? onEdit;
@@ -29,6 +29,43 @@ class ExpenseHistoryCard extends StatelessWidget {
     this.currencySymbol = '₺',
     this.dailyWorkHours = 8,
   });
+
+  @override
+  State<ExpenseHistoryCard> createState() => _ExpenseHistoryCardState();
+}
+
+class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
+    with SingleTickerProviderStateMixin {
+  // iOS 26 Liquid Glass: Subtle breathing glow
+  late AnimationController _glowController;
+  late Animation<double> _glowAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _glowController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 3000),
+    )..repeat(reverse: true);
+
+    _glowAnimation = Tween<double>(begin: 0.15, end: 0.35).animate(
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _glowController.dispose();
+    super.dispose();
+  }
+
+  Expense get expense => widget.expense;
+  VoidCallback? get onDelete => widget.onDelete;
+  VoidCallback? get onEdit => widget.onEdit;
+  Function(ExpenseDecision)? get onDecisionUpdate => widget.onDecisionUpdate;
+  bool get showHint => widget.showHint;
+  String get currencySymbol => widget.currencySymbol;
+  double get dailyWorkHours => widget.dailyWorkHours;
 
   String _formatDate(BuildContext context, DateTime date) {
     final l10n = AppLocalizations.of(context);
@@ -308,37 +345,65 @@ class ExpenseHistoryCard extends StatelessWidget {
       _getDecisionLabel(context, expense.decision),
     );
 
-    Widget card = Semantics(
-      label: semanticLabel,
-      button: isThinking,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: AppDesign.spacingSm),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(AppDesign.radiusXLarge),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+    // iOS 26 Liquid Glass: Animated card with subtle glow
+    Widget card = AnimatedBuilder(
+      animation: _glowAnimation,
+      builder: (context, child) {
+        return Semantics(
+          label: semanticLabel,
+          button: isThinking,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: AppDesign.spacingSm),
+            // iOS 26: Outer glow container
             child: Container(
               decoration: BoxDecoration(
-                // Glass effect: semi-transparent surface
-                color: context.appColors.surface.withValues(alpha: 0.7),
-                borderRadius: BorderRadius.circular(AppDesign.radiusXLarge),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.12),
-                  width: 1,
-                ),
+                borderRadius: BorderRadius.circular(24),
                 boxShadow: [
+                  // Animated glow based on decision color
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.15),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
+                    color: decisionColor.withValues(
+                      alpha: _glowAnimation.value,
+                    ),
+                    blurRadius: 16,
+                    spreadRadius: 0,
+                    offset: const Offset(0, 4),
+                  ),
+                  // Subtle shadow for depth
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
-              child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: isThinking ? () => _showDecisionDialog(context) : null,
-            borderRadius: BorderRadius.circular(AppDesign.radiusXLarge),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: BackdropFilter(
+                  // iOS 26: Enhanced blur for list items (20σ)
+                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      // iOS 26 Liquid Glass: Premium gradient
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          context.appColors.surface.withValues(alpha: 0.8),
+                          context.appColors.surface.withValues(alpha: 0.6),
+                        ],
+                      ),
+                      // Glass border
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.15),
+                        width: 1,
+                      ),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: isThinking ? () => _showDecisionDialog(context) : null,
+                        borderRadius: BorderRadius.circular(24),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -480,10 +545,13 @@ class ExpenseHistoryCard extends StatelessWidget {
             ),
           ),
         ),
-      ), // Container
-    ), // BackdropFilter
-  ), // ClipRRect
-), // Padding
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
 
     // Swipe actions with flutter_slidable

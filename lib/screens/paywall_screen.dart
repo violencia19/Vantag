@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +23,7 @@ class PaywallScreen extends StatefulWidget {
 }
 
 class _PaywallScreenState extends State<PaywallScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   Offerings? _offerings;
   Package? _selectedPackage;
   bool _isLoading = true;
@@ -31,6 +32,10 @@ class _PaywallScreenState extends State<PaywallScreen>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
+
+  // iOS 26 Liquid Glass: Animated breathing glow
+  late AnimationController _glowController;
+  late Animation<double> _glowAnimation;
 
   @override
   void initState() {
@@ -46,6 +51,17 @@ class _PaywallScreenState extends State<PaywallScreen>
         Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero).animate(
           CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
         );
+
+    // iOS 26 Liquid Glass: Breathing glow effect
+    _glowController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2500),
+    )..repeat(reverse: true);
+
+    _glowAnimation = Tween<double>(begin: 0.3, end: 0.6).animate(
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
+    );
+
     _loadOfferings();
     _animationController.forward();
     // Track paywall viewed for conversion funnel
@@ -55,6 +71,7 @@ class _PaywallScreenState extends State<PaywallScreen>
   @override
   void dispose() {
     _animationController.dispose();
+    _glowController.dispose();
     super.dispose();
   }
 
@@ -321,69 +338,126 @@ class _PaywallScreenState extends State<PaywallScreen>
   }
 
   Widget _buildProBadge() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [context.appColors.primary, context.appColors.secondary],
-        ),
-        borderRadius: BorderRadius.circular(32),
-        boxShadow: [
-          BoxShadow(
-            color: context.appColors.primary.withValues(alpha: 0.4),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+    // iOS 26 Liquid Glass: Animated Pro badge
+    return AnimatedBuilder(
+      animation: _glowAnimation,
+      builder: (context, child) {
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(32),
+            boxShadow: [
+              // Animated breathing glow
+              BoxShadow(
+                color: const Color(0xFF8B5CF6).withValues(
+                  alpha: _glowAnimation.value,
+                ),
+                blurRadius: 32,
+                spreadRadius: 0,
+                offset: const Offset(0, 8),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            CupertinoIcons.star_fill,
-            color: context.appColors.textPrimary,
-            size: 24,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            'VANTAG PRO',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: context.appColors.textPrimary,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 2,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(32),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                decoration: BoxDecoration(
+                  // iOS 26 Liquid Glass: Premium gradient
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      const Color(0xFF8B5CF6).withValues(alpha: 0.5),
+                      const Color(0xFF06B6D4).withValues(alpha: 0.3),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(32),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.25),
+                    width: 1.5,
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      CupertinoIcons.star_fill,
+                      color: Colors.white,
+                      size: 24,
+                      shadows: [
+                        Shadow(
+                          color: const Color(0xFF8B5CF6).withValues(alpha: 0.6),
+                          blurRadius: 12,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'VANTAG PRO',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2,
+                        shadows: [
+                          Shadow(
+                            color: const Color(0xFF8B5CF6).withValues(alpha: 0.5),
+                            blurRadius: 8,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
   Widget _buildFreeTrialBanner(AppLocalizations l10n) {
+    // iOS 26 Liquid Glass: Free trial banner with glass effect
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            context.appColors.success.withValues(alpha: 0.2),
-            context.appColors.success.withValues(alpha: 0.1),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: context.appColors.success.withValues(alpha: 0.5),
-          width: 2,
-        ),
+        borderRadius: BorderRadius.circular(28),
         boxShadow: [
+          // Success glow
           BoxShadow(
-            color: context.appColors.success.withValues(alpha: 0.2),
-            blurRadius: 20,
+            color: context.appColors.success.withValues(alpha: 0.4),
+            blurRadius: 24,
+            spreadRadius: 0,
             offset: const Offset(0, 8),
           ),
         ],
       ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(28),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              // iOS 26 Liquid Glass: Success gradient
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  context.appColors.success.withValues(alpha: 0.3),
+                  context.appColors.success.withValues(alpha: 0.15),
+                  const Color(0xFF1E1B4B).withValues(alpha: 0.25),
+                ],
+                stops: const [0.0, 0.5, 1.0],
+              ),
+              borderRadius: BorderRadius.circular(28),
+              border: Border.all(
+                color: context.appColors.success.withValues(alpha: 0.5),
+                width: 2,
+              ),
+            ),
       child: Column(
         children: [
           // Badge
@@ -458,6 +532,9 @@ class _PaywallScreenState extends State<PaywallScreen>
           ),
         ],
       ),
+    ),
+  ),
+),
     );
   }
 
