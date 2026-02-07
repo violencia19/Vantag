@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../screens/voice_input_screen.dart';
 import '../theme/theme.dart';
-import '../theme/app_theme.dart';
 
 /// Simple voice input button that opens VoiceInputScreen
 class VoiceInputButton extends StatelessWidget {
@@ -28,8 +27,8 @@ class VoiceInputButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final primary = primaryColor ?? context.appColors.primary;
-    final secondary = secondaryColor ?? context.appColors.secondary;
+    final primary = primaryColor ?? context.vantColors.primary;
+    final secondary = secondaryColor ?? context.vantColors.secondary;
 
     return Semantics(
       label: l10n.voiceInput,
@@ -107,12 +106,12 @@ class CompactVoiceButton extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [context.appColors.primary, context.appColors.secondary],
+              colors: [context.vantColors.primary, context.vantColors.secondary],
             ),
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: context.appColors.primary.withValues(alpha: 0.3),
+                color: context.vantColors.primary.withValues(alpha: 0.3),
                 blurRadius: 8,
                 offset: const Offset(0, 3),
               ),
@@ -206,18 +205,18 @@ class _AnimatedVoiceButtonState extends State<AnimatedVoiceButton>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: widget.isListening
-                        ? [AppColors.categoryBills, AppColors.dangerRedDark]
+                        ? [VantColors.categoryBills, VantColors.dangerRedDark]
                         : [
-                            context.appColors.primary,
-                            context.appColors.secondary,
+                            context.vantColors.primary,
+                            context.vantColors.secondary,
                           ],
                   ),
                   boxShadow: [
                     BoxShadow(
                       color:
                           (widget.isListening
-                                  ? AppColors.categoryBills
-                                  : context.appColors.primary)
+                                  ? VantColors.categoryBills
+                                  : context.vantColors.primary)
                               .withValues(
                                 alpha: widget.isListening ? 0.6 : 0.4,
                               ),
@@ -254,7 +253,7 @@ class VoiceWaveform extends StatefulWidget {
   const VoiceWaveform({
     super.key,
     required this.soundLevel,
-    this.color = AppColors.primary,
+    this.color = VantColors.primary,
     this.width = 200,
     this.height = 60,
   });

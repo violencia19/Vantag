@@ -132,7 +132,7 @@ class _SimpleMainScreenState extends State<SimpleMainScreen>
     // Show loading while checking lock status
     if (_checkingLock) {
       return Scaffold(
-        backgroundColor: context.appColors.background,
+        backgroundColor: context.vantColors.background,
         body: const SizedBox.shrink(),
       );
     }
@@ -143,7 +143,7 @@ class _SimpleMainScreenState extends State<SimpleMainScreen>
     }
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: IndexedStack(
         index: _currentIndex,
         children: const [
@@ -161,9 +161,9 @@ class _SimpleMainScreenState extends State<SimpleMainScreen>
   Widget _buildBottomNavBar(AppLocalizations l10n) {
     return Container(
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         border: Border(
-          top: BorderSide(color: context.appColors.cardBorder, width: 1),
+          top: BorderSide(color: context.vantColors.cardBorder, width: 1),
         ),
       ),
       child: SafeArea(
@@ -226,8 +226,8 @@ class _SimpleMainScreenState extends State<SimpleMainScreen>
                 isSelected ? icon : iconOutline,
                 size: 24,
                 color: isSelected
-                    ? context.appColors.primary
-                    : context.appColors.textTertiary,
+                    ? context.vantColors.primary
+                    : context.vantColors.textTertiary,
               ),
               const SizedBox(height: 4),
               Text(
@@ -236,8 +236,8 @@ class _SimpleMainScreenState extends State<SimpleMainScreen>
                   fontSize: 11,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                   color: isSelected
-                      ? context.appColors.primary
-                      : context.appColors.textTertiary,
+                      ? context.vantColors.primary
+                      : context.vantColors.textTertiary,
                 ),
               ),
             ],
@@ -255,12 +255,12 @@ class _SimpleMainScreenState extends State<SimpleMainScreen>
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [context.appColors.primary, context.appColors.secondary],
+          colors: [context.vantColors.primary, context.vantColors.secondary],
         ),
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: context.appColors.primary.withValues(alpha: 0.4),
+            color: context.vantColors.primary.withValues(alpha: 0.4),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -274,7 +274,7 @@ class _SimpleMainScreenState extends State<SimpleMainScreen>
           child: Icon(
             CupertinoIcons.plus,
             size: 28,
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
           ),
         ),
       ),

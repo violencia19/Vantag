@@ -106,7 +106,7 @@ class ForceUpdateService {
       builder: (context) => WillPopScope(
         onWillPop: () async => false,
         child: Dialog(
-          backgroundColor: context.appColors.surface,
+          backgroundColor: context.vantColors.surface,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -117,13 +117,13 @@ class ForceUpdateService {
                   width: 70,
                   height: 70,
                   decoration: BoxDecoration(
-                    color: context.appColors.warning.withValues(alpha: 0.15),
+                    color: context.vantColors.warning.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     CupertinoIcons.arrow_2_circlepath,
                     size: 36,
-                    color: context.appColors.warning,
+                    color: context.vantColors.warning,
                   ),
                 ),
 
@@ -134,7 +134,7 @@ class ForceUpdateService {
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
 
@@ -145,7 +145,7 @@ class ForceUpdateService {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                     height: 1.5,
                   ),
                 ),
@@ -157,7 +157,7 @@ class ForceUpdateService {
                   child: ElevatedButton(
                     onPressed: () => _openStore(),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: context.appColors.primary,
+                      backgroundColor: context.vantColors.primary,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(

@@ -2,8 +2,10 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vantag/l10n/app_localizations.dart';
+import '../providers/currency_provider.dart';
 import '../theme/theme.dart';
 import 'main_screen.dart';
 
@@ -13,7 +15,8 @@ class _PresetGoal {
   final String Function(AppLocalizations) getName;
   final IconData icon;
   final int estimatedHours;
-  final double targetAmount;
+  final double targetAmountTRY;
+  final double targetAmountUSD;
   final String emoji;
 
   const _PresetGoal({
@@ -21,19 +24,39 @@ class _PresetGoal {
     required this.getName,
     required this.icon,
     required this.estimatedHours,
-    required this.targetAmount,
+    required this.targetAmountTRY,
+    required this.targetAmountUSD,
     required this.emoji,
   });
+
+  /// Get target amount for given currency code
+  double getTargetAmount(String currencyCode) {
+    switch (currencyCode) {
+      case 'TRY':
+        return targetAmountTRY;
+      case 'USD':
+        return targetAmountUSD;
+      case 'EUR':
+        return targetAmountUSD * 0.92;
+      case 'GBP':
+        return targetAmountUSD * 0.79;
+      case 'SAR':
+        return targetAmountUSD * 3.75;
+      default:
+        return targetAmountUSD;
+    }
+  }
 }
 
-/// Preset goals for onboarding
+/// Preset goals for onboarding (with currency-calibrated amounts)
 final List<_PresetGoal> _presetGoals = [
   _PresetGoal(
     id: 'airpods',
     getName: (l10n) => l10n.pursuitOnboardingAirpods,
     icon: CupertinoIcons.headphones,
     estimatedHours: 50,
-    targetAmount: 8000,
+    targetAmountTRY: 8000,
+    targetAmountUSD: 250,
     emoji: '🎧',
   ),
   _PresetGoal(
@@ -41,7 +64,8 @@ final List<_PresetGoal> _presetGoals = [
     getName: (l10n) => l10n.pursuitOnboardingIphone,
     icon: CupertinoIcons.device_phone_portrait,
     estimatedHours: 400,
-    targetAmount: 65000,
+    targetAmountTRY: 65000,
+    targetAmountUSD: 1200,
     emoji: '📱',
   ),
   _PresetGoal(
@@ -49,7 +73,8 @@ final List<_PresetGoal> _presetGoals = [
     getName: (l10n) => l10n.pursuitOnboardingVacation,
     icon: CupertinoIcons.airplane,
     estimatedHours: 200,
-    targetAmount: 30000,
+    targetAmountTRY: 30000,
+    targetAmountUSD: 2000,
     emoji: '✈️',
   ),
   _PresetGoal(
@@ -57,7 +82,8 @@ final List<_PresetGoal> _presetGoals = [
     getName: (l10n) => l10n.pursuitOnboardingCustom,
     icon: CupertinoIcons.add,
     estimatedHours: 0,
-    targetAmount: 0,
+    targetAmountTRY: 0,
+    targetAmountUSD: 0,
     emoji: '✨',
   ),
 ];
@@ -118,7 +144,8 @@ class _OnboardingPursuitScreenState extends State<OnboardingPursuitScreen>
     await prefs.setBool(PendingPursuitKeys.hasPending, true);
     await prefs.setString(PendingPursuitKeys.goalId, goal.id);
     await prefs.setString(PendingPursuitKeys.goalName, goal.getName(l10n));
-    await prefs.setDouble(PendingPursuitKeys.goalAmount, goal.targetAmount);
+    final currencyCode = context.read<CurrencyProvider>().code;
+    await prefs.setDouble(PendingPursuitKeys.goalAmount, goal.getTargetAmount(currencyCode));
     await prefs.setString(PendingPursuitKeys.goalEmoji, goal.emoji);
     await prefs.setBool(PendingPursuitKeys.isCustom, goal.id == 'custom');
   }
@@ -178,7 +205,7 @@ class _OnboardingPursuitScreenState extends State<OnboardingPursuitScreen>
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -194,7 +221,7 @@ class _OnboardingPursuitScreenState extends State<OnboardingPursuitScreen>
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                   letterSpacing: -0.5,
                 ),
               ),
@@ -205,7 +232,7 @@ class _OnboardingPursuitScreenState extends State<OnboardingPursuitScreen>
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
               ),
 
@@ -255,13 +282,13 @@ class _OnboardingPursuitScreenState extends State<OnboardingPursuitScreen>
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       decoration: BoxDecoration(
                         color: _selectedGoalId != null
-                            ? context.appColors.primary
-                            : context.appColors.surfaceLight,
+                            ? context.vantColors.primary
+                            : context.vantColors.surfaceLight,
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: _selectedGoalId != null
                             ? [
                                 BoxShadow(
-                                  color: context.appColors.primary.withValues(
+                                  color: context.vantColors.primary.withValues(
                                     alpha: 0.3,
                                   ),
                                   blurRadius: 20,
@@ -277,8 +304,8 @@ class _OnboardingPursuitScreenState extends State<OnboardingPursuitScreen>
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                           color: _selectedGoalId != null
-                              ? context.appColors.background
-                              : context.appColors.textTertiary,
+                              ? context.vantColors.background
+                              : context.vantColors.textTertiary,
                         ),
                       ),
                     ),
@@ -296,7 +323,7 @@ class _OnboardingPursuitScreenState extends State<OnboardingPursuitScreen>
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                 ),
               ),
@@ -330,110 +357,87 @@ class _GoalCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOutCubic,
-        decoration: BoxDecoration(
-          color: context.appColors.surface,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: isSelected
-                ? context.appColors.primary
-                : context.appColors.cardBorder,
-            width: isSelected ? 2 : 1,
-          ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: context.appColors.primary.withValues(alpha: 0.2),
-                    blurRadius: 16,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
-              : null,
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(24),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Stack(
-              children: [
-                // Content
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Icon container
-                      Container(
-                        width: 56,
-                        height: 56,
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? context.appColors.primary.withValues(
-                                  alpha: 0.15,
-                                )
-                              : context.appColors.surfaceLight,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Icon(
-                          goal.icon,
-                          size: 28,
-                          color: isSelected
-                              ? context.appColors.primary
-                              : context.appColors.textSecondary,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-
-                      // Name
-                      Text(
-                        goal.getName(l10n),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: context.appColors.textPrimary,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-
-                      // Hours estimate (not for custom)
-                      if (!isCustom)
-                        Text(
-                          '~${l10n.pursuitOnboardingHours(goal.estimatedHours)}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: context.appColors.textTertiary,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-
-                // Selected checkmark
-                if (isSelected)
-                  Positioned(
-                    top: 12,
-                    right: 12,
-                    child: Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        color: context.appColors.primary,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        CupertinoIcons.checkmark,
-                        size: 14,
-                        color: context.appColors.background,
-                      ),
+      child: VGlassStyledContainer(
+        padding: EdgeInsets.zero,
+        borderRadius: 24,
+        glowColor: isSelected ? context.vantColors.primary : null,
+        glowIntensity: isSelected ? 0.25 : 0.0,
+        child: Stack(
+          children: [
+            // Content
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Icon container
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? context.vantColors.primary.withValues(
+                              alpha: 0.15,
+                            )
+                          : context.vantColors.surfaceLight,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Icon(
+                      goal.icon,
+                      size: 28,
+                      color: isSelected
+                          ? context.vantColors.primary
+                          : context.vantColors.textSecondary,
                     ),
                   ),
-              ],
+                  const SizedBox(height: 12),
+
+                  // Name
+                  Text(
+                    goal.getName(l10n),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: context.vantColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+
+                  // Hours estimate (not for custom)
+                  if (!isCustom)
+                    Text(
+                      '~${l10n.pursuitOnboardingHours(goal.estimatedHours)}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: context.vantColors.textTertiary,
+                      ),
+                    ),
+                ],
+              ),
             ),
-          ),
+
+            // Selected checkmark
+            if (isSelected)
+              Positioned(
+                top: 12,
+                right: 12,
+                child: Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: context.vantColors.primary,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    CupertinoIcons.checkmark,
+                    size: 14,
+                    color: context.vantColors.background,
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );

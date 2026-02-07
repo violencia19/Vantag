@@ -1894,22 +1894,22 @@
       "amount": {"type": "String"}
     }
   },
-  "activeInstallments": "Active Installments",
-  "installmentCount": "{count} installments",
+  "activeInstallments": "Active Payment Plans",
+  "installmentCount": "{count} payments",
   "@installmentCount": {
     "placeholders": {
       "count": {"type": "int"}
     }
   },
-  "moreInstallments": "+{count} more installments",
+  "moreInstallments": "+{count} more plans",
   "@moreInstallments": {
     "placeholders": {
       "count": {"type": "int"}
     }
   },
   "monthlyBurden": "Monthly Burden",
-  "remainingDebt": "Remaining Debt",
-  "totalInterestCost": "Total interest: {amount} ({hours} hours)",
+  "remainingDebt": "Remaining Balance",
+  "totalInterestCost": "Total fees: {amount} ({hours} hours)",
   "@totalInterestCost": {
     "placeholders": {
       "amount": {"type": "String"},
@@ -1917,7 +1917,7 @@
     }
   },
   "monthAbbreviation": "mo",
-  "installmentsLabel": "installments",
+  "installmentsLabel": "payments",
   "remaining": "Remaining",
 
   "paywallTitle": "Upgrade to Premium",
@@ -2259,16 +2259,16 @@
   "currencyConversionFailed": "Could not fetch exchange rate, values unchanged",
 
   "requiredExpense": "Required Expense",
-  "installmentPurchase": "Installment Purchase",
-  "installmentInfo": "Installment Information",
-  "cashPrice": "Cash Price",
-  "cashPriceHint": "Original cash price",
-  "numberOfInstallments": "Number of Installments",
-  "totalInstallmentPrice": "Total Installment Price",
-  "totalWithInterestHint": "Total with interest",
-  "installmentSummary": "INSTALLMENT SUMMARY",
+  "installmentPurchase": "Payment Plan",
+  "installmentInfo": "Payment Plan Details",
+  "cashPrice": "Original Price",
+  "cashPriceHint": "Price without financing",
+  "numberOfInstallments": "Number of Payments",
+  "totalInstallmentPrice": "Total with Financing",
+  "totalWithInterestHint": "Total including fees",
+  "installmentSummary": "PAYMENT PLAN SUMMARY",
   "willBeSavedAsRequired": "Will be saved as required expense",
-  "creditCardOrStoreInstallment": "Credit card or store installment",
+  "creditCardOrStoreInstallment": "Buy Now Pay Later (Affirm, Klarna, etc.)",
 
   "vantagAI": "Vantag AI",
   "professionalMode": "Professional mode",
@@ -3059,8 +3059,8 @@
   "excelInstallmentRemaining": "Remaining",
   "excelInstallmentStartDate": "Start Date",
   "excelInstallmentEndDate": "End Date",
-  "excelInstallmentInterest": "Interest",
-  "excelNoInstallments": "No installment payments",
+  "excelInstallmentInterest": "Fees / Interest",
+  "excelNoInstallments": "No payment plans",
   "excelTotalMonthlyPayments": "Total Monthly Payments",
   "excelTotalRemainingDebt": "Total Remaining Debt",
 
@@ -3276,5 +3276,188 @@
   "additionalIncomePromptTitle": "Do you have additional income?",
   "additionalIncomePromptSubtitle": "Side job, rent, freelance...",
   "additionalIncomeYes": "Yes, add",
-  "additionalIncomeNo": "No, I don't"
+  "additionalIncomeNo": "No, I don't",
+
+  "expenseTypeSingle": "One-time",
+  "expenseTypeRecurring": "Recurring",
+  "expenseTypeInstallment": "Payment Plan",
+  "monthlyPaymentLabel": "Monthly payment:",
+  "installmentCountLabel": "{count} months",
+  "@installmentCountLabel": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "interestAmountLabel": "Fees / Interest:",
+  "interestAsHoursLabel": "Fees as work hours:",
+  "hoursUnit": "hours",
+  "installmentSavingsWarning": "Paying upfront would save you {hours} hours!",
+  "@installmentSavingsWarning": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "errorSelectInstallmentCount": "Please select number of payments",
+  "errorEnterInstallmentTotal": "Please enter total with financing",
+
+  "insightPeakDay": "Peak Spending Day",
+  "insightTopCategory": "Top Category",
+  "insightMonthComparison": "This Month vs Last Month",
+  "insightPeakDaySubtitle": "{day} is your highest spending day",
+  "@insightPeakDaySubtitle": {
+    "placeholders": { "day": {"type": "String"} }
+  },
+  "insightTopCategorySubtitle": "{category} is your top category",
+  "@insightTopCategorySubtitle": {
+    "placeholders": { "category": {"type": "String"} }
+  },
+  "insightMonthDown": "{percent}% decrease from last month",
+  "@insightMonthDown": {
+    "placeholders": { "percent": {"type": "String"} }
+  },
+  "insightMonthUp": "{percent}% increase from last month",
+  "@insightMonthUp": {
+    "placeholders": { "percent": {"type": "String"} }
+  },
+  "dayMonday": "Monday",
+  "dayTuesday": "Tuesday",
+  "dayWednesday": "Wednesday",
+  "dayThursday": "Thursday",
+  "dayFriday": "Friday",
+  "daySaturday": "Saturday",
+  "daySunday": "Sunday",
+
+  "heatmapLow": "Low",
+  "heatmapHigh": "High",
+  "dayAbbrevMon": "M",
+  "dayAbbrevTue": "T",
+  "dayAbbrevWed": "W",
+  "dayAbbrevThu": "T",
+  "dayAbbrevFri": "F",
+  "dayAbbrevSat": "S",
+  "dayAbbrevSun": "S",
+  "monthAbbrevJan": "Jan",
+  "monthAbbrevFeb": "Feb",
+  "monthAbbrevMar": "Mar",
+  "monthAbbrevApr": "Apr",
+  "monthAbbrevMay": "May",
+  "monthAbbrevJun": "Jun",
+  "monthAbbrevJul": "Jul",
+  "monthAbbrevAug": "Aug",
+  "monthAbbrevSep": "Sep",
+  "monthAbbrevOct": "Oct",
+  "monthAbbrevNov": "Nov",
+  "monthAbbrevDec": "Dec",
+  "savingsProjectionTitle": "Savings Projection",
+  "threeMonths": "3 Mo",
+  "sixMonths": "6 Mo",
+  "oneYear": "1 Year",
+  "monthlyAverageLabel": "Monthly average: {amount}",
+  "@monthlyAverageLabel": {
+    "placeholders": { "amount": {"type": "String"} }
+  },
+  "categoryTrendTitle": "Category Trend",
+  "workHoursEquivalentTitle": "Work Hours Equivalent",
+  "totalHoursLabel": "Total: {hours} hours",
+  "@totalHoursLabel": {
+    "placeholders": { "hours": {"type": "String"} }
+  },
+  "perHourLabel": "({rate}/hr)",
+  "@perHourLabel": {
+    "placeholders": { "rate": {"type": "String"} }
+  },
+  "dayAbbrevMonFull": "Mon",
+  "dayAbbrevTueFull": "Tue",
+  "dayAbbrevWedFull": "Wed",
+  "dayAbbrevThuFull": "Thu",
+  "dayAbbrevFriFull": "Fri",
+  "dayAbbrevSatFull": "Sat",
+  "dayAbbrevSunFull": "Sun",
+
+  "sharePreText": "To buy this",
+  "sharePostText": "of work needed",
+  "shareCTA": "How many hours do you work?",
+  "shareTextDefault": "How many hours do you work? 👀 vantag.app",
+  "minuteUnitUpper": "MIN",
+  "hourUnitUpper": "HOUR",
+  "decisionBought": "Bought",
+  "decisionPassed": "Passed",
+  "decisionThinking": "Thinking",
+
+  "expenseAddedMessage": "{amount} {description} added",
+  "@expenseAddedMessage": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "description": {"type": "String"}
+    }
+  },
+  "undoAction": "Undo",
+  "confirmExpenseTitle": "Confirm Expense",
+  "amountLabel": "Amount",
+  "categoryLabel": "Category",
+  "descriptionLabel": "Description",
+  "cancelAction": "Cancel",
+  "addAction": "Add",
+  "referralAppliedMessage": "Invite code applied: {code}",
+  "@referralAppliedMessage": {
+    "placeholders": { "code": {"type": "String"} }
+  },
+
+  "workEquivalentBadge": "WORK EQUIVALENT",
+  "hoursUnitUpper": "HOURS",
+  "daysUnitUpper": "DAYS",
+  "budgetUsageLabel": "Budget Usage",
+  "whatDecisionLabel": "What's your decision?",
+  "daysUnit": "{count} days",
+  "@daysUnit": {
+    "placeholders": { "count": {"type": "int"} }
+  },
+
+  "photoSelectError": "Could not select photo",
+  "profilePhotoTitle": "Profile Photo",
+  "takePhotoOption": "Take photo",
+  "chooseFromGalleryOption": "Choose from gallery",
+  "removePhotoOption": "Remove photo",
+
+  "examplePrefix": "E.g: {examples}",
+  "@examplePrefix": {
+    "placeholders": { "examples": {"type": "String"} }
+  },
+  "exampleFood": "Coffee, Grocery, Restaurant",
+  "exampleTransport": "Gas, Taxi, Bus",
+  "exampleClothing": "Coat, Shoes, T-shirt",
+  "exampleElectronics": "Phone, Headphones, Charger",
+  "exampleEntertainment": "Cinema, Game, Concert",
+  "exampleHealth": "Medicine, Doctor, Vitamin",
+  "exampleEducation": "Book, Course, Notebook",
+  "exampleBills": "Electricity, Water, Internet",
+  "exampleDefault": "Add a description...",
+  "newExpenseHeader": "New Expense",
+  "expenseGroupHeader": "Expense Group",
+  "calculateAction": "Calculate",
+  "detailOptionalLabel": "Detail (Optional)",
+  "enterValidAmountError": "Please enter a valid amount",
+
+  "aiDisclaimer": "AI-generated insights are for informational purposes only and should not be considered financial advice.",
+
+  "hourLabel": "Hour",
+  "yearLabel": "Year",
+
+  "goldOunces": "{ounces}oz gold",
+  "@goldOunces": {
+    "placeholders": { "ounces": {"type": "String"} }
+  },
+  "goldOuncesShort": "{ounces}oz gold",
+  "@goldOuncesShort": {
+    "placeholders": { "ounces": {"type": "String"} }
+  },
+  "couldBuyGoldOunces": "With this money you could buy {ounces} oz of gold",
+  "@couldBuyGoldOunces": {
+    "placeholders": { "ounces": {"type": "String"} }
+  },
+
+  "pleaseEnterIncome": "Please enter your income",
+  "mainIncome": "Main Income",
+  "ofYourWork": "of your work",
+  "expensePlaceholder": "Coffee, food, grocery..."
 }

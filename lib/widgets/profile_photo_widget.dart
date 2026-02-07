@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 
@@ -74,7 +75,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Fotoğraf seçilemedi')));
+        ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).photoSelectError)));
       }
     }
   }
@@ -88,10 +89,11 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
   }
 
   void _showOptions() {
+    final l10n = AppLocalizations.of(context);
     showModalBottomSheet(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.85),
-      backgroundColor: context.appColors.surface,
+      backgroundColor: context.vantColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -105,23 +107,23 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
               const SizedBox(height: 24),
               Text(
-                'Profil Fotoğrafı',
+                l10n.profilePhotoTitle,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 20),
               _buildOption(
                 icon: CupertinoIcons.camera,
-                label: 'Kameradan çek',
+                label: l10n.takePhotoOption,
                 onTap: () {
                   Navigator.pop(context);
                   _pickImage(ImageSource.camera);
@@ -130,7 +132,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
               const SizedBox(height: 12),
               _buildOption(
                 icon: CupertinoIcons.photo,
-                label: 'Galeriden seç',
+                label: l10n.chooseFromGalleryOption,
                 onTap: () {
                   Navigator.pop(context);
                   _pickImage(ImageSource.gallery);
@@ -140,7 +142,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                 const SizedBox(height: 12),
                 _buildOption(
                   icon: CupertinoIcons.trash,
-                  label: 'Fotoğrafı kaldır',
+                  label: l10n.removePhotoOption,
                   isDestructive: true,
                   onTap: () {
                     Navigator.pop(context);
@@ -174,8 +176,8 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: isDestructive
-                ? context.appColors.error.withValues(alpha: 0.1)
-                : context.appColors.surfaceLight,
+                ? context.vantColors.error.withValues(alpha: 0.1)
+                : context.vantColors.surfaceLight,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
@@ -183,8 +185,8 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
               Icon(
                 icon,
                 color: isDestructive
-                    ? context.appColors.error
-                    : context.appColors.textSecondary,
+                    ? context.vantColors.error
+                    : context.vantColors.textSecondary,
                 size: 24,
               ),
               const SizedBox(width: 16),
@@ -194,8 +196,8 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: isDestructive
-                      ? context.appColors.error
-                      : context.appColors.textPrimary,
+                      ? context.vantColors.error
+                      : context.vantColors.textPrimary,
                 ),
               ),
             ],
@@ -217,10 +219,10 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
             width: widget.size,
             height: widget.size,
             decoration: BoxDecoration(
-              color: context.appColors.primary.withValues(alpha: 0.1),
+              color: context.vantColors.primary.withValues(alpha: 0.1),
               shape: BoxShape.circle,
               border: Border.all(
-                color: context.appColors.primary.withValues(alpha: 0.3),
+                color: context.vantColors.primary.withValues(alpha: 0.3),
                 width: 2,
               ),
             ),
@@ -230,7 +232,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
                         valueColor: AlwaysStoppedAnimation<Color>(
-                          context.appColors.primary,
+                          context.vantColors.primary,
                         ),
                       ),
                     )
@@ -244,14 +246,14 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                         return Icon(
                           CupertinoIcons.person,
                           size: widget.size * 0.48,
-                          color: context.appColors.primary,
+                          color: context.vantColors.primary,
                         );
                       },
                     )
                   : Icon(
                       CupertinoIcons.person,
                       size: widget.size * 0.48,
-                      color: context.appColors.primary,
+                      color: context.vantColors.primary,
                     ),
             ),
           ),
@@ -264,17 +266,17 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
                 width: widget.size * 0.32,
                 height: widget.size * 0.32,
                 decoration: BoxDecoration(
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: context.appColors.background,
+                    color: context.vantColors.background,
                     width: 2,
                   ),
                 ),
                 child: Icon(
                   CupertinoIcons.camera,
                   size: widget.size * 0.16,
-                  color: context.appColors.background,
+                  color: context.vantColors.background,
                 ),
               ),
             ),

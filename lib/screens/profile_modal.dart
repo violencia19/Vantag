@@ -11,7 +11,7 @@ import '../providers/pro_provider.dart';
 import '../services/auth_service.dart';
 import '../services/profile_service.dart';
 import '../theme/theme.dart';
-import '../theme/app_theme.dart';
+
 import '../utils/currency_utils.dart';
 import 'onboarding_screen.dart';
 import 'income_wizard_screen.dart';
@@ -92,7 +92,7 @@ class _ProfileModalState extends State<ProfileModal> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppLocalizations.of(context).photoSelectError),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
           ),
         );
       }
@@ -178,12 +178,12 @@ class _ProfileModalState extends State<ProfileModal> {
           builder: (context, scrollController) {
             return Container(
               decoration: BoxDecoration(
-                color: context.appColors.surface,
+                color: context.vantColors.surface,
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(24),
                 ),
                 border: Border.all(
-                  color: context.appColors.cardBorder,
+                  color: context.vantColors.cardBorder,
                   width: 1,
                 ),
               ),
@@ -195,7 +195,7 @@ class _ProfileModalState extends State<ProfileModal> {
                     height: 4,
                     margin: const EdgeInsets.only(top: 12),
                     decoration: BoxDecoration(
-                      color: context.appColors.textTertiary.withValues(
+                      color: context.vantColors.textTertiary.withValues(
                         alpha: 0.3,
                       ),
                       borderRadius: BorderRadius.circular(2),
@@ -294,20 +294,20 @@ class _ProfileModalState extends State<ProfileModal> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      context.appColors.primary.withValues(alpha: 0.3),
-                      context.appColors.secondary.withValues(alpha: 0.3),
+                      context.vantColors.primary.withValues(alpha: 0.3),
+                      context.vantColors.secondary.withValues(alpha: 0.3),
                     ],
                   ),
                   border: Border.all(
                     color: isPro
-                        ? AppColors.medalGold
-                        : context.appColors.primary,
+                        ? VantColors.medalGold
+                        : context.vantColors.primary,
                     width: isPro ? 3 : 2,
                   ),
                   boxShadow: isPro
                       ? [
                           BoxShadow(
-                            color: AppColors.medalGold.withValues(alpha: 0.4),
+                            color: VantColors.medalGold.withValues(alpha: 0.4),
                             blurRadius: 20,
                             spreadRadius: 2,
                           ),
@@ -320,7 +320,7 @@ class _ProfileModalState extends State<ProfileModal> {
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
                             valueColor: AlwaysStoppedAnimation<Color>(
-                              context.appColors.primary,
+                              context.vantColors.primary,
                             ),
                           ),
                         )
@@ -344,17 +344,17 @@ class _ProfileModalState extends State<ProfileModal> {
                   width: 28,
                   height: 28,
                   decoration: BoxDecoration(
-                    color: context.appColors.primary,
+                    color: context.vantColors.primary,
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: context.appColors.surface,
+                      color: context.vantColors.surface,
                       width: 2,
                     ),
                   ),
                   child: Icon(
                     CupertinoIcons.camera,
                     size: 14,
-                    color: context.appColors.background,
+                    color: context.vantColors.background,
                   ),
                 ),
               ),
@@ -370,12 +370,12 @@ class _ProfileModalState extends State<ProfileModal> {
                     ),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
-                        colors: [AppColors.medalGold, AppColors.orange],
+                        colors: [VantColors.medalGold, VantColors.orange],
                       ),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.medalGold.withValues(alpha: 0.5),
+                          color: VantColors.medalGold.withValues(alpha: 0.5),
                           blurRadius: 8,
                         ),
                       ],
@@ -385,7 +385,7 @@ class _ProfileModalState extends State<ProfileModal> {
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w800,
-                        color: context.appColors.background,
+                        color: context.vantColors.background,
                       ),
                     ),
                   ),
@@ -402,7 +402,7 @@ class _ProfileModalState extends State<ProfileModal> {
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w700,
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
           ),
         ),
 
@@ -412,7 +412,7 @@ class _ProfileModalState extends State<ProfileModal> {
             email,
             style: TextStyle(
               fontSize: 14,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
         ],
@@ -437,11 +437,11 @@ class _ProfileModalState extends State<ProfileModal> {
 
   Widget _defaultAvatar() {
     return Container(
-      color: context.appColors.surfaceLight,
+      color: context.vantColors.surfaceLight,
       child: Icon(
         CupertinoIcons.person,
         size: 50,
-        color: context.appColors.textTertiary,
+        color: context.vantColors.textTertiary,
       ),
     );
   }
@@ -497,21 +497,21 @@ class _ProfileModalState extends State<ProfileModal> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: context.appColors.surfaceLight,
+          color: context.vantColors.surfaceLight,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: context.appColors.cardBorder),
+          border: Border.all(color: context.vantColors.cardBorder),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 18, color: context.appColors.primary),
+            Icon(icon, size: 18, color: context.vantColors.textSecondary),
             const SizedBox(width: 6),
             Text(
               label,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textSecondary,
               ),
             ),
           ],
@@ -591,13 +591,13 @@ class _ProfileModalState extends State<ProfileModal> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            context.appColors.primary.withValues(alpha: 0.25),
-            context.appColors.secondary.withValues(alpha: 0.25),
+            context.vantColors.primary.withValues(alpha: 0.25),
+            context.vantColors.secondary.withValues(alpha: 0.25),
           ],
         ),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: context.appColors.primary.withValues(alpha: 0.4),
+          color: context.vantColors.primary.withValues(alpha: 0.4),
           width: 1,
         ),
       ),
@@ -606,7 +606,7 @@ class _ProfileModalState extends State<ProfileModal> {
           Icon(
             CupertinoIcons.clock,
             size: 32,
-            color: context.appColors.primary,
+            color: context.vantColors.primary,
           ),
           const SizedBox(height: 12),
           Text(
@@ -614,7 +614,7 @@ class _ProfileModalState extends State<ProfileModal> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
@@ -623,8 +623,8 @@ class _ProfileModalState extends State<ProfileModal> {
             style: TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.w800,
-              color: context.appColors.textPrimary,
-              letterSpacing: -1,
+              color: context.vantColors.textPrimary,
+              letterSpacing: -1.5,
             ),
           ),
         ],
@@ -667,20 +667,20 @@ class _ProfileModalState extends State<ProfileModal> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.appColors.surfaceLight,
+        color: context.vantColors.surfaceLight,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Column(
         children: [
-          Icon(icon, size: 24, color: context.appColors.primary),
+          Icon(icon, size: 24, color: context.vantColors.primary),
           const SizedBox(height: 8),
           Text(
             value,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
           const SizedBox(height: 4),
@@ -688,7 +688,7 @@ class _ProfileModalState extends State<ProfileModal> {
             label,
             style: TextStyle(
               fontSize: 12,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -706,13 +706,13 @@ class _ProfileModalState extends State<ProfileModal> {
 
     return Container(
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: Colors.white.withValues(alpha: 0.06),
           width: 1,
         ),
-        boxShadow: AppDesign.shadowSubtle,
+        boxShadow: [VantShadows.subtle],
       ),
       child: Material(
         color: Colors.transparent,
@@ -741,7 +741,7 @@ class _ProfileModalState extends State<ProfileModal> {
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
                               valueColor: AlwaysStoppedAnimation(
-                                context.appColors.primary,
+                                context.vantColors.primary,
                               ),
                             ),
                           ),
@@ -768,7 +768,7 @@ class _ProfileModalState extends State<ProfileModal> {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -779,8 +779,8 @@ class _ProfileModalState extends State<ProfileModal> {
                         style: TextStyle(
                           fontSize: 13,
                           color: isLinked
-                              ? context.appColors.success
-                              : context.appColors.textTertiary,
+                              ? context.vantColors.success
+                              : context.vantColors.textTertiary,
                         ),
                       ),
                     ],
@@ -793,14 +793,14 @@ class _ProfileModalState extends State<ProfileModal> {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
-                      color: context.appColors.textTertiary,
+                      color: context.vantColors.textTertiary,
                     ),
                   )
                 else if (isLinked)
                   Icon(
                     CupertinoIcons.checkmark_circle_fill,
                     size: 22,
-                    color: context.appColors.success,
+                    color: context.vantColors.success,
                   )
                 else
                   Container(
@@ -809,7 +809,7 @@ class _ProfileModalState extends State<ProfileModal> {
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: context.appColors.primary,
+                      color: context.vantColors.primary,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -852,7 +852,7 @@ class _ProfileModalState extends State<ProfileModal> {
                 Expanded(child: Text(l10n.googleLinkedSuccess)),
               ],
             ),
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
@@ -873,7 +873,7 @@ class _ProfileModalState extends State<ProfileModal> {
                 ),
               ],
             ),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
@@ -886,7 +886,7 @@ class _ProfileModalState extends State<ProfileModal> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.googleLinkFailed),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -907,13 +907,13 @@ class _ProfileModalState extends State<ProfileModal> {
 
     return Container(
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: Colors.white.withValues(alpha: 0.06),
           width: 1,
         ),
-        boxShadow: AppDesign.shadowSubtle,
+        boxShadow: [VantShadows.subtle],
       ),
       child: Material(
         color: Colors.transparent,
@@ -964,7 +964,7 @@ class _ProfileModalState extends State<ProfileModal> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
-                              color: context.appColors.textPrimary,
+                              color: context.vantColors.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -975,8 +975,8 @@ class _ProfileModalState extends State<ProfileModal> {
                             style: TextStyle(
                               fontSize: 13,
                               color: isLinked
-                                  ? context.appColors.success
-                                  : context.appColors.textTertiary,
+                                  ? context.vantColors.success
+                                  : context.vantColors.textTertiary,
                             ),
                           ),
                         ],
@@ -989,14 +989,14 @@ class _ProfileModalState extends State<ProfileModal> {
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: context.appColors.textTertiary,
+                          color: context.vantColors.textTertiary,
                         ),
                       )
                     else if (isLinked)
                       Icon(
                         CupertinoIcons.checkmark_circle_fill,
                         size: 22,
-                        color: context.appColors.success,
+                        color: context.vantColors.success,
                       )
                     else
                       Container(
@@ -1048,7 +1048,7 @@ class _ProfileModalState extends State<ProfileModal> {
                 Expanded(child: Text(l10n.appleLinkedSuccess)),
               ],
             ),
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
@@ -1069,7 +1069,7 @@ class _ProfileModalState extends State<ProfileModal> {
                 ),
               ],
             ),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
@@ -1082,7 +1082,7 @@ class _ProfileModalState extends State<ProfileModal> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.appleLinkFailed),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -1106,7 +1106,7 @@ class _ProfileModalState extends State<ProfileModal> {
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16),
           side: BorderSide(
-            color: context.appColors.error.withValues(alpha: 0.5),
+            color: context.vantColors.error.withValues(alpha: 0.5),
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -1115,14 +1115,14 @@ class _ProfileModalState extends State<ProfileModal> {
         icon: Icon(
           CupertinoIcons.square_arrow_right,
           size: 20,
-          color: context.appColors.error,
+          color: context.vantColors.error,
         ),
         label: Text(
           l10n.profileSignOut,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: context.appColors.error,
+            color: context.vantColors.error,
           ),
         ),
       ),
@@ -1138,32 +1138,32 @@ class _ProfileModalState extends State<ProfileModal> {
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => AlertDialog(
-        backgroundColor: context.appColors.surface,
+        backgroundColor: context.vantColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Text(
           l10n.profileSignOut,
           style: TextStyle(
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),
         content: Text(
           l10n.profileSignOutConfirm,
-          style: TextStyle(color: context.appColors.textSecondary),
+          style: TextStyle(color: context.vantColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
             child: Text(
               l10n.cancel,
-              style: TextStyle(color: context.appColors.textSecondary),
+              style: TextStyle(color: context.vantColors.textSecondary),
             ),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.error,
-              foregroundColor: context.appColors.textPrimary,
+              backgroundColor: context.vantColors.error,
+              foregroundColor: context.vantColors.textPrimary,
             ),
             child: Text(l10n.profileSignOut),
           ),
@@ -1208,7 +1208,7 @@ class _PhotoOptionsSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: SafeArea(
@@ -1221,7 +1221,7 @@ class _PhotoOptionsSheet extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -1231,7 +1231,7 @@ class _PhotoOptionsSheet extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 20),
@@ -1282,8 +1282,8 @@ class _PhotoOptionsSheet extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: isDestructive
-                ? context.appColors.error.withValues(alpha: 0.1)
-                : context.appColors.surfaceLight,
+                ? context.vantColors.error.withValues(alpha: 0.1)
+                : context.vantColors.surfaceLight,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
@@ -1291,8 +1291,8 @@ class _PhotoOptionsSheet extends StatelessWidget {
               Icon(
                 icon,
                 color: isDestructive
-                    ? context.appColors.error
-                    : context.appColors.textSecondary,
+                    ? context.vantColors.error
+                    : context.vantColors.textSecondary,
                 size: 24,
               ),
               const SizedBox(width: 16),
@@ -1302,8 +1302,8 @@ class _PhotoOptionsSheet extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: isDestructive
-                      ? context.appColors.error
-                      : context.appColors.textPrimary,
+                      ? context.vantColors.error
+                      : context.vantColors.textPrimary,
                 ),
               ),
             ],
@@ -1389,7 +1389,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(widget.l10n.incomesUpdated),
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -1401,7 +1401,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error: $e'),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -1422,7 +1422,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
 
     return Container(
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: ClipRRect(
@@ -1442,7 +1442,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: context.appColors.textTertiary.withValues(
+                        color: context.vantColors.textTertiary.withValues(
                           alpha: 0.3,
                         ),
                         borderRadius: BorderRadius.circular(2),
@@ -1458,14 +1458,14 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: context.appColors.primary.withValues(
+                          color: context.vantColors.primary.withValues(
                             alpha: 0.15,
                           ),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Icon(
                           CupertinoIcons.money_dollar_circle,
-                          color: context.appColors.primary,
+                          color: context.vantColors.primary,
                           size: 24,
                         ),
                       ),
@@ -1479,14 +1479,14 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
-                                color: context.appColors.textPrimary,
+                                color: context.vantColors.textPrimary,
                               ),
                             ),
                             Text(
                               l10n.editSalarySubtitle,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: context.appColors.textSecondary,
+                                color: context.vantColors.textSecondary,
                               ),
                             ),
                           ],
@@ -1502,7 +1502,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -1517,7 +1517,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
@@ -1525,10 +1525,10 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                       hintStyle: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.w700,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                       filled: true,
-                      fillColor: context.appColors.surfaceLight,
+                      fillColor: context.vantColors.surfaceLight,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none,
@@ -1541,7 +1541,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                       prefixStyle: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                   ),
@@ -1556,13 +1556,13 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       decoration: BoxDecoration(
                         color: _canSave && !_isLoading
-                            ? context.appColors.primary
-                            : context.appColors.surfaceLight,
+                            ? context.vantColors.primary
+                            : context.vantColors.surfaceLight,
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: _canSave && !_isLoading
                             ? [
                                 BoxShadow(
-                                  color: context.appColors.primary.withValues(
+                                  color: context.vantColors.primary.withValues(
                                     alpha: 0.3,
                                   ),
                                   blurRadius: 16,
@@ -1579,7 +1579,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
                                   valueColor: AlwaysStoppedAnimation(
-                                    context.appColors.background,
+                                    context.vantColors.background,
                                   ),
                                 ),
                               ),
@@ -1591,8 +1591,8 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                                   CupertinoIcons.checkmark,
                                   size: 20,
                                   color: _canSave
-                                      ? context.appColors.background
-                                      : context.appColors.textTertiary,
+                                      ? context.vantColors.background
+                                      : context.vantColors.textTertiary,
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
@@ -1601,8 +1601,8 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                     color: _canSave
-                                        ? context.appColors.background
-                                        : context.appColors.textTertiary,
+                                        ? context.vantColors.background
+                                        : context.vantColors.textTertiary,
                                   ),
                                 ),
                               ],
@@ -1669,7 +1669,7 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(widget.l10n.workHoursUpdated),
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -1681,7 +1681,7 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error: $e'),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -1700,7 +1700,7 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
 
     return Container(
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: ClipRRect(
@@ -1720,7 +1720,7 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: context.appColors.textTertiary.withValues(
+                        color: context.vantColors.textTertiary.withValues(
                           alpha: 0.3,
                         ),
                         borderRadius: BorderRadius.circular(2),
@@ -1736,14 +1736,14 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: context.appColors.primary.withValues(
+                          color: context.vantColors.primary.withValues(
                             alpha: 0.15,
                           ),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Icon(
                           CupertinoIcons.clock,
-                          color: context.appColors.primary,
+                          color: context.vantColors.primary,
                           size: 24,
                         ),
                       ),
@@ -1757,14 +1757,14 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
-                                color: context.appColors.textPrimary,
+                                color: context.vantColors.textPrimary,
                               ),
                             ),
                             Text(
                               l10n.editWorkHoursSubtitle,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: context.appColors.textSecondary,
+                                color: context.vantColors.textSecondary,
                               ),
                             ),
                           ],
@@ -1781,7 +1781,7 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                       style: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.w800,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                   ),
@@ -1790,10 +1790,10 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                   // Slider
                   SliderTheme(
                     data: SliderTheme.of(context).copyWith(
-                      activeTrackColor: context.appColors.primary,
-                      inactiveTrackColor: context.appColors.surfaceLight,
-                      thumbColor: context.appColors.primary,
-                      overlayColor: context.appColors.primary.withValues(alpha: 0.2),
+                      activeTrackColor: context.vantColors.primary,
+                      inactiveTrackColor: context.vantColors.surfaceLight,
+                      thumbColor: context.vantColors.primary,
+                      overlayColor: context.vantColors.primary.withValues(alpha: 0.2),
                       trackHeight: 8,
                       thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 14),
                     ),
@@ -1827,13 +1827,13 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                           ),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? context.appColors.primary
-                                : context.appColors.surfaceLight,
+                                ? context.vantColors.primary
+                                : context.vantColors.surfaceLight,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
                               color: isSelected
-                                  ? context.appColors.primary
-                                  : context.appColors.cardBorder,
+                                  ? context.vantColors.primary
+                                  : context.vantColors.cardBorder,
                             ),
                           ),
                           child: Text(
@@ -1842,8 +1842,8 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: isSelected
-                                  ? context.appColors.background
-                                  : context.appColors.textSecondary,
+                                  ? context.vantColors.background
+                                  : context.vantColors.textSecondary,
                             ),
                           ),
                         ),
@@ -1860,11 +1860,11 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       decoration: BoxDecoration(
-                        color: context.appColors.primary,
+                        color: context.vantColors.primary,
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: context.appColors.primary.withValues(
+                            color: context.vantColors.primary.withValues(
                               alpha: 0.3,
                             ),
                             blurRadius: 16,
@@ -1880,7 +1880,7 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
                                   valueColor: AlwaysStoppedAnimation(
-                                    context.appColors.background,
+                                    context.vantColors.background,
                                   ),
                                 ),
                               ),
@@ -1891,7 +1891,7 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                                 Icon(
                                   CupertinoIcons.checkmark,
                                   size: 20,
-                                  color: context.appColors.background,
+                                  color: context.vantColors.background,
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
@@ -1899,7 +1899,7 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
-                                    color: context.appColors.background,
+                                    color: context.vantColors.background,
                                   ),
                                 ),
                               ],

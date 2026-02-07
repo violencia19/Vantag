@@ -61,12 +61,12 @@ class _PursuitListScreenState extends State<PursuitListScreen>
         : pursuitProvider.activePursuits;
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: CustomScrollView(
         slivers: [
           // App bar
           SliverAppBar(
-            backgroundColor: context.appColors.background,
+            backgroundColor: context.vantColors.background,
             surfaceTintColor: Colors.transparent,
             pinned: true,
             floating: false,
@@ -78,7 +78,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               background: Container(
@@ -87,8 +87,8 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      context.appColors.background.withValues(alpha: 0.0),
-                      context.appColors.background,
+                      context.vantColors.background.withValues(alpha: 0.0),
+                      context.vantColors.background,
                     ],
                   ),
                 ),
@@ -102,10 +102,10 @@ class _PursuitListScreenState extends State<PursuitListScreen>
             delegate: _TabBarDelegate(
               TabBar(
                 controller: _tabController,
-                indicatorColor: context.appColors.success,
+                indicatorColor: context.vantColors.success,
                 indicatorWeight: 2,
-                labelColor: context.appColors.success,
-                unselectedLabelColor: context.appColors.textTertiary,
+                labelColor: context.vantColors.success,
+                unselectedLabelColor: context.vantColors.textTertiary,
                 labelStyle: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -142,7 +142,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                           const SizedBox(width: 6),
                           _CountBadge(
                             count: pursuitProvider.completedPursuitCount,
-                            color: QuietLuxury.gold,
+                            color: VantColors.gold,
                           ),
                         ],
                       ],
@@ -168,7 +168,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               child: Center(
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    context.appColors.success,
+                    context.vantColors.success,
                   ),
                 ),
               ),
@@ -229,9 +229,9 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: context.appColors.surfaceLight,
+                color: context.vantColors.surfaceLight,
                 border: Border.all(
-                  color: context.appColors.cardBorder,
+                  color: context.vantColors.cardBorder,
                   width: 0.5,
                 ),
               ),
@@ -240,7 +240,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                     ? CupertinoIcons.rosette
                     : CupertinoIcons.star_fill,
                 size: 64,
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
               ),
             ),
             const SizedBox(height: 24),
@@ -249,7 +249,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -258,7 +258,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               _showCompleted ? l10n.noTransactions : l10n.emptyPursuitsMessage,
               style: TextStyle(
                 fontSize: 14,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -267,8 +267,8 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               ElevatedButton.icon(
                 onPressed: _createPursuit,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: context.appColors.success,
-                  foregroundColor: context.appColors.textPrimary,
+                  backgroundColor: context.vantColors.success,
+                  foregroundColor: context.vantColors.textPrimary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,
                     vertical: 12,
@@ -297,13 +297,13 @@ class _PursuitListScreenState extends State<PursuitListScreen>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              context.appColors.success.withValues(alpha: 0.15),
-              context.appColors.success.withValues(alpha: 0.05),
+              context.vantColors.success.withValues(alpha: 0.15),
+              context.vantColors.success.withValues(alpha: 0.05),
             ],
           ),
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
-            color: context.appColors.success.withValues(alpha: 0.3),
+            color: context.vantColors.success.withValues(alpha: 0.3),
             width: 1.5,
             strokeAlign: BorderSide.strokeAlignOutside,
           ),
@@ -314,12 +314,12 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               width: 52,
               height: 52,
               decoration: BoxDecoration(
-                color: context.appColors.success.withValues(alpha: 0.2),
+                color: context.vantColors.success.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
                 CupertinoIcons.add,
-                color: context.appColors.success,
+                color: context.vantColors.success,
                 size: 28,
               ),
             ),
@@ -333,7 +333,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -341,7 +341,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                     l10n.emptyPursuitsMessage,
                     style: TextStyle(
                       fontSize: 12,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -351,7 +351,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
             ),
             Icon(
               CupertinoIcons.chevron_right,
-              color: context.appColors.success,
+              color: context.vantColors.success,
               size: 24,
             ),
           ],
@@ -365,10 +365,10 @@ class _PursuitListScreenState extends State<PursuitListScreen>
       alignment: Alignment.centerRight,
       padding: const EdgeInsets.only(right: 20),
       decoration: BoxDecoration(
-        color: context.appColors.error.withValues(alpha: 0.2),
+        color: context.vantColors.error.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Icon(CupertinoIcons.trash_fill, color: context.appColors.error),
+      child: Icon(CupertinoIcons.trash_fill, color: context.vantColors.error),
     );
   }
 
@@ -461,7 +461,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
 
   Future<bool?> _confirmDelete(Pursuit pursuit) async {
     final l10n = AppLocalizations.of(context);
-    final colors = context.appColors;
+    final colors = context.vantColors;
     return showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -537,7 +537,7 @@ class _CountBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveColor = color ?? context.appColors.success;
+    final effectiveColor = color ?? context.vantColors.success;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
@@ -567,7 +567,7 @@ class _TabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Container(color: context.appColors.background, child: tabBar);
+    return Container(color: context.vantColors.background, child: tabBar);
   }
 
   @override
@@ -600,8 +600,8 @@ class _PursuitDetailSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final colors = context.appColors;
-    final goldColor = AppColors.medalGold;
+    final colors = context.vantColors;
+    final goldColor = VantColors.medalGold;
 
     return Container(
       decoration: BoxDecoration(
@@ -683,7 +683,7 @@ class _PursuitDetailSheet extends StatelessWidget {
                         onPressed: onAddSavings,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: colors.success,
-                          foregroundColor: context.appColors.textPrimary,
+                          foregroundColor: context.vantColors.textPrimary,
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),

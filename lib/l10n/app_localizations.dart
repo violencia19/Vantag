@@ -689,7 +689,7 @@ abstract class AppLocalizations {
   /// No description provided for @descriptionLabel.
   ///
   /// In en, this message translates to:
-  /// **'Description (Store/Product)'**
+  /// **'Description'**
   String get descriptionLabel;
 
   /// No description provided for @date.
@@ -6707,19 +6707,19 @@ abstract class AppLocalizations {
   /// No description provided for @activeInstallments.
   ///
   /// In en, this message translates to:
-  /// **'Active Installments'**
+  /// **'Active Payment Plans'**
   String get activeInstallments;
 
   /// No description provided for @installmentCount.
   ///
   /// In en, this message translates to:
-  /// **'{count} installments'**
+  /// **'{count} payments'**
   String installmentCount(int count);
 
   /// No description provided for @moreInstallments.
   ///
   /// In en, this message translates to:
-  /// **'+{count} more installments'**
+  /// **'+{count} more plans'**
   String moreInstallments(int count);
 
   /// No description provided for @monthlyBurden.
@@ -6731,13 +6731,13 @@ abstract class AppLocalizations {
   /// No description provided for @remainingDebt.
   ///
   /// In en, this message translates to:
-  /// **'Remaining Debt'**
+  /// **'Remaining Balance'**
   String get remainingDebt;
 
   /// No description provided for @totalInterestCost.
   ///
   /// In en, this message translates to:
-  /// **'Total interest: {amount} ({hours} hours)'**
+  /// **'Total fees: {amount} ({hours} hours)'**
   String totalInterestCost(String amount, String hours);
 
   /// No description provided for @monthAbbreviation.
@@ -6749,7 +6749,7 @@ abstract class AppLocalizations {
   /// No description provided for @installmentsLabel.
   ///
   /// In en, this message translates to:
-  /// **'installments'**
+  /// **'payments'**
   String get installmentsLabel;
 
   /// No description provided for @remaining.
@@ -7786,49 +7786,49 @@ abstract class AppLocalizations {
   /// No description provided for @installmentPurchase.
   ///
   /// In en, this message translates to:
-  /// **'Installment Purchase'**
+  /// **'Payment Plan'**
   String get installmentPurchase;
 
   /// No description provided for @installmentInfo.
   ///
   /// In en, this message translates to:
-  /// **'Installment Information'**
+  /// **'Payment Plan Details'**
   String get installmentInfo;
 
   /// No description provided for @cashPrice.
   ///
   /// In en, this message translates to:
-  /// **'Cash Price'**
+  /// **'Original Price'**
   String get cashPrice;
 
   /// No description provided for @cashPriceHint.
   ///
   /// In en, this message translates to:
-  /// **'Original cash price'**
+  /// **'Price without financing'**
   String get cashPriceHint;
 
   /// No description provided for @numberOfInstallments.
   ///
   /// In en, this message translates to:
-  /// **'Number of Installments'**
+  /// **'Number of Payments'**
   String get numberOfInstallments;
 
   /// No description provided for @totalInstallmentPrice.
   ///
   /// In en, this message translates to:
-  /// **'Total Installment Price'**
+  /// **'Total with Financing'**
   String get totalInstallmentPrice;
 
   /// No description provided for @totalWithInterestHint.
   ///
   /// In en, this message translates to:
-  /// **'Total with interest'**
+  /// **'Total including fees'**
   String get totalWithInterestHint;
 
   /// No description provided for @installmentSummary.
   ///
   /// In en, this message translates to:
-  /// **'INSTALLMENT SUMMARY'**
+  /// **'PAYMENT PLAN SUMMARY'**
   String get installmentSummary;
 
   /// No description provided for @willBeSavedAsRequired.
@@ -7840,7 +7840,7 @@ abstract class AppLocalizations {
   /// No description provided for @creditCardOrStoreInstallment.
   ///
   /// In en, this message translates to:
-  /// **'Credit card or store installment'**
+  /// **'Buy Now Pay Later (Affirm, Klarna, etc.)'**
   String get creditCardOrStoreInstallment;
 
   /// No description provided for @vantagAI.
@@ -10729,13 +10729,13 @@ abstract class AppLocalizations {
   /// No description provided for @excelInstallmentInterest.
   ///
   /// In en, this message translates to:
-  /// **'Interest'**
+  /// **'Fees / Interest'**
   String get excelInstallmentInterest;
 
   /// No description provided for @excelNoInstallments.
   ///
   /// In en, this message translates to:
-  /// **'No installment payments'**
+  /// **'No payment plans'**
   String get excelNoInstallments;
 
   /// No description provided for @excelTotalMonthlyPayments.
@@ -11505,6 +11505,690 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No, I don\'t'**
   String get additionalIncomeNo;
+
+  /// No description provided for @expenseTypeSingle.
+  ///
+  /// In en, this message translates to:
+  /// **'One-time'**
+  String get expenseTypeSingle;
+
+  /// No description provided for @expenseTypeRecurring.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring'**
+  String get expenseTypeRecurring;
+
+  /// No description provided for @expenseTypeInstallment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Plan'**
+  String get expenseTypeInstallment;
+
+  /// No description provided for @monthlyPaymentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly payment:'**
+  String get monthlyPaymentLabel;
+
+  /// No description provided for @installmentCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} months'**
+  String installmentCountLabel(int count);
+
+  /// No description provided for @interestAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fees / Interest:'**
+  String get interestAmountLabel;
+
+  /// No description provided for @interestAsHoursLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fees as work hours:'**
+  String get interestAsHoursLabel;
+
+  /// No description provided for @hoursUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'hours'**
+  String get hoursUnit;
+
+  /// No description provided for @installmentSavingsWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Paying upfront would save you {hours} hours!'**
+  String installmentSavingsWarning(String hours);
+
+  /// No description provided for @errorSelectInstallmentCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select number of payments'**
+  String get errorSelectInstallmentCount;
+
+  /// No description provided for @errorEnterInstallmentTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter total with financing'**
+  String get errorEnterInstallmentTotal;
+
+  /// No description provided for @insightPeakDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Peak Spending Day'**
+  String get insightPeakDay;
+
+  /// No description provided for @insightTopCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Category'**
+  String get insightTopCategory;
+
+  /// No description provided for @insightMonthComparison.
+  ///
+  /// In en, this message translates to:
+  /// **'This Month vs Last Month'**
+  String get insightMonthComparison;
+
+  /// No description provided for @insightPeakDaySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{day} is your highest spending day'**
+  String insightPeakDaySubtitle(String day);
+
+  /// No description provided for @insightTopCategorySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{category} is your top category'**
+  String insightTopCategorySubtitle(String category);
+
+  /// No description provided for @insightMonthDown.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% decrease from last month'**
+  String insightMonthDown(String percent);
+
+  /// No description provided for @insightMonthUp.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% increase from last month'**
+  String insightMonthUp(String percent);
+
+  /// No description provided for @dayMonday.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get dayMonday;
+
+  /// No description provided for @dayTuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get dayTuesday;
+
+  /// No description provided for @dayWednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get dayWednesday;
+
+  /// No description provided for @dayThursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get dayThursday;
+
+  /// No description provided for @dayFriday.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get dayFriday;
+
+  /// No description provided for @daySaturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get daySaturday;
+
+  /// No description provided for @daySunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get daySunday;
+
+  /// No description provided for @heatmapLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get heatmapLow;
+
+  /// No description provided for @heatmapHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get heatmapHigh;
+
+  /// No description provided for @dayAbbrevMon.
+  ///
+  /// In en, this message translates to:
+  /// **'M'**
+  String get dayAbbrevMon;
+
+  /// No description provided for @dayAbbrevTue.
+  ///
+  /// In en, this message translates to:
+  /// **'T'**
+  String get dayAbbrevTue;
+
+  /// No description provided for @dayAbbrevWed.
+  ///
+  /// In en, this message translates to:
+  /// **'W'**
+  String get dayAbbrevWed;
+
+  /// No description provided for @dayAbbrevThu.
+  ///
+  /// In en, this message translates to:
+  /// **'T'**
+  String get dayAbbrevThu;
+
+  /// No description provided for @dayAbbrevFri.
+  ///
+  /// In en, this message translates to:
+  /// **'F'**
+  String get dayAbbrevFri;
+
+  /// No description provided for @dayAbbrevSat.
+  ///
+  /// In en, this message translates to:
+  /// **'S'**
+  String get dayAbbrevSat;
+
+  /// No description provided for @dayAbbrevSun.
+  ///
+  /// In en, this message translates to:
+  /// **'S'**
+  String get dayAbbrevSun;
+
+  /// No description provided for @monthAbbrevJan.
+  ///
+  /// In en, this message translates to:
+  /// **'Jan'**
+  String get monthAbbrevJan;
+
+  /// No description provided for @monthAbbrevFeb.
+  ///
+  /// In en, this message translates to:
+  /// **'Feb'**
+  String get monthAbbrevFeb;
+
+  /// No description provided for @monthAbbrevMar.
+  ///
+  /// In en, this message translates to:
+  /// **'Mar'**
+  String get monthAbbrevMar;
+
+  /// No description provided for @monthAbbrevApr.
+  ///
+  /// In en, this message translates to:
+  /// **'Apr'**
+  String get monthAbbrevApr;
+
+  /// No description provided for @monthAbbrevMay.
+  ///
+  /// In en, this message translates to:
+  /// **'May'**
+  String get monthAbbrevMay;
+
+  /// No description provided for @monthAbbrevJun.
+  ///
+  /// In en, this message translates to:
+  /// **'Jun'**
+  String get monthAbbrevJun;
+
+  /// No description provided for @monthAbbrevJul.
+  ///
+  /// In en, this message translates to:
+  /// **'Jul'**
+  String get monthAbbrevJul;
+
+  /// No description provided for @monthAbbrevAug.
+  ///
+  /// In en, this message translates to:
+  /// **'Aug'**
+  String get monthAbbrevAug;
+
+  /// No description provided for @monthAbbrevSep.
+  ///
+  /// In en, this message translates to:
+  /// **'Sep'**
+  String get monthAbbrevSep;
+
+  /// No description provided for @monthAbbrevOct.
+  ///
+  /// In en, this message translates to:
+  /// **'Oct'**
+  String get monthAbbrevOct;
+
+  /// No description provided for @monthAbbrevNov.
+  ///
+  /// In en, this message translates to:
+  /// **'Nov'**
+  String get monthAbbrevNov;
+
+  /// No description provided for @monthAbbrevDec.
+  ///
+  /// In en, this message translates to:
+  /// **'Dec'**
+  String get monthAbbrevDec;
+
+  /// No description provided for @savingsProjectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings Projection'**
+  String get savingsProjectionTitle;
+
+  /// No description provided for @threeMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'3 Mo'**
+  String get threeMonths;
+
+  /// No description provided for @sixMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'6 Mo'**
+  String get sixMonths;
+
+  /// No description provided for @oneYear.
+  ///
+  /// In en, this message translates to:
+  /// **'1 Year'**
+  String get oneYear;
+
+  /// No description provided for @monthlyAverageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly average: {amount}'**
+  String monthlyAverageLabel(String amount);
+
+  /// No description provided for @categoryTrendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Category Trend'**
+  String get categoryTrendTitle;
+
+  /// No description provided for @workHoursEquivalentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Work Hours Equivalent'**
+  String get workHoursEquivalentTitle;
+
+  /// No description provided for @totalHoursLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total: {hours} hours'**
+  String totalHoursLabel(String hours);
+
+  /// No description provided for @perHourLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'({rate}/hr)'**
+  String perHourLabel(String rate);
+
+  /// No description provided for @dayAbbrevMonFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Mon'**
+  String get dayAbbrevMonFull;
+
+  /// No description provided for @dayAbbrevTueFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Tue'**
+  String get dayAbbrevTueFull;
+
+  /// No description provided for @dayAbbrevWedFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Wed'**
+  String get dayAbbrevWedFull;
+
+  /// No description provided for @dayAbbrevThuFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Thu'**
+  String get dayAbbrevThuFull;
+
+  /// No description provided for @dayAbbrevFriFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Fri'**
+  String get dayAbbrevFriFull;
+
+  /// No description provided for @dayAbbrevSatFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat'**
+  String get dayAbbrevSatFull;
+
+  /// No description provided for @dayAbbrevSunFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Sun'**
+  String get dayAbbrevSunFull;
+
+  /// No description provided for @sharePreText.
+  ///
+  /// In en, this message translates to:
+  /// **'To buy this'**
+  String get sharePreText;
+
+  /// No description provided for @sharePostText.
+  ///
+  /// In en, this message translates to:
+  /// **'of work needed'**
+  String get sharePostText;
+
+  /// No description provided for @shareCTA.
+  ///
+  /// In en, this message translates to:
+  /// **'How many hours do you work?'**
+  String get shareCTA;
+
+  /// No description provided for @shareTextDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'How many hours do you work? 👀 vantag.app'**
+  String get shareTextDefault;
+
+  /// No description provided for @minuteUnitUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'MIN'**
+  String get minuteUnitUpper;
+
+  /// No description provided for @hourUnitUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'HOUR'**
+  String get hourUnitUpper;
+
+  /// No description provided for @decisionBought.
+  ///
+  /// In en, this message translates to:
+  /// **'Bought'**
+  String get decisionBought;
+
+  /// No description provided for @decisionPassed.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed'**
+  String get decisionPassed;
+
+  /// No description provided for @decisionThinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Thinking'**
+  String get decisionThinking;
+
+  /// No description provided for @expenseAddedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} {description} added'**
+  String expenseAddedMessage(String amount, String description);
+
+  /// No description provided for @undoAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undoAction;
+
+  /// No description provided for @confirmExpenseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Expense'**
+  String get confirmExpenseTitle;
+
+  /// No description provided for @amountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get amountLabel;
+
+  /// No description provided for @categoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get categoryLabel;
+
+  /// No description provided for @cancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelAction;
+
+  /// No description provided for @addAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get addAction;
+
+  /// No description provided for @referralAppliedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code applied: {code}'**
+  String referralAppliedMessage(String code);
+
+  /// No description provided for @workEquivalentBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'WORK EQUIVALENT'**
+  String get workEquivalentBadge;
+
+  /// No description provided for @hoursUnitUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'HOURS'**
+  String get hoursUnitUpper;
+
+  /// No description provided for @daysUnitUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'DAYS'**
+  String get daysUnitUpper;
+
+  /// No description provided for @budgetUsageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget Usage'**
+  String get budgetUsageLabel;
+
+  /// No description provided for @whatDecisionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s your decision?'**
+  String get whatDecisionLabel;
+
+  /// No description provided for @daysUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days'**
+  String daysUnit(int count);
+
+  /// No description provided for @profilePhotoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Photo'**
+  String get profilePhotoTitle;
+
+  /// No description provided for @takePhotoOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get takePhotoOption;
+
+  /// No description provided for @chooseFromGalleryOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get chooseFromGalleryOption;
+
+  /// No description provided for @removePhotoOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get removePhotoOption;
+
+  /// No description provided for @examplePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g: {examples}'**
+  String examplePrefix(String examples);
+
+  /// No description provided for @exampleFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Coffee, Grocery, Restaurant'**
+  String get exampleFood;
+
+  /// No description provided for @exampleTransport.
+  ///
+  /// In en, this message translates to:
+  /// **'Gas, Taxi, Bus'**
+  String get exampleTransport;
+
+  /// No description provided for @exampleClothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Coat, Shoes, T-shirt'**
+  String get exampleClothing;
+
+  /// No description provided for @exampleElectronics.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone, Headphones, Charger'**
+  String get exampleElectronics;
+
+  /// No description provided for @exampleEntertainment.
+  ///
+  /// In en, this message translates to:
+  /// **'Cinema, Game, Concert'**
+  String get exampleEntertainment;
+
+  /// No description provided for @exampleHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Medicine, Doctor, Vitamin'**
+  String get exampleHealth;
+
+  /// No description provided for @exampleEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Book, Course, Notebook'**
+  String get exampleEducation;
+
+  /// No description provided for @exampleBills.
+  ///
+  /// In en, this message translates to:
+  /// **'Electricity, Water, Internet'**
+  String get exampleBills;
+
+  /// No description provided for @exampleDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a description...'**
+  String get exampleDefault;
+
+  /// No description provided for @newExpenseHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'New Expense'**
+  String get newExpenseHeader;
+
+  /// No description provided for @expenseGroupHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Group'**
+  String get expenseGroupHeader;
+
+  /// No description provided for @calculateAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate'**
+  String get calculateAction;
+
+  /// No description provided for @detailOptionalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Detail (Optional)'**
+  String get detailOptionalLabel;
+
+  /// No description provided for @enterValidAmountError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid amount'**
+  String get enterValidAmountError;
+
+  /// No description provided for @aiDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-generated insights are for informational purposes only and should not be considered financial advice.'**
+  String get aiDisclaimer;
+
+  /// No description provided for @hourLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Hour'**
+  String get hourLabel;
+
+  /// No description provided for @yearLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get yearLabel;
+
+  /// No description provided for @goldOunces.
+  ///
+  /// In en, this message translates to:
+  /// **'{ounces}oz gold'**
+  String goldOunces(String ounces);
+
+  /// No description provided for @goldOuncesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{ounces}oz gold'**
+  String goldOuncesShort(String ounces);
+
+  /// No description provided for @couldBuyGoldOunces.
+  ///
+  /// In en, this message translates to:
+  /// **'With this money you could buy {ounces} oz of gold'**
+  String couldBuyGoldOunces(String ounces);
+
+  /// No description provided for @pleaseEnterIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your income'**
+  String get pleaseEnterIncome;
+
+  /// No description provided for @mainIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Main Income'**
+  String get mainIncome;
+
+  /// No description provided for @ofYourWork.
+  ///
+  /// In en, this message translates to:
+  /// **'of your work'**
+  String get ofYourWork;
+
+  /// No description provided for @expensePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Coffee, food, grocery...'**
+  String get expensePlaceholder;
 }
 
 class _AppLocalizationsDelegate

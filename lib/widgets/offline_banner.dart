@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:vantag/services/connectivity_service.dart';
 import 'package:vantag/services/offline_queue_service.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/theme.dart';
 
 /// Elegant offline banner that shows when device is not connected
 class OfflineBanner extends StatefulWidget {
@@ -163,16 +163,16 @@ class _OfflineBannerState extends State<OfflineBanner>
           gradient: LinearGradient(
             colors: isBackOnline
                 ? [
-                    context.appColors.success.withValues(alpha: 0.9),
-                    context.appColors.success,
+                    context.vantColors.success.withValues(alpha: 0.9),
+                    context.vantColors.success,
                   ]
-                : [AppColors.error, AppColors.error.withValues(alpha: 0.9)],
+                : [VantColors.error, VantColors.error.withValues(alpha: 0.9)],
           ),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
               color:
-                  (isBackOnline ? context.appColors.success : AppColors.error)
+                  (isBackOnline ? context.vantColors.success : VantColors.error)
                       .withValues(alpha: 0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
@@ -392,7 +392,7 @@ class _OfflineIndicatorState extends State<OfflineIndicator> {
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: AppColors.error,
+          color: VantColors.error,
           borderRadius: BorderRadius.circular(4),
         ),
         child: const Icon(CupertinoIcons.wifi_slash, color: Colors.white, size: 12),

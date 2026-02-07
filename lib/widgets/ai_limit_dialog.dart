@@ -55,9 +55,9 @@ class _AILimitDialogContent extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(maxWidth: 340),
         decoration: BoxDecoration(
-          color: context.appColors.surface,
+          color: context.vantColors.surface,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: context.appColors.cardBorder, width: 1),
+          border: Border.all(color: context.vantColors.cardBorder, width: 1),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.3),
@@ -81,7 +81,7 @@ class _AILimitDialogContent extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -92,7 +92,7 @@ class _AILimitDialogContent extends StatelessWidget {
                 _getMessage(l10n),
                 style: TextStyle(
                   fontSize: 14,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                   height: 1.5,
                 ),
                 textAlign: TextAlign.center,
@@ -128,11 +128,11 @@ class _AILimitDialogContent extends StatelessWidget {
     switch (type) {
       case AILimitType.free:
         icon = CupertinoIcons.lock_fill;
-        color = context.appColors.warning;
+        color = context.vantColors.warning;
       case AILimitType.proSubscription:
       case AILimitType.lifetime:
         icon = CupertinoIcons.hourglass;
-        color = context.appColors.primary;
+        color = context.vantColors.primary;
     }
 
     return Container(
@@ -182,10 +182,10 @@ class _AILimitDialogContent extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color: context.appColors.primary.withValues(alpha: 0.1),
+        color: context.vantColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: context.appColors.primary.withValues(alpha: 0.2),
+          color: context.vantColors.primary.withValues(alpha: 0.2),
         ),
       ),
       child: Row(
@@ -194,7 +194,7 @@ class _AILimitDialogContent extends StatelessWidget {
           Icon(
             CupertinoIcons.calendar_badge_plus,
             size: 18,
-            color: context.appColors.primary,
+            color: context.vantColors.primary,
           ),
           const SizedBox(width: 8),
           Flexible(
@@ -202,7 +202,7 @@ class _AILimitDialogContent extends StatelessWidget {
               resetText,
               style: TextStyle(
                 fontSize: 13,
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -237,7 +237,7 @@ class _AILimitDialogContent extends StatelessWidget {
               Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
@@ -280,7 +280,7 @@ class _AILimitDialogContent extends StatelessWidget {
       },
       child: Text(
         text,
-        style: TextStyle(fontSize: 13, color: context.appColors.textTertiary),
+        style: TextStyle(fontSize: 13, color: context.vantColors.textTertiary),
       ),
     );
   }
@@ -335,12 +335,12 @@ class _GradientButton extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [context.appColors.primary, context.appColors.secondary],
+          colors: [context.vantColors.primary, context.vantColors.secondary],
         ),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: context.appColors.primary.withValues(alpha: 0.4),
+            color: context.vantColors.primary.withValues(alpha: 0.4),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),

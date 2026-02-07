@@ -44,7 +44,7 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.googleLinkedSuccess),
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -54,7 +54,7 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(result.errorMessage!),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -82,7 +82,7 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.appleLinkedSuccess),
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -92,7 +92,7 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(result.errorMessage!),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -118,15 +118,15 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
           child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: context.appColors.surface.withValues(alpha: 0.8),
+              color: context.vantColors.surface.withValues(alpha: 0.8),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: context.appColors.primary.withValues(alpha: 0.3),
+                color: context.vantColors.primary.withValues(alpha: 0.3),
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: context.appColors.primary.withValues(alpha: 0.1),
+                  color: context.vantColors.primary.withValues(alpha: 0.1),
                   blurRadius: 20,
                   offset: const Offset(0, 4),
                 ),
@@ -144,7 +144,7 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                       width: 48,
                       height: 48,
                       decoration: BoxDecoration(
-                        color: context.appColors.surfaceLight,
+                        color: context.vantColors.surfaceLight,
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Center(
@@ -155,7 +155,7 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                           errorBuilder: (_, __, ___) => Icon(
                             CupertinoIcons.globe,
                             size: 24,
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                           ),
                         ),
                       ),
@@ -167,14 +167,14 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: context.appColors.surfaceLight,
+                          color: context.vantColors.surfaceLight,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Center(
                           child: Icon(
                             Icons.apple,
                             size: 24,
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                           ),
                         ),
                       ),
@@ -190,7 +190,7 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
 
@@ -202,7 +202,7 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
 
@@ -243,7 +243,7 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                 TextButton(
                   onPressed: widget.onDismiss,
                   style: TextButton.styleFrom(
-                    foregroundColor: context.appColors.textTertiary,
+                    foregroundColor: context.vantColors.textTertiary,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 8,
@@ -281,12 +281,12 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
           height: 48,
           decoration: BoxDecoration(
             color: isPrimary
-                ? context.appColors.primary
-                : context.appColors.surfaceLight,
+                ? context.vantColors.primary
+                : context.vantColors.surfaceLight,
             borderRadius: BorderRadius.circular(16),
             border: isPrimary
                 ? null
-                : Border.all(color: context.appColors.cardBorder),
+                : Border.all(color: context.vantColors.cardBorder),
           ),
           child: Center(
             child: isLoading
@@ -296,8 +296,8 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
                       color: isPrimary
-                          ? context.appColors.textPrimary
-                          : context.appColors.primary,
+                          ? context.vantColors.textPrimary
+                          : context.vantColors.primary,
                     ),
                   )
                 : Row(
@@ -307,8 +307,8 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                         icon,
                         size: 18,
                         color: isPrimary
-                            ? context.appColors.textPrimary
-                            : context.appColors.textPrimary,
+                            ? context.vantColors.textPrimary
+                            : context.vantColors.textPrimary,
                       ),
                       const SizedBox(width: 8),
                       Flexible(
@@ -319,8 +319,8 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                             color: isPrimary
-                                ? context.appColors.textPrimary
-                                : context.appColors.textPrimary,
+                                ? context.vantColors.textPrimary
+                                : context.vantColors.textPrimary,
                           ),
                         ),
                       ),

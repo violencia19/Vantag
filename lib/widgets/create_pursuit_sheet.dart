@@ -5,7 +5,7 @@ import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/providers.dart';
 import '../services/analytics_service.dart';
-import '../theme/quiet_luxury.dart';
+import '../theme/theme.dart';
 import '../utils/emoji_helper.dart';
 import 'upgrade_dialog.dart';
 
@@ -57,9 +57,9 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
     final currencySymbol = currencyProvider.currency.symbol;
 
     return Container(
-      decoration: const BoxDecoration(
-        color: QuietLuxury.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: context.vantColors.background,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: SafeArea(
         child: Padding(
@@ -82,7 +82,7 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: QuietLuxury.cardBorder,
+                        color: context.vantColors.cardBorder,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -92,7 +92,7 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                   // Title
                   Text(
                     _isEditMode ? l10n.editPursuit : l10n.createPursuit,
-                    style: QuietLuxury.heading,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: -0.5, color: Color(0xFFFAFAFA)),
                   ),
                   const SizedBox(height: 24),
 
@@ -105,8 +105,8 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                     enableSuggestions: true,
                     autocorrect: false,
                     enableIMEPersonalizedLearning: true,
-                    style: QuietLuxury.body.copyWith(
-                      color: QuietLuxury.textPrimary,
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(
+                      color: context.vantColors.textPrimary,
                     ),
                     decoration: _inputDecoration(
                       hintText: l10n.pursuitNameHint,
@@ -126,8 +126,8 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _targetController,
-                    style: QuietLuxury.body.copyWith(
-                      color: QuietLuxury.textPrimary,
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(
+                      color: context.vantColors.textPrimary,
                     ),
                     decoration: _inputDecoration(
                       hintText: '0',
@@ -163,8 +163,8 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: _initialSavingsController,
-                      style: QuietLuxury.body.copyWith(
-                        color: QuietLuxury.textPrimary,
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(
+                        color: context.vantColors.textPrimary,
                       ),
                       decoration: _inputDecoration(
                         hintText: l10n.pursuitInitialSavingsHint,
@@ -185,13 +185,13 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                     child: ElevatedButton(
                       onPressed: _isLoading ? null : _onSubmit,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: QuietLuxury.positive,
+                        backgroundColor: context.vantColors.success,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        disabledBackgroundColor: QuietLuxury.positive
+                        disabledBackgroundColor: context.vantColors.success
                             .withValues(alpha: 0.5),
                       ),
                       child: _isLoading
@@ -227,8 +227,8 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
   Widget _buildLabel(String text) {
     return Text(
       text,
-      style: QuietLuxury.label.copyWith(
-        color: QuietLuxury.textSecondary,
+      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)).copyWith(
+        color: context.vantColors.textSecondary,
         fontWeight: FontWeight.w500,
       ),
     );
@@ -238,27 +238,27 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
     return InputDecoration(
       hintText: hintText,
       prefixText: prefixText,
-      hintStyle: QuietLuxury.body.copyWith(color: QuietLuxury.textTertiary),
-      prefixStyle: QuietLuxury.body.copyWith(color: QuietLuxury.textSecondary),
+      hintStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(color: context.vantColors.textTertiary),
+      prefixStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(color: context.vantColors.textSecondary),
       filled: true,
-      fillColor: QuietLuxury.cardBackground,
+      fillColor: context.vantColors.cardBackground,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: QuietLuxury.cardBorder),
+        borderSide: BorderSide(color: context.vantColors.cardBorder),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: QuietLuxury.cardBorder),
+        borderSide: BorderSide(color: context.vantColors.cardBorder),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(
-          color: QuietLuxury.positive.withValues(alpha: 0.5),
+          color: context.vantColors.success.withValues(alpha: 0.5),
         ),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: QuietLuxury.negative),
+        borderSide: BorderSide(color: context.vantColors.error),
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
     );
@@ -288,13 +288,13 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? QuietLuxury.positive.withValues(alpha: 0.2)
-                    : QuietLuxury.cardBackground,
+                    ? context.vantColors.success.withValues(alpha: 0.2)
+                    : context.vantColors.cardBackground,
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
                   color: isSelected
-                      ? QuietLuxury.positive.withValues(alpha: 0.5)
-                      : QuietLuxury.cardBorder,
+                      ? context.vantColors.success.withValues(alpha: 0.5)
+                      : context.vantColors.cardBorder,
                   width: isSelected ? 1.5 : 0.5,
                 ),
               ),
@@ -305,10 +305,10 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
                   const SizedBox(width: 6),
                   Text(
                     _getCategoryLabel(category),
-                    style: QuietLuxury.label.copyWith(
+                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)).copyWith(
                       color: isSelected
-                          ? QuietLuxury.positive
-                          : QuietLuxury.textSecondary,
+                          ? context.vantColors.success
+                          : context.vantColors.textSecondary,
                       fontWeight: isSelected
                           ? FontWeight.w600
                           : FontWeight.w400,
@@ -426,7 +426,7 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(l10n.pursuitCreated),
-              backgroundColor: QuietLuxury.positive,
+              backgroundColor: context.vantColors.success,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -442,7 +442,7 @@ class _CreatePursuitSheetState extends State<CreatePursuitSheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('${l10n.error}: $e'),
-            backgroundColor: QuietLuxury.negative,
+            backgroundColor: context.vantColors.error,
           ),
         );
       }

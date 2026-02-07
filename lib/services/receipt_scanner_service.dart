@@ -22,9 +22,15 @@ class ScanResult {
 }
 
 class ReceiptScannerService {
-  // TEMPORARILY DISABLED for iOS Simulator
+  // ML Kit disabled until arm64 simulator support is restored.
+  // Set to true when google_mlkit_text_recognition is re-enabled in pubspec.
+  static const bool _mlKitEnabled = false;
+
   // final _textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
   final _imagePicker = ImagePicker();
+
+  /// Whether OCR scanning is currently available
+  bool get isAvailable => _mlKitEnabled;
 
   Future<File?> pickImage({required bool fromCamera}) async {
     final XFile? image = await _imagePicker.pickImage(
@@ -36,54 +42,43 @@ class ReceiptScannerService {
     return File(image.path);
   }
 
-  /// Scan receipt and extract amount, merchant, and currency
-  /// TEMPORARILY DISABLED - Returns empty result for simulator testing
+  /// Scan receipt and extract amount, merchant, and currency.
+  /// Returns empty ScanResult when ML Kit is disabled — callers should
+  /// check [isAvailable] before invoking and show appropriate UI.
   Future<ScanResult> scanReceipt() async {
-    // Track receipt scanner usage
     AnalyticsService().logReceiptScanned();
 
-    // TEMPORARILY DISABLED for iOS Simulator
-    debugPrint('[ReceiptScanner] ML Kit temporarily disabled for simulator testing');
-    return const ScanResult();
+    if (!_mlKitEnabled) {
+      debugPrint('[ReceiptScanner] ML Kit disabled — returning empty result');
+      return const ScanResult();
+    }
 
-    /* ORIGINAL CODE - Re-enable when ML Kit is restored:
     final imageFile = await pickImage(fromCamera: true);
     if (imageFile == null) {
       return const ScanResult();
     }
     return extractFromReceipt(imageFile);
-    */
   }
 
-  /// Extract data from receipt image
-  /// TEMPORARILY DISABLED - Returns empty result for simulator testing
+  /// Extract data from receipt image.
+  /// Returns empty ScanResult when ML Kit is disabled.
   Future<ScanResult> extractFromReceipt(File imageFile) async {
-    // TEMPORARILY DISABLED for iOS Simulator
-    debugPrint('[ReceiptScanner] ML Kit temporarily disabled for simulator testing');
+    if (!_mlKitEnabled) {
+      debugPrint('[ReceiptScanner] ML Kit disabled — returning empty result');
+      return const ScanResult();
+    }
+
+    // TODO: Re-enable when ML Kit arm64 simulator support is restored:
+    // final inputImage = InputImage.fromFile(imageFile);
+    // final recognizedText = await _textRecognizer.processImage(inputImage);
+    // final fullText = recognizedText.text;
+    // final lines = fullText.split('\n');
+    // final currency = _detectCurrency(fullText);
+    // final merchant = _extractMerchant(lines);
+    // final amount = _extractTotal(lines);
+    // return ScanResult(amount: amount, merchant: merchant, currency: currency);
+
     return const ScanResult();
-
-    /* ORIGINAL CODE - Re-enable when ML Kit is restored:
-    final inputImage = InputImage.fromFile(imageFile);
-    final recognizedText = await _textRecognizer.processImage(inputImage);
-
-    final fullText = recognizedText.text;
-    final lines = fullText.split('\n');
-
-    // Detect currency from receipt
-    final currency = _detectCurrency(fullText);
-
-    // Extract merchant (usually first non-empty line or line with store name)
-    final merchant = _extractMerchant(lines);
-
-    // Extract total amount
-    final amount = _extractTotal(lines);
-
-    debugPrint(
-      '[ReceiptScanner] Extracted: amount=$amount, currency=$currency, merchant=$merchant',
-    );
-
-    return ScanResult(amount: amount, merchant: merchant, currency: currency);
-    */
   }
 
   /// Legacy method for backwards compatibility
@@ -93,7 +88,7 @@ class ReceiptScannerService {
   }
 
   void dispose() {
-    // TEMPORARILY DISABLED for iOS Simulator
+    // Re-enable when ML Kit is restored:
     // _textRecognizer.close();
   }
 }

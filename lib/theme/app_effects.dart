@@ -317,13 +317,36 @@ class VGlassCard extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
           child: Container(
-            padding: padding,
             decoration: BoxDecoration(
               gradient: fill,
               borderRadius: BorderRadius.circular(borderRadius),
               border: border,
             ),
-            child: child,
+            child: Stack(
+              children: [
+                // Top highlight shine
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: 50,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(borderRadius)),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.white.withValues(alpha: variant == VantGlassVariant.hero ? 0.20 : 0.14),
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(padding: padding, child: child),
+              ],
+            ),
           ),
         ),
       ),
@@ -337,8 +360,8 @@ class VGlassCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0x1AFFFFFF), // 10%
-            Color(0x0FFFFFFF), // 6%
+            Color(0x30FFFFFF), // 19%
+            Color(0x18FFFFFF), // 10%
           ],
         );
       case VantGlassVariant.subtle:
@@ -346,8 +369,8 @@ class VGlassCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0x0AFFFFFF), // 4%
-            Color(0x05FFFFFF), // 2%
+            Color(0x18FFFFFF), // 10%
+            Color(0x0DFFFFFF), // 5%
           ],
         );
       case VantGlassVariant.standard:
@@ -356,8 +379,8 @@ class VGlassCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0x15FFFFFF), // 8%
-            Color(0x0AFFFFFF), // 4%
+            Color(0x22FFFFFF), // 13%
+            Color(0x12FFFFFF), // 7%
           ],
         );
     }
@@ -367,18 +390,18 @@ class VGlassCard extends StatelessWidget {
     switch (variant) {
       case VantGlassVariant.hero:
         return Border.all(
-          color: const Color(0x20FFFFFF), // 12%
-          width: 1,
+          color: const Color(0x35FFFFFF), // 21%
+          width: 1.5,
         );
       case VantGlassVariant.subtle:
         return Border.all(
-          color: const Color(0x0FFFFFFF), // 6%
+          color: const Color(0x18FFFFFF), // 10%
           width: 0.5,
         );
       case VantGlassVariant.standard:
       default:
         return Border.all(
-          color: const Color(0x15FFFFFF), // 8%
+          color: const Color(0x25FFFFFF), // 15%
           width: 1,
         );
     }
@@ -461,20 +484,19 @@ class VGlassStyledContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0x0AFFFFFF), // 4%
-            Color(0x05FFFFFF), // 2%
+            Color(0x18FFFFFF), // 10%
+            Color(0x0DFFFFFF), // 5%
           ],
         ),
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
-          color: const Color(0x0FFFFFFF), // 6%
-          width: 0.5,
+          color: const Color(0x20FFFFFF), // 12%
+          width: 1,
         ),
         boxShadow: [
           const BoxShadow(
@@ -490,7 +512,31 @@ class VGlassStyledContainer extends StatelessWidget {
             ),
         ],
       ),
-      child: child,
+      child: Stack(
+        children: [
+          // Top highlight shine
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 50,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(borderRadius)),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white.withValues(alpha: 0.14),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(padding: padding, child: child),
+        ],
+      ),
     );
   }
 }
@@ -835,8 +881,8 @@ class _RotatingGradientBorderState extends State<RotatingGradientBorder>
                   widget.colors ??
                   [
                     VantColors.primary,
-                    VantColors.secondary,
                     VantColors.primaryLight,
+                    VantColors.primaryDark,
                     VantColors.primary,
                   ],
             ),
@@ -973,7 +1019,7 @@ class SmartBadge extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         gradient: const LinearGradient(
-          colors: [VantColors.primary, VantColors.secondary],
+          colors: [VantColors.primary, VantColors.primaryLight],
         ),
         boxShadow: [
           BoxShadow(
@@ -1311,8 +1357,14 @@ class _PremiumHeroCardState extends State<PremiumHeroCard>
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(VantRadius.xxl),
               boxShadow: [
+                // Permanent violet outer glow
                 BoxShadow(
-                  color: budgetColor.withValues(alpha: _breathingAnimation.value),
+                  color: VantColors.primary.withValues(alpha: 0.35),
+                  blurRadius: 40,
+                  spreadRadius: -2,
+                ),
+                BoxShadow(
+                  color: budgetColor.withValues(alpha: _breathingAnimation.value * 0.4),
                   blurRadius: 40,
                   spreadRadius: -4,
                 ),
@@ -1337,8 +1389,8 @@ class _PremiumHeroCardState extends State<PremiumHeroCard>
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        VantColors.primary.withValues(alpha: 0.12),
-                        VantColors.primary.withValues(alpha: 0.04),
+                        VantColors.primary.withValues(alpha: 0.25),
+                        VantColors.primary.withValues(alpha: 0.10),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(VantRadius.xxl),
@@ -1423,7 +1475,7 @@ class _PremiumHeroCardState extends State<PremiumHeroCard>
                                 value: animatedDays.toStringAsFixed(0),
                                 label: AppLocalizations.of(context).daysUnitUpper,
                                 icon: CupertinoIcons.sun_max_fill,
-                                color: VantColors.secondary,
+                                color: VantColors.primaryLight,
                               ),
                             ],
                           ),
@@ -1437,7 +1489,7 @@ class _PremiumHeroCardState extends State<PremiumHeroCard>
                                     AppLocalizations.of(context).budgetUsageLabel,
                                     style: const TextStyle(
                                       fontSize: 11, fontWeight: FontWeight.w500,
-                                      letterSpacing: 0.5, color: VantColors.textTertiary,
+                                      letterSpacing: 1.0, color: VantColors.textTertiary,
                                     ),
                                   ),
                                   Text(
@@ -1505,7 +1557,7 @@ class _PremiumHeroCardState extends State<PremiumHeroCard>
         Text(
           label,
           style: const TextStyle(
-            fontSize: 11, fontWeight: FontWeight.w500, letterSpacing: 1.5,
+            fontSize: 11, fontWeight: FontWeight.w500, letterSpacing: 1.0,
             color: VantColors.textTertiary,
           ),
         ),

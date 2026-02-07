@@ -38,7 +38,7 @@ class SavedMoneyCounter extends StatelessWidget {
     }
   }
 
-  String? _getEmotionalMessage(AppLocalizations l10n) {
+  String? _getEmotionalMessage(AppLocalizations l10n, {bool useOunces = false}) {
     if (exchangeRates == null) return null;
 
     final savedTL = stats.savedAmount;
@@ -47,9 +47,14 @@ class SavedMoneyCounter extends StatelessWidget {
 
     final messages = <String>[];
 
-    // Gold message
+    // Gold message - use ounces for non-TRY currencies
     if (goldGrams >= 0.1) {
-      messages.add(l10n.couldBuyGoldGrams(goldGrams.toStringAsFixed(1)));
+      if (useOunces) {
+        final goldOz = goldGrams / 31.1035;
+        messages.add(l10n.couldBuyGoldOunces(goldOz.toStringAsFixed(2)));
+      } else {
+        messages.add(l10n.couldBuyGoldGrams(goldGrams.toStringAsFixed(1)));
+      }
     }
 
     // Work days message
@@ -85,17 +90,18 @@ class SavedMoneyCounter extends StatelessWidget {
 
     final l10n = AppLocalizations.of(context);
     final currencyProvider = context.watch<CurrencyProvider>();
-    final emotionalMessage = _getEmotionalMessage(l10n);
+    final isOunceUnit = currencyProvider.currency.goldUnit == 'oz';
+    final emotionalMessage = _getEmotionalMessage(l10n, useOunces: isOunceUnit);
 
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 24),
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: context.appColors.primary.withValues(alpha: 0.2),
+          color: context.vantColors.primary.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -106,13 +112,13 @@ class SavedMoneyCounter extends StatelessWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: context.appColors.primary.withValues(alpha: 0.1),
+              color: context.vantColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
               CupertinoIcons.shield_lefthalf_fill,
               size: 22,
-              color: context.appColors.primary,
+              color: context.vantColors.primary,
             ),
           ),
           const SizedBox(height: 16),
@@ -127,7 +133,7 @@ class SavedMoneyCounter extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 42,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                   letterSpacing: -2,
                   height: 1.2,
                 ),
@@ -142,7 +148,7 @@ class SavedMoneyCounter extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: context.appColors.primary,
+                    color: context.vantColors.primary,
                   ),
                 ),
               ),
@@ -156,7 +162,7 @@ class SavedMoneyCounter extends StatelessWidget {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
 
@@ -170,8 +176,8 @@ class SavedMoneyCounter extends StatelessWidget {
               style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textTertiary,
-                letterSpacing: 1.5,
+                color: context.vantColors.textTertiary,
+                letterSpacing: 1.0,
               ),
             ),
             const SizedBox(height: 12),
@@ -186,7 +192,7 @@ class SavedMoneyCounter extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
             decoration: BoxDecoration(
-              color: context.appColors.surfaceLight,
+              color: context.vantColors.surfaceLight,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
@@ -195,7 +201,7 @@ class SavedMoneyCounter extends StatelessWidget {
                 Icon(
                   CupertinoIcons.clock,
                   size: 14,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
                 const SizedBox(width: 6),
                 Text(
@@ -203,7 +209,7 @@ class SavedMoneyCounter extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
               ],
@@ -216,7 +222,7 @@ class SavedMoneyCounter extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color: context.appColors.primary.withValues(alpha: 0.08),
+                color: context.vantColors.primary.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Row(
@@ -230,7 +236,7 @@ class SavedMoneyCounter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
-                        color: context.appColors.primary,
+                        color: context.vantColors.primary,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -250,6 +256,7 @@ class SavedMoneyCounter extends StatelessWidget {
   ) {
     if (exchangeRates == null) return const SizedBox.shrink();
 
+    final currencyProvider = context.read<CurrencyProvider>();
     final savedTL = stats.savedAmount;
     final usdAmount = savedTL / exchangeRates!.usdRate;
     final eurAmount = savedTL / exchangeRates!.eurRate;
@@ -265,7 +272,9 @@ class SavedMoneyCounter extends StatelessWidget {
         _buildCurrencyItem(
           context,
           '🥇',
-          l10n.goldGramsShort(_formatCurrency(goldGrams, decimals: 1)),
+          currencyProvider.currency.goldUnit == 'oz'
+              ? l10n.goldOuncesShort((goldGrams / 31.1035).toStringAsFixed(2))
+              : l10n.goldGramsShort(_formatCurrency(goldGrams, decimals: 1)),
         ),
       ],
     );
@@ -282,7 +291,7 @@ class SavedMoneyCounter extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
       ],

@@ -1,10 +1,13 @@
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import '../models/models.dart';
 import '../theme/theme.dart';
+import '../models/models.dart';
 
+/// iOS 26 Liquid Glass Decision Buttons
+/// Premium fintech-style decision interface with psychology-based emphasis
+/// "Vazgeçtim" (Passed) button is emphasized with CYAN - positive for savings!
 class DecisionButtons extends StatelessWidget {
   final Function(ExpenseDecision) onDecision;
   final bool enabled;
@@ -22,11 +25,7 @@ class DecisionButtons extends StatelessWidget {
       children: [
         Text(
           l10n.whatIsYourDecision,
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            color: context.appColors.textSecondary,
-          ),
+          style: VantTypography.bodyMedium,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),
@@ -36,7 +35,7 @@ class DecisionButtons extends StatelessWidget {
               child: _AnimatedDecisionButton(
                 label: l10n.bought,
                 icon: CupertinoIcons.checkmark,
-                color: context.appColors.decisionYes,
+                color: VantColors.decisionYes,
                 decision: ExpenseDecision.yes,
                 onTap: enabled ? () => onDecision(ExpenseDecision.yes) : null,
               ),
@@ -46,7 +45,7 @@ class DecisionButtons extends StatelessWidget {
               child: _AnimatedDecisionButton(
                 label: l10n.thinking,
                 icon: CupertinoIcons.clock,
-                color: context.appColors.decisionThinking,
+                color: VantColors.decisionThinking,
                 decision: ExpenseDecision.thinking,
                 onTap: enabled
                     ? () => onDecision(ExpenseDecision.thinking)
@@ -58,10 +57,10 @@ class DecisionButtons extends StatelessWidget {
               child: _AnimatedDecisionButton(
                 label: l10n.passed,
                 icon: CupertinoIcons.xmark,
-                color: context.appColors.decisionNo,
+                color: VantColors.decisionNo, // CYAN - positive savings!
                 decision: ExpenseDecision.no,
                 onTap: enabled ? () => onDecision(ExpenseDecision.no) : null,
-                isEmphasis: true, // Passed button with heavier animation
+                isEmphasis: true, // Positive action = emphasized with glow
               ),
             ),
           ],
@@ -94,66 +93,75 @@ class _AnimatedDecisionButton extends StatefulWidget {
 }
 
 class _AnimatedDecisionButtonState extends State<_AnimatedDecisionButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
+    with TickerProviderStateMixin {
+  late AnimationController _scaleController;
+  late AnimationController _glowController;
   late Animation<double> _scaleAnimation;
-  late Animation<double> _colorAnimation;
+  late Animation<double> _glowAnimation;
 
   bool _isPressed = false;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+
+    // Scale animation using psychology timing
+    _scaleController = AnimationController(
       vsync: this,
-      duration: widget.isEmphasis
-          ? const Duration(milliseconds: 200)
-          : AppAnimations.short,
+      duration: VantAnimation.quick,
+    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: VantAnimation.scaleButtonPress,
+    ).animate(CurvedAnimation(
+      parent: _scaleController,
+      curve: VantAnimation.curveStandard,
+    ));
+
+    // Emphasis glow for "Vazgeçtim" button (2s cycle)
+    _glowController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2000),
+    );
+    _glowAnimation = Tween<double>(begin: 0.2, end: 0.5).animate(
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
     );
 
-    _scaleAnimation =
-        Tween<double>(begin: 1.0, end: AppAnimations.buttonPressScale).animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: AppAnimations.standardCurve,
-          ),
-        );
-
-    _colorAnimation = Tween<double>(begin: 0.1, end: 0.25).animate(
-      CurvedAnimation(parent: _controller, curve: AppAnimations.standardCurve),
-    );
+    if (widget.isEmphasis) {
+      _glowController.repeat(reverse: true);
+    }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _scaleController.dispose();
+    _glowController.dispose();
     super.dispose();
   }
 
   void _handleTapDown(TapDownDetails details) {
     if (widget.onTap == null) return;
     setState(() => _isPressed = true);
-    _controller.forward();
-    // Light haptic feedback
+    _scaleController.forward();
     HapticFeedback.lightImpact();
   }
 
   void _handleTapUp(TapUpDetails details) {
     if (widget.onTap == null) return;
     setState(() => _isPressed = false);
-    _controller.reverse();
+    _scaleController.reverse();
   }
 
   void _handleTapCancel() {
     if (widget.onTap == null) return;
     setState(() => _isPressed = false);
-    _controller.reverse();
+    _scaleController.reverse();
   }
 
   void _handleTap() {
     if (widget.onTap == null) return;
 
-    // Haptic feedback based on decision type
+    // Psychology-based haptic feedback
     switch (widget.decision) {
       case ExpenseDecision.yes:
         HapticFeedback.mediumImpact();
@@ -162,7 +170,7 @@ class _AnimatedDecisionButtonState extends State<_AnimatedDecisionButton>
         HapticFeedback.lightImpact();
         break;
       case ExpenseDecision.no:
-        HapticFeedback.heavyImpact();
+        HapticFeedback.heavyImpact(); // Celebration for saving!
         break;
     }
 
@@ -174,81 +182,116 @@ class _AnimatedDecisionButtonState extends State<_AnimatedDecisionButton>
     final bool isEnabled = widget.onTap != null;
 
     return RepaintBoundary(
-      child: GestureDetector(
-        onTapDown: _handleTapDown,
-        onTapUp: _handleTapUp,
-        onTapCancel: _handleTapCancel,
-        onTap: _handleTap,
-        child: AnimatedBuilder(
-          animation: _controller,
-          builder: (context, child) {
-            return Transform.scale(
-              scale: _scaleAnimation.value,
+      child: AnimatedBuilder(
+        animation: Listenable.merge([_scaleAnimation, _glowAnimation]),
+        builder: (context, child) {
+          return Transform.scale(
+            scale: _scaleAnimation.value,
+            child: GestureDetector(
+              onTapDown: _handleTapDown,
+              onTapUp: _handleTapUp,
+              onTapCancel: _handleTapCancel,
+              onTap: _handleTap,
               child: AnimatedOpacity(
-                opacity: isEnabled ? 1.0 : AppAnimations.disabledOpacity,
-                duration: AppAnimations.short,
+                opacity: isEnabled ? 1.0 : 0.5,
+                duration: VantAnimation.quick,
                 child: Container(
-                  // Ensure minimum 44px touch target for accessibility
-                  constraints: const BoxConstraints(minHeight: 88),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 12,
-                  ),
                   decoration: BoxDecoration(
-                    color: widget.color.withValues(
-                      alpha: _colorAnimation.value,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: widget.color.withValues(
-                        alpha: _isPressed ? 0.6 : 0.3,
-                      ),
-                      width: _isPressed ? 1.5 : 1,
-                    ),
-                    boxShadow: _isPressed
+                    borderRadius: BorderRadius.circular(VantRadius.lg),
+                    boxShadow: widget.isEmphasis
                         ? [
                             BoxShadow(
-                              color: widget.color.withValues(alpha: 0.2),
-                              blurRadius: 8,
-                              spreadRadius: 0,
+                              color: widget.color.withValues(
+                                alpha: _glowAnimation.value,
+                              ),
+                              blurRadius: 20,
+                              spreadRadius: -4,
                             ),
                           ]
                         : null,
                   ),
-                  child: Column(
-                    children: [
-                      // Icon container
-                      AnimatedContainer(
-                        duration: AppAnimations.micro,
-                        curve: AppAnimations.standardCurve,
-                        width: 40,
-                        height: 40,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(VantRadius.lg),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                      child: Container(
+                        constraints: const BoxConstraints(minHeight: 88),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 12,
+                        ),
                         decoration: BoxDecoration(
-                          color: widget.color.withValues(
-                            alpha: _isPressed ? 0.3 : 0.15,
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              widget.color.withValues(
+                                alpha: _isPressed ? 0.2 : 0.12,
+                              ),
+                              widget.color.withValues(
+                                alpha: _isPressed ? 0.15 : 0.06,
+                              ),
+                            ],
                           ),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(VantRadius.lg),
+                          border: Border.all(
+                            color: widget.color.withValues(
+                              alpha: widget.isEmphasis ? 0.4 : 0.2,
+                            ),
+                            width: widget.isEmphasis ? 1.5 : 1,
+                          ),
                         ),
-                        child: Icon(widget.icon, size: 22, color: widget.color),
-                      ),
-                      const SizedBox(height: 10),
-                      // Label
-                      Text(
-                        widget.label,
-                        style: TextStyle(
-                          color: widget.color,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Icon container with psychology glow
+                            Container(
+                              width: 44,
+                              height: 44,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    widget.color.withValues(alpha: 0.25),
+                                    widget.color.withValues(alpha: 0.1),
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color: widget.color.withValues(alpha: 0.3),
+                                ),
+                                boxShadow: VantShadows.glow(
+                                  widget.color,
+                                  intensity: 0.25,
+                                  blur: 12,
+                                ),
+                              ),
+                              child: Icon(
+                                widget.icon,
+                                size: 22,
+                                color: widget.color,
+                                shadows: VantShadows.iconHalo(widget.color),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            // Label
+                            Text(
+                              widget.label,
+                              style: VantTypography.labelMedium.copyWith(
+                                color: widget.color,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -285,16 +328,16 @@ class _SingleDecisionButtonState extends State<SingleDecisionButton>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: AppAnimations.micro,
+      duration: VantAnimation.micro,
     );
 
-    _scaleAnimation =
-        Tween<double>(begin: 1.0, end: AppAnimations.buttonPressScale).animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: AppAnimations.standardCurve,
-          ),
-        );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: VantAnimation.scaleButtonPress,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: VantAnimation.curveStandard,
+    ));
   }
 
   @override
@@ -327,9 +370,8 @@ class _SingleDecisionButtonState extends State<SingleDecisionButton>
             return Transform.scale(
               scale: _scaleAnimation.value,
               child: AnimatedContainer(
-                duration: AppAnimations.short,
-                curve: AppAnimations.standardCurve,
-                // Ensure minimum 44px touch target for accessibility
+                duration: VantAnimation.standard,
+                curve: VantAnimation.curveStandard,
                 constraints: const BoxConstraints(minHeight: 44),
                 padding: const EdgeInsets.symmetric(
                   vertical: 12,
@@ -339,24 +381,33 @@ class _SingleDecisionButtonState extends State<SingleDecisionButton>
                   color: widget.isSelected
                       ? widget.color.withValues(alpha: 0.2)
                       : widget.color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(VantRadius.md),
                   border: Border.all(
                     color: widget.isSelected
                         ? widget.color
                         : widget.color.withValues(alpha: 0.3),
                     width: widget.isSelected ? 2 : 1,
                   ),
+                  boxShadow: widget.isSelected
+                      ? VantShadows.glow(widget.color, intensity: 0.2)
+                      : null,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(widget.icon, size: 18, color: widget.color),
+                    Icon(
+                      widget.icon,
+                      size: 18,
+                      color: widget.color,
+                      shadows: widget.isSelected
+                          ? VantShadows.iconHalo(widget.color)
+                          : null,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       widget.label,
-                      style: TextStyle(
+                      style: VantTypography.labelMedium.copyWith(
                         color: widget.color,
-                        fontSize: 14,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

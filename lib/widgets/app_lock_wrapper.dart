@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/lock_service.dart';
 import '../screens/lock_screen.dart';
-import '../theme/app_theme.dart';
+import '../theme/theme.dart';
 
 /// Wrapper widget that shows lock screen when app requires authentication
 class AppLockWrapper extends StatefulWidget {
@@ -76,9 +76,9 @@ class _AppLockWrapperState extends State<AppLockWrapper>
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          backgroundColor: AppColors.background,
+          backgroundColor: VantColors.background,
           body: Center(
-            child: CircularProgressIndicator(color: AppColors.primary),
+            child: CircularProgressIndicator(color: VantColors.primary),
           ),
         ),
       );

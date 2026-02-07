@@ -145,7 +145,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
     // Validate income
     final income = parseTurkishCurrency(_incomeController.text);
     if (income == null || income <= 0) {
-      _showError('Lütfen gelirinizi girin');
+      _showError(AppLocalizations.of(context).pleaseEnterIncome);
       return;
     }
 
@@ -158,7 +158,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
       incomeSources: [
         IncomeSource.salary(
           amount: income,
-          title: 'Ana Gelir',
+          title: AppLocalizations.of(context).mainIncome,
         ),
       ],
     );
@@ -226,7 +226,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
     final expense = Expense(
       amount: amount,
       category: _expenseDescController.text.isEmpty
-          ? 'Diğer'
+          ? AppLocalizations.of(context).categoryOther
           : _expenseDescController.text,
       date: DateTime.now(),
       hoursRequired: _hoursRequired,
@@ -272,13 +272,15 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
 
     // If on step 2 or later, still need to create a default profile
     if (_currentStep >= 1) {
+      final currencyCode = context.read<CurrencyProvider>().code;
+      final defaultIncome = _getDefaultIncome(currencyCode);
       final profile = UserProfile(
         dailyHours: 8,
         workDaysPerWeek: 5,
         incomeSources: [
           IncomeSource.salary(
-            amount: 30000, // Default
-            title: 'Ana Gelir',
+            amount: defaultIncome,
+            title: AppLocalizations.of(context).mainIncome,
           ),
         ],
       );
@@ -310,11 +312,44 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
     );
   }
 
+  double _getDefaultIncome(String currencyCode) {
+    switch (currencyCode) {
+      case 'TRY': return 30000;
+      case 'USD': return 4000;
+      case 'EUR': return 3500;
+      case 'GBP': return 3000;
+      case 'SAR': return 15000;
+      default: return 4000;
+    }
+  }
+
+  String _getIncomeHint(String currencyCode) {
+    switch (currencyCode) {
+      case 'TRY': return '25.000';
+      case 'USD': return '4,000';
+      case 'EUR': return '3,500';
+      case 'GBP': return '3,000';
+      case 'SAR': return '15,000';
+      default: return '4,000';
+    }
+  }
+
+  String _getExpenseHint(String currencyCode) {
+    switch (currencyCode) {
+      case 'TRY': return '150';
+      case 'USD': return '15';
+      case 'EUR': return '12';
+      case 'GBP': return '10';
+      case 'SAR': return '50';
+      default: return '15';
+    }
+  }
+
   void _showError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: context.appColors.error,
+        backgroundColor: context.vantColors.error,
       ),
     );
   }
@@ -324,7 +359,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: Stack(
         children: [
           SafeArea(
@@ -344,7 +379,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                         child: Text(
                           l10n.onboardingV2SkipSetup,
                           style: TextStyle(
-                            color: context.appColors.textTertiary,
+                            color: context.vantColors.textTertiary,
                             fontSize: 14,
                           ),
                         ),
@@ -380,10 +415,10 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
               numberOfParticles: 30,
               gravity: 0.1,
               colors: [
-                context.appColors.primary,
-                context.appColors.accent,
-                context.appColors.success,
-                context.appColors.warning,
+                context.vantColors.primary,
+                context.vantColors.accent,
+                context.vantColors.success,
+                context.vantColors.warning,
               ],
             ),
           ),
@@ -405,13 +440,13 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
               height: 4,
               decoration: BoxDecoration(
                 color: isActive
-                    ? context.appColors.primary
-                    : context.appColors.surfaceLight,
+                    ? context.vantColors.primary
+                    : context.vantColors.surfaceLight,
                 borderRadius: BorderRadius.circular(2),
                 boxShadow: isCurrent
                     ? [
                         BoxShadow(
-                          color: context.appColors.primary.withValues(alpha: 0.5),
+                          color: context.vantColors.primary.withValues(alpha: 0.5),
                           blurRadius: 8,
                         ),
                       ]
@@ -455,7 +490,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
               letterSpacing: -0.5,
             ),
           ),
@@ -467,7 +502,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
 
@@ -480,8 +515,8 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
             child: ElevatedButton(
               onPressed: _nextStep,
               style: ElevatedButton.styleFrom(
-                backgroundColor: context.appColors.primary,
-                foregroundColor: context.appColors.background,
+                backgroundColor: context.vantColors.primary,
+                foregroundColor: context.vantColors.background,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -508,28 +543,11 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
     int hours,
     AppLocalizations l10n,
   ) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          padding: const EdgeInsets.all(32),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                context.appColors.primary.withValues(alpha: 0.15),
-                context.appColors.accent.withValues(alpha: 0.1),
-              ],
-            ),
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(
-              color: context.appColors.primary.withValues(alpha: 0.3),
-              width: 1.5,
-            ),
-          ),
-          child: Column(
+    return VGlassCard.hero(
+      glowColor: context.vantColors.primary,
+      glowIntensity: 0.3,
+      padding: const EdgeInsets.all(32),
+      child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               // Phone icon
@@ -537,13 +555,13 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                 width: 64,
                 height: 64,
                 decoration: BoxDecoration(
-                  color: context.appColors.surface,
+                  color: context.vantColors.surface,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Icon(
                   CupertinoIcons.device_phone_portrait,
                   size: 32,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ),
               const SizedBox(height: 20),
@@ -554,7 +572,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                 style: TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -564,7 +582,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                 '=',
                 style: TextStyle(
                   fontSize: 24,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -576,7 +594,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                   Icon(
                     CupertinoIcons.clock,
                     size: 28,
-                    color: context.appColors.warning,
+                    color: context.vantColors.warning,
                   ),
                   const SizedBox(width: 8),
                   Text(
@@ -584,23 +602,21 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: context.appColors.warning,
+                      color: context.vantColors.warning,
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 4),
               Text(
-                'çalışman',
+                l10n.ofYourWork,
                 style: TextStyle(
                   fontSize: 14,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
               ),
             ],
           ),
-        ),
-      ),
     );
   }
 
@@ -625,7 +641,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
 
@@ -640,20 +656,20 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               decoration: InputDecoration(
-                hintText: '25.000',
+                hintText: _getIncomeHint(currencyProvider.code),
                 hintStyle: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
                 prefixText: '${currencyProvider.symbol} ',
                 prefixStyle: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
                 border: InputBorder.none,
               ),
@@ -674,18 +690,18 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${_dailyHours.toInt()} saat',
+                      '${_dailyHours.toInt()} ${l10n.hourAbbreviation}',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                     Text(
                       '1-12',
                       style: TextStyle(
                         fontSize: 14,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                     ),
                   ],
@@ -693,10 +709,10 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                 const SizedBox(height: 8),
                 SliderTheme(
                   data: SliderTheme.of(context).copyWith(
-                    activeTrackColor: context.appColors.primary,
-                    inactiveTrackColor: context.appColors.surfaceLight,
-                    thumbColor: context.appColors.primary,
-                    overlayColor: context.appColors.primary.withValues(alpha: 0.2),
+                    activeTrackColor: context.vantColors.primary,
+                    inactiveTrackColor: context.vantColors.surfaceLight,
+                    thumbColor: context.vantColors.primary,
+                    overlayColor: context.vantColors.primary.withValues(alpha: 0.2),
                     trackHeight: 6,
                   ),
                   child: Slider(
@@ -738,13 +754,13 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? context.appColors.primary
-                            : context.appColors.surfaceLight,
+                            ? context.vantColors.primary
+                            : context.vantColors.surfaceLight,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: isSelected
-                              ? context.appColors.primary
-                              : context.appColors.cardBorder,
+                              ? context.vantColors.primary
+                              : context.vantColors.cardBorder,
                         ),
                       ),
                       child: Text(
@@ -754,8 +770,8 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                           color: isSelected
-                              ? context.appColors.background
-                              : context.appColors.textPrimary,
+                              ? context.vantColors.background
+                              : context.vantColors.textPrimary,
                         ),
                       ),
                     ),
@@ -774,8 +790,8 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
             child: ElevatedButton(
               onPressed: _completeSetup,
               style: ElevatedButton.styleFrom(
-                backgroundColor: context.appColors.primary,
-                foregroundColor: context.appColors.background,
+                backgroundColor: context.vantColors.primary,
+                foregroundColor: context.vantColors.background,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -796,13 +812,9 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
   }
 
   Widget _buildInputCard({required String label, required Widget child}) {
-    return Container(
+    return VGlassStyledContainer(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
-      ),
+      borderRadius: 16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -811,7 +823,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
           const SizedBox(height: 12),
@@ -853,8 +865,8 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  context.appColors.primary,
-                  context.appColors.accent,
+                  context.vantColors.primary,
+                  context.vantColors.accent,
                 ],
               ),
               shape: BoxShape.circle,
@@ -862,7 +874,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
             child: Icon(
               CupertinoIcons.doc_text,
               size: 40,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
 
@@ -873,7 +885,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
@@ -884,7 +896,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
 
@@ -900,20 +912,20 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               decoration: InputDecoration(
-                hintText: '150',
+                hintText: _getExpenseHint(currencyProvider.code),
                 hintStyle: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
                 prefixText: '${currencyProvider.symbol} ',
                 prefixStyle: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
                 border: InputBorder.none,
               ),
@@ -933,13 +945,13 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
               controller: _expenseDescController,
               style: TextStyle(
                 fontSize: 18,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               decoration: InputDecoration(
-                hintText: 'Kahve, yemek, market...',
+                hintText: l10n.expensePlaceholder,
                 hintStyle: TextStyle(
                   fontSize: 18,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
                 border: InputBorder.none,
               ),
@@ -955,8 +967,8 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
             child: ElevatedButton(
               onPressed: _calculateFirstExpense,
               style: ElevatedButton.styleFrom(
-                backgroundColor: context.appColors.primary,
-                foregroundColor: context.appColors.background,
+                backgroundColor: context.vantColors.primary,
+                foregroundColor: context.vantColors.background,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -1002,28 +1014,11 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                 child: child,
               );
             },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-                child: Container(
-                  padding: const EdgeInsets.all(32),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        context.appColors.success.withValues(alpha: 0.2),
-                        context.appColors.primary.withValues(alpha: 0.1),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
-                      color: context.appColors.success.withValues(alpha: 0.4),
-                      width: 2,
-                    ),
-                  ),
-                  child: Column(
+            child: VGlassCard.hero(
+              glowColor: context.vantColors.success,
+              glowIntensity: 0.3,
+              padding: const EdgeInsets.all(32),
+              child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       // Amount entered
@@ -1032,7 +1027,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                         style: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w700,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -1044,7 +1039,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                           vertical: 12,
                         ),
                         decoration: BoxDecoration(
-                          color: context.appColors.warning.withValues(alpha: 0.2),
+                          color: context.vantColors.warning.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Row(
@@ -1053,7 +1048,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                             Icon(
                               CupertinoIcons.clock,
                               size: 28,
-                              color: context.appColors.warning,
+                              color: context.vantColors.warning,
                             ),
                             const SizedBox(width: 8),
                             Text(
@@ -1064,7 +1059,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w700,
-                                color: context.appColors.warning,
+                                color: context.vantColors.warning,
                               ),
                             ),
                           ],
@@ -1072,34 +1067,30 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                       ),
                     ],
                   ),
-                ),
               ),
-            ),
           ),
 
           const SizedBox(height: 32),
 
           // Success message
-          Container(
+          VGlassStyledContainer(
             padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: context.appColors.surface,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: context.appColors.cardBorder),
-            ),
+            borderRadius: 16,
+            glowColor: context.vantColors.success,
+            glowIntensity: 0.15,
             child: Row(
               children: [
                 Container(
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: context.appColors.success.withValues(alpha: 0.15),
+                    color: context.vantColors.success.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
                     CupertinoIcons.checkmark_circle,
                     size: 24,
-                    color: context.appColors.success,
+                    color: context.vantColors.success,
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -1109,7 +1100,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                       height: 1.4,
                     ),
                   ),
@@ -1127,7 +1118,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
             child: ElevatedButton(
               onPressed: _saveFirstExpenseAndComplete,
               style: ElevatedButton.styleFrom(
-                backgroundColor: context.appColors.success,
+                backgroundColor: context.vantColors.success,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),

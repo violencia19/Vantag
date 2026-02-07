@@ -88,10 +88,10 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
 
   Color _getDecisionColor(BuildContext context, ExpenseDecision? decision) {
     return switch (decision) {
-      ExpenseDecision.yes => context.appColors.decisionYes,
-      ExpenseDecision.thinking => context.appColors.decisionThinking,
-      ExpenseDecision.no => context.appColors.decisionNo,
-      null => context.appColors.textTertiary,
+      ExpenseDecision.yes => context.vantColors.decisionYes,
+      ExpenseDecision.thinking => context.vantColors.decisionThinking,
+      ExpenseDecision.no => context.vantColors.decisionNo,
+      null => context.vantColors.textTertiary,
     };
   }
 
@@ -109,7 +109,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
     showModalBottomSheet(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.85),
-      backgroundColor: context.appColors.surface,
+      backgroundColor: context.vantColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -123,7 +123,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -133,7 +133,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 24),
@@ -141,7 +141,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                 context: context,
                 icon: CupertinoIcons.checkmark_circle_fill,
                 label: l10n.bought,
-                color: context.appColors.decisionYes,
+                color: context.vantColors.decisionYes,
                 onTap: () {
                   Navigator.pop(context);
                   onDecisionUpdate?.call(ExpenseDecision.yes);
@@ -152,7 +152,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                 context: context,
                 icon: CupertinoIcons.xmark_circle_fill,
                 label: l10n.passed,
-                color: context.appColors.decisionNo,
+                color: context.vantColors.decisionNo,
                 onTap: () {
                   Navigator.pop(context);
                   onDecisionUpdate?.call(ExpenseDecision.no);
@@ -213,7 +213,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
     showModalBottomSheet(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.85),
-      backgroundColor: context.appColors.surface,
+      backgroundColor: context.vantColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -227,7 +227,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -236,7 +236,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                 context: context,
                 icon: CupertinoIcons.share,
                 label: l10n.share,
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
                 onTap: () {
                   Navigator.pop(context);
                   _showShareCard(context);
@@ -247,7 +247,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                 context: context,
                 icon: CupertinoIcons.pencil,
                 label: l10n.edit,
-                color: context.appColors.info,
+                color: context.vantColors.info,
                 onTap: () {
                   Navigator.pop(context);
                   onEdit?.call();
@@ -258,7 +258,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                 context: context,
                 icon: CupertinoIcons.trash,
                 label: l10n.delete,
-                color: context.appColors.error,
+                color: context.vantColors.error,
                 onTap: () {
                   Navigator.pop(context);
                   onDelete?.call();
@@ -299,7 +299,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: context.appColors.surfaceLight,
+            color: context.vantColors.surfaceLight,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
@@ -353,7 +353,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
           label: semanticLabel,
           button: isThinking,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: AppDesign.spacingSm),
+            padding: const EdgeInsets.only(bottom: VantSpacing.md),
             // iOS 26: Outer glow container
             child: Container(
               decoration: BoxDecoration(
@@ -389,8 +389,8 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          context.appColors.surface.withValues(alpha: 0.8),
-                          context.appColors.surface.withValues(alpha: 0.6),
+                          context.vantColors.surface.withValues(alpha: 0.8),
+                          context.vantColors.surface.withValues(alpha: 0.6),
                         ],
                       ),
                       // Glass border
@@ -410,15 +410,15 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                 children: [
                   // Decision indicator - Revolut style (44x44, radius 14)
                   Container(
-                    width: AppDesign.iconContainerSize,
-                    height: AppDesign.iconContainerSize,
+                    width: 44,
+                    height: 44,
                     decoration: BoxDecoration(
                       color: decisionColor.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(AppDesign.iconContainerRadius),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                     child: Icon(
                       _getDecisionIcon(expense.decision),
-                      size: AppDesign.iconSize,
+                      size: 22,
                       color: decisionColor,
                     ),
                   ),
@@ -435,8 +435,8 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: context.appColors.textPrimary,
-                            letterSpacing: -0.2,
+                            color: context.vantColors.textPrimary,
+                            letterSpacing: 0,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -451,7 +451,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
-                                color: context.appColors.textTertiary,
+                                color: context.vantColors.textTertiary,
                               ),
                             ),
                             // Work time
@@ -463,7 +463,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                               )}',
                               style: TextStyle(
                                 fontSize: 13,
-                                color: context.appColors.textTertiary,
+                                color: context.vantColors.textTertiary,
                               ),
                             ),
                             // Simulation badge
@@ -473,7 +473,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
-                                  color: context.appColors.warning,
+                                  color: context.vantColors.warning,
                                 ),
                               ),
                             ],
@@ -484,7 +484,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
-                                  color: context.appColors.info,
+                                  color: context.vantColors.info,
                                 ),
                               ),
                             ],
@@ -495,7 +495,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
-                                  color: context.appColors.decisionThinking,
+                                  color: context.vantColors.decisionThinking,
                                 ),
                               ),
                             ],
@@ -515,7 +515,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                         _formatDate(context, expense.date),
                         style: TextStyle(
                           fontSize: 13,
-                          color: context.appColors.textTertiary,
+                          color: context.vantColors.textTertiary,
                         ),
                       ),
                     ],
@@ -535,7 +535,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                         child: Icon(
                           CupertinoIcons.ellipsis_vertical,
                           size: 20,
-                          color: context.appColors.textTertiary,
+                          color: context.vantColors.textTertiary,
                         ),
                       ),
                     ),
@@ -566,14 +566,14 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                 Icon(
                   CupertinoIcons.arrow_left_right,
                   size: 16,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
                 const SizedBox(width: 8),
                 Text(
                   l10n.swipeToEditOrDelete,
                   style: TextStyle(
                     fontSize: 12,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -598,7 +598,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                     HapticFeedback.lightImpact();
                     onEdit?.call();
                   },
-                  backgroundColor: context.appColors.info,
+                  backgroundColor: context.vantColors.info,
                   foregroundColor: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   child: Column(
@@ -643,7 +643,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                       onDelete?.call();
                     }
                   },
-                  backgroundColor: context.appColors.error,
+                  backgroundColor: context.vantColors.error,
                   foregroundColor: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   child: Column(
@@ -677,27 +677,27 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
     return await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            backgroundColor: context.appColors.surface,
+            backgroundColor: context.vantColors.surface,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
             title: Text(
               l10n.deleteExpense,
               style: TextStyle(
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
                 fontWeight: FontWeight.w600,
               ),
             ),
             content: Text(
               l10n.deleteExpenseConfirm,
-              style: TextStyle(color: context.appColors.textSecondary),
+              style: TextStyle(color: context.vantColors.textSecondary),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
                 child: Text(
                   l10n.cancel,
-                  style: TextStyle(color: context.appColors.textSecondary),
+                  style: TextStyle(color: context.vantColors.textSecondary),
                 ),
               ),
               TextButton(
@@ -706,7 +706,7 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                   Navigator.pop(context, true);
                 },
                 style: TextButton.styleFrom(
-                  foregroundColor: context.appColors.error,
+                  foregroundColor: context.vantColors.error,
                 ),
                 child: Text(l10n.delete),
               ),

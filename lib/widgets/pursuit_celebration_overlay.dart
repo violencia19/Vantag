@@ -170,7 +170,7 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final colors = context.appColors;
+    final colors = context.vantColors;
 
     return Material(
       color: Colors.transparent,
@@ -201,11 +201,11 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
               gravity: 0.2,
               shouldLoop: false,
               colors: [
-                AppColors.primary,
-                AppColors.gold,
+                VantColors.primary,
+                VantColors.gold,
                 Colors.white,
-                AppColors.secondary,
-                AppColors.accent, // Light gold
+                VantColors.secondary,
+                VantColors.accent, // Light gold
               ],
               createParticlePath: (size) => _drawStar(size),
             ),
@@ -230,12 +230,12 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                             gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: [AppColors.primary, AppColors.secondary],
+                              colors: [VantColors.primary, VantColors.primaryLight],
                             ),
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.4),
+                                color: VantColors.primary.withValues(alpha: 0.4),
                                 blurRadius: 30,
                                 spreadRadius: 5,
                               ),
@@ -352,7 +352,7 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                                 widget.onShare();
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
+                                backgroundColor: VantColors.primary,
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
@@ -476,10 +476,10 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.1),
+            color: VantColors.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, color: AppColors.primary, size: 20),
+          child: Icon(icon, color: VantColors.primary, size: 20),
         ),
         const SizedBox(width: 12),
         Text(

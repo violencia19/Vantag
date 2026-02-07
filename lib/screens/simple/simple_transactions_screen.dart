@@ -69,7 +69,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
     final currencySymbol = currencyProvider.currency.symbol;
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -86,7 +86,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
             ),
 
             // Divider
-            Divider(color: context.appColors.cardBorder, height: 1),
+            Divider(color: context.vantColors.cardBorder, height: 1),
 
             // Transaction List
             Expanded(
@@ -118,7 +118,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
             onPressed: _previousMonth,
             icon: Icon(
               CupertinoIcons.chevron_left,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
           Text(
@@ -126,7 +126,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
           IconButton(
@@ -134,8 +134,8 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
             icon: Icon(
               CupertinoIcons.chevron_right,
               color: isCurrentMonth
-                  ? context.appColors.textTertiary
-                  : context.appColors.textPrimary,
+                  ? context.vantColors.textTertiary
+                  : context.vantColors.textPrimary,
             ),
           ),
         ],
@@ -160,27 +160,27 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
               label: l10n.simpleIncome,
               amount: income,
               currencySymbol: currencySymbol,
-              color: context.appColors.success,
+              color: context.vantColors.success,
             ),
           ),
-          Container(width: 1, height: 40, color: context.appColors.cardBorder),
+          Container(width: 1, height: 40, color: context.vantColors.cardBorder),
           // Expense
           Expanded(
             child: _buildSummaryItem(
               label: l10n.simpleExpense,
               amount: expense,
               currencySymbol: currencySymbol,
-              color: context.appColors.error,
+              color: context.vantColors.error,
             ),
           ),
-          Container(width: 1, height: 40, color: context.appColors.cardBorder),
+          Container(width: 1, height: 40, color: context.vantColors.cardBorder),
           // Balance
           Expanded(
             child: _buildSummaryItem(
               label: l10n.simpleBalance,
               amount: balance,
               currencySymbol: currencySymbol,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
               isBold: true,
             ),
           ),
@@ -202,7 +202,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
           label,
           style: TextStyle(
             fontSize: 12,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
         const SizedBox(height: 4),
@@ -226,14 +226,14 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
           Icon(
             CupertinoIcons.doc_text,
             size: 64,
-            color: context.appColors.textTertiary,
+            color: context.vantColors.textTertiary,
           ),
           const SizedBox(height: 16),
           Text(
             l10n.simpleNoTransactions,
             style: TextStyle(
               fontSize: 16,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
         ],
@@ -250,7 +250,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
       padding: const EdgeInsets.symmetric(vertical: 8),
       itemCount: expenses.length,
       separatorBuilder: (_, __) => Divider(
-        color: context.appColors.cardBorder,
+        color: context.vantColors.cardBorder,
         height: 1,
         indent: 16,
         endIndent: 16,
@@ -272,8 +272,8 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
 
     final isExpense = expense.decision == ExpenseDecision.yes;
     final amountColor = isExpense
-        ? context.appColors.error
-        : context.appColors.success;
+        ? context.vantColors.error
+        : context.vantColors.success;
     final amountPrefix = isExpense ? '-' : '+';
 
     return Padding(
@@ -287,7 +287,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
               dateStr,
               style: TextStyle(
                 fontSize: 13,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
                 fontFamily: 'monospace',
               ),
             ),
@@ -299,7 +299,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
               expense.category,
               style: TextStyle(
                 fontSize: 13,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -310,7 +310,7 @@ class _SimpleTransactionsScreenState extends State<SimpleTransactionsScreen> {
               expense.subCategory ?? '',
               style: TextStyle(
                 fontSize: 14,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               overflow: TextOverflow.ellipsis,
             ),

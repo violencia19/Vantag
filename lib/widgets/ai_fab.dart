@@ -82,15 +82,15 @@ class _AIFloatingButtonState extends State<AIFloatingButton>
                         boxShadow: [
                           // Primary glow
                           BoxShadow(
-                            color: context.appColors.primary.withValues(
+                            color: context.vantColors.primary.withValues(
                               alpha: 0.5 * _glowAnimation.value,
                             ),
                             blurRadius: 20 * _glowAnimation.value,
                             spreadRadius: 4 * _glowAnimation.value,
                           ),
-                          // Secondary subtle glow
+                          // Secondary subtle glow (purple)
                           BoxShadow(
-                            color: context.appColors.success.withValues(
+                            color: context.vantColors.primaryDark.withValues(
                               alpha: 0.3 * _glowAnimation.value,
                             ),
                             blurRadius: 30 * _glowAnimation.value,
@@ -117,8 +117,8 @@ class _AIFloatingButtonState extends State<AIFloatingButton>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                context.appColors.primary,
-                                context.appColors.primaryDark,
+                                context.vantColors.primary,
+                                context.vantColors.primaryDark,
                               ],
                             ),
                             shape: BoxShape.circle,

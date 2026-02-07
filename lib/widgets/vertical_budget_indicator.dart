@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/theme.dart';
-import '../core/theme/premium_effects.dart';
+import 'shimmer_effect.dart';
 
 /// Vertical Budget Indicator - Premium UI Element
 /// A distinctive vertical progress bar that fills from TOP to BOTTOM
@@ -60,22 +60,22 @@ class _VerticalBudgetIndicatorState extends State<VerticalBudgetIndicator>
     final clampedProgress = widget.progress.clamp(0.0, 1.0);
     // %70'te kırmızıya dön
     if (clampedProgress >= 0.7) {
-      return context.appColors.error;
+      return context.vantColors.error;
     }
-    return PremiumColors.purple;
+    return VantColors.primary;
   }
 
   @override
   Widget build(BuildContext context) {
     final clampedProgress = widget.progress.clamp(0.0, 1.0);
     final fillColor = _getFillColor(context);
-    final errorColor = context.appColors.error;
+    final errorColor = context.vantColors.error;
 
     return Container(
       width: widget.width,
       height: widget.height,
       decoration: BoxDecoration(
-        color: context.appColors.textPrimary.withValues(alpha: 0.1),
+        color: context.vantColors.textPrimary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(widget.width / 2),
       ),
       child: Stack(
@@ -113,7 +113,7 @@ class _VerticalBudgetIndicatorState extends State<VerticalBudgetIndicator>
               end: Alignment.bottomCenter,
               colors: isRed
                   ? [errorColor, errorColor.withValues(alpha: 0.8)]
-                  : [PremiumColors.purple, PremiumColors.purpleLight],
+                  : [VantColors.primary, VantColors.primaryLight],
             ),
             boxShadow: widget.showGlow
                 ? [
@@ -258,16 +258,16 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
   Color _getFillColor(BuildContext context) {
     final clampedProgress = widget.progress.clamp(0.0, 1.0);
     if (clampedProgress >= 0.7) {
-      return context.appColors.error;
+      return context.vantColors.error;
     }
-    return PremiumColors.purple;
+    return VantColors.primary;
   }
 
   @override
   Widget build(BuildContext context) {
     final clampedProgress = widget.progress.clamp(0.0, 1.0);
     final fillColor = _getFillColor(context);
-    final errorColor = context.appColors.error;
+    final errorColor = context.vantColors.error;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -277,7 +277,7 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
           width: totalWidth,
           height: widget.height,
           decoration: BoxDecoration(
-            color: context.appColors.textPrimary.withValues(alpha: 0.1),
+            color: context.vantColors.textPrimary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(widget.height / 2),
           ),
           child: Stack(
@@ -330,9 +330,9 @@ class _HorizontalBudgetIndicatorState extends State<HorizontalBudgetIndicator>
               colors: isRed
                   ? [errorColor, errorColor.withValues(alpha: 0.8)]
                   : [
-                      PremiumColors.purpleDark,
-                      PremiumColors.purple,
-                      PremiumColors.purpleLight,
+                      VantColors.primaryDark,
+                      VantColors.primary,
+                      VantColors.primaryLight,
                     ],
             ),
             borderRadius: BorderRadius.circular(widget.height / 2),
@@ -380,8 +380,8 @@ class AccentLine extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: showGradient ? null : (color ?? context.appColors.primary),
-        gradient: showGradient ? AppGradients.primaryButton : null,
+        color: showGradient ? null : (color ?? context.vantColors.primary),
+        gradient: showGradient ? VantGradients.primaryButton : null,
         borderRadius: BorderRadius.circular(width / 2),
       ),
     );

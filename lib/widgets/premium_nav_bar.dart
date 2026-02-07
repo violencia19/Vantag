@@ -172,7 +172,7 @@ class _NavItem extends StatelessWidget {
                   fontSize: 11,
                   fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
                   color: isActive ? colors.primary : colors.textTertiary,
-                  letterSpacing: 0.3,
+                  letterSpacing: 0.8,
                 ),
                 child: Text(label),
               ),
@@ -499,8 +499,8 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
             child: BackdropFilter(
               // Glass blur
               filter: ImageFilter.blur(
-                sigmaX: VantBlur.mediumHeavy,
-                sigmaY: VantBlur.mediumHeavy,
+                sigmaX: VantBlur.medium,
+                sigmaY: VantBlur.medium,
               ),
               child: Container(
                 height: 68,

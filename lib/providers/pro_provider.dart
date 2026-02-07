@@ -40,9 +40,16 @@ class ProProvider extends ChangeNotifier {
         }
       }
 
-      // 1. Check RevenueCat entitlement
-      _isPro = await PurchaseService().checkProStatus();
-      debugPrint('📊 [ProProvider] RevenueCat Pro status: $_isPro');
+      // 1. Restore purchases first (needed for fresh installs / reinstalls)
+      try {
+        final restoreResult = await PurchaseService().restorePurchases();
+        _isPro = restoreResult.isPro ?? false;
+        debugPrint('📊 [ProProvider] RestorePurchases Pro status: $_isPro');
+      } catch (e) {
+        debugPrint('⚠️ [ProProvider] Restore failed, falling back to check: $e');
+        _isPro = await PurchaseService().checkProStatus();
+        debugPrint('📊 [ProProvider] CheckProStatus Pro status: $_isPro');
+      }
 
       // 2. Check Firestore promo_users collection
       await _checkPromoStatus();

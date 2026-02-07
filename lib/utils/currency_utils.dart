@@ -545,16 +545,20 @@ SimulationTimeDisplay getSimulationTimeDisplay(
   double totalHours, {
   double workHoursPerDay = 8,
   int workDaysPerWeek = 5,
+  String hourUnit = 'Saat',
+  String dayUnit = 'Gün',
+  String yearUnit = 'Yıl',
+  String locale = 'tr',
 }) {
   // Yıllık çalışma saati: haftalık iş günü * 52 hafta * günlük saat
   final double hoursPerYear = workDaysPerWeek * 52 * workHoursPerDay;
 
   if (totalHours <= 0) {
-    return const SimulationTimeDisplay(
+    return SimulationTimeDisplay(
       value1: '0',
-      unit1: 'Saat',
+      unit1: hourUnit,
       value2: '0',
-      unit2: 'Gün',
+      unit2: dayUnit,
       isYearMode: false,
     );
   }
@@ -566,13 +570,14 @@ SimulationTimeDisplay getSimulationTimeDisplay(
 
     return SimulationTimeDisplay(
       value1: totalYears.toStringAsFixed(1),
-      unit1: 'Yıl',
-      value2: formatTurkishCurrency(
+      unit1: yearUnit,
+      value2: formatCurrencyWithLocale(
         totalWorkDays,
+        locale: locale,
         decimalDigits: 0,
         showDecimals: false,
       ),
-      unit2: 'Gün',
+      unit2: dayUnit,
       isYearMode: true,
     );
   } else {
@@ -580,10 +585,14 @@ SimulationTimeDisplay getSimulationTimeDisplay(
     final totalWorkDays = totalHours / workHoursPerDay;
 
     return SimulationTimeDisplay(
-      value1: formatTurkishCurrency(totalHours, decimalDigits: 1),
-      unit1: 'Saat',
+      value1: formatCurrencyWithLocale(
+        totalHours,
+        locale: locale,
+        decimalDigits: 1,
+      ),
+      unit1: hourUnit,
       value2: totalWorkDays.toStringAsFixed(1),
-      unit2: 'Gün',
+      unit2: dayUnit,
       isYearMode: false,
     );
   }

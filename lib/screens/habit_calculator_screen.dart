@@ -29,7 +29,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
   HabitCategory? _selectedCategory;
   String _customCategoryName = '';
   IconData _customCategoryIcon = CupertinoIcons.sparkles;
-  Color _customCategoryColor = AppColors.primary;
+  Color _customCategoryColor = VantColors.primary;
   double _price = 0;
   String? _selectedFrequency;
   double _monthlyIncome = 0;
@@ -57,14 +57,14 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
   ];
 
   static final List<Color> _colorOptions = [
-    AppColors.primary,
-    AppColors.secondary,
-    AppColors.categoryFood,
-    AppColors.categoryEducation,
-    AppColors.categoryHealth,
-    AppColors.categoryShopping,
-    AppColors.achievementMystery,
-    AppColors.categoryEntertainment,
+    VantColors.primary,
+    VantColors.primaryLight,
+    VantColors.categoryFood,
+    VantColors.categoryEducation,
+    VantColors.categoryHealth,
+    VantColors.categoryShopping,
+    VantColors.achievementMystery,
+    VantColors.categoryEntertainment,
   ];
 
   bool _hasLoadedInitialIncome = false;
@@ -121,9 +121,9 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
           decoration: BoxDecoration(
-            color: context.appColors.background,
+            color: context.vantColors.background,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-            border: Border.all(color: context.appColors.cardBorder),
+            border: Border.all(color: context.vantColors.cardBorder),
           ),
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -137,7 +137,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: context.appColors.textTertiary,
+                      color: context.vantColors.textTertiary,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -148,7 +148,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -157,7 +157,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                   AppLocalizations.of(context).selectEmoji,
                   style: TextStyle(
                     fontSize: 14,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -177,7 +177,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                         decoration: BoxDecoration(
                           color: isSelected
                               ? tempColor.withValues(alpha: 0.2)
-                              : context.appColors.surfaceLight,
+                              : context.vantColors.surfaceLight,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: isSelected ? tempColor : Colors.transparent,
@@ -190,7 +190,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                             size: 24,
                             color: isSelected
                                 ? tempColor
-                                : context.appColors.textSecondary,
+                                : context.vantColors.textSecondary,
                           ),
                         ),
                       ),
@@ -217,7 +217,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           shape: BoxShape.circle,
                           border: Border.all(
                             color: isSelected
-                                ? context.appColors.textPrimary
+                                ? context.vantColors.textPrimary
                                 : Colors.transparent,
                             width: 2,
                           ),
@@ -233,7 +233,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                         child: isSelected
                             ? Icon(
                                 CupertinoIcons.checkmark,
-                                color: context.appColors.textPrimary,
+                                color: context.vantColors.textPrimary,
                                 size: 18,
                               )
                             : null,
@@ -246,29 +246,29 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                 TextField(
                   autofocus: true,
                   style: TextStyle(
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                     fontSize: 16,
                   ),
                   decoration: InputDecoration(
                     labelText: AppLocalizations.of(context).categoryName,
                     labelStyle: TextStyle(
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                     hintText: AppLocalizations.of(context).categoryNameHint,
                     hintStyle: TextStyle(
-                      color: context.appColors.textTertiary.withValues(
+                      color: context.vantColors.textTertiary.withValues(
                         alpha: 0.5,
                       ),
                     ),
                     filled: true,
-                    fillColor: context.appColors.surfaceLight,
+                    fillColor: context.vantColors.surfaceLight,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide.none,
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(color: context.appColors.primary),
+                      borderSide: BorderSide(color: context.vantColors.primary),
                     ),
                   ),
                   onChanged: (value) => tempName = value,
@@ -297,13 +297,13 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: context.appColors.primary,
-                      foregroundColor: context.appColors.textPrimary,
+                      backgroundColor: context.vantColors.primary,
+                      foregroundColor: context.vantColors.textPrimary,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      disabledBackgroundColor: context.appColors.surfaceLight,
+                      disabledBackgroundColor: context.vantColors.surfaceLight,
                     ),
                     child: Text(
                       AppLocalizations.of(context).continueButton,
@@ -343,7 +343,9 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
 
     HapticFeedback.mediumImpact();
 
-    final income = _dontWantToSay ? 40000.0 : _monthlyIncome;
+    final currencyCode = context.read<CurrencyProvider>().code;
+    final defaultIncome = _getDefaultIncome(currencyCode);
+    final income = _dontWantToSay ? defaultIncome : _monthlyIncome;
     final result = HabitCalculator.calculate(
       price: _price,
       frequency: _selectedFrequency!,
@@ -372,6 +374,17 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
     _pageController.jumpToPage(0);
   }
 
+  double _getDefaultIncome(String currencyCode) {
+    switch (currencyCode) {
+      case 'TRY': return 40000;
+      case 'USD': return 5000;
+      case 'EUR': return 4500;
+      case 'GBP': return 3800;
+      case 'SAR': return 18000;
+      default: return 5000;
+    }
+  }
+
   bool get _isValid {
     return _selectedCategory != null &&
         _price > 0 &&
@@ -382,16 +395,16 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              context.appColors.gradientStart,
-              context.appColors.gradientMid,
-              context.appColors.gradientEnd,
+              context.vantColors.gradientStart,
+              context.vantColors.gradientMid,
+              context.vantColors.gradientEnd,
             ],
           ),
         ),
@@ -428,12 +441,12 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: context.appColors.surfaceLight,
+                    color: context.vantColors.surfaceLight,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
                     CupertinoIcons.xmark,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                     size: 20,
                   ),
                 ),
@@ -451,7 +464,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -460,7 +473,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                 l10n.selectHabitShock,
                 style: TextStyle(
                   fontSize: 16,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -495,7 +508,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
             icon: Icon(CupertinoIcons.pencil, size: 18),
             label: Text(l10n.addMyOwnCategory),
             style: TextButton.styleFrom(
-              foregroundColor: context.appColors.textSecondary,
+              foregroundColor: context.vantColors.textSecondary,
             ),
           ),
         ),
@@ -506,46 +519,39 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
   Widget _buildCategoryCard(HabitCategory category) {
     return GestureDetector(
       onTap: () => _selectCategory(category),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            decoration: BoxDecoration(
-              color: context.appColors.surface,
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: context.appColors.cardBorder),
+      child: VGlassStyledContainer(
+        padding: const EdgeInsets.all(12),
+        borderRadius: 24,
+        glowColor: category.color,
+        glowIntensity: 0.1,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 72,
+              height: 72,
+              decoration: BoxDecoration(
+                color: category.color.withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(category.icon, size: 40, color: category.color),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 72,
-                  height: 72,
-                  decoration: BoxDecoration(
-                    color: category.color.withValues(alpha: 0.15),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(category.icon, size: 40, color: category.color),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                category.name,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: context.vantColors.textPrimary,
                 ),
-                const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    category.name,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: context.appColors.textPrimary,
-                    ),
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -570,12 +576,12 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: context.appColors.surfaceLight,
+                    color: context.vantColors.surfaceLight,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
                     CupertinoIcons.chevron_left,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                     size: 20,
                   ),
                 ),
@@ -592,36 +598,42 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
               children: [
                 // Selected category display
                 Center(
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color:
-                              (_selectedCategory?.color ??
-                                      context.appColors.primary)
-                                  .withValues(alpha: 0.15),
-                          shape: BoxShape.circle,
+                  child: VGlassStyledContainer(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                    borderRadius: 20,
+                    glowColor: _selectedCategory?.color,
+                    glowIntensity: 0.15,
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color:
+                                (_selectedCategory?.color ??
+                                        context.vantColors.primary)
+                                    .withValues(alpha: 0.15),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            _selectedCategory?.icon ?? CupertinoIcons.sparkles,
+                            size: 44,
+                            color:
+                                _selectedCategory?.color ??
+                                context.vantColors.primary,
+                          ),
                         ),
-                        child: Icon(
-                          _selectedCategory?.icon ?? CupertinoIcons.sparkles,
-                          size: 44,
-                          color:
-                              _selectedCategory?.color ??
-                              context.appColors.primary,
+                        const SizedBox(height: 8),
+                        Text(
+                          _selectedCategory?.name ?? '',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: context.vantColors.textPrimary,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _selectedCategory?.name ?? '',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: context.appColors.textPrimary,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -635,10 +647,10 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     Expanded(
                       child: SliderTheme(
                         data: SliderTheme.of(context).copyWith(
-                          activeTrackColor: context.appColors.primary,
-                          inactiveTrackColor: context.appColors.surfaceLight,
-                          thumbColor: context.appColors.primary,
-                          overlayColor: context.appColors.primary.withValues(
+                          activeTrackColor: context.vantColors.primary,
+                          inactiveTrackColor: context.vantColors.surfaceLight,
+                          thumbColor: context.vantColors.primary,
+                          overlayColor: context.vantColors.primary.withValues(
                             alpha: 0.2,
                           ),
                           trackHeight: 6,
@@ -666,13 +678,13 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                         keyboardType: TextInputType.number,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: context.appColors.surfaceLight,
+                          fillColor: context.vantColors.surfaceLight,
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 12,
                             vertical: 12,
@@ -684,7 +696,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
                             borderSide: BorderSide(
-                              color: context.appColors.primary,
+                              color: context.vantColors.primary,
                             ),
                           ),
                         ),
@@ -702,7 +714,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     Text(
                       currencyProvider.code,
                       style: TextStyle(
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                         fontSize: 16,
                       ),
                     ),
@@ -734,12 +746,12 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                               _selectedFrequency = selected ? freqKey : null;
                             });
                           },
-                          selectedColor: context.appColors.primary,
-                          backgroundColor: context.appColors.surfaceLight,
+                          selectedColor: context.vantColors.primary,
+                          backgroundColor: context.vantColors.surfaceLight,
                           labelStyle: TextStyle(
                             color: isSelected
-                                ? context.appColors.textPrimary
-                                : context.appColors.textSecondary,
+                                ? context.vantColors.textPrimary
+                                : context.vantColors.textSecondary,
                             fontWeight: isSelected
                                 ? FontWeight.w600
                                 : FontWeight.normal,
@@ -748,7 +760,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                             borderRadius: BorderRadius.circular(24),
                             side: BorderSide(
                               color: isSelected
-                                  ? context.appColors.primary
+                                  ? context.vantColors.primary
                                   : Colors.transparent,
                             ),
                           ),
@@ -780,21 +792,21 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                         ],
                         style: TextStyle(
                           color: _dontWantToSay
-                              ? context.appColors.textTertiary
-                              : context.appColors.textPrimary,
+                              ? context.vantColors.textTertiary
+                              : context.vantColors.textPrimary,
                           fontSize: 16,
                         ),
                         decoration: InputDecoration(
                           hintText: l10n.exampleAmount,
                           hintStyle: TextStyle(
-                            color: context.appColors.textTertiary.withValues(
+                            color: context.vantColors.textTertiary.withValues(
                               alpha: 0.5,
                             ),
                           ),
                           filled: true,
                           fillColor: _dontWantToSay
-                              ? context.appColors.surface
-                              : context.appColors.surfaceLight,
+                              ? context.vantColors.surface
+                              : context.vantColors.surfaceLight,
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16,
                             vertical: 16,
@@ -806,7 +818,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
                             borderSide: BorderSide(
-                              color: context.appColors.primary,
+                              color: context.vantColors.primary,
                             ),
                           ),
                         ),
@@ -822,7 +834,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     Text(
                       currencyProvider.code,
                       style: TextStyle(
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                         fontSize: 16,
                       ),
                     ),
@@ -838,18 +850,20 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                         value: _dontWantToSay,
                         onChanged: (value) {
                           HapticFeedback.selectionClick();
+                          final currCode = context.read<CurrencyProvider>().code;
+                          final defIncome = _getDefaultIncome(currCode);
                           setState(() {
                             _dontWantToSay = value ?? false;
                             if (_dontWantToSay) {
-                              _incomeController.text = '40.000';
-                              _monthlyIncome = 40000;
+                              _incomeController.text = formatTurkishCurrency(defIncome, decimalDigits: 0, showDecimals: false);
+                              _monthlyIncome = defIncome;
                             } else {
                               _incomeController.clear();
                               _monthlyIncome = 0;
                             }
                           });
                         },
-                        activeColor: context.appColors.primary,
+                        activeColor: context.vantColors.primary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4),
                         ),
@@ -859,11 +873,13 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     GestureDetector(
                       onTap: () {
                         HapticFeedback.selectionClick();
+                        final currCode = context.read<CurrencyProvider>().code;
+                        final defIncome = _getDefaultIncome(currCode);
                         setState(() {
                           _dontWantToSay = !_dontWantToSay;
                           if (_dontWantToSay) {
-                            _incomeController.text = '40.000';
-                            _monthlyIncome = 40000;
+                            _incomeController.text = formatTurkishCurrency(defIncome, decimalDigits: 0, showDecimals: false);
+                            _monthlyIncome = defIncome;
                           } else {
                             _incomeController.clear();
                             _monthlyIncome = 0;
@@ -873,7 +889,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                       child: Text(
                         l10n.dontWantToSay,
                         style: TextStyle(
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                           fontSize: 14,
                         ),
                       ),
@@ -889,24 +905,24 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                     decoration: BoxDecoration(
                       gradient: _isValid
                           ? LinearGradient(
-                              colors: [AppColors.primary, AppColors.secondary],
+                              colors: [VantColors.primary, VantColors.primaryLight],
                             )
                           : null,
-                      color: _isValid ? null : context.appColors.surfaceLight,
+                      color: _isValid ? null : context.vantColors.surfaceLight,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: ElevatedButton(
                       onPressed: _isValid ? _calculate : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
-                        foregroundColor: context.appColors.textPrimary,
+                        foregroundColor: context.vantColors.textPrimary,
                         shadowColor: Colors.transparent,
                         padding: const EdgeInsets.symmetric(vertical: 18),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
                         disabledBackgroundColor: Colors.transparent,
-                        disabledForegroundColor: context.appColors.textTertiary,
+                        disabledForegroundColor: context.vantColors.textTertiary,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -918,7 +934,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                               fontWeight: FontWeight.w600,
                               color: _isValid
                                   ? Colors.white
-                                  : context.appColors.textTertiary,
+                                  : context.vantColors.textTertiary,
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -926,8 +942,8 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
                             CupertinoIcons.arrow_right,
                             size: 20,
                             color: _isValid
-                                ? context.appColors.textPrimary
-                                : context.appColors.textTertiary,
+                                ? context.vantColors.textPrimary
+                                : context.vantColors.textTertiary,
                           ),
                         ],
                       ),
@@ -949,7 +965,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
       style: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w600,
-        color: context.appColors.textPrimary,
+        color: context.vantColors.textPrimary,
       ),
     );
   }
@@ -978,76 +994,84 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
         child: Column(
           children: [
             const SizedBox(height: 40),
-            // Icon
-            Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                color: (_selectedCategory?.color ?? context.appColors.primary)
-                    .withValues(alpha: 0.15),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                _selectedCategory?.icon ?? CupertinoIcons.sparkles,
-                size: 64,
-                color: _selectedCategory?.color ?? context.appColors.primary,
-              ),
-            ),
-            const SizedBox(height: 24),
-            // Animated counter
-            TweenAnimationBuilder<int>(
-              tween: IntTween(begin: 0, end: _result!.yearlyDays),
-              duration: const Duration(milliseconds: 1500),
-              curve: Curves.easeOutCubic,
-              builder: (context, value, child) {
-                return FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    l10n.resultDays(value.toString()),
-                    style: TextStyle(
-                      fontSize: 64,
-                      fontWeight: FontWeight.bold,
-                      color: context.appColors.textPrimary,
+            // Hero result card
+            VGlassCard.hero(
+              glowColor: _selectedCategory?.color ?? context.vantColors.primary,
+              child: Column(
+                children: [
+                  // Icon
+                  Container(
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      color: (_selectedCategory?.color ?? context.vantColors.primary)
+                          .withValues(alpha: 0.15),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      _selectedCategory?.icon ?? CupertinoIcons.sparkles,
+                      size: 64,
+                      color: _selectedCategory?.color ?? context.vantColors.primary,
                     ),
                   ),
-                );
-              },
-            ),
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                l10n.yearlyHabitCost(_selectedCategory?.name ?? ''),
-                style: TextStyle(
-                  fontSize: 18,
-                  color: context.appColors.textSecondary,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
+                  const SizedBox(height: 24),
+                  // Animated counter
+                  TweenAnimationBuilder<int>(
+                    tween: IntTween(begin: 0, end: _result!.yearlyDays),
+                    duration: const Duration(milliseconds: 1500),
+                    curve: Curves.easeOutCubic,
+                    builder: (context, value, child) {
+                      return FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          l10n.resultDays(value.toString()),
+                          style: TextStyle(
+                            fontSize: 64,
+                            fontWeight: FontWeight.bold,
+                            color: context.vantColors.textPrimary,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      l10n.yearlyHabitCost(_selectedCategory?.name ?? ''),
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: context.vantColors.textSecondary,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  // Divider
+                  Container(
+                    height: 1,
+                    color: context.vantColors.textPrimary.withValues(alpha: 0.2),
+                  ),
+                  const SizedBox(height: 24),
+                  // Detail row
+                  Text(
+                    l10n.monthlyYearlyCost(
+                      l10n.habitMonthlyDetail(
+                        _result!.monthlyDays,
+                        _result!.monthlyExtraHours,
+                      ),
+                      _formatCurrency(_result!.yearlyAmount),
+                    ),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: context.vantColors.textSecondary,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 32),
-            // Divider
-            Container(
-              height: 1,
-              color: context.appColors.textPrimary.withValues(alpha: 0.2),
-            ),
-            const SizedBox(height: 24),
-            // Detail row
-            Text(
-              l10n.monthlyYearlyCost(
-                l10n.habitMonthlyDetail(
-                  _result!.monthlyDays,
-                  _result!.monthlyExtraHours,
-                ),
-                _formatCurrency(_result!.yearlyAmount),
-              ),
-              style: TextStyle(
-                fontSize: 14,
-                color: context.appColors.textSecondary,
-              ),
-              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 48),
             // Buttons
@@ -1062,8 +1086,8 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
               icon: Icon(CupertinoIcons.arrow_counterclockwise, size: 20),
               label: Text(l10n.tryAnotherHabit),
               style: OutlinedButton.styleFrom(
-                foregroundColor: context.appColors.textPrimary,
-                side: BorderSide(color: context.appColors.textTertiary),
+                foregroundColor: context.vantColors.textPrimary,
+                side: BorderSide(color: context.vantColors.textTertiary),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                   vertical: 16,
@@ -1080,7 +1104,7 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
               icon: Icon(CupertinoIcons.list_bullet, size: 20),
               label: Text(l10n.trackAllExpenses),
               style: TextButton.styleFrom(
-                foregroundColor: context.appColors.textSecondary,
+                foregroundColor: context.vantColors.textSecondary,
               ),
             ),
             const SizedBox(height: 40),
@@ -1105,12 +1129,12 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
         padding: const EdgeInsets.symmetric(vertical: 18),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [AppColors.primary, AppColors.secondary],
+            colors: [VantColors.primary, VantColors.primaryLight],
           ),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.3),
+              color: VantColors.primary.withValues(alpha: 0.3),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
@@ -1119,14 +1143,14 @@ class _HabitCalculatorScreenState extends State<HabitCalculatorScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 22, color: context.appColors.textPrimary),
+            Icon(icon, size: 22, color: context.vantColors.textPrimary),
             const SizedBox(width: 8),
             Text(
               text,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
           ],

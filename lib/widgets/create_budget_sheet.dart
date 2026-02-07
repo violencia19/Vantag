@@ -124,28 +124,28 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: context.appColors.cardBackground,
+        backgroundColor: context.vantColors.cardBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
           l10n.deleteBudget,
-          style: TextStyle(color: context.appColors.textPrimary),
+          style: TextStyle(color: context.vantColors.textPrimary),
         ),
         content: Text(
           l10n.deleteBudgetConfirm,
-          style: TextStyle(color: context.appColors.textSecondary),
+          style: TextStyle(color: context.vantColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
             child: Text(
               l10n.cancel,
-              style: TextStyle(color: context.appColors.textSecondary),
+              style: TextStyle(color: context.vantColors.textSecondary),
             ),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.error,
+              backgroundColor: context.vantColors.error,
               foregroundColor: Colors.white,
             ),
             child: Text(l10n.delete),
@@ -179,7 +179,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: context.appColors.error,
+        backgroundColor: context.vantColors.error,
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -207,7 +207,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
               decoration: BoxDecoration(
-                color: context.appColors.gradientMid,
+                color: context.vantColors.gradientMid,
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(24),
                 ),
@@ -225,7 +225,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: context.appColors.textTertiary.withValues(
+                        color: context.vantColors.textTertiary.withValues(
                           alpha: 0.5,
                         ),
                         borderRadius: BorderRadius.circular(2),
@@ -244,7 +244,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                             letterSpacing: -0.5,
                           ),
                         ),
@@ -259,7 +259,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                                   tooltip: l10n.delete,
                                   icon: Icon(
                                     CupertinoIcons.trash,
-                                    color: context.appColors.error,
+                                    color: context.vantColors.error,
                                     size: 22,
                                   ),
                                 ),
@@ -274,13 +274,13 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                                   width: 36,
                                   height: 36,
                                   decoration: BoxDecoration(
-                                    color: context.appColors.surfaceLight,
+                                    color: context.vantColors.surfaceLight,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Icon(
                                     CupertinoIcons.xmark,
                                     size: 20,
-                                    color: context.appColors.textSecondary,
+                                    color: context.vantColors.textSecondary,
                                   ),
                                 ),
                               ),
@@ -311,7 +311,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: context.appColors.textSecondary,
+                              color: context.vantColors.textSecondary,
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -320,7 +320,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                             hint: Text(
                               l10n.selectCategory,
                               style: TextStyle(
-                                color: context.appColors.textTertiary,
+                                color: context.vantColors.textTertiary,
                               ),
                             ),
                             items: availableCategories.map((category) {
@@ -331,7 +331,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                                     Icon(
                                       ExpenseCategory.getIcon(category),
                                       size: 20,
-                                      color: context.appColors.primary,
+                                      color: context.vantColors.primary,
                                     ),
                                     const SizedBox(width: 12),
                                     Text(
@@ -351,7 +351,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                                   },
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: context.appColors.surface,
+                              fillColor: context.vantColors.surface,
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 14,
@@ -359,26 +359,26 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16),
                                 borderSide: BorderSide(
-                                  color: context.appColors.cardBorder,
+                                  color: context.vantColors.cardBorder,
                                 ),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16),
                                 borderSide: BorderSide(
-                                  color: context.appColors.cardBorder,
+                                  color: context.vantColors.cardBorder,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16),
                                 borderSide: BorderSide(
-                                  color: context.appColors.primary,
+                                  color: context.vantColors.primary,
                                   width: 1.5,
                                 ),
                               ),
                             ),
-                            dropdownColor: context.appColors.surface,
+                            dropdownColor: context.vantColors.surface,
                             style: TextStyle(
-                              color: context.appColors.textPrimary,
+                              color: context.vantColors.textPrimary,
                               fontSize: 14,
                             ),
                           ),
@@ -391,7 +391,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: context.appColors.textSecondary,
+                              color: context.vantColors.textSecondary,
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -401,10 +401,10 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                               horizontal: 20,
                             ),
                             decoration: BoxDecoration(
-                              color: context.appColors.surfaceLight,
+                              color: context.vantColors.surfaceLight,
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: context.appColors.cardBorder,
+                                color: context.vantColors.cardBorder,
                               ),
                             ),
                             child: Row(
@@ -414,7 +414,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                                   style: TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.w600,
-                                    color: context.appColors.primary,
+                                    color: context.vantColors.primary,
                                   ),
                                 ),
                                 const SizedBox(width: 12),
@@ -431,14 +431,14 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                                     style: TextStyle(
                                       fontSize: 28,
                                       fontWeight: FontWeight.w700,
-                                      color: context.appColors.textPrimary,
+                                      color: context.vantColors.textPrimary,
                                     ),
                                     decoration: InputDecoration(
                                       hintText: '0',
                                       hintStyle: TextStyle(
                                         fontSize: 28,
                                         fontWeight: FontWeight.w700,
-                                        color: context.appColors.textTertiary
+                                        color: context.vantColors.textTertiary
                                             .withValues(alpha: 0.5),
                                       ),
                                       border: InputBorder.none,
@@ -455,12 +455,12 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                           Container(
                             padding: const EdgeInsets.all(14),
                             decoration: BoxDecoration(
-                              color: context.appColors.info.withValues(
+                              color: context.vantColors.info.withValues(
                                 alpha: 0.1,
                               ),
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: context.appColors.info.withValues(
+                                color: context.vantColors.info.withValues(
                                   alpha: 0.2,
                                 ),
                               ),
@@ -469,7 +469,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                               children: [
                                 Icon(
                                   CupertinoIcons.info_circle,
-                                  color: context.appColors.info,
+                                  color: context.vantColors.info,
                                   size: 20,
                                 ),
                                 const SizedBox(width: 10),
@@ -477,7 +477,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                                   child: Text(
                                     l10n.budgetHelperText,
                                     style: TextStyle(
-                                      color: context.appColors.info,
+                                      color: context.vantColors.info,
                                       fontSize: 13,
                                     ),
                                   ),
@@ -494,11 +494,11 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                             height: 56,
                             child: Container(
                               decoration: BoxDecoration(
-                                gradient: AppGradients.primaryButton,
+                                gradient: VantGradients.primaryButton,
                                 borderRadius: BorderRadius.circular(16),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: context.appColors.primary.withValues(
+                                    color: context.vantColors.primary.withValues(
                                       alpha: 0.3,
                                     ),
                                     blurRadius: 12,

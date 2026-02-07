@@ -208,7 +208,7 @@ class _EmptyStateState extends State<EmptyState> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final iconColor = widget.iconColor ?? context.appColors.primary;
+    final iconColor = widget.iconColor ?? context.vantColors.primary;
 
     return RepaintBoundary(
       child: FadeTransition(
@@ -272,7 +272,7 @@ class _EmptyStateState extends State<EmptyState> with TickerProviderStateMixin {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -286,7 +286,7 @@ class _EmptyStateState extends State<EmptyState> with TickerProviderStateMixin {
                     widget.message,
                     style: TextStyle(
                       fontSize: 15,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                       height: 1.4,
                     ),
                     textAlign: TextAlign.center,
@@ -373,7 +373,7 @@ class _EmptyStateState extends State<EmptyState> with TickerProviderStateMixin {
             Container(
               width: 40,
               height: 1,
-              color: context.appColors.cardBorder,
+              color: context.vantColors.cardBorder,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -382,14 +382,14 @@ class _EmptyStateState extends State<EmptyState> with TickerProviderStateMixin {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ),
             ),
             Container(
               width: 40,
               height: 1,
-              color: context.appColors.cardBorder,
+              color: context.vantColors.cardBorder,
             ),
           ],
         ),
@@ -530,9 +530,9 @@ class _LoadingPlaceholderState extends State<LoadingPlaceholder>
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [
-                  context.appColors.surfaceLight,
-                  context.appColors.surfaceLighter,
-                  context.appColors.surfaceLight,
+                  context.vantColors.surfaceLight,
+                  context.vantColors.surfaceLighter,
+                  context.vantColors.surfaceLight,
                 ],
                 stops: [0.0, _animation.value, 1.0],
               ),

@@ -142,7 +142,11 @@
       "Bash(zip:*)",
       "Bash(pkill:*)",
       "Bash(xcrun simctl spawn:*)",
-      "Bash(xcrun simctl get_app_container:*)"
+      "Bash(xcrun simctl get_app_container:*)",
+      "Bash(git checkout:*)",
+      "Bash(for class in PremiumColors PremiumDecorations PremiumShadows GradientBorder GlassCard ShimmerEffect BreatheGlow SparkleFloat RotatingGradientBorder PremiumButton LevelProgressBar SmartBadge RadialGradientOverlay AnimatedCountUp AnimatedProgressBar StaggeredSlideUp ScaleFadeIn PulseGlow FrostedGlass GlassModalSheet GlassButton GlassChip NeonText GlassDivider AnimatedPageContent)",
+      "Bash(do)",
+      "Bash(echo:*)"
     ]
   }
 }

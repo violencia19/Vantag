@@ -37,7 +37,7 @@ class PaywallVariantA extends StatelessWidget {
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
           ),
         ),
         const SizedBox(height: 8),
@@ -45,7 +45,7 @@ class PaywallVariantA extends StatelessWidget {
           'Tüm özelliklerin kilidini aç',
           style: TextStyle(
             fontSize: 16,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
         const SizedBox(height: 32),
@@ -58,10 +58,10 @@ class PaywallVariantA extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: context.appColors.primary.withValues(alpha: 0.1),
+                      color: context.vantColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Icon(f.$1, size: 20, color: context.appColors.primary),
+                    child: Icon(f.$1, size: 20, color: context.vantColors.primary),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -69,14 +69,14 @@ class PaywallVariantA extends StatelessWidget {
                       f.$2,
                       style: TextStyle(
                         fontSize: 15,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                   ),
                   Icon(
                     CupertinoIcons.checkmark_circle,
                     size: 20,
-                    color: context.appColors.success,
+                    color: context.vantColors.success,
                   ),
                 ],
               ),
@@ -90,7 +90,7 @@ class PaywallVariantA extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onSubscribe,
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -138,8 +138,8 @@ class PaywallVariantB extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                context.appColors.primary,
-                context.appColors.secondary,
+                context.vantColors.primary,
+                context.vantColors.secondary,
               ],
             ),
             borderRadius: BorderRadius.circular(24),
@@ -163,14 +163,14 @@ class PaywallVariantB extends StatelessWidget {
               monthlyPrice,
               style: TextStyle(
                 fontSize: 24,
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
                 decoration: TextDecoration.lineThrough,
               ),
             ),
             const SizedBox(width: 16),
             Icon(
               CupertinoIcons.arrow_right,
-              color: context.appColors.success,
+              color: context.vantColors.success,
             ),
             const SizedBox(width: 16),
             Text(
@@ -178,7 +178,7 @@ class PaywallVariantB extends StatelessWidget {
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
-                color: context.appColors.success,
+                color: context.vantColors.success,
               ),
             ),
           ],
@@ -187,7 +187,7 @@ class PaywallVariantB extends StatelessWidget {
           l10n.perMonth,
           style: TextStyle(
             fontSize: 14,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
 
@@ -197,17 +197,17 @@ class PaywallVariantB extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: context.appColors.warning.withValues(alpha: 0.1),
+            color: context.vantColors.warning.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: context.appColors.warning.withValues(alpha: 0.3),
+              color: context.vantColors.warning.withValues(alpha: 0.3),
             ),
           ),
           child: Row(
             children: [
               Icon(
                 CupertinoIcons.clock,
-                color: context.appColors.warning,
+                color: context.vantColors.warning,
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -215,7 +215,7 @@ class PaywallVariantB extends StatelessWidget {
                   'Sınırlı süreli teklif!',
                   style: TextStyle(
                     fontSize: 14,
-                    color: context.appColors.warning,
+                    color: context.vantColors.warning,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -232,7 +232,7 @@ class PaywallVariantB extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onSubscribe,
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.success,
+              backgroundColor: context.vantColors.success,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -279,7 +279,7 @@ class PaywallVariantC extends StatelessWidget {
             Icon(
               CupertinoIcons.person_2,
               size: 24,
-              color: context.appColors.primary,
+              color: context.vantColors.primary,
             ),
             const SizedBox(width: 8),
             Text(
@@ -287,7 +287,7 @@ class PaywallVariantC extends StatelessWidget {
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
           ],
@@ -296,7 +296,7 @@ class PaywallVariantC extends StatelessWidget {
           'Mutlu kullanıcı',
           style: TextStyle(
             fontSize: 16,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
 
@@ -313,7 +313,7 @@ class PaywallVariantC extends StatelessWidget {
                     ? CupertinoIcons.star_fill
                     : CupertinoIcons.star,
                 size: 24,
-                color: AppColors.gold,
+                color: VantColors.gold,
               ),
             ),
             const SizedBox(width: 8),
@@ -322,7 +322,7 @@ class PaywallVariantC extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
           ],
@@ -353,7 +353,7 @@ class PaywallVariantC extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onSubscribe,
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -374,7 +374,7 @@ class PaywallVariantC extends StatelessWidget {
           price,
           style: TextStyle(
             fontSize: 14,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
       ],
@@ -390,9 +390,9 @@ class PaywallVariantC extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -404,7 +404,7 @@ class PaywallVariantC extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               fontStyle: FontStyle.italic,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
           const SizedBox(height: 4),
@@ -412,7 +412,7 @@ class PaywallVariantC extends StatelessWidget {
             '— $author',
             style: TextStyle(
               fontSize: 12,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
         ],

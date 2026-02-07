@@ -221,10 +221,10 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
               numberOfParticles: 20,
               gravity: 0.1,
               colors: [
-                context.appColors.primary,
-                context.appColors.accent,
-                context.appColors.success,
-                context.appColors.warning,
+                context.vantColors.primary,
+                context.vantColors.accent,
+                context.vantColors.success,
+                context.vantColors.warning,
               ],
             ),
           ),
@@ -250,7 +250,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
         subtitle: l10n.checklistFirstExpenseSubtitle,
         duration: '1 dk',
         icon: CupertinoIcons.doc_text_fill,
-        iconColor: context.appColors.primary,
+        iconColor: context.vantColors.primary,
         isCompleted: hasExpenses,
         onTap: widget.onAddExpense,
       ),
@@ -262,7 +262,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
         subtitle: l10n.checklistViewReportSubtitle,
         duration: '30 sn',
         icon: CupertinoIcons.chart_bar_fill,
-        iconColor: context.appColors.accent,
+        iconColor: context.vantColors.accent,
         isCompleted: hasMultipleExpenses, // Needs some data to be meaningful
         onTap: widget.onViewReport,
       ),
@@ -274,7 +274,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
         subtitle: l10n.checklistCreatePursuitSubtitle,
         duration: '1 dk',
         icon: CupertinoIcons.scope,
-        iconColor: context.appColors.success,
+        iconColor: context.vantColors.success,
         isCompleted: hasPursuits,
         onTap: widget.onCreatePursuit,
       ),
@@ -286,7 +286,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
         subtitle: l10n.checklistNotificationsSubtitle,
         duration: '30 sn',
         icon: CupertinoIcons.bell_fill,
-        iconColor: context.appColors.warning,
+        iconColor: context.vantColors.warning,
         isCompleted: _notificationsCompleted,
         onTap: () async {
           HapticFeedback.lightImpact();
@@ -415,7 +415,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -423,7 +423,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                         l10n.checklistProgress(completedCount, items.length),
                         style: TextStyle(
                           fontSize: 13,
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                         ),
                       ),
                     ],
@@ -436,7 +436,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                   icon: Icon(
                     CupertinoIcons.xmark,
                     size: 20,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                 ),
               ],
@@ -450,8 +450,8 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
               borderRadius: BorderRadius.circular(4),
               child: LinearProgressIndicator(
                 value: progress,
-                backgroundColor: context.appColors.surfaceLight,
-                valueColor: AlwaysStoppedAnimation(context.appColors.success),
+                backgroundColor: context.vantColors.surfaceLight,
+                valueColor: AlwaysStoppedAnimation(context.vantColors.success),
                 minHeight: 6,
               ),
             ),
@@ -493,12 +493,12 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                 height: 44,
                 decoration: BoxDecoration(
                   color: item.isCompleted
-                      ? context.appColors.success.withValues(alpha: 0.15)
+                      ? context.vantColors.success.withValues(alpha: 0.15)
                       : item.iconColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: item.isCompleted
-                        ? context.appColors.success.withValues(alpha: 0.3)
+                        ? context.vantColors.success.withValues(alpha: 0.3)
                         : item.iconColor.withValues(alpha: 0.2),
                   ),
                 ),
@@ -506,7 +506,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                   item.isCompleted ? CupertinoIcons.checkmark_circle_fill : item.icon,
                   size: 22,
                   color: item.isCompleted
-                      ? context.appColors.success
+                      ? context.vantColors.success
                       : item.iconColor,
                 ),
               ),
@@ -523,8 +523,8 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: item.isCompleted
-                            ? context.appColors.textTertiary
-                            : context.appColors.textPrimary,
+                            ? context.vantColors.textTertiary
+                            : context.vantColors.textPrimary,
                         decoration: item.isCompleted
                             ? TextDecoration.lineThrough
                             : null,
@@ -535,7 +535,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                       item.subtitle,
                       style: TextStyle(
                         fontSize: 12,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                     ),
                   ],
@@ -550,7 +550,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: context.appColors.surfaceLight,
+                    color: context.vantColors.surfaceLight,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -558,7 +558,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                 )
@@ -566,7 +566,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                 Icon(
                   CupertinoIcons.checkmark,
                   size: 20,
-                  color: context.appColors.success,
+                  color: context.vantColors.success,
                 ),
             ],
           ),
@@ -586,7 +586,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
           boxShadow: [
             // Success glow
             BoxShadow(
-              color: context.appColors.success.withValues(alpha: 0.5),
+              color: context.vantColors.success.withValues(alpha: 0.5),
               blurRadius: 32,
               spreadRadius: 0,
               offset: const Offset(0, 8),
@@ -605,7 +605,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    context.appColors.success.withValues(alpha: 0.25),
+                    context.vantColors.success.withValues(alpha: 0.25),
                     const Color(0xFF8B5CF6).withValues(alpha: 0.15),
                     const Color(0xFF1E1B4B).withValues(alpha: 0.3),
                   ],
@@ -613,7 +613,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                 ),
                 borderRadius: BorderRadius.circular(28),
                 border: Border.all(
-                  color: context.appColors.success.withValues(alpha: 0.4),
+                  color: context.vantColors.success.withValues(alpha: 0.4),
                   width: 2,
                 ),
               ),
@@ -625,13 +625,13 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: context.appColors.success.withValues(alpha: 0.2),
+                color: context.vantColors.success.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 CupertinoIcons.rosette,
                 size: 32,
-                color: context.appColors.success,
+                color: context.vantColors.success,
               ),
             ),
             const SizedBox(height: 16),
@@ -643,7 +643,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
             const SizedBox(height: 8),
@@ -654,7 +654,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
             ),
           ],

@@ -28,9 +28,21 @@ class MessagesService {
   // MESSAGE SELECTION LOGIC
   // ============================================
 
+  /// Currency-aware simulation amount threshold
+  static double _getSimulationThreshold(String currencyCode) {
+    switch (currencyCode) {
+      case 'TRY': return 100000;
+      case 'USD': return 5000;
+      case 'EUR': return 4500;
+      case 'GBP': return 4000;
+      case 'SAR': return 20000;
+      default: return 5000;
+    }
+  }
+
   /// Determine category based on duration AND amount
-  DurationCategory _getDurationCategory(double hours, double amount) {
-    if (amount >= 100000) {
+  DurationCategory _getDurationCategory(double hours, double amount, {String currencyCode = 'TRY'}) {
+    if (amount >= _getSimulationThreshold(currencyCode)) {
       return DurationCategory.simulation;
     }
     if (hours <= 8) {
@@ -156,9 +168,10 @@ class MessagesService {
   String getCalculationMessage(
     BuildContext context,
     double hours,
-    double amount,
-  ) {
-    final category = _getDurationCategory(hours, amount);
+    double amount, {
+    String currencyCode = 'TRY',
+  }) {
+    final category = _getDurationCategory(hours, amount, currencyCode: currencyCode);
     final messages = _getMessagesForDuration(context, category);
     return _selectRandomMessage(messages);
   }

@@ -8,6 +8,22 @@ class EmailTriggerService {
   factory EmailTriggerService() => _instance;
   EmailTriggerService._internal();
 
+  /// Currency-aware savings milestones
+  static List<int> _getSavingsMilestones(String currencySymbol) {
+    // Map common symbols to thresholds
+    if (currencySymbol == '₺') {
+      return [1000, 5000, 10000, 50000, 100000];
+    } else if (currencySymbol == '\$') {
+      return [50, 250, 500, 2500, 5000];
+    } else if (currencySymbol == '€') {
+      return [50, 200, 500, 2000, 5000];
+    } else if (currencySymbol == '£') {
+      return [50, 200, 500, 2000, 4000];
+    }
+    // Default USD-like thresholds
+    return [50, 250, 500, 2500, 5000];
+  }
+
   // Pref keys
   static const String _keyOnboardingEmailsSent = 'email_onboarding_sent';
   static const String _keyLastEmailTrigger = 'email_last_trigger';
@@ -167,8 +183,8 @@ class EmailTriggerService {
     required String userId,
     required String currencySymbol,
   }) async {
-    // Check for milestones
-    final milestones = [1000, 5000, 10000, 50000, 100000];
+    // Currency-aware milestones
+    final milestones = _getSavingsMilestones(currencySymbol);
 
     for (final milestone in milestones) {
       if (totalSaved >= milestone && totalSaved < milestone * 1.1) {

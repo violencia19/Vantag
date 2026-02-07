@@ -99,7 +99,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
         margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: context.appColors.surface,
+          color: context.vantColors.surface,
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: Colors.white.withValues(alpha: 0.06),
@@ -122,8 +122,8 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                letterSpacing: 1.2,
-                color: context.appColors.textSecondary,
+                letterSpacing: 1.0,
+                color: context.vantColors.textSecondary,
               ),
             ),
 
@@ -143,7 +143,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
                     fontSize: 48,
                     fontWeight: FontWeight.w700,
                     letterSpacing: -1.5,
-                    color: isHealthy ? Colors.white : context.appColors.error,
+                    color: isHealthy ? Colors.white : context.vantColors.error,
                     height: 1,
                   ),
                 ),
@@ -154,7 +154,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
-                      color: context.appColors.textTertiary,
+                      color: context.vantColors.textTertiary,
                     ),
                   ),
                 ),
@@ -167,7 +167,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
             Container(
               height: 4,
               decoration: BoxDecoration(
-                color: AppColors.cardBackground,
+                color: VantColors.cardBackground,
                 borderRadius: BorderRadius.circular(2),
               ),
               child: LayoutBuilder(
@@ -180,7 +180,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
                         width: constraints.maxWidth * spentPercent,
                         height: 4,
                         decoration: BoxDecoration(
-                          gradient: AppGradients.primaryButton,
+                          gradient: VantGradients.primaryButton,
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -200,16 +200,16 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
                   l10n.budgetUsage,
                   style: TextStyle(
                     fontSize: 10,
-                    letterSpacing: 1,
+                    letterSpacing: 1.0,
                     fontWeight: FontWeight.w500,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                 ),
                 Text(
                   "${formatTurkishCurrency(_displayedSpent, decimalDigits: 0, showDecimals: false)} / ${formatTurkishCurrency(widget.totalIncome, decimalDigits: 0, showDecimals: false)}",
                   style: TextStyle(
                     fontSize: 12,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
               ],
@@ -229,7 +229,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
                       decimalDigits: 0,
                       showDecimals: false,
                     ),
-                    color: context.appColors.success,
+                    color: context.vantColors.success,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -242,7 +242,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
                       decimalDigits: 0,
                       showDecimals: false,
                     ),
-                    color: context.appColors.error,
+                    color: context.vantColors.error,
                   ),
                 ),
               ],
@@ -293,9 +293,9 @@ class _StatCard extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 10,
-              letterSpacing: 1,
+              letterSpacing: 1.0,
               fontWeight: FontWeight.w500,
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
             ),
           ),
           const SizedBox(height: 4),
@@ -304,7 +304,7 @@ class _StatCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
         ],
@@ -338,9 +338,9 @@ class PremiumCurrencyBand extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -376,7 +376,7 @@ class _CurrencyItem extends StatelessWidget {
           style: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.w500,
-            color: context.appColors.textTertiary,
+            color: context.vantColors.textTertiary,
           ),
         ),
         const SizedBox(height: 4),
@@ -387,7 +387,7 @@ class _CurrencyItem extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
             const SizedBox(width: 4),
@@ -396,8 +396,8 @@ class _CurrencyItem extends StatelessWidget {
               style: TextStyle(
                 fontSize: 12,
                 color: isUp
-                    ? context.appColors.success
-                    : context.appColors.error,
+                    ? context.vantColors.success
+                    : context.vantColors.error,
               ),
             ),
           ],
@@ -410,7 +410,7 @@ class _CurrencyItem extends StatelessWidget {
 class _Divider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(width: 1, height: 30, color: context.appColors.cardBorder);
+    return Container(width: 1, height: 30, color: context.vantColors.cardBorder);
   }
 }
 
@@ -440,7 +440,7 @@ class PremiumSectionHeader extends StatelessWidget {
                 width: 4,
                 height: 20,
                 decoration: BoxDecoration(
-                  gradient: AppGradients.primaryButton,
+                  gradient: VantGradients.primaryButton,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -450,7 +450,7 @@ class PremiumSectionHeader extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             ],
@@ -463,7 +463,7 @@ class PremiumSectionHeader extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ),
             ),
@@ -504,9 +504,9 @@ class PremiumTransactionItem extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: context.appColors.surface,
+          color: context.vantColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: context.appColors.cardBorder),
+          border: Border.all(color: context.vantColors.cardBorder),
         ),
         child: Row(
           children: [
@@ -531,7 +531,7 @@ class PremiumTransactionItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -539,7 +539,7 @@ class PremiumTransactionItem extends StatelessWidget {
                     category,
                     style: TextStyle(
                       fontSize: 12,
-                      color: context.appColors.textTertiary,
+                      color: context.vantColors.textTertiary,
                     ),
                   ),
                 ],
@@ -555,8 +555,8 @@ class PremiumTransactionItem extends StatelessWidget {
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: isExpense
-                        ? context.appColors.error
-                        : context.appColors.success,
+                        ? context.vantColors.error
+                        : context.vantColors.success,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -564,7 +564,7 @@ class PremiumTransactionItem extends StatelessWidget {
                   time,
                   style: TextStyle(
                     fontSize: 11,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                 ),
               ],
@@ -605,10 +605,10 @@ class PremiumHeader extends StatelessWidget {
             height: 48,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: context.appColors.primary, width: 2),
+              border: Border.all(color: context.vantColors.primary, width: 2),
               boxShadow: [
                 BoxShadow(
-                  color: context.appColors.primary.withValues(alpha: 0.3),
+                  color: context.vantColors.primary.withValues(alpha: 0.3),
                   blurRadius: 12,
                   spreadRadius: 2,
                 ),
@@ -618,11 +618,11 @@ class PremiumHeader extends StatelessWidget {
               child: photoPath != null
                   ? Image.asset(photoPath!, fit: BoxFit.cover)
                   : Container(
-                      color: context.appColors.surfaceLight,
+                      color: context.vantColors.surfaceLight,
                       child: Icon(
                         CupertinoIcons.person,
                         size: 24,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
             ),
@@ -637,7 +637,7 @@ class PremiumHeader extends StatelessWidget {
                   "$greeting 👋",
                   style: TextStyle(
                     fontSize: 14,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
                 Text(
@@ -645,7 +645,7 @@ class PremiumHeader extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
               ],
@@ -684,14 +684,14 @@ class _GlassButton extends StatelessWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: context.appColors.surfaceLight.withValues(alpha: 0.5),
+              color: context.vantColors.surfaceLight.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: context.appColors.cardBorder),
+              border: Border.all(color: context.vantColors.cardBorder),
             ),
             child: Icon(
               icon,
               size: 20,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
         ),
@@ -728,14 +728,14 @@ class PremiumFloatingNavBar extends StatelessWidget {
           child: Container(
             height: 72,
             decoration: BoxDecoration(
-              color: context.appColors.surface.withValues(alpha: 0.9),
+              color: context.vantColors.surface.withValues(alpha: 0.9),
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: context.appColors.primary.withValues(alpha: 0.2),
+                color: context.vantColors.primary.withValues(alpha: 0.2),
               ),
               boxShadow: [
                 BoxShadow(
-                  color: context.appColors.primary.withValues(alpha: 0.15),
+                  color: context.vantColors.primary.withValues(alpha: 0.15),
                   blurRadius: 30,
                   offset: const Offset(0, -5),
                 ),
@@ -763,11 +763,11 @@ class PremiumFloatingNavBar extends StatelessWidget {
                     width: 56,
                     height: 56,
                     decoration: BoxDecoration(
-                      gradient: AppGradients.primaryButton,
+                      gradient: VantGradients.primaryButton,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: context.appColors.primary.withValues(
+                          color: context.vantColors.primary.withValues(
                             alpha: 0.4,
                           ),
                           blurRadius: 20,
@@ -830,8 +830,8 @@ class _NavItem extends StatelessWidget {
               icon,
               size: 24,
               color: isSelected
-                  ? context.appColors.primary
-                  : context.appColors.textTertiary,
+                  ? context.vantColors.primary
+                  : context.vantColors.textTertiary,
             ),
             const SizedBox(height: 4),
             Text(
@@ -840,8 +840,8 @@ class _NavItem extends StatelessWidget {
                 fontSize: 10,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                 color: isSelected
-                    ? context.appColors.primary
-                    : context.appColors.textTertiary,
+                    ? context.vantColors.primary
+                    : context.vantColors.textTertiary,
               ),
             ),
             if (isSelected)
@@ -850,11 +850,11 @@ class _NavItem extends StatelessWidget {
                 width: 4,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: context.appColors.primary.withValues(alpha: 0.5),
+                      color: context.vantColors.primary.withValues(alpha: 0.5),
                       blurRadius: 6,
                     ),
                   ],

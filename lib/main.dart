@@ -177,7 +177,7 @@ void main() async {
           statusBarIconBrightness: Brightness.light,
           systemNavigationBarColor: Color(
             0xFF1A1A2E,
-          ), // AppColors.background hardcoded - no context before runApp
+          ), // VantColors.background hardcoded - no context before runApp
           systemNavigationBarIconBrightness: Brightness.light,
         ),
       );
@@ -278,8 +278,8 @@ class _VantagAppState extends State<VantagApp> {
             navigatorObservers: [
               FirebaseAnalyticsObserver(analytics: analytics),
             ],
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
+            theme: VantTheme.lightTheme,
+            darkTheme: VantTheme.darkTheme,
             themeMode: themeProvider.materialThemeMode,
 
             // Localization ayarları

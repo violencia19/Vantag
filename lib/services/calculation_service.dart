@@ -35,8 +35,17 @@ class CalculationService {
       userProfile.workDaysPerWeek,
     );
 
+    // Input validation: reject negative, NaN, or infinite expense amounts
+    if (expenseAmount < 0 || expenseAmount.isNaN || expenseAmount.isInfinite) {
+      return ExpenseResult(
+        expenseAmount: 0,
+        hoursRequired: 0,
+        daysRequired: 0,
+      );
+    }
+
     final totalWorkHours = totalWorkDays * userProfile.dailyHours;
-    final hoursRequired = userProfile.monthlyIncome > 0
+    final hoursRequired = userProfile.monthlyIncome > 0 && totalWorkHours > 0
         ? (expenseAmount / userProfile.monthlyIncome) * totalWorkHours
         : 0.0;
     final daysRequired = userProfile.dailyHours > 0

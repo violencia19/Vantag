@@ -2,11 +2,12 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
+import '../providers/currency_provider.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
-import '../theme/app_theme.dart';
 import '../utils/currency_utils.dart';
 import 'turkish_currency_input.dart';
 
@@ -156,22 +157,22 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => AlertDialog(
-        backgroundColor: context.appColors.gradientMid,
+        backgroundColor: context.vantColors.gradientMid,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
           l10n.deleteSubscription,
-          style: TextStyle(color: context.appColors.textPrimary),
+          style: TextStyle(color: context.vantColors.textPrimary),
         ),
         content: Text(
           l10n.deleteSubscriptionConfirm(widget.subscription.name),
-          style: TextStyle(color: context.appColors.textSecondary),
+          style: TextStyle(color: context.vantColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
               l10n.cancel,
-              style: TextStyle(color: context.appColors.textSecondary),
+              style: TextStyle(color: context.vantColors.textSecondary),
             ),
           ),
           TextButton(
@@ -182,7 +183,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
             },
             child: Text(
               l10n.delete,
-              style: const TextStyle(color: AppColors.categoryBills),
+              style: const TextStyle(color: VantColors.categoryBills),
             ),
           ),
         ],
@@ -197,7 +198,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
 
     return Container(
       decoration: BoxDecoration(
-        color: context.appColors.gradientMid,
+        color: context.vantColors.gradientMid,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: ClipRRect(
@@ -214,7 +215,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                   height: 4,
                   margin: const EdgeInsets.only(top: 12),
                   decoration: BoxDecoration(
-                    color: context.appColors.cardBorder,
+                    color: context.vantColors.cardBorder,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -273,7 +274,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -281,7 +282,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                     sub.category,
                     style: TextStyle(
                       fontSize: 14,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                 ],
@@ -295,7 +296,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                 onPressed: _toggleEdit,
                 tooltip: l10n.edit,
                 icon: const Icon(CupertinoIcons.pencil),
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
             ),
           ],
@@ -306,7 +307,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: context.appColors.surface.withValues(alpha: 0.5),
+            color: context.vantColors.surface.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: sub.color.withValues(alpha: 0.3),
@@ -323,16 +324,16 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                       l10n.monthlyAmount,
                       style: TextStyle(
                         fontSize: 12,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${formatTurkishCurrency(sub.amount, decimalDigits: 2)} ₺',
+                      context.read<CurrencyProvider>().formatWithDecimals(sub.amount),
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                   ],
@@ -344,7 +345,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                   vertical: 8,
                 ),
                 decoration: BoxDecoration(
-                  color: context.appColors.surface.withValues(alpha: 0.8),
+                  color: context.vantColors.surface.withValues(alpha: 0.8),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
@@ -353,7 +354,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                       l10n.everyMonth,
                       style: TextStyle(
                         fontSize: 11,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                     ),
                     Text(
@@ -361,7 +362,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                   ],
@@ -386,7 +387,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
             Expanded(
               child: _buildStatCard(
                 l10n.totalPaid,
-                '${formatTurkishCurrency(sub.totalPaid, decimalDigits: 0)} ₺',
+                context.read<CurrencyProvider>().format(sub.totalPaid),
                 CupertinoIcons.creditcard,
               ),
             ),
@@ -422,7 +423,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: context.appColors.surface.withValues(alpha: 0.3),
+            color: context.vantColors.surface.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
@@ -433,8 +434,8 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                     : CupertinoIcons.xmark_circle_fill,
                 size: 20,
                 color: sub.autoRecord
-                    ? AppColors.categoryHealth
-                    : context.appColors.textTertiary,
+                    ? context.vantColors.primary
+                    : context.vantColors.textTertiary,
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -442,7 +443,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                   sub.autoRecord ? l10n.autoRecordOn : l10n.autoRecordOff,
                   style: TextStyle(
                     fontSize: 13,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
               ),
@@ -462,9 +463,9 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               icon: const Icon(CupertinoIcons.trash, size: 18),
               label: Text(l10n.deleteSubscription),
               style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.categoryBills,
+                foregroundColor: VantColors.categoryBills,
                 side: const BorderSide(
-                  color: AppColors.categoryBills,
+                  color: VantColors.categoryBills,
                   width: 1,
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 14),
@@ -484,12 +485,12 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: context.appColors.surface.withValues(alpha: 0.4),
+        color: context.vantColors.surface.withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
-          Icon(icon, size: 18, color: context.appColors.textTertiary),
+          Icon(icon, size: 18, color: context.vantColors.textTertiary),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -499,7 +500,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                   label,
                   style: TextStyle(
                     fontSize: 11,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -508,7 +509,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
               ],
@@ -531,7 +532,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
             const Spacer(),
@@ -539,7 +540,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               onPressed: _toggleEdit,
               child: Text(
                 l10n.cancel,
-                style: TextStyle(color: context.appColors.textSecondary),
+                style: TextStyle(color: context.vantColors.textSecondary),
               ),
             ),
           ],
@@ -549,7 +550,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         // Subscription name
         TextFormField(
           controller: _nameController,
-          style: TextStyle(color: context.appColors.textPrimary),
+          style: TextStyle(color: context.vantColors.textPrimary),
           decoration: _inputDecoration(l10n.subscriptionName),
         ),
         const SizedBox(height: 16),
@@ -557,7 +558,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         // Monthly amount
         TextFormField(
           controller: _amountController,
-          style: TextStyle(color: context.appColors.textPrimary),
+          style: TextStyle(color: context.vantColors.textPrimary),
           decoration: _inputDecoration(l10n.monthlyAmountLabel),
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: [TurkishCurrencyInputFormatter()],
@@ -579,7 +580,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           l10n.color,
           style: TextStyle(
             fontSize: 12,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
         const SizedBox(height: 10),
@@ -618,7 +619,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: context.appColors.surface.withValues(alpha: 0.4),
+            color: context.vantColors.surface.withValues(alpha: 0.4),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
@@ -627,8 +628,8 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                 CupertinoIcons.sparkles,
                 size: 20,
                 color: _autoRecord
-                    ? context.appColors.primary
-                    : context.appColors.textTertiary,
+                    ? context.vantColors.primary
+                    : context.vantColors.textTertiary,
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -636,14 +637,14 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
                   l10n.autoRecord,
                   style: TextStyle(
                     fontSize: 14,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
               ),
               Switch(
                 value: _autoRecord,
                 onChanged: (v) => setState(() => _autoRecord = v),
-                activeTrackColor: context.appColors.primary,
+                activeTrackColor: context.vantColors.primary,
               ),
             ],
           ),
@@ -656,7 +657,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           child: ElevatedButton(
             onPressed: _save,
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
@@ -682,23 +683,23 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           l10n.category,
           style: TextStyle(
             fontSize: 12,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: context.appColors.surface.withValues(alpha: 0.5),
+            color: context.vantColors.surface.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(16),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: _selectedCategory,
               isExpanded: true,
-              dropdownColor: context.appColors.gradientMid,
+              dropdownColor: context.vantColors.gradientMid,
               style: TextStyle(
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
                 fontSize: 14,
               ),
               items: _categoryKeys
@@ -727,23 +728,23 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
           l10n.renewalDay,
           style: TextStyle(
             fontSize: 12,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: context.appColors.surface.withValues(alpha: 0.5),
+            color: context.vantColors.surface.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(16),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<int>(
               value: _selectedDay,
               isExpanded: true,
-              dropdownColor: context.appColors.gradientMid,
+              dropdownColor: context.vantColors.gradientMid,
               style: TextStyle(
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
                 fontSize: 14,
               ),
               items: List.generate(31, (i) => i + 1)
@@ -763,11 +764,11 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
     return InputDecoration(
       labelText: label,
       labelStyle: TextStyle(
-        color: context.appColors.textSecondary,
+        color: context.vantColors.textSecondary,
         fontSize: 14,
       ),
       filled: true,
-      fillColor: context.appColors.surface.withValues(alpha: 0.5),
+      fillColor: context.vantColors.surface.withValues(alpha: 0.5),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide.none,

@@ -63,19 +63,21 @@ class StreakData {
   int get displayStreak => isStale ? 0 : currentStreak;
 
   /// Streak risk altında mı? (Son 4 saat içinde bozulabilir)
+  /// Uses UTC to avoid timezone-shift false positives when user travels.
   bool get isAtRisk {
     if (lastEntryDate == null || currentStreak == 0) return false;
-    final now = DateTime.now();
-    final endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
+    final now = DateTime.now().toUtc();
+    final endOfDay = DateTime.utc(now.year, now.month, now.day, 23, 59, 59);
     final hoursUntilMidnight = endOfDay.difference(now).inHours;
     return hoursUntilMidnight <= 4 && !_isToday(lastEntryDate!);
   }
 
   bool _isToday(DateTime date) {
-    final now = DateTime.now();
-    return date.year == now.year &&
-           date.month == now.month &&
-           date.day == now.day;
+    final now = DateTime.now().toUtc();
+    final d = date.toUtc();
+    return d.year == now.year &&
+           d.month == now.month &&
+           d.day == now.day;
   }
 }
 
@@ -99,9 +101,10 @@ class StreakService {
     }
 
     // Streak kırılmış mı kontrol et (ama VERİYİ DEĞİŞTİRME)
+    // UTC comparison to avoid timezone-shift false breaks
     bool isStale = false;
     if (lastEntryDate != null && currentStreak > 0) {
-      final daysDiff = _daysDifference(lastEntryDate, DateTime.now());
+      final daysDiff = _daysDifference(lastEntryDate, DateTime.now().toUtc());
       if (daysDiff > 1) {
         // Streak kırılmış, ama burada sadece işaretle
         isStale = true;
@@ -117,10 +120,11 @@ class StreakService {
   }
 
   /// Harcama girişinde streak'i günceller
+  /// Captures UTC time once to avoid midnight-crossing race conditions.
   Future<StreakData> recordEntry() async {
     final prefs = await SharedPreferences.getInstance();
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
+    final now = DateTime.now().toUtc();
+    final today = DateTime.utc(now.year, now.month, now.day);
 
     final lastEntryStr = prefs.getString(_keyLastEntryDate);
     DateTime? lastEntryDate;
@@ -185,10 +189,12 @@ class StreakService {
     }
   }
 
-  /// İki tarih arasındaki gün farkını hesaplar
+  /// İki tarih arasındaki gün farkını hesaplar (UTC-normalized)
   int _daysDifference(DateTime from, DateTime to) {
-    final fromDate = DateTime(from.year, from.month, from.day);
-    final toDate = DateTime(to.year, to.month, to.day);
+    final f = from.toUtc();
+    final t = to.toUtc();
+    final fromDate = DateTime.utc(f.year, f.month, f.day);
+    final toDate = DateTime.utc(t.year, t.month, t.day);
     return toDate.difference(fromDate).inDays;
   }
 

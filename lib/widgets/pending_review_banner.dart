@@ -46,8 +46,8 @@ class PendingReviewBanner extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                AppColors.warning.withValues(alpha: 0.9),
-                AppColors.warning,
+                VantColors.warning.withValues(alpha: 0.9),
+                VantColors.warning,
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -197,10 +197,10 @@ class PendingReviewChip extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: context.appColors.warning.withValues(alpha: 0.2),
+            color: context.vantColors.warning.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: context.appColors.warning.withValues(alpha: 0.5),
+              color: context.vantColors.warning.withValues(alpha: 0.5),
             ),
           ),
           child: Row(
@@ -208,14 +208,14 @@ class PendingReviewChip extends StatelessWidget {
             children: [
               Icon(
                 CupertinoIcons.exclamationmark_triangle_fill,
-                color: context.appColors.warning,
+                color: context.vantColors.warning,
                 size: 16,
               ),
               const SizedBox(width: 6),
               Text(
                 '$count',
                 style: TextStyle(
-                  color: context.appColors.warning,
+                  color: context.vantColors.warning,
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
                 ),

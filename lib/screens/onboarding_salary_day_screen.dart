@@ -96,7 +96,7 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -111,13 +111,13 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
                 height: 80,
                 margin: const EdgeInsets.only(bottom: 24),
                 decoration: BoxDecoration(
-                  color: context.appColors.primary.withValues(alpha: 0.15),
+                  color: context.vantColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Icon(
                   CupertinoIcons.calendar_badge_plus,
                   size: 40,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ),
 
@@ -128,7 +128,7 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                   letterSpacing: -0.5,
                 ),
               ),
@@ -141,7 +141,7 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
               ),
 
@@ -177,8 +177,8 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
                                       ? FontWeight.w700
                                       : FontWeight.w400,
                                   color: isSelected
-                                      ? context.appColors.primary
-                                      : context.appColors.textTertiary,
+                                      ? context.vantColors.primary
+                                      : context.vantColors.textTertiary,
                                 ),
                                 child: Text('$day'),
                               ),
@@ -200,9 +200,9 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
                     vertical: 12,
                   ),
                   decoration: BoxDecoration(
-                    color: context.appColors.surface,
+                    color: context.vantColors.surface,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: context.appColors.cardBorder),
+                    border: Border.all(color: context.vantColors.cardBorder),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -211,7 +211,7 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
                       Icon(
                         CupertinoIcons.calendar_badge_plus,
                         size: 20,
-                        color: context.appColors.primary,
+                        color: context.vantColors.primary,
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -219,7 +219,7 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                     ],
@@ -251,13 +251,13 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       decoration: BoxDecoration(
                         color: _selectedDay != null
-                            ? context.appColors.primary
-                            : context.appColors.surfaceLight,
+                            ? context.vantColors.primary
+                            : context.vantColors.surfaceLight,
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: _selectedDay != null
                             ? [
                                 BoxShadow(
-                                  color: context.appColors.primary.withValues(
+                                  color: context.vantColors.primary.withValues(
                                     alpha: 0.3,
                                   ),
                                   blurRadius: 20,
@@ -273,8 +273,8 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                           color: _selectedDay != null
-                              ? context.appColors.background
-                              : context.appColors.textTertiary,
+                              ? context.vantColors.background
+                              : context.vantColors.textTertiary,
                         ),
                       ),
                     ),
@@ -292,7 +292,7 @@ class _OnboardingSalaryDayScreenState extends State<OnboardingSalaryDayScreen>
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                 ),
               ),

@@ -411,13 +411,14 @@ class FinanceProvider extends ChangeNotifier {
   /// Maaşa kaç gün kaldı
   int get daysUntilPayday => _userProfile?.daysUntilPayday ?? -1;
 
-  /// Saatlik ücret (fallback ile)
+  /// Saatlik ücret (fallback ile) — always returns > 0 to prevent division-by-zero
   double get hourlyRate {
-    if (_userProfile == null) return 0;
+    if (_userProfile == null) return 1.0;
     final rate = _userProfile!.hourlyRate;
     if (rate <= 0) {
-      // Fallback: aylık gelir / 160 saat
-      return _userProfile!.monthlyIncome / 160;
+      // Fallback: aylık gelir / 160 saat, minimum 1.0 to avoid divide-by-zero
+      final fallback = _userProfile!.monthlyIncome / 160;
+      return fallback > 0 ? fallback : 1.0;
     }
     return rate;
   }

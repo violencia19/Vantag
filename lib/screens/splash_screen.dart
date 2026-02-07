@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/app_colors.dart';
 import '../models/models.dart';
 import '../services/services.dart';
 import '../providers/providers.dart';
@@ -20,7 +20,7 @@ class VantagSplashScreen extends StatefulWidget {
 class _VantagSplashScreenState extends State<VantagSplashScreen>
     with SingleTickerProviderStateMixin {
   // Background color
-  static const _bgColor = AppColors.cardBackground;
+  static const _bgColor = VantColors.cardBackground;
 
   // Video player
   VideoPlayerController? _videoController;

@@ -4,7 +4,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/app_colors.dart';
 
 class HabitCategory {
   final String key; // Localization key
@@ -25,28 +25,28 @@ class HabitCategoryDef {
 }
 
 final List<HabitCategoryDef> _habitCategoryDefs = [
-  HabitCategoryDef('coffee', CupertinoIcons.cart_fill, AppColors.coffeeColor),
+  HabitCategoryDef('coffee', CupertinoIcons.cart_fill, VantColors.coffeeColor),
   HabitCategoryDef(
     'smoking',
     CupertinoIcons.cloud_fill,
-    AppColors.smokingGray,
+    VantColors.smokingGray,
   ),
   HabitCategoryDef(
     'eatingOut',
     CupertinoIcons.cart_fill,
-    AppColors.categoryFood,
+    VantColors.categoryFood,
   ),
   HabitCategoryDef(
     'gaming',
     CupertinoIcons.gamecontroller_fill,
-    AppColors.categoryBills,
+    VantColors.categoryBills,
   ),
   HabitCategoryDef(
     'clothing',
     CupertinoIcons.tag_fill,
-    AppColors.categoryShopping,
+    VantColors.categoryShopping,
   ),
-  HabitCategoryDef('taxi', CupertinoIcons.car_fill, AppColors.secondary),
+  HabitCategoryDef('taxi', CupertinoIcons.car_fill, VantColors.secondary),
 ];
 
 /// Get localized category name from key
@@ -89,37 +89,37 @@ final List<HabitCategory> defaultHabitCategories = [
     'coffee',
     'Kahve',
     CupertinoIcons.cart_fill,
-    AppColors.coffeeColor,
+    VantColors.coffeeColor,
   ),
   HabitCategory(
     'smoking',
     'Sigara',
     CupertinoIcons.cloud_fill,
-    AppColors.smokingGray,
+    VantColors.smokingGray,
   ),
   HabitCategory(
     'eatingOut',
     'Dışarıda Yemek',
     CupertinoIcons.cart_fill,
-    AppColors.categoryFood,
+    VantColors.categoryFood,
   ),
   HabitCategory(
     'gaming',
     'Oyun/Eğlence',
     CupertinoIcons.gamecontroller_fill,
-    AppColors.categoryBills,
+    VantColors.categoryBills,
   ),
   HabitCategory(
     'clothing',
     'Kıyafet',
     CupertinoIcons.tag_fill,
-    AppColors.categoryShopping,
+    VantColors.categoryShopping,
   ),
   HabitCategory(
     'taxi',
     'Taksi/Uber',
     CupertinoIcons.car_fill,
-    AppColors.secondary,
+    VantColors.secondary,
   ),
 ];
 

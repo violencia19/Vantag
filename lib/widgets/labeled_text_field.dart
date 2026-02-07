@@ -36,7 +36,7 @@ class LabeledTextField extends StatelessWidget {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
         const SizedBox(height: 8),
@@ -52,30 +52,30 @@ class LabeledTextField extends StatelessWidget {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
           ),
           decoration: InputDecoration(
             hintText: hint,
             prefixIcon: prefix,
             suffixIcon: suffix,
             filled: true,
-            fillColor: context.appColors.surface,
+            fillColor: context.vantColors.surface,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 16,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: context.appColors.cardBorder),
+              borderSide: BorderSide(color: context.vantColors.cardBorder),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: context.appColors.cardBorder),
+              borderSide: BorderSide(color: context.vantColors.cardBorder),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
                 width: 2,
               ),
             ),

@@ -60,7 +60,7 @@ class _AnimatedBottomSheetState extends State<AnimatedBottomSheet> {
         maxHeight: widget.maxHeight ?? MediaQuery.of(context).size.height * 0.9,
       ),
       decoration: BoxDecoration(
-        color: context.appColors.surface.withValues(alpha: 0.95),
+        color: context.vantColors.surface.withValues(alpha: 0.95),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
@@ -72,7 +72,7 @@ class _AnimatedBottomSheetState extends State<AnimatedBottomSheet> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: context.appColors.textTertiary.withValues(alpha: 0.3),
+                color: context.vantColors.textTertiary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -250,7 +250,7 @@ class _AnimatedModalState extends State<AnimatedModal> {
     return Container(
       margin: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
@@ -269,7 +269,7 @@ class _AnimatedModalState extends State<AnimatedModal> {
               child: IconButton(
                 icon: Icon(
                   CupertinoIcons.xmark,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
                 tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
                 onPressed: widget.onClose ?? () => Navigator.of(context).pop(),

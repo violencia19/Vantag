@@ -1,8 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_effects.dart';
+import '../theme/app_typography.dart';
 import '../models/models.dart';
+import '../providers/currency_provider.dart';
 import '../services/services.dart';
 import '../utils/currency_utils.dart';
 
@@ -46,11 +51,14 @@ class _ResultCardState extends State<ResultCard>
     // Animated glow effect - subtle breathing
     _glowController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2500),
+      duration: VantAnimation.breathing,
     )..repeat(reverse: true);
 
-    _glowAnimation = Tween<double>(begin: 0.3, end: 0.6).animate(
-      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
+    _glowAnimation = Tween<double>(
+      begin: VantAnimation.glowMin,
+      end: VantAnimation.glowMax,
+    ).animate(
+      CurvedAnimation(parent: _glowController, curve: VantAnimation.curveSmooth),
     );
   }
 
@@ -75,47 +83,50 @@ class _ResultCardState extends State<ResultCard>
       builder: (context, child) {
         return Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: BorderRadius.circular(VantRadius.xxl + 4),
             boxShadow: [
               // Animated outer glow
               BoxShadow(
-                color: const Color(0xFF8B5CF6).withValues(
+                color: VantColors.primary.withValues(
                   alpha: _glowAnimation.value,
                 ),
-                blurRadius: 40,
+                blurRadius: VantBlur.heavy,
                 spreadRadius: 0,
                 offset: const Offset(0, 8),
               ),
               // Deep shadow for depth
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.4),
-                blurRadius: 24,
+                blurRadius: VantBlur.mediumHeavy,
                 offset: const Offset(0, 12),
               ),
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: BorderRadius.circular(VantRadius.xxl + 4),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+              filter: ImageFilter.blur(
+                sigmaX: VantBlur.heavy,
+                sigmaY: VantBlur.heavy,
+              ),
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(28),
+                  borderRadius: BorderRadius.circular(VantRadius.xxl + 4),
                   // Premium glass gradient
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      const Color(0xFF8B5CF6).withValues(alpha: 0.35),
-                      const Color(0xFF7C3AED).withValues(alpha: 0.25),
-                      const Color(0xFF1E1B4B).withValues(alpha: 0.4),
+                      VantColors.primary.withValues(alpha: 0.35),
+                      VantColors.primaryDark.withValues(alpha: 0.25),
+                      VantColors.surfaceOverlay.withValues(alpha: 0.4),
                     ],
                     stops: const [0.0, 0.5, 1.0],
                   ),
                   // Glass border with highlight
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: VantColors.glassHighlight,
                     width: 1.5,
                   ),
                 ),
@@ -129,15 +140,15 @@ class _ResultCardState extends State<ResultCard>
                       height: 80,
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(28),
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(VantRadius.xxl + 4),
                           ),
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Colors.white.withValues(alpha: 0.15),
-                              Colors.white.withValues(alpha: 0.0),
+                              Color(0x25FFFFFF),
+                              Colors.transparent,
                             ],
                           ),
                         ),
@@ -186,10 +197,16 @@ class _ResultCardState extends State<ResultCard>
   }
 
   Widget _buildHeroTimeDisplay(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
     final timeDisplay = getSimulationTimeDisplay(
       widget.result.hoursRequired,
       workHoursPerDay: widget.dailyHours,
       workDaysPerWeek: widget.workDaysPerWeek,
+      hourUnit: l10n.hourLabel,
+      dayUnit: l10n.dayLabel,
+      yearUnit: l10n.yearLabel,
+      locale: locale,
     );
 
     return Row(
@@ -209,15 +226,15 @@ class _ResultCardState extends State<ResultCard>
         Container(
           width: 2,
           height: 70,
-          margin: const EdgeInsets.symmetric(horizontal: 28),
+          margin: const EdgeInsets.symmetric(horizontal: VantSpacing.xxl + 4),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.white.withValues(alpha: 0.0),
-                Colors.white.withValues(alpha: 0.3),
-                Colors.white.withValues(alpha: 0.0),
+                VantColors.textPrimary.withValues(alpha: 0.0),
+                VantColors.textPrimary.withValues(alpha: 0.3),
+                VantColors.textPrimary.withValues(alpha: 0.0),
               ],
             ),
             borderRadius: BorderRadius.circular(1),
@@ -243,8 +260,8 @@ class _ResultCardState extends State<ResultCard>
     required bool isPrimary,
   }) {
     final iconColor = isPrimary
-        ? const Color(0xFF8B5CF6)
-        : const Color(0xFF06B6D4);
+        ? VantColors.primary
+        : VantColors.secondaryDark;
 
     return Column(
       children: [
@@ -276,34 +293,22 @@ class _ResultCardState extends State<ResultCard>
           ),
           child: Icon(icon, size: 24, color: iconColor),
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: VantSpacing.md + 2),
         // Value - Premium tabular numbers
         Text(
           value,
-          style: TextStyle(
+          style: VantTypography.displayMedium.copyWith(
             fontSize: 42,
-            fontWeight: FontWeight.w800,
-            color: Colors.white,
-            letterSpacing: -2,
-            height: 1,
-            fontFeatures: const [FontFeature.tabularFigures()],
-            shadows: [
-              Shadow(
-                color: iconColor.withValues(alpha: 0.5),
-                blurRadius: 20,
-              ),
-            ],
+            shadows: VantShadows.iconHalo(iconColor),
           ),
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: VantSpacing.sm - 2),
         // Unit label
         Text(
           unit.toUpperCase(),
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-            color: Colors.white.withValues(alpha: 0.6),
-            letterSpacing: 1.5,
+          style: VantTypography.labelSmall.copyWith(
+            color: VantColors.textSecondary,
+            letterSpacing: 1.0,
           ),
         ),
       ],
@@ -312,31 +317,31 @@ class _ResultCardState extends State<ResultCard>
 
   Widget _buildEmotionalMessage(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: VantSpacing.lg),
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        padding: const EdgeInsets.symmetric(
+          horizontal: VantSpacing.xl,
+          vertical: VantSpacing.lg,
+        ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              const Color(0xFF8B5CF6).withValues(alpha: 0.12),
-              const Color(0xFF06B6D4).withValues(alpha: 0.08),
+              VantColors.primaryMuted,
+              VantColors.secondarySubtle,
             ],
           ),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(VantRadius.lg),
           border: Border.all(
-            color: Colors.white.withValues(alpha: 0.1),
+            color: VantColors.glassBorder,
           ),
         ),
         child: Text(
           widget.emotionalMessage!,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
+          style: VantTypography.bodyMedium.copyWith(
             fontStyle: FontStyle.italic,
-            color: Colors.white.withValues(alpha: 0.9),
-            height: 1.5,
+            color: VantColors.textPrimary.withValues(alpha: 0.9),
           ),
         ),
       ),
@@ -346,12 +351,12 @@ class _ResultCardState extends State<ResultCard>
   Widget _buildInsightCard(BuildContext context, String insight) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(VantSpacing.lg),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(16),
+        color: VantColors.glassWhite,
+        borderRadius: BorderRadius.circular(VantRadius.lg),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.1),
+          color: VantColors.glassBorder,
         ),
       ),
       child: Row(
@@ -362,28 +367,27 @@ class _ResultCardState extends State<ResultCard>
             height: 40,
             decoration: BoxDecoration(
               gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFFF59E0B).withValues(alpha: 0.2),
-                  const Color(0xFFF59E0B).withValues(alpha: 0.1),
+                  VantColors.warning.withValues(alpha: 0.12),
+                  VantColors.warning.withValues(alpha: 0.036),
                 ],
               ),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(VantRadius.md),
             ),
             child: const Icon(
               CupertinoIcons.lightbulb_fill,
               size: 20,
-              color: Color(0xFFF59E0B),
+              color: VantColors.warning,
             ),
           ),
-          const SizedBox(width: 14),
+          const SizedBox(width: VantSpacing.md + 2),
           Expanded(
             child: Text(
               insight,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: Colors.white.withValues(alpha: 0.8),
-                height: 1.5,
+              style: VantTypography.bodySmall.copyWith(
+                color: VantColors.textPrimary.withValues(alpha: 0.8),
               ),
             ),
           ),
@@ -395,12 +399,15 @@ class _ResultCardState extends State<ResultCard>
   Widget _buildCategoryInsight(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: EdgeInsets.symmetric(
+        horizontal: VantSpacing.lg,
+        vertical: VantSpacing.md + 2,
+      ),
       decoration: BoxDecoration(
-        color: const Color(0xFF3B82F6).withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(14),
+        color: VantColors.infoSubtle,
+        borderRadius: BorderRadius.circular(VantRadius.md + 2),
         border: Border.all(
-          color: const Color(0xFF3B82F6).withValues(alpha: 0.2),
+          color: VantColors.info.withValues(alpha: 0.2),
         ),
       ),
       child: Row(
@@ -408,16 +415,15 @@ class _ResultCardState extends State<ResultCard>
           const Icon(
             CupertinoIcons.chart_bar_fill,
             size: 18,
-            color: Color(0xFF3B82F6),
+            color: VantColors.info,
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: VantSpacing.md),
           Expanded(
             child: Text(
               widget.categoryInsight!,
-              style: const TextStyle(
-                fontSize: 13,
+              style: VantTypography.bodySmall.copyWith(
                 fontWeight: FontWeight.w500,
-                color: Color(0xFF3B82F6),
+                color: VantColors.info,
               ),
             ),
           ),
@@ -457,12 +463,12 @@ class _ResultCardState extends State<ResultCard>
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(VantSpacing.lg),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(16),
+        color: VantColors.glassWhite,
+        borderRadius: BorderRadius.circular(VantRadius.lg),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.08),
+          color: VantColors.glassBorder,
         ),
       ),
       child: Column(
@@ -473,18 +479,17 @@ class _ResultCardState extends State<ResultCard>
               Icon(
                 CupertinoIcons.arrow_right_arrow_left,
                 size: 14,
-                color: Colors.white.withValues(alpha: 0.5),
+                color: VantColors.textTertiary,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: VantSpacing.sm),
               Expanded(
                 child: Text(
                   l10n.withThisAmountYouCouldBuy(
                     _formatCurrency(widget.amount!, decimals: 2),
                   ),
-                  style: TextStyle(
-                    fontSize: 12,
+                  style: VantTypography.labelSmall.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: Colors.white.withValues(alpha: 0.5),
+                    color: VantColors.textTertiary,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -492,25 +497,27 @@ class _ResultCardState extends State<ResultCard>
               ),
             ],
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: VantSpacing.md + 2),
           Wrap(
-            spacing: 20,
-            runSpacing: 10,
+            spacing: VantSpacing.xl,
+            runSpacing: VantSpacing.sm + 2,
             children: [
               _buildCurrencyChip(
                 icon: CupertinoIcons.money_dollar,
                 value: '${_formatCurrency(usdAmount)} USD',
-                color: const Color(0xFF10B981),
+                color: VantColors.success,
               ),
               _buildCurrencyChip(
                 icon: CupertinoIcons.money_euro,
                 value: '${_formatCurrency(eurAmount)} EUR',
-                color: const Color(0xFF3B82F6),
+                color: VantColors.info,
               ),
               _buildCurrencyChip(
                 icon: CupertinoIcons.circle_fill,
-                value: l10n.goldGrams(_formatCurrency(goldGrams, decimals: 1)),
-                color: const Color(0xFFF59E0B),
+                value: context.read<CurrencyProvider>().currency.goldUnit == 'oz'
+                    ? l10n.goldOunces((goldGrams / 31.1035).toStringAsFixed(2))
+                    : l10n.goldGrams(_formatCurrency(goldGrams, decimals: 1)),
+                color: VantColors.warning,
               ),
             ],
           ),
@@ -528,13 +535,12 @@ class _ResultCardState extends State<ResultCard>
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(icon, size: 14, color: color),
-        const SizedBox(width: 6),
+        const SizedBox(width: VantSpacing.sm - 2),
         Text(
           value,
-          style: TextStyle(
-            fontSize: 13,
+          style: VantTypography.bodySmall.copyWith(
             fontWeight: FontWeight.w600,
-            color: Colors.white.withValues(alpha: 0.8),
+            color: VantColors.textPrimary.withValues(alpha: 0.8),
           ),
         ),
       ],

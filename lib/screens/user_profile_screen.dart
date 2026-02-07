@@ -43,7 +43,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: context.appColors.error,
+        backgroundColor: context.vantColors.error,
       ),
     );
   }
@@ -52,7 +52,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: context.appColors.success,
+        backgroundColor: context.vantColors.success,
       ),
     );
   }
@@ -308,7 +308,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(l10n.welcomeReferred),
-              backgroundColor: context.appColors.success,
+              backgroundColor: context.vantColors.success,
               behavior: SnackBarBehavior.floating,
             ),
           );
@@ -336,7 +336,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       barrierDismissible: false,
       barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => AlertDialog(
-        backgroundColor: context.appColors.surface,
+        backgroundColor: context.vantColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
         content: Column(
@@ -346,12 +346,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: context.appColors.primary.withValues(alpha: 0.1),
+                color: context.vantColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
                 CupertinoIcons.link,
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
                 size: 32,
               ),
             ),
@@ -361,7 +361,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -370,7 +370,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               l10n.linkWithGoogleDescription,
               style: TextStyle(
                 fontSize: 14,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
                 height: 1.4,
               ),
               textAlign: TextAlign.center,
@@ -381,8 +381,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               child: ElevatedButton.icon(
                 onPressed: () => Navigator.pop(context, true),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: context.appColors.textPrimary,
-                  foregroundColor: context.appColors.background,
+                  backgroundColor: context.vantColors.textPrimary,
+                  foregroundColor: context.vantColors.background,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -416,7 +416,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 l10n.skipForNow,
                 style: TextStyle(
                   fontSize: 14,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
               ),
             ),
@@ -431,14 +431,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       appBar: _isEditMode
           ? AppBar(
-              backgroundColor: context.appColors.background,
+              backgroundColor: context.vantColors.background,
               leading: IconButton(
                 icon: Icon(
                   CupertinoIcons.arrow_left,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
                 onPressed: () => Navigator.pop(context),
               ),
@@ -447,7 +447,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             )
@@ -466,13 +466,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     width: 64,
                     height: 64,
                     decoration: BoxDecoration(
-                      color: context.appColors.primary.withValues(alpha: 0.1),
+                      color: context.vantColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Icon(
                       CupertinoIcons.person,
                       size: 32,
-                      color: context.appColors.primary,
+                      color: context.vantColors.primary,
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -481,7 +481,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                       letterSpacing: -0.5,
                     ),
                   ),
@@ -490,7 +490,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     l10n.welcomeSubtitle,
                     style: TextStyle(
                       fontSize: 16,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                       height: 1.4,
                     ),
                   ),
@@ -518,7 +518,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     child: Text(
                       l10n.hours,
                       style: TextStyle(
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -532,19 +532,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 12),
 
                 // Work days selector
-                Container(
+                VGlassStyledContainer(
                   padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: context.appColors.surface,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: context.appColors.cardBorder),
-                  ),
+                  borderRadius: 16,
                   child: Row(
                     children: List.generate(7, (index) {
                       final day = index + 1;
@@ -556,7 +552,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? context.appColors.primary
+                                  ? context.vantColors.primary
                                   : Colors.transparent,
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -567,8 +563,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
                                 color: isSelected
-                                    ? context.appColors.background
-                                    : context.appColors.textSecondary,
+                                    ? context.vantColors.background
+                                    : context.vantColors.textSecondary,
                               ),
                             ),
                           ),
@@ -582,7 +578,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   l10n.workingDaysPerWeek(_workDaysPerWeek),
                   style: TextStyle(
                     fontSize: 13,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                 ),
 
@@ -610,9 +606,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   child: ElevatedButton(
                     onPressed: _isSaving ? null : _saveProfile,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: context.appColors.primary,
-                      foregroundColor: context.appColors.background,
-                      disabledBackgroundColor: context.appColors.primary
+                      backgroundColor: context.vantColors.primary,
+                      foregroundColor: context.vantColors.background,
+                      disabledBackgroundColor: context.vantColors.primary
                           .withValues(alpha: 0.5),
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       shape: RoundedRectangleBorder(
@@ -626,7 +622,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
                               valueColor: AlwaysStoppedAnimation<Color>(
-                                context.appColors.background,
+                                context.vantColors.background,
                               ),
                             ),
                           )
@@ -659,7 +655,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
         const SizedBox(height: 12),
@@ -725,9 +721,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             icon: Icon(CupertinoIcons.plus_circle, size: 20),
             label: Text(l10n.addAdditionalIncome),
             style: OutlinedButton.styleFrom(
-              foregroundColor: context.appColors.primary,
+              foregroundColor: context.vantColors.primary,
               side: BorderSide(
-                color: context.appColors.primary.withValues(alpha: 0.5),
+                color: context.vantColors.primary.withValues(alpha: 0.5),
               ),
               padding: const EdgeInsets.symmetric(vertical: 14),
               shape: RoundedRectangleBorder(
@@ -752,14 +748,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           children: [
             Icon(
               CupertinoIcons.chart_pie,
-              color: context.appColors.secondary,
+              color: context.vantColors.secondary,
               size: 20,
             ),
             const SizedBox(width: 8),
             Text(
               l10n.budgetSettings,
               style: TextStyle(
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
@@ -769,37 +765,34 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         const SizedBox(height: 8),
         Text(
           l10n.budgetSettingsHint,
-          style: TextStyle(color: context.appColors.textTertiary, fontSize: 13),
+          style: TextStyle(color: context.vantColors.textTertiary, fontSize: 13),
         ),
         const SizedBox(height: 16),
 
         // Aylık bütçe
-        Container(
-          decoration: BoxDecoration(
-            color: context.appColors.surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: context.appColors.cardBorder),
-          ),
+        VGlassStyledContainer(
+          padding: EdgeInsets.zero,
+          borderRadius: 16,
           child: TextField(
             controller: _budgetController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [TurkishCurrencyInputFormatter()],
             style: TextStyle(
               fontSize: 16,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
             decoration: InputDecoration(
               labelText: l10n.monthlySpendingLimit,
-              labelStyle: TextStyle(color: context.appColors.textSecondary),
+              labelStyle: TextStyle(color: context.vantColors.textSecondary),
               hintText: '30.000',
               hintStyle: TextStyle(
-                color: context.appColors.textTertiary.withValues(alpha: 0.5),
+                color: context.vantColors.textTertiary.withValues(alpha: 0.5),
               ),
               prefixIcon: Container(
                 margin: const EdgeInsets.only(left: 16, right: 12),
                 child: Icon(
                   CupertinoIcons.creditcard,
-                  color: context.appColors.secondary,
+                  color: context.vantColors.secondary,
                   size: 22,
                 ),
               ),
@@ -811,7 +804,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               suffixStyle: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(
@@ -824,38 +817,35 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         const SizedBox(height: 6),
         Text(
           l10n.monthlySpendingLimitHint,
-          style: TextStyle(color: context.appColors.textTertiary, fontSize: 12),
+          style: TextStyle(color: context.vantColors.textTertiary, fontSize: 12),
         ),
 
         const SizedBox(height: 16),
 
         // Tasarruf hedefi
-        Container(
-          decoration: BoxDecoration(
-            color: context.appColors.surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: context.appColors.cardBorder),
-          ),
+        VGlassStyledContainer(
+          padding: EdgeInsets.zero,
+          borderRadius: 16,
           child: TextField(
             controller: _savingsGoalController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [TurkishCurrencyInputFormatter()],
             style: TextStyle(
               fontSize: 16,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
             decoration: InputDecoration(
               labelText: l10n.monthlySavingsGoal,
-              labelStyle: TextStyle(color: context.appColors.textSecondary),
+              labelStyle: TextStyle(color: context.vantColors.textSecondary),
               hintText: '5.000',
               hintStyle: TextStyle(
-                color: context.appColors.textTertiary.withValues(alpha: 0.5),
+                color: context.vantColors.textTertiary.withValues(alpha: 0.5),
               ),
               prefixIcon: Container(
                 margin: const EdgeInsets.only(left: 16, right: 12),
                 child: Icon(
                   CupertinoIcons.money_dollar_circle,
-                  color: context.appColors.success,
+                  color: context.vantColors.success,
                   size: 22,
                 ),
               ),
@@ -867,7 +857,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               suffixStyle: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(
@@ -880,7 +870,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         const SizedBox(height: 6),
         Text(
           l10n.monthlySavingsGoalHint,
-          style: TextStyle(color: context.appColors.textTertiary, fontSize: 12),
+          style: TextStyle(color: context.vantColors.textTertiary, fontSize: 12),
         ),
 
         // Bilgi kartı
@@ -888,24 +878,24 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: context.appColors.info.withValues(alpha: 0.1),
+            color: context.vantColors.info.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: context.appColors.info.withValues(alpha: 0.3),
+              color: context.vantColors.info.withValues(alpha: 0.3),
             ),
           ),
           child: Row(
             children: [
               Icon(
                 CupertinoIcons.lightbulb,
-                color: context.appColors.info,
+                color: context.vantColors.info,
                 size: 20,
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   l10n.budgetInfoMessage,
-                  style: TextStyle(color: context.appColors.info, fontSize: 12),
+                  style: TextStyle(color: context.vantColors.info, fontSize: 12),
                 ),
               ),
             ],
@@ -925,42 +915,37 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
         const SizedBox(height: 12),
-        Container(
-          decoration: BoxDecoration(
-            color: context.appColors.surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: _hasPrefilledReferral
-                  ? context.appColors.success.withValues(alpha: 0.5)
-                  : context.appColors.cardBorder,
-            ),
-          ),
+        VGlassStyledContainer(
+          padding: EdgeInsets.zero,
+          borderRadius: 16,
+          glowColor: _hasPrefilledReferral ? context.vantColors.success : null,
+          glowIntensity: _hasPrefilledReferral ? 0.15 : 0.0,
           child: TextField(
             controller: _referralCodeController,
             textCapitalization: TextCapitalization.characters,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              letterSpacing: 1.2,
-              color: context.appColors.textPrimary,
+              letterSpacing: 0,
+              color: context.vantColors.textPrimary,
             ),
             decoration: InputDecoration(
               hintText: l10n.referralCodePlaceholder,
               hintStyle: TextStyle(
-                color: context.appColors.textSecondary.withValues(alpha: 0.5),
-                letterSpacing: 1.2,
+                color: context.vantColors.textSecondary.withValues(alpha: 0.5),
+                letterSpacing: 0,
               ),
               prefixIcon: Container(
                 margin: const EdgeInsets.only(left: 16, right: 12),
                 child: Icon(
                   CupertinoIcons.gift,
                   color: _hasPrefilledReferral
-                      ? context.appColors.success
-                      : context.appColors.secondary,
+                      ? context.vantColors.success
+                      : context.vantColors.secondary,
                   size: 22,
                 ),
               ),
@@ -971,7 +956,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               suffixIcon: _hasPrefilledReferral
                   ? Icon(
                       CupertinoIcons.checkmark_circle_fill,
-                      color: context.appColors.success,
+                      color: context.vantColors.success,
                       size: 20,
                     )
                   : null,
@@ -986,7 +971,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         const SizedBox(height: 6),
         Text(
           l10n.referralCodeHint,
-          style: TextStyle(color: context.appColors.textTertiary, fontSize: 12),
+          style: TextStyle(color: context.vantColors.textTertiary, fontSize: 12),
         ),
       ],
     );
@@ -1000,7 +985,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     showModalBottomSheet(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.85),
-      backgroundColor: context.appColors.surface,
+      backgroundColor: context.vantColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -1016,7 +1001,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 height: 4,
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -1028,7 +1013,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
               ),
@@ -1041,10 +1026,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: context.appColors.info.withValues(alpha: 0.15),
+                    color: context.vantColors.info.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: context.appColors.info.withValues(alpha: 0.3),
+                      color: context.vantColors.info.withValues(alpha: 0.3),
                     ),
                   ),
                   child: Row(
@@ -1052,7 +1037,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       Icon(
                         CupertinoIcons.info_circle,
                         size: 16,
-                        color: context.appColors.info,
+                        color: context.vantColors.info,
                       ),
                       const SizedBox(width: 8),
                       Expanded(
@@ -1060,7 +1045,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           l10n.currencyLockNote,
                           style: TextStyle(
                             fontSize: 12,
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                         ),
                       ),
@@ -1083,7 +1068,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       Text(
                         currency.code,
                         style: TextStyle(
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                           fontWeight: isSelected
                               ? FontWeight.w600
                               : FontWeight.w500,
@@ -1094,7 +1079,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       Text(
                         currency.symbol,
                         style: TextStyle(
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                           fontSize: 16,
                         ),
                       ),
@@ -1103,14 +1088,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   subtitle: Text(
                     currency.name,
                     style: TextStyle(
-                      color: context.appColors.textTertiary,
+                      color: context.vantColors.textTertiary,
                       fontSize: 13,
                     ),
                   ),
                   trailing: isSelected
                       ? Icon(
                           CupertinoIcons.checkmark_circle,
-                          color: context.appColors.primary,
+                          color: context.vantColors.primary,
                         )
                       : null,
                   onTap: () async {
@@ -1141,19 +1126,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
         const SizedBox(height: 12),
         GestureDetector(
           onTap: _showOnboardingCurrencySelector,
-          child: Container(
+          child: VGlassStyledContainer(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            decoration: BoxDecoration(
-              color: context.appColors.surface,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: context.appColors.cardBorder),
-            ),
+            borderRadius: 16,
             child: Row(
               children: [
                 Text(
@@ -1172,7 +1153,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: context.appColors.textPrimary,
+                              color: context.vantColors.textPrimary,
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -1180,7 +1161,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             currentCurrency.symbol,
                             style: TextStyle(
                               fontSize: 16,
-                              color: context.appColors.textSecondary,
+                              color: context.vantColors.textSecondary,
                             ),
                           ),
                         ],
@@ -1190,7 +1171,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         currentCurrency.name,
                         style: TextStyle(
                           fontSize: 12,
-                          color: context.appColors.textTertiary,
+                          color: context.vantColors.textTertiary,
                         ),
                       ),
                     ],
@@ -1199,7 +1180,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 Icon(
                   CupertinoIcons.chevron_down,
                   size: 20,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
               ],
             ),
@@ -1212,7 +1193,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             Icon(
               CupertinoIcons.info_circle,
               size: 14,
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
             ),
             const SizedBox(width: 6),
             Expanded(
@@ -1220,7 +1201,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 l10n.currencyLockNote,
                 style: TextStyle(
                   fontSize: 11,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ),
             ),
@@ -1240,7 +1221,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
         const SizedBox(height: 12),
@@ -1259,12 +1240,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   /// Basit gelir girişi (wizard kullanılmadıysa)
   Widget _buildSimpleIncomeInput() {
     final currencyProvider = context.watch<CurrencyProvider>();
-    return Container(
-      decoration: BoxDecoration(
-        color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
-      ),
+    return VGlassStyledContainer(
+      padding: EdgeInsets.zero,
+      borderRadius: 16,
       child: TextField(
         controller: _incomeController,
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -1272,18 +1250,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          color: context.appColors.textPrimary,
+          color: context.vantColors.textPrimary,
         ),
         decoration: InputDecoration(
           hintText: '25.000',
           hintStyle: TextStyle(
-            color: context.appColors.textSecondary.withValues(alpha: 0.5),
+            color: context.vantColors.textSecondary.withValues(alpha: 0.5),
           ),
           prefixIcon: Container(
             margin: const EdgeInsets.only(left: 16, right: 12),
             child: Icon(
               CupertinoIcons.creditcard,
-              color: context.appColors.primary,
+              color: context.vantColors.primary,
               size: 24,
             ),
           ),
@@ -1295,7 +1273,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           suffixStyle: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
@@ -1311,15 +1289,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget _buildIncomeSourcesSummary(AppLocalizations l10n) {
     return GestureDetector(
       onTap: _openIncomeWizard,
-      child: Container(
+      child: VGlassCard.hero(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: context.appColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: context.appColors.primary.withValues(alpha: 0.3),
-          ),
-        ),
+        glowColor: context.vantColors.primary,
         child: Column(
           children: [
             // Toplam
@@ -1332,12 +1304,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: context.appColors.primary.withValues(alpha: 0.1),
+                        color: context.vantColors.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Icon(
                         CupertinoIcons.creditcard,
-                        color: context.appColors.primary,
+                        color: context.vantColors.primary,
                         size: 20,
                       ),
                     ),
@@ -1349,16 +1321,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           l10n.totalIncome,
                           style: TextStyle(
                             fontSize: 12,
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          '${formatTurkishCurrency(_totalIncome, decimalDigits: 0, showDecimals: false)} TL',
+                          context.read<CurrencyProvider>().format(_totalIncome),
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
-                            color: context.appColors.primary,
+                            color: context.vantColors.primary,
                           ),
                         ),
                       ],
@@ -1371,7 +1343,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: context.appColors.primary.withValues(alpha: 0.1),
+                    color: context.vantColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: Text(
@@ -1379,7 +1351,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.primary,
+                      color: context.vantColors.primary,
                     ),
                   ),
                 ),
@@ -1389,7 +1361,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             // Kaynak listesi (kısa özet)
             if (_incomeSources.length <= 3) ...[
               const SizedBox(height: 16),
-              Divider(height: 1, color: context.appColors.cardBorder),
+              Divider(height: 1, color: context.vantColors.cardBorder),
               const SizedBox(height: 12),
               ...(_incomeSources.map(
                 (source) => Padding(
@@ -1407,17 +1379,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           source.title,
                           style: TextStyle(
                             fontSize: 13,
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Text(
-                        '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} TL',
+                        context.read<CurrencyProvider>().format(source.amount),
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                     ],

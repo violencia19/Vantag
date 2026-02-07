@@ -216,9 +216,9 @@ class CurrencyTicker extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
-          color: context.appColors.surface,
+          color: context.vantColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: context.appColors.cardBorder),
+          border: Border.all(color: context.vantColors.cardBorder),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -229,7 +229,7 @@ class CurrencyTicker extends StatelessWidget {
               child: CircularProgressIndicator(
                 strokeWidth: 2,
                 valueColor: AlwaysStoppedAnimation<Color>(
-                  context.appColors.textTertiary.withValues(alpha: 0.7),
+                  context.vantColors.textTertiary.withValues(alpha: 0.7),
                 ),
               ),
             ),
@@ -238,7 +238,7 @@ class CurrencyTicker extends StatelessWidget {
               'Loading rates...',
               style: TextStyle(
                 fontSize: 12,
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
               ),
             ),
           ],
@@ -249,9 +249,9 @@ class CurrencyTicker extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -271,7 +271,7 @@ class CurrencyTicker extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
           ),
         ),
       ],

@@ -147,7 +147,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
                 color: Colors.white.withValues(alpha: 0.8),
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                letterSpacing: 0.5,
+                letterSpacing: 1.0,
               ),
             ),
           ],
@@ -163,9 +163,9 @@ class _PremiumShareCardState extends State<PremiumShareCard>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.background, // Deep purple-black
-            AppColors.cardBackground, // Mid purple
-            AppColors.background.withValues(alpha: 0.95), // Dark purple
+            VantColors.background, // Deep purple-black
+            VantColors.cardBackground, // Mid purple
+            VantColors.background.withValues(alpha: 0.95), // Dark purple
           ],
           stops: const [0.0, 0.5, 1.0],
         ),
@@ -203,13 +203,13 @@ class _PremiumShareCardState extends State<PremiumShareCard>
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    context.appColors.primary.withValues(
+                    context.vantColors.primary.withValues(
                       alpha: _glowAnimation.value * 0.4,
                     ),
-                    context.appColors.primary.withValues(
+                    context.vantColors.primary.withValues(
                       alpha: _glowAnimation.value * 0.2,
                     ),
-                    context.appColors.primary.withValues(alpha: 0.0),
+                    context.vantColors.primary.withValues(alpha: 0.0),
                   ],
                   stops: const [0.0, 0.5, 1.0],
                 ),
@@ -292,7 +292,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: Colors.white,
-              letterSpacing: 0.5,
+              letterSpacing: 0,
             ),
           ),
           const SizedBox(width: 8),
@@ -323,18 +323,18 @@ class _PremiumShareCardState extends State<PremiumShareCard>
         ? hours * 60
         : hours; // Convert to minutes if < 1 hour
     final isMinutes = hours < 1;
-    final unit = isMinutes ? 'dk' : 'saat';
+    final unit = isMinutes ? l10n.minuteUnitUpper : l10n.hourUnitUpper;
 
     return Column(
       children: [
         // Pre-text
         Text(
-          'Bunu almak için',
+          l10n.sharePreText,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w400,
             color: Colors.white.withValues(alpha: 0.7),
-            letterSpacing: 0.5,
+            letterSpacing: 0,
           ),
         ),
 
@@ -360,36 +360,36 @@ class _PremiumShareCardState extends State<PremiumShareCard>
               fontWeight: FontWeight.w800,
               color: Colors.white,
               height: 1,
-              letterSpacing: -4,
+              letterSpacing: -2.0,
             ),
           ),
         ),
 
         const SizedBox(height: 4),
 
-        // Unit badge
+        // Unit badge (unit already uppercased from l10n)
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                context.appColors.primary.withValues(alpha: 0.3),
-                context.appColors.primary.withValues(alpha: 0.1),
+                context.vantColors.primary.withValues(alpha: 0.3),
+                context.vantColors.primary.withValues(alpha: 0.1),
               ],
             ),
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: context.appColors.primary.withValues(alpha: 0.4),
+              color: context.vantColors.primary.withValues(alpha: 0.4),
               width: 1,
             ),
           ),
           child: Text(
-            unit.toUpperCase(),
+            unit,
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: Colors.white,
-              letterSpacing: 3,
+              letterSpacing: -0.3,
             ),
           ),
         ),
@@ -398,12 +398,12 @@ class _PremiumShareCardState extends State<PremiumShareCard>
 
         // Post-text
         Text(
-          'çalışman gerekiyor',
+          l10n.sharePostText,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w400,
             color: Colors.white.withValues(alpha: 0.7),
-            letterSpacing: 0.5,
+            letterSpacing: 0,
           ),
         ),
       ],
@@ -451,22 +451,23 @@ class _PremiumShareCardState extends State<PremiumShareCard>
   }
 
   Widget _buildDecisionIndicator() {
+    final l10n = AppLocalizations.of(context);
     final decision = widget.decision!;
     final (icon, color, label) = switch (decision) {
       ExpenseDecision.yes => (
         CupertinoIcons.checkmark_circle_fill,
-        context.appColors.error,
-        'Aldım',
+        context.vantColors.error,
+        l10n.decisionBought,
       ),
       ExpenseDecision.no => (
         CupertinoIcons.nosign,
-        context.appColors.success,
-        'Vazgeçtim',
+        context.vantColors.success,
+        l10n.decisionPassed,
       ),
       ExpenseDecision.thinking => (
         CupertinoIcons.clock_fill,
-        context.appColors.warning,
-        'Düşünüyorum',
+        context.vantColors.warning,
+        l10n.decisionThinking,
       ),
     };
 
@@ -505,7 +506,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
             gradient: LinearGradient(
               colors: [
                 Colors.transparent,
-                context.appColors.primary.withValues(alpha: 0.6),
+                context.vantColors.primary.withValues(alpha: 0.6),
                 Colors.transparent,
               ],
             ),
@@ -517,7 +518,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
 
         // CTA text
         Text(
-          'Sen kaç saat çalışıyorsun?',
+          l10n.shareCTA,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -546,8 +547,8 @@ class _PremiumShareCardState extends State<PremiumShareCard>
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  context.appColors.primary,
-                  context.appColors.primaryLight,
+                  context.vantColors.primary,
+                  context.vantColors.primaryLight,
                 ],
               ),
               borderRadius: BorderRadius.circular(6),
@@ -570,7 +571,7 @@ class _PremiumShareCardState extends State<PremiumShareCard>
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: Colors.white.withValues(alpha: 0.5),
-              letterSpacing: 1,
+              letterSpacing: 0,
             ),
           ),
         ],
@@ -579,21 +580,9 @@ class _PremiumShareCardState extends State<PremiumShareCard>
   }
 
   String _formatDate(DateTime date) {
-    final months = [
-      'Oca',
-      'Şub',
-      'Mar',
-      'Nis',
-      'May',
-      'Haz',
-      'Tem',
-      'Ağu',
-      'Eyl',
-      'Eki',
-      'Kas',
-      'Ara',
-    ];
-    return '${date.day} ${months[date.month - 1]}';
+    // Month abbreviations are used in share card rendering context
+    // where l10n might not be available, so use simple format
+    return '${date.day}/${date.month}';
   }
 }
 
@@ -724,7 +713,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
       builder: (context, scrollController) {
         return Container(
           decoration: BoxDecoration(
-            color: context.appColors.background,
+            color: context.vantColors.background,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: Column(
@@ -839,7 +828,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                         child: _ShareButton(
                           label: 'Instagram',
                           icon: CupertinoIcons.camera,
-                          color: AppColors.instagram,
+                          color: VantColors.instagram,
                           onTap: () => _shareToInstagram(l10n),
                         ),
                       ),
@@ -865,7 +854,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                         child: _ShareButton(
                           label: 'WhatsApp',
                           icon: CupertinoIcons.chat_bubble_fill,
-                          color: AppColors.whatsapp,
+                          color: VantColors.whatsapp,
                           onTap: () => _shareToWhatsApp(l10n),
                         ),
                       ),
@@ -899,7 +888,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                         child: _ShareButton(
                           label: l10n.saveToGallery,
                           icon: CupertinoIcons.arrow_down_to_line,
-                          color: context.appColors.primary,
+                          color: context.vantColors.primary,
                           onTap: () => _saveToGallery(l10n),
                           isLoading: _isProcessing,
                         ),
@@ -913,7 +902,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                         child: _ShareButton(
                           label: l10n.otherApps,
                           icon: CupertinoIcons.share,
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                           onTap: () => _shareGeneric(l10n),
                         ),
                       ),
@@ -954,12 +943,13 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
 
   /// Get share text with referral link
   Future<String> _getShareText() async {
-    String shareText = 'Sen kaç saat çalışıyorsun? 👀 vantag.app';
+    final l10n = AppLocalizations.of(context);
+    String shareText = l10n.shareTextDefault;
     try {
       final referralCode = await ReferralService().getOrCreateReferralCode();
       if (referralCode != null) {
         final referralLink = DeepLinkService.generateReferralLink(referralCode);
-        shareText = 'Sen kaç saat çalışıyorsun? 👀 $referralLink';
+        shareText = '${l10n.shareCTA} 👀 $referralLink';
       }
     } catch (_) {
       // Use default text if referral fails
@@ -1023,7 +1013,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(l10n.savedToGallery),
-              backgroundColor: context.appColors.success,
+              backgroundColor: context.vantColors.success,
               behavior: SnackBarBehavior.floating,
             ),
           );
@@ -1129,7 +1119,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
                   Text(l10n.savedToGallery),
                 ],
               ),
-              backgroundColor: context.appColors.success,
+              backgroundColor: context.vantColors.success,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -1177,7 +1167,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.shareError),
-          backgroundColor: context.appColors.error,
+          backgroundColor: context.vantColors.error,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -1207,12 +1197,12 @@ class _FormatButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected
-              ? context.appColors.primary.withValues(alpha: 0.2)
+              ? context.vantColors.primary.withValues(alpha: 0.2)
               : Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected
-                ? context.appColors.primary
+                ? context.vantColors.primary
                 : Colors.white.withValues(alpha: 0.1),
             width: 1,
           ),
@@ -1224,7 +1214,7 @@ class _FormatButton extends StatelessWidget {
               icon,
               size: 18,
               color: isSelected
-                  ? context.appColors.primary
+                  ? context.vantColors.primary
                   : Colors.white.withValues(alpha: 0.6),
             ),
             const SizedBox(width: 8),
@@ -1234,7 +1224,7 @@ class _FormatButton extends StatelessWidget {
                 fontSize: 14,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 color: isSelected
-                    ? context.appColors.primary
+                    ? context.vantColors.primary
                     : Colors.white.withValues(alpha: 0.6),
               ),
             ),
@@ -1411,9 +1401,9 @@ class _HabitShareCardState extends State<HabitShareCard>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.background,
-            AppColors.cardBackground,
-            AppColors.background.withValues(alpha: 0.95),
+            VantColors.background,
+            VantColors.cardBackground,
+            VantColors.background.withValues(alpha: 0.95),
           ],
           stops: const [0.0, 0.5, 1.0],
         ),
@@ -1568,7 +1558,7 @@ class _HabitShareCardState extends State<HabitShareCard>
                 fontWeight: FontWeight.w800,
                 color: Colors.white,
                 height: 1,
-                letterSpacing: -3,
+                letterSpacing: -2.0,
               ),
             ),
           ),
@@ -1591,7 +1581,7 @@ class _HabitShareCardState extends State<HabitShareCard>
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
-                letterSpacing: 2,
+                letterSpacing: 1.0,
               ),
             ),
           ),
@@ -1763,7 +1753,7 @@ class _HabitShareCardState extends State<HabitShareCard>
               fontSize: 18,
               fontWeight: FontWeight.w600,
               color: Colors.white,
-              letterSpacing: 0.5,
+              letterSpacing: -0.3,
             ),
           ),
         ],
@@ -1781,7 +1771,7 @@ class _HabitShareCardState extends State<HabitShareCard>
             fontSize: 16,
             fontWeight: FontWeight.w400,
             color: Colors.white.withValues(alpha: 0.7),
-            letterSpacing: 0.5,
+            letterSpacing: 0,
           ),
         ),
 
@@ -1807,7 +1797,7 @@ class _HabitShareCardState extends State<HabitShareCard>
               fontWeight: FontWeight.w800,
               color: Colors.white,
               height: 1,
-              letterSpacing: -4,
+              letterSpacing: -2.0,
             ),
           ),
         ),
@@ -1836,7 +1826,7 @@ class _HabitShareCardState extends State<HabitShareCard>
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: Colors.white,
-              letterSpacing: 4,
+              letterSpacing: -0.3,
             ),
           ),
         ),
@@ -1850,7 +1840,7 @@ class _HabitShareCardState extends State<HabitShareCard>
             fontSize: 16,
             fontWeight: FontWeight.w400,
             color: Colors.white.withValues(alpha: 0.7),
-            letterSpacing: 0.5,
+            letterSpacing: 0,
           ),
         ),
       ],
@@ -1883,7 +1873,7 @@ class _HabitShareCardState extends State<HabitShareCard>
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  '₺${_formatAmount(widget.yearlyAmount!)}${l10n.habitSharePerYear}',
+                  '${widget.currencySymbol ?? "\$"}${_formatAmount(widget.yearlyAmount!)}${l10n.habitSharePerYear}',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -1975,8 +1965,8 @@ class _HabitShareCardState extends State<HabitShareCard>
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  context.appColors.primary,
-                  context.appColors.primaryLight,
+                  context.vantColors.primary,
+                  context.vantColors.primaryLight,
                 ],
               ),
               borderRadius: BorderRadius.circular(6),
@@ -1999,7 +1989,7 @@ class _HabitShareCardState extends State<HabitShareCard>
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: Colors.white.withValues(alpha: 0.5),
-              letterSpacing: 1,
+              letterSpacing: 0,
             ),
           ),
         ],
@@ -2113,7 +2103,7 @@ class _HabitShareCardPreviewSheetState
       builder: (context, scrollController) {
         return Container(
           decoration: BoxDecoration(
-            color: context.appColors.background,
+            color: context.vantColors.background,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: Column(
@@ -2257,12 +2247,12 @@ class _HabitShareCardPreviewSheetState
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [AppColors.primary, AppColors.premiumCyan],
+                        colors: [VantColors.primary, VantColors.premiumCyan],
                       ),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.3),
+                          color: VantColors.primary.withValues(alpha: 0.3),
                           blurRadius: 12,
                           offset: const Offset(0, 4),
                         ),
@@ -2368,7 +2358,7 @@ class _HabitShareCardPreviewSheetState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppLocalizations.of(context).shareError),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
           ),
         );
       }
@@ -2400,12 +2390,12 @@ class _ToggleChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? context.appColors.primary.withValues(alpha: 0.2)
+              ? context.vantColors.primary.withValues(alpha: 0.2)
               : Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: isSelected
-                ? context.appColors.primary
+                ? context.vantColors.primary
                 : Colors.white.withValues(alpha: 0.1),
             width: 1,
           ),
@@ -2419,7 +2409,7 @@ class _ToggleChip extends StatelessWidget {
                   : CupertinoIcons.circle,
               size: 16,
               color: isSelected
-                  ? context.appColors.primary
+                  ? context.vantColors.primary
                   : Colors.white.withValues(alpha: 0.5),
             ),
             const SizedBox(width: 6),
@@ -2429,7 +2419,7 @@ class _ToggleChip extends StatelessWidget {
                 fontSize: 13,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 color: isSelected
-                    ? context.appColors.primary
+                    ? context.vantColors.primary
                     : Colors.white.withValues(alpha: 0.6),
               ),
             ),

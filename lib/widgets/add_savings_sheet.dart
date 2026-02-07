@@ -108,7 +108,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                 const SizedBox(height: 24),
 
                 // Title
-                Text(l10n.addSavings, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: 0.5, color: Color(0xFFFAFAFA))),
+                Text(l10n.addSavings, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: -0.5, color: Color(0xFFFAFAFA))),
                 const SizedBox(height: 16),
 
                 // Amount input

@@ -417,7 +417,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
                                 color: context.vantColors.textPrimary,
-                                letterSpacing: 1.2,
+                                letterSpacing: -0.3,
                               ),
                             ),
                           ],
@@ -592,10 +592,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Text(
                   title.toUpperCase(),
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: FontWeight.w600,
-                    letterSpacing: 1.2,
-                    color: context.vantColors.textTertiary,
+                    letterSpacing: 1.0,
+                    color: context.vantColors.primary,
                   ),
                 ),
               ],
@@ -633,13 +633,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
             padding: const EdgeInsets.only(left: 4, bottom: 12),
             child: Row(
               children: [
+                Container(
+                  width: 3,
+                  height: 14,
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    gradient: VantGradients.primaryButton,
+                    borderRadius: BorderRadius.circular(1.5),
+                  ),
+                ),
                 Text(
                   l10n.voiceAndShortcuts.toUpperCase(),
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: FontWeight.w600,
-                    letterSpacing: 1.2,
-                    color: context.vantColors.textTertiary,
+                    letterSpacing: 1.0,
+                    color: context.vantColors.primary,
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -958,14 +967,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // Section header
           Padding(
             padding: const EdgeInsets.only(left: 4, bottom: 12),
-            child: Text(
-              l10n.security.toUpperCase(),
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 1.2,
-                color: context.vantColors.textTertiary,
-              ),
+            child: Row(
+              children: [
+                Container(
+                  width: 3,
+                  height: 14,
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    gradient: VantGradients.primaryButton,
+                    borderRadius: BorderRadius.circular(1.5),
+                  ),
+                ),
+                Text(
+                  l10n.security.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.0,
+                    color: context.vantColors.primary,
+                  ),
+                ),
+              ],
             ),
           ),
           Container(
@@ -1188,7 +1210,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildDivider() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Divider(height: 1, color: context.vantColors.cardBorder),
+      child: Divider(height: 1, color: Colors.white.withValues(alpha: 0.05)),
     );
   }
 
@@ -1594,7 +1616,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildRestorePurchasesTile(AppLocalizations l10n) {
     return _buildListTile(
       icon: CupertinoIcons.arrow_counterclockwise,
-      iconColor: VantColors.secondary,
+      iconColor: VantColors.primary,
       title: l10n.settingsRestorePurchases,
       trailing: _isRestoring
           ? const SizedBox(

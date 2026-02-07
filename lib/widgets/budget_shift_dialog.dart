@@ -143,7 +143,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: context.appColors.error,
+        backgroundColor: context.vantColors.error,
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -179,7 +179,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
     return Container(
       margin: EdgeInsets.only(bottom: bottomPadding),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: SafeArea(
@@ -195,7 +195,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -209,7 +209,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: context.appColors.primary.withValues(alpha: 0.1),
+                      color: context.vantColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: const Center(
@@ -226,14 +226,14 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                           ),
                         ),
                         Text(
                           '${widget.currencySymbol}${formatTurkishCurrency(widget.totalAmount, decimalDigits: 0, showDecimals: false)} ekleniyor',
                           style: TextStyle(
                             fontSize: 13,
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                         ),
                       ],
@@ -251,7 +251,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -259,7 +259,7 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                 'Havuzda yeterli bakiye yok. Bu parayı nereden kaydırmak istersin?',
                 style: TextStyle(
                   fontSize: 14,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
               ),
               const SizedBox(height: 20),
@@ -284,20 +284,20 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                       decoration: BoxDecoration(
                         color: isSelected
                             ? (option.isJoker
-                                  ? context.appColors.warning.withValues(
+                                  ? context.vantColors.warning.withValues(
                                       alpha: 0.15,
                                     )
-                                  : context.appColors.primary.withValues(
+                                  : context.vantColors.primary.withValues(
                                       alpha: 0.15,
                                     ))
-                            : context.appColors.surfaceLight,
+                            : context.vantColors.surfaceLight,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: isSelected
                               ? (option.isJoker
-                                    ? context.appColors.warning
-                                    : context.appColors.primary)
-                              : context.appColors.cardBorder,
+                                    ? context.vantColors.warning
+                                    : context.vantColors.primary)
+                              : context.vantColors.cardBorder,
                           width: isSelected ? 2 : 1,
                         ),
                       ),
@@ -318,9 +318,9 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                                   : FontWeight.w500,
                               color: isSelected
                                   ? (option.isJoker
-                                        ? context.appColors.warning
-                                        : context.appColors.primary)
-                                  : context.appColors.textPrimary,
+                                        ? context.vantColors.warning
+                                        : context.vantColors.primary)
+                                  : context.vantColors.textPrimary,
                             ),
                           ),
                         ],
@@ -340,13 +340,13 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                       ? _confirm
                       : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: context.appColors.primary,
+                    backgroundColor: context.vantColors.primary,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    disabledBackgroundColor: context.appColors.surfaceLight,
+                    disabledBackgroundColor: context.vantColors.surfaceLight,
                   ),
                   child: _isLoading
                       ? const SizedBox(
@@ -376,13 +376,13 @@ class _BudgetShiftDialogState extends State<BudgetShiftDialog> {
                   icon: Icon(
                     CupertinoIcons.exclamationmark_triangle,
                     size: 18,
-                    color: context.appColors.error,
+                    color: context.vantColors.error,
                   ),
                   label: Text(
                     l10n.createShadowDebt,
                     style: TextStyle(
                       fontSize: 14,
-                      color: context.appColors.error,
+                      color: context.vantColors.error,
                     ),
                   ),
                 ),

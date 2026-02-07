@@ -920,13 +920,13 @@ class _ReportScreenState extends State<ReportScreen>
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: context.vantColors.warning.withValues(alpha: 0.15),
+                  color: context.vantColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   CupertinoIcons.clock_fill,
                   size: 18,
-                  color: context.vantColors.warning,
+                  color: context.vantColors.primary,
                 ),
               ),
               const SizedBox(width: 12),
@@ -1206,13 +1206,13 @@ class _ReportScreenState extends State<ReportScreen>
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: context.vantColors.secondary.withValues(alpha: 0.15),
+                  color: context.vantColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   CupertinoIcons.lightbulb_fill,
                   size: 18,
-                  color: context.vantColors.secondary,
+                  color: context.vantColors.primary,
                 ),
               ),
               const SizedBox(width: 12),
@@ -2754,7 +2754,7 @@ class _ProBadge extends StatelessWidget {
           fontSize: 8,
           fontWeight: FontWeight.w800,
           color: context.vantColors.background,
-          letterSpacing: 0.5,
+          letterSpacing: 1.0,
         ),
       ),
     );

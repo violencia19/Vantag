@@ -190,7 +190,7 @@ class CurrencyRateWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
                 // Glass effect: semi-transparent with blur
-                color: context.appColors.surface.withValues(alpha: 0.6),
+                color: context.vantColors.surface.withValues(alpha: 0.6),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: Colors.white.withValues(alpha: 0.15),
@@ -199,7 +199,7 @@ class CurrencyRateWidget extends StatelessWidget {
                 // Subtle inner glow
                 boxShadow: [
                   BoxShadow(
-                    color: context.appColors.primary.withValues(alpha: 0.1),
+                    color: context.vantColors.primary.withValues(alpha: 0.1),
                     blurRadius: 12,
                     spreadRadius: 0,
                   ),
@@ -229,7 +229,7 @@ class CurrencyRateWidget extends StatelessWidget {
             child: CircularProgressIndicator(
               strokeWidth: 2,
               valueColor: AlwaysStoppedAnimation<Color>(
-                context.appColors.textTertiary.withValues(alpha: 0.7),
+                context.vantColors.textTertiary.withValues(alpha: 0.7),
               ),
             ),
           ),
@@ -238,7 +238,7 @@ class CurrencyRateWidget extends StatelessWidget {
             l10n.ratesLoading,
             style: TextStyle(
               fontSize: 12,
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
             ),
           ),
         ],
@@ -253,14 +253,14 @@ class CurrencyRateWidget extends StatelessWidget {
           Icon(
             CupertinoIcons.exclamationmark_circle,
             size: 14,
-            color: context.appColors.textTertiary,
+            color: context.vantColors.textTertiary,
           ),
           const SizedBox(width: 8),
           Text(
             l10n.ratesLoadFailed,
             style: TextStyle(
               fontSize: 12,
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
             ),
           ),
           if (onRetry != null) ...[
@@ -274,7 +274,7 @@ class CurrencyRateWidget extends StatelessWidget {
                   l10n.retry,
                   style: TextStyle(
                     fontSize: 12,
-                    color: context.appColors.primary,
+                    color: context.vantColors.primary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -303,7 +303,7 @@ class CurrencyRateWidget extends StatelessWidget {
           Icon(
             CupertinoIcons.chevron_right,
             size: 16,
-            color: context.appColors.textTertiary.withValues(alpha: 0.7),
+            color: context.vantColors.textTertiary.withValues(alpha: 0.7),
           ),
         ],
       ),
@@ -323,7 +323,7 @@ class CurrencyRateWidget extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
         const SizedBox(width: 4),
@@ -332,7 +332,7 @@ class CurrencyRateWidget extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
           ),
         ),
         if (item.showWarning) ...[
@@ -342,7 +342,7 @@ class CurrencyRateWidget extends StatelessWidget {
             child: Icon(
               CupertinoIcons.info_circle,
               size: 12,
-              color: context.appColors.warning.withValues(alpha: 0.8),
+              color: context.vantColors.warning.withValues(alpha: 0.8),
             ),
           ),
         ],
@@ -357,7 +357,7 @@ class CurrencyRateWidget extends StatelessWidget {
         '|',
         style: TextStyle(
           fontSize: 12,
-          color: context.appColors.textTertiary.withValues(alpha: 0.5),
+          color: context.vantColors.textTertiary.withValues(alpha: 0.5),
         ),
       ),
     );

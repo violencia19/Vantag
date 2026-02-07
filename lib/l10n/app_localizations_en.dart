@@ -319,7 +319,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get descriptionHint => 'e.g: Migros, Spotify, Shell...';
 
   @override
-  String get descriptionLabel => 'Description (Store/Product)';
+  String get descriptionLabel => 'Description';
 
   @override
   String get date => 'Date';
@@ -3636,34 +3636,34 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get activeInstallments => 'Active Installments';
+  String get activeInstallments => 'Active Payment Plans';
 
   @override
   String installmentCount(int count) {
-    return '$count installments';
+    return '$count payments';
   }
 
   @override
   String moreInstallments(int count) {
-    return '+$count more installments';
+    return '+$count more plans';
   }
 
   @override
   String get monthlyBurden => 'Monthly Burden';
 
   @override
-  String get remainingDebt => 'Remaining Debt';
+  String get remainingDebt => 'Remaining Balance';
 
   @override
   String totalInterestCost(String amount, String hours) {
-    return 'Total interest: $amount ($hours hours)';
+    return 'Total fees: $amount ($hours hours)';
   }
 
   @override
   String get monthAbbreviation => 'mo';
 
   @override
-  String get installmentsLabel => 'installments';
+  String get installmentsLabel => 'payments';
 
   @override
   String get remaining => 'Remaining';
@@ -4256,34 +4256,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String get requiredExpense => 'Required Expense';
 
   @override
-  String get installmentPurchase => 'Installment Purchase';
+  String get installmentPurchase => 'Payment Plan';
 
   @override
-  String get installmentInfo => 'Installment Information';
+  String get installmentInfo => 'Payment Plan Details';
 
   @override
-  String get cashPrice => 'Cash Price';
+  String get cashPrice => 'Original Price';
 
   @override
-  String get cashPriceHint => 'Original cash price';
+  String get cashPriceHint => 'Price without financing';
 
   @override
-  String get numberOfInstallments => 'Number of Installments';
+  String get numberOfInstallments => 'Number of Payments';
 
   @override
-  String get totalInstallmentPrice => 'Total Installment Price';
+  String get totalInstallmentPrice => 'Total with Financing';
 
   @override
-  String get totalWithInterestHint => 'Total with interest';
+  String get totalWithInterestHint => 'Total including fees';
 
   @override
-  String get installmentSummary => 'INSTALLMENT SUMMARY';
+  String get installmentSummary => 'PAYMENT PLAN SUMMARY';
 
   @override
   String get willBeSavedAsRequired => 'Will be saved as required expense';
 
   @override
-  String get creditCardOrStoreInstallment => 'Credit card or store installment';
+  String get creditCardOrStoreInstallment =>
+      'Buy Now Pay Later (Affirm, Klarna, etc.)';
 
   @override
   String get vantagAI => 'Vantag AI';
@@ -5883,10 +5884,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get excelInstallmentEndDate => 'End Date';
 
   @override
-  String get excelInstallmentInterest => 'Interest';
+  String get excelInstallmentInterest => 'Fees / Interest';
 
   @override
-  String get excelNoInstallments => 'No installment payments';
+  String get excelNoInstallments => 'No payment plans';
 
   @override
   String get excelTotalMonthlyPayments => 'Total Monthly Payments';
@@ -6326,4 +6327,379 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get additionalIncomeNo => 'No, I don\'t';
+
+  @override
+  String get expenseTypeSingle => 'One-time';
+
+  @override
+  String get expenseTypeRecurring => 'Recurring';
+
+  @override
+  String get expenseTypeInstallment => 'Payment Plan';
+
+  @override
+  String get monthlyPaymentLabel => 'Monthly payment:';
+
+  @override
+  String installmentCountLabel(int count) {
+    return '$count months';
+  }
+
+  @override
+  String get interestAmountLabel => 'Fees / Interest:';
+
+  @override
+  String get interestAsHoursLabel => 'Fees as work hours:';
+
+  @override
+  String get hoursUnit => 'hours';
+
+  @override
+  String installmentSavingsWarning(String hours) {
+    return 'Paying upfront would save you $hours hours!';
+  }
+
+  @override
+  String get errorSelectInstallmentCount => 'Please select number of payments';
+
+  @override
+  String get errorEnterInstallmentTotal => 'Please enter total with financing';
+
+  @override
+  String get insightPeakDay => 'Peak Spending Day';
+
+  @override
+  String get insightTopCategory => 'Top Category';
+
+  @override
+  String get insightMonthComparison => 'This Month vs Last Month';
+
+  @override
+  String insightPeakDaySubtitle(String day) {
+    return '$day is your highest spending day';
+  }
+
+  @override
+  String insightTopCategorySubtitle(String category) {
+    return '$category is your top category';
+  }
+
+  @override
+  String insightMonthDown(String percent) {
+    return '$percent% decrease from last month';
+  }
+
+  @override
+  String insightMonthUp(String percent) {
+    return '$percent% increase from last month';
+  }
+
+  @override
+  String get dayMonday => 'Monday';
+
+  @override
+  String get dayTuesday => 'Tuesday';
+
+  @override
+  String get dayWednesday => 'Wednesday';
+
+  @override
+  String get dayThursday => 'Thursday';
+
+  @override
+  String get dayFriday => 'Friday';
+
+  @override
+  String get daySaturday => 'Saturday';
+
+  @override
+  String get daySunday => 'Sunday';
+
+  @override
+  String get heatmapLow => 'Low';
+
+  @override
+  String get heatmapHigh => 'High';
+
+  @override
+  String get dayAbbrevMon => 'M';
+
+  @override
+  String get dayAbbrevTue => 'T';
+
+  @override
+  String get dayAbbrevWed => 'W';
+
+  @override
+  String get dayAbbrevThu => 'T';
+
+  @override
+  String get dayAbbrevFri => 'F';
+
+  @override
+  String get dayAbbrevSat => 'S';
+
+  @override
+  String get dayAbbrevSun => 'S';
+
+  @override
+  String get monthAbbrevJan => 'Jan';
+
+  @override
+  String get monthAbbrevFeb => 'Feb';
+
+  @override
+  String get monthAbbrevMar => 'Mar';
+
+  @override
+  String get monthAbbrevApr => 'Apr';
+
+  @override
+  String get monthAbbrevMay => 'May';
+
+  @override
+  String get monthAbbrevJun => 'Jun';
+
+  @override
+  String get monthAbbrevJul => 'Jul';
+
+  @override
+  String get monthAbbrevAug => 'Aug';
+
+  @override
+  String get monthAbbrevSep => 'Sep';
+
+  @override
+  String get monthAbbrevOct => 'Oct';
+
+  @override
+  String get monthAbbrevNov => 'Nov';
+
+  @override
+  String get monthAbbrevDec => 'Dec';
+
+  @override
+  String get savingsProjectionTitle => 'Savings Projection';
+
+  @override
+  String get threeMonths => '3 Mo';
+
+  @override
+  String get sixMonths => '6 Mo';
+
+  @override
+  String get oneYear => '1 Year';
+
+  @override
+  String monthlyAverageLabel(String amount) {
+    return 'Monthly average: $amount';
+  }
+
+  @override
+  String get categoryTrendTitle => 'Category Trend';
+
+  @override
+  String get workHoursEquivalentTitle => 'Work Hours Equivalent';
+
+  @override
+  String totalHoursLabel(String hours) {
+    return 'Total: $hours hours';
+  }
+
+  @override
+  String perHourLabel(String rate) {
+    return '($rate/hr)';
+  }
+
+  @override
+  String get dayAbbrevMonFull => 'Mon';
+
+  @override
+  String get dayAbbrevTueFull => 'Tue';
+
+  @override
+  String get dayAbbrevWedFull => 'Wed';
+
+  @override
+  String get dayAbbrevThuFull => 'Thu';
+
+  @override
+  String get dayAbbrevFriFull => 'Fri';
+
+  @override
+  String get dayAbbrevSatFull => 'Sat';
+
+  @override
+  String get dayAbbrevSunFull => 'Sun';
+
+  @override
+  String get sharePreText => 'To buy this';
+
+  @override
+  String get sharePostText => 'of work needed';
+
+  @override
+  String get shareCTA => 'How many hours do you work?';
+
+  @override
+  String get shareTextDefault => 'How many hours do you work? 👀 vantag.app';
+
+  @override
+  String get minuteUnitUpper => 'MIN';
+
+  @override
+  String get hourUnitUpper => 'HOUR';
+
+  @override
+  String get decisionBought => 'Bought';
+
+  @override
+  String get decisionPassed => 'Passed';
+
+  @override
+  String get decisionThinking => 'Thinking';
+
+  @override
+  String expenseAddedMessage(String amount, String description) {
+    return '$amount $description added';
+  }
+
+  @override
+  String get undoAction => 'Undo';
+
+  @override
+  String get confirmExpenseTitle => 'Confirm Expense';
+
+  @override
+  String get amountLabel => 'Amount';
+
+  @override
+  String get categoryLabel => 'Category';
+
+  @override
+  String get cancelAction => 'Cancel';
+
+  @override
+  String get addAction => 'Add';
+
+  @override
+  String referralAppliedMessage(String code) {
+    return 'Invite code applied: $code';
+  }
+
+  @override
+  String get workEquivalentBadge => 'WORK EQUIVALENT';
+
+  @override
+  String get hoursUnitUpper => 'HOURS';
+
+  @override
+  String get daysUnitUpper => 'DAYS';
+
+  @override
+  String get budgetUsageLabel => 'Budget Usage';
+
+  @override
+  String get whatDecisionLabel => 'What\'s your decision?';
+
+  @override
+  String daysUnit(int count) {
+    return '$count days';
+  }
+
+  @override
+  String get profilePhotoTitle => 'Profile Photo';
+
+  @override
+  String get takePhotoOption => 'Take photo';
+
+  @override
+  String get chooseFromGalleryOption => 'Choose from gallery';
+
+  @override
+  String get removePhotoOption => 'Remove photo';
+
+  @override
+  String examplePrefix(String examples) {
+    return 'E.g: $examples';
+  }
+
+  @override
+  String get exampleFood => 'Coffee, Grocery, Restaurant';
+
+  @override
+  String get exampleTransport => 'Gas, Taxi, Bus';
+
+  @override
+  String get exampleClothing => 'Coat, Shoes, T-shirt';
+
+  @override
+  String get exampleElectronics => 'Phone, Headphones, Charger';
+
+  @override
+  String get exampleEntertainment => 'Cinema, Game, Concert';
+
+  @override
+  String get exampleHealth => 'Medicine, Doctor, Vitamin';
+
+  @override
+  String get exampleEducation => 'Book, Course, Notebook';
+
+  @override
+  String get exampleBills => 'Electricity, Water, Internet';
+
+  @override
+  String get exampleDefault => 'Add a description...';
+
+  @override
+  String get newExpenseHeader => 'New Expense';
+
+  @override
+  String get expenseGroupHeader => 'Expense Group';
+
+  @override
+  String get calculateAction => 'Calculate';
+
+  @override
+  String get detailOptionalLabel => 'Detail (Optional)';
+
+  @override
+  String get enterValidAmountError => 'Please enter a valid amount';
+
+  @override
+  String get aiDisclaimer =>
+      'AI-generated insights are for informational purposes only and should not be considered financial advice.';
+
+  @override
+  String get hourLabel => 'Hour';
+
+  @override
+  String get yearLabel => 'Year';
+
+  @override
+  String goldOunces(String ounces) {
+    return '${ounces}oz gold';
+  }
+
+  @override
+  String goldOuncesShort(String ounces) {
+    return '${ounces}oz gold';
+  }
+
+  @override
+  String couldBuyGoldOunces(String ounces) {
+    return 'With this money you could buy $ounces oz of gold';
+  }
+
+  @override
+  String get pleaseEnterIncome => 'Please enter your income';
+
+  @override
+  String get mainIncome => 'Main Income';
+
+  @override
+  String get ofYourWork => 'of your work';
+
+  @override
+  String get expensePlaceholder => 'Coffee, food, grocery...';
 }

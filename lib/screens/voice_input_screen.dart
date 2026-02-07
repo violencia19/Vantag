@@ -10,7 +10,7 @@ import '../providers/providers.dart';
 import '../services/services.dart';
 import '../screens/paywall_screen.dart';
 import '../theme/theme.dart';
-import '../theme/app_theme.dart';
+
 
 /// Full-screen voice input experience
 /// Opens with microphone auto-started for seamless voice entry
@@ -111,7 +111,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.voiceNotAvailable),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -366,10 +366,10 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
             ],
           ),
           backgroundColor: decision == ExpenseDecision.yes
-              ? context.appColors.success
+              ? context.vantColors.success
               : decision == ExpenseDecision.no
-              ? context.appColors.error
-              : context.appColors.warning,
+              ? context.vantColors.error
+              : context.vantColors.warning,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -433,7 +433,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
         context: context,
         barrierColor: Colors.black.withValues(alpha: 0.85),
         builder: (ctx) => AlertDialog(
-          backgroundColor: context.appColors.surface,
+          backgroundColor: context.vantColors.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
@@ -441,7 +441,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
             children: [
               Icon(
                 CupertinoIcons.mic_fill,
-                color: context.appColors.warning,
+                color: context.vantColors.warning,
                 size: 28,
               ),
               const SizedBox(width: 12),
@@ -449,7 +449,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 child: Text(
                   l10n.voiceLimitReachedTitle,
                   style: TextStyle(
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
@@ -460,7 +460,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
           content: Text(
             l10n.voiceLimitReachedFree,
             style: TextStyle(
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
               fontSize: 15,
             ),
           ),
@@ -469,7 +469,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               onPressed: () => Navigator.pop(ctx),
               child: Text(
                 l10n.close,
-                style: TextStyle(color: context.appColors.textTertiary),
+                style: TextStyle(color: context.vantColors.textTertiary),
               ),
             ),
             ElevatedButton.icon(
@@ -482,8 +482,8 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: context.appColors.primary,
-                foregroundColor: context.appColors.textPrimary,
+                backgroundColor: context.vantColors.primary,
+                foregroundColor: context.vantColors.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -500,7 +500,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
         context: context,
         barrierColor: Colors.black.withValues(alpha: 0.85),
         builder: (ctx) => AlertDialog(
-          backgroundColor: context.appColors.surface,
+          backgroundColor: context.vantColors.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
@@ -508,7 +508,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
             children: [
               Icon(
                 CupertinoIcons.clock_fill,
-                color: context.appColors.warning,
+                color: context.vantColors.warning,
                 size: 28,
               ),
               const SizedBox(width: 12),
@@ -516,7 +516,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 child: Text(
                   l10n.voiceServerBusyTitle,
                   style: TextStyle(
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
@@ -527,7 +527,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
           content: Text(
             l10n.voiceServerBusyMessage,
             style: TextStyle(
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
               fontSize: 15,
             ),
           ),
@@ -535,8 +535,8 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
             ElevatedButton(
               onPressed: () => Navigator.pop(ctx),
               style: ElevatedButton.styleFrom(
-                backgroundColor: context.appColors.primary,
-                foregroundColor: context.appColors.textPrimary,
+                backgroundColor: context.vantColors.primary,
+                foregroundColor: context.vantColors.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -554,7 +554,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -566,7 +566,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                   IconButton(
                     icon: Icon(
                       CupertinoIcons.xmark,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                     tooltip: l10n.accessibilityCloseSheet,
                     onPressed: () => Navigator.pop(context),
@@ -578,7 +578,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                       Text(
                         l10n.voiceInput,
                         style: TextStyle(
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                         ),
@@ -619,20 +619,20 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                             end: Alignment.bottomRight,
                             colors: _isListening
                                 ? [
-                                    AppColors.categoryBills,
-                                    AppColors.dangerRedDark,
+                                    VantColors.categoryBills,
+                                    VantColors.dangerRedDark,
                                   ]
                                 : [
-                                    context.appColors.primary,
-                                    context.appColors.secondary,
+                                    context.vantColors.primary,
+                                    context.vantColors.secondary,
                                   ],
                           ),
                           boxShadow: [
                             BoxShadow(
                               color:
                                   (_isListening
-                                          ? AppColors.categoryBills
-                                          : context.appColors.primary)
+                                          ? VantColors.categoryBills
+                                          : context.vantColors.primary)
                                       .withValues(
                                         alpha: _isListening ? 0.6 : 0.4,
                                       ),
@@ -647,7 +647,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                                   width: 40,
                                   height: 40,
                                   child: CircularProgressIndicator(
-                                    color: context.appColors.textPrimary,
+                                    color: context.vantColors.textPrimary,
                                     strokeWidth: 3,
                                   ),
                                 )
@@ -655,7 +655,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                                   _isListening
                                       ? CupertinoIcons.stop_fill
                                       : CupertinoIcons.mic_fill,
-                                  color: context.appColors.textPrimary,
+                                  color: context.vantColors.textPrimary,
                                   size: 56,
                                 ),
                         ),
@@ -674,7 +674,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 width: 200,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.appColors.surfaceLight,
+                  color: context.vantColors.surfaceLight,
                   borderRadius: BorderRadius.circular(2),
                 ),
                 child: FractionallySizedBox(
@@ -684,8 +684,8 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          context.appColors.primary,
-                          context.appColors.secondary,
+                          context.vantColors.primary,
+                          context.vantColors.secondary,
                         ],
                       ),
                       borderRadius: BorderRadius.circular(2),
@@ -701,8 +701,8 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               _statusText.isEmpty ? l10n.tapToSpeak : _statusText,
               style: TextStyle(
                 color: _isListening
-                    ? AppColors.categoryBills
-                    : context.appColors.textSecondary,
+                    ? VantColors.categoryBills
+                    : context.vantColors.textSecondary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
@@ -716,16 +716,16 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                 margin: const EdgeInsets.symmetric(horizontal: 32),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: context.appColors.surfaceLight,
+                  color: context.vantColors.surfaceLight,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: context.appColors.primary.withValues(alpha: 0.3),
+                    color: context.vantColors.primary.withValues(alpha: 0.3),
                   ),
                 ),
                 child: Text(
                   _recognizedText,
                   style: TextStyle(
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
@@ -740,7 +740,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
               margin: const EdgeInsets.all(24),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: context.appColors.surfaceLight,
+                color: context.vantColors.surfaceLight,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
@@ -750,14 +750,14 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                     children: [
                       Icon(
                         CupertinoIcons.lightbulb_fill,
-                        color: context.appColors.warning,
+                        color: context.vantColors.warning,
                         size: 20,
                       ),
                       const SizedBox(width: 8),
                       Text(
                         l10n.speakExpense,
                         style: TextStyle(
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
@@ -768,7 +768,7 @@ class _VoiceInputScreenState extends State<VoiceInputScreen>
                   Text(
                     l10n.voiceExamplesMultiline,
                     style: TextStyle(
-                      color: context.appColors.textTertiary,
+                      color: context.vantColors.textTertiary,
                       fontSize: 13,
                       height: 1.6,
                     ),
@@ -847,7 +847,7 @@ class _DecisionDialogState extends State<_DecisionDialog>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final colors = context.appColors;
+    final colors = context.vantColors;
 
     return AlertDialog(
       backgroundColor: colors.surface,
@@ -1045,7 +1045,7 @@ class _DecisionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.appColors;
+    final colors = context.vantColors;
 
     return GestureDetector(
       onTap: () {
@@ -1110,8 +1110,8 @@ class _VoiceUsageIndicator extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
               color: isLimitReached
-                  ? context.appColors.error.withValues(alpha: 0.15)
-                  : context.appColors.primary.withValues(alpha: 0.1),
+                  ? context.vantColors.error.withValues(alpha: 0.15)
+                  : context.vantColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
@@ -1123,8 +1123,8 @@ class _VoiceUsageIndicator extends StatelessWidget {
                       : CupertinoIcons.mic_fill,
                   size: 12,
                   color: isLimitReached
-                      ? context.appColors.error
-                      : context.appColors.primary,
+                      ? context.vantColors.error
+                      : context.vantColors.primary,
                 ),
                 const SizedBox(width: 4),
                 Text(
@@ -1133,8 +1133,8 @@ class _VoiceUsageIndicator extends StatelessWidget {
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                     color: isLimitReached
-                        ? context.appColors.error
-                        : context.appColors.primary,
+                        ? context.vantColors.error
+                        : context.vantColors.primary,
                   ),
                 ),
               ],

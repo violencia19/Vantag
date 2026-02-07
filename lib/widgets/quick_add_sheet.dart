@@ -1445,7 +1445,7 @@ class _PremiumCategoryButtonState extends State<_PremiumCategoryButton> {
                   color: widget.isSelected
                       ? context.vantColors.background
                       : context.vantColors.textPrimary,
-                  letterSpacing: -0.2,
+                  letterSpacing: 0,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),

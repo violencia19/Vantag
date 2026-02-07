@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:liquid_glass_widgets/liquid_glass_widgets.dart' as lg;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -240,10 +239,14 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           HapticFeedback.lightImpact();
           onTap();
         },
-        child: lg.GlassContainer(
+        child: Container(
           width: 44,
           height: 44,
-          shape: const lg.LiquidRoundedSuperellipse(borderRadius: 16),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+          ),
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -358,73 +361,74 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             HapticFeedback.mediumImpact();
             _openHabitCalculator();
           },
-          child: lg.GlassCard(
-            shape: const lg.LiquidRoundedSuperellipse(borderRadius: 16),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    VantColors.primary.withValues(alpha: 0.8),
-                    VantColors.secondary.withValues(alpha: 0.8),
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Row(
-                children: [
-                  lg.GlassContainer(
-                    width: 48,
-                    height: 48,
-                    shape: const lg.LiquidRoundedSuperellipse(borderRadius: 16),
-                    child: Center(
-                      child: Icon(
-                        CupertinoIcons.bolt_fill,
-                        size: 28,
-                        color: context.vantColors.textPrimary,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Builder(
-                      builder: (context) {
-                        final l10n = AppLocalizations.of(context);
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              l10n.habitQuestion,
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: context.vantColors.textPrimary,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              l10n.calculateAndShock,
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: context.vantColors.textPrimary.withValues(
-                                  alpha: 0.9,
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                  Icon(
-                    CupertinoIcons.chevron_right,
-                    color: context.vantColors.textPrimary.withValues(alpha: 0.9),
-                    size: 24,
-                  ),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  VantColors.primary.withValues(alpha: 0.8),
+                  VantColors.primaryLight.withValues(alpha: 0.8),
                 ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
               ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      CupertinoIcons.bolt_fill,
+                      size: 28,
+                      color: context.vantColors.textPrimary,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Builder(
+                    builder: (context) {
+                      final l10n = AppLocalizations.of(context);
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.habitQuestion,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: context.vantColors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            l10n.calculateAndShock,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: context.vantColors.textPrimary.withValues(
+                                alpha: 0.9,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                Icon(
+                  CupertinoIcons.chevron_right,
+                  color: context.vantColors.textPrimary.withValues(alpha: 0.9),
+                  size: 24,
+                ),
+              ],
             ),
           ),
         ),
@@ -691,61 +695,69 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   Widget _buildProUpsell(AppLocalizations l10n, int lockedCount) {
     return Container(
       margin: const EdgeInsets.only(bottom: 24, top: 8),
-      child: lg.GlassCard(
-        shape: const lg.LiquidRoundedSuperellipse(borderRadius: 16),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                context.vantColors.primary.withValues(alpha: 0.15),
-                context.vantColors.primary.withValues(alpha: 0.05),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              context.vantColors.primary.withValues(alpha: 0.15),
+              context.vantColors.primary.withValues(alpha: 0.05),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          child: Column(
-            children: [
-              lg.GlassContainer(
-                width: 56,
-                height: 56,
-                shape: const lg.LiquidOval(),
-                child: Icon(
-                  CupertinoIcons.star_fill,
-                  size: 28,
-                  color: context.vantColors.primary,
-                ),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.08),
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
               ),
-              const SizedBox(height: 16),
-              Text(
-                l10n.unlockFullHistory,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: context.vantColors.textPrimary,
-                ),
+              child: Icon(
+                CupertinoIcons.star_fill,
+                size: 28,
+                color: context.vantColors.primary,
               ),
-              const SizedBox(height: 8),
-              Text(
-                l10n.proHistoryDescription(lockedCount),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: context.vantColors.textSecondary,
-                  height: 1.4,
-                ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.unlockFullHistory,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: context.vantColors.textPrimary,
               ),
-              const SizedBox(height: 20),
-              lg.GlassButton.custom(
-                onTap: () {
-                  HapticFeedback.mediumImpact();
-                  _showPaywall();
-                },
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.proHistoryDescription(lockedCount),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: context.vantColors.textSecondary,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 20),
+            GestureDetector(
+              onTap: () {
+                HapticFeedback.mediumImpact();
+                _showPaywall();
+              },
+              child: Container(
                 width: 180,
                 height: 48,
-                shape: const lg.LiquidRoundedSuperellipse(borderRadius: 16),
+                decoration: BoxDecoration(
+                  gradient: VantGradients.primaryButton,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: VantShadows.glow(VantColors.primary, intensity: 0.5),
+                ),
+                alignment: Alignment.center,
                 child: Text(
                   l10n.upgradeToPro,
                   style: TextStyle(
@@ -755,8 +767,8 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -783,16 +795,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFF050508),
-      body: lg.LiquidGlassLayer(
-        settings: lg.LiquidGlassSettings(
-          thickness: 0.0, // Invisible
-          blur: 0.0,
-          refractiveIndex: 1.0,
-          glassColor: Colors.transparent,
-          lightIntensity: 0.0,
-          ambientStrength: 0.0,
-        ),
-        child: Container(
+      body: Container(
           color: const Color(0xFF050508), // Pure black OLED background
           child: SafeArea(
             bottom: false,
@@ -1091,22 +1094,24 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           ),
         ),
       ),
-      ),
     );
   }
 
   Widget _buildEmptyState(AppLocalizations l10n) {
-    return lg.GlassCard(
-      shape: const lg.LiquidRoundedSuperellipse(borderRadius: 24),
+    return VGlassStyledContainer(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            lg.GlassContainer(
+            Container(
               width: 72,
               height: 72,
-              shape: const lg.LiquidRoundedSuperellipse(borderRadius: 24),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+              ),
               child: Icon(
                 CupertinoIcons.doc_text,
                 size: 32,

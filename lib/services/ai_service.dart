@@ -119,98 +119,20 @@ class AIService {
     }
 
     try {
-      final handler = AIToolHandler(financeProvider);
-      final subscriptionType = _getSubscriptionType(proProvider);
-
-      // İlk istek - Cloud Function'a gönder
-      var response = await _sendCloudRequest(
+      // Overall timeout: cap the entire request+tool loop to 120s
+      return await _executeAIRequest(
         message: message,
         userId: userId,
         isPremium: isPremium,
-        subscriptionType: subscriptionType,
+        proProvider: proProvider,
+        financeProvider: financeProvider,
         languageCode: languageCode,
+      ).timeout(
+        const Duration(seconds: 120),
+        onTimeout: () => languageCode == 'en'
+            ? 'Request timed out. Please try again.'
+            : 'İstek zaman aşımına uğradı. Lütfen tekrar dene.',
       );
-
-      debugPrint('📥 [AIService] İlk response alındı');
-
-      // Tool call loop
-      int maxIterations = 5;
-      int iteration = 0;
-      List<Map<String, dynamic>> toolResults = [];
-
-      while (response['requiresToolExecution'] == true &&
-          response['toolCalls'] != null &&
-          iteration < maxIterations) {
-        iteration++;
-        final toolCalls = response['toolCalls'] as List<dynamic>;
-        debugPrint(
-          '🔧 [AIService] Tool çağrısı algılandı (iteration $iteration): ${toolCalls.length} adet',
-        );
-
-        // Assistant message with tool calls
-        toolResults.add({
-          'role': 'assistant',
-          'content': response['response'],
-          'tool_calls': toolCalls,
-        });
-
-        // Her tool call için sonuç al
-        for (final toolCall in toolCalls) {
-          final functionName = toolCall['function']['name'] as String;
-          final arguments =
-              jsonDecode(toolCall['function']['arguments'] as String)
-                  as Map<String, dynamic>;
-
-          debugPrint('📞 [AIService] Tool: $functionName');
-          debugPrint('📋 [AIService] Args: $arguments');
-
-          // Tool'u local olarak çalıştır
-          final result = await handler.handleToolCall(functionName, arguments);
-          debugPrint('✅ [AIService] Result: $result');
-
-          // Tool response ekle
-          toolResults.add({
-            'role': 'tool',
-            'tool_call_id': toolCall['id'],
-            'content': jsonEncode(result),
-          });
-        }
-
-        // Tool sonuçlarıyla tekrar Cloud Function'a gönder
-        response = await _sendCloudRequest(
-          message: message,
-          userId: userId,
-          isPremium: isPremium,
-          subscriptionType: subscriptionType,
-          languageCode: languageCode,
-          toolResults: toolResults,
-        );
-        debugPrint('📥 [AIService] Tool sonrası response alındı');
-      }
-
-      // Update remaining quota
-      if (response['remainingQuota'] != null) {
-        _remainingQuota = response['remainingQuota'] as int;
-        debugPrint('📊 [AIService] Kalan kota: $_remainingQuota');
-      }
-
-      // Final cevabı al
-      final responseText = (response['response'] as String?)?.trim();
-
-      if (responseText == null || responseText.isEmpty) {
-        return languageCode == 'en'
-            ? 'I couldn\'t analyze that, could you ask again?'
-            : 'Analiz yapamadım, tekrar sorar mısın?';
-      }
-
-      // Mesajları kaydet
-      await _memory.saveMessage('user', message);
-      await _memory.saveMessage('assistant', responseText);
-
-      debugPrint(
-        '✅ [AIService] Cevap: ${responseText.substring(0, responseText.length.clamp(0, 100))}...',
-      );
-      return responseText;
     } on AILimitExceededException {
       rethrow; // UI'da handle edilecek
     } catch (e, stack) {
@@ -239,6 +161,109 @@ class AIService {
           ? 'Something went wrong, please try again.'
           : 'Bir sorun oluştu, tekrar dene.';
     }
+  }
+
+  /// Inner method extracted so getResponse() can wrap it in an overall timeout.
+  Future<String> _executeAIRequest({
+    required String message,
+    required String userId,
+    required bool isPremium,
+    required ProProvider? proProvider,
+    required FinanceProvider financeProvider,
+    required String languageCode,
+  }) async {
+    final handler = AIToolHandler(financeProvider);
+    final subscriptionType = _getSubscriptionType(proProvider);
+
+    // İlk istek - Cloud Function'a gönder
+    var response = await _sendCloudRequest(
+      message: message,
+      userId: userId,
+      isPremium: isPremium,
+      subscriptionType: subscriptionType,
+      languageCode: languageCode,
+    );
+
+    debugPrint('📥 [AIService] İlk response alındı');
+
+    // Tool call loop
+    int maxIterations = 5;
+    int iteration = 0;
+    List<Map<String, dynamic>> toolResults = [];
+
+    while (response['requiresToolExecution'] == true &&
+        response['toolCalls'] != null &&
+        iteration < maxIterations) {
+      iteration++;
+      final toolCalls = response['toolCalls'] as List<dynamic>;
+      debugPrint(
+        '🔧 [AIService] Tool çağrısı algılandı (iteration $iteration): ${toolCalls.length} adet',
+      );
+
+      // Assistant message with tool calls
+      toolResults.add({
+        'role': 'assistant',
+        'content': response['response'],
+        'tool_calls': toolCalls,
+      });
+
+      // Her tool call için sonuç al
+      for (final toolCall in toolCalls) {
+        final functionName = toolCall['function']['name'] as String;
+        final arguments =
+            jsonDecode(toolCall['function']['arguments'] as String)
+                as Map<String, dynamic>;
+
+        debugPrint('📞 [AIService] Tool: $functionName');
+        debugPrint('📋 [AIService] Args: $arguments');
+
+        // Tool'u local olarak çalıştır
+        final result = await handler.handleToolCall(functionName, arguments);
+        debugPrint('✅ [AIService] Result: $result');
+
+        // Tool response ekle
+        toolResults.add({
+          'role': 'tool',
+          'tool_call_id': toolCall['id'],
+          'content': jsonEncode(result),
+        });
+      }
+
+      // Tool sonuçlarıyla tekrar Cloud Function'a gönder
+      response = await _sendCloudRequest(
+        message: message,
+        userId: userId,
+        isPremium: isPremium,
+        subscriptionType: subscriptionType,
+        languageCode: languageCode,
+        toolResults: toolResults,
+      );
+      debugPrint('📥 [AIService] Tool sonrası response alındı');
+    }
+
+    // Update remaining quota
+    if (response['remainingQuota'] != null) {
+      _remainingQuota = response['remainingQuota'] as int;
+      debugPrint('📊 [AIService] Kalan kota: $_remainingQuota');
+    }
+
+    // Final cevabı al
+    final responseText = (response['response'] as String?)?.trim();
+
+    if (responseText == null || responseText.isEmpty) {
+      return languageCode == 'en'
+          ? 'I couldn\'t analyze that, could you ask again?'
+          : 'Analiz yapamadım, tekrar sorar mısın?';
+    }
+
+    // Mesajları kaydet
+    await _memory.saveMessage('user', message);
+    await _memory.saveMessage('assistant', responseText);
+
+    debugPrint(
+      '✅ [AIService] Cevap: ${responseText.substring(0, responseText.length.clamp(0, 100))}...',
+    );
+    return responseText;
   }
 
   Future<Map<String, dynamic>> _sendCloudRequest({

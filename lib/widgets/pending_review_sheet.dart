@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
+import '../providers/currency_provider.dart';
 import '../providers/finance_provider.dart';
 import '../services/import_service.dart';
 import '../services/merchant_learning_service.dart';
@@ -79,55 +79,55 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
       id: 'Yiyecek',
       label: AppLocalizations.of(context).categoryFood,
       icon: CupertinoIcons.cart,
-      color: AppColors.categoryBills,
+      color: VantColors.categoryBills,
     ),
     _CategoryOption(
       id: 'Ulasim',
       label: AppLocalizations.of(context).categoryTransport,
       icon: CupertinoIcons.car,
-      color: AppColors.categoryEntertainment,
+      color: VantColors.categoryEntertainment,
     ),
     _CategoryOption(
       id: 'Giyim',
       label: AppLocalizations.of(context).categoryClothing,
       icon: CupertinoIcons.bag,
-      color: AppColors.categoryShopping,
+      color: VantColors.categoryShopping,
     ),
     _CategoryOption(
       id: 'Elektronik',
       label: AppLocalizations.of(context).categoryElectronics,
       icon: CupertinoIcons.device_phone_portrait,
-      color: AppColors.secondary,
+      color: VantColors.secondary,
     ),
     _CategoryOption(
       id: 'Eglence',
       label: AppLocalizations.of(context).categoryEntertainment,
       icon: CupertinoIcons.game_controller,
-      color: AppColors.categoryEducation,
+      color: VantColors.categoryEducation,
     ),
     _CategoryOption(
       id: 'Saglik',
       label: AppLocalizations.of(context).categoryHealth,
       icon: CupertinoIcons.heart,
-      color: AppColors.achievementMystery,
+      color: VantColors.achievementMystery,
     ),
     _CategoryOption(
       id: 'Egitim',
       label: AppLocalizations.of(context).categoryEducation,
       icon: CupertinoIcons.book,
-      color: AppColors.categoryHealth,
+      color: VantColors.categoryHealth,
     ),
     _CategoryOption(
       id: 'Faturalar',
       label: AppLocalizations.of(context).categoryBills,
       icon: CupertinoIcons.doc_text,
-      color: AppColors.categoryOther,
+      color: VantColors.categoryOther,
     ),
     _CategoryOption(
       id: 'Diger',
       label: AppLocalizations.of(context).categoryOther,
       icon: CupertinoIcons.ellipsis,
-      color: AppColors.categoryDefault,
+      color: VantColors.categoryDefault,
     ),
   ];
 
@@ -202,7 +202,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
     return Container(
       height: screenHeight * 0.85,
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
@@ -213,7 +213,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -232,7 +232,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -240,7 +240,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                         l10n.swipeToCategorizeTip,
                         style: TextStyle(
                           fontSize: 14,
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                         ),
                       ),
                     ],
@@ -254,7 +254,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: context.appColors.primary.withValues(alpha: 0.1),
+                    color: context.vantColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: Text(
@@ -262,7 +262,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: context.appColors.primary,
+                      color: context.vantColors.primary,
                     ),
                   ),
                 ),
@@ -276,8 +276,8 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: LinearProgressIndicator(
                 value: _processedCount / widget.expenses.length,
-                backgroundColor: context.appColors.cardBorder,
-                valueColor: AlwaysStoppedAnimation(context.appColors.success),
+                backgroundColor: context.vantColors.cardBorder,
+                valueColor: AlwaysStoppedAnimation(context.vantColors.success),
                 minHeight: 4,
                 borderRadius: BorderRadius.circular(2),
               ),
@@ -308,12 +308,12 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                           : () => _skipExpense(_remaining.first),
                       icon: Icon(
                         CupertinoIcons.forward,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                       label: Text(
                         l10n.skip,
                         style: TextStyle(
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                         ),
                       ),
                     ),
@@ -326,7 +326,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                     child: ElevatedButton(
                       onPressed: () => Navigator.pop(context),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: context.appColors.primary,
+                        backgroundColor: context.vantColors.primary,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 24,
@@ -357,13 +357,13 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: context.appColors.success.withValues(alpha: 0.1),
+              color: context.vantColors.success.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
               CupertinoIcons.checkmark_circle,
               size: 40,
-              color: context.appColors.success,
+              color: context.vantColors.success,
             ),
           ),
           const SizedBox(height: 16),
@@ -372,7 +372,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
@@ -380,7 +380,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
             l10n.categorizedCount(_processedCount, _skippedCount),
             style: TextStyle(
               fontSize: 14,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
         ],
@@ -402,20 +402,20 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
             width: double.infinity,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: context.appColors.cardBackground,
+              color: context.vantColors.cardBackground,
               borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: context.appColors.cardBorder),
+              border: Border.all(color: context.vantColors.cardBorder),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Amount
                 Text(
-                  '${NumberFormat('#,##0', 'tr').format(expense.amount)} ₺',
+                  context.read<CurrencyProvider>().format(expense.amount),
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w700,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -425,7 +425,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                   expense.rawDescription,
                   style: TextStyle(
                     fontSize: 16,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -438,14 +438,14 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                     Icon(
                       CupertinoIcons.calendar,
                       size: 16,
-                      color: context.appColors.textTertiary,
+                      color: context.vantColors.textTertiary,
                     ),
                     const SizedBox(width: 6),
                     Text(
                       _formatDate(expense.date),
                       style: TextStyle(
                         fontSize: 14,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                     ),
                   ],
@@ -460,10 +460,10 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: context.appColors.primary.withValues(alpha: 0.1),
+                      color: context.vantColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: context.appColors.primary.withValues(alpha: 0.3),
+                        color: context.vantColors.primary.withValues(alpha: 0.3),
                       ),
                     ),
                     child: Row(
@@ -472,14 +472,14 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                         Icon(
                           CupertinoIcons.lightbulb_fill,
                           size: 16,
-                          color: context.appColors.primary,
+                          color: context.vantColors.primary,
                         ),
                         const SizedBox(width: 8),
                         Text(
                           l10n.suggestionLabel(expense.match!.displayName),
                           style: TextStyle(
                             fontSize: 14,
-                            color: context.appColors.primary,
+                            color: context.vantColors.primary,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -504,13 +504,13 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                         height: 22,
                         decoration: BoxDecoration(
                           color: expense.rememberMerchant
-                              ? context.appColors.primary
+                              ? context.vantColors.primary
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(6),
                           border: Border.all(
                             color: expense.rememberMerchant
-                                ? context.appColors.primary
-                                : context.appColors.textTertiary,
+                                ? context.vantColors.primary
+                                : context.vantColors.textTertiary,
                           ),
                         ),
                         child: expense.rememberMerchant
@@ -526,7 +526,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                         l10n.rememberMerchant,
                         style: TextStyle(
                           fontSize: 14,
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                         ),
                       ),
                     ],
@@ -544,7 +544,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
           const SizedBox(height: 12),
@@ -595,12 +595,12 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
           decoration: BoxDecoration(
             color: isSuggested
                 ? category.color.withValues(alpha: 0.2)
-                : context.appColors.cardBackground,
+                : context.vantColors.cardBackground,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: isSuggested
                   ? category.color
-                  : context.appColors.cardBorder,
+                  : context.vantColors.cardBorder,
               width: isSuggested ? 2 : 1,
             ),
             boxShadow: isSuggested
@@ -621,7 +621,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                 size: 28,
                 color: isSuggested
                     ? category.color
-                    : context.appColors.textSecondary,
+                    : context.vantColors.textSecondary,
               ),
               const SizedBox(height: 6),
               Text(
@@ -631,7 +631,7 @@ class _PendingReviewSheetState extends State<PendingReviewSheet> {
                   fontWeight: isSuggested ? FontWeight.w600 : FontWeight.w500,
                   color: isSuggested
                       ? category.color
-                      : context.appColors.textSecondary,
+                      : context.vantColors.textSecondary,
                 ),
                 textAlign: TextAlign.center,
               ),

@@ -107,7 +107,7 @@ class _WelcomeBackSheetState extends State<WelcomeBackSheet>
         margin: const EdgeInsets.all(16),
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: context.appColors.surface,
+          color: context.vantColors.surface,
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: message.color.withValues(alpha: 0.3),
@@ -135,13 +135,13 @@ class _WelcomeBackSheetState extends State<WelcomeBackSheet>
                 child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: context.appColors.surfaceLight,
+                    color: context.vantColors.surfaceLight,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
                     Icons.close_rounded,
                     size: 20,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                 ),
               ),
@@ -183,7 +183,7 @@ class _WelcomeBackSheetState extends State<WelcomeBackSheet>
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -212,7 +212,7 @@ class _WelcomeBackSheetState extends State<WelcomeBackSheet>
               message.subtitle,
               style: TextStyle(
                 fontSize: 15,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
                 height: 1.4,
               ),
               textAlign: TextAlign.center,
@@ -310,7 +310,7 @@ class _WelcomeBackSheetState extends State<WelcomeBackSheet>
                 'Sonra hatırlat',
                 style: TextStyle(
                   fontSize: 14,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ),
             ),

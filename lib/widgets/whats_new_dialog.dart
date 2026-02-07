@@ -68,10 +68,15 @@ class WhatsNewDialog extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return Dialog(
-      backgroundColor: context.appColors.surface,
+      backgroundColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-      child: Padding(
+      child: VGlassCard(
         padding: const EdgeInsets.all(24),
+        borderRadius: 24,
+        blurSigma: VantBlur.heavy,
+        glowColor: context.vantColors.primary,
+        glowIntensity: 0.15,
+        variant: VantGlassVariant.hero,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -80,13 +85,13 @@ class WhatsNewDialog extends StatelessWidget {
               width: 60,
               height: 60,
               decoration: BoxDecoration(
-                color: context.appColors.primary.withValues(alpha: 0.15),
+                color: context.vantColors.primary.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 CupertinoIcons.sparkles,
                 size: 32,
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
               ),
             ),
 
@@ -98,7 +103,7 @@ class WhatsNewDialog extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
 
@@ -113,7 +118,7 @@ class WhatsNewDialog extends StatelessWidget {
                       Icon(
                         CupertinoIcons.checkmark_circle,
                         size: 20,
-                        color: context.appColors.success,
+                        color: context.vantColors.success,
                       ),
                       const SizedBox(width: 12),
                       Expanded(
@@ -121,7 +126,7 @@ class WhatsNewDialog extends StatelessWidget {
                           change,
                           style: TextStyle(
                             fontSize: 14,
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                         ),
                       ),
@@ -137,7 +142,7 @@ class WhatsNewDialog extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: context.appColors.primary,
+                  backgroundColor: context.vantColors.primary,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(

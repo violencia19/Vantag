@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
-import '../theme/app_theme.dart';
 import 'share_card_widget.dart';
 
 /// Share card edit bottom sheet
@@ -42,7 +41,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
     return Container(
       height: MediaQuery.of(context).size.height * 0.85,
       decoration: BoxDecoration(
-        color: context.appColors.background,
+        color: context.vantColors.background,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
@@ -53,7 +52,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: context.appColors.cardBorder,
+              color: context.vantColors.cardBorder,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -69,7 +68,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 Semantics(
@@ -80,7 +79,7 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
                     tooltip: l10n.close,
                     icon: Icon(
                       CupertinoIcons.xmark,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                   ),
                 ),
@@ -158,12 +157,12 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [AppColors.primary, AppColors.secondary],
+                    colors: [VantColors.primary, VantColors.primaryLight],
                   ),
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.3),
+                      color: VantColors.primary.withValues(alpha: 0.3),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -215,18 +214,18 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: context.appColors.surfaceLight,
+          color: context.vantColors.surfaceLight,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
           children: [
-            Icon(icon, size: 20, color: context.appColors.primary),
+            Icon(icon, size: 20, color: context.vantColors.primary),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 label,
                 style: TextStyle(
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                   fontSize: 16,
                 ),
               ),
@@ -241,9 +240,9 @@ class _ShareEditSheetState extends State<ShareEditSheet> {
               Switch(
                 value: value,
                 onChanged: onChanged,
-                activeTrackColor: context.appColors.primary,
+                activeTrackColor: context.vantColors.primary,
                 inactiveThumbColor: Colors.white54,
-                inactiveTrackColor: context.appColors.surfaceLight,
+                inactiveTrackColor: context.vantColors.surfaceLight,
               ),
           ],
         ),

@@ -31,7 +31,7 @@ class LabeledDropdown<T> extends StatelessWidget {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
@@ -39,9 +39,9 @@ class LabeledDropdown<T> extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: context.appColors.surface,
+            color: context.vantColors.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: context.appColors.cardBorder),
+            border: Border.all(color: context.vantColors.cardBorder),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<T>(
@@ -49,14 +49,14 @@ class LabeledDropdown<T> extends StatelessWidget {
               isExpanded: true,
               icon: Icon(
                 CupertinoIcons.chevron_down,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
-              dropdownColor: context.appColors.surfaceLight,
+              dropdownColor: context.vantColors.surfaceLight,
               borderRadius: BorderRadius.circular(16),
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               onChanged: onChanged,
               selectedItemBuilder: shortLabelBuilder != null
@@ -69,7 +69,7 @@ class LabeledDropdown<T> extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
-                                color: context.appColors.textPrimary,
+                                color: context.vantColors.textPrimary,
                               ),
                             ),
                           ),
@@ -85,7 +85,7 @@ class LabeledDropdown<T> extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                     ),

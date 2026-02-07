@@ -321,13 +321,13 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             children: [
               Icon(
                 CupertinoIcons.checkmark_alt_circle_fill,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               const SizedBox(width: 12),
               Text(widget.isEditing ? l10n.incomesUpdated : l10n.incomesSaved),
             ],
           ),
-          backgroundColor: context.appColors.success,
+          backgroundColor: context.vantColors.success,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -350,7 +350,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: context.appColors.error,
+        backgroundColor: context.vantColors.error,
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -381,17 +381,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             _showCurrencyPicker(currencyCode, onChanged);
           }
         },
-        child: Container(
+        child: VGlassStyledContainer(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-          decoration: BoxDecoration(
-            color: context.appColors.surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: isLocked
-                  ? context.appColors.textTertiary.withValues(alpha: 0.3)
-                  : context.appColors.cardBorder,
-            ),
-          ),
+          borderRadius: 16,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -403,8 +395,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: isLocked
-                      ? context.appColors.textTertiary
-                      : context.appColors.textPrimary,
+                      ? context.vantColors.textTertiary
+                      : context.vantColors.textPrimary,
                 ),
               ),
               const Spacer(),
@@ -412,7 +404,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 Icon(
                   CupertinoIcons.lock,
                   size: 18,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ] else ...[
                 Text(
@@ -420,14 +412,14 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: context.appColors.primary,
+                    color: context.vantColors.primary,
                   ),
                 ),
                 const SizedBox(width: 4),
                 Icon(
                   CupertinoIcons.chevron_right,
                   size: 18,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ],
             ],
@@ -444,7 +436,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
     showModalBottomSheet(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.85),
-      backgroundColor: context.appColors.surface,
+      backgroundColor: context.vantColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -459,7 +451,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -471,7 +463,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 24),
@@ -497,13 +489,13 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                       ),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? context.appColors.primary.withValues(alpha: 0.1)
-                            : context.appColors.surfaceLight,
+                            ? context.vantColors.primary.withValues(alpha: 0.1)
+                            : context.vantColors.surfaceLight,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: isSelected
-                              ? context.appColors.primary
-                              : context.appColors.cardBorder,
+                              ? context.vantColors.primary
+                              : context.vantColors.cardBorder,
                           width: isSelected ? 2 : 1,
                         ),
                       ),
@@ -524,15 +516,15 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                     color: isSelected
-                                        ? context.appColors.primary
-                                        : context.appColors.textPrimary,
+                                        ? context.vantColors.primary
+                                        : context.vantColors.textPrimary,
                                   ),
                                 ),
                                 Text(
                                   currency.name,
                                   style: TextStyle(
                                     fontSize: 13,
-                                    color: context.appColors.textSecondary,
+                                    color: context.vantColors.textSecondary,
                                   ),
                                 ),
                               ],
@@ -544,8 +536,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                               color: isSelected
-                                  ? context.appColors.primary
-                                  : context.appColors.textSecondary,
+                                  ? context.vantColors.primary
+                                  : context.vantColors.textSecondary,
                             ),
                           ),
                           if (isSelected) ...[
@@ -553,7 +545,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                             Icon(
                               CupertinoIcons.checkmark_alt_circle_fill,
                               size: 22,
-                              color: context.appColors.primary,
+                              color: context.vantColors.primary,
                             ),
                           ],
                         ],
@@ -575,7 +567,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -629,8 +621,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                     height: 4,
                     decoration: BoxDecoration(
                       color: isActive
-                          ? context.appColors.primary
-                          : context.appColors.surfaceLight,
+                          ? context.vantColors.primary
+                          : context.vantColors.surfaceLight,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -662,7 +654,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: context.appColors.primary.withValues(alpha: 0.1),
+                color: context.vantColors.primary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: const Center(
@@ -680,7 +672,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
           ),
@@ -692,7 +684,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               l10n.enterNetAmount,
               style: TextStyle(
                 fontSize: 14,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
             ),
           ),
@@ -707,7 +699,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.w700,
-              color: context.appColors.primary,
+              color: context.vantColors.primary,
             ),
             textAlign: TextAlign.center,
             decoration: InputDecoration(
@@ -715,20 +707,20 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               hintStyle: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
-                color: context.appColors.textTertiary.withValues(alpha: 0.5),
+                color: context.vantColors.textTertiary.withValues(alpha: 0.5),
               ),
               suffixText: getCurrencyByCode(_primaryCurrencyCode).code,
               suffixStyle: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(24),
                 borderSide: BorderSide.none,
               ),
               filled: true,
-              fillColor: context.appColors.surface,
+              fillColor: context.vantColors.surface,
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 24,
                 vertical: 20,
@@ -749,13 +741,9 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
           const SizedBox(height: 24),
 
           // Work hours
-          Container(
+          VGlassStyledContainer(
             padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: context.appColors.surface,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: context.appColors.cardBorder),
-            ),
+            borderRadius: 16,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -764,7 +752,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -800,7 +788,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                         ),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: context.appColors.cardBorder,
+                            color: context.vantColors.cardBorder,
                           ),
                           borderRadius: BorderRadius.circular(16),
                         ),
@@ -836,8 +824,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             child: ElevatedButton(
               onPressed: _saveSalary,
               style: ElevatedButton.styleFrom(
-                backgroundColor: context.appColors.primary,
-                foregroundColor: context.appColors.textPrimary,
+                backgroundColor: context.vantColors.primary,
+                foregroundColor: context.vantColors.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -875,8 +863,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  context.appColors.success.withValues(alpha: 0.2),
-                  context.appColors.primary.withValues(alpha: 0.1),
+                  context.vantColors.success.withValues(alpha: 0.2),
+                  context.vantColors.primary.withValues(alpha: 0.1),
                 ],
               ),
               shape: BoxShape.circle,
@@ -894,7 +882,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
               height: 1.2,
             ),
           ),
@@ -906,7 +894,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 15,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
               height: 1.4,
             ),
           ),
@@ -920,8 +908,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             child: ElevatedButton(
               onPressed: _nextStep,
               style: ElevatedButton.styleFrom(
-                backgroundColor: context.appColors.primary,
-                foregroundColor: context.appColors.textPrimary,
+                backgroundColor: context.vantColors.primary,
+                foregroundColor: context.vantColors.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -961,7 +949,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 );
               },
               style: OutlinedButton.styleFrom(
-                side: BorderSide(color: context.appColors.cardBorder),
+                side: BorderSide(color: context.vantColors.cardBorder),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -971,7 +959,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
               ),
             ),
@@ -1000,7 +988,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w700,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
 
@@ -1012,7 +1000,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
           const SizedBox(height: 12),
@@ -1041,13 +1029,13 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                         ),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? context.appColors.primary.withValues(alpha: 0.1)
-                              : context.appColors.surface,
+                              ? context.vantColors.primary.withValues(alpha: 0.1)
+                              : context.vantColors.surface,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: isSelected
-                                ? context.appColors.primary
-                                : context.appColors.cardBorder,
+                                ? context.vantColors.primary
+                                : context.vantColors.cardBorder,
                             width: isSelected ? 2 : 1,
                           ),
                         ),
@@ -1059,7 +1047,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                               size: 22,
                               color: isSelected
                                   ? category.color
-                                  : context.appColors.textSecondary,
+                                  : context.vantColors.textSecondary,
                             ),
                             const SizedBox(width: 8),
                             Text(
@@ -1070,8 +1058,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                                     ? FontWeight.w600
                                     : FontWeight.w500,
                                 color: isSelected
-                                    ? context.appColors.primary
-                                    : context.appColors.textPrimary,
+                                    ? context.vantColors.primary
+                                    : context.vantColors.textPrimary,
                               ),
                             ),
                           ],
@@ -1150,8 +1138,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               icon: Icon(CupertinoIcons.add),
               label: Text(l10n.addIncome),
               style: ElevatedButton.styleFrom(
-                backgroundColor: context.appColors.success,
-                foregroundColor: context.appColors.textPrimary,
+                backgroundColor: context.vantColors.success,
+                foregroundColor: context.vantColors.textPrimary,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -1168,65 +1156,63 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
             const SizedBox(height: 12),
             ...additionalSources.map((source) {
-              return Container(
-                margin: const EdgeInsets.only(bottom: 12),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: context.appColors.surface,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: context.appColors.cardBorder),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      source.category.icon,
-                      size: 26,
-                      color: source.category.color,
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            source.title,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: context.appColors.textPrimary,
-                            ),
-                          ),
-                          Text(
-                            source.category.getLocalizedLabel(l10n),
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: context.appColors.textSecondary,
-                            ),
-                          ),
-                        ],
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: VGlassStyledContainer(
+                  padding: const EdgeInsets.all(16),
+                  borderRadius: 16,
+                  child: Row(
+                    children: [
+                      Icon(
+                        source.category.icon,
+                        size: 26,
+                        color: source.category.color,
                       ),
-                    ),
-                    Text(
-                      '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} ${getCurrencyByCode(source.currencyCode).symbol}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: context.appColors.success,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              source.title,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: context.vantColors.textPrimary,
+                              ),
+                            ),
+                            Text(
+                              source.category.getLocalizedLabel(l10n),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: context.vantColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    IconButton(
-                      icon: Icon(CupertinoIcons.xmark, size: 20),
-                      tooltip: l10n.delete,
-                      color: context.appColors.error,
-                      onPressed: () => _removeIncome(source.id),
-                    ),
-                  ],
+                      Text(
+                        '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} ${getCurrencyByCode(source.currencyCode).symbol}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: context.vantColors.success,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      IconButton(
+                        icon: Icon(CupertinoIcons.xmark, size: 20),
+                        tooltip: l10n.delete,
+                        color: context.vantColors.error,
+                        onPressed: () => _removeIncome(source.id),
+                      ),
+                    ],
+                  ),
                 ),
               );
             }),
@@ -1253,8 +1239,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                 _nextStep();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: context.appColors.primary,
-                foregroundColor: context.appColors.textPrimary,
+                backgroundColor: context.vantColors.primary,
+                foregroundColor: context.vantColors.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -1301,13 +1287,13 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: context.appColors.success.withValues(alpha: 0.1),
+              color: context.vantColors.success.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
               CupertinoIcons.checkmark_alt_circle_fill,
               size: 48,
-              color: context.appColors.success,
+              color: context.vantColors.success,
             ),
           ),
 
@@ -1318,61 +1304,57 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w700,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
 
           const SizedBox(height: 32),
 
           // Total card
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  context.appColors.primary,
-                  context.appColors.primaryDark,
+          VGlassCard.hero(
+            glowColor: context.vantColors.primary,
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    context.vantColors.primary.withValues(alpha: 0.3),
+                    context.vantColors.primaryDark.withValues(alpha: 0.2),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    l10n.totalMonthlyIncome,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: context.vantColors.textPrimary.withValues(alpha: 0.7),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    '${formatTurkishCurrency(total, decimalDigits: 0, showDecimals: false)} ${getCurrencyByCode(_primaryCurrencyCode).symbol}',
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.w800,
+                      color: context.vantColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.incomeSourceCount(_incomeSources.length),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: context.vantColors.textPrimary.withValues(alpha: 0.7),
+                    ),
+                  ),
                 ],
               ),
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: context.appColors.primary.withValues(alpha: 0.3),
-                  blurRadius: 20,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Text(
-                  l10n.totalMonthlyIncome,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: context.appColors.textPrimary.withValues(alpha: 0.7),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '${formatTurkishCurrency(total, decimalDigits: 0, showDecimals: false)} ${getCurrencyByCode(_primaryCurrencyCode).symbol}',
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.w800,
-                    color: context.appColors.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  l10n.incomeSourceCount(_incomeSources.length),
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: context.appColors.textPrimary.withValues(alpha: 0.7),
-                  ),
-                ),
-              ],
             ),
           ),
 
@@ -1383,77 +1365,75 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             final source = _incomeSources[index];
             final percentage = total > 0 ? (source.amount / total * 100) : 0;
 
-            return Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: context.appColors.surface,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: context.appColors.cardBorder),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: source.isPrimary
-                          ? context.appColors.primary.withValues(alpha: 0.1)
-                          : context.appColors.success.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        source.category.icon,
-                        size: 24,
-                        color: source.category.color,
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: VGlassStyledContainer(
+                padding: const EdgeInsets.all(16),
+                borderRadius: 16,
+                child: Row(
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: source.isPrimary
+                            ? context.vantColors.primary.withValues(alpha: 0.1)
+                            : context.vantColors.success.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          source.category.icon,
+                          size: 24,
+                          color: source.category.color,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            source.title,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: context.vantColors.textPrimary,
+                            ),
+                          ),
+                          Text(
+                            source.category.getLocalizedLabel(l10n),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: context.vantColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          source.title,
+                          '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} ${getCurrencyByCode(source.currencyCode).symbol}',
                           style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: context.appColors.textPrimary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: context.vantColors.textPrimary,
                           ),
                         ),
                         Text(
-                          source.category.getLocalizedLabel(l10n),
+                          '%${percentage.toStringAsFixed(0)}',
                           style: TextStyle(
                             fontSize: 12,
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '${formatTurkishCurrency(source.amount, decimalDigits: 0, showDecimals: false)} ${getCurrencyByCode(source.currencyCode).symbol}',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: context.appColors.textPrimary,
-                        ),
-                      ),
-                      Text(
-                        '%${percentage.toStringAsFixed(0)}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: context.appColors.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           }),
@@ -1467,8 +1447,8 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
             child: ElevatedButton(
               onPressed: _isLoading ? null : _complete,
               style: ElevatedButton.styleFrom(
-                backgroundColor: context.appColors.success,
-                foregroundColor: context.appColors.textPrimary,
+                backgroundColor: context.vantColors.success,
+                foregroundColor: context.vantColors.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -1480,7 +1460,7 @@ class _IncomeWizardScreenState extends State<IncomeWizardScreen>
                       height: 24,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     )
                   : Text(

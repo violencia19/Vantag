@@ -157,6 +157,18 @@ class NotificationService {
   factory NotificationService() => _instance;
   NotificationService._internal();
 
+  /// Currency-aware threshold for "high amount" notifications
+  static double _getHighAmountThreshold(String currencyCode) {
+    switch (currencyCode) {
+      case 'TRY': return 500;
+      case 'USD': return 50;
+      case 'EUR': return 45;
+      case 'GBP': return 40;
+      case 'SAR': return 200;
+      default: return 50;
+    }
+  }
+
   final FlutterLocalNotificationsPlugin _notifications =
       FlutterLocalNotificationsPlugin();
   bool _isInitialized = false;
@@ -309,6 +321,7 @@ class NotificationService {
   Future<void> scheduleDelayedAwareness({
     required double amount,
     required int currentStreak,
+    String currencyCode = 'TRY',
   }) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -316,8 +329,9 @@ class NotificationService {
     if (!(prefs.getBool(_keyNotificationsEnabled) ?? true)) return;
     if (!(prefs.getBool(_keyDelayedAwarenessEnabled) ?? true)) return;
 
-    // Sadece yüksek tutarlar veya düşük streak
-    final isHighAmount = amount >= 500; // 500 TL üstü
+    // Currency-aware high amount threshold
+    final highAmountThreshold = _getHighAmountThreshold(currencyCode);
+    final isHighAmount = amount >= highAmountThreshold;
     final isLowStreak = currentStreak < 3;
 
     if (!isHighAmount && !isLowStreak) return;

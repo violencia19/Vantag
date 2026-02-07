@@ -45,15 +45,15 @@ class AdditionalIncomePrompt extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: context.appColors.surface.withValues(alpha: 0.8),
+              color: context.vantColors.surface.withValues(alpha: 0.8),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: context.appColors.success.withValues(alpha: 0.3),
+                color: context.vantColors.success.withValues(alpha: 0.3),
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: context.appColors.success.withValues(alpha: 0.1),
+                  color: context.vantColors.success.withValues(alpha: 0.1),
                   blurRadius: 20,
                   offset: const Offset(0, 4),
                 ),
@@ -67,14 +67,14 @@ class AdditionalIncomePrompt extends StatelessWidget {
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                    color: context.appColors.success.withValues(alpha: 0.15),
+                    color: context.vantColors.success.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Center(
                     child: Icon(
                       CupertinoIcons.money_dollar_circle_fill,
                       size: 28,
-                      color: context.appColors.success,
+                      color: context.vantColors.success,
                     ),
                   ),
                 ),
@@ -87,7 +87,7 @@ class AdditionalIncomePrompt extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
 
@@ -99,7 +99,7 @@ class AdditionalIncomePrompt extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
 
@@ -118,7 +118,7 @@ class AdditionalIncomePrompt extends StatelessWidget {
                           child: Container(
                             height: 48,
                             decoration: BoxDecoration(
-                              color: context.appColors.success,
+                              color: context.vantColors.success,
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: Center(
@@ -128,7 +128,7 @@ class AdditionalIncomePrompt extends StatelessWidget {
                                   Icon(
                                     CupertinoIcons.plus_circle_fill,
                                     size: 18,
-                                    color: context.appColors.textPrimary,
+                                    color: context.vantColors.textPrimary,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
@@ -136,7 +136,7 @@ class AdditionalIncomePrompt extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
-                                      color: context.appColors.textPrimary,
+                                      color: context.vantColors.textPrimary,
                                     ),
                                   ),
                                 ],
@@ -160,10 +160,10 @@ class AdditionalIncomePrompt extends StatelessWidget {
                           child: Container(
                             height: 48,
                             decoration: BoxDecoration(
-                              color: context.appColors.surfaceLight,
+                              color: context.vantColors.surfaceLight,
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: context.appColors.cardBorder,
+                                color: context.vantColors.cardBorder,
                               ),
                             ),
                             child: Center(
@@ -172,7 +172,7 @@ class AdditionalIncomePrompt extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: context.appColors.textSecondary,
+                                  color: context.vantColors.textSecondary,
                                 ),
                               ),
                             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/app_colors.dart';
 
 enum AchievementTier {
   bronze,
@@ -75,15 +75,15 @@ enum AchievementCategory {
   Color get iconColor {
     switch (this) {
       case AchievementCategory.streak:
-        return AppColors.achievementStreak;
+        return VantColors.achievementStreak;
       case AchievementCategory.savings:
-        return AppColors.achievementSavings;
+        return VantColors.achievementSavings;
       case AchievementCategory.decision:
-        return AppColors.achievementGoals;
+        return VantColors.achievementGoals;
       case AchievementCategory.record:
-        return AppColors.achievementTracker;
+        return VantColors.achievementTracker;
       case AchievementCategory.hidden:
-        return AppColors.achievementMystery;
+        return VantColors.achievementMystery;
     }
   }
 }

@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/pursuit.dart';
-import '../theme/app_theme.dart';
-import '../theme/quiet_luxury.dart';
-import '../theme/accessible_text.dart';
+import '../theme/theme.dart';
 import 'pursuit_progress_visual.dart';
 
 /// Card widget for displaying a pursuit in a list
@@ -37,11 +35,18 @@ class PursuitCard extends StatelessWidget {
     return Semantics(
       label: semanticLabel,
       button: onTap != null,
-      child: Pressable(
+      child: VPressable(
         onTap: onTap,
-        child: GlassCard(
-          premium: true,
+        child: Container(
           padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: context.vantColors.cardBackground,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: context.vantColors.cardBorder,
+              width: 0.5,
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -63,14 +68,14 @@ class PursuitCard extends StatelessWidget {
                       children: [
                         Text(
                           pursuit.name,
-                          style: QuietLuxury.heading.copyWith(fontSize: 16),
+                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: -0.3, color: Color(0xFFFAFAFA)).copyWith(fontSize: 16),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 2),
                         Text(
                           _getCategoryLabel(context, pursuit.category),
-                          style: QuietLuxury.label,
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)),
                         ),
                       ],
                     ),
@@ -84,15 +89,15 @@ class PursuitCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          _getProgressColor(pursuit.progressPercent)
+                          _getProgressColor(context, pursuit.progressPercent)
                               .withValues(alpha: 0.25),
-                          _getProgressColor(pursuit.progressPercent)
+                          _getProgressColor(context, pursuit.progressPercent)
                               .withValues(alpha: 0.15),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: _getProgressColor(pursuit.progressPercent)
+                        color: _getProgressColor(context, pursuit.progressPercent)
                             .withValues(alpha: 0.4),
                         width: 1,
                       ),
@@ -103,7 +108,7 @@ class PursuitCard extends StatelessWidget {
                         context,
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
-                        color: _getProgressColor(pursuit.progressPercent),
+                        color: _getProgressColor(context, pursuit.progressPercent),
                         maxScale: 1.3,
                       ),
                     ),
@@ -115,7 +120,7 @@ class PursuitCard extends StatelessWidget {
               PursuitLinearProgress(
                 progress: pursuit.progressPercent,
                 height: 6,
-                progressColor: _getProgressColor(pursuit.progressPercent),
+                progressColor: _getProgressColor(context, pursuit.progressPercent),
               ),
               const SizedBox(height: 12),
               // Bottom row: Amounts + Add button
@@ -139,7 +144,7 @@ class PursuitCard extends StatelessWidget {
                                   context,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
-                                  color: QuietLuxury.positive,
+                                  color: context.vantColors.success,
                                   maxScale: 1.3,
                                 ).copyWith(letterSpacing: -0.5),
                               ),
@@ -149,7 +154,7 @@ class PursuitCard extends StatelessWidget {
                                   context,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
-                                  color: QuietLuxury.textSecondary.withValues(alpha: 0.7),
+                                  color: context.vantColors.textSecondary.withValues(alpha: 0.7),
                                   maxScale: 1.3,
                                 ),
                               ),
@@ -165,7 +170,7 @@ class PursuitCard extends StatelessWidget {
                             context,
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
-                            color: QuietLuxury.textTertiary.withValues(alpha: 0.6),
+                            color: context.vantColors.textTertiary.withValues(alpha: 0.6),
                             maxScale: 1.4,
                           ),
                         ),
@@ -206,11 +211,11 @@ class PursuitCard extends StatelessWidget {
     }
   }
 
-  Color _getProgressColor(double progress) {
-    if (progress >= 1.0) return QuietLuxury.gold;
-    if (progress >= 0.7) return QuietLuxury.positive;
-    if (progress >= 0.3) return AppColors.secondary;
-    return QuietLuxury.textTertiary;
+  Color _getProgressColor(BuildContext context, double progress) {
+    if (progress >= 1.0) return context.vantColors.gold;
+    if (progress >= 0.7) return context.vantColors.success;
+    if (progress >= 0.3) return VantColors.secondary;
+    return context.vantColors.textTertiary;
   }
 }
 
@@ -238,18 +243,18 @@ class _AddSavingsButton extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    QuietLuxury.positive.withValues(alpha: 0.2),
-                    QuietLuxury.positive.withValues(alpha: 0.12),
+                    context.vantColors.success.withValues(alpha: 0.2),
+                    context.vantColors.success.withValues(alpha: 0.12),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: QuietLuxury.positive.withValues(alpha: 0.4),
+                  color: context.vantColors.success.withValues(alpha: 0.4),
                   width: 1,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: QuietLuxury.positive.withValues(alpha: 0.15),
+                    color: context.vantColors.success.withValues(alpha: 0.15),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -261,13 +266,13 @@ class _AddSavingsButton extends StatelessWidget {
                   Icon(
                     CupertinoIcons.plus,
                     size: 14,
-                    color: QuietLuxury.positive,
+                    color: context.vantColors.success,
                   ),
                   const SizedBox(width: 6),
                   Text(
                     l10n.addSavings,
-                    style: QuietLuxury.label.copyWith(
-                      color: QuietLuxury.positive,
+                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)).copyWith(
+                      color: context.vantColors.success,
                       fontWeight: FontWeight.w700,
                       fontSize: 13,
                     ),
@@ -312,12 +317,12 @@ class PursuitCompactCard extends StatelessWidget {
     return Semantics(
       label: semanticLabel,
       button: onTap != null,
-      child: Pressable(
+      child: VPressable(
         onTap: onTap,
         child: Container(
           width: width,
           padding: const EdgeInsets.all(12),
-          decoration: QuietLuxury.cardDecoration,
+          decoration: BoxDecoration(color: VantColors.surface, borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white.withValues(alpha: 0.06), width: 1)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -332,8 +337,8 @@ class PursuitCompactCard extends StatelessWidget {
               // Name
               Text(
                 pursuit.name,
-                style: QuietLuxury.body.copyWith(
-                  color: QuietLuxury.textPrimary,
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(
+                  color: context.vantColors.textPrimary,
                   fontWeight: FontWeight.w500,
                 ),
                 maxLines: 1,
@@ -343,8 +348,8 @@ class PursuitCompactCard extends StatelessWidget {
               // Progress
               Text(
                 '${pursuit.progressPercentDisplay}%',
-                style: QuietLuxury.label.copyWith(
-                  color: QuietLuxury.positive,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)).copyWith(
+                  color: context.vantColors.success,
                   fontWeight: FontWeight.w600,
                 ),
               ),

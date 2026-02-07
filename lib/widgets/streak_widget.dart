@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import '../services/services.dart';
 import '../theme/theme.dart';
+import '../services/services.dart';
 
 class StreakWidget extends StatefulWidget {
   final VoidCallback? onTap;
@@ -18,25 +18,30 @@ class StreakWidgetState extends State<StreakWidget>
     with SingleTickerProviderStateMixin {
   final _streakService = StreakService();
   StreakData? _streakData;
-  late AnimationController _glowController;
-  late Animation<double> _glowAnimation;
+  late AnimationController _pulseController;
+  late Animation<double> _pulseAnimation;
 
   @override
   void initState() {
     super.initState();
     _loadStreak();
-    _glowController = AnimationController(
+    // Pulse animation (800ms cycle for active streak)
+    _pulseController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    )..repeat(reverse: true);
-    _glowAnimation = Tween<double>(begin: 0.3, end: 0.6).animate(
-      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
+      duration: const Duration(milliseconds: 800),
     );
+    _pulseAnimation = Tween<double>(
+      begin: VantAnimation.pulseMin,
+      end: VantAnimation.pulseMax,
+    ).animate(CurvedAnimation(
+      parent: _pulseController,
+      curve: Curves.easeInOut,
+    ));
   }
 
   @override
   void dispose() {
-    _glowController.dispose();
+    _pulseController.dispose();
     super.dispose();
   }
 
@@ -44,6 +49,10 @@ class StreakWidgetState extends State<StreakWidget>
     final data = await _streakService.getStreakData();
     if (mounted) {
       setState(() => _streakData = data);
+      // Start pulse animation only when streak is active
+      if (data.displayStreak > 0) {
+        _pulseController.repeat(reverse: true);
+      }
     }
   }
 
@@ -61,6 +70,9 @@ class StreakWidgetState extends State<StreakWidget>
 
     final streak = _streakData!;
     final hasStreak = streak.displayStreak > 0;
+    final color = hasStreak
+        ? VantColors.achievementStreak
+        : VantColors.textTertiary;
 
     // Accessibility: Semantic label for screen readers
     final semanticLabel = l10n.accessibilityStreakInfo(
@@ -77,54 +89,42 @@ class StreakWidgetState extends State<StreakWidget>
           (widget.onTap ?? () => _showStreakDetails(context))();
         },
         child: AnimatedBuilder(
-          animation: _glowAnimation,
+          animation: _pulseAnimation,
           builder: (context, child) {
             return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color: hasStreak
-                    ? context.appColors.warning.withValues(alpha: 0.15)
-                    : context.appColors.surface,
-                borderRadius: BorderRadius.circular(24),
+                color: color.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(VantRadius.full),
                 border: Border.all(
-                  color: hasStreak
-                      ? context.appColors.warning.withValues(alpha: 0.3)
-                      : context.appColors.cardBorder,
+                  color: color.withValues(alpha: 0.25),
                 ),
                 boxShadow: hasStreak
-                    ? [
-                        BoxShadow(
-                          color: context.appColors.warning.withValues(
-                            alpha: _glowAnimation.value,
-                          ),
-                          blurRadius: 12,
-                          spreadRadius: -2,
-                        ),
-                      ]
+                    ? VantShadows.glow(color, intensity: 0.3)
                     : null,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    CupertinoIcons.flame,
-                    size: 18,
-                    color: hasStreak
-                        ? context.appColors.warning
-                        : context.appColors.textTertiary,
+                  Transform.scale(
+                    scale: hasStreak ? _pulseAnimation.value : 1.0,
+                    child: Icon(
+                      CupertinoIcons.flame_fill,
+                      size: 18,
+                      color: color,
+                      shadows: hasStreak
+                          ? VantShadows.iconHalo(color)
+                          : null,
+                    ),
                   ),
                   const SizedBox(width: 6),
                   Text(
                     hasStreak
                         ? l10n.streakDays(streak.displayStreak)
                         : l10n.startToday,
-                    style: TextStyle(
-                      fontSize: 13,
+                    style: VantTypography.labelMedium.copyWith(
+                      color: color,
                       fontWeight: FontWeight.w600,
-                      color: hasStreak
-                          ? context.appColors.warning
-                          : context.appColors.textSecondary,
-                      letterSpacing: 0.3,
                     ),
                   ),
                 ],
@@ -141,25 +141,31 @@ class StreakWidgetState extends State<StreakWidget>
 
     final l10n = AppLocalizations.of(context);
     final streak = _streakData!;
+    final color = streak.hasStreak
+        ? VantColors.achievementStreak
+        : VantColors.primary;
 
     showModalBottomSheet(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.85),
-      backgroundColor: context.appColors.surface,
+      backgroundColor: VantColors.surface,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(VantRadius.xxl),
+        ),
       ),
       builder: (context) => SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: VantSpacing.cardPaddingLarge,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // Handle bar
               Container(
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.appColors.textTertiary,
+                  color: VantColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -170,31 +176,18 @@ class StreakWidgetState extends State<StreakWidget>
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                  color: streak.hasStreak
-                      ? context.appColors.warning.withValues(alpha: 0.15)
-                      : context.appColors.primary.withValues(alpha: 0.15),
+                  color: color.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color:
-                          (streak.hasStreak
-                                  ? context.appColors.warning
-                                  : context.appColors.primary)
-                              .withValues(alpha: 0.3),
-                      blurRadius: 20,
-                      spreadRadius: -5,
-                    ),
-                  ],
+                  boxShadow: VantShadows.glow(color, intensity: 0.4),
                 ),
                 child: Center(
                   child: Icon(
                     streak.hasStreak
-                        ? CupertinoIcons.flame
-                        : CupertinoIcons.sportscourt,
+                        ? CupertinoIcons.flame_fill
+                        : CupertinoIcons.sportscourt_fill,
                     size: 40,
-                    color: streak.hasStreak
-                        ? context.appColors.warning
-                        : context.appColors.primary,
+                    color: color,
+                    shadows: VantShadows.iconHalo(color),
                   ),
                 ),
               ),
@@ -205,11 +198,7 @@ class StreakWidgetState extends State<StreakWidget>
                 streak.hasStreak
                     ? l10n.dayStreak(streak.displayStreak)
                     : l10n.startStreak,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
-                ),
+                style: VantTypography.headlineMedium,
               ),
               const SizedBox(height: 8),
 
@@ -219,10 +208,7 @@ class StreakWidgetState extends State<StreakWidget>
                     ? l10n.keepStreakMessage
                     : l10n.startStreakMessage,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: context.appColors.textSecondary,
-                ),
+                style: VantTypography.bodyMedium,
               ),
               const SizedBox(height: 24),
 
@@ -231,8 +217,11 @@ class StreakWidgetState extends State<StreakWidget>
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: context.appColors.surfaceLight,
-                    borderRadius: BorderRadius.circular(16),
+                    color: VantColors.surfaceElevated,
+                    borderRadius: BorderRadius.circular(VantRadius.lg),
+                    border: Border.all(
+                      color: VantColors.achievementStreak.withValues(alpha: 0.2),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -240,22 +229,20 @@ class StreakWidgetState extends State<StreakWidget>
                       Icon(
                         CupertinoIcons.rosette,
                         size: 20,
-                        color: context.appColors.warning,
+                        color: VantColors.achievementStreak,
                       ),
                       const SizedBox(width: 8),
                       Text(
                         l10n.longestStreak(streak.longestStreak),
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: context.appColors.textSecondary,
+                        style: VantTypography.labelMedium.copyWith(
+                          color: VantColors.textSecondary,
                         ),
                       ),
                     ],
                   ),
                 ),
 
-              // New record notification
+              // New record notification with success glow
               if (streak.isNewRecord && streak.displayStreak > 1) ...[
                 const SizedBox(height: 12),
                 Container(
@@ -264,10 +251,14 @@ class StreakWidgetState extends State<StreakWidget>
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: context.appColors.success.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(24),
+                    color: VantColors.success.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(VantRadius.full),
                     border: Border.all(
-                      color: context.appColors.success.withValues(alpha: 0.3),
+                      color: VantColors.success.withValues(alpha: 0.3),
+                    ),
+                    boxShadow: VantShadows.glow(
+                      VantColors.success,
+                      intensity: 0.25,
                     ),
                   ),
                   child: Row(
@@ -276,15 +267,13 @@ class StreakWidgetState extends State<StreakWidget>
                       Icon(
                         CupertinoIcons.star_circle_fill,
                         size: 16,
-                        color: context.appColors.success,
+                        color: VantColors.success,
                       ),
                       const SizedBox(width: 6),
                       Text(
                         l10n.newRecord,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: context.appColors.success,
+                        style: VantTypography.labelMedium.copyWith(
+                          color: VantColors.success,
                         ),
                       ),
                     ],

@@ -96,10 +96,11 @@ class UserProfile {
     return dailyHours * workDaysPerWeek * 4;
   }
 
-  /// Saatlik ücret
+  /// Saatlik ücret — minimum 1.0 to prevent division-by-zero downstream
   double get hourlyRate {
-    if (monthlyWorkHours <= 0) return 0;
-    return monthlyIncome / monthlyWorkHours;
+    if (monthlyWorkHours <= 0 || monthlyIncome <= 0) return 0;
+    final rate = monthlyIncome / monthlyWorkHours;
+    return rate > 0 ? rate : 0;
   }
 
   /// Harcanabilir bütçe (bütçe - tasarruf hedefi)

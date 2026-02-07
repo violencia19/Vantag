@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/app_colors.dart';
 
 /// Wealth Coach: Frugal Streak Manager
 /// İrade Zaferi serisini takip eden sınıf
@@ -189,11 +189,11 @@ enum StreakLevel {
       case StreakLevel.none:
         return const Color(0x00000000); // Transparent
       case StreakLevel.blue:
-        return AppColors.categoryEntertainment; // Blue
+        return VantColors.categoryEntertainment; // Blue
       case StreakLevel.purple:
-        return AppColors.categoryShopping; // Purple
+        return VantColors.categoryShopping; // Purple
       case StreakLevel.gold:
-        return AppColors.medalGold; // Gold
+        return VantColors.medalGold; // Gold
     }
   }
 

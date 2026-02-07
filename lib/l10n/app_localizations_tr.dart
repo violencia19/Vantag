@@ -320,7 +320,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get descriptionHint => 'ör: Migros, Spotify, Shell...';
 
   @override
-  String get descriptionLabel => 'Açıklama (Mağaza/Ürün)';
+  String get descriptionLabel => 'Açıklama';
 
   @override
   String get date => 'Tarih';
@@ -6313,4 +6313,380 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get additionalIncomeNo => 'Hayır, yok';
+
+  @override
+  String get expenseTypeSingle => 'Tek Seferlik';
+
+  @override
+  String get expenseTypeRecurring => 'Tekrarlayan';
+
+  @override
+  String get expenseTypeInstallment => 'Taksitli';
+
+  @override
+  String get monthlyPaymentLabel => 'Aylık taksit:';
+
+  @override
+  String installmentCountLabel(int count) {
+    return '$count ay';
+  }
+
+  @override
+  String get interestAmountLabel => 'Vade farkı:';
+
+  @override
+  String get interestAsHoursLabel => 'Vade farkı saat olarak:';
+
+  @override
+  String get hoursUnit => 'saat';
+
+  @override
+  String installmentSavingsWarning(String hours) {
+    return 'Peşin alsaydın $hours saat kazanırdın!';
+  }
+
+  @override
+  String get errorSelectInstallmentCount => 'Lütfen taksit sayısını seçin';
+
+  @override
+  String get errorEnterInstallmentTotal =>
+      'Lütfen taksitli toplam fiyatı girin';
+
+  @override
+  String get insightPeakDay => 'En Çok Harcama Günü';
+
+  @override
+  String get insightTopCategory => 'En Büyük Kategori';
+
+  @override
+  String get insightMonthComparison => 'Bu Ay vs Geçen Ay';
+
+  @override
+  String insightPeakDaySubtitle(String day) {
+    return '$day en çok harcadığın gün';
+  }
+
+  @override
+  String insightTopCategorySubtitle(String category) {
+    return '$category en büyük kategorin';
+  }
+
+  @override
+  String insightMonthDown(String percent) {
+    return 'Geçen aya göre %$percent düşüş';
+  }
+
+  @override
+  String insightMonthUp(String percent) {
+    return 'Geçen aya göre %$percent artış';
+  }
+
+  @override
+  String get dayMonday => 'Pazartesi';
+
+  @override
+  String get dayTuesday => 'Salı';
+
+  @override
+  String get dayWednesday => 'Çarşamba';
+
+  @override
+  String get dayThursday => 'Perşembe';
+
+  @override
+  String get dayFriday => 'Cuma';
+
+  @override
+  String get daySaturday => 'Cumartesi';
+
+  @override
+  String get daySunday => 'Pazar';
+
+  @override
+  String get heatmapLow => 'Az';
+
+  @override
+  String get heatmapHigh => 'Çok';
+
+  @override
+  String get dayAbbrevMon => 'P';
+
+  @override
+  String get dayAbbrevTue => 'S';
+
+  @override
+  String get dayAbbrevWed => 'Ç';
+
+  @override
+  String get dayAbbrevThu => 'P';
+
+  @override
+  String get dayAbbrevFri => 'C';
+
+  @override
+  String get dayAbbrevSat => 'C';
+
+  @override
+  String get dayAbbrevSun => 'P';
+
+  @override
+  String get monthAbbrevJan => 'Oca';
+
+  @override
+  String get monthAbbrevFeb => 'Şub';
+
+  @override
+  String get monthAbbrevMar => 'Mar';
+
+  @override
+  String get monthAbbrevApr => 'Nis';
+
+  @override
+  String get monthAbbrevMay => 'May';
+
+  @override
+  String get monthAbbrevJun => 'Haz';
+
+  @override
+  String get monthAbbrevJul => 'Tem';
+
+  @override
+  String get monthAbbrevAug => 'Ağu';
+
+  @override
+  String get monthAbbrevSep => 'Eyl';
+
+  @override
+  String get monthAbbrevOct => 'Eki';
+
+  @override
+  String get monthAbbrevNov => 'Kas';
+
+  @override
+  String get monthAbbrevDec => 'Ara';
+
+  @override
+  String get savingsProjectionTitle => 'Tasarruf Projeksiyonu';
+
+  @override
+  String get threeMonths => '3 Ay';
+
+  @override
+  String get sixMonths => '6 Ay';
+
+  @override
+  String get oneYear => '1 Yıl';
+
+  @override
+  String monthlyAverageLabel(String amount) {
+    return 'Aylık ortalama: $amount';
+  }
+
+  @override
+  String get categoryTrendTitle => 'Kategori Trendi';
+
+  @override
+  String get workHoursEquivalentTitle => 'Çalışma Saati Karşılığı';
+
+  @override
+  String totalHoursLabel(String hours) {
+    return 'Toplam: $hours saat';
+  }
+
+  @override
+  String perHourLabel(String rate) {
+    return '($rate/saat)';
+  }
+
+  @override
+  String get dayAbbrevMonFull => 'Pzt';
+
+  @override
+  String get dayAbbrevTueFull => 'Sal';
+
+  @override
+  String get dayAbbrevWedFull => 'Çar';
+
+  @override
+  String get dayAbbrevThuFull => 'Per';
+
+  @override
+  String get dayAbbrevFriFull => 'Cum';
+
+  @override
+  String get dayAbbrevSatFull => 'Cmt';
+
+  @override
+  String get dayAbbrevSunFull => 'Paz';
+
+  @override
+  String get sharePreText => 'Bunu almak için';
+
+  @override
+  String get sharePostText => 'çalışman gerekiyor';
+
+  @override
+  String get shareCTA => 'Sen kaç saat çalışıyorsun?';
+
+  @override
+  String get shareTextDefault => 'Sen kaç saat çalışıyorsun? 👀 vantag.app';
+
+  @override
+  String get minuteUnitUpper => 'DK';
+
+  @override
+  String get hourUnitUpper => 'SAAT';
+
+  @override
+  String get decisionBought => 'Aldım';
+
+  @override
+  String get decisionPassed => 'Vazgeçtim';
+
+  @override
+  String get decisionThinking => 'Düşünüyorum';
+
+  @override
+  String expenseAddedMessage(String amount, String description) {
+    return '$amount $description eklendi';
+  }
+
+  @override
+  String get undoAction => 'Geri Al';
+
+  @override
+  String get confirmExpenseTitle => 'Harcamayı Onayla';
+
+  @override
+  String get amountLabel => 'Tutar';
+
+  @override
+  String get categoryLabel => 'Kategori';
+
+  @override
+  String get cancelAction => 'İptal';
+
+  @override
+  String get addAction => 'Ekle';
+
+  @override
+  String referralAppliedMessage(String code) {
+    return 'Davet kodu uygulandı: $code';
+  }
+
+  @override
+  String get workEquivalentBadge => 'ÇALIŞMA KARŞILIĞI';
+
+  @override
+  String get hoursUnitUpper => 'SAAT';
+
+  @override
+  String get daysUnitUpper => 'GÜN';
+
+  @override
+  String get budgetUsageLabel => 'Bütçe Kullanımı';
+
+  @override
+  String get whatDecisionLabel => 'Kararın ne oldu?';
+
+  @override
+  String daysUnit(int count) {
+    return '$count gün';
+  }
+
+  @override
+  String get profilePhotoTitle => 'Profil Fotoğrafı';
+
+  @override
+  String get takePhotoOption => 'Kameradan çek';
+
+  @override
+  String get chooseFromGalleryOption => 'Galeriden seç';
+
+  @override
+  String get removePhotoOption => 'Fotoğrafı kaldır';
+
+  @override
+  String examplePrefix(String examples) {
+    return 'Örn: $examples';
+  }
+
+  @override
+  String get exampleFood => 'Kahve, Market, Restoran';
+
+  @override
+  String get exampleTransport => 'Benzin, Taksi, Otobüs';
+
+  @override
+  String get exampleClothing => 'Kaban, Ayakkabı, T-shirt';
+
+  @override
+  String get exampleElectronics => 'Telefon, Kulaklık, Şarj';
+
+  @override
+  String get exampleEntertainment => 'Sinema, Oyun, Konser';
+
+  @override
+  String get exampleHealth => 'İlaç, Doktor, Vitamin';
+
+  @override
+  String get exampleEducation => 'Kitap, Kurs, Defter';
+
+  @override
+  String get exampleBills => 'Elektrik, Su, İnternet';
+
+  @override
+  String get exampleDefault => 'Açıklama yazın...';
+
+  @override
+  String get newExpenseHeader => 'Yeni Harcama';
+
+  @override
+  String get expenseGroupHeader => 'Harcama Grubu';
+
+  @override
+  String get calculateAction => 'Hesapla';
+
+  @override
+  String get detailOptionalLabel => 'Detay (Opsiyonel)';
+
+  @override
+  String get enterValidAmountError => 'Lütfen geçerli bir tutar girin';
+
+  @override
+  String get aiDisclaimer =>
+      'Yapay zeka tarafından oluşturulan içgörüler yalnızca bilgilendirme amaçlıdır ve finansal tavsiye olarak değerlendirilmemelidir.';
+
+  @override
+  String get hourLabel => 'Saat';
+
+  @override
+  String get yearLabel => 'Yıl';
+
+  @override
+  String goldOunces(String ounces) {
+    return '${ounces}oz altın';
+  }
+
+  @override
+  String goldOuncesShort(String ounces) {
+    return '${ounces}oz altın';
+  }
+
+  @override
+  String couldBuyGoldOunces(String ounces) {
+    return 'Bu parayla $ounces ons altın alabilirdin';
+  }
+
+  @override
+  String get pleaseEnterIncome => 'Lütfen gelirinizi girin';
+
+  @override
+  String get mainIncome => 'Ana Gelir';
+
+  @override
+  String get ofYourWork => 'çalışman';
+
+  @override
+  String get expensePlaceholder => 'Kahve, yemek, market...';
 }

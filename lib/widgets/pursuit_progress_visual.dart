@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/quiet_luxury.dart';
+import '../theme/theme.dart';
 
 /// ShaderMask fill-from-bottom animation for pursuit progress
 class PursuitProgressVisual extends StatelessWidget {
@@ -22,10 +22,12 @@ class PursuitProgressVisual extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveFillColor = fillColor ?? QuietLuxury.positive;
+    final effectiveFillColor = fillColor ?? context.vantColors.success;
+    final cardBg = context.vantColors.cardBackground;
+    final cardBorderColor = context.vantColors.cardBorder;
 
     if (!animate) {
-      return _buildContent(progress, effectiveFillColor);
+      return _buildContent(progress, effectiveFillColor, cardBg, cardBorderColor);
     }
 
     return TweenAnimationBuilder<double>(
@@ -33,12 +35,12 @@ class PursuitProgressVisual extends StatelessWidget {
       duration: const Duration(milliseconds: 800),
       curve: Curves.easeOutCubic,
       builder: (context, value, child) {
-        return _buildContent(value, effectiveFillColor);
+        return _buildContent(value, effectiveFillColor, cardBg, cardBorderColor);
       },
     );
   }
 
-  Widget _buildContent(double value, Color color) {
+  Widget _buildContent(double value, Color color, Color cardBg, Color cardBorderColor) {
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -48,8 +50,8 @@ class PursuitProgressVisual extends StatelessWidget {
           height: size,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: QuietLuxury.cardBackground,
-            border: Border.all(color: QuietLuxury.cardBorder, width: 1),
+            color: cardBg,
+            border: Border.all(color: cardBorderColor, width: 1),
           ),
         ),
         // Filled part with ShaderMask
@@ -143,7 +145,7 @@ class PursuitCircularProgress extends StatelessWidget {
               value: 1.0,
               strokeWidth: strokeWidth,
               valueColor: AlwaysStoppedAnimation<Color>(
-                backgroundColor ?? QuietLuxury.cardBorder,
+                backgroundColor ?? context.vantColors.cardBorder,
               ),
               backgroundColor: Colors.transparent,
             ),
@@ -162,7 +164,7 @@ class PursuitCircularProgress extends StatelessWidget {
                   strokeWidth: strokeWidth,
                   strokeCap: StrokeCap.round,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    progressColor ?? QuietLuxury.positive,
+                    progressColor ?? context.vantColors.success,
                   ),
                   backgroundColor: Colors.transparent,
                 ),
@@ -197,8 +199,8 @@ class PursuitLinearProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final effectiveRadius = borderRadius ?? BorderRadius.circular(height / 2);
-    final effectiveProgressColor = progressColor ?? QuietLuxury.positive;
-    final effectiveBackgroundColor = backgroundColor ?? QuietLuxury.cardBorder;
+    final effectiveProgressColor = progressColor ?? context.vantColors.success;
+    final effectiveBackgroundColor = backgroundColor ?? context.vantColors.cardBorder;
 
     return Container(
       height: height,

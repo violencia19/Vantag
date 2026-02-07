@@ -51,7 +51,7 @@ List<OnboardingPageData> _buildOnboardingPages(
       title: l10n.oneExpenseEnough,
       subtitle: l10n.startSmall,
       icon: CupertinoIcons.rocket_fill,
-      iconColor: context.appColors.primary,
+      iconColor: context.vantColors.primary,
       showStartButton: true,
     ),
   ];
@@ -152,7 +152,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     final pages = _buildOnboardingPages(l10n, context);
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: SafeArea(
         child: Stack(
           children: [
@@ -227,7 +227,7 @@ class _SkipButton extends StatelessWidget {
       child: Text(
         l10n.skip,
         style: TextStyle(
-          color: context.appColors.textSecondary,
+          color: context.vantColors.textSecondary,
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),
@@ -297,19 +297,19 @@ class _OnboardingPage extends StatelessWidget {
               decoration: BoxDecoration(
                 color:
                     data.iconColor?.withValues(alpha: 0.1) ??
-                    context.appColors.primary.withValues(alpha: 0.1),
+                    context.vantColors.primary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
                 border: Border.all(
                   color:
                       data.iconColor?.withValues(alpha: 0.2) ??
-                      context.appColors.primary.withValues(alpha: 0.2),
+                      context.vantColors.primary.withValues(alpha: 0.2),
                   width: 2,
                 ),
               ),
               child: Icon(
                 data.icon,
                 size: 64,
-                color: data.iconColor ?? context.appColors.primary,
+                color: data.iconColor ?? context.vantColors.primary,
               ),
             ),
             const SizedBox(height: 48),
@@ -328,7 +328,7 @@ class _OnboardingPage extends StatelessWidget {
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
               letterSpacing: -0.5,
               height: 1.2,
             ),
@@ -342,7 +342,7 @@ class _OnboardingPage extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w400,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
               height: 1.5,
             ),
           ),
@@ -365,11 +365,11 @@ class _OnboardingPage extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 18),
                     decoration: BoxDecoration(
-                      color: context.appColors.primary,
+                      color: context.vantColors.primary,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: context.appColors.primary.withValues(
+                          color: context.vantColors.primary.withValues(
                             alpha: 0.3,
                           ),
                           blurRadius: 20,
@@ -383,7 +383,7 @@ class _OnboardingPage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.background,
+                        color: context.vantColors.background,
                       ),
                     ),
                   ),
@@ -416,18 +416,18 @@ class _CoffeeClockAnimation extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            context.appColors.primary.withValues(alpha: 0.15),
-            context.appColors.accent.withValues(alpha: 0.1),
+            context.vantColors.primary.withValues(alpha: 0.15),
+            context.vantColors.accent.withValues(alpha: 0.1),
           ],
         ),
         shape: BoxShape.circle,
         border: Border.all(
-          color: context.appColors.primary.withValues(alpha: 0.3),
+          color: context.vantColors.primary.withValues(alpha: 0.3),
           width: 2,
         ),
         boxShadow: [
           BoxShadow(
-            color: context.appColors.primary.withValues(alpha: 0.2),
+            color: context.vantColors.primary.withValues(alpha: 0.2),
             blurRadius: 30,
             spreadRadius: 5,
           ),
@@ -448,13 +448,13 @@ class _CoffeeClockAnimation extends StatelessWidget {
                 CupertinoIcons.clock_fill,
                 key: const ValueKey('clock'),
                 size: 72,
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
               )
             : Icon(
                 CupertinoIcons.cart_fill,
                 key: const ValueKey('coffee'),
                 size: 72,
-                color: context.appColors.accent,
+                color: context.vantColors.accent,
               ),
       ),
     );
@@ -472,19 +472,19 @@ class _DecisionButtonsVisual extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _DecisionButton(
-          color: context.appColors.decisionNo,
+          color: context.vantColors.decisionNo,
           icon: CupertinoIcons.xmark,
           label: l10n.passed,
         ),
         const SizedBox(width: 12),
         _DecisionButton(
-          color: context.appColors.decisionThinking,
+          color: context.vantColors.decisionThinking,
           icon: CupertinoIcons.hourglass,
           label: l10n.thinking,
         ),
         const SizedBox(width: 12),
         _DecisionButton(
-          color: context.appColors.decisionYes,
+          color: context.vantColors.decisionYes,
           icon: CupertinoIcons.checkmark,
           label: l10n.bought,
         ),
@@ -547,8 +547,8 @@ class _PageIndicator extends StatelessWidget {
       height: 8,
       decoration: BoxDecoration(
         color: isActive
-            ? context.appColors.primary
-            : context.appColors.surfaceLight,
+            ? context.vantColors.primary
+            : context.vantColors.surfaceLight,
         borderRadius: BorderRadius.circular(4),
       ),
     );

@@ -79,13 +79,13 @@ class _NotificationSettingsScreenState
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       appBar: AppBar(
-        backgroundColor: context.appColors.background,
+        backgroundColor: context.vantColors.background,
         leading: IconButton(
           icon: Icon(
             CupertinoIcons.arrow_left,
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -94,7 +94,7 @@ class _NotificationSettingsScreenState
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
           ),
         ),
       ),
@@ -116,8 +116,8 @@ class _NotificationSettingsScreenState
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textSecondary,
-                        letterSpacing: 0.5,
+                        color: context.vantColors.textSecondary,
+                        letterSpacing: 0,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -169,8 +169,8 @@ class _NotificationSettingsScreenState
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textSecondary,
-                        letterSpacing: 0.5,
+                        color: context.vantColors.textSecondary,
+                        letterSpacing: 0,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -183,13 +183,13 @@ class _NotificationSettingsScreenState
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              context.appColors.primary.withValues(alpha: 0.1),
-                              context.appColors.accent.withValues(alpha: 0.1),
+                              context.vantColors.primary.withValues(alpha: 0.1),
+                              context.vantColors.accent.withValues(alpha: 0.1),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: context.appColors.primary.withValues(
+                            color: context.vantColors.primary.withValues(
                               alpha: 0.3,
                             ),
                           ),
@@ -199,7 +199,7 @@ class _NotificationSettingsScreenState
                             Icon(
                               CupertinoIcons.clock_fill,
                               size: 24,
-                              color: context.appColors.primary,
+                              color: context.vantColors.primary,
                             ),
                             const SizedBox(width: 12),
                             Text(
@@ -207,7 +207,7 @@ class _NotificationSettingsScreenState
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
-                                color: context.appColors.textPrimary,
+                                color: context.vantColors.textPrimary,
                               ),
                             ),
                           ],
@@ -243,9 +243,9 @@ class _NotificationSettingsScreenState
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: context.appColors.surface,
+                        color: context.vantColors.surface,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: context.appColors.cardBorder),
+                        border: Border.all(color: context.vantColors.cardBorder),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,7 +253,7 @@ class _NotificationSettingsScreenState
                           Icon(
                             CupertinoIcons.info_circle_fill,
                             size: 18,
-                            color: context.appColors.textTertiary,
+                            color: context.vantColors.textTertiary,
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -261,7 +261,7 @@ class _NotificationSettingsScreenState
                               l10n.nightModeNotice,
                               style: TextStyle(
                                 fontSize: 13,
-                                color: context.appColors.textTertiary,
+                                color: context.vantColors.textTertiary,
                                 height: 1.4,
                               ),
                             ),
@@ -284,13 +284,13 @@ class _NotificationSettingsScreenState
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isEnabled
-            ? context.appColors.primary.withValues(alpha: 0.1)
-            : context.appColors.surface,
+            ? context.vantColors.primary.withValues(alpha: 0.1)
+            : context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isEnabled
-              ? context.appColors.primary.withValues(alpha: 0.3)
-              : context.appColors.cardBorder,
+              ? context.vantColors.primary.withValues(alpha: 0.3)
+              : context.vantColors.cardBorder,
         ),
       ),
       child: Row(
@@ -300,8 +300,8 @@ class _NotificationSettingsScreenState
             height: 48,
             decoration: BoxDecoration(
               color: isEnabled
-                  ? context.appColors.primary.withValues(alpha: 0.2)
-                  : context.appColors.surfaceLight,
+                  ? context.vantColors.primary.withValues(alpha: 0.2)
+                  : context.vantColors.surfaceLight,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
@@ -310,8 +310,8 @@ class _NotificationSettingsScreenState
                   : CupertinoIcons.bell_slash_fill,
               size: 24,
               color: isEnabled
-                  ? context.appColors.primary
-                  : context.appColors.textTertiary,
+                  ? context.vantColors.primary
+                  : context.vantColors.textTertiary,
             ),
           ),
           const SizedBox(width: 16),
@@ -324,7 +324,7 @@ class _NotificationSettingsScreenState
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -333,8 +333,8 @@ class _NotificationSettingsScreenState
                   style: TextStyle(
                     fontSize: 13,
                     color: isEnabled
-                        ? context.appColors.primary
-                        : context.appColors.textTertiary,
+                        ? context.vantColors.primary
+                        : context.vantColors.textTertiary,
                   ),
                 ),
               ],
@@ -343,7 +343,7 @@ class _NotificationSettingsScreenState
           Switch(
             value: isEnabled,
             onChanged: (value) => _updateSetting('enabled', value),
-            activeTrackColor: context.appColors.primary,
+            activeTrackColor: context.vantColors.primary,
           ),
         ],
       ),
@@ -356,9 +356,9 @@ class _NotificationSettingsScreenState
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: context.appColors.surface,
+          color: context.vantColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: context.appColors.cardBorder),
+          border: Border.all(color: context.vantColors.cardBorder),
         ),
         child: Row(
           children: [
@@ -366,13 +366,13 @@ class _NotificationSettingsScreenState
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: context.appColors.surfaceLight,
+                color: context.vantColors.surfaceLight,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
                 CupertinoIcons.clock,
                 size: 20,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
             ),
             const SizedBox(width: 12),
@@ -385,7 +385,7 @@ class _NotificationSettingsScreenState
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -393,7 +393,7 @@ class _NotificationSettingsScreenState
                     _formatTime(_dailyReminderHour, _dailyReminderMinute),
                     style: TextStyle(
                       fontSize: 12,
-                      color: context.appColors.primary,
+                      color: context.vantColors.primary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -403,7 +403,7 @@ class _NotificationSettingsScreenState
             Icon(
               CupertinoIcons.chevron_right,
               size: 20,
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
             ),
           ],
         ),
@@ -422,9 +422,9 @@ class _NotificationSettingsScreenState
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Row(
         children: [
@@ -432,15 +432,15 @@ class _NotificationSettingsScreenState
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: context.appColors.surfaceLight,
+              color: context.vantColors.surfaceLight,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
               icon,
               size: 20,
               color: isEnabled
-                  ? context.appColors.textSecondary
-                  : context.appColors.textTertiary,
+                  ? context.vantColors.textSecondary
+                  : context.vantColors.textTertiary,
             ),
           ),
           const SizedBox(width: 12),
@@ -454,8 +454,8 @@ class _NotificationSettingsScreenState
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: isEnabled
-                        ? context.appColors.textPrimary
-                        : context.appColors.textTertiary,
+                        ? context.vantColors.textPrimary
+                        : context.vantColors.textTertiary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -463,7 +463,7 @@ class _NotificationSettingsScreenState
                   subtitle,
                   style: TextStyle(
                     fontSize: 12,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                 ),
               ],
@@ -472,7 +472,7 @@ class _NotificationSettingsScreenState
           Switch(
             value: isEnabled,
             onChanged: (value) => _updateSetting(key, value),
-            activeTrackColor: context.appColors.primary,
+            activeTrackColor: context.vantColors.primary,
           ),
         ],
       ),

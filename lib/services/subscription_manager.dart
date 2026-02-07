@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/app_colors.dart';
 import '../models/models.dart';
 import 'subscription_service.dart';
 import 'profile_service.dart';
@@ -228,10 +228,10 @@ class SubscriptionStats {
   /// Durum rengi
   Color get statusColor {
     if (renewingTodayCount > 0) {
-      return AppColors.subscriptionColors[4]; // Orange
+      return VantColors.subscriptionColors[4]; // Orange
     }
-    if (renewingTomorrowCount > 0) return AppColors.warning; // Yellow
-    return AppColors.secondary; // Turquoise
+    if (renewingTomorrowCount > 0) return VantColors.warning; // Yellow
+    return VantColors.primary; // Violet brand
   }
 
   /// Durum ikonu

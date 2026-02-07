@@ -377,12 +377,12 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 leading: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: context.vantColors.secondary.withValues(alpha: 0.1),
+                    color: context.vantColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
                     CupertinoIcons.photo,
-                    color: context.vantColors.secondary,
+                    color: context.vantColors.primary,
                   ),
                 ),
                 title: Text(
@@ -1668,10 +1668,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           width: 44,
           height: 44,
           decoration: BoxDecoration(
-            color: context.vantColors.secondary.withValues(alpha: 0.15),
+            color: context.vantColors.primary.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: context.vantColors.secondary.withValues(alpha: 0.3),
+              color: context.vantColors.primary.withValues(alpha: 0.3),
             ),
           ),
           child: _isScanning
@@ -1681,14 +1681,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     height: 20,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: context.vantColors.secondary,
+                      color: context.vantColors.primary,
                     ),
                   ),
                 )
               : Icon(
                   CupertinoIcons.camera,
                   size: 22,
-                  color: context.vantColors.secondary,
+                  color: context.vantColors.primary,
                 ),
         ),
       ),
@@ -2463,7 +2463,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               color: context.vantColors.warning,
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              letterSpacing: 1,
+              letterSpacing: 1.0,
             ),
           ),
           const SizedBox(height: 12),

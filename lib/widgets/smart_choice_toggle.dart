@@ -145,7 +145,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
             boxShadow: _isExpanded
                 ? [
                     BoxShadow(
-                      color: AppColors.medalGold.withValues(
+                      color: VantColors.medalGold.withValues(
                         alpha: 0.3 * _glowAnimation.value,
                       ),
                       blurRadius: 20,
@@ -161,13 +161,13 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
               child: Container(
                 decoration: BoxDecoration(
                   color: _isExpanded
-                      ? AppColors.medalGold.withValues(alpha: 0.1)
-                      : context.appColors.surface.withValues(alpha: 0.8),
+                      ? VantColors.medalGold.withValues(alpha: 0.1)
+                      : context.vantColors.surface.withValues(alpha: 0.8),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: _isExpanded
-                        ? AppColors.medalGold.withValues(alpha: 0.5)
-                        : context.appColors.cardBorder,
+                        ? VantColors.medalGold.withValues(alpha: 0.5)
+                        : context.vantColors.cardBorder,
                     width: 1,
                   ),
                 ),
@@ -189,8 +189,8 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                               height: 40,
                               decoration: BoxDecoration(
                                 color: _isExpanded
-                                    ? AppColors.medalGold.withValues(alpha: 0.2)
-                                    : context.appColors.surfaceLight,
+                                    ? VantColors.medalGold.withValues(alpha: 0.2)
+                                    : context.vantColors.surfaceLight,
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Icon(
@@ -198,8 +198,8 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                     ? CupertinoIcons.arrow_down_right
                                     : CupertinoIcons.lightbulb,
                                 color: _isExpanded
-                                    ? AppColors.medalGold
-                                    : context.appColors.textSecondary,
+                                    ? VantColors.medalGold
+                                    : context.vantColors.textSecondary,
                                 size: 22,
                               ),
                             ),
@@ -219,8 +219,8 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                           color: _isExpanded
-                                              ? AppColors.medalGold
-                                              : context.appColors.textPrimary,
+                                              ? VantColors.medalGold
+                                              : context.vantColors.textPrimary,
                                         ),
                                       ),
                                       const SizedBox(height: 2),
@@ -231,7 +231,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                         style: TextStyle(
                                           fontSize: 12,
                                           color:
-                                              context.appColors.textSecondary,
+                                              context.vantColors.textSecondary,
                                         ),
                                       ),
                                     ],
@@ -246,8 +246,8 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                               child: Icon(
                                 CupertinoIcons.chevron_down,
                                 color: _isExpanded
-                                    ? AppColors.medalGold
-                                    : context.appColors.textTertiary,
+                                    ? VantColors.medalGold
+                                    : context.vantColors.textTertiary,
                               ),
                             ),
                           ],
@@ -265,7 +265,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                             // Divider
                             Container(
                               height: 1,
-                              color: context.appColors.cardBorder,
+                              color: context.vantColors.cardBorder,
                             ),
                             const SizedBox(height: 16),
                             // Alternative amount input
@@ -279,14 +279,14 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                         decimal: true,
                                       ),
                                   style: TextStyle(
-                                    color: context.appColors.textPrimary,
+                                    color: context.vantColors.textPrimary,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   decoration: InputDecoration(
                                     labelText: l10n.mindfulChoiceAmountLabel,
                                     labelStyle: TextStyle(
-                                      color: context.appColors.textSecondary,
+                                      color: context.vantColors.textSecondary,
                                       fontSize: 13,
                                     ),
                                     hintText: l10n.mindfulChoiceAmountHint(
@@ -297,11 +297,11 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                       ),
                                     ),
                                     hintStyle: TextStyle(
-                                      color: context.appColors.textTertiary,
+                                      color: context.vantColors.textTertiary,
                                       fontSize: 14,
                                     ),
                                     filled: true,
-                                    fillColor: context.appColors.background
+                                    fillColor: context.vantColors.background
                                         .withValues(alpha: 0.5),
                                     contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 16,
@@ -313,7 +313,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                                     ),
                                     prefixIcon: Icon(
                                       CupertinoIcons.bag,
-                                      color: context.appColors.textTertiary,
+                                      color: context.vantColors.textTertiary,
                                       size: 20,
                                     ),
                                   ),
@@ -351,12 +351,12 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.medalGold.withValues(alpha: 0.15),
-            AppColors.categoryHealth.withValues(alpha: 0.15),
+            VantColors.medalGold.withValues(alpha: 0.15),
+            VantColors.categoryHealth.withValues(alpha: 0.15),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.medalGold.withValues(alpha: 0.3)),
+        border: Border.all(color: VantColors.medalGold.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
@@ -365,12 +365,12 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: AppColors.medalGold.withValues(alpha: 0.2),
+              color: VantColors.medalGold.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: const Icon(
               CupertinoIcons.shield_lefthalf_fill,
-              color: AppColors.medalGold,
+              color: VantColors.medalGold,
               size: 20,
             ),
           ),
@@ -387,7 +387,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.medalGold,
+                    color: VantColors.medalGold,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -395,7 +395,7 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                   l10n.mindfulChoiceSavingsDesc,
                   style: TextStyle(
                     fontSize: 11,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
               ],

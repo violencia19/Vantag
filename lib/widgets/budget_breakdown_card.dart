@@ -4,8 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/currency_provider.dart';
 import '../services/budget_service.dart';
-import '../theme/theme.dart' hide GlassCard;
-import '../core/theme/premium_effects.dart';
+import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
 
 /// Bütçe dağılımını gösteren kart
@@ -98,11 +97,10 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
             opacity: _fadeAnimation.value,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GlassCard(
+              child: VGlassCard(
                 borderRadius: 20,
                 padding: const EdgeInsets.all(20),
-                blur: 15,
-                boxShadow: PremiumShadows.shadowPremium,
+                blurSigma: 15,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -113,21 +111,21 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           width: 36,
                           height: 36,
                           decoration: BoxDecoration(
-                            color: context.appColors.primary.withValues(
+                            color: context.vantColors.primary.withValues(
                               alpha: 0.15,
                             ),
                             borderRadius: BorderRadius.circular(8),
-                            boxShadow: PremiumShadows.coloredGlow(
-                              context.appColors.primary,
+                            boxShadow: VantShadows.coloredGlow(
+                              context.vantColors.primary,
                               intensity: 0.3,
                             ),
                           ),
                           child: Icon(
                             CupertinoIcons.chart_pie_fill,
-                            color: context.appColors.primary,
+                            color: context.vantColors.primary,
                             size: 18,
-                            shadows: PremiumShadows.iconHalo(
-                              context.appColors.primary,
+                            shadows: VantShadows.iconHalo(
+                              context.vantColors.primary,
                             ),
                           ),
                         ),
@@ -135,10 +133,10 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                         Text(
                           l10n.monthlySpendingBreakdown,
                           style: TextStyle(
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            letterSpacing: 0.5,
+                            letterSpacing: 0,
                           ),
                         ),
                       ],
@@ -160,7 +158,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           child: _AnimatedStatItem(
                             index: 0,
                             icon: CupertinoIcons.lock_fill,
-                            iconColor: context.appColors.info,
+                            iconColor: context.vantColors.info,
                             label: l10n.mandatoryExpenses,
                             amount: mandatoryConverted,
                             hours: mandatoryHours,
@@ -175,7 +173,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           child: _AnimatedStatItem(
                             index: 1,
                             icon: CupertinoIcons.bag_fill,
-                            iconColor: context.appColors.warning,
+                            iconColor: context.vantColors.warning,
                             label: l10n.discretionaryExpenses,
                             amount: discretionaryConverted,
                             hours: discretionaryHours,
@@ -193,12 +191,12 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color: context.appColors.success.withValues(
+                          color: context.vantColors.success.withValues(
                             alpha: 0.08,
                           ),
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: context.appColors.success.withValues(
+                            color: context.vantColors.success.withValues(
                               alpha: 0.2,
                             ),
                             width: 1,
@@ -208,10 +206,10 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           children: [
                             Icon(
                               CupertinoIcons.checkmark_circle_fill,
-                              color: context.appColors.success,
+                              color: context.vantColors.success,
                               size: 20,
-                              shadows: PremiumShadows.iconHalo(
-                                context.appColors.success,
+                              shadows: VantShadows.iconHalo(
+                                context.vantColors.success,
                               ),
                             ),
                             const SizedBox(width: 10),
@@ -222,7 +220,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                                       .toStringAsFixed(0),
                                 ),
                                 style: TextStyle(
-                                  color: context.appColors.success,
+                                  color: context.vantColors.success,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -239,12 +237,12 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color: context.appColors.error.withValues(
+                          color: context.vantColors.error.withValues(
                             alpha: 0.08,
                           ),
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: context.appColors.error.withValues(
+                            color: context.vantColors.error.withValues(
                               alpha: 0.2,
                             ),
                             width: 1,
@@ -254,10 +252,10 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                           children: [
                             Icon(
                               CupertinoIcons.exclamationmark_triangle_fill,
-                              color: context.appColors.error,
+                              color: context.vantColors.error,
                               size: 20,
-                              shadows: PremiumShadows.iconHalo(
-                                context.appColors.error,
+                              shadows: VantShadows.iconHalo(
+                                context.vantColors.error,
                               ),
                             ),
                             const SizedBox(width: 10),
@@ -271,7 +269,7 @@ class _BudgetBreakdownCardState extends State<BudgetBreakdownCard>
                                   ),
                                 ),
                                 style: TextStyle(
-                                  color: context.appColors.error,
+                                  color: context.vantColors.error,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -355,7 +353,7 @@ class _AnimatedStackedProgressState extends State<_AnimatedStackedProgress>
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
-                color: context.appColors.primary.withValues(alpha: 0.2),
+                color: context.vantColors.primary.withValues(alpha: 0.2),
                 blurRadius: 12,
                 spreadRadius: 0,
               ),
@@ -376,8 +374,8 @@ class _AnimatedStackedProgressState extends State<_AnimatedStackedProgress>
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              context.appColors.info,
-                              context.appColors.info.withValues(alpha: 0.8),
+                              context.vantColors.info,
+                              context.vantColors.info.withValues(alpha: 0.8),
                             ],
                           ),
                         ),
@@ -391,8 +389,8 @@ class _AnimatedStackedProgressState extends State<_AnimatedStackedProgress>
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              context.appColors.warning,
-                              context.appColors.warning.withValues(alpha: 0.8),
+                              context.vantColors.warning,
+                              context.vantColors.warning.withValues(alpha: 0.8),
                             ],
                           ),
                         ),
@@ -515,7 +513,7 @@ class _AnimatedStatItemState extends State<_AnimatedStatItem>
                           widget.icon,
                           color: widget.iconColor,
                           size: 14,
-                          shadows: PremiumShadows.iconHalo(widget.iconColor),
+                          shadows: VantShadows.iconHalo(widget.iconColor),
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -523,7 +521,7 @@ class _AnimatedStatItemState extends State<_AnimatedStatItem>
                         child: Text(
                           widget.label,
                           style: TextStyle(
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
                           ),
@@ -543,7 +541,7 @@ class _AnimatedStatItemState extends State<_AnimatedStatItem>
                       showDecimals: false,
                     ),
                     style: TextStyle(
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       shadows: [
@@ -558,7 +556,7 @@ class _AnimatedStatItemState extends State<_AnimatedStatItem>
                   Text(
                     '${widget.hours.toStringAsFixed(1)} ${widget.l10n.hourAbbreviation} · %${widget.percent.toStringAsFixed(0)}',
                     style: TextStyle(
-                      color: context.appColors.textTertiary,
+                      color: context.vantColors.textTertiary,
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                     ),

@@ -2,8 +2,10 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
+import '../providers/currency_provider.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 import '../widgets/widgets.dart';
@@ -55,7 +57,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.errorLoadingSubscriptions),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -114,12 +116,12 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: CustomScrollView(
         slivers: [
           // App Bar
           SliverAppBar(
-            backgroundColor: context.appColors.background,
+            backgroundColor: context.vantColors.background,
             pinned: true,
             expandedHeight: 0,
             leading: IconButton(
@@ -160,7 +162,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             SliverFillRemaining(
               child: Center(
                 child: CircularProgressIndicator(
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ),
             )
@@ -196,11 +198,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       // Floating Action Button
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddSheet,
-        backgroundColor: context.appColors.primary,
+        backgroundColor: context.vantColors.primary,
         tooltip: AppLocalizations.of(context).addSubscription,
         child: Icon(
           CupertinoIcons.add,
-          color: context.appColors.textPrimary,
+          color: context.vantColors.textPrimary,
         ),
       ),
     );
@@ -214,10 +216,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: context.appColors.surface.withValues(alpha: 0.8),
+        color: context.vantColors.surface.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: context.appColors.textPrimary.withValues(alpha: 0.1),
+          color: context.vantColors.textPrimary.withValues(alpha: 0.1),
           width: 0.5,
         ),
       ),
@@ -236,16 +238,16 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       AppLocalizations.of(context).monthlyTotal,
                       style: TextStyle(
                         fontSize: 12,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${formatTurkishCurrency(_stats!.totalMonthlyCost, decimalDigits: 0)} ₺',
+                      context.read<CurrencyProvider>().format(_stats!.totalMonthlyCost),
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                   ],
@@ -255,7 +257,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               Container(
                 width: 1,
                 height: 50,
-                color: context.appColors.textPrimary.withValues(alpha: 0.1),
+                color: context.vantColors.textPrimary.withValues(alpha: 0.1),
               ),
               const SizedBox(width: 20),
               // Subscription count and work days
@@ -276,7 +278,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                           ),
                         ),
                       ],
@@ -286,7 +288,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       '${_stats!.totalWorkDays.toStringAsFixed(1)} ${AppLocalizations.of(context).workDaysPerMonth}',
                       style: TextStyle(
                         fontSize: 12,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                   ],
@@ -314,7 +316,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: context.appColors.surface.withValues(alpha: 0.6),
+            color: context.vantColors.surface.withValues(alpha: 0.6),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: subscription.color.withValues(alpha: 0.3),
@@ -350,7 +352,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -358,7 +360,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       subscription.category,
                       style: TextStyle(
                         fontSize: 12,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                   ],
@@ -369,11 +371,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '${formatTurkishCurrency(subscription.amount, decimalDigits: 0)} ₺',
+                    context.read<CurrencyProvider>().format(subscription.amount),
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -383,7 +385,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     ).everyMonthDay(subscription.renewalDay),
                     style: TextStyle(
                       fontSize: 11,
-                      color: context.appColors.textTertiary,
+                      color: context.vantColors.textTertiary,
                     ),
                   ),
                 ],
@@ -393,7 +395,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               Icon(
                 CupertinoIcons.chevron_right,
                 size: 20,
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
               ),
             ],
           ),
@@ -411,13 +413,13 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: context.appColors.surface.withValues(alpha: 0.5),
+              color: context.vantColors.surface.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(24),
             ),
             child: Icon(
               CupertinoIcons.repeat,
               size: 40,
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
             ),
           ),
           const SizedBox(height: 20),
@@ -426,7 +428,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
@@ -434,7 +436,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             AppLocalizations.of(context).addSubscriptionHint,
             style: TextStyle(
               fontSize: 13,
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
             ),
           ),
         ],
@@ -453,7 +455,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       builder: (context) => Container(
         margin: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: context.appColors.gradientMid,
+          color: context.vantColors.gradientMid,
           borderRadius: BorderRadius.circular(24),
         ),
         child: Column(
@@ -465,7 +467,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               height: 4,
               margin: const EdgeInsets.only(top: 12),
               decoration: BoxDecoration(
-                color: context.appColors.textPrimary.withValues(alpha: 0.2),
+                color: context.vantColors.textPrimary.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -479,7 +481,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -519,16 +521,16 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                   sub.name,
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: context.appColors.textPrimary,
+                                    color: context.vantColors.textPrimary,
                                   ),
                                 ),
                               ),
                               Text(
-                                '${formatTurkishCurrency(sub.amount, decimalDigits: 0)} ₺',
+                                context.read<CurrencyProvider>().format(sub.amount),
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
-                                  color: context.appColors.textSecondary,
+                                  color: context.vantColors.textSecondary,
                                 ),
                               ),
                             ],

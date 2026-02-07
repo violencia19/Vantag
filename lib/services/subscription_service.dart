@@ -226,12 +226,15 @@ class SubscriptionService {
       final profileService = ProfileService();
       final profile = await profileService.getProfile();
 
-      // Saatlik ücret hesapla
-      double hourlyRate = 50.0; // Varsayılan
+      // Saatlik ücret hesapla — minimum 1.0 to prevent division-by-zero
+      double hourlyRate = 50.0; // Default fallback (TRY)
       if (profile != null && profile.dailyHours > 0) {
-        hourlyRate =
+        final computed =
             profile.monthlyIncome /
             (profile.dailyHours * profile.workDaysPerWeek * 4);
+        if (computed > 0 && computed.isFinite) {
+          hourlyRate = computed;
+        }
       }
 
       int count = 0;

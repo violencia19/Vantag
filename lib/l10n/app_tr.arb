@@ -2910,5 +2910,179 @@
   "additionalIncomePromptTitle": "Ek gelirin var mı?",
   "additionalIncomePromptSubtitle": "Yan iş, kira, freelance...",
   "additionalIncomeYes": "Evet, ekle",
-  "additionalIncomeNo": "Hayır, yok"
+  "additionalIncomeNo": "Hayır, yok",
+
+  "expenseTypeSingle": "Tek Seferlik",
+  "expenseTypeRecurring": "Tekrarlayan",
+  "expenseTypeInstallment": "Taksitli",
+  "monthlyPaymentLabel": "Aylık taksit:",
+  "installmentCountLabel": "{count} ay",
+  "@installmentCountLabel": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "interestAmountLabel": "Vade farkı:",
+  "interestAsHoursLabel": "Vade farkı saat olarak:",
+  "hoursUnit": "saat",
+  "installmentSavingsWarning": "Peşin alsaydın {hours} saat kazanırdın!",
+  "@installmentSavingsWarning": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "errorSelectInstallmentCount": "Lütfen taksit sayısını seçin",
+  "errorEnterInstallmentTotal": "Lütfen taksitli toplam fiyatı girin",
+
+  "insightPeakDay": "En Çok Harcama Günü",
+  "insightTopCategory": "En Büyük Kategori",
+  "insightMonthComparison": "Bu Ay vs Geçen Ay",
+  "insightPeakDaySubtitle": "{day} en çok harcadığın gün",
+  "@insightPeakDaySubtitle": {
+    "placeholders": { "day": {"type": "String"} }
+  },
+  "insightTopCategorySubtitle": "{category} en büyük kategorin",
+  "@insightTopCategorySubtitle": {
+    "placeholders": { "category": {"type": "String"} }
+  },
+  "insightMonthDown": "Geçen aya göre %{percent} düşüş",
+  "@insightMonthDown": {
+    "placeholders": { "percent": {"type": "String"} }
+  },
+  "insightMonthUp": "Geçen aya göre %{percent} artış",
+  "@insightMonthUp": {
+    "placeholders": { "percent": {"type": "String"} }
+  },
+  "dayMonday": "Pazartesi",
+  "dayTuesday": "Salı",
+  "dayWednesday": "Çarşamba",
+  "dayThursday": "Perşembe",
+  "dayFriday": "Cuma",
+  "daySaturday": "Cumartesi",
+  "daySunday": "Pazar",
+
+  "heatmapLow": "Az",
+  "heatmapHigh": "Çok",
+  "dayAbbrevMon": "P",
+  "dayAbbrevTue": "S",
+  "dayAbbrevWed": "Ç",
+  "dayAbbrevThu": "P",
+  "dayAbbrevFri": "C",
+  "dayAbbrevSat": "C",
+  "dayAbbrevSun": "P",
+  "monthAbbrevJan": "Oca",
+  "monthAbbrevFeb": "Şub",
+  "monthAbbrevMar": "Mar",
+  "monthAbbrevApr": "Nis",
+  "monthAbbrevMay": "May",
+  "monthAbbrevJun": "Haz",
+  "monthAbbrevJul": "Tem",
+  "monthAbbrevAug": "Ağu",
+  "monthAbbrevSep": "Eyl",
+  "monthAbbrevOct": "Eki",
+  "monthAbbrevNov": "Kas",
+  "monthAbbrevDec": "Ara",
+  "savingsProjectionTitle": "Tasarruf Projeksiyonu",
+  "threeMonths": "3 Ay",
+  "sixMonths": "6 Ay",
+  "oneYear": "1 Yıl",
+  "monthlyAverageLabel": "Aylık ortalama: {amount}",
+  "@monthlyAverageLabel": {
+    "placeholders": { "amount": {"type": "String"} }
+  },
+  "categoryTrendTitle": "Kategori Trendi",
+  "workHoursEquivalentTitle": "Çalışma Saati Karşılığı",
+  "totalHoursLabel": "Toplam: {hours} saat",
+  "@totalHoursLabel": {
+    "placeholders": { "hours": {"type": "String"} }
+  },
+  "perHourLabel": "({rate}/saat)",
+  "@perHourLabel": {
+    "placeholders": { "rate": {"type": "String"} }
+  },
+  "dayAbbrevMonFull": "Pzt",
+  "dayAbbrevTueFull": "Sal",
+  "dayAbbrevWedFull": "Çar",
+  "dayAbbrevThuFull": "Per",
+  "dayAbbrevFriFull": "Cum",
+  "dayAbbrevSatFull": "Cmt",
+  "dayAbbrevSunFull": "Paz",
+
+  "sharePreText": "Bunu almak için",
+  "sharePostText": "çalışman gerekiyor",
+  "shareCTA": "Sen kaç saat çalışıyorsun?",
+  "shareTextDefault": "Sen kaç saat çalışıyorsun? 👀 vantag.app",
+  "minuteUnitUpper": "DK",
+  "hourUnitUpper": "SAAT",
+  "decisionBought": "Aldım",
+  "decisionPassed": "Vazgeçtim",
+  "decisionThinking": "Düşünüyorum",
+
+  "expenseAddedMessage": "{amount} {description} eklendi",
+  "@expenseAddedMessage": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "description": {"type": "String"}
+    }
+  },
+  "undoAction": "Geri Al",
+  "confirmExpenseTitle": "Harcamayı Onayla",
+  "amountLabel": "Tutar",
+  "categoryLabel": "Kategori",
+  "descriptionLabel": "Açıklama",
+  "cancelAction": "İptal",
+  "addAction": "Ekle",
+  "referralAppliedMessage": "Davet kodu uygulandı: {code}",
+  "@referralAppliedMessage": {
+    "placeholders": { "code": {"type": "String"} }
+  },
+
+  "workEquivalentBadge": "ÇALIŞMA KARŞILIĞI",
+  "hoursUnitUpper": "SAAT",
+  "daysUnitUpper": "GÜN",
+  "budgetUsageLabel": "Bütçe Kullanımı",
+  "whatDecisionLabel": "Kararın ne oldu?",
+  "daysUnit": "{count} gün",
+  "@daysUnit": {
+    "placeholders": { "count": {"type": "int"} }
+  },
+
+  "photoSelectError": "Fotoğraf seçilemedi",
+  "profilePhotoTitle": "Profil Fotoğrafı",
+  "takePhotoOption": "Kameradan çek",
+  "chooseFromGalleryOption": "Galeriden seç",
+  "removePhotoOption": "Fotoğrafı kaldır",
+
+  "examplePrefix": "Örn: {examples}",
+  "@examplePrefix": {
+    "placeholders": { "examples": {"type": "String"} }
+  },
+  "exampleFood": "Kahve, Market, Restoran",
+  "exampleTransport": "Benzin, Taksi, Otobüs",
+  "exampleClothing": "Kaban, Ayakkabı, T-shirt",
+  "exampleElectronics": "Telefon, Kulaklık, Şarj",
+  "exampleEntertainment": "Sinema, Oyun, Konser",
+  "exampleHealth": "İlaç, Doktor, Vitamin",
+  "exampleEducation": "Kitap, Kurs, Defter",
+  "exampleBills": "Elektrik, Su, İnternet",
+  "exampleDefault": "Açıklama yazın...",
+  "newExpenseHeader": "Yeni Harcama",
+  "expenseGroupHeader": "Harcama Grubu",
+  "calculateAction": "Hesapla",
+  "detailOptionalLabel": "Detay (Opsiyonel)",
+  "enterValidAmountError": "Lütfen geçerli bir tutar girin",
+
+  "aiDisclaimer": "Yapay zeka tarafından oluşturulan içgörüler yalnızca bilgilendirme amaçlıdır ve finansal tavsiye olarak değerlendirilmemelidir.",
+
+  "hourLabel": "Saat",
+  "yearLabel": "Yıl",
+
+  "goldOunces": "{ounces}oz altın",
+  "goldOuncesShort": "{ounces}oz altın",
+  "couldBuyGoldOunces": "Bu parayla {ounces} ons altın alabilirdin",
+
+  "pleaseEnterIncome": "Lütfen gelirinizi girin",
+  "mainIncome": "Ana Gelir",
+  "ofYourWork": "çalışman",
+  "expensePlaceholder": "Kahve, yemek, market..."
 }

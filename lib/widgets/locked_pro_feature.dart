@@ -89,12 +89,12 @@ class LockedProFeature extends StatelessWidget {
                               width: iconSize,
                               height: iconSize,
                               decoration: BoxDecoration(
-                                color: context.appColors.primary
+                                color: context.vantColors.primary
                                     .withValues(alpha: 0.2),
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: context.appColors.primary.withValues(
+                                    color: context.vantColors.primary.withValues(
                                       alpha: 0.4,
                                     ),
                                     blurRadius: isCompact ? 10 : 20,
@@ -120,8 +120,8 @@ class LockedProFeature extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
-                                        context.appColors.primary,
-                                        context.appColors.primary
+                                        context.vantColors.primary,
+                                        context.vantColors.primary
                                             .withValues(alpha: 0.8),
                                       ],
                                     ),
@@ -129,7 +129,7 @@ class LockedProFeature extends StatelessWidget {
                                     boxShadow: [
                                       BoxShadow(
                                         color:
-                                            context.appColors.primary.withValues(
+                                            context.vantColors.primary.withValues(
                                           alpha: 0.4,
                                         ),
                                         blurRadius: 12,
@@ -152,7 +152,6 @@ class LockedProFeature extends StatelessWidget {
                                           color: Colors.white,
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
-                                          letterSpacing: 1,
                                         ),
                                       ),
                                     ],
@@ -209,49 +208,49 @@ class ProFeaturesSheet extends StatelessWidget {
         icon: CupertinoIcons.chart_bar_alt_fill,
         title: l10n.proFeatureHeatmap,
         description: l10n.proFeatureHeatmapDesc,
-        color: context.appColors.primary,
+        color: context.vantColors.primary,
       ),
       _ProFeatureItem(
         icon: CupertinoIcons.chart_pie_fill,
         title: l10n.proFeatureCategoryBreakdown,
         description: l10n.proFeatureCategoryBreakdownDesc,
-        color: context.appColors.warning,
+        color: context.vantColors.warning,
       ),
       _ProFeatureItem(
         icon: CupertinoIcons.arrow_up_right,
         title: l10n.proFeatureSpendingTrends,
         description: l10n.proFeatureSpendingTrendsDesc,
-        color: context.appColors.success,
+        color: context.vantColors.success,
       ),
       _ProFeatureItem(
         icon: CupertinoIcons.clock_fill,
         title: l10n.proFeatureTimeAnalysis,
         description: l10n.proFeatureTimeAnalysisDesc,
-        color: context.appColors.info,
+        color: context.vantColors.info,
       ),
       _ProFeatureItem(
         icon: CupertinoIcons.money_dollar_circle_fill,
         title: l10n.proFeatureBudgetBreakdown,
         description: l10n.proFeatureBudgetBreakdownDesc,
-        color: context.appColors.error,
+        color: context.vantColors.error,
       ),
       _ProFeatureItem(
         icon: CupertinoIcons.slider_horizontal_3,
         title: l10n.proFeatureAdvancedFilters,
         description: l10n.proFeatureAdvancedFiltersDesc,
-        color: context.appColors.primary,
+        color: context.vantColors.primary,
       ),
       _ProFeatureItem(
         icon: CupertinoIcons.doc_chart_fill,
         title: l10n.proFeatureExcelExport,
         description: l10n.proFeatureExcelExportDesc,
-        color: context.appColors.success,
+        color: context.vantColors.success,
       ),
       _ProFeatureItem(
         icon: CupertinoIcons.arrow_counterclockwise,
         title: l10n.proFeatureUnlimitedHistory,
         description: l10n.proFeatureUnlimitedHistoryDesc,
-        color: context.appColors.warning,
+        color: context.vantColors.warning,
       ),
     ];
 
@@ -260,7 +259,7 @@ class ProFeaturesSheet extends StatelessWidget {
         maxHeight: MediaQuery.of(context).size.height * 0.85,
       ),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
@@ -273,7 +272,7 @@ class ProFeaturesSheet extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: context.appColors.textTertiary.withValues(alpha: 0.3),
+                color: context.vantColors.textTertiary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -293,14 +292,14 @@ class ProFeaturesSheet extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        context.appColors.primary,
-                        context.appColors.primary.withValues(alpha: 0.7),
+                        context.vantColors.primary,
+                        context.vantColors.primary.withValues(alpha: 0.7),
                       ],
                     ),
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: context.appColors.primary.withValues(alpha: 0.4),
+                        color: context.vantColors.primary.withValues(alpha: 0.4),
                         blurRadius: 24,
                         spreadRadius: 4,
                       ),
@@ -318,7 +317,7 @@ class ProFeaturesSheet extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -326,7 +325,7 @@ class ProFeaturesSheet extends StatelessWidget {
                   l10n.proFeaturesSheetSubtitle,
                   style: TextStyle(
                     fontSize: 14,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -346,8 +345,8 @@ class ProFeaturesSheet extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textSecondary,
-                      letterSpacing: 0.5,
+                      color: context.vantColors.textSecondary,
+                      letterSpacing: 0,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -382,7 +381,7 @@ class ProFeaturesSheet extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: context.appColors.primary,
+                    backgroundColor: context.vantColors.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -422,12 +421,12 @@ class ProFeaturesSheet extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isHighlighted
-            ? context.appColors.primary.withValues(alpha: 0.1)
-            : context.appColors.surfaceLight,
+            ? context.vantColors.primary.withValues(alpha: 0.1)
+            : context.vantColors.surfaceLight,
         borderRadius: BorderRadius.circular(16),
         border: isHighlighted
             ? Border.all(
-                color: context.appColors.primary.withValues(alpha: 0.5),
+                color: context.vantColors.primary.withValues(alpha: 0.5),
                 width: 1.5,
               )
             : null,
@@ -456,7 +455,7 @@ class ProFeaturesSheet extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                     ),
@@ -467,7 +466,7 @@ class ProFeaturesSheet extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: context.appColors.primary,
+                          color: context.vantColors.primary,
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: const Icon(
@@ -483,7 +482,7 @@ class ProFeaturesSheet extends StatelessWidget {
                   feature.description,
                   style: TextStyle(
                     fontSize: 12,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
               ],
