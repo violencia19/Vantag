@@ -350,7 +350,7 @@ class DeepLinkService {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: VantColors.cardBackground,
+        backgroundColor: context.vantColors.cardBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           l10n.confirmExpenseTitle,

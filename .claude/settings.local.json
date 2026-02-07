@@ -146,7 +146,15 @@
       "Bash(git checkout:*)",
       "Bash(for class in PremiumColors PremiumDecorations PremiumShadows GradientBorder GlassCard ShimmerEffect BreatheGlow SparkleFloat RotatingGradientBorder PremiumButton LevelProgressBar SmartBadge RadialGradientOverlay AnimatedCountUp AnimatedProgressBar StaggeredSlideUp ScaleFadeIn PulseGlow FrostedGlass GlassModalSheet GlassButton GlassChip NeonText GlassDivider AnimatedPageContent)",
       "Bash(do)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(xcrun simctl shutdown:*)",
+      "Bash(xcrun simctl erase:*)",
+      "Bash(xcrun simctl create:*)",
+      "Bash(test:*)",
+      "Bash(xargs:*)",
+      "Bash(du:*)",
+      "Bash(git -C /Users/gencayalla/development/vantag status --short)",
+      "Bash(gh pr create --title \"UI Liquid Glass Overhaul + App Store Readiness Fixes\" --body \"$\\(cat <<''EOF''\n## Summary\n- Complete visual overhaul with Cream & Purple palette and violet glass identity\n- Liquid Glass visual polish across 11 high-traffic surfaces\n- iOS 26 Liquid Glass UI migration across 6 components\n- App Store readiness fixes: remove `.env` from bundled assets, replace `print\\(\\)` with `debugPrint\\(\\)`, fix VantagWidget deployment target \\(26.2→15.5\\), pin `uuid` dependency, update force update version to 1.0.4\n\n## Test plan\n- [ ] `flutter analyze` passes with no errors\n- [ ] `flutter build ios --release` builds successfully\n- [ ] App launches on simulator — `.env` loading works in debug\n- [ ] Verify no `print\\(\\)` calls in live_activity_service.dart\n- [ ] Verify VantagWidget deployment target is 15.5\n- [ ] Visual QA across all updated screens and widgets\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\nEOF\n\\)\")"
     ]
   }
 }

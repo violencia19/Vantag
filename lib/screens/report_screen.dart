@@ -447,13 +447,15 @@ class _ReportScreenState extends State<ReportScreen>
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0x0AFFFFFF), Color(0x05FFFFFF)],
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0x0FFFFFFF), width: 0.5),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
       ),
       child: Row(
         children: [
@@ -672,13 +674,15 @@ class _ReportScreenState extends State<ReportScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0x0AFFFFFF), Color(0x05FFFFFF)],
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0x0FFFFFFF), width: 0.5),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
         boxShadow: [
           const BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
           ...VantShadows.glow(VantColors.primary, intensity: 0.08, blur: 16),
@@ -900,13 +904,15 @@ class _ReportScreenState extends State<ReportScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0x0AFFFFFF), Color(0x05FFFFFF)],
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0x0FFFFFFF), width: 0.5),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
         boxShadow: const [
           BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
         ],
@@ -1186,13 +1192,15 @@ class _ReportScreenState extends State<ReportScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0x0AFFFFFF), Color(0x05FFFFFF)],
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0x0FFFFFFF), width: 0.5),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
         boxShadow: const [
           BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
         ],
@@ -1413,13 +1421,15 @@ class _ReportScreenState extends State<ReportScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0x0AFFFFFF), Color(0x05FFFFFF)],
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0x0FFFFFFF), width: 0.5),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
         boxShadow: const [
           BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
         ],
@@ -1836,13 +1846,15 @@ class _ReportScreenState extends State<ReportScreen>
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Color(0x0AFFFFFF), Color(0x05FFFFFF)],
+              colors: context.isDarkMode
+                  ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+                  : [const Color(0x0A000000), const Color(0x05000000)],
             ),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0x0FFFFFFF), width: 0.5),
+            border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
             boxShadow: const [
               BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
             ],
@@ -1879,13 +1891,15 @@ class _ReportScreenState extends State<ReportScreen>
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
+          gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0x0AFFFFFF), Color(0x05FFFFFF)],
+            colors: context.isDarkMode
+                ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+                : [const Color(0x0A000000), const Color(0x05000000)],
           ),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0x0FFFFFFF), width: 0.5),
+          border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
           boxShadow: const [
             BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
           ],
@@ -2297,13 +2311,15 @@ class _ReportScreenState extends State<ReportScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0x0AFFFFFF), Color(0x05FFFFFF)],
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0x0FFFFFFF), width: 0.5),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
         boxShadow: const [
           BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
         ],
@@ -2508,13 +2524,15 @@ class _ReportScreenState extends State<ReportScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0x0AFFFFFF), Color(0x05FFFFFF)],
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0x0FFFFFFF), width: 0.5),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
         boxShadow: const [
           BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
         ],
@@ -2952,13 +2970,15 @@ class _AnimatedSummaryCardState extends State<_AnimatedSummaryCard>
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Color(0x0AFFFFFF), Color(0x05FFFFFF)],
+              colors: context.isDarkMode
+                  ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+                  : [const Color(0x0A000000), const Color(0x05000000)],
             ),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0x0FFFFFFF), width: 0.5),
+            border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
             boxShadow: const [
               BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
             ],

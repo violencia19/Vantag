@@ -84,7 +84,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
           filter: ImageFilter.blur(sigmaX: VantBlur.heavy, sigmaY: VantBlur.heavy),
           child: Container(
             decoration: BoxDecoration(
-              color: VantColors.surface.withValues(alpha: 0.95),
+              color: context.vantColors.surface.withValues(alpha: 0.95),
               borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
               border: Border.all(
                 color: const Color(0x15FFFFFF),

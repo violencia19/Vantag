@@ -167,7 +167,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
             Container(
               height: 4,
               decoration: BoxDecoration(
-                color: VantColors.cardBackground,
+                color: context.vantColors.cardBackground,
                 borderRadius: BorderRadius.circular(2),
               ),
               child: LayoutBuilder(

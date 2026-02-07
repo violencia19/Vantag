@@ -19,9 +19,6 @@ class VantagSplashScreen extends StatefulWidget {
 
 class _VantagSplashScreenState extends State<VantagSplashScreen>
     with SingleTickerProviderStateMixin {
-  // Background color
-  static const _bgColor = VantColors.cardBackground;
-
   // Video player
   VideoPlayerController? _videoController;
   bool _videoInitialized = false;
@@ -227,7 +224,7 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bgColor,
+      backgroundColor: context.vantColors.cardBackground,
       body: AnimatedBuilder(
         animation: _fadeController,
         builder: (context, child) {

@@ -141,12 +141,12 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            VantColors.surface.withValues(alpha: 0.95),
-            VantColors.gradientMid.withValues(alpha: 0.98),
+            context.vantColors.surface.withValues(alpha: 0.95),
+            context.vantColors.background.withValues(alpha: 0.98),
           ],
         ),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        border: Border.all(color: const Color(0x15FFFFFF), width: 1),
+        border: Border.all(color: context.isDarkMode ? const Color(0x15FFFFFF) : const Color(0x15000000), width: 1),
       ),
       child: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
@@ -264,7 +264,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                         color: context.vantColors.textTertiary,
                       ),
                       filled: true,
-                      fillColor: VantColors.surfaceInput,
+                      fillColor: context.vantColors.surfaceInput,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none,
@@ -309,7 +309,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                         color: context.vantColors.textTertiary,
                       ),
                       filled: true,
-                      fillColor: VantColors.surfaceInput,
+                      fillColor: context.vantColors.surfaceInput,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none,

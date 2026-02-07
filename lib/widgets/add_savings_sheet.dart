@@ -73,7 +73,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
         filter: ImageFilter.blur(sigmaX: VantBlur.medium, sigmaY: VantBlur.medium),
         child: Container(
       decoration: BoxDecoration(
-        color: VantColors.surface.withValues(alpha: 0.95),
+        color: context.vantColors.surface.withValues(alpha: 0.95),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         border: Border.all(color: const Color(0x15FFFFFF), width: 1),
       ),
@@ -127,7 +127,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                       color: context.vantColors.textSecondary,
                     ),
                     filled: true,
-                    fillColor: VantColors.surfaceInput,
+                    fillColor: context.vantColors.surfaceInput,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(color: context.vantColors.cardBorder),
@@ -194,7 +194,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                       color: context.vantColors.textTertiary,
                     ),
                     filled: true,
-                    fillColor: VantColors.surfaceInput,
+                    fillColor: context.vantColors.surfaceInput,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(color: context.vantColors.cardBorder),

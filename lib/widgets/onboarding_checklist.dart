@@ -70,6 +70,7 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
   bool _isDismissed = false;
   bool _showCelebration = false;
   bool _notificationsCompleted = false;
+  bool _completionCheckInProgress = false;
 
   @override
   void initState() {
@@ -120,13 +121,14 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
   }
 
   Future<void> _dismissChecklist({bool isDismissedEarly = false}) async {
+    // Save provider refs BEFORE any await to avoid use_build_context_synchronously
+    final financeProvider = isDismissedEarly ? context.read<FinanceProvider>() : null;
+    final pursuitProvider = isDismissedEarly ? context.read<PursuitProvider>() : null;
+
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_keyChecklistDismissed, true);
 
-    if (isDismissedEarly) {
-      // Track early dismissal
-      final financeProvider = context.read<FinanceProvider>();
-      final pursuitProvider = context.read<PursuitProvider>();
+    if (isDismissedEarly && financeProvider != null && pursuitProvider != null) {
       int completedCount = 0;
       if (financeProvider.expenses.isNotEmpty) completedCount++;
       if (financeProvider.expenses.length >= 3) completedCount++;
@@ -136,9 +138,11 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
       AnalyticsService().logChecklistDismissed(completedCount: completedCount);
     }
 
-    setState(() {
-      _isDismissed = true;
-    });
+    if (mounted) {
+      setState(() {
+        _isDismissed = true;
+      });
+    }
   }
 
   Future<void> _markNotificationsDone() async {
@@ -150,17 +154,23 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
   }
 
   void _checkCompletion(List<ChecklistItem> items) {
+    // Guard against re-entry from repeated postFrameCallbacks
+    if (_completionCheckInProgress || _showCelebration || !mounted) return;
+
     final completedCount = items.where((i) => i.isCompleted).length;
 
     // Show celebration when 3 items completed
-    if (completedCount >= 3 && !_showCelebration) {
-      _showCelebration = true;
+    if (completedCount >= 3) {
+      _completionCheckInProgress = true;
+      setState(() {
+        _showCelebration = true;
+      });
       _confettiController.play();
       _celebrationController.forward();
       HapticFeedback.heavyImpact();
 
       // Track analytics
-      AnalyticsService().logChecklistCompleted(totalTimeMinutes: 5); // Estimate
+      AnalyticsService().logChecklistCompleted(totalTimeMinutes: 5);
       AnalyticsService().logCelebrationShown(
         celebrationType: 'confetti',
         milestoneName: 'checklist_completed',
@@ -191,10 +201,12 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
       pursuitProvider,
     );
 
-    // Check if should show celebration
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkCompletion(items);
-    });
+    // Check if should show celebration (only once, guarded)
+    if (!_showCelebration && !_completionCheckInProgress) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _checkCompletion(items);
+      });
+    }
 
     final completedCount = items.where((i) => i.isCompleted).length;
     final progress = completedCount / items.length;
@@ -332,16 +344,18 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
               boxShadow: [
                 // Animated breathing glow
                 BoxShadow(
-                  color: const Color(0xFF8B5CF6).withValues(
+                  color: context.vantColors.primary.withValues(
                     alpha: _glowAnimation.value,
                   ),
                   blurRadius: 32,
                   spreadRadius: 0,
                   offset: const Offset(0, 8),
                 ),
-                // Deep shadow for depth
+                // Depth shadow
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.35),
+                  color: context.isDarkMode
+                      ? Colors.black.withValues(alpha: 0.35)
+                      : Colors.black.withValues(alpha: 0.08),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -355,20 +369,28 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(28),
-                    // iOS 26 Liquid Glass: Premium gradient
+                    // Glass gradient — theme-aware
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [
-                        const Color(0xFF8B5CF6).withValues(alpha: 0.25),
-                        const Color(0xFF7C3AED).withValues(alpha: 0.18),
-                        const Color(0xFF1E1B4B).withValues(alpha: 0.35),
-                      ],
+                      colors: context.isDarkMode
+                          ? [
+                              context.vantColors.primary.withValues(alpha: 0.25),
+                              context.vantColors.primaryDark.withValues(alpha: 0.18),
+                              context.vantColors.surface.withValues(alpha: 0.35),
+                            ]
+                          : [
+                              context.vantColors.primary.withValues(alpha: 0.08),
+                              context.vantColors.primaryLight.withValues(alpha: 0.06),
+                              context.vantColors.surface.withValues(alpha: 0.9),
+                            ],
                       stops: const [0.0, 0.5, 1.0],
                     ),
                     // Glass border
                     border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: context.isDarkMode
+                          ? Colors.white.withValues(alpha: 0.2)
+                          : Colors.black.withValues(alpha: 0.08),
                       width: 1.5,
                     ),
                   ),
@@ -388,10 +410,15 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.white.withValues(alpha: 0.12),
-                                Colors.white.withValues(alpha: 0.0),
-                              ],
+                              colors: context.isDarkMode
+                                  ? [
+                                      Colors.white.withValues(alpha: 0.12),
+                                      Colors.white.withValues(alpha: 0.0),
+                                    ]
+                                  : [
+                                      Colors.white.withValues(alpha: 0.6),
+                                      Colors.white.withValues(alpha: 0.0),
+                                    ],
                             ),
                           ),
                         ),
@@ -600,15 +627,21 @@ class _OnboardingChecklistState extends State<OnboardingChecklist>
             child: Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                // iOS 26 Liquid Glass: Success gradient
+                // Success gradient — theme-aware
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [
-                    context.vantColors.success.withValues(alpha: 0.25),
-                    const Color(0xFF8B5CF6).withValues(alpha: 0.15),
-                    const Color(0xFF1E1B4B).withValues(alpha: 0.3),
-                  ],
+                  colors: context.isDarkMode
+                      ? [
+                          context.vantColors.success.withValues(alpha: 0.25),
+                          context.vantColors.primary.withValues(alpha: 0.15),
+                          context.vantColors.surface.withValues(alpha: 0.3),
+                        ]
+                      : [
+                          context.vantColors.success.withValues(alpha: 0.1),
+                          context.vantColors.primary.withValues(alpha: 0.05),
+                          context.vantColors.surface.withValues(alpha: 0.9),
+                        ],
                   stops: const [0.0, 0.5, 1.0],
                 ),
                 borderRadius: BorderRadius.circular(28),

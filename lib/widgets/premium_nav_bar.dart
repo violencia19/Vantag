@@ -39,9 +39,7 @@ class PremiumNavBar extends StatelessWidget {
             height: 64,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
-              color: isDark
-                  ? VantColors.surface.withValues(alpha: 0.95)
-                  : const Color(0xF2FFFFFF),
+              color: context.vantColors.surface.withValues(alpha: 0.95),
               borderRadius: BorderRadius.circular(32),
               border: Border.all(
                 color: Colors.white.withValues(alpha: 0.06),
@@ -513,7 +511,7 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
                           end: Alignment.bottomCenter,
                           colors: [
                             VantColors.primary.withValues(alpha: 0.15),
-                            VantColors.surface.withValues(alpha: 0.9),
+                            context.vantColors.surface.withValues(alpha: 0.9),
                           ],
                         )
                       : LinearGradient(

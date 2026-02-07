@@ -213,7 +213,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                               colors: [
                                 VantColors.primary.withValues(alpha: 0.35),
                                 VantColors.primaryDark.withValues(alpha: 0.25),
-                                VantColors.surfaceOverlay.withValues(alpha: 0.4),
+                                context.vantColors.surfaceOverlay.withValues(alpha: 0.4),
                               ],
                               stops: const [0.0, 0.5, 1.0],
                             ),

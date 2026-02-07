@@ -553,15 +553,15 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      VantColors.gradientMid.withValues(alpha: 0.95),
-                      VantColors.gradientEnd.withValues(alpha: 0.98),
+                      context.vantColors.surface.withValues(alpha: 0.95),
+                      context.vantColors.background.withValues(alpha: 0.98),
                     ],
                   ),
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(24),
                   ),
                   border: Border.all(
-                    color: const Color(0x15FFFFFF),
+                    color: context.isDarkMode ? const Color(0x15FFFFFF) : const Color(0x15000000),
                     width: 1,
                   ),
                 ),
@@ -794,9 +794,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     final hasMoreExpenses = expenses.length > _recentExpensesLimit;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF050508),
+      backgroundColor: colors.background,
       body: Container(
-          color: const Color(0xFF050508), // Pure black OLED background
+          color: colors.background,
           child: SafeArea(
             bottom: false,
             child: CustomScrollView(

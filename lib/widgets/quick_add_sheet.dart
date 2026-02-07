@@ -209,12 +209,12 @@ class _QuickAddSheetState extends State<QuickAddSheet>
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            VantColors.gradientMid.withValues(alpha: 0.95),
-            VantColors.gradientEnd.withValues(alpha: 0.98),
+            context.vantColors.surface.withValues(alpha: 0.95),
+            context.vantColors.background.withValues(alpha: 0.98),
           ],
         ),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        border: Border.all(color: const Color(0x15FFFFFF), width: 1),
+        border: Border.all(color: context.isDarkMode ? const Color(0x15FFFFFF) : const Color(0x15000000), width: 1),
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -323,7 +323,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
       decoration: BoxDecoration(
-        color: VantColors.surfaceInput,
+        color: context.vantColors.surfaceInput,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: _hasValidAmount

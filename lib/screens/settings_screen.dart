@@ -603,13 +603,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           Container(
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Color(0x08FFFFFF), Color(0x04FFFFFF)],
+                colors: context.isDarkMode
+                    ? [const Color(0x08FFFFFF), const Color(0x04FFFFFF)]
+                    : [const Color(0x08000000), const Color(0x04000000)],
               ),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0x0FFFFFFF), width: 0.5),
+              border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
               boxShadow: const [
                 BoxShadow(color: Color(0x26000000), blurRadius: 12, offset: Offset(0, 4)),
               ],

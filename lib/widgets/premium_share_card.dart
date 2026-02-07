@@ -163,9 +163,9 @@ class _PremiumShareCardState extends State<PremiumShareCard>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            VantColors.background, // Deep purple-black
-            VantColors.cardBackground, // Mid purple
-            VantColors.background.withValues(alpha: 0.95), // Dark purple
+            context.vantColors.background, // Deep purple-black
+            context.vantColors.cardBackground, // Mid purple
+            context.vantColors.background.withValues(alpha: 0.95), // Dark purple
           ],
           stops: const [0.0, 0.5, 1.0],
         ),
@@ -1401,9 +1401,9 @@ class _HabitShareCardState extends State<HabitShareCard>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            VantColors.background,
-            VantColors.cardBackground,
-            VantColors.background.withValues(alpha: 0.95),
+            context.vantColors.background,
+            context.vantColors.cardBackground,
+            context.vantColors.background.withValues(alpha: 0.95),
           ],
           stops: const [0.0, 0.5, 1.0],
         ),

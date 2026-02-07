@@ -267,7 +267,7 @@ class _InsightCardState extends State<_InsightCard>
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: VantColors.cardBackground,
+                  color: context.vantColors.cardBackground,
                   borderRadius: BorderRadius.circular(14.5),
                   boxShadow: _isPressed
                       ? [VantShadows.glowPurple]

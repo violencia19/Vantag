@@ -558,13 +558,15 @@ class _PaywallScreenState extends State<PaywallScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0x0AFFFFFF), Color(0x05FFFFFF)],
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
         ),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0x0FFFFFFF), width: 0.5),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
         boxShadow: const [
           BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
         ],
@@ -697,14 +699,16 @@ class _PaywallScreenState extends State<PaywallScreen>
                           VantColors.primary.withValues(alpha: 0.04),
                         ],
                       )
-                    : const LinearGradient(
-                        colors: [Color(0x08FFFFFF), Color(0x04FFFFFF)],
+                    : LinearGradient(
+                        colors: context.isDarkMode
+                            ? [const Color(0x08FFFFFF), const Color(0x04FFFFFF)]
+                            : [const Color(0x08000000), const Color(0x04000000)],
                       ),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: isSelected
                       ? context.vantColors.primary
-                      : const Color(0x0FFFFFFF),
+                      : context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000),
                   width: isSelected ? 2 : 0.5,
                 ),
                 boxShadow: isSelected

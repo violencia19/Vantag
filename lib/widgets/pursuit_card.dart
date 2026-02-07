@@ -322,7 +322,7 @@ class PursuitCompactCard extends StatelessWidget {
         child: Container(
           width: width,
           padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(color: VantColors.surface, borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white.withValues(alpha: 0.06), width: 1)),
+          decoration: BoxDecoration(color: context.vantColors.surface, borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white.withValues(alpha: 0.06), width: 1)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

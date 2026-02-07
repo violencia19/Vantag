@@ -30,10 +30,10 @@ class ShareCardWidget extends StatelessWidget {
       width: 360,
       height: 640,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [VantColors.cardBackground, VantColors.primary],
+          colors: [context.vantColors.cardBackground, VantColors.primary],
         ),
         borderRadius: BorderRadius.circular(24),
       ),

@@ -560,7 +560,7 @@ SADECE karşılama cümlesini yaz:
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: VantColors.cardBackground,
+                  color: context.vantColors.cardBackground,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(

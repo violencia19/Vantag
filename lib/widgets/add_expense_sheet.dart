@@ -1329,15 +1329,15 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    VantColors.gradientMid.withValues(alpha: 0.95),
-                    VantColors.gradientEnd.withValues(alpha: 0.98),
+                    context.vantColors.surface.withValues(alpha: 0.95),
+                    context.vantColors.background.withValues(alpha: 0.98),
                   ],
                 ),
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(24),
                 ),
                 border: Border.all(
-                  color: const Color(0x15FFFFFF),
+                  color: context.isDarkMode ? const Color(0x15FFFFFF) : const Color(0x15000000),
                   width: 1,
                 ),
               ),
@@ -1809,7 +1809,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           fontSize: 14,
         ),
         filled: true,
-        fillColor: VantColors.surfaceInput,
+        fillColor: context.vantColors.surfaceInput,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 14,
@@ -1820,7 +1820,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.06), width: 1),
+          borderSide: BorderSide(color: context.isDarkMode ? Colors.white.withValues(alpha: 0.06) : Colors.black.withValues(alpha: 0.06), width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
@@ -1904,7 +1904,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       fontSize: 14,
                     ),
                     filled: true,
-                    fillColor: VantColors.surfaceInput,
+                    fillColor: context.vantColors.surfaceInput,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 14,
@@ -1924,7 +1924,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                             ? context.vantColors.error
                             : (_smartMatchActive
                                   ? context.vantColors.success
-                                  : Colors.white.withValues(alpha: 0.06)),
+                                  : (context.isDarkMode ? Colors.white.withValues(alpha: 0.06) : Colors.black.withValues(alpha: 0.06))),
                         width: _smartMatchActive || _categoryValidationError
                             ? 1.5
                             : 1,
@@ -2009,7 +2009,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               fontSize: 14,
             ),
             filled: true,
-            fillColor: VantColors.surfaceInput,
+            fillColor: context.vantColors.surfaceInput,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 14,
@@ -2020,7 +2020,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.06), width: 1),
+              borderSide: BorderSide(color: context.isDarkMode ? Colors.white.withValues(alpha: 0.06) : Colors.black.withValues(alpha: 0.06), width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
