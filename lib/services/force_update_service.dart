@@ -12,7 +12,7 @@ class ForceUpdateService {
   factory ForceUpdateService() => _instance;
   ForceUpdateService._internal();
 
-  static const String _currentVersion = '1.0.3';
+  static const String _currentVersion = '1.0.4';
   static const String _minVersionKey = 'min_app_version';
   static const String _recommendedVersionKey = 'recommended_app_version';
 

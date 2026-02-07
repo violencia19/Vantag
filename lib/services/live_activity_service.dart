@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Service to manage iOS Live Activities and Dynamic Island
@@ -43,10 +44,10 @@ class LiveActivityService {
       }
       return false;
     } on PlatformException catch (e) {
-      print('[LiveActivity] Start error: ${e.message}');
+      debugPrint('[LiveActivity] Start error: ${e.message}');
       return false;
     } on MissingPluginException {
-      print('[LiveActivity] Not available on this device');
+      debugPrint('[LiveActivity] Not available on this device');
       return false;
     }
   }
@@ -75,7 +76,7 @@ class LiveActivityService {
 
       return result ?? false;
     } on PlatformException catch (e) {
-      print('[LiveActivity] Update error: ${e.message}');
+      debugPrint('[LiveActivity] Update error: ${e.message}');
       return false;
     }
   }
@@ -95,7 +96,7 @@ class LiveActivityService {
       }
       return result ?? false;
     } on PlatformException catch (e) {
-      print('[LiveActivity] End error: ${e.message}');
+      debugPrint('[LiveActivity] End error: ${e.message}');
       return false;
     }
   }

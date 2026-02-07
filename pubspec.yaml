@@ -124,7 +124,7 @@ dependencies:
   # Security - Biometric/PIN Authentication
   local_auth: ^3.0.0
 
-  uuid: any
+  uuid: ^4.5.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -164,7 +164,6 @@ flutter:
 
   # Assets
   assets:
-    - .env
     - assets/icon/
     - assets/sounds/
     - assets/animations/
