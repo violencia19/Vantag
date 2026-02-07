@@ -15,7 +15,7 @@ import 'services.dart';
 /// 6 sheet'li detaylı profesyonel finansal rapor oluşturur
 class ExportService {
   // Styling constants
-  static const _headerColor = '#8B5CF6'; // Mor
+  static const _headerColor = '#5F4A8B'; // Deep Purple
   static const _headerTextColor = '#FFFFFF';
   static const _positiveColor = '#10B981'; // Yeşil
   static const _negativeColor = '#EF4444'; // Kırmızı

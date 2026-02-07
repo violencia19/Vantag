@@ -223,13 +223,12 @@ class VantTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      scaffoldBackgroundColor: const Color(0xFF050508),
+      scaffoldBackgroundColor: const Color(0xFF0A0A0F),
       fontFamily: VantFonts.heading,
-      fontFamilyFallback: VantFonts.fontFallback,
       colorScheme: const ColorScheme.dark(
-        primary: Color(0xFF8B5CF6),
+        primary: Color(0xFF5F4A8B),
         secondary: Color(0xFF22D3EE),
-        surface: Color(0xFF0F0D17),
+        surface: Color(0xFF13131A),
         error: Color(0xFFEF4444),
       ),
       appBarTheme: const AppBarTheme(
@@ -240,12 +239,12 @@ class VantTheme {
         titleTextStyle: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
-          color: Color(0xFFFAFAFA),
+          color: Color(0xFFF5F5F7),
           letterSpacing: 0,
         ),
-        iconTheme: IconThemeData(color: Color(0xFFFAFAFA)),
+        iconTheme: IconThemeData(color: Color(0xFFF5F5F7)),
       ),
-      textTheme: _buildTextTheme(const Color(0xFFFAFAFA)),
+      textTheme: _buildTextTheme(const Color(0xFFF5F5F7)),
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
@@ -260,11 +259,10 @@ class VantTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      scaffoldBackgroundColor: const Color(0xFFF8FAFC),
+      scaffoldBackgroundColor: const Color(0xFFFAFAF5),
       fontFamily: VantFonts.heading,
-      fontFamilyFallback: VantFonts.fontFallback,
       colorScheme: const ColorScheme.light(
-        primary: Color(0xFF8B5CF6),
+        primary: Color(0xFF5F4A8B),
         secondary: Color(0xFF22D3EE),
         surface: Color(0xFFFFFFFF),
         error: Color(0xFFEF4444),
@@ -277,12 +275,12 @@ class VantTheme {
         titleTextStyle: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
-          color: Color(0xFF0F172A),
+          color: Color(0xFF1A1A2E),
           letterSpacing: 0,
         ),
-        iconTheme: IconThemeData(color: Color(0xFF0F172A)),
+        iconTheme: IconThemeData(color: Color(0xFF1A1A2E)),
       ),
-      textTheme: _buildTextTheme(const Color(0xFF0F172A)),
+      textTheme: _buildTextTheme(const Color(0xFF1A1A2E)),
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),

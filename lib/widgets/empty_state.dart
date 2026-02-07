@@ -92,7 +92,7 @@ class EmptyState extends StatefulWidget {
   }) {
     return EmptyState(
       icon: CupertinoIcons.calendar_badge_plus,
-      iconColor: const Color(0xFF8B5CF6),
+      iconColor: VantColors.primary,
       message: message,
       ctaText: ctaText,
       onCtaTap: onCtaTap,

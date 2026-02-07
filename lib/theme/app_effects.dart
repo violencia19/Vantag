@@ -110,13 +110,13 @@ class VantShadows {
   );
 
   static BoxShadow glowPurple = BoxShadow(
-    color: const Color(0xFF8B5CF6).withValues(alpha: 0.4),
+    color: const Color(0xFF5F4A8B).withValues(alpha: 0.4),
     blurRadius: 24,
     spreadRadius: 2,
   );
 
   static BoxShadow glowPurpleSoft = BoxShadow(
-    color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
+    color: const Color(0xFF5F4A8B).withValues(alpha: 0.3),
     blurRadius: 32,
   );
 
@@ -432,7 +432,7 @@ class VGlassSheet extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
         child: Container(
           decoration: BoxDecoration(
-            color: VantColors.surface.withValues(alpha: 0.95),
+            color: context.vantColors.surface.withValues(alpha: 0.95),
             borderRadius: BorderRadius.vertical(top: Radius.circular(topRadius)),
             border: Border.all(
               color: const Color(0x15FFFFFF), // 8% white
@@ -814,7 +814,7 @@ class GradientBorder extends StatelessWidget {
         padding: EdgeInsets.all(borderWidth),
         child: Container(
           decoration: BoxDecoration(
-            color: VantColors.cardBackground,
+            color: context.vantColors.cardBackground,
             borderRadius: BorderRadius.circular(borderRadius - borderWidth),
           ),
           child: child,
@@ -890,9 +890,9 @@ class _RotatingGradientBorderState extends State<RotatingGradientBorder>
           child: Padding(
             padding: EdgeInsets.all(widget.borderWidth),
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: VantColors.cardBackground,
+                color: context.vantColors.cardBackground,
               ),
               child: widget.child,
             ),
@@ -1437,9 +1437,9 @@ class _PremiumHeroCardState extends State<PremiumHeroCard>
                                 const SizedBox(width: 6),
                                 Text(
                                   AppLocalizations.of(context).workEquivalentBadge,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 10, fontWeight: FontWeight.w600,
-                                    letterSpacing: 1.0, color: VantColors.primary,
+                                    letterSpacing: 1.0, color: VantColors.accent.withValues(alpha: 0.9),
                                   ),
                                 ),
                               ],
@@ -1487,9 +1487,9 @@ class _PremiumHeroCardState extends State<PremiumHeroCard>
                                 children: [
                                   Text(
                                     AppLocalizations.of(context).budgetUsageLabel,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 11, fontWeight: FontWeight.w500,
-                                      letterSpacing: 1.0, color: VantColors.textTertiary,
+                                      letterSpacing: 1.0, color: VantColors.accent.withValues(alpha: 0.5),
                                     ),
                                   ),
                                   Text(
@@ -1549,16 +1549,16 @@ class _PremiumHeroCardState extends State<PremiumHeroCard>
           style: TextStyle(
             fontSize: 44, fontWeight: FontWeight.w700, letterSpacing: -1.5, height: 1.1,
             fontFeatures: const [FontFeature.tabularFigures()],
-            color: VantColors.textPrimary,
+            color: VantColors.accent,
             shadows: [Shadow(color: color.withValues(alpha: 0.5), blurRadius: 20)],
           ),
         ),
         const SizedBox(height: 6),
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 11, fontWeight: FontWeight.w500, letterSpacing: 1.0,
-            color: VantColors.textTertiary,
+            color: VantColors.accent.withValues(alpha: 0.6),
           ),
         ),
       ],

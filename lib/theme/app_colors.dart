@@ -11,24 +11,24 @@ class VantColors {
   VantColors._();
 
   // ── Brand ──
-  static const Color primary = Color(0xFF8B5CF6);
-  static const Color primaryDark = Color(0xFF7C3AED);
-  static const Color primaryLight = Color(0xFFA78BFA);
-  static const Color primarySubtle = Color(0x148B5CF6); // 8%
-  static const Color primaryMuted = Color(0x268B5CF6);  // 15%
+  static const Color primary = Color(0xFF5F4A8B);
+  static const Color primaryDark = Color(0xFF3D2E5C);
+  static const Color primaryLight = Color(0xFF7B62A8);
+  static const Color primarySubtle = Color(0x145F4A8B); // 8%
+  static const Color primaryMuted = Color(0x265F4A8B);  // 15%
 
   static const Color secondary = Color(0xFF22D3EE);
   static const Color secondaryDark = Color(0xFF06B6D4);
   static const Color secondaryLight = Color(0xFF67E8F9);
   static const Color secondarySubtle = Color(0x1422D3EE); // 8%
 
-  static const Color accent = Color(0xFFF59E0B);
+  static const Color accent = Color(0xFFFEFACD);
   static const Color gold = Color(0xFFF59E0B);
 
   // ── Surface (4-tier elevation ladder) ──
-  static const Color background = Color(0xFF050508);
-  static const Color surface = Color(0xFF0F0D17);           // Tier 1
-  static const Color surfaceElevated = Color(0xFF1A1726);    // Tier 2
+  static const Color background = Color(0xFF0A0A0F);
+  static const Color surface = Color(0xFF13131A);           // Tier 1
+  static const Color surfaceElevated = Color(0xFF1E1E2A);    // Tier 2
   static const Color surfaceOverlay = Color(0xFF252233);     // Tier 3
   static const Color surfaceInput = Color(0xFF18151F);       // Tier 2.5
   static const Color cardBackground = Color(0xFF12101A);
@@ -41,14 +41,14 @@ class VantColors {
   static const Color gradientEnd = Color(0xFF1A1725);
 
   // ── Text ──
-  static const Color textPrimary = Color(0xFFFAFAFA);
-  static const Color textSecondary = Color(0xFFA1A1AA);
-  static const Color textTertiary = Color(0xFF71717A);
+  static const Color textPrimary = Color(0xFFF5F5F7);
+  static const Color textSecondary = Color(0xFF8B8B9E);
+  static const Color textTertiary = Color(0xFF6B6B7E);
   static const Color textMuted = Color(0xFF52525B);
   static const Color textDisabled = Color(0xFF3F3F46);
 
   // ── Status ──
-  static const Color success = Color(0xFF10B981);
+  static const Color success = Color(0xFF4ADE80);
   static const Color successLight = Color(0xFF34D399);
   static const Color successSubtle = Color(0x1410B981);  // 8%
   static const Color warning = Color(0xFFF59E0B);
@@ -161,8 +161,8 @@ class VantColors {
   ];
 
   // ── Misc UI ──
-  static const Color divider = Color(0xFF2D2440);
-  static const Color shimmer = Color(0xFF2D2440);
+  static const Color divider = Color(0xFF2A2A35);
+  static const Color shimmer = Color(0xFF2A2A35);
   static const Color overlay = Color(0x80000000);        // 50%
   static const Color urgentOrange = Color(0xFFFF8C42);
   static const Color dangerRed = Color(0xFFB71C1C);
@@ -171,9 +171,9 @@ class VantColors {
   static const Color dangerGradientEnd = Color(0xFF2D1010);
   static const Color coffeeColor = Color(0xFF8B4513);
   static const Color smokingGray = Color(0xFF607D8B);
-  static const Color premiumPurple = Color(0xFF8B5CF6);
-  static const Color premiumPurpleLight = Color(0xFFA78BFA);
-  static const Color premiumPurpleDark = Color(0xFF6D28D9);
+  static const Color premiumPurple = Color(0xFF5F4A8B);
+  static const Color premiumPurpleLight = Color(0xFF7B62A8);
+  static const Color premiumPurpleDark = Color(0xFF3D2E5C);
   static const Color premiumCyan = Color(0xFF22D3EE);
   static const Color premiumGreen = Color(0xFF00C853);
   static const Color orange = Color(0xFFFFA500);
@@ -184,7 +184,7 @@ class VantColorsLight {
   VantColorsLight._();
 
   // ── Surface ──
-  static const Color background = Color(0xFFF8FAFC);
+  static const Color background = Color(0xFFFAFAF5);
   static const Color surface = Color(0xFFFFFFFF);
   static const Color surfaceElevated = Color(0xFFF1F5F9);
   static const Color surfaceOverlay = Color(0xFFE2E8F0);
@@ -199,9 +199,9 @@ class VantColorsLight {
   static const Color gradientEnd = Color(0xFFE2E8F0);
 
   // ── Text ──
-  static const Color textPrimary = Color(0xFF0F172A);
-  static const Color textSecondary = Color(0xFF475569);
-  static const Color textTertiary = Color(0xFF94A3B8);
+  static const Color textPrimary = Color(0xFF1A1A2E);
+  static const Color textSecondary = Color(0xFF6B6B7E);
+  static const Color textTertiary = Color(0xFF8B8B9E);
   static const Color textMuted = Color(0xFFCBD5E1);
 
   // ── Status ──
@@ -219,8 +219,12 @@ class VantColorsLight {
   static const Color glassBlack = Color(0x08000000);       // 3%
   static const Color glassBorder = Color(0x15000000);      // 8%
   static const Color cardBackgroundGlass = Color(0xFFFFFFFF);
-  static const Color cardBorder = Color(0xFFE2E8F0);
+  static const Color cardBorder = Color(0xFFEDE9E0);
   static const Color cardShadow = Color(0x15000000);       // 8%
+
+  // ── New cream surface tokens ──
+  static const Color surfaceMuted = Color(0xFFF0EDE6);
+  static const Color primaryTint = Color(0xFFEDE9F5);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -243,13 +247,13 @@ class VantGradients {
   static const LinearGradient primaryButton = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF8B5CF6), Color(0xFFA78BFA)],
+    colors: [Color(0xFF5F4A8B), Color(0xFF7B62A8)],
   );
 
   static const LinearGradient progress = LinearGradient(
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
-    colors: [Color(0xFF8B5CF6), Color(0xFFA78BFA)],
+    colors: [Color(0xFF5F4A8B), Color(0xFF7B62A8)],
   );
 
   static const LinearGradient success = LinearGradient(
@@ -387,5 +391,7 @@ class _VantThemeColors {
   // ── Misc ──
   Color get divider => VantColors.divider;
   Color get shimmer => VantColors.shimmer;
+  Color get surfaceMuted => _isDark ? VantColors.surfaceElevated : VantColorsLight.surfaceMuted;
+  Color get primaryTint => _isDark ? VantColors.primarySubtle : VantColorsLight.primaryTint;
   Color get overlay => VantColors.overlay;
 }
