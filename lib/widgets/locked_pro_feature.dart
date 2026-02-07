@@ -1,11 +1,12 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/pro_provider.dart';
 import '../screens/paywall_screen.dart';
+import '../services/analytics_service.dart';
 import '../theme/theme.dart';
 
 /// A widget that blurs content and shows a lock icon for PRO-only features.
@@ -44,6 +45,8 @@ class LockedProFeature extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         HapticFeedback.mediumImpact();
+        // Track Pro feature tapped for conversion funnel
+        AnalyticsService().logProFeatureTapped(featureName);
         _showProFeaturesSheet(context);
       },
       child: Stack(
@@ -62,95 +65,116 @@ class LockedProFeature extends StatelessWidget {
 
           // Overlay with lock icon
           Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: Colors.black.withValues(alpha: 0.3),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Lock icon with glow
-                  Container(
-                    width: 56,
-                    height: 56,
-                    decoration: BoxDecoration(
-                      color: context.appColors.primary.withValues(alpha: 0.2),
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: context.appColors.primary.withValues(
-                            alpha: 0.4,
-                          ),
-                          blurRadius: 20,
-                          spreadRadius: 2,
-                        ),
-                      ],
-                    ),
-                    child: Icon(
-                      PhosphorIconsFill.lock,
-                      color: Colors.white,
-                      size: 28,
-                    ),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final isCompact = constraints.maxHeight < 120;
+                final iconSize = isCompact ? 32.0 : 56.0;
+                final lockIconSize = isCompact ? 18.0 : 28.0;
+
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.black.withValues(alpha: 0.3),
                   ),
-                  const SizedBox(height: 12),
-                  // PRO badge
-                  if (showLockBadge)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            context.appColors.primary,
-                            context.appColors.primary.withValues(alpha: 0.8),
+                  child: Center(
+                    child: SingleChildScrollView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Lock icon with glow
+                            Container(
+                              width: iconSize,
+                              height: iconSize,
+                              decoration: BoxDecoration(
+                                color: context.vantColors.primary
+                                    .withValues(alpha: 0.2),
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: context.vantColors.primary.withValues(
+                                      alpha: 0.4,
+                                    ),
+                                    blurRadius: isCompact ? 10 : 20,
+                                    spreadRadius: isCompact ? 1 : 2,
+                                  ),
+                                ],
+                              ),
+                              child: Icon(
+                                CupertinoIcons.lock_fill,
+                                color: Colors.white,
+                                size: lockIconSize,
+                              ),
+                            ),
+                            if (!isCompact) ...[
+                              const SizedBox(height: 12),
+                              // PRO badge
+                              if (showLockBadge)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        context.vantColors.primary,
+                                        context.vantColors.primary
+                                            .withValues(alpha: 0.8),
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(24),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            context.vantColors.primary.withValues(
+                                          alpha: 0.4,
+                                        ),
+                                        blurRadius: 12,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(
+                                        CupertinoIcons.star_circle_fill,
+                                        color: Colors.white,
+                                        size: 16,
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        'PRO',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              const SizedBox(height: 8),
+                              Text(
+                                AppLocalizations.of(context)
+                                    .lockedFeatureTapToUnlock,
+                                style: TextStyle(
+                                  color: Colors.white.withValues(alpha: 0.8),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
                           ],
                         ),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: context.appColors.primary.withValues(
-                              alpha: 0.4,
-                            ),
-                            blurRadius: 12,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            PhosphorIconsFill.crown,
-                            color: Colors.white,
-                            size: 16,
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            'PRO',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  const SizedBox(height: 8),
-                  Text(
-                    AppLocalizations.of(context).lockedFeatureTapToUnlock,
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.8),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
           ),
         ],
@@ -163,7 +187,7 @@ class LockedProFeature extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => ProFeaturesSheet(highlightedFeature: featureName),
     );
   }
@@ -181,52 +205,52 @@ class ProFeaturesSheet extends StatelessWidget {
 
     final proFeatures = [
       _ProFeatureItem(
-        icon: PhosphorIconsDuotone.chartLine,
+        icon: CupertinoIcons.chart_bar_alt_fill,
         title: l10n.proFeatureHeatmap,
         description: l10n.proFeatureHeatmapDesc,
-        color: context.appColors.primary,
+        color: context.vantColors.primary,
       ),
       _ProFeatureItem(
-        icon: PhosphorIconsDuotone.chartPie,
+        icon: CupertinoIcons.chart_pie_fill,
         title: l10n.proFeatureCategoryBreakdown,
         description: l10n.proFeatureCategoryBreakdownDesc,
-        color: context.appColors.warning,
+        color: context.vantColors.warning,
       ),
       _ProFeatureItem(
-        icon: PhosphorIconsDuotone.trendUp,
+        icon: CupertinoIcons.arrow_up_right,
         title: l10n.proFeatureSpendingTrends,
         description: l10n.proFeatureSpendingTrendsDesc,
-        color: context.appColors.success,
+        color: context.vantColors.success,
       ),
       _ProFeatureItem(
-        icon: PhosphorIconsDuotone.clock,
+        icon: CupertinoIcons.clock_fill,
         title: l10n.proFeatureTimeAnalysis,
         description: l10n.proFeatureTimeAnalysisDesc,
-        color: context.appColors.info,
+        color: context.vantColors.info,
       ),
       _ProFeatureItem(
-        icon: PhosphorIconsDuotone.wallet,
+        icon: CupertinoIcons.money_dollar_circle_fill,
         title: l10n.proFeatureBudgetBreakdown,
         description: l10n.proFeatureBudgetBreakdownDesc,
-        color: context.appColors.error,
+        color: context.vantColors.error,
       ),
       _ProFeatureItem(
-        icon: PhosphorIconsDuotone.funnel,
+        icon: CupertinoIcons.slider_horizontal_3,
         title: l10n.proFeatureAdvancedFilters,
         description: l10n.proFeatureAdvancedFiltersDesc,
-        color: context.appColors.primary,
+        color: context.vantColors.primary,
       ),
       _ProFeatureItem(
-        icon: PhosphorIconsDuotone.fileXls,
+        icon: CupertinoIcons.doc_chart_fill,
         title: l10n.proFeatureExcelExport,
         description: l10n.proFeatureExcelExportDesc,
-        color: context.appColors.success,
+        color: context.vantColors.success,
       ),
       _ProFeatureItem(
-        icon: PhosphorIconsDuotone.clockCounterClockwise,
+        icon: CupertinoIcons.arrow_counterclockwise,
         title: l10n.proFeatureUnlimitedHistory,
         description: l10n.proFeatureUnlimitedHistoryDesc,
-        color: context.appColors.warning,
+        color: context.vantColors.warning,
       ),
     ];
 
@@ -235,7 +259,7 @@ class ProFeaturesSheet extends StatelessWidget {
         maxHeight: MediaQuery.of(context).size.height * 0.85,
       ),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
@@ -248,7 +272,7 @@ class ProFeaturesSheet extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: context.appColors.textTertiary.withValues(alpha: 0.3),
+                color: context.vantColors.textTertiary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -268,21 +292,21 @@ class ProFeaturesSheet extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        context.appColors.primary,
-                        context.appColors.primary.withValues(alpha: 0.7),
+                        context.vantColors.primary,
+                        context.vantColors.primary.withValues(alpha: 0.7),
                       ],
                     ),
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: context.appColors.primary.withValues(alpha: 0.4),
+                        color: context.vantColors.primary.withValues(alpha: 0.4),
                         blurRadius: 24,
                         spreadRadius: 4,
                       ),
                     ],
                   ),
                   child: const Icon(
-                    PhosphorIconsFill.crown,
+                    CupertinoIcons.star_circle_fill,
                     color: Colors.white,
                     size: 36,
                   ),
@@ -293,7 +317,7 @@ class ProFeaturesSheet extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -301,7 +325,7 @@ class ProFeaturesSheet extends StatelessWidget {
                   l10n.proFeaturesSheetSubtitle,
                   style: TextStyle(
                     fontSize: 14,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -321,8 +345,8 @@ class ProFeaturesSheet extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textSecondary,
-                      letterSpacing: 0.5,
+                      color: context.vantColors.textSecondary,
+                      letterSpacing: 0,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -357,7 +381,7 @@ class ProFeaturesSheet extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: context.appColors.primary,
+                    backgroundColor: context.vantColors.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -367,7 +391,7 @@ class ProFeaturesSheet extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(PhosphorIconsFill.crown, size: 20),
+                      const Icon(CupertinoIcons.star_circle_fill, size: 20),
                       const SizedBox(width: 8),
                       Text(
                         l10n.goProButton,
@@ -397,12 +421,12 @@ class ProFeaturesSheet extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isHighlighted
-            ? context.appColors.primary.withValues(alpha: 0.1)
-            : context.appColors.surfaceLight,
-        borderRadius: BorderRadius.circular(14),
+            ? context.vantColors.primary.withValues(alpha: 0.1)
+            : context.vantColors.surfaceLight,
+        borderRadius: BorderRadius.circular(16),
         border: isHighlighted
             ? Border.all(
-                color: context.appColors.primary.withValues(alpha: 0.5),
+                color: context.vantColors.primary.withValues(alpha: 0.5),
                 width: 1.5,
               )
             : null,
@@ -414,7 +438,7 @@ class ProFeaturesSheet extends StatelessWidget {
             height: 44,
             decoration: BoxDecoration(
               color: feature.color.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(feature.icon, color: feature.color, size: 22),
           ),
@@ -431,7 +455,7 @@ class ProFeaturesSheet extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                     ),
@@ -442,11 +466,11 @@ class ProFeaturesSheet extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: context.appColors.primary,
+                          color: context.vantColors.primary,
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: const Icon(
-                          PhosphorIconsBold.star,
+                          CupertinoIcons.star_fill,
                           color: Colors.white,
                           size: 12,
                         ),
@@ -458,7 +482,7 @@ class ProFeaturesSheet extends StatelessWidget {
                   feature.description,
                   style: TextStyle(
                     fontSize: 12,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
               ],

@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -10,10 +10,10 @@ import '../providers/finance_provider.dart';
 import '../providers/currency_provider.dart';
 import '../providers/pro_provider.dart';
 import '../services/ai_service.dart';
+import '../services/analytics_service.dart';
 import '../services/free_tier_service.dart';
 import '../theme/theme.dart';
 import '../constants/app_limits.dart';
-import '../core/theme/premium_effects.dart';
 import 'upgrade_dialog.dart';
 
 class AIChatSheet extends StatefulWidget {
@@ -44,6 +44,8 @@ class _AIChatSheetState extends State<AIChatSheet> {
     super.initState();
     _loadAIGreeting();
     _loadChatUsage();
+    // Track AI Chat opened
+    AnalyticsService().logAIChatUsed();
   }
 
   Future<void> _loadChatUsage() async {
@@ -280,22 +282,20 @@ SADECE karşılama cümlesini yaz:
     final isPremium = context.watch<ProProvider>().isPro;
     final l10n = AppLocalizations.of(context);
 
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.85,
-      decoration: BoxDecoration(
-        color: context.appColors.background,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        border: Border.all(color: context.appColors.cardBorder),
-      ),
-      child: Column(
-        children: [
-          _buildHandle(),
-          _buildHeader(),
-          // Free tier remaining chats indicator
-          if (!isPremium) _buildRemainingChatsIndicator(l10n),
-          Expanded(child: _buildMessageList(isPremium)),
-          _buildInput(isPremium),
-        ],
+    return VGlassSheet(
+      topRadius: 24,
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.85 - 28, // account for handle
+        child: Column(
+          children: [
+            _buildHeader(),
+            // Free tier remaining chats indicator
+            if (!isPremium) _buildRemainingChatsIndicator(l10n),
+            Expanded(child: _buildMessageList(isPremium)),
+            _buildDisclaimer(l10n),
+            _buildInput(isPremium),
+          ],
+        ),
       ),
     );
   }
@@ -310,17 +310,17 @@ SADECE karşılama cümlesini yaz:
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: isLimitReached
-            ? context.appColors.error.withValues(alpha: 0.15)
+            ? context.vantColors.error.withValues(alpha: 0.15)
             : isLow
-            ? context.appColors.warning.withValues(alpha: 0.15)
-            : context.appColors.primary.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(10),
+            ? context.vantColors.warning.withValues(alpha: 0.15)
+            : context.vantColors.primary.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: isLimitReached
-              ? context.appColors.error.withValues(alpha: 0.3)
+              ? context.vantColors.error.withValues(alpha: 0.3)
               : isLow
-              ? context.appColors.warning.withValues(alpha: 0.3)
-              : context.appColors.primary.withValues(alpha: 0.2),
+              ? context.vantColors.warning.withValues(alpha: 0.3)
+              : context.vantColors.primary.withValues(alpha: 0.2),
         ),
       ),
       child: Row(
@@ -328,16 +328,16 @@ SADECE karşılama cümlesini yaz:
         children: [
           Icon(
             isLimitReached
-                ? PhosphorIconsFill.warning
+                ? CupertinoIcons.exclamationmark_triangle_fill
                 : isLow
-                ? PhosphorIconsDuotone.warning
-                : PhosphorIconsDuotone.chatCircle,
+                ? CupertinoIcons.exclamationmark_triangle
+                : CupertinoIcons.chat_bubble,
             size: 16,
             color: isLimitReached
-                ? context.appColors.error
+                ? context.vantColors.error
                 : isLow
-                ? context.appColors.warning
-                : context.appColors.primary,
+                ? context.vantColors.warning
+                : context.vantColors.primary,
           ),
           const SizedBox(width: 8),
           Text(
@@ -348,25 +348,13 @@ SADECE karşılama cümlesini yaz:
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: isLimitReached
-                  ? context.appColors.error
+                  ? context.vantColors.error
                   : isLow
-                  ? context.appColors.warning
-                  : context.appColors.textSecondary,
+                  ? context.vantColors.warning
+                  : context.vantColors.textSecondary,
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildHandle() {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 12),
-      width: 40,
-      height: 4,
-      decoration: BoxDecoration(
-        color: context.appColors.textTertiary.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(2),
       ),
     );
   }
@@ -387,16 +375,16 @@ SADECE karşılama cümlesini yaz:
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      context.appColors.primary.withValues(alpha: 0.2),
-                      context.appColors.primaryDark.withValues(alpha: 0.1),
+                      context.vantColors.primary.withValues(alpha: 0.2),
+                      context.vantColors.primaryDark.withValues(alpha: 0.1),
                     ],
                   ),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.sparkle,
+                  CupertinoIcons.sparkles,
                   size: 22,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ),
               const SizedBox(width: 12),
@@ -408,7 +396,7 @@ SADECE karşılama cümlesini yaz:
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                   ),
                   Text(
@@ -417,7 +405,7 @@ SADECE karşılama cümlesini yaz:
                         : l10n.professionalMode,
                     style: TextStyle(
                       fontSize: 12,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                 ],
@@ -442,13 +430,13 @@ SADECE karşılama cümlesini yaz:
                       padding: const EdgeInsets.all(8),
                       margin: const EdgeInsets.only(right: 8),
                       decoration: BoxDecoration(
-                        color: context.appColors.surfaceLight,
+                        color: context.vantColors.surfaceLight,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(
-                        PhosphorIcons.trash(),
+                        CupertinoIcons.trash,
                         size: 16,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                     ),
                   ),
@@ -473,9 +461,9 @@ SADECE karşılama cümlesini yaz:
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: context.appColors.surfaceLight,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: context.appColors.cardBorder),
+                        color: context.vantColors.surfaceLight,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: context.vantColors.cardBorder),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -483,16 +471,16 @@ SADECE karşılama cümlesini yaz:
                           Icon(
                             AIService().personalityMode ==
                                     PersonalityMode.friendly
-                                ? PhosphorIconsDuotone.smiley
-                                : PhosphorIconsDuotone.briefcase,
+                                ? CupertinoIcons.smiley
+                                : CupertinoIcons.briefcase,
                             size: 16,
-                            color: context.appColors.primary,
+                            color: context.vantColors.primary,
                           ),
                           const SizedBox(width: 6),
                           Icon(
-                            PhosphorIcons.caretDown(),
+                            CupertinoIcons.chevron_down,
                             size: 12,
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                         ],
                       ),
@@ -515,10 +503,10 @@ SADECE karşılama cümlesini yaz:
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: context.appColors.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20),
+                        color: context.vantColors.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(24),
                         border: Border.all(
-                          color: context.appColors.primary.withValues(
+                          color: context.vantColors.primary.withValues(
                             alpha: 0.2,
                           ),
                         ),
@@ -527,9 +515,9 @@ SADECE karşılama cümlesini yaz:
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            PhosphorIconsDuotone.lightbulb,
+                            CupertinoIcons.lightbulb,
                             size: 12,
-                            color: context.appColors.primary,
+                            color: context.vantColors.primary,
                           ),
                           const SizedBox(width: 6),
                           Flexible(
@@ -537,7 +525,7 @@ SADECE karşılama cümlesini yaz:
                               fact,
                               style: TextStyle(
                                 fontSize: 11,
-                                color: context.appColors.primary,
+                                color: context.vantColors.primary,
                                 fontWeight: FontWeight.w500,
                               ),
                               overflow: TextOverflow.ellipsis,
@@ -572,14 +560,14 @@ SADECE karşılama cümlesini yaz:
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: PremiumColors.cardBackground,
+                  color: context.vantColors.cardBackground,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.sparkle,
+                  CupertinoIcons.sparkles,
                   size: 32,
-                  color: PremiumColors.purple,
-                  shadows: PremiumShadows.iconHalo(PremiumColors.purple),
+                  color: VantColors.primary,
+                  shadows: VantShadows.iconHalo(VantColors.primary),
                 ),
               ),
             ),
@@ -596,7 +584,7 @@ SADECE karşılama cümlesini yaz:
                       height: 20,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: PremiumColors.purple,
+                        color: VantColors.primary,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -604,7 +592,7 @@ SADECE karşılama cümlesini yaz:
                       l10n.aiThinking,
                       style: TextStyle(
                         fontSize: 13,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                     ),
                   ],
@@ -616,7 +604,7 @@ SADECE karşılama cümlesini yaz:
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                   height: 1.5,
                 ),
               ).animate().fadeIn(duration: 300.ms),
@@ -688,13 +676,9 @@ SADECE karşılama cümlesini yaz:
           _controller.text = text;
           _sendMessage();
         },
-        child: Container(
+        child: VGlassStyledContainer(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          decoration: BoxDecoration(
-            color: context.appColors.surfaceLight,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: context.appColors.cardBorder),
-          ),
+          borderRadius: 24,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -705,7 +689,7 @@ SADECE karşılama cümlesini yaz:
                   text,
                   style: TextStyle(
                     fontSize: 13,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -732,10 +716,10 @@ SADECE karşılama cümlesini yaz:
         margin: const EdgeInsets.only(bottom: 12, top: 8),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: context.appColors.primary.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
+          color: context.vantColors.primary.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: context.appColors.primary.withValues(alpha: 0.3),
+            color: context.vantColors.primary.withValues(alpha: 0.3),
           ),
         ),
         child: Column(
@@ -744,9 +728,9 @@ SADECE karşılama cümlesini yaz:
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  PhosphorIconsDuotone.lock,
+                  CupertinoIcons.lock,
                   size: 18,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
                 const SizedBox(width: 8),
                 Flexible(
@@ -755,7 +739,7 @@ SADECE karşılama cümlesini yaz:
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 13,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                       height: 1.4,
                     ),
                   ),
@@ -776,11 +760,11 @@ SADECE karşılama cümlesini yaz:
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        context.appColors.primary,
-                        context.appColors.primaryDark,
+                        context.vantColors.primary,
+                        context.vantColors.primaryDark,
                       ],
                     ),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(24),
                   ),
                   child: Text(
                     l10n.aiPremiumButton,
@@ -802,35 +786,39 @@ SADECE karşılama cümlesini yaz:
   Widget _buildMessageBubble(ChatMessage message) {
     final isUser = message.role == 'user';
 
+    final bubbleContent = message.isTyping
+        ? _buildTypingText(message.content)
+        : Text(
+            message.content,
+            style: TextStyle(
+              fontSize: 14,
+              color: isUser ? Colors.white : context.vantColors.textPrimary,
+              height: 1.4,
+            ),
+          );
+
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width * 0.75,
         ),
-        decoration: BoxDecoration(
-          color: isUser
-              ? context.appColors.primary
-              : context.appColors.surfaceLight,
-          borderRadius: BorderRadius.circular(16).copyWith(
-            bottomRight: isUser ? const Radius.circular(4) : null,
-            bottomLeft: !isUser ? const Radius.circular(4) : null,
-          ),
-          border: isUser
-              ? null
-              : Border.all(color: context.appColors.cardBorder),
-        ),
-        child: message.isTyping
-            ? _buildTypingText(message.content)
-            : Text(
-                message.content,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: isUser ? Colors.white : context.appColors.textPrimary,
-                  height: 1.4,
+        child: isUser
+            ? Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: context.vantColors.primary,
+                  borderRadius: BorderRadius.circular(16).copyWith(
+                    bottomRight: const Radius.circular(4),
+                  ),
                 ),
+                child: bubbleContent,
+              )
+            : VGlassStyledContainer(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                borderRadius: 16,
+                child: bubbleContent,
               ),
       ),
     ).animate().fadeIn(duration: 200.ms).slideY(begin: 0.1, end: 0);
@@ -841,7 +829,7 @@ SADECE karşılama cümlesini yaz:
       text,
       style: TextStyle(
         fontSize: 14,
-        color: context.appColors.textPrimary,
+        color: context.vantColors.textPrimary,
         height: 1.4,
       ),
     );
@@ -851,17 +839,12 @@ SADECE karşılama cümlesini yaz:
     final l10n = AppLocalizations.of(context);
     return Align(
           alignment: Alignment.centerLeft,
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            decoration: BoxDecoration(
-              color: context.appColors.surfaceLight,
-              borderRadius: BorderRadius.circular(
-                16,
-              ).copyWith(bottomLeft: const Radius.circular(4)),
-              border: Border.all(color: context.appColors.cardBorder),
-            ),
-            child: Row(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: VGlassStyledContainer(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              borderRadius: 16,
+              child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
@@ -869,7 +852,7 @@ SADECE karşılama cümlesini yaz:
                   height: 16,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: context.appColors.primary,
+                    color: context.vantColors.primary,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -877,19 +860,34 @@ SADECE karşılama cümlesini yaz:
                   l10n.aiThinking,
                   style: TextStyle(
                     fontSize: 13,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
               ],
             ),
           ),
+          ),
         )
         .animate(onPlay: (c) => c.repeat())
         .shimmer(
           duration: 1500.ms,
-          color: context.appColors.primary.withValues(alpha: 0.1),
+          color: context.vantColors.primary.withValues(alpha: 0.1),
         );
+  }
+
+  Widget _buildDisclaimer(AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+      child: Text(
+        l10n.aiDisclaimer,
+        style: TextStyle(
+          fontSize: 11,
+          color: context.vantColors.textTertiary,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    );
   }
 
   Widget _buildInput(bool isPremium) {
@@ -903,8 +901,8 @@ SADECE karşılama cümlesini yaz:
         MediaQuery.of(context).padding.bottom + 12,
       ),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
-        border: Border(top: BorderSide(color: context.appColors.cardBorder)),
+        color: context.vantColors.surface,
+        border: Border(top: BorderSide(color: context.vantColors.cardBorder)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -934,9 +932,9 @@ SADECE karşılama cümlesini yaz:
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    color: context.appColors.surfaceLight,
+                    color: context.vantColors.surfaceLight,
                     borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: context.appColors.cardBorder),
+                    border: Border.all(color: context.vantColors.cardBorder),
                   ),
                   child: Semantics(
                     label: l10n.accessibilityAiChatInput,
@@ -950,7 +948,7 @@ SADECE karşılama cümlesini yaz:
                         }
                       },
                       style: TextStyle(
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                         fontSize: 14,
                       ),
                       decoration: InputDecoration(
@@ -958,7 +956,7 @@ SADECE karşılama cümlesini yaz:
                             ? l10n.aiInputPlaceholder
                             : l10n.aiInputPlaceholderFree,
                         hintStyle: TextStyle(
-                          color: context.appColors.textTertiary,
+                          color: context.vantColors.textTertiary,
                         ),
                         border: InputBorder.none,
                         contentPadding: const EdgeInsets.symmetric(
@@ -966,9 +964,9 @@ SADECE karşılama cümlesini yaz:
                         ),
                         suffixIcon: !isPremium
                             ? Icon(
-                                PhosphorIconsRegular.lock,
+                                CupertinoIcons.lock,
                                 size: 18,
-                                color: context.appColors.textTertiary,
+                                color: context.vantColors.textTertiary,
                               )
                             : null,
                       ),
@@ -1001,19 +999,19 @@ SADECE karşılama cümlesini yaz:
                           end: Alignment.bottomRight,
                           colors: isPremium
                               ? [
-                                  context.appColors.primary,
-                                  context.appColors.primaryDark,
+                                  context.vantColors.primary,
+                                  context.vantColors.primaryDark,
                                 ]
                               : [
-                                  context.appColors.textTertiary,
-                                  context.appColors.textSecondary,
+                                  context.vantColors.textTertiary,
+                                  context.vantColors.textSecondary,
                                 ],
                         ),
                         shape: BoxShape.circle,
                         boxShadow: isPremium
                             ? [
                                 BoxShadow(
-                                  color: context.appColors.primary.withValues(
+                                  color: context.vantColors.primary.withValues(
                                     alpha: 0.3,
                                   ),
                                   blurRadius: 12,
@@ -1024,8 +1022,8 @@ SADECE karşılama cümlesini yaz:
                       ),
                       child: Icon(
                         isPremium
-                            ? PhosphorIconsBold.paperPlaneTilt
-                            : PhosphorIconsBold.lock,
+                            ? CupertinoIcons.paperplane_fill
+                            : CupertinoIcons.lock_fill,
                         size: 20,
                         color: Colors.white,
                       ),
@@ -1055,9 +1053,9 @@ SADECE karşılama cümlesini yaz:
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
-            color: context.appColors.surfaceLight,
+            color: context.vantColors.surfaceLight,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: context.appColors.cardBorder),
+            border: Border.all(color: context.vantColors.cardBorder),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -1068,7 +1066,7 @@ SADECE karşılama cümlesini yaz:
                 text.length > 20 ? '${text.substring(0, 20)}...' : text,
                 style: TextStyle(
                   fontSize: 11,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ),
             ],
@@ -1085,6 +1083,18 @@ SADECE karşılama cümlesini yaz:
     final proProvider = context.read<ProProvider>();
     final isPremium = proProvider.isPro;
     final l10n = AppLocalizations.of(context);
+
+    // Check if AI service is available
+    if (!AIService().isAvailable) {
+      setState(() {
+        _messages.add(ChatMessage(
+          role: 'assistant',
+          content: l10n.aiServiceUnavailable,
+        ));
+      });
+      _scrollToBottom();
+      return;
+    }
 
     // Check free tier limit before sending
     if (!isPremium) {

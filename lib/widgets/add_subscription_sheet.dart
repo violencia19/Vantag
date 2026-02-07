@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -113,13 +113,21 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
     return Container(
       margin: EdgeInsets.only(bottom: bottomPadding),
       decoration: BoxDecoration(
-        color: context.appColors.gradientMid,
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            context.vantColors.surface.withValues(alpha: 0.95),
+            context.vantColors.background.withValues(alpha: 0.98),
+          ],
+        ),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        border: Border.all(color: context.isDarkMode ? const Color(0x15FFFFFF) : const Color(0x15000000), width: 1),
       ),
       child: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          filter: ImageFilter.blur(sigmaX: VantBlur.medium, sigmaY: VantBlur.medium),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -148,7 +156,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 24),
@@ -161,7 +169,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                           autocorrect: false,
                           enableIMEPersonalizedLearning: true,
                           style: TextStyle(
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                           ),
                           decoration: _inputDecoration(
                             l10n.subscriptionName,
@@ -178,7 +186,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                         TextFormField(
                           controller: _amountController,
                           style: TextStyle(
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                           ),
                           decoration: _inputDecoration(
                             l10n.monthlyAmountLabel,
@@ -205,7 +213,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                     l10n.category,
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: context.appColors.textSecondary,
+                                      color: context.vantColors.textSecondary,
                                     ),
                                   ),
                                   const SizedBox(height: 8),
@@ -214,18 +222,18 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                       horizontal: 12,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: context.appColors.surface
+                                      color: context.vantColors.surface
                                           .withValues(alpha: 0.5),
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<String>(
                                         value: _selectedCategory,
                                         isExpanded: true,
                                         dropdownColor:
-                                            context.appColors.gradientMid,
+                                            context.vantColors.gradientMid,
                                         style: TextStyle(
-                                          color: context.appColors.textPrimary,
+                                          color: context.vantColors.textPrimary,
                                           fontSize: 14,
                                         ),
                                         items: _categoryKeys
@@ -264,7 +272,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                     l10n.renewalDay,
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: context.appColors.textSecondary,
+                                      color: context.vantColors.textSecondary,
                                     ),
                                   ),
                                   const SizedBox(height: 8),
@@ -273,18 +281,18 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                       horizontal: 12,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: context.appColors.surface
+                                      color: context.vantColors.surface
                                           .withValues(alpha: 0.5),
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<int>(
                                         value: _selectedDay,
                                         isExpanded: true,
                                         dropdownColor:
-                                            context.appColors.gradientMid,
+                                            context.vantColors.gradientMid,
                                         style: TextStyle(
-                                          color: context.appColors.textPrimary,
+                                          color: context.vantColors.textPrimary,
                                           fontSize: 14,
                                         ),
                                         items: List.generate(31, (i) => i + 1)
@@ -315,7 +323,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                           l10n.color,
                           style: TextStyle(
                             fontSize: 12,
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -368,19 +376,19 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                         Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: context.appColors.surface.withValues(
+                            color: context.vantColors.surface.withValues(
                               alpha: 0.4,
                             ),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Row(
                             children: [
                               Icon(
-                                PhosphorIconsDuotone.sparkle,
+                                CupertinoIcons.sparkles,
                                 size: 20,
                                 color: _autoRecord
-                                    ? context.appColors.primary
-                                    : context.appColors.textTertiary,
+                                    ? context.vantColors.primary
+                                    : context.vantColors.textTertiary,
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -392,14 +400,14 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        color: context.appColors.textPrimary,
+                                        color: context.vantColors.textPrimary,
                                       ),
                                     ),
                                     Text(
                                       l10n.autoRecordDescription,
                                       style: TextStyle(
                                         fontSize: 11,
-                                        color: context.appColors.textSecondary,
+                                        color: context.vantColors.textSecondary,
                                       ),
                                     ),
                                   ],
@@ -409,7 +417,7 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                                 value: _autoRecord,
                                 onChanged: (v) =>
                                     setState(() => _autoRecord = v),
-                                activeTrackColor: context.appColors.primary,
+                                activeTrackColor: context.vantColors.primary,
                               ),
                             ],
                           ),
@@ -422,11 +430,11 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _submit,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: context.appColors.primary,
+                              backgroundColor: context.vantColors.primary,
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
+                                borderRadius: BorderRadius.circular(16),
                               ),
                             ),
                             child: _isLoading
@@ -465,14 +473,14 @@ class _AddSubscriptionSheetState extends State<AddSubscriptionSheet> {
       labelText: label,
       hintText: hint,
       labelStyle: TextStyle(
-        color: context.appColors.textSecondary,
+        color: context.vantColors.textSecondary,
         fontSize: 14,
       ),
-      hintStyle: TextStyle(color: context.appColors.textTertiary, fontSize: 14),
+      hintStyle: TextStyle(color: context.vantColors.textTertiary, fontSize: 14),
       filled: true,
-      fillColor: context.appColors.surface.withValues(alpha: 0.5),
+      fillColor: context.vantColors.surface.withValues(alpha: 0.5),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide.none,
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

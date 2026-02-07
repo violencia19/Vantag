@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -61,12 +61,12 @@ class _PursuitListScreenState extends State<PursuitListScreen>
         : pursuitProvider.activePursuits;
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: CustomScrollView(
         slivers: [
           // App bar
           SliverAppBar(
-            backgroundColor: context.appColors.background,
+            backgroundColor: context.vantColors.background,
             surfaceTintColor: Colors.transparent,
             pinned: true,
             floating: false,
@@ -78,7 +78,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               background: Container(
@@ -87,8 +87,8 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      context.appColors.background.withValues(alpha: 0.0),
-                      context.appColors.background,
+                      context.vantColors.background.withValues(alpha: 0.0),
+                      context.vantColors.background,
                     ],
                   ),
                 ),
@@ -102,10 +102,10 @@ class _PursuitListScreenState extends State<PursuitListScreen>
             delegate: _TabBarDelegate(
               TabBar(
                 controller: _tabController,
-                indicatorColor: context.appColors.success,
+                indicatorColor: context.vantColors.success,
                 indicatorWeight: 2,
-                labelColor: context.appColors.success,
-                unselectedLabelColor: context.appColors.textTertiary,
+                labelColor: context.vantColors.success,
+                unselectedLabelColor: context.vantColors.textTertiary,
                 labelStyle: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -119,7 +119,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(PhosphorIconsRegular.target, size: 18),
+                        Icon(CupertinoIcons.scope, size: 18),
                         const SizedBox(width: 8),
                         Text(l10n.activePursuits),
                         if (pursuitProvider.activePursuitCount > 0) ...[
@@ -135,14 +135,14 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(PhosphorIconsRegular.check, size: 18),
+                        Icon(CupertinoIcons.check_mark, size: 18),
                         const SizedBox(width: 8),
                         Text(l10n.completedPursuits),
                         if (pursuitProvider.completedPursuitCount > 0) ...[
                           const SizedBox(width: 6),
                           _CountBadge(
                             count: pursuitProvider.completedPursuitCount,
-                            color: QuietLuxury.gold,
+                            color: VantColors.gold,
                           ),
                         ],
                       ],
@@ -168,7 +168,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               child: Center(
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    context.appColors.success,
+                    context.vantColors.success,
                   ),
                 ),
               ),
@@ -204,20 +204,17 @@ class _PursuitListScreenState extends State<PursuitListScreen>
                 }, childCount: pursuits.length),
               ),
             ),
-        ],
-      ),
-      floatingActionButton: _showCompleted
-          ? null
-          : Padding(
-              padding: const EdgeInsets.only(bottom: 140),
-              child: FloatingActionButton(
-                onPressed: _createPursuit,
-                tooltip: l10n.createPursuit,
-                backgroundColor: context.appColors.success,
-                foregroundColor: context.appColors.textPrimary,
-                child: Icon(PhosphorIconsBold.plus),
+
+          // "Add New Dream" card at bottom (only for active pursuits)
+          if (!_showCompleted && pursuits.isNotEmpty)
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 120),
+              sliver: SliverToBoxAdapter(
+                child: _buildAddNewPursuitCard(l10n),
               ),
             ),
+        ],
+      ),
     );
   }
 
@@ -232,18 +229,18 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: context.appColors.surfaceLight,
+                color: context.vantColors.surfaceLight,
                 border: Border.all(
-                  color: context.appColors.cardBorder,
+                  color: context.vantColors.cardBorder,
                   width: 0.5,
                 ),
               ),
               child: Icon(
                 _showCompleted
-                    ? PhosphorIconsDuotone.trophy
-                    : PhosphorIconsDuotone.star,
+                    ? CupertinoIcons.rosette
+                    : CupertinoIcons.star_fill,
                 size: 64,
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
               ),
             ),
             const SizedBox(height: 24),
@@ -252,7 +249,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -261,7 +258,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               _showCompleted ? l10n.noTransactions : l10n.emptyPursuitsMessage,
               style: TextStyle(
                 fontSize: 14,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -270,20 +267,93 @@ class _PursuitListScreenState extends State<PursuitListScreen>
               ElevatedButton.icon(
                 onPressed: _createPursuit,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: context.appColors.success,
-                  foregroundColor: context.appColors.textPrimary,
+                  backgroundColor: context.vantColors.success,
+                  foregroundColor: context.vantColors.textPrimary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,
                     vertical: 12,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                icon: Icon(PhosphorIconsBold.plus, size: 18),
+                icon: Icon(CupertinoIcons.add, size: 18),
                 label: Text(l10n.addFirstPursuit),
               ),
             ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAddNewPursuitCard(AppLocalizations l10n) {
+    return GestureDetector(
+      onTap: _createPursuit,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              context.vantColors.success.withValues(alpha: 0.15),
+              context.vantColors.success.withValues(alpha: 0.05),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            color: context.vantColors.success.withValues(alpha: 0.3),
+            width: 1.5,
+            strokeAlign: BorderSide.strokeAlignOutside,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 52,
+              height: 52,
+              decoration: BoxDecoration(
+                color: context.vantColors.success.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(
+                CupertinoIcons.add,
+                color: context.vantColors.success,
+                size: 28,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.createPursuit,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: context.vantColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.emptyPursuitsMessage,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.vantColors.textSecondary,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              CupertinoIcons.chevron_right,
+              color: context.vantColors.success,
+              size: 24,
+            ),
           ],
         ),
       ),
@@ -295,10 +365,10 @@ class _PursuitListScreenState extends State<PursuitListScreen>
       alignment: Alignment.centerRight,
       padding: const EdgeInsets.only(right: 20),
       decoration: BoxDecoration(
-        color: context.appColors.error.withValues(alpha: 0.2),
+        color: context.vantColors.error.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Icon(PhosphorIconsBold.trash, color: context.appColors.error),
+      child: Icon(CupertinoIcons.trash_fill, color: context.vantColors.error),
     );
   }
 
@@ -359,7 +429,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
     HapticFeedback.selectionClick();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (_) => _PursuitDetailSheet(
@@ -391,7 +461,7 @@ class _PursuitListScreenState extends State<PursuitListScreen>
 
   Future<bool?> _confirmDelete(Pursuit pursuit) async {
     final l10n = AppLocalizations.of(context);
-    final colors = context.appColors;
+    final colors = context.vantColors;
     return showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -467,12 +537,12 @@ class _CountBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveColor = color ?? context.appColors.success;
+    final effectiveColor = color ?? context.vantColors.success;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
         color: effectiveColor.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
         count.toString(),
@@ -497,7 +567,7 @@ class _TabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Container(color: context.appColors.background, child: tabBar);
+    return Container(color: context.vantColors.background, child: tabBar);
   }
 
   @override
@@ -530,8 +600,8 @@ class _PursuitDetailSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final colors = context.appColors;
-    final goldColor = AppColors.medalGold;
+    final colors = context.vantColors;
+    final goldColor = VantColors.medalGold;
 
     return Container(
       decoration: BoxDecoration(
@@ -613,13 +683,13 @@ class _PursuitDetailSheet extends StatelessWidget {
                         onPressed: onAddSavings,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: colors.success,
-                          foregroundColor: context.appColors.textPrimary,
+                          foregroundColor: context.vantColors.textPrimary,
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                        icon: Icon(PhosphorIconsBold.plus, size: 18),
+                        icon: Icon(CupertinoIcons.add, size: 18),
                         label: Text(l10n.addSavings),
                       ),
                     ),
@@ -632,12 +702,12 @@ class _PursuitDetailSheet extends StatelessWidget {
                     style: IconButton.styleFrom(
                       backgroundColor: colors.surfaceLight,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         side: BorderSide(color: colors.cardBorder),
                       ),
                     ),
                     icon: Icon(
-                      PhosphorIconsRegular.pencilSimple,
+                      CupertinoIcons.pencil,
                       color: colors.textSecondary,
                     ),
                   ),
@@ -649,13 +719,13 @@ class _PursuitDetailSheet extends StatelessWidget {
                     style: IconButton.styleFrom(
                       backgroundColor: colors.error.withValues(alpha: 0.1),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         side: BorderSide(
                           color: colors.error.withValues(alpha: 0.3),
                         ),
                       ),
                     ),
-                    icon: Icon(PhosphorIconsRegular.trash, color: colors.error),
+                    icon: Icon(CupertinoIcons.trash, color: colors.error),
                   ),
                 ],
               ),

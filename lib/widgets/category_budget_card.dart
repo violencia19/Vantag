@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/category_budget.dart';
@@ -92,10 +92,10 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
 
   Color _getProgressColor() {
     final percent = widget.budget.percentUsed;
-    if (percent >= 100) return context.appColors.error;
-    if (percent >= 80) return context.appColors.warning;
+    if (percent >= 100) return context.vantColors.error;
+    if (percent >= 80) return context.vantColors.warning;
     if (percent >= 50) return Colors.amber;
-    return context.appColors.success;
+    return context.vantColors.success;
   }
 
   @override
@@ -133,20 +133,20 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: context.appColors.cardBackground,
+                  color: context.vantColors.cardBackground,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: budget.isOverBudget
-                        ? context.appColors.error.withValues(alpha: 0.3)
+                        ? context.vantColors.error.withValues(alpha: 0.3)
                         : budget.isNearLimit
-                        ? context.appColors.warning.withValues(alpha: 0.3)
-                        : context.appColors.cardBorder,
+                        ? context.vantColors.warning.withValues(alpha: 0.3)
+                        : context.vantColors.cardBorder,
                     width: budget.isOverBudget || budget.isNearLimit ? 1.5 : 1,
                   ),
                   boxShadow: [
                     if (budget.isOverBudget)
                       BoxShadow(
-                        color: context.appColors.error.withValues(alpha: 0.1),
+                        color: context.vantColors.error.withValues(alpha: 0.1),
                         blurRadius: 8,
                         spreadRadius: 0,
                       ),
@@ -163,7 +163,7 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
                           height: 40,
                           decoration: BoxDecoration(
                             color: progressColor.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Icon(
                             ExpenseCategory.getIcon(budget.budget.category),
@@ -184,7 +184,7 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
-                                  color: context.appColors.textPrimary,
+                                  color: context.vantColors.textPrimary,
                                 ),
                               ),
                               const SizedBox(height: 2),
@@ -233,7 +233,7 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
                       child: Container(
                         height: 8,
                         decoration: BoxDecoration(
-                          color: context.appColors.surfaceLight,
+                          color: context.vantColors.surfaceLight,
                         ),
                         child: LayoutBuilder(
                           builder: (context, constraints) {
@@ -284,7 +284,7 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
                           ),
                           style: TextStyle(
                             fontSize: 13,
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                         ),
                         // Remaining
@@ -292,12 +292,12 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
                           children: [
                             Icon(
                               budget.isOverBudget
-                                  ? PhosphorIconsFill.warning
-                                  : PhosphorIconsFill.checkCircle,
+                                  ? CupertinoIcons.exclamationmark_triangle_fill
+                                  : CupertinoIcons.checkmark_circle_fill,
                               size: 14,
                               color: budget.isOverBudget
-                                  ? context.appColors.error
-                                  : context.appColors.success,
+                                  ? context.vantColors.error
+                                  : context.vantColors.success,
                             ),
                             const SizedBox(width: 4),
                             Text(
@@ -312,8 +312,8 @@ class _CategoryBudgetCardState extends State<CategoryBudgetCard>
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                                 color: budget.isOverBudget
-                                    ? context.appColors.error
-                                    : context.appColors.success,
+                                    ? context.vantColors.error
+                                    : context.vantColors.success,
                               ),
                             ),
                           ],
@@ -340,9 +340,9 @@ class CompactBudgetCard extends StatelessWidget {
 
   Color _getProgressColor(BuildContext context) {
     final percent = budget.percentUsed;
-    if (percent >= 100) return context.appColors.error;
-    if (percent >= 80) return context.appColors.warning;
-    return context.appColors.success;
+    if (percent >= 100) return context.vantColors.error;
+    if (percent >= 80) return context.vantColors.warning;
+    return context.vantColors.success;
   }
 
   @override
@@ -356,7 +356,7 @@ class CompactBudgetCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
           color: progressColor.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: progressColor.withValues(alpha: 0.2)),
         ),
         child: Row(
@@ -373,7 +373,7 @@ class CompactBudgetCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
             const SizedBox(width: 8),

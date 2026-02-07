@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 import '../services/free_tier_service.dart';
@@ -54,9 +54,9 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,9 +64,9 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
           Row(
             children: [
               Icon(
-                PhosphorIconsDuotone.chartBar,
+                CupertinoIcons.chart_bar_fill,
                 size: 20,
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
               ),
               const SizedBox(width: 8),
               Text(
@@ -74,7 +74,7 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             ],
@@ -84,22 +84,22 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
 
           _buildLimitRow(
             context,
-            icon: PhosphorIconsDuotone.chatCircleDots,
+            icon: CupertinoIcons.chat_bubble_2_fill,
             label: l10n.aiChat,
             used: _aiChatsUsed,
             total: _aiChatsTotal,
-            color: AppColors.categoryEntertainment,
+            color: VantColors.categoryEntertainment,
           ),
 
           const SizedBox(height: 12),
 
           _buildLimitRow(
             context,
-            icon: PhosphorIconsDuotone.microphone,
+            icon: CupertinoIcons.mic_fill,
             label: l10n.voiceInput,
             used: _voiceUsed,
             total: _voiceTotal,
-            color: AppColors.categoryTransport,
+            color: VantColors.categoryTransport,
           ),
         ],
       ),
@@ -112,19 +112,19 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            context.appColors.primary.withValues(alpha: 0.2),
-            context.appColors.secondary.withValues(alpha: 0.2),
+            context.vantColors.primary.withValues(alpha: 0.2),
+            context.vantColors.secondary.withValues(alpha: 0.2),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.primary.withValues(alpha: 0.3)),
+        border: Border.all(color: context.vantColors.primary.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
           Icon(
-            PhosphorIconsDuotone.infinity,
+            CupertinoIcons.infinite,
             size: 28,
-            color: context.appColors.primary,
+            color: context.vantColors.primary,
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -136,23 +136,23 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 Text(
                   l10n.proMember,
                   style: TextStyle(
                     fontSize: 13,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
               ],
             ),
           ),
           Icon(
-            PhosphorIconsDuotone.crownSimple,
+            CupertinoIcons.star_fill,
             size: 24,
-            color: AppColors.gold,
+            color: VantColors.gold,
           ),
         ],
       ),
@@ -186,7 +186,7 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
                     label,
                     style: TextStyle(
                       fontSize: 13,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                   Text(
@@ -195,8 +195,8 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
                       color: isExhausted
-                          ? context.appColors.error
-                          : context.appColors.textPrimary,
+                          ? context.vantColors.error
+                          : context.vantColors.textPrimary,
                     ),
                   ),
                 ],
@@ -206,9 +206,9 @@ class _UsageLimitsCardState extends State<UsageLimitsCard> {
                 borderRadius: BorderRadius.circular(4),
                 child: LinearProgressIndicator(
                   value: progress,
-                  backgroundColor: context.appColors.surfaceLight,
+                  backgroundColor: context.vantColors.surfaceLight,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    isExhausted ? context.appColors.error : color,
+                    isExhausted ? context.vantColors.error : color,
                   ),
                   minHeight: 4,
                 ),

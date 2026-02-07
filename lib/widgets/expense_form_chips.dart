@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 
 /// Reusable date chip widget for expense form
@@ -29,13 +29,13 @@ class ExpenseDateChip extends StatelessWidget {
           vertical: 10,
         ),
         decoration: BoxDecoration(
-          gradient: isSelected ? AppGradients.primaryButton : null,
+          gradient: isSelected ? VantGradients.primaryButton : null,
           color: isSelected
               ? null
               : (isDark
                     ? Colors.white.withValues(alpha: 0.05)
                     : Colors.black.withValues(alpha: 0.04)),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected
                 ? Colors.transparent
@@ -54,7 +54,7 @@ class ExpenseDateChip extends StatelessWidget {
                 size: 14,
                 color: isSelected
                     ? Colors.white
-                    : context.appColors.textSecondary,
+                    : context.vantColors.textSecondary,
               ),
             if (icon != null && label != null) const SizedBox(width: 6),
             if (label != null)
@@ -65,7 +65,7 @@ class ExpenseDateChip extends StatelessWidget {
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                   color: isSelected
                       ? Colors.white
-                      : context.appColors.textSecondary,
+                      : context.vantColors.textSecondary,
                 ),
               ),
           ],
@@ -98,14 +98,14 @@ class ExpenseSubCategoryChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isRecent
-              ? context.appColors.primary.withValues(alpha: 0.15)
+              ? context.vantColors.primary.withValues(alpha: 0.15)
               : (isDark
                     ? Colors.white.withValues(alpha: 0.05)
                     : Colors.black.withValues(alpha: 0.04)),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isRecent
-                ? context.appColors.primary.withValues(alpha: 0.5)
+                ? context.vantColors.primary.withValues(alpha: 0.5)
                 : (isDark
                       ? Colors.white.withValues(alpha: 0.1)
                       : Colors.black.withValues(alpha: 0.1)),
@@ -119,9 +119,9 @@ class ExpenseSubCategoryChip extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 4),
                 child: Icon(
-                  PhosphorIconsDuotone.clockCounterClockwise,
+                  CupertinoIcons.clock_fill,
                   size: 12,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ),
             Text(
@@ -130,8 +130,8 @@ class ExpenseSubCategoryChip extends StatelessWidget {
                 fontSize: 13,
                 fontWeight: isRecent ? FontWeight.w500 : FontWeight.w400,
                 color: isRecent
-                    ? context.appColors.primary
-                    : context.appColors.textSecondary,
+                    ? context.vantColors.primary
+                    : context.vantColors.textSecondary,
               ),
             ),
           ],

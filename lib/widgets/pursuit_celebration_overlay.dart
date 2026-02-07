@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:confetti/confetti.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lottie/lottie.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/haptic_service.dart';
@@ -170,7 +170,7 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final colors = context.appColors;
+    final colors = context.vantColors;
 
     return Material(
       color: Colors.transparent,
@@ -201,11 +201,11 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
               gravity: 0.2,
               shouldLoop: false,
               colors: [
-                AppColors.primary,
-                AppColors.gold,
+                VantColors.primary,
+                VantColors.gold,
                 Colors.white,
-                AppColors.secondary,
-                AppColors.accent, // Light gold
+                VantColors.secondary,
+                VantColors.accent, // Light gold
               ],
               createParticlePath: (size) => _drawStar(size),
             ),
@@ -230,12 +230,12 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                             gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: [AppColors.primary, AppColors.secondary],
+                              colors: [VantColors.primary, VantColors.primaryLight],
                             ),
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.4),
+                                color: VantColors.primary.withValues(alpha: 0.4),
                                 blurRadius: 30,
                                 spreadRadius: 5,
                               ),
@@ -302,7 +302,7 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               color: colors.surface,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(24),
                               border: Border.all(
                                 color: colors.cardBorder,
                                 width: 1,
@@ -311,9 +311,7 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                             child: Column(
                               children: [
                                 _buildStatRow(
-                                  icon: PhosphorIcons.clock(
-                                    PhosphorIconsStyle.fill,
-                                  ),
+                                  icon: CupertinoIcons.clock_fill,
                                   label: l10n.celebrationTotalSaved(
                                     _savedHoursFormatted,
                                   ),
@@ -321,9 +319,7 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                                 ),
                                 const SizedBox(height: 12),
                                 _buildStatRow(
-                                  icon: PhosphorIcons.calendar(
-                                    PhosphorIconsStyle.fill,
-                                  ),
+                                  icon: CupertinoIcons.calendar,
                                   label: l10n.celebrationDuration(
                                     _durationDays,
                                   ),
@@ -356,7 +352,7 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                                 widget.onShare();
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
+                                backgroundColor: VantColors.primary,
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
@@ -367,9 +363,7 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
-                                    PhosphorIcons.shareFat(
-                                      PhosphorIconsStyle.fill,
-                                    ),
+                                    CupertinoIcons.share,
                                     size: 20,
                                   ),
                                   const SizedBox(width: 8),
@@ -419,9 +413,7 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
-                                    PhosphorIcons.target(
-                                      PhosphorIconsStyle.fill,
-                                    ),
+                                    CupertinoIcons.scope,
                                     size: 20,
                                   ),
                                   const SizedBox(width: 8),
@@ -484,10 +476,10 @@ class _PursuitCelebrationOverlayState extends State<PursuitCelebrationOverlay>
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(10),
+            color: VantColors.primary.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, color: AppColors.primary, size: 20),
+          child: Icon(icon, color: VantColors.primary, size: 20),
         ),
         const SizedBox(width: 12),
         Text(

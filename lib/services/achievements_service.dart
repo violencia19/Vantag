@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
+import '../providers/currency_provider.dart';
 import 'streak_service.dart';
 import 'expense_history_service.dart';
 import 'currency_service.dart';
@@ -582,6 +584,11 @@ class AchievementsService {
     final expenses = await _historyService.getRealExpenses();
     final stats = DecisionStats.fromExpenses(expenses);
 
+    // Convert savedAmount to TRY for threshold comparison
+    // Savings thresholds are defined in TRY, so we need amounts in TRY
+    final currencyProvider = context.read<CurrencyProvider>();
+    final savedAmountInTRY = currencyProvider.convertToTRY(stats.savedAmount);
+
     // Get exchange rates
     double? usdRate;
     double? goldGramRate;
@@ -616,6 +623,7 @@ class AchievementsService {
         streakData,
         stats,
         expenses.length,
+        savedAmountInTRY: savedAmountInTRY,
       );
       final progress = (currentValue / def.target).clamp(0.0, 1.0);
       final isComplete = currentValue >= def.target;
@@ -661,6 +669,7 @@ class AchievementsService {
         goldGramRate,
         subscriptionCount,
         achievements,
+        savedAmountInTRY: savedAmountInTRY,
       );
 
       DateTime? unlockedAt;
@@ -707,13 +716,15 @@ class AchievementsService {
     _AchievementDef def,
     StreakData streakData,
     DecisionStats stats,
-    int totalExpenses,
-  ) {
+    int totalExpenses, {
+    required double savedAmountInTRY,
+  }) {
     switch (def.category) {
       case AchievementCategory.streak:
         return streakData.longestStreak;
       case AchievementCategory.savings:
-        return stats.savedAmount.toInt();
+        // Thresholds are in TRY, so use TRY-converted amount
+        return savedAmountInTRY.toInt();
       case AchievementCategory.decision:
         return stats.noCount;
       case AchievementCategory.record:
@@ -732,8 +743,9 @@ class AchievementsService {
     double? usdRate,
     double? goldGramRate,
     int subscriptionCount,
-    List<Achievement> currentAchievements,
-  ) async {
+    List<Achievement> currentAchievements, {
+    required double savedAmountInTRY,
+  }) async {
     switch (def.checkType) {
       case HiddenCheckType.nightRecord:
         final hasNightRecord = expenses.any((e) {
@@ -803,7 +815,8 @@ class AchievementsService {
             progress: 0.0,
           );
         }
-        final goldGrams = stats.savedAmount / goldGramRate;
+        // goldGramRate is TRY per gram, so use TRY-converted amount
+        final goldGrams = savedAmountInTRY / goldGramRate;
         final target = def.target ?? 1;
         return _HiddenCheckResult(
           isComplete: goldGrams >= target,
@@ -819,7 +832,8 @@ class AchievementsService {
             progress: 0.0,
           );
         }
-        final usdAmount = stats.savedAmount / usdRate;
+        // usdRate is TRY per USD, so use TRY-converted amount
+        final usdAmount = savedAmountInTRY / usdRate;
         final target = def.target ?? 100;
         return _HiddenCheckResult(
           isComplete: usdAmount >= target,
@@ -852,12 +866,13 @@ class AchievementsService {
             progress: 0.0,
           );
         }
-        final goldGrams = stats.savedAmount / goldGramRate;
+        // goldGramRate is TRY per gram, so use TRY-converted amount
+        final goldGramsKg = savedAmountInTRY / goldGramRate;
         final target = def.target ?? 1000;
         return _HiddenCheckResult(
-          isComplete: goldGrams >= target,
-          currentValue: goldGrams.toInt(),
-          progress: (goldGrams / target).clamp(0.0, 1.0),
+          isComplete: goldGramsKg >= target,
+          currentValue: goldGramsKg.toInt(),
+          progress: (goldGramsKg / target).clamp(0.0, 1.0),
         );
 
       case HiddenCheckType.usd10kEquivalent:
@@ -868,12 +883,13 @@ class AchievementsService {
             progress: 0.0,
           );
         }
-        final usdAmount = stats.savedAmount / usdRate;
+        // usdRate is TRY per USD, so use TRY-converted amount
+        final usdAmount10k = savedAmountInTRY / usdRate;
         final target = def.target ?? 10000;
         return _HiddenCheckResult(
-          isComplete: usdAmount >= target,
-          currentValue: usdAmount.toInt(),
-          progress: (usdAmount / target).clamp(0.0, 1.0),
+          isComplete: usdAmount10k >= target,
+          currentValue: usdAmount10k.toInt(),
+          progress: (usdAmount10k / target).clamp(0.0, 1.0),
         );
 
       case HiddenCheckType.usageAnniversary:
@@ -927,7 +943,8 @@ class AchievementsService {
         );
 
       case HiddenCheckType.ultimateCombo:
-        final hasMillion = stats.savedAmount >= 1000000;
+        // 1,000,000 TRY threshold - compare against TRY-converted amount
+        final hasMillion = savedAmountInTRY >= 1000000;
         final hasYearStreak = streakData.longestStreak >= 365;
         final isComplete = hasMillion && hasYearStreak;
         double progress = 0.0;

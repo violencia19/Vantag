@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vantag/services/analytics_service.dart';
 import 'package:vantag/services/purchase_service.dart';
 
 /// Provider for Pro subscription status (RevenueCat + Firestore promo override)
@@ -39,9 +40,16 @@ class ProProvider extends ChangeNotifier {
         }
       }
 
-      // 1. Check RevenueCat entitlement
-      _isPro = await PurchaseService().checkProStatus();
-      debugPrint('📊 [ProProvider] RevenueCat Pro status: $_isPro');
+      // 1. Restore purchases first (needed for fresh installs / reinstalls)
+      try {
+        final restoreResult = await PurchaseService().restorePurchases();
+        _isPro = restoreResult.isPro ?? false;
+        debugPrint('📊 [ProProvider] RestorePurchases Pro status: $_isPro');
+      } catch (e) {
+        debugPrint('⚠️ [ProProvider] Restore failed, falling back to check: $e');
+        _isPro = await PurchaseService().checkProStatus();
+        debugPrint('📊 [ProProvider] CheckProStatus Pro status: $_isPro');
+      }
 
       // 2. Check Firestore promo_users collection
       await _checkPromoStatus();
@@ -73,6 +81,8 @@ class ProProvider extends ChangeNotifier {
       debugPrint(
         '✅ [ProProvider] Initialized - isPro: $isPro (RevenueCat: $_isPro, Promo: $_isPromo)',
       );
+      // Set user type at initialization
+      AnalyticsService().setUserType(isPro);
       notifyListeners();
     }
   }
@@ -158,6 +168,8 @@ class ProProvider extends ChangeNotifier {
       _isPro = value;
       notifyListeners();
       _persistProStatus(value);
+      // Track user type change for analytics
+      AnalyticsService().setUserType(isPro);
     }
   }
 

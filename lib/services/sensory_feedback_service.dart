@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/app_colors.dart';
 
 /// Wealth Coach: Risk Seviyeleri
 enum RiskLevel {
@@ -240,7 +240,7 @@ class SensoryFeedbackManager {
   /// Blood-Pressure arka plan rengi hesapla
   Color getBackgroundColor(
     double amount, {
-    Color baseColor = AppColors.background,
+    Color baseColor = VantColors.background,
   }) {
     if (!_visualFeedbackEnabled) return baseColor;
 
@@ -250,23 +250,23 @@ class SensoryFeedbackManager {
     if (intensity <= 0) return baseColor;
 
     // Kırmızı tonuna geçiş
-    const dangerColor = AppColors.categoryBills;
+    const dangerColor = VantColors.categoryBills;
     return Color.lerp(baseColor, dangerColor, intensity)!;
   }
 
   /// Tutar için arka plan gradient oluştur
   List<Color> getBackgroundGradient(double amount) {
     if (!_visualFeedbackEnabled) {
-      return [AppColors.gradientStart, AppColors.gradientMid];
+      return [VantColors.gradientStart, VantColors.gradientMid];
     }
 
     final riskLevel = getRiskLevel(amount);
     final intensity = riskLevel.backgroundIntensity;
 
-    const baseStart = AppColors.gradientStart;
-    const baseEnd = AppColors.gradientMid;
-    const dangerStart = AppColors.dangerGradientStart;
-    const dangerEnd = AppColors.dangerGradientEnd;
+    const baseStart = VantColors.gradientStart;
+    const baseEnd = VantColors.gradientMid;
+    const dangerStart = VantColors.dangerGradientStart;
+    const dangerEnd = VantColors.dangerGradientEnd;
 
     return [
       Color.lerp(baseStart, dangerStart, intensity)!,
@@ -276,21 +276,21 @@ class SensoryFeedbackManager {
 
   /// Tutar alanı border rengi
   Color getAmountBorderColor(double amount) {
-    if (!_visualFeedbackEnabled) return AppColors.divider;
+    if (!_visualFeedbackEnabled) return VantColors.divider;
 
     final riskLevel = getRiskLevel(amount);
 
     switch (riskLevel) {
       case RiskLevel.none:
-        return AppColors.divider;
+        return VantColors.divider;
       case RiskLevel.low:
-        return AppColors.medalGold.withValues(alpha: 0.5);
+        return VantColors.medalGold.withValues(alpha: 0.5);
       case RiskLevel.medium:
-        return AppColors.categoryEducation.withValues(alpha: 0.6);
+        return VantColors.categoryEducation.withValues(alpha: 0.6);
       case RiskLevel.high:
-        return AppColors.categoryBills.withValues(alpha: 0.7);
+        return VantColors.categoryBills.withValues(alpha: 0.7);
       case RiskLevel.extreme:
-        return AppColors.categoryBills;
+        return VantColors.categoryBills;
     }
   }
 

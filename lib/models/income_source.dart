@@ -1,8 +1,8 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/app_colors.dart';
 
 /// Gelir kategorileri
 enum IncomeCategory {
@@ -18,30 +18,30 @@ enum IncomeCategory {
   IconData get icon {
     switch (this) {
       case IncomeCategory.salary:
-        return PhosphorIconsFill.briefcase;
+        return CupertinoIcons.briefcase_fill;
       case IncomeCategory.freelance:
-        return PhosphorIconsFill.laptop;
+        return CupertinoIcons.desktopcomputer;
       case IncomeCategory.rental:
-        return PhosphorIconsFill.house;
+        return CupertinoIcons.house_fill;
       case IncomeCategory.passive:
-        return PhosphorIconsFill.chartLineUp;
+        return CupertinoIcons.chart_bar_fill;
       case IncomeCategory.other:
-        return PhosphorIconsFill.coins;
+        return CupertinoIcons.money_dollar_circle_fill;
     }
   }
 
   Color get color {
     switch (this) {
       case IncomeCategory.salary:
-        return AppColors.incomeSalary;
+        return VantColors.incomeSalary;
       case IncomeCategory.freelance:
-        return AppColors.incomeRental;
+        return VantColors.incomeRental;
       case IncomeCategory.rental:
-        return AppColors.incomeSideJob;
+        return VantColors.incomeSideJob;
       case IncomeCategory.passive:
-        return AppColors.incomeOther;
+        return VantColors.incomeOther;
       case IncomeCategory.other:
-        return AppColors.incomeDefault;
+        return VantColors.incomeDefault;
     }
   }
 

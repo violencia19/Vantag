@@ -1,8 +1,8 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/app_colors.dart';
 
 enum ExpenseDecision {
   yes,
@@ -54,14 +54,18 @@ enum ExpenseType {
   recurring,
   installment;
 
-  String get label {
+  /// Internal name for debugging/logging only — use getLocalizedLabel for UI
+  String get label => name;
+
+  /// Localized label for UI display
+  String getLocalizedLabel(AppLocalizations l10n) {
     switch (this) {
       case ExpenseType.single:
-        return 'Tek Seferlik';
+        return l10n.expenseTypeSingle;
       case ExpenseType.recurring:
-        return 'Tekrarlayan';
+        return l10n.expenseTypeRecurring;
       case ExpenseType.installment:
-        return 'Taksitli';
+        return l10n.expenseTypeInstallment;
     }
   }
 }
@@ -269,25 +273,41 @@ class Expense {
     return remaining.isNegative ? Duration.zero : remaining;
   }
 
-  // Simulation thresholds (fixed, salary-independent)
-  static const double _realMaxThreshold = 250000; // Below this: always real
-  static const double _simulationMinThreshold =
-      750000; // Above this: always simulation
+  // Simulation thresholds in TRY (base currency)
+  static const double _realMaxThresholdTRY = 250000;
+  static const double _simulationMinThresholdTRY = 750000;
 
-  /// Check if amount requires user dialog (middle range: 250k - 750k)
-  static bool needsSimulationDialog(double amount) {
-    return amount >= _realMaxThreshold && amount <= _simulationMinThreshold;
+  // Currency-specific thresholds (USD-calibrated values)
+  static const Map<String, (double, double)> _currencyThresholds = {
+    'TRY': (250000, 750000),
+    'USD': (10000, 50000),
+    'EUR': (9000, 45000),
+    'GBP': (8000, 40000),
+    'SAR': (37000, 185000),
+  };
+
+  static (double, double) _getThresholds(String? currencyCode) {
+    if (currencyCode != null && _currencyThresholds.containsKey(currencyCode)) {
+      return _currencyThresholds[currencyCode]!;
+    }
+    return (_realMaxThresholdTRY, _simulationMinThresholdTRY);
   }
 
-  /// Otomatik simülasyon tespiti (sabit limitler, maaştan bağımsız)
-  /// < 250,000₺ = gerçek harcama
-  /// > 750,000₺ = simülasyon
-  /// 250,000₺ - 750,000₺ arası = kullanıcıya sor (needsSimulationDialog)
-  static RecordType detectRecordType(double amount, double hoursRequired) {
-    if (amount < _realMaxThreshold) {
+  /// Check if amount requires user dialog (middle range)
+  static bool needsSimulationDialog(double amount, {String? currencyCode}) {
+    final (realMax, simMin) = _getThresholds(currencyCode);
+    return amount >= realMax && amount <= simMin;
+  }
+
+  /// Auto-detect record type based on amount and currency
+  /// TRY: < 250K = real, > 750K = simulation
+  /// USD: < $10K = real, > $50K = simulation
+  static RecordType detectRecordType(double amount, double hoursRequired, {String? currencyCode}) {
+    final (realMax, simMin) = _getThresholds(currencyCode);
+    if (amount < realMax) {
       return RecordType.real;
     }
-    if (amount > _simulationMinThreshold) {
+    if (amount > simMin) {
       return RecordType.simulation;
     }
     // Middle range: default to real, but caller should use needsSimulationDialog first
@@ -471,30 +491,30 @@ class ExpenseCategory {
     'Diğer',
   ];
 
-  /// Kategori ikonu (Phosphor icon)
+  /// Kategori ikonu (Cupertino icon)
   static IconData getIcon(String category) {
     switch (category) {
       case 'Yiyecek':
-        return PhosphorIconsFill.forkKnife;
+        return CupertinoIcons.cart_fill;
       case 'Ulaşım':
-        return PhosphorIconsFill.car;
+        return CupertinoIcons.car_fill;
       case 'Giyim':
-        return PhosphorIconsFill.tShirt;
+        return CupertinoIcons.tag_fill;
       case 'Elektronik':
-        return PhosphorIconsFill.deviceMobile;
+        return CupertinoIcons.device_phone_portrait;
       case 'Eğlence':
-        return PhosphorIconsFill.gameController;
+        return CupertinoIcons.gamecontroller_fill;
       case 'Sağlık':
-        return PhosphorIconsFill.pill;
+        return CupertinoIcons.heart_fill;
       case 'Eğitim':
-        return PhosphorIconsFill.graduationCap;
+        return CupertinoIcons.book_fill;
       case 'Faturalar':
-        return PhosphorIconsFill.fileText;
+        return CupertinoIcons.doc_text_fill;
       case 'Abonelik':
-        return PhosphorIconsFill.bellRinging;
+        return CupertinoIcons.bell_fill;
       case 'Diğer':
       default:
-        return PhosphorIconsFill.package;
+        return CupertinoIcons.cube_box_fill;
     }
   }
 
@@ -502,26 +522,26 @@ class ExpenseCategory {
   static Color getColor(String category) {
     switch (category) {
       case 'Yiyecek':
-        return AppColors.categoryFood;
+        return VantColors.categoryFood;
       case 'Ulaşım':
-        return AppColors.categoryTransport;
+        return VantColors.categoryTransport;
       case 'Giyim':
-        return AppColors.categoryShopping;
+        return VantColors.categoryShopping;
       case 'Elektronik':
-        return AppColors.categoryEntertainment;
+        return VantColors.categoryEntertainment;
       case 'Eğlence':
-        return AppColors.categoryBills;
+        return VantColors.categoryBills;
       case 'Sağlık':
-        return AppColors.categoryHealth;
+        return VantColors.categoryHealth;
       case 'Eğitim':
-        return AppColors.categoryEducation;
+        return VantColors.categoryEducation;
       case 'Faturalar':
-        return AppColors.categoryOther;
+        return VantColors.categoryOther;
       case 'Abonelik':
-        return AppColors.primary;
+        return VantColors.primary;
       case 'Diğer':
       default:
-        return AppColors.categoryDefault;
+        return VantColors.categoryDefault;
     }
   }
 

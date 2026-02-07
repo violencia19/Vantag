@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/app_colors.dart';
 
 enum AchievementTier {
   bronze,
@@ -60,30 +60,30 @@ enum AchievementCategory {
   IconData get icon {
     switch (this) {
       case AchievementCategory.streak:
-        return PhosphorIconsDuotone.flame;
+        return CupertinoIcons.flame_fill;
       case AchievementCategory.savings:
-        return PhosphorIconsDuotone.currencyCircleDollar;
+        return CupertinoIcons.money_dollar_circle_fill;
       case AchievementCategory.decision:
-        return PhosphorIconsDuotone.target;
+        return CupertinoIcons.scope;
       case AchievementCategory.record:
-        return PhosphorIconsDuotone.notepad;
+        return CupertinoIcons.doc_text_fill;
       case AchievementCategory.hidden:
-        return PhosphorIconsDuotone.eyeSlash;
+        return CupertinoIcons.eye_slash_fill;
     }
   }
 
   Color get iconColor {
     switch (this) {
       case AchievementCategory.streak:
-        return AppColors.achievementStreak;
+        return VantColors.achievementStreak;
       case AchievementCategory.savings:
-        return AppColors.achievementSavings;
+        return VantColors.achievementSavings;
       case AchievementCategory.decision:
-        return AppColors.achievementGoals;
+        return VantColors.achievementGoals;
       case AchievementCategory.record:
-        return AppColors.achievementTracker;
+        return VantColors.achievementTracker;
       case AchievementCategory.hidden:
-        return AppColors.achievementMystery;
+        return VantColors.achievementMystery;
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
 
@@ -19,6 +20,7 @@ class SpendingHeatmap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final start = startDate ?? DateTime.now().subtract(Duration(days: weeksToShow * 7));
     final dailyAmounts = _calculateDailyAmounts(start);
     final maxAmount = dailyAmounts.values.fold(0.0, (max, v) => v > max ? v : max);
@@ -30,13 +32,13 @@ class SpendingHeatmap extends StatelessWidget {
         Row(
           children: [
             const SizedBox(width: 24),
-            ...['P', 'S', 'Ç', 'P', 'C', 'C', 'P'].map((d) => Expanded(
+            ...[l10n.dayAbbrevMon, l10n.dayAbbrevTue, l10n.dayAbbrevWed, l10n.dayAbbrevThu, l10n.dayAbbrevFri, l10n.dayAbbrevSat, l10n.dayAbbrevSun].map((d) => Expanded(
               child: Center(
                 child: Text(
                   d,
                   style: TextStyle(
                     fontSize: 10,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                 ),
               ),
@@ -82,13 +84,14 @@ class SpendingHeatmap extends StatelessWidget {
   }
 
   Widget _buildMonthLabels(BuildContext context, DateTime start) {
+    final l10n = AppLocalizations.of(context);
     final months = <String>[];
     var current = start;
     var lastMonth = -1;
 
     for (var week = 0; week < weeksToShow; week++) {
       if (current.month != lastMonth) {
-        months.add(_getMonthAbbr(current.month));
+        months.add(_getMonthAbbr(current.month, l10n));
         lastMonth = current.month;
       } else {
         months.add('');
@@ -104,7 +107,7 @@ class SpendingHeatmap extends StatelessWidget {
           m,
           style: TextStyle(
             fontSize: 8,
-            color: context.appColors.textTertiary,
+            color: context.vantColors.textTertiary,
           ),
         ),
       )).toList(),
@@ -140,14 +143,15 @@ class SpendingHeatmap extends StatelessWidget {
   }
 
   Widget _buildLegend(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Text(
-          'Az',
+          l10n.heatmapLow,
           style: TextStyle(
             fontSize: 10,
-            color: context.appColors.textTertiary,
+            color: context.vantColors.textTertiary,
           ),
         ),
         const SizedBox(width: 4),
@@ -162,33 +166,33 @@ class SpendingHeatmap extends StatelessWidget {
         )),
         const SizedBox(width: 4),
         Text(
-          'Çok',
+          l10n.heatmapHigh,
           style: TextStyle(
             fontSize: 10,
-            color: context.appColors.textTertiary,
+            color: context.vantColors.textTertiary,
           ),
         ),
       ],
     );
   }
 
-  String _getMonthAbbr(int month) {
-    const abbrs = ['', 'Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz',
-                   'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
+  String _getMonthAbbr(int month, AppLocalizations l10n) {
+    final abbrs = ['', l10n.monthAbbrevJan, l10n.monthAbbrevFeb, l10n.monthAbbrevMar, l10n.monthAbbrevApr, l10n.monthAbbrevMay, l10n.monthAbbrevJun,
+                   l10n.monthAbbrevJul, l10n.monthAbbrevAug, l10n.monthAbbrevSep, l10n.monthAbbrevOct, l10n.monthAbbrevNov, l10n.monthAbbrevDec];
     return abbrs[month];
   }
 
   static Color _getIntensityColor(BuildContext context, double intensity) {
     if (intensity <= 0) {
-      return context.appColors.surfaceLight;
+      return context.vantColors.surfaceLight;
     } else if (intensity < 0.25) {
-      return context.appColors.success.withValues(alpha: 0.3);
+      return context.vantColors.success.withValues(alpha: 0.3);
     } else if (intensity < 0.5) {
-      return context.appColors.success.withValues(alpha: 0.5);
+      return context.vantColors.success.withValues(alpha: 0.5);
     } else if (intensity < 0.75) {
-      return context.appColors.warning.withValues(alpha: 0.7);
+      return context.vantColors.warning.withValues(alpha: 0.7);
     } else {
-      return context.appColors.error.withValues(alpha: 0.9);
+      return context.vantColors.error.withValues(alpha: 0.9);
     }
   }
 }
@@ -207,7 +211,7 @@ class _HeatmapCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: '${date.day}/${date.month}: ${amount.toStringAsFixed(0)} TL',
+      message: '${date.day}/${date.month}: ${amount.toStringAsFixed(0)}',
       child: Container(
         decoration: BoxDecoration(
           color: SpendingHeatmap._getIntensityColor(context, intensity),
@@ -234,12 +238,13 @@ class SavingsProjection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,16 +253,16 @@ class SavingsProjection extends StatelessWidget {
             children: [
               Icon(
                 Icons.trending_up,
-                color: context.appColors.success,
+                color: context.vantColors.success,
                 size: 20,
               ),
               const SizedBox(width: 8),
               Text(
-                'Tasarruf Projeksiyonu',
+                l10n.savingsProjectionTitle,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             ],
@@ -265,9 +270,9 @@ class SavingsProjection extends StatelessWidget {
           const SizedBox(height: 16),
           // Projection milestones
           ...[
-            (3, '3 Ay'),
-            (6, '6 Ay'),
-            (12, '1 Yıl'),
+            (3, l10n.threeMonths),
+            (6, l10n.sixMonths),
+            (12, l10n.oneYear),
           ].where((e) => e.$1 <= projectionMonths).map((milestone) {
             final projected = currentSavings + (monthlyAverage * milestone.$1);
             return Padding(
@@ -279,15 +284,15 @@ class SavingsProjection extends StatelessWidget {
                     milestone.$2,
                     style: TextStyle(
                       fontSize: 14,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                   Text(
-                    '${projected.toStringAsFixed(0)} TL',
+                    projected.toStringAsFixed(0),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.success,
+                      color: context.vantColors.success,
                     ),
                   ),
                 ],
@@ -299,23 +304,23 @@ class SavingsProjection extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: context.appColors.success.withValues(alpha: 0.1),
+                color: context.vantColors.success.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.lightbulb_outline,
-                    color: context.appColors.success,
+                    color: context.vantColors.success,
                     size: 16,
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Aylık ortalama: ${monthlyAverage.toStringAsFixed(0)} TL',
+                      l10n.monthlyAverageLabel(monthlyAverage.toStringAsFixed(0)),
                       style: TextStyle(
                         fontSize: 12,
-                        color: context.appColors.success,
+                        color: context.vantColors.success,
                       ),
                     ),
                   ),
@@ -345,6 +350,7 @@ class CategoryTrendChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final monthlyData = _calculateMonthlyByCategory();
     if (monthlyData.isEmpty) {
       return const SizedBox.shrink();
@@ -357,29 +363,29 @@ class CategoryTrendChart extends StatelessWidget {
         .toList();
 
     final defaultColors = [
-      context.appColors.primary,
-      context.appColors.success,
-      context.appColors.warning,
-      context.appColors.error,
-      context.appColors.secondary,
+      context.vantColors.primary,
+      context.vantColors.success,
+      context.vantColors.warning,
+      context.vantColors.error,
+      context.vantColors.secondary,
     ];
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Kategori Trendi',
+            l10n.categoryTrendTitle,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
           const SizedBox(height: 16),
@@ -392,7 +398,7 @@ class CategoryTrendChart extends StatelessWidget {
                   drawVerticalLine: false,
                   horizontalInterval: 1000,
                   getDrawingHorizontalLine: (value) => FlLine(
-                    color: context.appColors.cardBorder,
+                    color: context.vantColors.cardBorder,
                     strokeWidth: 0.5,
                   ),
                 ),
@@ -405,7 +411,7 @@ class CategoryTrendChart extends StatelessWidget {
                         _formatAmount(value),
                         style: TextStyle(
                           fontSize: 10,
-                          color: context.appColors.textTertiary,
+                          color: context.vantColors.textTertiary,
                         ),
                       ),
                     ),
@@ -418,10 +424,10 @@ class CategoryTrendChart extends StatelessWidget {
                         if (value.toInt() >= months.length) return const SizedBox();
                         final date = months[value.toInt()];
                         return Text(
-                          _getMonthAbbr(date.month),
+                          _getMonthAbbr(date.month, l10n),
                           style: TextStyle(
                             fontSize: 10,
-                            color: context.appColors.textTertiary,
+                            color: context.vantColors.textTertiary,
                           ),
                         );
                       },
@@ -483,7 +489,7 @@ class CategoryTrendChart extends StatelessWidget {
                     category,
                     style: TextStyle(
                       fontSize: 11,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                 ],
@@ -524,9 +530,9 @@ class CategoryTrendChart extends StatelessWidget {
     return value.toStringAsFixed(0);
   }
 
-  String _getMonthAbbr(int month) {
-    const abbrs = ['', 'Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz',
-                   'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
+  String _getMonthAbbr(int month, AppLocalizations l10n) {
+    final abbrs = ['', l10n.monthAbbrevJan, l10n.monthAbbrevFeb, l10n.monthAbbrevMar, l10n.monthAbbrevApr, l10n.monthAbbrevMay, l10n.monthAbbrevJun,
+                   l10n.monthAbbrevJul, l10n.monthAbbrevAug, l10n.monthAbbrevSep, l10n.monthAbbrevOct, l10n.monthAbbrevNov, l10n.monthAbbrevDec];
     return abbrs[month];
   }
 }
@@ -549,14 +555,15 @@ class WorkHoursChart extends StatelessWidget {
   Widget build(BuildContext context) {
     if (hourlyRate <= 0) return const SizedBox.shrink();
 
+    final l10n = AppLocalizations.of(context);
     final dailyHours = _calculateDailyWorkHours();
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -565,16 +572,16 @@ class WorkHoursChart extends StatelessWidget {
             children: [
               Icon(
                 Icons.access_time,
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
                 size: 20,
               ),
               const SizedBox(width: 8),
               Text(
-                'Çalışma Saati Karşılığı',
+                l10n.workHoursEquivalentTitle,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             ],
@@ -598,10 +605,10 @@ class WorkHoursChart extends StatelessWidget {
                         if (value.toInt() >= days.length) return const SizedBox();
                         final date = days[value.toInt()];
                         return Text(
-                          _getDayAbbr(date.weekday),
+                          _getDayAbbr(date.weekday, l10n),
                           style: TextStyle(
                             fontSize: 10,
-                            color: context.appColors.textTertiary,
+                            color: context.vantColors.textTertiary,
                           ),
                         );
                       },
@@ -617,10 +624,10 @@ class WorkHoursChart extends StatelessWidget {
                       BarChartRodData(
                         toY: hours,
                         color: hours > 8
-                            ? context.appColors.error
+                            ? context.vantColors.error
                             : hours > 4
-                                ? context.appColors.warning
-                                : context.appColors.success,
+                                ? context.vantColors.warning
+                                : context.vantColors.success,
                         width: 20,
                         borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
                       ),
@@ -635,18 +642,18 @@ class WorkHoursChart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Toplam: ${_totalHours().toStringAsFixed(1)} saat',
+                l10n.totalHoursLabel(_totalHours().toStringAsFixed(1)),
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               Text(
-                ' (${hourlyRate.toStringAsFixed(0)} TL/saat)',
+                ' ${l10n.perHourLabel(hourlyRate.toStringAsFixed(0))}',
                 style: TextStyle(
                   fontSize: 12,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ),
             ],
@@ -681,8 +688,8 @@ class WorkHoursChart extends StatelessWidget {
     return _calculateDailyWorkHours().values.fold(0.0, (a, b) => a + b);
   }
 
-  String _getDayAbbr(int weekday) {
-    const abbrs = ['', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+  String _getDayAbbr(int weekday, AppLocalizations l10n) {
+    final abbrs = ['', l10n.dayAbbrevMonFull, l10n.dayAbbrevTueFull, l10n.dayAbbrevWedFull, l10n.dayAbbrevThuFull, l10n.dayAbbrevFriFull, l10n.dayAbbrevSatFull, l10n.dayAbbrevSunFull];
     return abbrs[weekday];
   }
 }

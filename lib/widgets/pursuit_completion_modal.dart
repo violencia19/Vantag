@@ -2,11 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:confetti/confetti.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/pursuit.dart';
-import '../theme/quiet_luxury.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/theme.dart';
 
 /// Celebration modal shown when a pursuit reaches 100%
 class PursuitCompletionModal extends StatefulWidget {
@@ -109,10 +108,10 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
             gravity: 0.2,
             shouldLoop: false,
             colors: [
-              QuietLuxury.gold,
-              AppColors.secondary,
-              AppColors.primary,
-              QuietLuxury.positive,
+              context.vantColors.gold,
+              VantColors.secondary,
+              VantColors.primary,
+              context.vantColors.success,
               Colors.white,
             ],
           ),
@@ -130,15 +129,15 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
               margin: const EdgeInsets.symmetric(horizontal: 24),
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: QuietLuxury.background,
+                color: context.vantColors.background,
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
-                  color: QuietLuxury.gold.withValues(alpha: 0.3),
+                  color: context.vantColors.gold.withValues(alpha: 0.3),
                   width: 2,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: QuietLuxury.gold.withValues(alpha: 0.2),
+                    color: context.vantColors.gold.withValues(alpha: 0.2),
                     blurRadius: 30,
                     spreadRadius: 5,
                   ),
@@ -155,7 +154,7 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          QuietLuxury.gold.withValues(alpha: 0.3),
+                          context.vantColors.gold.withValues(alpha: 0.3),
                           Colors.transparent,
                         ],
                       ),
@@ -172,9 +171,9 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
                   // Congratulations text
                   Text(
                     l10n.congratulations,
-                    style: QuietLuxury.heading.copyWith(
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: -0.5, color: Color(0xFFFAFAFA)).copyWith(
                       fontSize: 28,
-                      color: QuietLuxury.gold,
+                      color: context.vantColors.gold,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -182,8 +181,8 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
                   // Dream came true
                   Text(
                     l10n.pursuitCompleted,
-                    style: QuietLuxury.subheading.copyWith(
-                      color: QuietLuxury.textPrimary,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(
+                      color: context.vantColors.textPrimary,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -193,10 +192,10 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: QuietLuxury.cardBackground,
-                      borderRadius: BorderRadius.circular(12),
+                      color: context.vantColors.cardBackground,
+                      borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: QuietLuxury.cardBorder,
+                        color: context.vantColors.cardBorder,
                         width: 0.5,
                       ),
                     ),
@@ -204,8 +203,8 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
                       children: [
                         Text(
                           widget.pursuit.name,
-                          style: QuietLuxury.body.copyWith(
-                            color: QuietLuxury.textPrimary,
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(
+                            color: context.vantColors.textPrimary,
                             fontWeight: FontWeight.w600,
                           ),
                           textAlign: TextAlign.center,
@@ -216,8 +215,8 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
                             daysSinceCreation,
                             widget.formatAmount(widget.pursuit.savedAmount),
                           ),
-                          style: QuietLuxury.label.copyWith(
-                            color: QuietLuxury.textSecondary,
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)).copyWith(
+                            color: context.vantColors.textSecondary,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -236,15 +235,15 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
                             widget.onShare?.call();
                           },
                           style: OutlinedButton.styleFrom(
-                            foregroundColor: QuietLuxury.textPrimary,
-                            side: BorderSide(color: QuietLuxury.cardBorder),
+                            foregroundColor: context.vantColors.textPrimary,
+                            side: BorderSide(color: context.vantColors.cardBorder),
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
                           icon: Icon(
-                            PhosphorIconsRegular.shareNetwork,
+                            CupertinoIcons.share,
                             size: 18,
                           ),
                           label: Text(l10n.shareProgress),
@@ -256,11 +255,11 @@ class _PursuitCompletionModalState extends State<PursuitCompletionModal>
                         child: ElevatedButton(
                           onPressed: _dismiss,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: QuietLuxury.gold,
+                            backgroundColor: context.vantColors.gold,
                             foregroundColor: Colors.black,
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
                           child: Text(
@@ -296,7 +295,7 @@ Future<void> showPursuitCompletionModal(
   return showDialog(
     context: context,
     barrierDismissible: false,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     builder: (_) => PursuitCompletionModal(
       pursuit: pursuit,
       formatAmount: formatAmount,

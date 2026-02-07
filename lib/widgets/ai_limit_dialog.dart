@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 import '../screens/paywall_screen.dart';
@@ -24,7 +24,7 @@ class AILimitDialog {
   }) {
     return showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       barrierDismissible: false,
       builder: (context) => _AILimitDialogContent(
         type: type,
@@ -55,9 +55,9 @@ class _AILimitDialogContent extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(maxWidth: 340),
         decoration: BoxDecoration(
-          color: context.appColors.surface,
+          color: context.vantColors.surface,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: context.appColors.cardBorder, width: 1),
+          border: Border.all(color: context.vantColors.cardBorder, width: 1),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.3),
@@ -81,7 +81,7 @@ class _AILimitDialogContent extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -92,7 +92,7 @@ class _AILimitDialogContent extends StatelessWidget {
                 _getMessage(l10n),
                 style: TextStyle(
                   fontSize: 14,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                   height: 1.5,
                 ),
                 textAlign: TextAlign.center,
@@ -127,12 +127,12 @@ class _AILimitDialogContent extends StatelessWidget {
 
     switch (type) {
       case AILimitType.free:
-        icon = PhosphorIconsDuotone.lock;
-        color = context.appColors.warning;
+        icon = CupertinoIcons.lock_fill;
+        color = context.vantColors.warning;
       case AILimitType.proSubscription:
       case AILimitType.lifetime:
-        icon = PhosphorIconsDuotone.hourglassMedium;
-        color = context.appColors.primary;
+        icon = CupertinoIcons.hourglass;
+        color = context.vantColors.primary;
     }
 
     return Container(
@@ -144,7 +144,7 @@ class _AILimitDialogContent extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: [color.withValues(alpha: 0.2), color.withValues(alpha: 0.1)],
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
       ),
       child: Icon(icon, size: 36, color: color),
     );
@@ -182,19 +182,19 @@ class _AILimitDialogContent extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color: context.appColors.primary.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        color: context.vantColors.primary.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: context.appColors.primary.withValues(alpha: 0.2),
+          color: context.vantColors.primary.withValues(alpha: 0.2),
         ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            PhosphorIconsDuotone.calendarCheck,
+            CupertinoIcons.calendar_badge_plus,
             size: 18,
-            color: context.appColors.primary,
+            color: context.vantColors.primary,
           ),
           const SizedBox(width: 8),
           Flexible(
@@ -202,7 +202,7 @@ class _AILimitDialogContent extends StatelessWidget {
               resetText,
               style: TextStyle(
                 fontSize: 13,
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -224,7 +224,7 @@ class _AILimitDialogContent extends StatelessWidget {
               MaterialPageRoute(builder: (_) => const PaywallScreen()),
             );
           },
-          icon: PhosphorIconsDuotone.rocketLaunch,
+          icon: CupertinoIcons.rocket_fill,
           label: l10n.aiLimitUpgradeToPro,
         );
 
@@ -237,11 +237,11 @@ class _AILimitDialogContent extends StatelessWidget {
               Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(16),
               ),
               elevation: 0,
             ),
@@ -262,7 +262,7 @@ class _AILimitDialogContent extends StatelessWidget {
               MaterialPageRoute(builder: (_) => const CreditPurchaseScreen()),
             );
           },
-          icon: PhosphorIconsDuotone.batteryCharging,
+          icon: CupertinoIcons.battery_charging,
           label: l10n.aiLimitBuyCredits,
         );
     }
@@ -280,7 +280,7 @@ class _AILimitDialogContent extends StatelessWidget {
       },
       child: Text(
         text,
-        style: TextStyle(fontSize: 13, color: context.appColors.textTertiary),
+        style: TextStyle(fontSize: 13, color: context.vantColors.textTertiary),
       ),
     );
   }
@@ -335,12 +335,12 @@ class _GradientButton extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [context.appColors.primary, context.appColors.secondary],
+          colors: [context.vantColors.primary, context.vantColors.secondary],
         ),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: context.appColors.primary.withValues(alpha: 0.4),
+            color: context.vantColors.primary.withValues(alpha: 0.4),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -350,7 +350,7 @@ class _GradientButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onPressed,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Row(

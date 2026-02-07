@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/app_colors.dart';
 
 /// Abonelik renk paleti
 class SubscriptionColors {
-  static List<Color> get palette => AppColors.subscriptionColors;
+  static List<Color> get palette => VantColors.subscriptionColors;
 
   /// Index'e göre renk döndür (mod 8 ile sınırla)
   static Color get(int index) => palette[index % 8];

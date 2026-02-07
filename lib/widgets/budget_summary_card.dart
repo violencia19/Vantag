@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/category_budget.dart';
@@ -14,11 +14,41 @@ import 'category_budget_card.dart';
 import 'create_budget_sheet.dart';
 
 /// Card showing overall budget summary with warnings
-class BudgetSummaryCard extends StatelessWidget {
+/// iOS 26 Liquid Glass Premium Design
+class BudgetSummaryCard extends StatefulWidget {
   final VoidCallback? onViewAll;
   final VoidCallback? onAddBudget;
 
   const BudgetSummaryCard({super.key, this.onViewAll, this.onAddBudget});
+
+  @override
+  State<BudgetSummaryCard> createState() => _BudgetSummaryCardState();
+}
+
+class _BudgetSummaryCardState extends State<BudgetSummaryCard>
+    with SingleTickerProviderStateMixin {
+  // iOS 26 Liquid Glass: Animated breathing glow
+  late AnimationController _glowController;
+  late Animation<double> _glowAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _glowController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2500),
+    )..repeat(reverse: true);
+
+    _glowAnimation = Tween<double>(begin: 0.2, end: 0.5).animate(
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _glowController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,26 +75,84 @@ class BudgetSummaryCard extends StatelessWidget {
       summary.totalSpent,
     );
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(
-        color: context.appColors.cardBackground,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: context.appColors.cardBorder),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+    // iOS 26 Liquid Glass: Animated card with breathing glow
+    return AnimatedBuilder(
+      animation: _glowAnimation,
+      builder: (context, child) {
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              // Animated breathing glow
+              BoxShadow(
+                color: context.vantColors.primary.withValues(
+                  alpha: _glowAnimation.value,
+                ),
+                blurRadius: 28,
+                spreadRadius: 0,
+                offset: const Offset(0, 6),
+              ),
+              // Deep shadow for depth
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.3),
+                blurRadius: 16,
+                offset: const Offset(0, 8),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(24),
+            child: BackdropFilter(
+              // iOS 26: Enhanced 24σ blur
+              filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  // iOS 26 Liquid Glass: Premium gradient
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      VantColors.primary.withValues(alpha: 0.2),
+                      VantColors.primaryDark.withValues(alpha: 0.12),
+                      const Color(0xFF1E1B4B).withValues(alpha: 0.25),
+                    ],
+                    stops: const [0.0, 0.5, 1.0],
+                  ),
+                  // Glass border
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.15),
+                    width: 1,
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    // iOS 26: Top highlight for glass light refraction
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: 40,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(24),
+                          ),
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.white.withValues(alpha: 0.1),
+                              Colors.white.withValues(alpha: 0.0),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Content
+                    Padding(
+                      padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -78,14 +166,14 @@ class BudgetSummaryCard extends StatelessWidget {
                           width: 36,
                           height: 36,
                           decoration: BoxDecoration(
-                            color: context.appColors.primary.withValues(
+                            color: context.vantColors.primary.withValues(
                               alpha: 0.15,
                             ),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: Icon(
-                            PhosphorIconsDuotone.wallet,
-                            color: context.appColors.primary,
+                            CupertinoIcons.creditcard,
+                            color: context.vantColors.primary,
                             size: 18,
                           ),
                         ),
@@ -95,7 +183,7 @@ class BudgetSummaryCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                           ),
                         ),
                       ],
@@ -103,7 +191,7 @@ class BudgetSummaryCard extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         HapticFeedback.lightImpact();
-                        onViewAll?.call();
+                        widget.onViewAll?.call();
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -111,7 +199,7 @@ class BudgetSummaryCard extends StatelessWidget {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: context.appColors.primary.withValues(
+                          color: context.vantColors.primary.withValues(
                             alpha: 0.1,
                           ),
                           borderRadius: BorderRadius.circular(8),
@@ -124,14 +212,14 @@ class BudgetSummaryCard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: context.appColors.primary,
+                                color: context.vantColors.primary,
                               ),
                             ),
                             const SizedBox(width: 4),
                             Icon(
-                              PhosphorIconsDuotone.caretRight,
+                              CupertinoIcons.chevron_right,
                               size: 14,
-                              color: context.appColors.primary,
+                              color: context.vantColors.primary,
                             ),
                           ],
                         ),
@@ -153,7 +241,7 @@ class BudgetSummaryCard extends StatelessWidget {
                             l10n.totalBudget,
                             style: TextStyle(
                               fontSize: 12,
-                              color: context.appColors.textSecondary,
+                              color: context.vantColors.textSecondary,
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -162,7 +250,7 @@ class BudgetSummaryCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
-                              color: context.appColors.textPrimary,
+                              color: context.vantColors.textPrimary,
                             ),
                           ),
                         ],
@@ -179,7 +267,7 @@ class BudgetSummaryCard extends StatelessWidget {
                           context,
                           summary,
                         ).withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
                         '%${summary.overallPercentUsed.toStringAsFixed(0)}',
@@ -200,7 +288,7 @@ class BudgetSummaryCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                   child: LinearProgressIndicator(
                     value: (summary.overallPercentUsed / 100).clamp(0, 1),
-                    backgroundColor: context.appColors.surfaceLight,
+                    backgroundColor: context.vantColors.surfaceLight,
                     valueColor: AlwaysStoppedAnimation(
                       _getOverallColor(context, summary),
                     ),
@@ -215,8 +303,8 @@ class BudgetSummaryCard extends StatelessWidget {
                   children: [
                     _buildStatusChip(
                       context,
-                      icon: PhosphorIconsFill.checkCircle,
-                      color: context.appColors.success,
+                      icon: CupertinoIcons.checkmark_circle_fill,
+                      color: context.vantColors.success,
                       label: l10n.categoriesOnTrack(summary.categoriesOnTrack),
                     ),
                     const SizedBox(width: 8),
@@ -224,10 +312,10 @@ class BudgetSummaryCard extends StatelessWidget {
                         summary.categoriesOverBudget > 0)
                       _buildStatusChip(
                         context,
-                        icon: PhosphorIconsFill.warning,
+                        icon: CupertinoIcons.exclamationmark_triangle_fill,
                         color: summary.categoriesOverBudget > 0
-                            ? context.appColors.error
-                            : context.appColors.warning,
+                            ? context.vantColors.error
+                            : context.vantColors.warning,
                         label: summary.categoriesOverBudget > 0
                             ? l10n.categoriesOverBudget(
                                 summary.categoriesOverBudget,
@@ -250,16 +338,21 @@ class BudgetSummaryCard extends StatelessWidget {
                     children: budgetProvider.warningBudgets
                         .take(3)
                         .map(
-                          (b) => CompactBudgetCard(budget: b, onTap: onViewAll),
+                          (b) => CompactBudgetCard(budget: b, onTap: widget.onViewAll),
                         )
                         .toList(),
                   ),
                 ],
               ],
             ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -268,10 +361,10 @@ class BudgetSummaryCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: context.appColors.cardBackground,
-        borderRadius: BorderRadius.circular(20),
+        color: context.vantColors.cardBackground,
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: context.appColors.cardBorder,
+          color: context.vantColors.cardBorder,
           style: BorderStyle.solid,
         ),
       ),
@@ -281,12 +374,12 @@ class BudgetSummaryCard extends StatelessWidget {
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: context.appColors.primary.withValues(alpha: 0.1),
+              color: context.vantColors.primary.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
-              PhosphorIconsDuotone.wallet,
-              color: context.appColors.primary,
+              CupertinoIcons.creditcard,
+              color: context.vantColors.primary,
               size: 28,
             ),
           ),
@@ -296,7 +389,7 @@ class BudgetSummaryCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
@@ -305,7 +398,7 @@ class BudgetSummaryCard extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 13,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
           const SizedBox(height: 20),
@@ -314,14 +407,14 @@ class BudgetSummaryCard extends StatelessWidget {
               HapticFeedback.lightImpact();
               CreateBudgetSheet.show(context);
             },
-            icon: const Icon(PhosphorIconsDuotone.plus, size: 18),
+            icon: const Icon(CupertinoIcons.plus, size: 18),
             label: Text(l10n.addBudget),
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
           ),
@@ -361,10 +454,10 @@ class BudgetSummaryCard extends StatelessWidget {
   }
 
   Color _getOverallColor(BuildContext context, BudgetSummary summary) {
-    if (summary.overallPercentUsed >= 100) return context.appColors.error;
-    if (summary.overallPercentUsed >= 80) return context.appColors.warning;
+    if (summary.overallPercentUsed >= 100) return context.vantColors.error;
+    if (summary.overallPercentUsed >= 80) return context.vantColors.warning;
     if (summary.overallPercentUsed >= 50) return Colors.amber;
-    return context.appColors.success;
+    return context.vantColors.success;
   }
 }
 
@@ -383,8 +476,8 @@ class BudgetWarningBanner extends StatelessWidget {
 
     final hasOverBudget = budgets.any((b) => b.isOverBudget);
     final color = hasOverBudget
-        ? context.appColors.error
-        : context.appColors.warning;
+        ? context.vantColors.error
+        : context.vantColors.warning;
 
     return GestureDetector(
       onTap: onTap,
@@ -393,7 +486,7 @@ class BudgetWarningBanner extends StatelessWidget {
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Row(
@@ -403,12 +496,12 @@ class BudgetWarningBanner extends StatelessWidget {
               height: 36,
               decoration: BoxDecoration(
                 color: color.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
                 hasOverBudget
-                    ? PhosphorIconsDuotone.warning
-                    : PhosphorIconsDuotone.warningCircle,
+                    ? CupertinoIcons.exclamationmark_triangle
+                    : CupertinoIcons.exclamationmark_circle,
                 color: color,
                 size: 18,
               ),
@@ -439,7 +532,7 @@ class BudgetWarningBanner extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(PhosphorIconsDuotone.caretRight, color: color, size: 20),
+            Icon(CupertinoIcons.chevron_right, color: color, size: 20),
           ],
         ),
       ),

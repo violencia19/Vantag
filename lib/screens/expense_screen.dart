@@ -1,7 +1,8 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -15,6 +16,8 @@ import 'subscription_screen.dart';
 import 'habit_calculator_screen.dart';
 import 'profile_modal.dart';
 import 'paywall_screen.dart';
+import 'report_screen.dart';
+import 'pursuit_list_screen.dart';
 
 class ExpenseScreen extends StatefulWidget {
   final UserProfile userProfile;
@@ -40,13 +43,21 @@ class ExpenseScreen extends StatefulWidget {
 
 class _ExpenseScreenState extends State<ExpenseScreen> {
   final _subscriptionService = SubscriptionService();
+  final _authService = AuthService();
   final ScrollController _scrollController = ScrollController();
   final _streakWidgetKey = GlobalKey<StreakWidgetState>();
 
   int _upcomingSubscriptionCount = 0;
   bool _showSwipeHint = false;
 
+  // Post-onboarding prompt states
+  bool _loginPromptDismissed = false;
+  bool _additionalIncomeAsked = false;
+  bool _promptStatesLoaded = false;
+
   static const _keySwipeHintShown = 'swipe_hint_shown';
+  static const _keyLoginPromptDismissed = 'login_prompt_dismissed';
+  static const _keyAdditionalIncomeAsked = 'additional_income_asked';
   static const int _recentExpensesLimit = 5;
 
   @override
@@ -54,12 +65,24 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     super.initState();
     _checkSwipeHint();
     _loadUpcomingSubscriptions();
+    _loadPromptStates();
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  String _getCurrentMonthYear(BuildContext context) {
+    final now = DateTime.now();
+    final locale = Localizations.localeOf(context).languageCode;
+    final months = locale == 'tr'
+        ? ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+           'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık']
+        : ['January', 'February', 'March', 'April', 'May', 'June',
+           'July', 'August', 'September', 'October', 'November', 'December'];
+    return '${months[now.month - 1]} ${now.year}';
   }
 
   Future<void> _checkSwipeHint() async {
@@ -78,6 +101,107 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     if (mounted) {
       setState(() => _upcomingSubscriptionCount = upcoming.length);
     }
+  }
+
+  Future<void> _loadPromptStates() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (mounted) {
+      setState(() {
+        _loginPromptDismissed = prefs.getBool(_keyLoginPromptDismissed) ?? false;
+        _additionalIncomeAsked = prefs.getBool(_keyAdditionalIncomeAsked) ?? false;
+        _promptStatesLoaded = true;
+      });
+    }
+  }
+
+  Future<void> _dismissLoginPrompt() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_keyLoginPromptDismissed, true);
+    if (mounted) {
+      setState(() => _loginPromptDismissed = true);
+    }
+  }
+
+  Future<void> _onLoginSuccess() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_keyLoginPromptDismissed, true);
+    if (mounted) {
+      setState(() => _loginPromptDismissed = true);
+    }
+  }
+
+  Future<void> _dismissAdditionalIncomePrompt() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_keyAdditionalIncomeAsked, true);
+    if (mounted) {
+      setState(() => _additionalIncomeAsked = true);
+    }
+  }
+
+  /// Determines which prompt card to show (if any)
+  /// Order: Login Prompt -> Additional Income -> Onboarding Checklist
+  Widget? _buildPromptCard() {
+    if (!_promptStatesLoaded) return null;
+
+    final isLoggedIn = !_authService.isAnonymous;
+
+    // 1. Login Prompt: Show if not logged in and not dismissed
+    if (!isLoggedIn && !_loginPromptDismissed) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: LoginPromptCard(
+          onDismiss: _dismissLoginPrompt,
+          onLoginSuccess: _onLoginSuccess,
+        ),
+      );
+    }
+
+    // 2. Additional Income Prompt: Show after login prompt is handled
+    if (!_additionalIncomeAsked) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: AdditionalIncomePrompt(
+          onYes: _dismissAdditionalIncomePrompt,
+          onNo: _dismissAdditionalIncomePrompt,
+        ),
+      );
+    }
+
+    // 3. Onboarding Checklist: Show after both prompts are handled
+    // OnboardingChecklist handles its own dismissal state internally
+    return OnboardingChecklist(
+      onAddExpense: () {
+        HapticFeedback.lightImpact();
+        showAddExpenseSheet(
+          context,
+          exchangeRates: widget.exchangeRates,
+          onExpenseAdded: () {
+            _streakWidgetKey.currentState?.refresh();
+            widget.onStreakUpdated?.call();
+          },
+        );
+      },
+      onViewReport: () {
+        HapticFeedback.lightImpact();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ReportScreen(
+              userProfile: widget.userProfile,
+            ),
+          ),
+        );
+      },
+      onCreatePursuit: () {
+        HapticFeedback.lightImpact();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const PursuitListScreen(),
+          ),
+        );
+      },
+    );
   }
 
   void _showSubscriptionSheet() {
@@ -111,55 +235,50 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       label: semanticLabel,
       button: true,
       child: GestureDetector(
-        onTap: onTap,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(14),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: context.appColors.surfaceLight.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: context.appColors.cardBorder),
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Icon(icon, size: 20, color: context.appColors.textSecondary),
-                  if (badge != null)
-                    Positioned(
-                      top: 6,
-                      right: 6,
-                      child: Container(
-                        width: 16,
-                        height: 16,
-                        decoration: BoxDecoration(
-                          color: context.appColors.gold.withValues(alpha: 0.15),
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: context.appColors.gold.withValues(
-                              alpha: 0.3,
-                            ),
-                            width: 1,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            '$badge',
-                            style: TextStyle(
-                              fontSize: 9,
-                              fontWeight: FontWeight.w700,
-                              color: context.appColors.gold,
-                            ),
-                          ),
+        onTap: () {
+          HapticFeedback.lightImpact();
+          onTap();
+        },
+        child: Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Icon(icon, size: 20, color: context.vantColors.textSecondary),
+              if (badge != null)
+                Positioned(
+                  top: 6,
+                  right: 6,
+                  child: Container(
+                    width: 16,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      color: context.vantColors.gold.withValues(alpha: 0.15),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: context.vantColors.gold.withValues(alpha: 0.3),
+                        width: 1,
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '$badge',
+                        style: TextStyle(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w700,
+                          color: context.vantColors.gold,
                         ),
                       ),
                     ),
-                ],
-              ),
-            ),
+                  ),
+                ),
+            ],
           ),
         ),
       ),
@@ -187,17 +306,17 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                context.appColors.primary.withValues(alpha: 0.3),
-                context.appColors.secondary.withValues(alpha: 0.3),
+                context.vantColors.primary.withValues(alpha: 0.3),
+                context.vantColors.secondary.withValues(alpha: 0.3),
               ],
             ),
             border: Border.all(
-              color: context.appColors.primary.withValues(alpha: 0.5),
+              color: context.vantColors.primary.withValues(alpha: 0.5),
               width: 2,
             ),
             boxShadow: [
               BoxShadow(
-                color: context.appColors.primary.withValues(alpha: 0.3),
+                color: context.vantColors.primary.withValues(alpha: 0.3),
                 blurRadius: 12,
                 spreadRadius: 0,
               ),
@@ -221,80 +340,11 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
 
   Widget _buildDefaultAvatarIcon() {
     return Container(
-      color: context.appColors.surfaceLight,
+      color: context.vantColors.surfaceLight,
       child: Icon(
-        PhosphorIconsDuotone.user,
+        CupertinoIcons.person_fill,
         size: 24,
-        color: context.appColors.textTertiary,
-      ),
-    );
-  }
-
-  /// Pro lightning button - gold if Pro, gray if Free
-  Widget _buildProLightningButton(BuildContext context, AppLocalizations l10n) {
-    final proProvider = context.watch<ProProvider>();
-    final isPro = proProvider.isPro;
-
-    return Semantics(
-      label: isPro ? l10n.proMember : l10n.upgradeToPro,
-      button: true,
-      child: GestureDetector(
-        onTap: () {
-          if (isPro) {
-            // Show toast for Pro users
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(l10n.proMemberToast),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: context.appColors.success,
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          } else {
-            // Open Paywall for Free users
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const PaywallScreen()),
-            );
-          }
-        },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(14),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: isPro
-                    ? AppColors.medalGold.withValues(alpha: 0.15)
-                    : context.appColors.surfaceLight.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(
-                  color: isPro
-                      ? AppColors.medalGold.withValues(alpha: 0.5)
-                      : context.appColors.cardBorder,
-                ),
-                boxShadow: isPro
-                    ? [
-                        BoxShadow(
-                          color: AppColors.medalGold.withValues(alpha: 0.3),
-                          blurRadius: 12,
-                          spreadRadius: 0,
-                        ),
-                      ]
-                    : null,
-              ),
-              child: Icon(
-                PhosphorIconsDuotone.lightning,
-                size: 20,
-                color: isPro
-                    ? AppColors.medalGold
-                    : context.appColors.textTertiary,
-              ),
-            ),
-          ),
-        ),
+        color: context.vantColors.textTertiary,
       ),
     );
   }
@@ -307,23 +357,22 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
         label: l10n.habitCalculator,
         button: true,
         child: GestureDetector(
-          onTap: _openHabitCalculator,
+          onTap: () {
+            HapticFeedback.mediumImpact();
+            _openHabitCalculator();
+          },
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [AppColors.primary, AppColors.secondary],
+                colors: [
+                  VantColors.primary.withValues(alpha: 0.8),
+                  VantColors.primaryLight.withValues(alpha: 0.8),
+                ],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
               borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.3),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ],
             ),
             child: Row(
               children: [
@@ -331,27 +380,15 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: context.appColors.textPrimary.withValues(
-                      alpha: 0.15,
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: context.appColors.textPrimary.withValues(
-                          alpha: 0.2,
-                        ),
-                        blurRadius: 8,
-                        spreadRadius: -2,
-                      ),
-                    ],
+                    color: Colors.white.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
                   ),
                   child: Center(
-                    child: PhosphorIcon(
-                      PhosphorIconsDuotone.lightning,
+                    child: Icon(
+                      CupertinoIcons.bolt_fill,
                       size: 28,
-                      color: context.appColors.textPrimary,
-                      duotoneSecondaryColor: context.appColors.textPrimary
-                          .withValues(alpha: 0.5),
+                      color: context.vantColors.textPrimary,
                     ),
                   ),
                 ),
@@ -368,7 +405,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: context.appColors.textPrimary,
+                              color: context.vantColors.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -376,7 +413,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                             l10n.calculateAndShock,
                             style: TextStyle(
                               fontSize: 13,
-                              color: context.appColors.textPrimary.withValues(
+                              color: context.vantColors.textPrimary.withValues(
                                 alpha: 0.9,
                               ),
                             ),
@@ -387,8 +424,8 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   ),
                 ),
                 Icon(
-                  PhosphorIconsDuotone.caretRight,
-                  color: context.appColors.textPrimary.withValues(alpha: 0.9),
+                  CupertinoIcons.chevron_right,
+                  color: context.vantColors.textPrimary.withValues(alpha: 0.9),
                   size: 24,
                 ),
               ],
@@ -500,7 +537,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => DraggableScrollableSheet(
         initialChildSize: 0.9,
         minChildSize: 0.5,
@@ -509,15 +546,22 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           return ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              filter: ImageFilter.blur(sigmaX: VantBlur.medium, sigmaY: VantBlur.medium),
               child: Container(
                 decoration: BoxDecoration(
-                  color: context.appColors.gradientMid,
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      context.vantColors.surface.withValues(alpha: 0.95),
+                      context.vantColors.background.withValues(alpha: 0.98),
+                    ],
+                  ),
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(24),
                   ),
                   border: Border.all(
-                    color: context.appColors.textPrimary.withValues(alpha: 0.1),
+                    color: context.isDarkMode ? const Color(0x15FFFFFF) : const Color(0x15000000),
                     width: 1,
                   ),
                 ),
@@ -530,7 +574,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                         width: 40,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: context.appColors.textTertiary.withValues(
+                          color: context.vantColors.textTertiary.withValues(
                             alpha: 0.5,
                           ),
                           borderRadius: BorderRadius.circular(2),
@@ -555,7 +599,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                 style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.w700,
-                                  color: context.appColors.textPrimary,
+                                  color: context.vantColors.textPrimary,
                                   letterSpacing: -0.5,
                                 ),
                               ),
@@ -570,7 +614,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
-                                  color: context.appColors.textTertiary,
+                                  color: context.vantColors.textTertiary,
                                 ),
                               ),
                             ],
@@ -582,13 +626,13 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                               width: 36,
                               height: 36,
                               decoration: BoxDecoration(
-                                color: context.appColors.surfaceLight,
+                                color: context.vantColors.surfaceLight,
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
-                                PhosphorIconsDuotone.x,
+                                CupertinoIcons.xmark,
                                 size: 20,
-                                color: context.appColors.textSecondary,
+                                color: context.vantColors.textSecondary,
                               ),
                             ),
                           ),
@@ -619,6 +663,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                             padding: const EdgeInsets.only(bottom: 12),
                             child: ExpenseHistoryCard(
                               expense: visibleExpenses[index],
+                              dailyWorkHours: widget.userProfile.dailyHours,
                               onDelete: () async {
                                 await _deleteExpense(index);
                                 if (context.mounted) Navigator.pop(context);
@@ -650,89 +695,81 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   Widget _buildProUpsell(AppLocalizations l10n, int lockedCount) {
     return Container(
       margin: const EdgeInsets.only(bottom: 24, top: 8),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            context.appColors.primary.withValues(alpha: 0.2),
-            context.appColors.primary.withValues(alpha: 0.1),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              context.vantColors.primary.withValues(alpha: 0.15),
+              context.vantColors.primary.withValues(alpha: 0.05),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(16),
         ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: context.appColors.primary.withValues(alpha: 0.3),
-        ),
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(
-              color: context.appColors.primary.withValues(alpha: 0.15),
-              shape: BoxShape.circle,
+        child: Column(
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.08),
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+              ),
+              child: Icon(
+                CupertinoIcons.star_fill,
+                size: 28,
+                color: context.vantColors.primary,
+              ),
             ),
-            child: Icon(
-              PhosphorIconsDuotone.crownSimple,
-              size: 28,
-              color: context.appColors.primary,
+            const SizedBox(height: 16),
+            Text(
+              l10n.unlockFullHistory,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: context.vantColors.textPrimary,
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            l10n.unlockFullHistory,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+            const SizedBox(height: 8),
+            Text(
+              l10n.proHistoryDescription(lockedCount),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: context.vantColors.textSecondary,
+                height: 1.4,
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l10n.proHistoryDescription(lockedCount),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: context.appColors.textSecondary,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 20),
-          Semantics(
-            label: l10n.upgradeToPro,
-            button: true,
-            child: GestureDetector(
-              onTap: () => _showPaywall(),
+            const SizedBox(height: 20),
+            GestureDetector(
+              onTap: () {
+                HapticFeedback.mediumImpact();
+                _showPaywall();
+              },
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                  vertical: 14,
-                ),
+                width: 180,
+                height: 48,
                 decoration: BoxDecoration(
-                  gradient: AppGradients.primaryButton,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: context.appColors.primary.withValues(alpha: 0.3),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
+                  gradient: VantGradients.primaryButton,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: VantShadows.glow(VantColors.primary, intensity: 0.5),
                 ),
+                alignment: Alignment.center,
                 child: Text(
                   l10n.upgradeToPro,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -747,23 +784,22 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   @override
   Widget build(BuildContext context) {
     final financeProvider = context.watch<FinanceProvider>();
-    final budgetService = context.watch<BudgetService>();
     final expenses = financeProvider.expenses;
     final stats = financeProvider.stats;
     final l10n = AppLocalizations.of(context);
-    final colors = context.appColors;
+    final colors = context.vantColors;
 
     // Recent expenses: only show last 5
     final recentExpenses = expenses.take(_recentExpensesLimit).toList();
     final hasMoreExpenses = expenses.length > _recentExpensesLimit;
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: colors.background,
       body: Container(
-        decoration: BoxDecoration(gradient: colors.backgroundGradient),
-        child: SafeArea(
-          bottom: false,
-          child: CustomScrollView(
+          color: colors.background,
+          child: SafeArea(
+            bottom: false,
+            child: CustomScrollView(
             controller: _scrollController,
             slivers: [
               // Premium Header
@@ -786,19 +822,19 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                             description: l10n.subscriptionsDescription,
                             titleTextStyle: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: context.appColors.textPrimary,
+                              color: context.vantColors.textPrimary,
                               fontSize: 16,
                             ),
                             descTextStyle: TextStyle(
-                              color: context.appColors.textSecondary,
+                              color: context.vantColors.textSecondary,
                               fontSize: 14,
                             ),
-                            tooltipBackgroundColor: context.appColors.surface,
+                            tooltipBackgroundColor: context.vantColors.surface,
                             overlayColor: Colors.black,
                             overlayOpacity: 0.95,
-                            targetBorderRadius: BorderRadius.circular(14),
+                            targetBorderRadius: BorderRadius.circular(16),
                             child: _buildHeaderAction(
-                              icon: PhosphorIconsDuotone.calendar,
+                              icon: CupertinoIcons.calendar,
                               badge: _upcomingSubscriptionCount > 0
                                   ? _upcomingSubscriptionCount
                                   : null,
@@ -814,17 +850,17 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                             description: l10n.streakTrackingDescription,
                             titleTextStyle: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: context.appColors.textPrimary,
+                              color: context.vantColors.textPrimary,
                               fontSize: 16,
                             ),
                             descTextStyle: TextStyle(
-                              color: context.appColors.textSecondary,
+                              color: context.vantColors.textSecondary,
                               fontSize: 14,
                             ),
-                            tooltipBackgroundColor: context.appColors.surface,
+                            tooltipBackgroundColor: context.vantColors.surface,
                             overlayColor: Colors.black,
                             overlayOpacity: 0.95,
-                            targetBorderRadius: BorderRadius.circular(14),
+                            targetBorderRadius: BorderRadius.circular(16),
                             child: StreakWidget(key: _streakWidgetKey),
                           ),
                         ],
@@ -840,11 +876,11 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      // Finansal Durum title - on its own line to prevent truncation
+                      // Month/Year title - cleaner look
                       GestureDetector(
                         onTap: () => ProfileModal.show(context),
                         child: Text(
-                          l10n.financialStatus,
+                          _getCurrentMonthYear(context),
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
@@ -858,6 +894,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               ),
 
               const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
+              // Post-onboarding prompt cards (Login, Additional Income, Checklist)
+              if (_buildPromptCard() != null)
+                SliverToBoxAdapter(child: _buildPromptCard()!),
 
               // Renewal Warning Banner
               SliverToBoxAdapter(
@@ -877,7 +917,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               // Category Budget Warning Banner
               SliverToBoxAdapter(child: _buildBudgetWarningBanner()),
 
-              // Financial Snapshot Card
+              // Premium Hero Card - Hours & Days Display
               SliverToBoxAdapter(
                 child: Showcase(
                   key: TourKeys.financialSnapshot,
@@ -885,92 +925,71 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   description: l10n.financialSummaryDescription,
                   titleTextStyle: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                     fontSize: 16,
                   ),
                   descTextStyle: TextStyle(
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                     fontSize: 14,
                   ),
-                  tooltipBackgroundColor: context.appColors.surface,
+                  tooltipBackgroundColor: context.vantColors.surface,
                   overlayColor: Colors.black,
                   overlayOpacity: 0.95,
-                  targetBorderRadius: BorderRadius.circular(20),
-                  child: FinancialSnapshotCard(
-                    totalIncome: financeProvider.totalMonthlyIncome,
-                    totalSpent: stats.yesTotal,
-                    savedAmount: stats.totalSaved,
-                    savedCount: stats.noCount + stats.smartChoiceCount,
-                    incomeSourceCount: financeProvider.incomeSourceCount,
-                    // Budget-based parameters
-                    availableBudget: budgetService.availableBudget,
-                    discretionarySpent: budgetService.discretionaryExpenses,
-                    mandatorySpent: budgetService.mandatoryExpenses,
+                  targetBorderRadius: BorderRadius.circular(24),
+                  child: Builder(
+                    builder: (context) {
+                      // Calculate hours worked from spending
+                      final dailyHours = widget.userProfile.dailyHours.toDouble();
+                      final workDaysPerMonth = widget.userProfile.workDaysPerWeek * 4.0;
+                      final monthlyIncome = financeProvider.totalMonthlyIncome;
+                      final totalSpent = stats.yesTotal;
+
+                      // Hourly rate calculation
+                      final hourlyRate = monthlyIncome > 0
+                          ? monthlyIncome / (workDaysPerMonth * dailyHours)
+                          : 1.0;
+
+                      // Hours and days worked to afford spending
+                      final hoursWorked = totalSpent / hourlyRate;
+                      final daysWorked = hoursWorked / dailyHours;
+
+                      // Budget percentage
+                      final budgetPercentage = monthlyIncome > 0
+                          ? (totalSpent / monthlyIncome * 100).clamp(0.0, 100.0)
+                          : 0.0;
+
+                      return PremiumHeroCard(
+                        hoursWorked: hoursWorked,
+                        daysWorked: daysWorked,
+                        budgetPercentage: budgetPercentage,
+                      );
+                    },
                   ),
                 ),
               ),
 
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
-
-              // Currency Rates - moved right after Financial Snapshot
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Showcase(
-                    key: TourKeys.currencyRates,
-                    title: l10n.currencyRates,
-                    description: l10n.currencyRatesDescription,
-                    titleTextStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: context.appColors.textPrimary,
-                      fontSize: 16,
-                    ),
-                    descTextStyle: TextStyle(
-                      color: context.appColors.textSecondary,
-                      fontSize: 14,
-                    ),
-                    tooltipBackgroundColor: context.appColors.surface,
-                    overlayColor: Colors.black,
-                    overlayOpacity: 0.95,
-                    targetBorderRadius: BorderRadius.circular(16),
-                    child: CurrencyRateWidget(
-                      rates: widget.exchangeRates,
-                      isLoading: widget.isLoadingRates,
-                      hasError: widget.hasRateError,
-                      onRetry: widget.onRetryRates,
-                    ),
-                  ),
-                ),
-              ),
-
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
-
-              // Budget Breakdown Card
-              SliverToBoxAdapter(
-                child: BudgetBreakdownCard(budgetService: budgetService),
-              ),
-
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
-
-              // Installment Summary Card
-              SliverToBoxAdapter(
-                child: InstallmentSummaryCard(budgetService: budgetService),
-              ),
-
-              const SliverToBoxAdapter(child: SizedBox(height: 32)),
+              const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
               // Recent Expenses Header
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  padding: VantSpacing.screenPadding,
                   child: Row(
                     children: [
                       Container(
                         width: 4,
                         height: 20,
                         decoration: BoxDecoration(
-                          gradient: AppGradients.primaryButton,
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              VantColors.primary.withValues(alpha: 0.25),
+                              VantColors.primary.withValues(alpha: 0.10),
+                            ],
+                          ),
                           borderRadius: BorderRadius.circular(2),
+                          boxShadow: VantShadows.glow(VantColors.primary, intensity: 0.2, blur: 12),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -979,7 +998,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                       const Spacer(),
@@ -995,15 +1014,16 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                 vertical: 6,
                               ),
                               decoration: BoxDecoration(
-                                color: context.appColors.primary.withValues(
+                                color: context.vantColors.primary.withValues(
                                   alpha: 0.15,
                                 ),
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
-                                  color: context.appColors.primary.withValues(
+                                  color: context.vantColors.primary.withValues(
                                     alpha: 0.3,
                                   ),
                                 ),
+                                boxShadow: VantShadows.glow(VantColors.primary, intensity: 0.15, blur: 10),
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -1013,14 +1033,14 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
-                                      color: context.appColors.primary,
+                                      color: context.vantColors.primary,
                                     ),
                                   ),
                                   const SizedBox(width: 4),
                                   Icon(
-                                    PhosphorIconsDuotone.caretRight,
+                                    CupertinoIcons.chevron_right,
                                     size: 14,
-                                    color: context.appColors.primary,
+                                    color: context.vantColors.primary,
                                   ),
                                 ],
                               ),
@@ -1038,16 +1058,17 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               recentExpenses.isEmpty
                   ? SliverToBoxAdapter(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        padding: VantSpacing.screenPadding,
                         child: _buildEmptyState(l10n),
                       ),
                     )
                   : SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      padding: VantSpacing.screenPadding,
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate((context, index) {
                           return ExpenseHistoryCard(
                                 expense: recentExpenses[index],
+                                dailyWorkHours: widget.userProfile.dailyHours,
                                 onDelete: () => _deleteExpense(index),
                                 onEdit: () => _editExpense(index),
                                 onDecisionUpdate: (decision) =>
@@ -1077,55 +1098,46 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   }
 
   Widget _buildEmptyState(AppLocalizations l10n) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
-      decoration: BoxDecoration(
-        color: context.appColors.surfaceLight.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: context.appColors.cardBorder),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-              child: Container(
-                width: 72,
-                height: 72,
-                decoration: BoxDecoration(
-                  color: context.appColors.surfaceLight,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: context.appColors.cardBorder),
-                ),
-                child: Icon(
-                  PhosphorIconsDuotone.receipt,
-                  size: 32,
-                  color: context.appColors.textSecondary,
-                ),
+    return VGlassStyledContainer(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 72,
+              height: 72,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+              ),
+              child: Icon(
+                CupertinoIcons.doc_text,
+                size: 32,
+                color: context.vantColors.textSecondary,
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            l10n.noExpenses,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+            const SizedBox(height: 20),
+            Text(
+              l10n.noExpenses,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: context.vantColors.textPrimary,
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l10n.tapPlusToAdd,
-            style: TextStyle(
-              fontSize: 14,
-              color: context.appColors.textSecondary,
+            const SizedBox(height: 8),
+            Text(
+              l10n.tapPlusToAdd,
+              style: TextStyle(
+                fontSize: 14,
+                color: context.vantColors.textSecondary,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,6 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 
@@ -13,27 +13,43 @@ class AIFloatingButton extends StatefulWidget {
 }
 
 class _AIFloatingButtonState extends State<AIFloatingButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+    with TickerProviderStateMixin {
+  late AnimationController _glowController;
+  late AnimationController _pulseController;
+  late Animation<double> _glowAnimation;
+  late Animation<double> _pulseAnimation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
+
+    // Glow animation - subtle breathing effect
+    _glowController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
       vsync: this,
     )..repeat(reverse: true);
 
-    _animation = Tween<double>(
-      begin: 0.8,
+    _glowAnimation = Tween<double>(
+      begin: 0.4,
       end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    ).animate(CurvedAnimation(parent: _glowController, curve: Curves.easeInOut));
+
+    // Pulse animation - subtle scale effect
+    _pulseController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _pulseAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.05,
+    ).animate(CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut));
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _glowController.dispose();
+    _pulseController.dispose();
     super.dispose();
   }
 
@@ -42,59 +58,105 @@ class _AIFloatingButtonState extends State<AIFloatingButton>
     final l10n = AppLocalizations.of(context);
 
     return AnimatedBuilder(
-      animation: _animation,
+      animation: Listenable.merge([_glowAnimation, _pulseAnimation]),
       builder: (context, child) {
         return Semantics(
           label: l10n.featureAiChat,
           button: true,
           child: Tooltip(
             message: l10n.featureAiChat,
-            child: SizedBox(
-              width: 56,
-              height: 56,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: context.appColors.primary.withValues(
-                        alpha: 0.4 * _animation.value,
+            child: Transform.scale(
+              scale: _pulseAnimation.value,
+              child: SizedBox(
+                width: 60,
+                height: 60,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // Outer glow ring
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          // Primary glow
+                          BoxShadow(
+                            color: context.vantColors.primary.withValues(
+                              alpha: 0.5 * _glowAnimation.value,
+                            ),
+                            blurRadius: 20 * _glowAnimation.value,
+                            spreadRadius: 4 * _glowAnimation.value,
+                          ),
+                          // Secondary subtle glow (purple)
+                          BoxShadow(
+                            color: context.vantColors.primaryDark.withValues(
+                              alpha: 0.3 * _glowAnimation.value,
+                            ),
+                            blurRadius: 30 * _glowAnimation.value,
+                            spreadRadius: 2,
+                          ),
+                        ],
                       ),
-                      blurRadius: 16 * _animation.value,
-                      spreadRadius: 2 * _animation.value,
+                    ),
+                    // Main button
+                    Material(
+                      color: Colors.transparent,
+                      shape: const CircleBorder(),
+                      clipBehavior: Clip.antiAlias,
+                      child: InkWell(
+                        onTap: () {
+                          HapticFeedback.lightImpact();
+                          widget.onTap();
+                        },
+                        child: Container(
+                          width: 56,
+                          height: 56,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                context.vantColors.primary,
+                                context.vantColors.primaryDark,
+                              ],
+                            ),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              width: 1.5,
+                            ),
+                          ),
+                          child: ClipOval(
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                              child: Center(
+                                child: Container(
+                                  width: 36,
+                                  height: 36,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white.withValues(alpha: 0.3),
+                                        blurRadius: 8,
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipOval(
+                                    child: Image.asset(
+                                      'assets/icon/app_icon.png',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  shape: const CircleBorder(),
-                  clipBehavior: Clip.antiAlias,
-                  child: InkWell(
-                    onTap: () {
-                      HapticFeedback.lightImpact();
-                      widget.onTap();
-                    },
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            context.appColors.primary,
-                            context.appColors.primaryDark,
-                          ],
-                        ),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          PhosphorIconsDuotone.sparkle,
-                          color: Colors.white,
-                          size: 26,
-                        ),
-                      ),
-                    ),
-                  ),
                 ),
               ),
             ),

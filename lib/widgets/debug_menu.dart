@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
@@ -68,7 +68,7 @@ class _DebugMenuState extends State<DebugMenu> {
     return Container(
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(24),
       ),
       child: Column(
@@ -80,7 +80,7 @@ class _DebugMenuState extends State<DebugMenu> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -90,8 +90,8 @@ class _DebugMenuState extends State<DebugMenu> {
             child: Row(
               children: [
                 Icon(
-                  PhosphorIconsDuotone.bug,
-                  color: context.appColors.warning,
+                  CupertinoIcons.ant,
+                  color: context.vantColors.warning,
                 ),
                 const SizedBox(width: 12),
                 Text(
@@ -99,14 +99,14 @@ class _DebugMenuState extends State<DebugMenu> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 const Spacer(),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: context.appColors.warning.withValues(alpha: 0.2),
+                    color: context.vantColors.warning.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -114,7 +114,7 @@ class _DebugMenuState extends State<DebugMenu> {
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
-                      color: context.appColors.warning,
+                      color: context.vantColors.warning,
                     ),
                   ),
                 ),
@@ -140,7 +140,7 @@ class _DebugMenuState extends State<DebugMenu> {
                 _buildSection('Quick Actions', [
                   _buildActionButton(
                     'Reset Streak',
-                    PhosphorIconsDuotone.arrowCounterClockwise,
+                    CupertinoIcons.arrow_counterclockwise,
                     () async {
                       await _streakService.resetAllStreakData();
                       HapticFeedback.heavyImpact();
@@ -154,7 +154,7 @@ class _DebugMenuState extends State<DebugMenu> {
                   ),
                   _buildActionButton(
                     'Clear Notifications',
-                    PhosphorIconsDuotone.bellSlash,
+                    CupertinoIcons.bell_slash,
                     () async {
                       await _notificationService.cancelAll();
                       HapticFeedback.mediumImpact();
@@ -167,7 +167,7 @@ class _DebugMenuState extends State<DebugMenu> {
                   ),
                   _buildActionButton(
                     'Test Achievement Notification',
-                    PhosphorIconsDuotone.trophy,
+                    CupertinoIcons.rosette,
                     () async {
                       await _notificationService.showAchievementUnlocked(
                         achievementTitle: 'Test Achievement',
@@ -178,7 +178,7 @@ class _DebugMenuState extends State<DebugMenu> {
                   ),
                   _buildActionButton(
                     'Clear SharedPreferences',
-                    PhosphorIconsDuotone.trash,
+                    CupertinoIcons.trash,
                     () async {
                       final confirmed = await _showConfirmDialog(
                         context,
@@ -219,8 +219,8 @@ class _DebugMenuState extends State<DebugMenu> {
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textTertiary,
-              letterSpacing: 1,
+              color: context.vantColors.textTertiary,
+              letterSpacing: 1.0,
             ),
           ),
           const SizedBox(height: 8),
@@ -240,7 +240,7 @@ class _DebugMenuState extends State<DebugMenu> {
             label,
             style: TextStyle(
               fontSize: 14,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
           Text(
@@ -248,7 +248,7 @@ class _DebugMenuState extends State<DebugMenu> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
               fontFamily: 'monospace',
             ),
           ),
@@ -278,8 +278,8 @@ class _DebugMenuState extends State<DebugMenu> {
                   icon,
                   size: 20,
                   color: isDestructive
-                      ? context.appColors.error
-                      : context.appColors.primary,
+                      ? context.vantColors.error
+                      : context.vantColors.primary,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -288,15 +288,15 @@ class _DebugMenuState extends State<DebugMenu> {
                     style: TextStyle(
                       fontSize: 14,
                       color: isDestructive
-                          ? context.appColors.error
-                          : context.appColors.textPrimary,
+                          ? context.vantColors.error
+                          : context.vantColors.textPrimary,
                     ),
                   ),
                 ),
                 Icon(
-                  PhosphorIconsDuotone.caretRight,
+                  CupertinoIcons.chevron_right,
                   size: 16,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ],
             ),
@@ -314,28 +314,28 @@ class _DebugMenuState extends State<DebugMenu> {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: context.appColors.surface,
+        backgroundColor: context.vantColors.surface,
         title: Text(
           title,
-          style: TextStyle(color: context.appColors.textPrimary),
+          style: TextStyle(color: context.vantColors.textPrimary),
         ),
         content: Text(
           message,
-          style: TextStyle(color: context.appColors.textSecondary),
+          style: TextStyle(color: context.vantColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
             child: Text(
               'Cancel',
-              style: TextStyle(color: context.appColors.textSecondary),
+              style: TextStyle(color: context.vantColors.textSecondary),
             ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             child: Text(
               'Confirm',
-              style: TextStyle(color: context.appColors.error),
+              style: TextStyle(color: context.vantColors.error),
             ),
           ),
         ],

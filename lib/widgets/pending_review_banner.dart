@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 
@@ -46,8 +46,8 @@ class PendingReviewBanner extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                AppColors.warning.withValues(alpha: 0.9),
-                AppColors.warning,
+                VantColors.warning.withValues(alpha: 0.9),
+                VantColors.warning,
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -101,8 +101,8 @@ class PendingReviewBanner extends StatelessWidget {
                     ),
 
                     // Arrow
-                    const PhosphorIcon(
-                      PhosphorIconsFill.caretRight,
+                    const Icon(
+                      CupertinoIcons.chevron_right,
                       color: Colors.white,
                       size: 24,
                     ),
@@ -116,8 +116,8 @@ class PendingReviewBanner extends StatelessWidget {
                   top: 4,
                   right: 4,
                   child: IconButton(
-                    icon: PhosphorIcon(
-                      PhosphorIconsRegular.x,
+                    icon: Icon(
+                      CupertinoIcons.xmark,
                       color: Colors.white.withValues(alpha: 0.7),
                       size: 18,
                     ),
@@ -153,11 +153,11 @@ class PendingReviewBanner extends StatelessWidget {
             height: 44,
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: const Center(
-              child: PhosphorIcon(
-                PhosphorIconsFill.warning,
+              child: Icon(
+                CupertinoIcons.exclamationmark_triangle_fill,
                 color: Colors.white,
                 size: 24,
               ),
@@ -197,25 +197,25 @@ class PendingReviewChip extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: context.appColors.warning.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(20),
+            color: context.vantColors.warning.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: context.appColors.warning.withValues(alpha: 0.5),
+              color: context.vantColors.warning.withValues(alpha: 0.5),
             ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              PhosphorIcon(
-                PhosphorIconsFill.warning,
-                color: context.appColors.warning,
+              Icon(
+                CupertinoIcons.exclamationmark_triangle_fill,
+                color: context.vantColors.warning,
                 size: 16,
               ),
               const SizedBox(width: 6),
               Text(
                 '$count',
                 style: TextStyle(
-                  color: context.appColors.warning,
+                  color: context.vantColors.warning,
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
                 ),

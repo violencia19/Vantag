@@ -1,0 +1,1147 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:vantag/l10n/app_localizations.dart';
+import '../models/models.dart';
+import '../providers/providers.dart';
+import '../services/services.dart';
+import '../screens/paywall_screen.dart';
+import '../theme/theme.dart';
+import '../theme/app_theme.dart';
+
+/// Full-screen voice input experience
+/// Opens with microphone auto-started for seamless voice entry
+class VoiceInputScreen extends StatefulWidget {
+  /// If true, auto-start listening when screen opens
+  final bool autoStart;
+
+  /// If true, return parsed result instead of saving directly
+  final bool returnResult;
+
+  const VoiceInputScreen({
+    super.key,
+    this.autoStart = true,
+    this.returnResult = false,
+  });
+
+  @override
+  State<VoiceInputScreen> createState() => _VoiceInputScreenState();
+}
+
+class _VoiceInputScreenState extends State<VoiceInputScreen>
+    with SingleTickerProviderStateMixin {
+  final SpeechToText _speech = SpeechToText();
+  final VoiceParserService _parser = VoiceParserService();
+
+  bool _isInitialized = false;
+  bool _isListening = false;
+  bool _isProcessing = false;
+  String _recognizedText = '';
+  String _statusText = '';
+  double _soundLevel = 0;
+
+  late AnimationController _pulseController;
+  late Animation<double> _pulseAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
+
+    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.25).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Check if coming from deep link
+      final deepLink = DeepLinkService();
+      if (deepLink.shouldAutoStartVoice) {
+        deepLink.consumeAutoStartFlag();
+      }
+
+      // Auto-start if requested
+      if (widget.autoStart) {
+        _startListening();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _pulseController.dispose();
+    _speech.stop();
+    super.dispose();
+  }
+
+  Future<void> _initSpeech() async {
+    if (_isInitialized) return;
+
+    try {
+      _isInitialized = await _speech.initialize(
+        onStatus: (status) {
+          // Only stop animation when done - processing happens in onResult with finalResult
+          if (status == 'done' || status == 'notListening') {
+            if (!_isProcessing) {
+              _stopListening();
+            }
+          }
+        },
+        onError: (error) {
+          debugPrint('[Voice] Error: ${error.errorMsg}');
+          if (mounted) {
+            setState(() {
+              _statusText = _getErrorMessage(error.errorMsg);
+              _isListening = false;
+            });
+            _pulseController.stop();
+          }
+        },
+      );
+    } catch (e) {
+      debugPrint('[Voice] Init error: $e');
+      if (mounted) {
+        final l10n = AppLocalizations.of(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.voiceNotAvailable),
+            backgroundColor: context.appColors.error,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    }
+  }
+
+  String _getErrorMessage(String error) {
+    if (!mounted) return '';
+    final l10n = AppLocalizations.of(context);
+    if (error.contains('network')) {
+      return l10n.networkRequired;
+    } else if (error.contains('permission')) {
+      return l10n.microphonePermissionRequired;
+    }
+    return l10n.errorTryAgain;
+  }
+
+  Future<void> _startListening() async {
+    // Check voice input limit first
+    final limitCheck = await _checkVoiceInputLimit();
+    if (!limitCheck) return;
+
+    // Check microphone permission
+    final status = await Permission.microphone.request();
+    if (status != PermissionStatus.granted) {
+      _showPermissionDenied();
+      return;
+    }
+
+    await _initSpeech();
+
+    if (!_isInitialized) {
+      if (mounted) {
+        final l10n = AppLocalizations.of(context);
+        setState(() => _statusText = l10n.voiceNotAvailable);
+      }
+      return;
+    }
+
+    if (mounted) {
+      final l10n = AppLocalizations.of(context);
+      setState(() {
+        _isListening = true;
+        _statusText = l10n.listening;
+        _recognizedText = '';
+      });
+    }
+
+    _pulseController.repeat(reverse: true);
+
+    // Determine locale
+    if (!mounted) return;
+    final locale = Localizations.localeOf(context);
+    final localeId = locale.languageCode == 'tr' ? 'tr_TR' : 'en_US';
+
+    await _speech.listen(
+      onResult: (result) {
+        if (mounted) {
+          setState(() {
+            _recognizedText = result.recognizedWords;
+          });
+
+          // Process only when we get final result
+          if (result.finalResult &&
+              _recognizedText.isNotEmpty &&
+              !_isProcessing) {
+            _processVoiceInput();
+          }
+        }
+      },
+      onSoundLevelChange: (level) {
+        if (mounted) {
+          setState(() {
+            _soundLevel = level.clamp(0, 10) / 10;
+          });
+        }
+      },
+      localeId: localeId,
+      listenFor: const Duration(seconds: 15),
+      pauseFor: const Duration(seconds: 3),
+      listenOptions: SpeechListenOptions(
+        partialResults: true,
+        cancelOnError: false,
+        listenMode: ListenMode.confirmation,
+      ),
+    );
+  }
+
+  void _stopListening() {
+    _speech.stop();
+    if (mounted) {
+      setState(() {
+        _isListening = false;
+      });
+    }
+    _pulseController.stop();
+    _pulseController.reset();
+  }
+
+  Future<void> _processVoiceInput() async {
+    if (_recognizedText.isEmpty) return;
+
+    _stopListening();
+
+    if (mounted) {
+      final l10n = AppLocalizations.of(context);
+      setState(() {
+        _isProcessing = true;
+        _statusText = l10n.understanding;
+      });
+    }
+
+    try {
+      final result = await _parser.parse(_recognizedText);
+
+      if (!mounted) return;
+
+      setState(() => _isProcessing = false);
+
+      if (result.isValid) {
+        // Always show decision dialog for valid results
+        _showDecisionDialog(result);
+      } else {
+        _showRetryOption();
+      }
+    } catch (e) {
+      debugPrint('[Voice] Parse error: $e');
+      if (mounted) {
+        final l10n = AppLocalizations.of(context);
+        setState(() {
+          _isProcessing = false;
+          _statusText = l10n.couldNotUnderstandTryAgain;
+        });
+      }
+    }
+  }
+
+  /// Show decision dialog with Aldım/Düşünüyorum/Vazgeçtim buttons
+  /// Auto-selects "Aldım" after 2 seconds
+  void _showDecisionDialog(VoiceParseResult result) {
+    final category = VoiceParserService.mapToAppCategory(result.category);
+    final currencySymbol = context.read<CurrencyProvider>().currency.symbol;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => _DecisionDialog(
+        result: result,
+        category: category,
+        currencySymbol: currencySymbol,
+        onDecision: (decision) async {
+          Navigator.pop(dialogContext);
+          await _saveExpenseWithDecision(result, decision);
+        },
+        onRetry: () {
+          Navigator.pop(dialogContext);
+          _startListening();
+        },
+      ),
+    );
+  }
+
+  /// Save expense with the given decision
+  Future<void> _saveExpenseWithDecision(
+    VoiceParseResult result,
+    ExpenseDecision decision,
+  ) async {
+    // Increment voice input count only on successful save
+    await FreeTierService().incrementVoiceInputCount();
+
+    final category = VoiceParserService.mapToAppCategory(result.category);
+    final amount = result.amount!;
+
+    // If returnResult is true, just return the data without saving
+    if (widget.returnResult) {
+      HapticFeedback.mediumImpact();
+      if (mounted) {
+        Navigator.of(context).pop({
+          'amount': amount,
+          'description': result.description,
+          'category': category,
+          'decision': decision.name,
+        });
+      }
+      return;
+    }
+
+    // Get expense service
+    final expenseService = ExpenseHistoryService();
+
+    // Calculate work time (simplified)
+    final hoursRequired = amount / 50.0;
+    final daysRequired = hoursRequired / 8.0;
+
+    // Create expense with the selected decision
+    final expense = Expense(
+      amount: amount,
+      category: category,
+      subCategory: result.item ?? result.description,
+      date: DateTime.now(),
+      hoursRequired: hoursRequired,
+      daysRequired: daysRequired,
+      decision: decision,
+    );
+
+    try {
+      await expenseService.addExpense(expense);
+      // Track voice expense added
+      AnalyticsService().logExpenseAdded(
+        method: 'voice',
+        amount: expense.amount,
+        category: expense.category,
+        decision: decision.name,
+      );
+    } catch (e) {
+      debugPrint('[Voice] Error adding expense: $e');
+    }
+
+    HapticFeedback.mediumImpact();
+
+    if (mounted) {
+      final l10n = AppLocalizations.of(context);
+      final currencySymbol = context.read<CurrencyProvider>().currency.symbol;
+      final decisionText = switch (decision) {
+        ExpenseDecision.yes => l10n.bought,
+        ExpenseDecision.thinking => l10n.thinking,
+        ExpenseDecision.no => l10n.passed,
+      };
+
+      Navigator.of(context).pop();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(
+                decision == ExpenseDecision.yes
+                    ? CupertinoIcons.checkmark_circle_fill
+                    : decision == ExpenseDecision.no
+                    ? CupertinoIcons.xmark_circle_fill
+                    : CupertinoIcons.clock_fill,
+                color: Colors.white,
+                size: 20,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  '${amount.toStringAsFixed(0)} $currencySymbol ${result.item ?? result.description} - $decisionText',
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: decision == ExpenseDecision.yes
+              ? context.appColors.success
+              : decision == ExpenseDecision.no
+              ? context.appColors.error
+              : context.appColors.warning,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+      );
+    }
+  }
+
+  void _showRetryOption() {
+    if (mounted) {
+      final l10n = AppLocalizations.of(context);
+      setState(() => _statusText = l10n.couldNotUnderstandSayAgain);
+      Future.delayed(const Duration(seconds: 1), () {
+        if (mounted && !_isListening) {
+          _startListening();
+        }
+      });
+    }
+  }
+
+  void _showPermissionDenied() {
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(l10n.microphonePermissionDenied),
+        behavior: SnackBarBehavior.floating,
+        action: SnackBarAction(
+          label: l10n.settings,
+          onPressed: () => openAppSettings(),
+        ),
+      ),
+    );
+  }
+
+  /// Check voice input daily limit
+  Future<bool> _checkVoiceInputLimit() async {
+    final proProvider = context.read<ProProvider>();
+    final isPremium = proProvider.isPro;
+    final freeTierService = FreeTierService();
+
+    final result = await freeTierService.canUseVoiceInput(isPremium);
+
+    if (!result.canUse && mounted) {
+      _showLimitReachedDialog(result.limitType!);
+      return false;
+    }
+
+    return true;
+  }
+
+  /// Show appropriate dialog when limit is reached
+  void _showLimitReachedDialog(VoiceInputLimitType limitType) {
+    final l10n = AppLocalizations.of(context);
+
+    if (limitType == VoiceInputLimitType.freeLimitReached) {
+      // Free user: show upgrade prompt
+      showDialog(
+        context: context,
+        barrierColor: Colors.black.withValues(alpha: 0.85),
+        builder: (ctx) => AlertDialog(
+          backgroundColor: context.appColors.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          title: Row(
+            children: [
+              Icon(
+                CupertinoIcons.mic_fill,
+                color: context.appColors.warning,
+                size: 28,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  l10n.voiceLimitReachedTitle,
+                  style: TextStyle(
+                    color: context.appColors.textPrimary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            l10n.voiceLimitReachedFree,
+            style: TextStyle(
+              color: context.appColors.textSecondary,
+              fontSize: 15,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(
+                l10n.close,
+                style: TextStyle(color: context.appColors.textTertiary),
+              ),
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.pop(ctx);
+                Navigator.pop(context); // Close voice input screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const PaywallScreen()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: context.appColors.primary,
+                foregroundColor: context.appColors.textPrimary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              icon: const Icon(CupertinoIcons.star_fill, size: 18),
+              label: Text(l10n.upgradeToPro),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Pro user: show server busy message
+      showDialog(
+        context: context,
+        barrierColor: Colors.black.withValues(alpha: 0.85),
+        builder: (ctx) => AlertDialog(
+          backgroundColor: context.appColors.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          title: Row(
+            children: [
+              Icon(
+                CupertinoIcons.clock_fill,
+                color: context.appColors.warning,
+                size: 28,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  l10n.voiceServerBusyTitle,
+                  style: TextStyle(
+                    color: context.appColors.textPrimary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            l10n.voiceServerBusyMessage,
+            style: TextStyle(
+              color: context.appColors.textSecondary,
+              fontSize: 15,
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.pop(ctx),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: context.appColors.primary,
+                foregroundColor: context.appColors.textPrimary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: Text(l10n.ok),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return Scaffold(
+      backgroundColor: context.appColors.background,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Top bar
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      CupertinoIcons.xmark,
+                      color: context.appColors.textSecondary,
+                    ),
+                    tooltip: l10n.accessibilityCloseSheet,
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  const Spacer(),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        l10n.voiceInput,
+                        style: TextStyle(
+                          color: context.appColors.textPrimary,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      // Usage indicator for free users
+                      _VoiceUsageIndicator(),
+                    ],
+                  ),
+                  const Spacer(),
+                  const SizedBox(width: 48),
+                ],
+              ),
+            ),
+
+            const Spacer(),
+
+            // Microphone animation
+            AnimatedBuilder(
+              animation: _pulseAnimation,
+              builder: (_, child) {
+                final scale = _isListening ? _pulseAnimation.value : 1.0;
+                return Transform.scale(
+                  scale: scale,
+                  child: Semantics(
+                    label: l10n.tapToSpeak,
+                    button: true,
+                    child: GestureDetector(
+                      onTap: _isListening || _isProcessing
+                          ? null
+                          : _startListening,
+                      child: Container(
+                        width: 140,
+                        height: 140,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: _isListening
+                                ? [
+                                    AppColors.categoryBills,
+                                    AppColors.dangerRedDark,
+                                  ]
+                                : [
+                                    context.appColors.primary,
+                                    context.appColors.secondary,
+                                  ],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color:
+                                  (_isListening
+                                          ? AppColors.categoryBills
+                                          : context.appColors.primary)
+                                      .withValues(
+                                        alpha: _isListening ? 0.6 : 0.4,
+                                      ),
+                              blurRadius: _isListening ? 50 : 25,
+                              spreadRadius: _isListening ? 10 : 0,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: _isProcessing
+                              ? SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                  child: CircularProgressIndicator(
+                                    color: context.appColors.textPrimary,
+                                    strokeWidth: 3,
+                                  ),
+                                )
+                              : Icon(
+                                  _isListening
+                                      ? CupertinoIcons.stop_fill
+                                      : CupertinoIcons.mic_fill,
+                                  color: context.appColors.textPrimary,
+                                  size: 56,
+                                ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+
+            const SizedBox(height: 32),
+
+            // Sound level indicator
+            if (_isListening)
+              Container(
+                width: 200,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: context.appColors.surfaceLight,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+                child: FractionallySizedBox(
+                  alignment: Alignment.centerLeft,
+                  widthFactor: 0.2 + (_soundLevel * 0.8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          context.appColors.primary,
+                          context.appColors.secondary,
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+              ),
+
+            const SizedBox(height: 24),
+
+            // Status text
+            Text(
+              _statusText.isEmpty ? l10n.tapToSpeak : _statusText,
+              style: TextStyle(
+                color: _isListening
+                    ? AppColors.categoryBills
+                    : context.appColors.textSecondary,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // Recognized text
+            if (_recognizedText.isNotEmpty)
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 32),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: context.appColors.surfaceLight,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: context.appColors.primary.withValues(alpha: 0.3),
+                  ),
+                ),
+                child: Text(
+                  _recognizedText,
+                  style: TextStyle(
+                    color: context.appColors.textPrimary,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+
+            const Spacer(),
+
+            // Tips section
+            Container(
+              margin: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: context.appColors.surfaceLight,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        CupertinoIcons.lightbulb_fill,
+                        color: context.appColors.warning,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        l10n.speakExpense,
+                        style: TextStyle(
+                          color: context.appColors.textSecondary,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.voiceExamplesMultiline,
+                    style: TextStyle(
+                      color: context.appColors.textTertiary,
+                      fontSize: 13,
+                      height: 1.6,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Decision dialog with auto-select countdown
+class _DecisionDialog extends StatefulWidget {
+  final VoiceParseResult result;
+  final String category;
+  final String currencySymbol;
+  final Function(ExpenseDecision) onDecision;
+  final VoidCallback onRetry;
+
+  const _DecisionDialog({
+    required this.result,
+    required this.category,
+    required this.currencySymbol,
+    required this.onDecision,
+    required this.onRetry,
+  });
+
+  @override
+  State<_DecisionDialog> createState() => _DecisionDialogState();
+}
+
+class _DecisionDialogState extends State<_DecisionDialog>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _timerController;
+  bool _autoSelectCancelled = false;
+
+  static const _autoSelectDuration = Duration(milliseconds: 2000);
+
+  @override
+  void initState() {
+    super.initState();
+    _timerController = AnimationController(
+      vsync: this,
+      duration: _autoSelectDuration,
+    );
+
+    _timerController.addStatusListener((status) {
+      if (status == AnimationStatus.completed && !_autoSelectCancelled) {
+        // Auto-select "Aldım" when timer completes
+        HapticFeedback.mediumImpact();
+        widget.onDecision(ExpenseDecision.yes);
+      }
+    });
+
+    // Start the countdown
+    _timerController.forward();
+  }
+
+  @override
+  void dispose() {
+    _timerController.dispose();
+    super.dispose();
+  }
+
+  void _cancelAutoSelect() {
+    _autoSelectCancelled = true;
+    _timerController.stop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final colors = context.appColors;
+
+    return AlertDialog(
+      backgroundColor: colors.surface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 16),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Amount display
+          Text(
+            '${widget.result.amount?.toStringAsFixed(0) ?? "?"} ${widget.currencySymbol}',
+            style: TextStyle(
+              color: colors.textPrimary,
+              fontSize: 36,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          // Store and item info
+          if (widget.result.store != null || widget.result.item != null) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (widget.result.store != null)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: colors.primary.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      widget.result.store!,
+                      style: TextStyle(
+                        color: colors.primary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                if (widget.result.store != null && widget.result.item != null)
+                  const SizedBox(width: 8),
+                if (widget.result.item != null)
+                  Text(
+                    widget.result.item!,
+                    style: TextStyle(color: colors.textSecondary, fontSize: 16),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 8),
+          ] else if (widget.result.description.isNotEmpty) ...[
+            Text(
+              widget.result.description,
+              style: TextStyle(color: colors.textSecondary, fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+          ],
+
+          // Category chip
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: colors.surfaceLight,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              widget.category,
+              style: TextStyle(color: colors.textTertiary, fontSize: 13),
+            ),
+          ),
+
+          const SizedBox(height: 24),
+
+          // Decision buttons
+          Row(
+            children: [
+              // Vazgeçtim (No)
+              Expanded(
+                child: _DecisionButton(
+                  label: l10n.passed,
+                  icon: CupertinoIcons.xmark_circle_fill,
+                  color: colors.error,
+                  onTap: () {
+                    _cancelAutoSelect();
+                    widget.onDecision(ExpenseDecision.no);
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              // Düşünüyorum (Thinking)
+              Expanded(
+                child: _DecisionButton(
+                  label: l10n.thinking,
+                  icon: CupertinoIcons.clock_fill,
+                  color: colors.warning,
+                  onTap: () {
+                    _cancelAutoSelect();
+                    widget.onDecision(ExpenseDecision.thinking);
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              // Aldım (Yes) - highlighted with timer
+              Expanded(
+                child: Stack(
+                  children: [
+                    _DecisionButton(
+                      label: l10n.bought,
+                      icon: CupertinoIcons.checkmark_circle_fill,
+                      color: colors.success,
+                      isHighlighted: true,
+                      onTap: () {
+                        _cancelAutoSelect();
+                        widget.onDecision(ExpenseDecision.yes);
+                      },
+                    ),
+                    // Timer indicator
+                    if (!_autoSelectCancelled)
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: AnimatedBuilder(
+                          animation: _timerController,
+                          builder: (_, __) {
+                            return Container(
+                              height: 3,
+                              margin: const EdgeInsets.symmetric(horizontal: 4),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(2),
+                                child: LinearProgressIndicator(
+                                  value: _timerController.value,
+                                  backgroundColor: colors.success.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                  valueColor: AlwaysStoppedAnimation(
+                                    colors.success,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 16),
+
+          // Retry button
+          TextButton.icon(
+            onPressed: () {
+              _cancelAutoSelect();
+              widget.onRetry();
+            },
+            icon: Icon(
+              CupertinoIcons.arrow_counterclockwise,
+              size: 18,
+              color: colors.textTertiary,
+            ),
+            label: Text(
+              l10n.sayAgain,
+              style: TextStyle(color: colors.textTertiary, fontSize: 14),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Individual decision button
+class _DecisionButton extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color color;
+  final bool isHighlighted;
+  final VoidCallback onTap;
+
+  const _DecisionButton({
+    required this.label,
+    required this.icon,
+    required this.color,
+    this.isHighlighted = false,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.appColors;
+
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTap();
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        decoration: BoxDecoration(
+          color: isHighlighted
+              ? color.withValues(alpha: 0.15)
+              : colors.surfaceLight,
+          borderRadius: BorderRadius.circular(16),
+          border: isHighlighted
+              ? Border.all(color: color.withValues(alpha: 0.5), width: 1.5)
+              : null,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: color, size: 24),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: isHighlighted ? color : colors.textSecondary,
+                fontSize: 12,
+                fontWeight: isHighlighted ? FontWeight.w600 : FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Voice usage indicator widget for free users
+class _VoiceUsageIndicator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final isPremium = context.watch<ProProvider>().isPro;
+
+    // PRO users don't need to see usage
+    if (isPremium) {
+      return const SizedBox.shrink();
+    }
+
+    return FutureBuilder<(int, int)>(
+      future: FreeTierService().getVoiceInputUsage(false),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const SizedBox.shrink();
+
+        final (used, total) = snapshot.data!;
+        final l10n = AppLocalizations.of(context);
+        final remaining = total - used;
+        final isLimitReached = remaining <= 0;
+
+        return Padding(
+          padding: const EdgeInsets.only(top: 4),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: isLimitReached
+                  ? context.appColors.error.withValues(alpha: 0.15)
+                  : context.appColors.primary.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  isLimitReached
+                      ? CupertinoIcons.exclamationmark_triangle_fill
+                      : CupertinoIcons.mic_fill,
+                  size: 12,
+                  color: isLimitReached
+                      ? context.appColors.error
+                      : context.appColors.primary,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  l10n.voiceUsageIndicator(used, total),
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: isLimitReached
+                        ? context.appColors.error
+                        : context.appColors.primary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

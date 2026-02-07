@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../services/lock_service.dart';
 import '../services/haptic_service.dart';
@@ -104,10 +104,10 @@ class _PinSetupScreenState extends State<PinSetupScreen>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context).pinSet),
-          backgroundColor: context.appColors.success,
+          backgroundColor: context.vantColors.success,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
           ),
         ),
       );
@@ -130,14 +130,14 @@ class _PinSetupScreenState extends State<PinSetupScreen>
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
-            PhosphorIconsRegular.arrowLeft,
-            color: context.appColors.textPrimary,
+            CupertinoIcons.arrow_left,
+            color: context.vantColors.textPrimary,
           ),
           onPressed: () => Navigator.pop(context, false),
         ),
@@ -147,7 +147,7 @@ class _PinSetupScreenState extends State<PinSetupScreen>
               onPressed: _reset,
               child: Text(
                 l10n.reset,
-                style: TextStyle(color: context.appColors.textSecondary),
+                style: TextStyle(color: context.vantColors.textSecondary),
               ),
             ),
         ],
@@ -164,15 +164,15 @@ class _PinSetupScreenState extends State<PinSetupScreen>
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                  color: context.appColors.primary.withValues(alpha: 0.15),
+                  color: context.vantColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Icon(
                   _isConfirming
-                      ? PhosphorIconsFill.lockKey
-                      : PhosphorIconsFill.lock,
+                      ? CupertinoIcons.lock_shield_fill
+                      : CupertinoIcons.lock_fill,
                   size: 40,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ),
               const SizedBox(height: 24),
@@ -183,7 +183,7 @@ class _PinSetupScreenState extends State<PinSetupScreen>
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -193,7 +193,7 @@ class _PinSetupScreenState extends State<PinSetupScreen>
                     : l10n.createPinDescription,
                 style: TextStyle(
                   fontSize: 14,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -226,12 +226,12 @@ class _PinSetupScreenState extends State<PinSetupScreen>
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: isFilled
-                            ? context.appColors.primary
+                            ? context.vantColors.primary
                             : Colors.transparent,
                         border: Border.all(
                           color: _error != null
-                              ? context.appColors.error
-                              : context.appColors.primary,
+                              ? context.vantColors.error
+                              : context.vantColors.primary,
                           width: 2,
                         ),
                       ),
@@ -248,7 +248,7 @@ class _PinSetupScreenState extends State<PinSetupScreen>
                     ? Text(
                         _error!,
                         style: TextStyle(
-                          color: context.appColors.error,
+                          color: context.vantColors.error,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
@@ -307,8 +307,8 @@ class _PinSetupScreenState extends State<PinSetupScreen>
         height: 72,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: context.appColors.surface,
-          border: Border.all(color: context.appColors.cardBorder, width: 1),
+          color: context.vantColors.surface,
+          border: Border.all(color: context.vantColors.cardBorder, width: 1),
         ),
         child: Center(
           child: Text(
@@ -316,7 +316,7 @@ class _PinSetupScreenState extends State<PinSetupScreen>
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
         ),
@@ -332,9 +332,9 @@ class _PinSetupScreenState extends State<PinSetupScreen>
         height: 72,
         child: Center(
           child: Icon(
-            PhosphorIconsRegular.backspace,
+            CupertinoIcons.delete_left,
             size: 28,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
       ),

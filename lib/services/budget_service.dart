@@ -31,13 +31,14 @@ class BudgetService extends ChangeNotifier {
   List<Expense> get _currentMonthExpenses =>
       _financeProvider.currentMonthExpenses;
 
-  /// Saatlik ücret (fallback ile)
+  /// Saatlik ücret (fallback ile) — always returns > 0 to prevent division-by-zero
   double get hourlyRate {
-    if (_profile == null) return 0;
+    if (_profile == null) return 1.0;
     final rate = _profile!.hourlyRate;
     if (rate <= 0) {
-      // Fallback: aylık gelir / 160 saat (standart çalışma)
-      return _profile!.monthlyIncome / 160;
+      // Fallback: aylık gelir / 160 saat, minimum 1.0 to avoid divide-by-zero
+      final fallback = _profile!.monthlyIncome / 160;
+      return fallback > 0 ? fallback : 1.0;
     }
     return rate;
   }

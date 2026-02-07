@@ -1,10 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/pursuit.dart';
-import '../theme/app_theme.dart';
-import '../theme/quiet_luxury.dart';
-import '../theme/accessible_text.dart';
+import '../theme/theme.dart';
 import 'pursuit_progress_visual.dart';
 
 /// Card widget for displaying a pursuit in a list
@@ -37,10 +35,18 @@ class PursuitCard extends StatelessWidget {
     return Semantics(
       label: semanticLabel,
       button: onTap != null,
-      child: Pressable(
+      child: VPressable(
         onTap: onTap,
-        child: GlassCard(
-          padding: const EdgeInsets.all(16),
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: context.vantColors.cardBackground,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: context.vantColors.cardBorder,
+              width: 0.5,
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -62,14 +68,14 @@ class PursuitCard extends StatelessWidget {
                       children: [
                         Text(
                           pursuit.name,
-                          style: QuietLuxury.heading.copyWith(fontSize: 16),
+                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: -0.3, color: Color(0xFFFAFAFA)).copyWith(fontSize: 16),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 2),
                         Text(
                           _getCategoryLabel(context, pursuit.category),
-                          style: QuietLuxury.label,
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)),
                         ),
                       ],
                     ),
@@ -77,28 +83,32 @@ class PursuitCard extends StatelessWidget {
                   // Progress badge
                   Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
+                      horizontal: 12,
+                      vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: _getProgressColor(
-                        pursuit.progressPercent,
-                      ).withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(12),
+                      gradient: LinearGradient(
+                        colors: [
+                          _getProgressColor(context, pursuit.progressPercent)
+                              .withValues(alpha: 0.25),
+                          _getProgressColor(context, pursuit.progressPercent)
+                              .withValues(alpha: 0.15),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: _getProgressColor(
-                          pursuit.progressPercent,
-                        ).withValues(alpha: 0.4),
-                        width: 0.5,
+                        color: _getProgressColor(context, pursuit.progressPercent)
+                            .withValues(alpha: 0.4),
+                        width: 1,
                       ),
                     ),
                     child: Text(
                       '${pursuit.progressPercentDisplay}%',
                       style: AccessibleText.scaled(
                         context,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: _getProgressColor(pursuit.progressPercent),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: _getProgressColor(context, pursuit.progressPercent),
                         maxScale: 1.3,
                       ),
                     ),
@@ -110,7 +120,7 @@ class PursuitCard extends StatelessWidget {
               PursuitLinearProgress(
                 progress: pursuit.progressPercent,
                 height: 6,
-                progressColor: _getProgressColor(pursuit.progressPercent),
+                progressColor: _getProgressColor(context, pursuit.progressPercent),
               ),
               const SizedBox(height: 12),
               // Bottom row: Amounts + Add button
@@ -125,30 +135,33 @@ class PursuitCard extends StatelessWidget {
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.centerLeft,
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
                             children: [
                               Text(
                                 formatAmount(pursuit.savedAmount),
                                 style: AccessibleText.scaled(
                                   context,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: QuietLuxury.positive,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: context.vantColors.success,
                                   maxScale: 1.3,
-                                ).copyWith(letterSpacing: 0.5),
+                                ).copyWith(letterSpacing: -0.5),
                               ),
                               Text(
                                 ' / ${formatAmount(pursuit.targetAmount)}',
                                 style: AccessibleText.scaled(
                                   context,
                                   fontSize: 14,
-                                  color: QuietLuxury.textSecondary,
+                                  fontWeight: FontWeight.w500,
+                                  color: context.vantColors.textSecondary.withValues(alpha: 0.7),
                                   maxScale: 1.3,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: 4),
                         Text(
                           l10n.remainingAmount(
                             formatAmount(pursuit.remainingAmount),
@@ -156,7 +169,8 @@ class PursuitCard extends StatelessWidget {
                           style: AccessibleText.scaled(
                             context,
                             fontSize: 12,
-                            color: QuietLuxury.textTertiary,
+                            fontWeight: FontWeight.w400,
+                            color: context.vantColors.textTertiary.withValues(alpha: 0.6),
                             maxScale: 1.4,
                           ),
                         ),
@@ -197,11 +211,11 @@ class PursuitCard extends StatelessWidget {
     }
   }
 
-  Color _getProgressColor(double progress) {
-    if (progress >= 1.0) return QuietLuxury.gold;
-    if (progress >= 0.7) return QuietLuxury.positive;
-    if (progress >= 0.3) return AppColors.secondary;
-    return QuietLuxury.textTertiary;
+  Color _getProgressColor(BuildContext context, double progress) {
+    if (progress >= 1.0) return context.vantColors.gold;
+    if (progress >= 0.7) return context.vantColors.success;
+    if (progress >= 0.3) return VantColors.secondary;
+    return context.vantColors.textTertiary;
   }
 }
 
@@ -220,34 +234,47 @@ class _AddSavingsButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(16),
           child: Tooltip(
             message: l10n.addSavings,
             child: Container(
               constraints: const BoxConstraints(minHeight: 44),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: QuietLuxury.positive.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: QuietLuxury.positive.withValues(alpha: 0.3),
-                  width: 0.5,
+                gradient: LinearGradient(
+                  colors: [
+                    context.vantColors.success.withValues(alpha: 0.2),
+                    context.vantColors.success.withValues(alpha: 0.12),
+                  ],
                 ),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: context.vantColors.success.withValues(alpha: 0.4),
+                  width: 1,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: context.vantColors.success.withValues(alpha: 0.15),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    PhosphorIconsBold.plus,
+                    CupertinoIcons.plus,
                     size: 14,
-                    color: QuietLuxury.positive,
+                    color: context.vantColors.success,
                   ),
-                  const SizedBox(width: 4),
+                  const SizedBox(width: 6),
                   Text(
                     l10n.addSavings,
-                    style: QuietLuxury.label.copyWith(
-                      color: QuietLuxury.positive,
-                      fontWeight: FontWeight.w600,
+                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)).copyWith(
+                      color: context.vantColors.success,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 13,
                     ),
                   ),
                 ],
@@ -290,12 +317,12 @@ class PursuitCompactCard extends StatelessWidget {
     return Semantics(
       label: semanticLabel,
       button: onTap != null,
-      child: Pressable(
+      child: VPressable(
         onTap: onTap,
         child: Container(
           width: width,
           padding: const EdgeInsets.all(12),
-          decoration: QuietLuxury.cardDecoration,
+          decoration: BoxDecoration(color: context.vantColors.surface, borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white.withValues(alpha: 0.06), width: 1)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -310,8 +337,8 @@ class PursuitCompactCard extends StatelessWidget {
               // Name
               Text(
                 pursuit.name,
-                style: QuietLuxury.body.copyWith(
-                  color: QuietLuxury.textPrimary,
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(
+                  color: context.vantColors.textPrimary,
                   fontWeight: FontWeight.w500,
                 ),
                 maxLines: 1,
@@ -321,8 +348,8 @@ class PursuitCompactCard extends StatelessWidget {
               // Progress
               Text(
                 '${pursuit.progressPercentDisplay}%',
-                style: QuietLuxury.label.copyWith(
-                  color: QuietLuxury.positive,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)).copyWith(
+                  color: context.vantColors.success,
                   fontWeight: FontWeight.w600,
                 ),
               ),

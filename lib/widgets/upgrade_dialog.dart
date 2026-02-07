@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 
@@ -21,7 +21,7 @@ class UpgradeDialog extends StatelessWidget {
     HapticFeedback.mediumImpact();
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.90),
+      barrierColor: Colors.black.withValues(alpha: 0.90),
       builder: (_) => UpgradeDialog(message: message, onUpgrade: onUpgrade),
     );
   }
@@ -31,8 +31,8 @@ class UpgradeDialog extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return AlertDialog(
-      backgroundColor: context.appColors.surface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      backgroundColor: context.vantColors.surface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       title: Row(
         children: [
           Container(
@@ -40,15 +40,15 @@ class UpgradeDialog extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  context.appColors.gold.withValues(alpha: 0.2),
-                  context.appColors.gold.withValues(alpha: 0.1),
+                  context.vantColors.gold.withValues(alpha: 0.2),
+                  context.vantColors.gold.withValues(alpha: 0.1),
                 ],
               ),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
-              PhosphorIconsDuotone.crown,
-              color: context.appColors.gold,
+              CupertinoIcons.star_fill,
+              color: context.vantColors.gold,
               size: 24,
             ),
           ),
@@ -59,7 +59,7 @@ class UpgradeDialog extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
           ),
@@ -73,7 +73,7 @@ class UpgradeDialog extends StatelessWidget {
             message,
             style: TextStyle(
               fontSize: 14,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
               height: 1.4,
             ),
           ),
@@ -83,38 +83,38 @@ class UpgradeDialog extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
           const SizedBox(height: 12),
           _buildBenefitRow(
             context,
-            PhosphorIconsDuotone.chatCircle,
+            CupertinoIcons.chat_bubble,
             l10n.unlimitedAiChat,
           ),
           _buildBenefitRow(
             context,
-            PhosphorIconsDuotone.target,
+            CupertinoIcons.scope,
             l10n.unlimitedPursuits,
           ),
           _buildBenefitRow(
             context,
-            PhosphorIconsDuotone.export,
+            CupertinoIcons.square_arrow_up,
             l10n.exportFeature,
           ),
           _buildBenefitRow(
             context,
-            PhosphorIconsDuotone.currencyCircleDollar,
+            CupertinoIcons.money_dollar_circle,
             l10n.allCurrencies,
           ),
           _buildBenefitRow(
             context,
-            PhosphorIconsDuotone.chartBar,
+            CupertinoIcons.chart_bar,
             l10n.fullReports,
           ),
           _buildBenefitRow(
             context,
-            PhosphorIconsDuotone.shareFat,
+            CupertinoIcons.share,
             l10n.cleanShareCards,
           ),
         ],
@@ -126,7 +126,7 @@ class UpgradeDialog extends StatelessWidget {
           child: Text(
             l10n.maybeLater,
             style: TextStyle(
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -135,14 +135,14 @@ class UpgradeDialog extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                context.appColors.primary,
-                context.appColors.primaryDark,
+                context.vantColors.primary,
+                context.vantColors.primaryDark,
               ],
             ),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: context.appColors.primary.withValues(alpha: 0.3),
+                color: context.vantColors.primary.withValues(alpha: 0.3),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -163,7 +163,7 @@ class UpgradeDialog extends StatelessWidget {
               shadowColor: Colors.transparent,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
             child: Text(
@@ -181,14 +181,14 @@ class UpgradeDialog extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          Icon(icon, size: 18, color: context.appColors.success),
+          Icon(icon, size: 18, color: context.vantColors.success),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
               text,
               style: TextStyle(
                 fontSize: 13,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
             ),
           ),
@@ -217,13 +217,13 @@ class UpgradeBanner extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              context.appColors.primary.withValues(alpha: 0.15),
-              context.appColors.primaryDark.withValues(alpha: 0.1),
+              context.vantColors.primary.withValues(alpha: 0.15),
+              context.vantColors.primaryDark.withValues(alpha: 0.1),
             ],
           ),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: context.appColors.primary.withValues(alpha: 0.3),
+            color: context.vantColors.primary.withValues(alpha: 0.3),
           ),
         ),
         child: Row(
@@ -231,13 +231,13 @@ class UpgradeBanner extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: context.appColors.gold.withValues(alpha: 0.2),
+                color: context.vantColors.gold.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
-                PhosphorIconsDuotone.crown,
+                CupertinoIcons.star_fill,
                 size: 18,
-                color: context.appColors.gold,
+                color: context.vantColors.gold,
               ),
             ),
             const SizedBox(width: 12),
@@ -249,7 +249,7 @@ class UpgradeBanner extends StatelessWidget {
                     message,
                     style: TextStyle(
                       fontSize: 13,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -258,16 +258,16 @@ class UpgradeBanner extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.primary,
+                      color: context.vantColors.primary,
                     ),
                   ),
                 ],
               ),
             ),
             Icon(
-              PhosphorIconsRegular.caretRight,
+              CupertinoIcons.chevron_right,
               size: 18,
-              color: context.appColors.primary,
+              color: context.vantColors.primary,
             ),
           ],
         ),

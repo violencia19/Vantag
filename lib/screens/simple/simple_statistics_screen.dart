@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../../models/models.dart';
@@ -105,7 +105,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
     final currencySymbol = currencyProvider.currency.symbol;
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -117,7 +117,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             ),
@@ -129,18 +129,18 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                color: context.appColors.surfaceLight,
-                borderRadius: BorderRadius.circular(12),
+                color: context.vantColors.surfaceLight,
+                borderRadius: BorderRadius.circular(16),
               ),
               child: TabBar(
                 controller: _tabController,
                 indicator: BoxDecoration(
-                  color: context.appColors.primary,
-                  borderRadius: BorderRadius.circular(10),
+                  color: context.vantColors.primary,
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 indicatorSize: TabBarIndicatorSize.tab,
-                labelColor: context.appColors.textPrimary,
-                unselectedLabelColor: context.appColors.textSecondary,
+                labelColor: context.vantColors.textPrimary,
+                unselectedLabelColor: context.vantColors.textSecondary,
                 dividerColor: Colors.transparent,
                 labelStyle: const TextStyle(
                   fontWeight: FontWeight.w600,
@@ -195,8 +195,8 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
           IconButton(
             onPressed: _previousMonth,
             icon: Icon(
-              PhosphorIconsBold.caretLeft,
-              color: context.appColors.textPrimary,
+              CupertinoIcons.chevron_left,
+              color: context.vantColors.textPrimary,
               size: 20,
             ),
           ),
@@ -205,16 +205,16 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
           IconButton(
             onPressed: isCurrentMonth ? null : _nextMonth,
             icon: Icon(
-              PhosphorIconsBold.caretRight,
+              CupertinoIcons.chevron_right,
               color: isCurrentMonth
-                  ? context.appColors.textTertiary
-                  : context.appColors.textPrimary,
+                  ? context.vantColors.textTertiary
+                  : context.vantColors.textPrimary,
               size: 20,
             ),
           ),
@@ -235,16 +235,16 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              PhosphorIconsDuotone.chartPie,
+              CupertinoIcons.chart_pie,
               size: 64,
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
             ),
             const SizedBox(height: 16),
             Text(
               l10n.simpleNoData,
               style: TextStyle(
                 fontSize: 16,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
             ),
           ],
@@ -274,8 +274,8 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: context.appColors.surfaceLight,
-              borderRadius: BorderRadius.circular(12),
+              color: context.vantColors.surfaceLight,
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -285,7 +285,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 Text(
@@ -293,7 +293,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: context.appColors.error,
+                    color: context.vantColors.error,
                   ),
                 ),
               ],
@@ -306,14 +306,14 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
           ...categoryTotals.entries.map((entry) {
             final percentage = (entry.value / totalExpense * 100);
             final color =
-                _categoryColors[entry.key] ?? context.appColors.textTertiary;
+                _categoryColors[entry.key] ?? context.vantColors.textTertiary;
 
             return Container(
               margin: const EdgeInsets.only(bottom: 8),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: context.appColors.surfaceLight,
-                borderRadius: BorderRadius.circular(10),
+                color: context.vantColors.surfaceLight,
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 children: [
@@ -331,7 +331,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
                       entry.key,
                       style: TextStyle(
                         fontSize: 14,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                   ),
@@ -339,7 +339,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
                     '${percentage.toStringAsFixed(1)}%',
                     style: TextStyle(
                       fontSize: 13,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -348,7 +348,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                   ),
                 ],
@@ -369,7 +369,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
     return categoryTotals.entries.map((entry) {
       final percentage = entry.value / total * 100;
       final color =
-          _categoryColors[entry.key] ?? context.appColors.textTertiary;
+          _categoryColors[entry.key] ?? context.vantColors.textTertiary;
 
       return PieChartSectionData(
         value: entry.value,
@@ -379,7 +379,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
         titleStyle: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.bold,
-          color: context.appColors.textPrimary,
+          color: context.vantColors.textPrimary,
         ),
       );
     }).toList();
@@ -402,10 +402,10 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: context.appColors.success.withValues(alpha: 0.15),
+              color: context.vantColors.success.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: context.appColors.success.withValues(alpha: 0.3),
+                color: context.vantColors.success.withValues(alpha: 0.3),
               ),
             ),
             child: Column(
@@ -414,7 +414,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
                   l10n.simpleTotalIncome,
                   style: TextStyle(
                     fontSize: 14,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -423,7 +423,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w700,
-                    color: context.appColors.success,
+                    color: context.vantColors.success,
                   ),
                 ),
               ],
@@ -441,7 +441,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             ),
@@ -451,8 +451,8 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
                 margin: const EdgeInsets.only(bottom: 8),
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: context.appColors.surfaceLight,
-                  borderRadius: BorderRadius.circular(10),
+                  color: context.vantColors.surfaceLight,
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
                   children: [
@@ -467,7 +467,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
                         source.title,
                         style: TextStyle(
                           fontSize: 14,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                     ),
@@ -476,7 +476,7 @@ class _SimpleStatisticsScreenState extends State<SimpleStatisticsScreen>
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.success,
+                        color: context.vantColors.success,
                       ),
                     ),
                   ],

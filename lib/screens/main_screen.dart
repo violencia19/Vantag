@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -74,7 +74,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         statusBarIconBrightness: Brightness.light,
         systemNavigationBarColor: Color(
           0xFF1A1A2E,
-        ), // AppColors.background hardcoded for initState
+        ), // VantColors.background hardcoded for initState
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
@@ -307,10 +307,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.autoRecordedExpenses(count)),
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
           ),
         );
@@ -400,7 +400,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: Colors.transparent,
       builder: (context) => const CreatePursuitSheet(),
     );
@@ -447,6 +447,15 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       pursuitTarget = pursuit.targetAmount;
     }
 
+    // Cache widget params for auto-sync after expense changes
+    financeProvider.setWidgetParams(
+      currencySymbol: currencyProvider.currency.symbol,
+      locale: localeProvider.locale?.languageCode ?? 'en',
+      pursuitName: pursuitName,
+      pursuitProgress: pursuitProgress,
+      pursuitTarget: pursuitTarget,
+    );
+
     await financeProvider.syncWidgetData(
       currencySymbol: currencyProvider.currency.symbol,
       locale: localeProvider.locale?.languageCode ?? 'en',
@@ -482,7 +491,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.errorLoadingRates),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -532,13 +541,13 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        backgroundColor: context.appColors.surface,
+        backgroundColor: context.vantColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
             Icon(
-              PhosphorIconsDuotone.warning,
-              color: context.appColors.warning,
+              CupertinoIcons.exclamationmark_triangle_fill,
+              color: context.vantColors.warning,
               size: 28,
             ),
             const SizedBox(width: 12),
@@ -546,7 +555,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               child: Text(
                 l10n.loggedOutFromAnotherDevice,
                 style: TextStyle(
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
@@ -557,7 +566,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         content: Text(
           l10n.loggedOutFromAnotherDeviceMessage,
           style: TextStyle(
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
             fontSize: 14,
           ),
         ),
@@ -567,7 +576,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             child: Text(
               l10n.understood,
               style: TextStyle(
-                color: context.appColors.accent,
+                color: context.vantColors.accent,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -688,7 +697,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     // Show loading while checking lock status
     if (_checkingLock) {
       return Scaffold(
-        backgroundColor: context.appColors.background,
+        backgroundColor: context.vantColors.background,
         body: const SizedBox.shrink(),
       );
     }
@@ -736,7 +745,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
           }
 
           return Scaffold(
-            backgroundColor: context.appColors.background,
+            backgroundColor: context.vantColors.background,
             extendBody: true, // Nav bar arkasında içerik görünsün
             body: Stack(
               children: [
@@ -806,7 +815,7 @@ class _OfflineBanner extends StatelessWidget {
         opacity: isVisible ? 1.0 : 0.0,
         child: Container(
           width: double.infinity,
-          color: context.appColors.warning.withValues(alpha: 0.95),
+          color: context.vantColors.warning.withValues(alpha: 0.95),
           child: SafeArea(
             bottom: false,
             child: Padding(
@@ -817,15 +826,15 @@ class _OfflineBanner extends StatelessWidget {
                     width: 28,
                     height: 28,
                     decoration: BoxDecoration(
-                      color: context.appColors.textPrimary.withValues(
+                      color: context.vantColors.textPrimary.withValues(
                         alpha: 0.2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
-                      PhosphorIconsDuotone.wifiSlash,
+                      CupertinoIcons.wifi_slash,
                       size: 16,
-                      color: context.appColors.background,
+                      color: context.vantColors.background,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -835,7 +844,7 @@ class _OfflineBanner extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: context.appColors.background,
+                        color: context.vantColors.background,
                       ),
                     ),
                   ),

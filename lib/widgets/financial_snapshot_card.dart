@@ -1,11 +1,11 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/currency_provider.dart';
-import '../theme/theme.dart' hide GlassCard;
-import '../core/theme/premium_effects.dart';
+import '../theme/theme.dart';
+import 'shimmer_effect.dart';
 import '../utils/currency_utils.dart';
 
 /// Premium Financial Snapshot Card
@@ -41,9 +41,13 @@ class FinancialSnapshotCard extends StatefulWidget {
 }
 
 class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _countController;
   late Animation<double> _countAnimation;
+
+  // iOS 26 Liquid Glass: Animated breathing glow
+  late AnimationController _glowController;
+  late Animation<double> _glowAnimation;
 
   double _previousNetBalance = 0;
   double _previousIncome = 0;
@@ -77,16 +81,30 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
   @override
   void initState() {
     super.initState();
-    // Design System: 800ms count-up animation with easeOutCubic
+    // Psychology-based 800ms count-up animation
     _countController = AnimationController(
-      duration: const Duration(milliseconds: 800),
+      duration: VantAnimation.counting,
       vsync: this,
     );
     _countAnimation = CurvedAnimation(
       parent: _countController,
-      curve: Curves.easeOutCubic,
+      curve: VantAnimation.curveStandard,
     );
     _countController.forward();
+
+    // Psychology-based breathing glow effect (3s cycle)
+    _glowController = AnimationController(
+      vsync: this,
+      duration: VantAnimation.breathing,
+    )..repeat(reverse: true);
+
+    _glowAnimation = Tween<double>(
+      begin: VantAnimation.glowMin + 0.15, // Enhanced for hero card
+      end: VantAnimation.glowMax + 0.15,
+    ).animate(CurvedAnimation(
+      parent: _glowController,
+      curve: VantAnimation.curveSmooth,
+    ));
   }
 
   @override
@@ -104,6 +122,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
   @override
   void dispose() {
     _countController.dispose();
+    _glowController.dispose();
     super.dispose();
   }
 
@@ -153,38 +172,85 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
             onTap: widget.onTap,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF7C3AED), // Parlak mor - SOL ÜST
-                      Color(0xFF5B21B6), // Orta mor
-                      Color(0xFF1E1B4B), // Koyu mor - SAĞ ALT
-                    ],
-                  ),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.15),
-                    width: 1.5,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF8B5CF6).withValues(alpha: 0.4),
-                      blurRadius: 32,
-                      spreadRadius: 0,
-                      offset: const Offset(0, 8),
+              // iOS 26 Liquid Glass: Animated outer glow container
+              child: AnimatedBuilder(
+                animation: _glowAnimation,
+                builder: (context, child) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(VantRadius.xxl + 4),
+                      boxShadow: [
+                        // Animated breathing glow with psychology primary
+                        BoxShadow(
+                          color: VantColors.primary.withValues(
+                            alpha: _glowAnimation.value,
+                          ),
+                          blurRadius: 40,
+                          spreadRadius: -4,
+                          offset: const Offset(0, 8),
+                        ),
+                        // Deep shadow for depth
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.4),
+                          blurRadius: 24,
+                          offset: const Offset(0, 12),
+                        ),
+                      ],
                     ),
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.3),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
-                ),
-                child: Column(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(28),
+                      child: BackdropFilter(
+                        // iOS 26: Enhanced 30σ blur
+                        filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                        child: Container(
+                          padding: const EdgeInsets.all(24),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(VantRadius.xxl + 4),
+                            // Psychology-based glass gradient
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                VantColors.primary.withValues(alpha: 0.35),
+                                VantColors.primaryDark.withValues(alpha: 0.25),
+                                context.vantColors.surfaceOverlay.withValues(alpha: 0.4),
+                              ],
+                              stops: const [0.0, 0.5, 1.0],
+                            ),
+                            // Glass border with highlight
+                            border: Border.all(
+                              color: Colors.white.withValues(
+                                alpha: 0.08 + 0.05,
+                              ),
+                              width: 1.5,
+                            ),
+                          ),
+                          child: Stack(
+                            children: [
+                              // iOS 26: Top highlight for glass light refraction
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                height: 60,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.vertical(
+                                      top: Radius.circular(28),
+                                    ),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.white.withValues(alpha: 0.12),
+                                        Colors.white.withValues(alpha: 0.0),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // Content
+                              Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Header: Label + Badge
@@ -198,15 +264,15 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                               height: 8,
                               decoration: BoxDecoration(
                                 color: isHealthy
-                                    ? context.appColors.success
-                                    : context.appColors.error,
+                                    ? context.vantColors.success
+                                    : context.vantColors.error,
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
                                     color:
                                         (isHealthy
-                                                ? context.appColors.success
-                                                : context.appColors.error)
+                                                ? context.vantColors.success
+                                                : context.vantColors.error)
                                             .withValues(alpha: 0.5),
                                     blurRadius: 8,
                                     spreadRadius: 1,
@@ -220,8 +286,8 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                letterSpacing: 1.2,
-                                color: context.appColors.textSecondary,
+                                letterSpacing: 1.0,
+                                color: context.vantColors.textSecondary,
                               ),
                             ),
                           ],
@@ -235,12 +301,12 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                                 vertical: 6,
                               ),
                               decoration: BoxDecoration(
-                                color: context.appColors.primary.withValues(
+                                color: context.vantColors.primary.withValues(
                                   alpha: 0.15,
                                 ),
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
-                                  color: context.appColors.primary.withValues(
+                                  color: context.vantColors.primary.withValues(
                                     alpha: 0.3,
                                   ),
                                   width: 1,
@@ -250,9 +316,9 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(
-                                    PhosphorIconsDuotone.wallet,
+                                    CupertinoIcons.creditcard_fill,
                                     size: 14,
-                                    color: context.appColors.primary,
+                                    color: context.vantColors.primary,
                                   ),
                                   const SizedBox(width: 6),
                                   Text(
@@ -260,7 +326,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
-                                      color: context.appColors.primary,
+                                      color: context.vantColors.primary,
                                     ),
                                   ),
                                 ],
@@ -275,7 +341,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                     ), // Design System: section spacing
                     // Big Balance Number with BreatheGlow - HERO ELEMENT
                     BreatheGlow(
-                      glowColor: PremiumColors.purple,
+                      glowColor: VantColors.primary,
                       blurRadius: 48, // Enhanced glow
                       minOpacity: 0.3,
                       maxOpacity: 0.6,
@@ -305,18 +371,18 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                                           1.2, // Limit scale for hero numbers
                                     ).copyWith(
                                       fontFamily:
-                                          AppFonts.heading, // Space Grotesk
+                                          VantFonts.heading, // Space Grotesk
                                       letterSpacing: -1,
                                       color: isHealthy
                                           ? Colors.white
-                                          : context.appColors.error,
+                                          : context.vantColors.error,
                                       height: 1,
                                       shadows: [
                                         Shadow(
                                           color:
                                               (isHealthy
-                                                      ? PremiumColors.purple
-                                                      : context.appColors.error)
+                                                      ? VantColors.primary
+                                                      : context.vantColors.error)
                                                   .withValues(alpha: 0.4),
                                           blurRadius: 20,
                                         ),
@@ -334,7 +400,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                                 context,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
-                                color: context.appColors.textSecondary
+                                color: context.vantColors.textSecondary
                                     .withValues(alpha: 0.8),
                                 maxScale: 1.3,
                               ),
@@ -357,15 +423,15 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                           decoration: BoxDecoration(
                             color:
                                 (isHealthy
-                                        ? context.appColors.success
-                                        : context.appColors.error)
+                                        ? context.vantColors.success
+                                        : context.vantColors.error)
                                     .withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                             border: Border.all(
                               color:
                                   (isHealthy
-                                          ? context.appColors.success
-                                          : context.appColors.error)
+                                          ? context.vantColors.success
+                                          : context.vantColors.error)
                                       .withValues(alpha: 0.25),
                               width: 1,
                             ),
@@ -373,8 +439,8 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                               BoxShadow(
                                 color:
                                     (isHealthy
-                                            ? context.appColors.success
-                                            : context.appColors.error)
+                                            ? context.vantColors.success
+                                            : context.vantColors.error)
                                         .withValues(alpha: 0.2),
                                 blurRadius: 16,
                                 spreadRadius: 0,
@@ -386,16 +452,16 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                             children: [
                               Icon(
                                 isHealthy
-                                    ? PhosphorIconsBold.trendUp
-                                    : PhosphorIconsBold.trendDown,
+                                    ? CupertinoIcons.arrow_up_right
+                                    : CupertinoIcons.arrow_down_right,
                                 size: 18,
                                 color: isHealthy
-                                    ? context.appColors.success
-                                    : context.appColors.error,
-                                shadows: PremiumShadows.iconHalo(
+                                    ? context.vantColors.success
+                                    : context.vantColors.error,
+                                shadows: VantShadows.iconHalo(
                                   isHealthy
-                                      ? context.appColors.success
-                                      : context.appColors.error,
+                                      ? context.vantColors.success
+                                      : context.vantColors.error,
                                 ),
                               ),
                               const SizedBox(width: 8),
@@ -404,10 +470,10 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.5,
+                                  letterSpacing: 0,
                                   color: isHealthy
-                                      ? context.appColors.success
-                                      : context.appColors.error,
+                                      ? context.vantColors.success
+                                      : context.vantColors.error,
                                 ),
                               ),
                             ],
@@ -426,18 +492,25 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                       height: 24,
                     ), // Design System: section spacing
                     // Income / Expense - Mirror Layout with GradientBorder
-                    _buildIncomeExpenseRow(
-                      l10n,
-                      animatedIncome,
-                      animatedSpent,
-                      currencyProvider,
+                                _buildIncomeExpenseRow(
+                                  l10n,
+                                  animatedIncome,
+                                  animatedSpent,
+                                  currencyProvider,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
           ),
-        );
+        ),
+      );
       },
     );
   }
@@ -471,8 +544,8 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
-                letterSpacing: 1.2,
-                color: context.appColors.textTertiary,
+                letterSpacing: 1.0,
+                color: context.vantColors.textTertiary,
               ),
             ),
             // Percentage badge with shimmer
@@ -486,13 +559,13 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      PremiumColors.purple.withValues(alpha: 0.3),
-                      PremiumColors.gradientEnd.withValues(alpha: 0.2),
+                      VantColors.primary.withValues(alpha: 0.3),
+                      VantColors.primaryLight.withValues(alpha: 0.2),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: PremiumColors.purple.withValues(alpha: 0.4),
+                    color: VantColors.primary.withValues(alpha: 0.4),
                     width: 1,
                   ),
                 ),
@@ -529,7 +602,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
             ),
             Text(
@@ -541,7 +614,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
               ),
             ),
           ],
@@ -581,7 +654,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
             end: Alignment.bottomRight,
             colors: [
               Colors.white.withValues(alpha: 0.2),
-              PremiumColors.purple.withValues(alpha: 0.5),
+              VantColors.primary.withValues(alpha: 0.5),
               Colors.white.withValues(alpha: 0.15),
             ],
           ),
@@ -602,8 +675,8 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                         style: TextStyle(
                           fontSize: labelFontSize,
                           fontWeight: FontWeight.w600,
-                          letterSpacing: 1.2,
-                          color: context.appColors.textTertiary,
+                          letterSpacing: 1.0,
+                          color: context.vantColors.textTertiary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -612,21 +685,21 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                         width: iconSize,
                         height: iconSize,
                         decoration: BoxDecoration(
-                          color: context.appColors.success.withValues(
+                          color: context.vantColors.success.withValues(
                             alpha: 0.15,
                           ),
                           borderRadius: BorderRadius.circular(iconBorderRadius),
-                          boxShadow: PremiumShadows.coloredGlow(
-                            context.appColors.success,
+                          boxShadow: VantShadows.glow(
+                            context.vantColors.success,
                             intensity: 0.6,
                           ),
                         ),
                         child: Icon(
-                          PhosphorIconsDuotone.arrowDown,
+                          CupertinoIcons.arrow_down,
                           size: iconInnerSize,
-                          color: context.appColors.success,
-                          shadows: PremiumShadows.iconHalo(
-                            context.appColors.success,
+                          color: context.vantColors.success,
+                          shadows: VantShadows.iconHalo(
+                            context.vantColors.success,
                           ),
                         ),
                       ),
@@ -647,7 +720,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                             color: Colors.white,
                             shadows: [
                               Shadow(
-                                color: context.appColors.success.withValues(
+                                color: context.vantColors.success.withValues(
                                   alpha: 0.4,
                                 ),
                                 blurRadius: 16,
@@ -691,8 +764,8 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                         style: TextStyle(
                           fontSize: labelFontSize,
                           fontWeight: FontWeight.w600,
-                          letterSpacing: 1.2,
-                          color: context.appColors.textTertiary,
+                          letterSpacing: 1.0,
+                          color: context.vantColors.textTertiary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -701,21 +774,21 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                         width: iconSize,
                         height: iconSize,
                         decoration: BoxDecoration(
-                          color: context.appColors.error.withValues(
+                          color: context.vantColors.error.withValues(
                             alpha: 0.15,
                           ),
                           borderRadius: BorderRadius.circular(iconBorderRadius),
-                          boxShadow: PremiumShadows.coloredGlow(
-                            context.appColors.error,
+                          boxShadow: VantShadows.glow(
+                            context.vantColors.error,
                             intensity: 0.6,
                           ),
                         ),
                         child: Icon(
-                          PhosphorIconsDuotone.arrowUp,
+                          CupertinoIcons.arrow_up,
                           size: iconInnerSize,
-                          color: context.appColors.error,
-                          shadows: PremiumShadows.iconHalo(
-                            context.appColors.error,
+                          color: context.vantColors.error,
+                          shadows: VantShadows.iconHalo(
+                            context.vantColors.error,
                           ),
                         ),
                       ),
@@ -736,7 +809,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                             color: Colors.white,
                             shadows: [
                               Shadow(
-                                color: context.appColors.error.withValues(
+                                color: context.vantColors.error.withValues(
                                   alpha: 0.4,
                                 ),
                                 blurRadius: 16,
@@ -776,23 +849,47 @@ class CompactFinancialBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.03),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(
-                color:
-                    (isHealthy
-                            ? context.appColors.success
-                            : context.appColors.error)
-                        .withValues(alpha: 0.3),
-              ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            // Subtle glow
+            BoxShadow(
+              color: (isHealthy
+                      ? context.vantColors.success
+                      : context.vantColors.error)
+                  .withValues(alpha: 0.3),
+              blurRadius: 16,
+              spreadRadius: 0,
             ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: BackdropFilter(
+            // iOS 26: Enhanced blur
+            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                // iOS 26 Liquid Glass gradient
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.white.withValues(alpha: 0.08),
+                    Colors.white.withValues(alpha: 0.04),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(
+                  color: (isHealthy
+                          ? context.vantColors.success
+                          : context.vantColors.error)
+                      .withValues(alpha: 0.35),
+                  width: 1,
+                ),
+              ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -801,8 +898,8 @@ class CompactFinancialBadge extends StatelessWidget {
                   height: 6,
                   decoration: BoxDecoration(
                     color: isHealthy
-                        ? context.appColors.success
-                        : context.appColors.error,
+                        ? context.vantColors.success
+                        : context.vantColors.error,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -816,7 +913,7 @@ class CompactFinancialBadge extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 const SizedBox(width: 6),
@@ -843,12 +940,13 @@ class CompactFinancialBadge extends StatelessWidget {
           ),
         ),
       ),
+      ),
     );
   }
 
   Color _getPercentColor(BuildContext context) {
-    if (spentPercent < 50) return context.appColors.success;
-    if (spentPercent < 75) return context.appColors.warning;
-    return context.appColors.error;
+    if (spentPercent < 50) return context.vantColors.success;
+    if (spentPercent < 75) return context.vantColors.warning;
+    return context.vantColors.error;
   }
 }

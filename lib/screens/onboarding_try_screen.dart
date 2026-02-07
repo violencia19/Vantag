@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/providers.dart';
@@ -108,7 +108,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
     final currencyProvider = context.watch<CurrencyProvider>();
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: SafeArea(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 400),
@@ -135,20 +135,20 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              gradient: AppGradients.primaryButton,
+              gradient: VantGradients.primaryButton,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: context.appColors.primary.withValues(alpha: 0.3),
+                  color: context.vantColors.primary.withValues(alpha: 0.3),
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),
               ],
             ),
             child: Icon(
-              PhosphorIconsDuotone.target,
+              CupertinoIcons.scope,
               size: 40,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
           const SizedBox(height: 32),
@@ -159,7 +159,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -170,7 +170,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
             l10n.onboardingTrySubtitle,
             style: TextStyle(
               fontSize: 16,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
               height: 1.5,
             ),
             textAlign: TextAlign.center,
@@ -179,15 +179,15 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
 
           // Amount Input Card
           ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(24),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: context.appColors.surfaceLight,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: context.appColors.cardBorder),
+                  color: context.vantColors.surfaceLight,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: context.vantColors.cardBorder),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,7 +197,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -209,20 +209,20 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                       decoration: InputDecoration(
                         hintText: '0',
                         hintStyle: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w600,
-                          color: context.appColors.textTertiary,
+                          color: context.vantColors.textTertiary,
                         ),
                         prefixText: '${currencyProvider.symbol} ',
                         prefixStyle: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w600,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.zero,
@@ -245,11 +245,11 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
             height: 56,
             child: Container(
               decoration: BoxDecoration(
-                gradient: AppGradients.primaryButton,
+                gradient: VantGradients.primaryButton,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: context.appColors.primary.withValues(alpha: 0.3),
+                    color: context.vantColors.primary.withValues(alpha: 0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -272,11 +272,11 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Icon(PhosphorIconsDuotone.calculator, size: 24),
+                    Icon(CupertinoIcons.equal_square, size: 24),
                   ],
                 ),
               ),
@@ -291,7 +291,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
               l10n.skip,
               style: TextStyle(
                 fontSize: 16,
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
               ),
             ),
           ),
@@ -344,7 +344,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -356,18 +356,18 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: context.appColors.surfaceLight,
+              color: context.vantColors.surfaceLight,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: context.appColors.cardBorder),
+              border: Border.all(color: context.vantColors.cardBorder),
             ),
             child: Column(
               children: [
                 Row(
                   children: [
                     Icon(
-                      PhosphorIconsDuotone.lightbulb,
+                      CupertinoIcons.lightbulb_fill,
                       size: 20,
-                      color: context.appColors.warning,
+                      color: context.vantColors.warning,
                     ),
                     const SizedBox(width: 8),
                     Expanded(
@@ -375,7 +375,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                         l10n.onboardingTryDisclaimer,
                         style: TextStyle(
                           fontSize: 14,
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                           height: 1.4,
                         ),
                       ),
@@ -386,9 +386,9 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 Row(
                   children: [
                     Icon(
-                      PhosphorIconsDuotone.notepad,
+                      CupertinoIcons.doc_text_fill,
                       size: 20,
-                      color: context.appColors.info,
+                      color: context.vantColors.info,
                     ),
                     const SizedBox(width: 8),
                     Expanded(
@@ -396,7 +396,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                         l10n.onboardingTryNotSaved,
                         style: TextStyle(
                           fontSize: 14,
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                           height: 1.4,
                         ),
                       ),
@@ -415,11 +415,11 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
             height: 56,
             child: Container(
               decoration: BoxDecoration(
-                gradient: AppGradients.primaryButton,
+                gradient: VantGradients.primaryButton,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: context.appColors.primary.withValues(alpha: 0.3),
+                    color: context.vantColors.primary.withValues(alpha: 0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -442,11 +442,11 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Icon(PhosphorIconsDuotone.arrowRight, size: 24),
+                    Icon(CupertinoIcons.arrow_right, size: 24),
                   ],
                 ),
               ),
@@ -473,13 +473,13 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                context.appColors.primary.withValues(alpha: 0.2),
-                context.appColors.secondary.withValues(alpha: 0.1),
+                context.vantColors.primary.withValues(alpha: 0.2),
+                context.vantColors.secondary.withValues(alpha: 0.1),
               ],
             ),
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: context.appColors.primary.withValues(alpha: 0.3),
+              color: context.vantColors.primary.withValues(alpha: 0.3),
               width: 1.5,
             ),
           ),
@@ -492,7 +492,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 style: TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -500,7 +500,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 '=',
                 style: TextStyle(
                   fontSize: 24,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -510,9 +510,9 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    PhosphorIconsDuotone.clock,
+                    CupertinoIcons.clock_fill,
                     size: 32,
-                    color: context.appColors.warning,
+                    color: context.vantColors.warning,
                   ),
                   const SizedBox(width: 12),
                   Text(
@@ -520,7 +520,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: context.appColors.warning,
+                      color: context.vantColors.warning,
                     ),
                   ),
                 ],
@@ -530,7 +530,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                 '≈ ${_daysRequired.toStringAsFixed(1)} ${l10n.workDays}',
                 style: TextStyle(
                   fontSize: 16,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
               ),
             ],

@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/pro_provider.dart';
@@ -135,13 +135,13 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: context.appColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: context.vantColors.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Row(
           children: [
             Icon(
-              PhosphorIconsDuotone.warning,
-              color: context.appColors.warning,
+              CupertinoIcons.exclamationmark_triangle_fill,
+              color: context.vantColors.warning,
             ),
             const SizedBox(width: 12),
             Text(
@@ -149,21 +149,21 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
           ],
         ),
         content: Text(
           l10n.importStatementLimitReachedDesc,
-          style: TextStyle(color: context.appColors.textSecondary),
+          style: TextStyle(color: context.vantColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
               l10n.cancel,
-              style: TextStyle(color: context.appColors.textSecondary),
+              style: TextStyle(color: context.vantColors.textSecondary),
             ),
           ),
           ElevatedButton(
@@ -175,7 +175,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
               foregroundColor: Colors.white,
             ),
             child: Text(l10n.upgradeToPro),
@@ -231,7 +231,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.importStatementSuccess(importedCount)),
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -242,7 +242,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.importStatementError),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -282,21 +282,21 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       appBar: AppBar(
-        backgroundColor: context.appColors.background,
+        backgroundColor: context.vantColors.background,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
-            PhosphorIconsRegular.arrowLeft,
-            color: context.appColors.textPrimary,
+            CupertinoIcons.arrow_left,
+            color: context.vantColors.textPrimary,
           ),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           l10n.importStatementTitle,
           style: TextStyle(
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -311,14 +311,14 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: context.appColors.surfaceLight,
-                    borderRadius: BorderRadius.circular(12),
+                    color: context.vantColors.surfaceLight,
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
                     l10n.importStatementMonthlyLimit(_remainingImports),
                     style: TextStyle(
                       fontSize: 12,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                 ),
@@ -358,7 +358,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
           height: 60,
           child: CircularProgressIndicator(
             strokeWidth: 3,
-            color: context.appColors.primary,
+            color: context.vantColors.primary,
           ),
         ),
         const SizedBox(height: 24),
@@ -366,7 +366,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
           l10n.importStatementProcessing,
           style: TextStyle(
             fontSize: 16,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
       ],
@@ -383,10 +383,10 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 60),
             decoration: BoxDecoration(
-              color: context.appColors.surface,
-              borderRadius: BorderRadius.circular(20),
+              color: context.vantColors.surface,
+              borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: context.appColors.primary.withValues(alpha: 0.3),
+                color: context.vantColors.primary.withValues(alpha: 0.3),
                 width: 2,
                 strokeAlign: BorderSide.strokeAlignInside,
               ),
@@ -397,13 +397,13 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: context.appColors.primary.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(20),
+                    color: context.vantColors.primary.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(24),
                   ),
                   child: Icon(
-                    PhosphorIconsDuotone.fileArrowUp,
+                    CupertinoIcons.arrow_up_doc_fill,
                     size: 40,
-                    color: context.appColors.primary,
+                    color: context.vantColors.primary,
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -412,7 +412,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -421,7 +421,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                   l10n.importStatementSupportedFormats,
                   style: TextStyle(
                     fontSize: 14,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
               ],
@@ -433,20 +433,20 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: context.appColors.error.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
+              color: context.vantColors.error.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
               children: [
                 Icon(
-                  PhosphorIconsDuotone.warning,
-                  color: context.appColors.error,
+                  CupertinoIcons.exclamationmark_triangle_fill,
+                  color: context.vantColors.error,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     _error!,
-                    style: TextStyle(color: context.appColors.error),
+                    style: TextStyle(color: context.vantColors.error),
                   ),
                 ),
               ],
@@ -458,14 +458,14 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
           width: double.infinity,
           child: ElevatedButton.icon(
             onPressed: _pickFile,
-            icon: const Icon(PhosphorIconsRegular.folderOpen),
+            icon: const Icon(CupertinoIcons.folder_open),
             label: Text(l10n.importStatementSelectFile),
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
           ),
@@ -480,7 +480,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
         // Header
         Container(
           padding: const EdgeInsets.all(16),
-          color: context.appColors.surface,
+          color: context.vantColors.surface,
           child: Row(
             children: [
               Expanded(
@@ -492,7 +492,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -500,7 +500,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                       l10n.importStatementReviewDesc,
                       style: TextStyle(
                         fontSize: 14,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                   ],
@@ -537,10 +537,10 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
               return Container(
                 margin: const EdgeInsets.only(bottom: 8),
                 decoration: BoxDecoration(
-                  color: context.appColors.surface,
-                  borderRadius: BorderRadius.circular(12),
+                  color: context.vantColors.surface,
+                  borderRadius: BorderRadius.circular(16),
                   border: isSelected
-                      ? Border.all(color: context.appColors.primary, width: 2)
+                      ? Border.all(color: context.vantColors.primary, width: 2)
                       : null,
                 ),
                 child: ListTile(
@@ -548,13 +548,13 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                   leading: Checkbox(
                     value: isSelected,
                     onChanged: (_) => _toggleSelection(index),
-                    activeColor: context.appColors.primary,
+                    activeColor: context.vantColors.primary,
                   ),
                   title: Text(
                     transaction.description,
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -565,7 +565,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                         transaction.category,
                         style: TextStyle(
                           fontSize: 12,
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -573,7 +573,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                         '${transaction.date.day}/${transaction.date.month}/${transaction.date.year}',
                         style: TextStyle(
                           fontSize: 12,
-                          color: context.appColors.textTertiary,
+                          color: context.vantColors.textTertiary,
                         ),
                       ),
                     ],
@@ -582,7 +582,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                     '-${transaction.amount.abs().toStringAsFixed(2)}',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.error,
+                      color: context.vantColors.error,
                     ),
                   ),
                 ),
@@ -595,7 +595,7 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: context.appColors.surface,
+            color: context.vantColors.surface,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.1),
@@ -612,14 +612,14 @@ class _ImportStatementScreenState extends State<ImportStatementScreen> {
                     ? null
                     : _importSelected,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: context.appColors.primary,
+                  backgroundColor: context.vantColors.primary,
                   foregroundColor: Colors.white,
-                  disabledBackgroundColor: context.appColors.primary.withValues(
+                  disabledBackgroundColor: context.vantColors.primary.withValues(
                     alpha: 0.3,
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: _isImporting

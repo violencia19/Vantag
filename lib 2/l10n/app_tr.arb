@@ -1,0 +1,2914 @@
+{
+  "@@locale": "tr",
+
+  "appTitle": "Vantag",
+  "appSlogan": "Finansal Üstünlüğün",
+
+  "navExpenses": "Harcama",
+  "navReports": "Rapor",
+  "navAchievements": "Rozetler",
+  "navProfile": "Profil",
+  "navSettings": "Ayarlar",
+
+  "profile": "Profil",
+  "profileSavedTime": "Vantag ile Kurtarılan Zaman",
+  "profileHours": "{hours} Saat",
+  "@profileHours": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "profileMemberSince": "Üyelik Süresi",
+  "profileDays": "{days} Gün",
+  "@profileDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "profileBadgesEarned": "Kazanılan Rozet",
+  "profileGoogleConnected": "Google Hesabı Bağlı",
+  "profileGoogleNotConnected": "Google Hesabı Bağlı Değil",
+  "profileSignOut": "Çıkış Yap",
+  "profileSignOutConfirm": "Çıkış yapmak istediğinize emin misiniz?",
+  "proMember": "Pro Üye",
+  "proMemberToast": "Pro Üyesiniz ✓",
+
+  "settingsGeneral": "Genel",
+  "settingsCurrency": "Para Birimi",
+  "settingsLanguage": "Dil",
+  "settingsTheme": "Tema",
+  "settingsThemeDark": "Koyu",
+  "settingsThemeLight": "Açık",
+  "settingsThemeAutomatic": "Otomatik",
+
+  "simpleMode": "Basit Mod",
+  "simpleModeDescription": "Sadece temel özelliklerle basitleştirilmiş deneyim",
+  "simpleModeEnabled": "Basit mod etkin",
+  "simpleModeDisabled": "Basit mod devre dışı",
+  "simpleModeHint": "AI sohbet, rozetler ve hedefler gibi tüm özelliklere erişmek için Basit Modu kapatın",
+
+  "simpleTransactions": "İşlemler",
+  "simpleStatistics": "İstatistik",
+  "simpleSettings": "Ayarlar",
+  "simpleIncome": "Gelir",
+  "simpleExpense": "Gider",
+  "simpleExpenses": "Giderler",
+  "simpleBalance": "Bakiye",
+  "simpleTotal": "Toplam",
+  "simpleTotalIncome": "Toplam Gelir",
+  "simpleIncomeTab": "Gelir",
+  "simpleIncomeSources": "Gelir Kaynakları",
+  "simpleNoTransactions": "Bu ay işlem yok",
+  "simpleNoData": "Bu ay için veri yok",
+
+  "settingsNotifications": "Bildirimler",
+  "settingsReminders": "Hatırlatıcılar",
+
+  "settingsSoundEffects": "Ses Efektleri",
+  "settingsSoundVolume": "Ses Seviyesi",
+
+  "settingsProPurchases": "Pro & Satın Alma",
+  "settingsVantagPro": "Vantag Pro",
+  "settingsRestorePurchases": "Satın Alımları Geri Yükle",
+  "settingsRestoreSuccess": "Satın alımlar geri yüklendi",
+  "settingsRestoreNone": "Geri yüklenecek satın alım bulunamadı",
+
+  "settingsDataPrivacy": "Veri & Gizlilik",
+  "settingsExportData": "Verileri Dışa Aktar",
+  "settingsImportStatement": "Ekstre Yükle",
+  "settingsImportStatementDesc": "Banka ekstrenizi yükleyin (PDF/CSV)",
+
+  "importStatementTitle": "Ekstre Yükle",
+  "importStatementSelectFile": "Dosya Seç",
+  "importStatementSupportedFormats": "Desteklenen formatlar: PDF, CSV",
+  "importStatementDragDrop": "Banka ekstrenizi seçmek için dokunun",
+  "importStatementProcessing": "Ekstre işleniyor...",
+  "importStatementSuccess": "{count} işlem başarıyla içe aktarıldı",
+  "@importStatementSuccess": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importStatementError": "Ekstre içe aktarılırken hata oluştu",
+  "importStatementNoTransactions": "Ekstrede işlem bulunamadı",
+  "importStatementUnsupportedFormat": "Desteklenmeyen dosya formatı",
+  "importStatementMonthlyLimit": "Bu ay {remaining} içe aktarma hakkınız kaldı",
+  "@importStatementMonthlyLimit": {
+    "placeholders": {
+      "remaining": {"type": "int"}
+    }
+  },
+  "importStatementLimitReached": "Aylık içe aktarma limitine ulaşıldı",
+  "importStatementLimitReachedDesc": "Bu ayki tüm içe aktarma haklarınızı kullandınız. Daha fazlası için Pro'ya yükseltin.",
+  "importStatementProLimit": "Ayda 10 içe aktarma",
+  "importStatementFreeLimit": "Ayda 1 içe aktarma",
+  "importStatementReviewTitle": "İşlemleri İncele",
+  "importStatementReviewDesc": "İçe aktarılacak işlemleri seçin",
+  "importStatementImportSelected": "Seçilenleri İçe Aktar ({count})",
+  "@importStatementImportSelected": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importStatementSelectAll": "Tümünü Seç",
+  "importStatementDeselectAll": "Seçimi Kaldır",
+
+  "settingsPrivacyPolicy": "Gizlilik Politikası",
+
+  "settingsAbout": "Hakkında",
+  "settingsVersion": "Versiyon",
+  "settingsContactUs": "Bize Ulaşın",
+
+  "settingsGrowth": "Davet et, 3 gün Premium kazan!",
+  "settingsInviteFriends": "Arkadaşını Davet Et",
+  "settingsInviteMessage": "Vantag ile harcamalarımı kontrol ediyorum! Sen de dene:",
+
+  "dashboard": "Anasayfa",
+  "totalBalance": "Toplam Bakiye",
+  "monthlyIncome": "Aylık Gelir",
+  "totalIncome": "Toplam Gelir",
+  "totalSpent": "Toplam Harcama",
+  "totalSaved": "Toplam Tasarruf",
+  "workHours": "Çalışma Saati",
+  "workDays": "Çalışma Günü",
+
+  "expenses": "Harcamalar",
+  "addExpense": "Harcama Ekle",
+  "amount": "Tutar",
+  "amountTL": "Tutar (₺)",
+  "category": "Kategori",
+  "description": "Açıklama",
+  "descriptionHint": "ör: Migros, Spotify, Shell...",
+  "descriptionLabel": "Açıklama (Mağaza/Ürün)",
+  "date": "Tarih",
+  "today": "Bugün",
+
+  "weekdayMon": "Pzt",
+  "weekdayTue": "Sal",
+  "weekdayWed": "Çar",
+  "weekdayThu": "Per",
+  "weekdayFri": "Cum",
+  "weekdaySat": "Cmt",
+  "weekdaySun": "Paz",
+
+  "monthJan": "Ocak",
+  "monthFeb": "Şubat",
+  "monthMar": "Mart",
+  "monthApr": "Nisan",
+  "monthMay": "Mayıs",
+  "monthJun": "Haziran",
+  "monthJul": "Temmuz",
+  "monthAug": "Ağustos",
+  "monthSep": "Eylül",
+  "monthOct": "Ekim",
+  "monthNov": "Kasım",
+  "monthDec": "Aralık",
+  "yesterday": "Dün",
+  "twoDaysAgo": "2 Gün Önce",
+  "daysAgo": "{count} Gün Önce",
+
+  "bought": "Aldım",
+  "thinking": "Düşünüyorum",
+  "passed": "Vazgeçtim",
+  "cancel": "İptal",
+  "ok": "Tamam",
+  "save": "Kaydet",
+  "delete": "Sil",
+  "edit": "Düzenle",
+  "change": "Değiştir",
+  "close": "Kapat",
+  "update": "Güncelle",
+  "calculate": "Hesapla",
+  "giveUp": "Vazgeç",
+  "select": "Seç",
+  "decision": "Karar",
+
+  "hoursRequired": "{hours} saat",
+  "daysRequired": "{days} gün",
+  "minutesRequired": "{minutes} dakika",
+  "hoursEquivalent": "{hours} saat karşılığı",
+
+  "profile": "Profil",
+  "editProfile": "Profili Düzenle",
+  "settings": "Ayarlar",
+  "language": "Dil",
+  "selectLanguage": "Dil Seçin",
+  "selectCurrency": "Para Birimi Seçin",
+  "currency": "Para Birimi",
+  "turkish": "Türkçe",
+  "english": "İngilizce",
+
+  "incomeInfo": "Gelir Bilgileri",
+  "dailyWorkHours": "Günlük Çalışma Saati",
+  "weeklyWorkDays": "Haftalık Çalışma Günü",
+  "workingDaysPerWeek": "Haftada {count} gün çalışıyorum",
+  "hours": "saat",
+  "incomeSources": "{count} kaynak",
+  "detailedEntry": "Detaylı Giriş",
+
+  "googleAccount": "Google Hesabı",
+  "googleLinked": "Google Bağlandı",
+  "googleNotLinked": "Google Bağlı Değil",
+  "linkWithGoogle": "Google ile Bağla",
+  "linking": "Bağlanıyor...",
+  "backupAndSecure": "Verilerini yedekle ve güvende tut",
+  "dataNotBackedUp": "Verileriniz yedeklenmemiş",
+  "googleLinkedSuccess": "Google hesabı başarıyla bağlandı!",
+  "googleLinkFailed": "Google hesabı bağlanamadı",
+
+  "appleAccount": "Apple Hesabı",
+  "appleLinked": "Apple Bağlandı",
+  "appleNotLinked": "Apple Bağlı Değil",
+  "linkWithApple": "Apple ile Bağla",
+  "profileAppleConnected": "Apple Hesabı Bağlı",
+  "profileAppleNotConnected": "Apple Hesabı Bağlı Değil",
+  "appleLinkedSuccess": "Apple hesabı başarıyla bağlandı!",
+  "appleLinkFailed": "Apple hesabı bağlanamadı",
+  "appleSignInNotAvailable": "Apple ile giriş bu cihazda kullanılamıyor",
+
+  "editWorkHours": "Çalışma Saati",
+  "editWorkHoursSubtitle": "Zaman hesaplamaları için günlük çalışma saatiniz",
+  "hoursPerDay": "{hours} saat/gün",
+  "@hoursPerDay": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "workHoursUpdated": "Çalışma saati güncellendi",
+
+  "freeCurrencyNote": "Ücretsiz kullanıcılar sadece TL kullanabilir. Tüm para birimleri için Pro'ya yükseltin.",
+  "currencyLockNote": "Seçilen para birimi kilitlenecek. Pro kullanıcılar istediği zaman değiştirebilir.",
+
+  "welcome": "Hoş geldin",
+  "welcomeSubtitle": "Harcamalarını zamanla ölçmek için bilgilerini gir",
+  "getStarted": "Başla",
+
+  "offlineMode": "Çevrimdışı mod - Veriler senkronize edilecek",
+  "noInternet": "İnternet Bağlantısı Yok",
+  "offline": "Çevrimdışı",
+  "offlineMessage": "Veriler bağlantı sağlandığında senkronize edilecek",
+  "backOnline": "Tekrar Çevrimiçi",
+  "dataSynced": "Veriler senkronize edildi",
+
+  "reports": "Raporlar",
+  "monthlyReport": "Aylık Rapor",
+  "categoryReport": "Kategori Raporu",
+  "thisMonth": "Bu Ay",
+  "lastMonth": "Geçen Ay",
+  "thisWeek": "Bu Hafta",
+  "allTime": "Tüm Zamanlar",
+
+  "achievements": "Başarılar",
+  "badges": "Rozetler",
+  "progress": "İlerleme",
+  "unlocked": "Açıldı",
+  "locked": "Kilitli",
+
+  "streak": "Seri",
+  "currentStreak": "Mevcut Seri",
+  "bestStreak": "En İyi Seri",
+  "streakDays": "{count} gün",
+
+  "subscriptions": "Abonelikler",
+  "subscriptionsDescription": "Netflix, Spotify gibi düzenli aboneliklerini buradan takip et.",
+  "addSubscription": "Abonelik Ekle",
+  "monthlyTotal": "Aylık Toplam",
+  "yearlyTotal": "Yıllık Toplam",
+  "nextPayment": "Sonraki Ödeme",
+  "renewalWarning": "{days} gün içinde yenileniyor",
+  "activeSubscriptions": "{count} aktif abonelik",
+  "monthlySubscriptions": "Aylık Abonelikler",
+
+  "habitCalculator": "Alışkanlık Hesaplayıcı",
+  "selectHabit": "Alışkanlık Seç",
+  "enterAmount": "Miktar Gir",
+  "dailyAmount": "Günlük Miktar",
+  "yearlyCost": "Yıllık Maliyet",
+  "workDaysEquivalent": "İş Günü Karşılığı",
+  "shareResult": "Sonucu Paylaş",
+  "habitQuestion": "Alışkanlığın kaç gününü alıyor?",
+  "calculateAndShock": "Hesapla ve şok ol →",
+
+  "appTour": "Uygulama Turu",
+  "repeatTour": "Uygulama Turunu Tekrarla",
+  "tourCompleted": "Tur Tamamlandı",
+
+  "notifications": "Bildirimler",
+  "notificationSettings": "Bildirim Ayarları",
+  "streakReminder": "Seri Hatırlatıcı",
+  "weeklyInsights": "Haftalık Bilgiler",
+
+  "error": "Hata",
+  "success": "Başarılı",
+  "warning": "Uyarı",
+  "info": "Bilgi",
+  "retry": "Tekrar Dene",
+  "loading": "Yükleniyor...",
+
+  "noData": "Veri bulunamadı",
+  "noExpenses": "Henüz harcama yok",
+  "noExpensesHint": "Yukarıdan tutar girerek başla",
+  "noAchievements": "Henüz başarı yok",
+  "recordToEarnBadge": "Rozet kazanmak için kayıt yap",
+  "notEnoughDataForReports": "Raporlar için yeterli veri yok",
+
+  "confirmDelete": "Silmek istediğinizden emin misiniz?",
+  "deleteConfirmation": "Bu işlem geri alınamaz.",
+
+  "categoryFood": "Yiyecek",
+  "categoryTransport": "Ulaşım",
+  "categoryEntertainment": "Eğlence",
+  "categoryShopping": "Alışveriş",
+  "categoryBills": "Faturalar",
+  "categoryHealth": "Sağlık",
+  "categoryEducation": "Eğitim",
+  "categoryDigital": "Dijital",
+  "categoryOther": "Diğer",
+  "categoryClothing": "Giyim",
+  "categoryElectronics": "Elektronik",
+  "categorySubscription": "Abonelik",
+
+  "weekdayMonday": "Pazartesi",
+  "weekdayTuesday": "Salı",
+  "weekdayWednesday": "Çarşamba",
+  "weekdayThursday": "Perşembe",
+  "weekdayFriday": "Cuma",
+  "weekdaySaturday": "Cumartesi",
+  "weekdaySunday": "Pazar",
+
+  "shareTitle": "Vantag ile tasarruflarıma göz at!",
+  "shareMessage": "Bu ay Vantag ile {amount} TL tasarruf ettim!",
+
+  "currencyRates": "Döviz Kurları",
+  "currencyRatesDescription": "Güncel USD, EUR ve altın fiyatları. Tıklayarak detaylı bilgi alabilirsin.",
+  "gold": "Altın",
+  "dollar": "Dolar",
+  "euro": "Euro",
+
+  "moneySavedInPocket": "Para cebinde kaldı!",
+  "greatDecision": "Harika karar!",
+  "freedomCloser": "Para cebinde kaldı, özgürlüğüne {hours} daha yakınsın!",
+
+  "version": "Sürüm",
+  "privacyPolicy": "Gizlilik Politikası",
+  "termsOfService": "Kullanım Şartları",
+  "about": "Hakkında",
+  "dangerZone": "Tehlikeli Bölge",
+  "appVersion": "Uygulama Sürümü",
+  "signOut": "Çıkış Yap",
+  "deleteAccount": "Hesabı Sil",
+
+  "greetingMorning": "Günaydın",
+  "greetingAfternoon": "İyi günler",
+  "greetingEvening": "İyi akşamlar",
+
+  "financialStatus": "Finansal Durum",
+  "financialSummary": "Finansal Özet",
+  "financialSummaryDescription": "Aylık gelirin, harcamaların ve kurtardığın para burada. Tüm veriler anlık güncellenir.",
+
+  "newExpense": "Yeni Harcama",
+  "editExpense": "Harcama Düzenle",
+  "deleteExpense": "Harcamayı Sil",
+  "deleteExpenseConfirm": "Bu harcamayı silmek istediğine emin misin?",
+  "updateExpense": "Güncelle",
+  "expenseHistory": "Geçmiş",
+  "recordCount": "{count} kayıt",
+  "recordCountLimited": "{total} kayıttan {shown} tanesi",
+  "unlockFullHistory": "Tüm Geçmişi Aç",
+  "proHistoryDescription": "Pro ile {count} harcamanın tamamına eriş. Filtrele, ara ve finansal geçmişini dışa aktar.",
+  "upgradeToPro": "Pro'ya Yükselt",
+
+  "streakTracking": "Seri Takibi",
+  "streakTrackingDescription": "Her gün harcama girdiğinde serin artar. Düzenli takip bilinçli harcamanın anahtarı!",
+
+  "pastDateSelection": "Geçmiş Tarih Seçimi",
+  "pastDateSelectionDescription": "Dün veya önceki günlerin harcamalarını da girebilirsin. Takvim ikonuna tıklayarak istediğin tarihi seç.",
+
+  "amountEntry": "Tutar Girişi",
+  "amountEntryDescription": "Harcama tutarını buraya gir. Fiş tarama butonu ile fişten otomatik okuyabilirsin.",
+
+  "smartMatching": "Akıllı Eşleştirme",
+  "smartMatchingDescription": "Mağaza veya ürün adını yaz. Migros, A101, Starbucks gibi... Uygulama otomatik olarak kategori önericek!",
+
+  "categorySelection": "Kategori Seçimi",
+  "categorySelectionDescription": "Akıllı eşleştirme bulamazsa veya düzeltmek istersen buradan manuel seçim yapabilirsin.",
+
+  "selectCategory": "Kategori seçin",
+  "autoSelected": "Otomatik seçildi: {category}",
+  "pleaseSelectCategory": "Lütfen bu harcamanın kategorisini belirleyin",
+
+  "subCategoryOptional": "Alt kategori (opsiyonel)",
+  "recentlyUsed": "Son kullanılanlar",
+  "suggestions": "Öneriler",
+
+  "scanReceipt": "Fiş tara",
+  "cameraCapture": "Kamera ile çek",
+  "selectFromGallery": "Galeriden seç",
+  "amountFound": "Tutar bulundu: {amount} ₺",
+  "amountNotFound": "Tutar bulunamadı. Manuel girin.",
+  "scanError": "Tarama hatası. Tekrar deneyin.",
+
+  "selectExpenseDate": "Harcama Tarihi Seçin",
+
+  "decisionUpdatedBought": "Karar güncellendi: Aldın",
+  "decisionSaved": "Vazgeçtin, {amount} TL kurtardın!",
+  "keepThinking": "Düşünmeye devam",
+
+  "expenseUpdated": "Harcama güncellendi",
+
+  "validationEnterAmount": "Lütfen geçerli bir tutar girin",
+  "validationAmountPositive": "Tutar 0'dan büyük olmalı",
+  "validationAmountTooHigh": "Tutar çok yüksek görünüyor",
+
+  "simulationSaved": "Simülasyon Olarak Kaydedildi",
+  "simulationDescription": "Bu tutar büyük olduğu için simülasyon olarak kaydedildi.",
+  "simulationInfo": "İstatistiklerini etkilemez, sadece fikir vermek için.",
+  "understood": "Anladım",
+  "largeAmountTitle": "Büyük Tutar",
+  "largeAmountMessage": "Bu gerçek bir harcama mı, yoksa simülasyon mu?",
+  "realExpenseButton": "Gerçek Harcama",
+  "simulationButton": "Simülasyon",
+
+  "monthJanuary": "Ocak",
+  "monthFebruary": "Şubat",
+  "monthMarch": "Mart",
+  "monthApril": "Nisan",
+  "monthMay": "Mayıs",
+  "monthJune": "Haziran",
+  "monthJuly": "Temmuz",
+  "monthAugust": "Ağustos",
+  "monthSeptember": "Eylül",
+  "monthOctober": "Ekim",
+  "monthNovember": "Kasım",
+  "monthDecember": "Aralık",
+
+  "categoryDistribution": "Kategori Dağılımı",
+  "moreCategories": "+{count} kategori daha",
+
+  "expenseCount": "Harcama Sayısı",
+  "boughtPassed": "{bought} alındı, {passed} vazgeçildi",
+
+  "passRate": "Vazgeçme Oranı",
+  "doingGreat": "Harika gidiyorsun!",
+  "canDoBetter": "Daha iyisini yapabilirsin",
+
+  "statistics": "İstatistikler",
+  "avgDailyExpense": "Ortalama Günlük Harcama",
+  "highestSingleExpense": "En Yüksek Tek Harcama",
+  "mostDeclinedCategory": "En Çok Vazgeçilen Kategori",
+  "times": "{count} kez",
+
+  "trend": "Trend",
+  "trendSpentThisPeriod": "Bu {period} {amount} TL harcadın",
+  "trendSameAsPrevious": "Geçen {period} göre aynı harcama yaptın",
+  "trendSpentLess": "Geçen {period} göre %{percent} daha az harcadın",
+  "trendSpentMore": "Geçen {period} göre %{percent} daha fazla harcadın",
+  "periodWeek": "hafta",
+  "periodMonth": "ay",
+
+  "subCategoryDetail": "Alt Kategori Detayı",
+  "comparedToPrevious": "Önceki döneme kıyasla",
+  "increased": "arttı",
+  "decreased": "azaldı",
+  "subCategoryChange": "{period} {subCategory} harcaman {previousPeriod} göre %{percent} {changeText}.",
+
+  "listView": "Liste Görünümü",
+  "calendarView": "Takvim Görünümü",
+  "subscription": "abonelik",
+  "workDaysPerMonth": "iş günü/ay",
+  "everyMonthDay": "Her ayın {day}'i",
+  "noSubscriptionsYet": "Henüz abonelik yok",
+  "addSubscriptionsLikeNetflix": "Netflix, Spotify gibi aboneliklerini ekle",
+  "monthlyTotalAmount": "Aylık toplam: {amount} TL",
+  "dayOfMonth": "Her ayın {day}'i",
+  "addSubscriptionHint": "Yeni abonelik eklemek için + butonuna bas",
+  "tomorrow": "Yarın",
+  "daysLater": "{days} gün sonra",
+  "perMonth": "/ay",
+  "enterSubscriptionName": "Abonelik adı girin",
+  "enterValidAmount": "Geçerli bir tutar girin",
+  "editSubscription": "Aboneliği Düzenle",
+  "newSubscription": "Yeni Abonelik",
+  "subscriptionName": "Abonelik Adı",
+  "subscriptionNameHint": "Netflix, Spotify...",
+  "monthlyAmount": "Aylık Tutar",
+  "renewalDay": "Yenileme Günü",
+  "active": "Aktif",
+  "passivesNotIncluded": "Pasifler bildirimlere dahil edilmez",
+  "autoRecord": "Otomatik Kayıt",
+  "autoRecordDescription": "Yenilendiğinde harcama kaydı oluştur",
+  "add": "Ekle",
+  "subscriptionCount": "{count} abonelik, {amount} ₺/ay",
+  "viewSubscriptionsInCalendar": "Aboneliklerini takvimde gör",
+
+  "urgentRenewalWarning": "Acil Yenileme Uyarısı!",
+  "upcomingRenewals": "Yaklaşan Yenilemeler",
+  "renewsWithinOneHour": "{name} - 1 saat içinde yenilenecek",
+  "renewsWithinHours": "{name} - {hours} saat içinde",
+  "renewsToday": "{name} - Bugün yenilenecek",
+  "renewsTomorrow": "{name} - Yarın yenilenecek",
+  "subscriptionsRenewingSoon": "{count} abonelik yakında yenilenecek",
+  "amountPerMonth": "{amount} ₺/ay",
+
+  "hiddenBadges": "Gizli Rozetler",
+  "badgesEarned": "{unlocked} / {total} rozet kazandın",
+  "percentComplete": "%{percent} tamamlandı",
+  "completed": "Tamamlandı!",
+  "startRecordingForFirstBadge": "İlk rozetini kazanmak için harcama kaydet!",
+  "greatStartKeepGoing": "Harika bir başlangıç, devam et!",
+  "halfwayThere": "Yarı yola geldin, böyle devam!",
+  "doingVeryWell": "Çok iyi gidiyorsun!",
+  "almostDone": "Neredeyse tamamladın!",
+  "allBadgesEarned": "Tüm rozetleri kazandın, tebrikler!",
+  "hiddenBadge": "Gizli Rozet",
+  "discoverHowToUnlock": "Nasıl açılacağını keşfet!",
+  "difficultyEasy": "Kolay",
+  "difficultyMedium": "Orta",
+  "difficultyHard": "Zor",
+  "difficultyLegendary": "Efsanevi",
+  "earnedToday": "Bugün kazandın!",
+  "earnedYesterday": "Dün kazandın",
+  "daysAgoEarned": "{count} gün önce",
+  "weeksAgoEarned": "{count} hafta önce",
+
+  "tapToAddPhoto": "Fotoğraf eklemek için dokun",
+  "dailyWork": "Günlük Çalışma",
+  "weeklyWorkingDays": "Haftalık Çalışma Günleri",
+  "hourlyEarnings": "Saatlik Kazanç",
+  "hourAbbreviation": "sa",
+  "days": "gün",
+  "resetData": "Verileri Sıfırla",
+  "resetDataDebug": "Verileri Sıfırla (DEBUG)",
+  "resetDataTitle": "Verileri Sıfırla",
+  "resetDataMessage": "Tüm uygulama verileri silinecek. Bu işlem geri alınamaz.",
+
+  "deleteAccount": "Hesabımı Sil",
+  "deleteAccountWarningTitle": "Hesabınızı Silmek Üzeresiniz",
+  "deleteAccountWarningMessage": "Bu işlem geri alınamaz! Tüm verileriniz kalıcı olarak silinecektir:\n\n• Harcamalar\n• Gelirler\n• Taksitler\n• Başarımlar\n• Ayarlar",
+  "deleteAccountConfirmPlaceholder": "Onaylamak için 'Onaylıyorum' yazın",
+  "deleteAccountConfirmWord": "Onaylıyorum",
+  "deleteAccountButton": "Hesabı Sil",
+  "deleteAccountSuccess": "Hesabınız başarıyla silindi",
+  "deleteAccountError": "Hesap silinirken bir hata oluştu",
+
+  "notificationTypes": "Bildirim Türleri",
+  "awarenessReminder": "Farkındalık Hatırlatması",
+  "awarenessReminderDesc": "Yüksek tutarlı alımlardan 6-12 saat sonra",
+  "giveUpCongrats": "Vazgeçme Tebriği",
+  "giveUpCongratsDesc": "Vazgeçtiğinde aynı gün motivasyon",
+  "streakReminderDesc": "Akşam, seri kırılmadan önce",
+  "weeklySummary": "Haftalık Özet",
+  "weeklySummaryDesc": "Pazar günü haftalık içgörü",
+  "nightModeNotice": "Gece saatlerinde (22:00-08:00) bildirim gönderilmez. Uykunu bozmayız.",
+  "on": "Açık",
+  "off": "Kapalı",
+
+  "lastUpdate": "Son Güncelleme",
+  "rates": "Kurlar",
+  "usDollar": "ABD Doları",
+  "gramGold": "Gram Altın",
+  "tcmbNotice": "Kurlar TCMB (Türkiye Cumhuriyet Merkez Bankası) verilerinden alınmaktadır. Altın fiyatları anlık piyasa verilerini yansıtır.",
+  "buy": "Alış",
+  "sell": "Satış",
+
+  "createOwnCategory": "Kendi Kategorini Oluştur",
+  "selectEmoji": "Emoji Seç",
+  "categoryName": "Kategori Adı",
+  "categoryNameHint": "Örn: Starbucks",
+  "continueButton": "Devam Et",
+  "howManyDaysForHabit": "Ne için kaç gün çalışıyorsun?",
+  "selectHabitShock": "Bir alışkanlık seç, şok ol",
+  "addMyOwnCategory": "Kendi kategorimi ekle",
+  "whatIsYourSalary": "Aylık Maaşın Ne Kadar?",
+  "enterNetAmount": "Net ele geçen tutarı gir",
+  "howMuchPerTime": "Bir seferinde kaç TL harcıyorsun?",
+  "tl": "TL",
+  "howOften": "Ne sıklıkta?",
+  "whatIsYourIncome": "Aylık gelirin ne kadar?",
+  "exampleAmount": "örn: 20.000",
+  "dontWantToSay": "Söylemek istemiyorum",
+  "resultDays": "{value} GÜN",
+  "yearlyHabitCost": "Yılda sadece {habit} için\nbu kadar çalışıyorsun",
+  "monthlyYearlyCost": "Aylık: {monthly} • Yıllık: {yearly}",
+  "shareOnStory": "Hikayemde Paylaş",
+  "tryAnotherHabit": "Başka alışkanlık dene",
+  "trackAllExpenses": "Tüm harcamalarımı takip et",
+
+  "habitCatCoffee": "Kahve",
+  "habitCatSmoking": "Sigara",
+  "habitCatEatingOut": "Dışarıda Yemek",
+  "habitCatGaming": "Oyun/Eğlence",
+  "habitCatClothing": "Kıyafet",
+  "habitCatTaxi": "Taksi/Uber",
+
+  "freqOnceDaily": "Günde 1",
+  "freqTwiceDaily": "Günde 2",
+  "freqEveryTwoDays": "2 günde 1",
+  "freqOnceWeekly": "Haftada 1",
+  "freqTwoThreeWeekly": "Haftada 2-3",
+  "freqFewMonthly": "Ayda birkaç",
+
+  "habitSharePreText": "Bu alışkanlık yılda",
+  "habitShareWorkDays": "İŞ GÜNÜ",
+  "habitSharePostText": "çalışmana eşdeğer",
+  "habitSharePerYear": "/yıl",
+  "habitShareCTA": "Senin alışkanlıkların kaç gün?",
+  "habitShareText": "Senin alışkanlıkların kaç gün? 👀 vantag.app",
+  "habitShareTextWithLink": "Senin alışkanlıkların kaç gün? 👀 {link}",
+  "@habitShareTextWithLink": {
+    "placeholders": {
+      "link": {"type": "String"}
+    }
+  },
+  "habitMonthlyDetail": "{days} gün {hours} saat",
+  "@habitMonthlyDetail": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "hours": {"type": "int"}
+    }
+  },
+
+  "editIncomes": "Gelirleri Düzenle",
+  "editIncome": "Gelir Düzenle",
+  "addIncome": "Gelir Ekle",
+  "changePhoto": "Fotoğraf",
+  "takePhoto": "Fotoğraf Çek",
+  "chooseFromGallery": "Galeriden Seç",
+  "removePhoto": "Fotoğrafı Kaldır",
+  "photoSelectError": "Fotoğraf seçilemedi",
+  "editSalary": "Maaş",
+  "editSalarySubtitle": "Aylık maaşınızı güncelleyin",
+  "daysPerWeek": "gün/hafta",
+  "doYouHaveOtherIncome": "Başka Bir Gelirin\nVar mı?",
+  "otherIncomeDescription": "Freelance, kira, yatırım geliri gibi\nek gelirlerini de ekleyebilirsin",
+  "yesAddIncome": "Evet, Eklemek İstiyorum",
+  "noOnlySalary": "Hayır, Sadece Maaşım Var",
+  "addAdditionalIncome": "+ Ek Gelir Ekle",
+  "additionalIncomeQuestion": "Ek Geliriniz Var mı?",
+
+  "budgetSettings": "Bütçe Ayarları",
+  "budgetSettingsHint": "İsteğe bağlı. Belirlemezseniz gelirinize göre hesaplanır.",
+  "monthlySpendingLimit": "Aylık Harcama Limiti",
+  "monthlySpendingLimitHint": "Bu ay maksimum ne kadar harcamak istiyorsunuz?",
+  "monthlySavingsGoal": "Aylık Tasarruf Hedefi",
+  "monthlySavingsGoalHint": "Her ay ne kadar biriktirmek istiyorsunuz?",
+  "budgetInfoMessage": "Progress bar, zorunlu giderler düşüldükten sonra kalan bütçenize göre hesaplanır.",
+
+  "linkWithGoogleTitle": "Google ile Bağla",
+  "linkWithGoogleDescription": "Verilerinize tüm cihazlardan güvenle erişin",
+  "skipForNow": "Şimdilik geç",
+  "incomeType": "Gelir Türü",
+  "incomeCategorySalary": "Maaş",
+  "incomeCategoryFreelance": "Freelance",
+  "incomeCategoryRental": "Kira Geliri",
+  "incomeCategoryPassive": "Pasif Gelir",
+  "incomeCategoryOther": "Diğer",
+  "incomeCategorySalaryDesc": "Aylık düzenli maaş",
+  "incomeCategoryFreelanceDesc": "Serbest çalışma gelirleri",
+  "incomeCategoryRentalDesc": "Ev, araba vb. kira gelirleri",
+  "incomeCategoryPassiveDesc": "Yatırım, temettü, faiz vb.",
+  "incomeCategoryOtherDesc": "Diğer gelir kaynakları",
+  "mainSalary": "Ana Maaş",
+  "descriptionOptional": "Açıklama (Opsiyonel)",
+  "descriptionOptionalHint": "Örn: Upwork Projesi",
+  "addedIncomes": "Eklenen Gelirler",
+  "incomeSummary": "Gelir Özeti",
+  "totalMonthlyIncome": "Toplam Aylık Gelir",
+  "incomeSource": "gelir kaynağı",
+  "complete": "Tamamla",
+  "editMyIncomes": "Gelirlerimi Düzenle",
+  "goBack": "Geri Dön",
+
+  "pleaseEnterValidSalary": "Lütfen geçerli bir maaş girin",
+  "pleaseEnterValidIncomeAmount": "Lütfen geçerli bir tutar girin",
+  "atLeastOneIncomeRequired": "En az bir gelir kaynağı eklemelisiniz",
+  "incomesUpdated": "Gelirler güncellendi",
+  "incomesSaved": "Gelirler kaydedildi",
+  "saveError": "Kaydetme sırasında bir hata oluştu",
+  "incomeSourceCount": "{count} gelir kaynağı",
+  "@incomeSourceCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "notBudgetApp": "Bu bir bütçe uygulaması değil",
+  "showRealCost": "Harcamalarının gerçek bedelini göster: zamanın.",
+  "everyExpenseDecision": "Her harcama bir karar",
+  "youDecide": "Aldım, düşünüyorum veya vazgeçtim. Sen seç.",
+  "oneExpenseEnough": "Bugün tek bir harcama yeter",
+  "startSmall": "Küçük başla, farkındalık büyür.",
+  "skip": "Atla",
+  "start": "Başla",
+
+  "whatIsYourDecision": "Kararın nedir?",
+
+  "netBalance": "NET BAKİYE",
+  "sources": "{count} kaynak",
+  "income": "GELİR",
+  "expense": "GİDER",
+  "saved": "KURTARILAN",
+  "budgetUsage": "BÜTÇE KULLANIMI",
+
+  "startToday": "Bugün başla!",
+  "dayStreak": "{count} Günlük Seri!",
+  "startStreak": "Seriye Başla!",
+  "keepStreakMessage": "Her gün harcama kaydederek serini sürdür!",
+  "startStreakMessage": "Her gün en az 1 harcama kaydet ve seri oluştur!",
+  "longestStreak": "En uzun seri: {count} gün",
+  "newRecord": "Yeni Rekor!",
+
+  "withThisAmount": "Bu {amount} TL ile şunları alabilirdin:",
+  "goldGrams": "{grams}g altın",
+
+  "ratesLoading": "Kurlar yükleniyor...",
+  "ratesLoadFailed": "Kurlar yüklenemedi",
+  "goldPriceNotUpdated": "Altın fiyatı güncellenemedi",
+
+  "monthAbbreviations": "Oca,Şub,Mar,Nis,May,Haz,Tem,Ağu,Eyl,Eki,Kas,Ara",
+  "updateYourDecision": "Kararını güncelle",
+  "simulation": "Simülasyon",
+  "tapToUpdate": "Dokunarak güncelle",
+  "swipeToEditOrDelete": "Kaydırarak düzenle veya sil",
+
+  "pleaseEnterValidAmount": "Lütfen geçerli bir tutar girin",
+  "amountTooHigh": "Tutar çok yüksek görünüyor",
+  "pleaseSelectExpenseGroup": "Lütfen önce harcama grubunu belirle",
+  "categorySelectionRequired": "Kategori seçimi zorunludur",
+  "expenseGroup": "Harcama Grubu",
+  "required": "Zorunlu",
+  "detail": "Detay",
+  "optional": "Opsiyonel",
+
+  "editYourCard": "Kartını Düzenle",
+  "share": "Paylaş",
+  "sharing": "Paylaşılıyor...",
+  "frequency": "Sıklık",
+  "daysAbbrev": "gün",
+
+  "youSaved": "kurtardın!",
+  "noSavingsYet": "Henüz kurtarılan yok",
+
+  "categorySports": "Spor",
+  "categoryCommunication": "Haberleşme",
+  "subscriptionNameExample": "Örn: Netflix, Spotify",
+  "monthlyAmountExample": "Örn: 99,99",
+  "color": "Renk",
+  "autoRecordOnRenewal": "Yenileme gününde harcama olarak kaydet",
+
+  "deleteSubscription": "Aboneliği Sil",
+  "deleteSubscriptionConfirm": "{name} aboneliğini silmek istediğine emin misin?",
+  "subscriptionDuration": "Abone Süresi",
+  "subscriptionDurationDays": "{days} gün",
+  "totalPaid": "Toplam Ödenen",
+  "workHoursAmount": "{hours} saat",
+  "workDaysAmount": "{days} gün",
+  "autoRecordEnabled": "Otomatik harcama kaydı açık",
+  "autoRecordDisabled": "Otomatik harcama kaydı kapalı",
+  "saveChanges": "Değişiklikleri Kaydet",
+
+  "weekdayAbbreviations": "Pzt,Sal,Çar,Per,Cum,Cmt,Paz",
+
+  "homePage": "Ana Sayfa",
+  "analysis": "Analiz",
+  "reportsDescription": "Aylık ve kategorilere göre harcama analizlerini buradan görüntüle.",
+  "quickAdd": "Hızlı Ekleme",
+  "quickAddDescription": "Her yerden hızlıca harcama eklemek için bu butonu kullan. Pratik ve hızlı!",
+  "badgesDescription": "Tasarruf hedeflerine ulaştıkça rozetler kazan. Motivasyonunu yüksek tut!",
+  "profileAndSettings": "Profil & Ayarlar",
+  "profileAndSettingsDescription": "Gelir bilgilerini düzenle, bildirim tercihlerini yönet ve uygulama ayarlarına eriş.",
+
+  "addSubscriptionButton": "Netflix, Spotify gibi aboneliklerini ekle",
+
+  "freedTime": "Özgürleştin",
+  "savedAmountLabel": "Kurtarılan",
+  "dayLabel": "Gün",
+  "zeroMinutes": "0 Dakika",
+  "zeroAmount": "0 ₺",
+
+  "shareCardDays": "{days} GÜN",
+  "shareCardDescription": "Yılda sadece {category} için\nbu kadar çalışıyorum",
+  "shareCardQuestion": "Sen kaç gün? 👀",
+
+  "shareCardDuration": "Süre ({days} gün)",
+  "shareCardAmountLabel": "Tutar (₺{amount})",
+  "shareCardFrequency": "Sıklık ({frequency})",
+
+  "unsavedChanges": "Kaydedilmemiş Değişiklikler",
+  "unsavedChangesConfirm": "Değişiklikleri kaydetmeden çıkmak istediğine emin misin?",
+  "discardChanges": "Kaydetme",
+
+  "thinkingTime": "Düşünme süresi...",
+  "confirm": "Onayla",
+  "riskLevelNone": "Güvenli",
+  "riskLevelLow": "Düşük Risk",
+  "riskLevelMedium": "Orta Risk",
+  "riskLevelHigh": "Yüksek Risk",
+  "riskLevelExtreme": "Kritik Risk",
+
+  "savedTimeHoursDays": "{hours} saat = {days} gün kazandın",
+  "savedTimeHours": "{hours} saat kazandın",
+  "savedTimeMinutes": "{minutes} dakika kazandın",
+  "couldBuyGoldGrams": "Bu parayla {grams} gram altın alabilirdin",
+  "equivalentWorkDays": "Bu {days} gün çalışmana eşdeğer",
+  "equivalentWorkHours": "Bu {hours} saat çalışmana eşdeğer",
+  "savedDollars": "Tam {amount} dolar biriktirdin",
+  "or": "VEYA",
+  "goldGramsShort": "{grams}g altın",
+
+  "amountRequired": "Tutar gerekli",
+  "everyMonth": "Her ay",
+  "daysCount": "{count} gün",
+  "hoursCount": "{count} saat",
+  "daysCountDecimal": "{count} gün",
+  "autoRecordOn": "Otomatik kayıt açık",
+  "autoRecordOff": "Otomatik kayıt kapalı",
+  "monthlyAmountTl": "{amount} TL/ay",
+  "shareError": "Paylaşım sırasında bir hata oluştu",
+  "shareVia": "Paylaş",
+  "saveToGallery": "Galeriye Kaydet",
+  "savedToGallery": "Galeriye kaydedildi",
+  "otherApps": "Diğer Uygulamalar",
+  "expenseDeleted": "Harcama silindi",
+  "undo": "Geri Al",
+  "choosePlatform": "Platform Seç",
+  "savingToGallery": "Kaydediliyor...",
+
+  "nameRequired": "İsim gerekli",
+  "amountHint": "Örn: 99,99",
+  "updateDecision": "Kararını güncelle",
+  "categoryRequired": "Kategori gerekli",
+  "monthlyAmountLabel": "Aylık Tutar (TL)",
+  "withThisAmountYouCouldBuy": "{amount} TL ile şunları alabilirdin:",
+  "@withThisAmountYouCouldBuy": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "workHoursDistribution": "Çalışma Saati Dağılımı",
+  "workHoursDistributionDesc": "Her kategori için kaç saat çalıştığını gör",
+  "hoursShort": "{hours}s",
+  "@hoursShort": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "categoryHoursBar": "{hours} saat (%{percent})",
+  "@categoryHoursBar": {
+    "placeholders": {
+      "hours": {"type": "String"},
+      "percent": {"type": "String"}
+    }
+  },
+
+  "monthComparison": "Ay Karşılaştırması",
+  "vsLastMonth": "Geçen Aya Göre",
+  "noLastMonthData": "Geçen ay verisi yok",
+  "decreasedBy": "↓ %{percent} azaldı",
+  "@decreasedBy": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "increasedBy": "↑ %{percent} arttı",
+  "@increasedBy": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "noChange": "Değişim yok",
+  "greatProgress": "Harika ilerleme!",
+  "watchOut": "Dikkat!",
+
+  "smartInsights": "Akıllı Bilgiler",
+  "mostExpensiveDay": "En Pahalı Gün",
+  "mostExpensiveDayValue": "{day} (ort. {amount} TL)",
+  "@mostExpensiveDayValue": {
+    "placeholders": {
+      "day": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "mostPassedCategory": "En Çok Vazgeçilen",
+  "mostPassedCategoryValue": "{category} ({count} kez)",
+  "@mostPassedCategoryValue": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "savingsOpportunity": "Tasarruf Fırsatı",
+  "savingsOpportunityValue": "{category}'i %20 azalt = ayda {hours}s kazan",
+  "@savingsOpportunityValue": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "weeklyTrend": "Haftalık Trend",
+  "weeklyTrendValue": "Son 4 hafta: {trend}",
+  "@weeklyTrendValue": {
+    "placeholders": {
+      "trend": {"type": "String"}
+    }
+  },
+  "overallDecreasing": "Genel düşüş",
+  "overallIncreasing": "Genel artış",
+  "stableTrend": "Stabil",
+  "noTrendData": "Yeterli veri yok",
+
+  "yearlyView": "Yıllık Görünüm",
+  "yearlyHeatmap": "Harcama Trendi",
+  "yearlyHeatmapDesc": "Son 12 ayın aylık harcama trendi",
+  "lowSpending": "Az",
+  "highSpending": "Çok",
+  "noSpending": "Harcama yok",
+  "tapDayForDetails": "Detay için güne dokun",
+  "tapMonthForDetails": "Detay için aya dokun",
+  "selectedDayExpenses": "{date}: {amount} TL ({count} harcama)",
+  "@selectedDayExpenses": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "amount": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "selectedMonthExpenses": "{month}: {amount} ({count} harcama)",
+  "@selectedMonthExpenses": {
+    "placeholders": {
+      "month": {"type": "String"},
+      "amount": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "monthJan": "Oca",
+  "monthFeb": "Şub",
+  "monthMar": "Mar",
+  "monthApr": "Nis",
+  "monthMay": "May",
+  "monthJun": "Haz",
+  "monthJul": "Tem",
+  "monthAug": "Ağu",
+  "monthSep": "Eyl",
+  "monthOct": "Eki",
+  "monthNov": "Kas",
+  "monthDec": "Ara",
+
+  "proBadge": "PRO",
+  "proFeature": "Pro Özellik",
+  "comingSoon": "Yakında",
+
+  "mindfulChoice": "Bilinçli Tercih",
+  "mindfulChoiceExpandedDesc": "Aslında ne almayı planlamıştın?",
+  "mindfulChoiceCollapsedDesc": "Aslında daha pahalısını mı alacaktın?",
+  "mindfulChoiceAmountLabel": "Aklındaki Tutar (₺)",
+  "mindfulChoiceAmountHint": "Örn: {amount}",
+  "@mindfulChoiceAmountHint": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "mindfulChoiceSavings": "{amount} TL tasarruf",
+  "@mindfulChoiceSavings": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "mindfulChoiceSavingsDesc": "Bilinçli tercih ile cebinde kalıyor",
+
+  "tierBronze": "Bronz",
+  "tierSilver": "Gümüş",
+  "tierGold": "Altın",
+  "tierPlatinum": "Platin",
+
+  "achievementCategoryStreak": "Seri",
+  "achievementCategorySavings": "Tasarruf",
+  "achievementCategoryDecision": "Karar",
+  "achievementCategoryRecord": "Kayıt",
+  "achievementCategoryHidden": "Gizli",
+
+  "achievementStreakB1Title": "Başlangıç",
+  "achievementStreakB1Desc": "3 gün üst üste kayıt yap",
+  "achievementStreakB2Title": "Devam Ediyorum",
+  "achievementStreakB2Desc": "7 gün üst üste kayıt yap",
+  "achievementStreakB3Title": "Rutin Oluşuyor",
+  "achievementStreakB3Desc": "14 gün üst üste kayıt yap",
+  "achievementStreakS1Title": "Kararlılık",
+  "achievementStreakS1Desc": "30 gün üst üste kayıt yap",
+  "achievementStreakS2Title": "Alışkanlık",
+  "achievementStreakS2Desc": "60 gün üst üste kayıt yap",
+  "achievementStreakS3Title": "Disiplin",
+  "achievementStreakS3Desc": "90 gün üst üste kayıt yap",
+  "achievementStreakG1Title": "Güçlü İrade",
+  "achievementStreakG1Desc": "150 gün üst üste kayıt yap",
+  "achievementStreakG2Title": "Sarsılmaz",
+  "achievementStreakG2Desc": "250 gün üst üste kayıt yap",
+  "achievementStreakG3Title": "İstikrar",
+  "achievementStreakG3Desc": "365 gün üst üste kayıt yap",
+  "achievementStreakPTitle": "Süreklilik",
+  "achievementStreakPDesc": "730 gün üst üste kayıt yap",
+
+  "achievementSavingsB1Title": "İlk Tasarruf",
+  "achievementSavingsB1Desc": "250 TL kurtardın",
+  "achievementSavingsB2Title": "Birikime Başladım",
+  "achievementSavingsB2Desc": "500 TL kurtardın",
+  "achievementSavingsB3Title": "Yolun Başında",
+  "achievementSavingsB3Desc": "1.000 TL kurtardın",
+  "achievementSavingsS1Title": "Bilinçli Harcama",
+  "achievementSavingsS1Desc": "2.500 TL kurtardın",
+  "achievementSavingsS2Title": "Kontrollü",
+  "achievementSavingsS2Desc": "5.000 TL kurtardın",
+  "achievementSavingsS3Title": "Tutarlı",
+  "achievementSavingsS3Desc": "10.000 TL kurtardın",
+  "achievementSavingsG1Title": "Güçlü Birikim",
+  "achievementSavingsG1Desc": "25.000 TL kurtardın",
+  "achievementSavingsG2Title": "Finansal Farkındalık",
+  "achievementSavingsG2Desc": "50.000 TL kurtardın",
+  "achievementSavingsG3Title": "Sağlam Zemin",
+  "achievementSavingsG3Desc": "100.000 TL kurtardın",
+  "achievementSavingsP1Title": "Uzun Vadeli Düşünce",
+  "achievementSavingsP1Desc": "250.000 TL kurtardın",
+  "achievementSavingsP2Title": "Finansal Netlik",
+  "achievementSavingsP2Desc": "500.000 TL kurtardın",
+  "achievementSavingsP3Title": "Büyük Resim",
+  "achievementSavingsP3Desc": "1.000.000 TL kurtardın",
+
+  "achievementDecisionB1Title": "İlk Karar",
+  "achievementDecisionB1Desc": "3 kez vazgeçtin",
+  "achievementDecisionB2Title": "Direnç",
+  "achievementDecisionB2Desc": "7 kez vazgeçtin",
+  "achievementDecisionB3Title": "Kontrol",
+  "achievementDecisionB3Desc": "15 kez vazgeçtin",
+  "achievementDecisionS1Title": "Kararlılık",
+  "achievementDecisionS1Desc": "30 kez vazgeçtin",
+  "achievementDecisionS2Title": "Netlik",
+  "achievementDecisionS2Desc": "60 kez vazgeçtin",
+  "achievementDecisionS3Title": "Güçlü Seçimler",
+  "achievementDecisionS3Desc": "100 kez vazgeçtin",
+  "achievementDecisionG1Title": "İrade",
+  "achievementDecisionG1Desc": "200 kez vazgeçtin",
+  "achievementDecisionG2Title": "Soğukkanlılık",
+  "achievementDecisionG2Desc": "400 kez vazgeçtin",
+  "achievementDecisionG3Title": "Üst Seviye Kontrol",
+  "achievementDecisionG3Desc": "700 kez vazgeçtin",
+  "achievementDecisionPTitle": "Tam Hakimiyet",
+  "achievementDecisionPDesc": "1.000 kez vazgeçtin",
+
+  "achievementRecordB1Title": "Başladım",
+  "achievementRecordB1Desc": "5 harcama kaydı",
+  "achievementRecordB2Title": "Takip Ediyorum",
+  "achievementRecordB2Desc": "15 harcama kaydı",
+  "achievementRecordB3Title": "Düzen Oluştu",
+  "achievementRecordB3Desc": "30 harcama kaydı",
+  "achievementRecordS1Title": "Detaylı Takip",
+  "achievementRecordS1Desc": "60 harcama kaydı",
+  "achievementRecordS2Title": "Analitik",
+  "achievementRecordS2Desc": "120 harcama kaydı",
+  "achievementRecordS3Title": "Sistemli",
+  "achievementRecordS3Desc": "200 harcama kaydı",
+  "achievementRecordG1Title": "Derinlik",
+  "achievementRecordG1Desc": "350 harcama kaydı",
+  "achievementRecordG2Title": "Uzmanlaşma",
+  "achievementRecordG2Desc": "600 harcama kaydı",
+  "achievementRecordG3Title": "Arşiv",
+  "achievementRecordG3Desc": "1.000 harcama kaydı",
+  "achievementRecordPTitle": "Uzun Süreli Kayıt",
+  "achievementRecordPDesc": "2.000 harcama kaydı",
+
+  "achievementHiddenNightTitle": "Gece Kaydı",
+  "achievementHiddenNightDesc": "00:00-05:00 arası kayıt yap",
+  "achievementHiddenEarlyTitle": "Erken Saat",
+  "achievementHiddenEarlyDesc": "05:00-07:00 arası kayıt yap",
+  "achievementHiddenWeekendTitle": "Hafta Sonu Rutini",
+  "achievementHiddenWeekendDesc": "Cumartesi-Pazar 5 kayıt",
+  "achievementHiddenOcrTitle": "İlk Tarama",
+  "achievementHiddenOcrDesc": "İlk fiş OCR kullanımı",
+  "achievementHiddenBalancedTitle": "Dengeli Hafta",
+  "achievementHiddenBalancedDesc": "7 gün üst üste 0 \"Aldım\"",
+  "achievementHiddenCategoriesTitle": "Kategori Tamamlama",
+  "achievementHiddenCategoriesDesc": "Tüm 6 kategoride kayıt",
+  "achievementHiddenGoldTitle": "Altın Denkliği",
+  "achievementHiddenGoldDesc": "Kurtarılan para 1 gram altın değerinde",
+  "achievementHiddenUsdTitle": "Döviz Denkliği",
+  "achievementHiddenUsdDesc": "Kurtarılan para 100$ değerinde",
+  "achievementHiddenSubsTitle": "Abonelik Kontrolü",
+  "achievementHiddenSubsDesc": "5 abonelik takibi",
+  "achievementHiddenNoSpendTitle": "Harcamasız Ay",
+  "achievementHiddenNoSpendDesc": "1 ay boyunca 0 \"Aldım\"",
+  "achievementHiddenGoldKgTitle": "Yüksek Değer Birikim",
+  "achievementHiddenGoldKgDesc": "Kurtarılan para 1 kg altın değerinde",
+  "achievementHiddenUsd10kTitle": "Büyük Döviz Denkliği",
+  "achievementHiddenUsd10kDesc": "Kurtarılan para 10.000$ değerinde",
+  "achievementHiddenAnniversaryTitle": "Kullanım Yıldönümü",
+  "achievementHiddenAnniversaryDesc": "365 gün kullanım",
+  "achievementHiddenEarlyAdopterTitle": "İlk Nesil Kullanıcı",
+  "achievementHiddenEarlyAdopterDesc": "Uygulamayı 2 yıl önce indirdi",
+  "achievementHiddenUltimateTitle": "Uzun Vadeli Disiplin",
+  "achievementHiddenUltimateDesc": "1.000.000 TL + 365 gün streak aynı anda",
+  "achievementHiddenCollectorTitle": "Koleksiyoncu",
+  "achievementHiddenCollectorDesc": "Platinum hariç tüm rozetleri topladı",
+
+  "easterEgg5Left": "5 kaldı...",
+  "easterEggAlmost": "Neredeyse...",
+  "achievementUnlocked": "Rozet Açıldı!",
+  "curiousCatTitle": "Çok Meraklı",
+  "curiousCatDescription": "Gizli Easter Egg'i buldun!",
+  "great": "Harika!",
+
+  "achievementHiddenCuriousCatTitle": "Çok Meraklı",
+  "achievementHiddenCuriousCatDesc": "Gizli Easter Egg'i buldun!",
+
+  "recentExpenses": "Son Harcamalar",
+  "seeMore": "Tümünü Gör",
+  "tapPlusToAdd": "İlk harcamanı eklemek için + butonuna dokun",
+  "unlockFullHistory": "Tam Geçmişi Aç",
+  "proHistoryDescription": "Ücretsiz kullanıcılar son 30 günü görebilir. Sınırsız geçmiş için Pro'ya yükseltin.",
+  "upgradeToPro": "Pro'ya Yükselt",
+  "expenseAdded": "Harcama başarıyla eklendi",
+
+  "duplicateExpenseWarning": "Bu harcama zaten var gibi görünüyor",
+  "duplicateExpenseDetails": "{amount} TL {category}",
+  "@duplicateExpenseDetails": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "category": {"type": "String"}
+    }
+  },
+  "addAnyway": "Yine de eklemek istiyor musun?",
+  "yes": "Evet",
+  "no": "Hayır",
+  "timeAgoNow": "şimdi",
+  "timeAgoMinutes": "{count} dakika önce",
+  "@timeAgoMinutes": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "timeAgoHours": "{count} saat önce",
+  "@timeAgoHours": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "timeAgoDays": "{count} gün önce",
+  "@timeAgoDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "exportToExcel": "Excel'e Aktar",
+  "exportReport": "Rapor Dışa Aktar",
+  "exporting": "Dışa aktarılıyor...",
+  "exportSuccess": "Rapor başarıyla dışa aktarıldı",
+  "exportError": "Dışa aktarma başarısız",
+  "exportComplete": "Dışa Aktarma Tamamlandı",
+  "exportShareOption": "Paylaş",
+  "exportSaveOption": "Dosyalarıma Kaydet",
+  "exportSavedToDownloads": "Downloads/Vantag klasörüne kaydedildi",
+  "exportChooseAction": "Dosya ile ne yapmak istersiniz?",
+  "csvHeaderDate": "Tarih",
+  "csvHeaderTime": "Saat",
+  "csvHeaderAmount": "Tutar",
+  "csvHeaderCurrency": "Para Birimi",
+  "csvHeaderCategory": "Kategori",
+  "csvHeaderSubcategory": "Alt Kategori",
+  "csvHeaderDescription": "Açıklama",
+  "csvHeaderProduct": "Ürün",
+  "csvHeaderDecision": "Karar",
+  "csvHeaderWorkHours": "Çalışma Saati",
+  "csvHeaderInstallment": "Taksit",
+  "csvHeaderMandatory": "Zorunlu",
+  "csvSummarySection": "ÖZET",
+  "csvTotalExpense": "Toplam Harcama",
+  "csvCategoryTotals": "Kategori Toplamları",
+  "csvDailyAverage": "Günlük Ortalama",
+  "csvWeeklyAverage": "Haftalık Ortalama",
+  "csvTopCategory": "En Çok Harcanan Kategori",
+  "csvLargestExpense": "En Büyük Harcama",
+  "csvTotalWorkHours": "Toplam Çalışma Saati",
+  "csvPeriod": "Dönem",
+  "csvYes": "Evet",
+  "csvNo": "Hayır",
+  "financialReport": "Finansal Özet Raporu",
+  "createdAt": "Oluşturulma",
+  "savingsRate": "Tasarruf Oranı",
+  "hourlyRate": "Saatlik Ücret",
+  "workHoursEquivalent": "Çalışma Saati Karşılığı",
+  "transactionCount": "İşlem Sayısı",
+  "average": "Ortalama",
+  "percentage": "Yüzde",
+  "total": "Toplam",
+  "monthly": "Aylık",
+  "yearly": "Yıllık",
+  "changePercent": "Değişim %",
+  "month": "Ay",
+  "originalAmount": "Orijinal Tutar",
+  "nextRenewal": "Sonraki Yenileme",
+  "yearlyAmount": "Yıllık Tutar",
+  "badge": "Rozet",
+  "status": "Durum",
+  "earnedDate": "Kazanılan Tarih",
+  "totalBadges": "Toplam Rozet",
+  "proFeatureExport": "Excel Dışa Aktarma Pro özelliğidir",
+  "upgradeForExport": "Finansal verilerinizi dışa aktarmak için Pro'ya yükseltin",
+  "importPremiumOnly": "İçe Aktarma Pro özelliğidir",
+  "upgradeForImport": "Banka ekstrelerinizi içe aktarmak için Pro'ya yükseltin",
+  "receiptScanned": "Fiş başarıyla tarandı",
+  "noAmountFound": "Görüntüde tutar bulunamadı",
+  "saveAllRecognized": "Tümünü Kaydet ({count})",
+  "@saveAllRecognized": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "saveAllRecognizedSuccess": "{count} harcama başarıyla kaydedildi",
+  "@saveAllRecognizedSuccess": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "budgets": "Bütçeler",
+  "budget": "Bütçe",
+  "addBudget": "Bütçe Ekle",
+  "editBudget": "Bütçe Düzenle",
+  "deleteBudget": "Bütçe Sil",
+  "deleteBudgetConfirm": "Bu bütçeyi silmek istediğinizden emin misiniz?",
+  "monthlyLimit": "Aylık Limit",
+  "budgetProgress": "Bütçe Durumu",
+  "totalBudget": "Toplam Bütçe",
+  "remainingAmount": "{amount} kaldı",
+  "@remainingAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "overBudgetAmount": "{amount} aştın!",
+  "@overBudgetAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "ofBudget": "{spent} / {total}",
+  "@ofBudget": {
+    "placeholders": {
+      "spent": {"type": "String"},
+      "total": {"type": "String"}
+    }
+  },
+  "onTrack": "Yolunda",
+  "nearLimit": "Limite yakın",
+  "overLimit": "Limit aşıldı",
+  "noBudgetsYet": "Henüz bütçe yok",
+  "noBudgetsDescription": "Kategorilere bütçe koyarak harcamalarını takip et",
+  "budgetHelperText": "Bu kategori için aylık harcama limiti belirle",
+  "budgetExceededTitle": "Bütçe Aşıldı!",
+  "budgetExceededMessage": "{category} bütçeni {amount} aştın",
+  "@budgetExceededMessage": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "budgetNearLimit": "Bütçe limitine yaklaşıyorsun",
+  "budgetNearLimitMessage": "{category} bütçenin %{percent}'ini kullandın",
+  "@budgetNearLimitMessage": {
+    "placeholders": {
+      "percent": {"type": "String"},
+      "category": {"type": "String"}
+    }
+  },
+  "categoriesOnTrack": "{count} yolunda",
+  "@categoriesOnTrack": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "categoriesOverBudget": "{count} bütçe aşımı",
+  "@categoriesOverBudget": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "categoriesNearLimit": "{count} limite yakın",
+  "@categoriesNearLimit": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pleaseSelectCategory": "Lütfen bir kategori seçin",
+  "categories": "kategori",
+  "viewAll": "Tümünü Gör",
+  "viewBudgetsInReports": "Bütçe detaylarını Raporlar sekmesinde gör",
+
+  "pendingCategorization": "{count} harcama kategorize bekliyor",
+  "@pendingCategorization": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "suggestionsAvailable": "{count} öneri mevcut",
+  "@suggestionsAvailable": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "reviewExpenses": "Harcamaları İncele",
+  "swipeToCategorizeTip": "Kategorize etmek için bir kategori seçin",
+  "selectCategory": "Kategori Seçin",
+  "rememberMerchant": "Bu satıcıyı hatırla",
+  "suggestionLabel": "Öneri: {name}",
+  "@suggestionLabel": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "suggested": "Önerilen",
+  "allCategorized": "Tamamlandı!",
+  "categorizedCount": "{processed} kategorize edildi, {skipped} atlandı",
+  "@categorizedCount": {
+    "placeholders": {
+      "processed": {"type": "int"},
+      "skipped": {"type": "int"}
+    }
+  },
+  "importStatement": "Ekstre Yükle",
+  "importCSV": "CSV Yükle",
+  "importFromBank": "Bankadan İçe Aktar",
+  "selectCSVFile": "CSV dosyası seçin",
+  "importingExpenses": "Harcamalar içe aktarılıyor...",
+  "importSuccess": "{count} harcama başarıyla içe aktarıldı",
+  "@importSuccess": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importError": "İçe aktarma başarısız",
+  "recognizedExpenses": "{count} tanındı",
+  "@recognizedExpenses": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pendingExpenses": "{count} inceleme bekliyor",
+  "@pendingExpenses": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importSummary": "İçe Aktarma Özeti",
+  "autoMatched": "Otomatik Eşleşti",
+  "needsReview": "İnceleme Gerekli",
+  "startReview": "İncelemeye Başla",
+  "importAIParsed": "AI ile Ayrıştırılan İşlemler",
+  "importNoTransactions": "Bu dosyada işlem bulunamadı",
+  "importSelected": "{count} Seçiliyi Kaydet",
+  "@importSelected": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "transactions": "işlem",
+  "selectAll": "Tümünü Seç",
+  "selectNone": "Hiçbirini Seçme",
+  "selected": "seçili",
+  "saving": "Kaydediliyor...",
+  "learnedMerchants": "Öğrenilen Satıcılar",
+  "noLearnedMerchants": "Henüz öğrenilen satıcı yok",
+  "learnedMerchantsDescription": "Kategorize ettiğiniz satıcılar burada görünecek",
+  "merchantCount": "{count} satıcı öğrenildi",
+  "@merchantCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "deleteMerchant": "Satıcıyı Sil",
+  "deleteMerchantConfirm": "Bu satıcıyı silmek istediğinizden emin misiniz?",
+
+  "voiceInput": "Sesli Giriş",
+  "listening": "Dinleniyor...",
+  "voiceNotAvailable": "Bu cihazda sesli giriş kullanılamıyor",
+  "microphonePermissionDenied": "Mikrofon izni reddedildi",
+  "microphonePermissionRequired": "Mikrofon izni gerekli",
+  "networkRequired": "İnternet bağlantısı gerekli",
+  "understanding": "Anlıyorum...",
+  "couldNotUnderstandTryAgain": "Anlayamadım, tekrar dene",
+  "couldNotUnderstandSayAgain": "Anlayamadım, tekrar söyle",
+  "sayAgain": "Tekrar söyle",
+  "yesSave": "Evet, kaydet",
+  "voiceExpenseAdded": "{amount}₺ {description} eklendi",
+  "@voiceExpenseAdded": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "description": {"type": "String"}
+    }
+  },
+  "voiceConfirmExpense": "Harcamayı Onayla",
+  "voiceDetectedAmount": "Algılanan: {amount}₺",
+  "@voiceDetectedAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "tapToSpeak": "Konuşmak için dokun",
+  "speakExpense": "Harcamanı söyle (örn: \"50 lira kahve\")",
+  "voiceParsingFailed": "Anlaşılamadı. Lütfen tekrar dene.",
+  "voiceHighConfidence": "Otomatik kaydedildi",
+  "voiceMediumConfidence": "Düzenlemek için dokun",
+  "voiceLowConfidence": "Lütfen onayla",
+  "speakYourExpense": "Harcamanı söyle",
+  "longPressForVoice": "Sesli giriş için uzun bas",
+  "didYouKnow": "Biliyor muydun?",
+  "voiceTipMessage": "Daha hızlı ekle! + butonuna uzun bas ve söyle: \"50 lira kahve\"",
+  "gotIt": "Anladım",
+  "tryNow": "Dene",
+  "voiceAndShortcuts": "Ses ve Kısayollar",
+  "newBadge": "YENİ",
+  "voiceInputHint": "Sesle eklemek için + butonuna uzun bas",
+  "howToUseVoice": "Sesli Giriş Nasıl Kullanılır",
+  "voiceLimitReachedTitle": "Günlük Limit Doldu",
+  "voiceLimitReachedFree": "Bugünlük sesli giriş hakkın bitti. Pro'ya geçerek sınırsız kullanabilir veya yarın tekrar deneyebilirsin.",
+  "voiceServerBusyTitle": "Sunucular Yoğun",
+  "voiceServerBusyMessage": "Ses sunucuları şu an yoğun. Lütfen biraz sonra tekrar dene.",
+  "longPressFab": "+ Butonuna Uzun Bas",
+  "longPressFabHint": "1 saniye basılı tut",
+  "micButton": "Mikrofon Butonu",
+  "micButtonHint": "Harcama eklerken mikrofona tıkla",
+  "exampleCommands": "Örnek Komutlar",
+  "voiceExample1": "\"50 lira kahve\"",
+  "voiceExample2": "\"Markete 200 lira verdim\"",
+  "voiceExample3": "\"Taksi 150 tuttu\"",
+  "voiceExamplesMultiline": "\"50 lira kahve\"\n\"markete 200 TL verdim\"\n\"taksi 150 tuttu\"",
+  "somethingWentWrong": "Bir şeyler yanlış gitti. Tekrar dene.",
+  "errorLoadingData": "Veri yüklenirken hata oluştu",
+  "errorSaving": "Kaydedilirken hata oluştu. Tekrar dene.",
+  "networkError": "Ağ hatası. Bağlantını kontrol et.",
+  "errorLoadingRates": "Döviz kurları yüklenemedi",
+  "errorLoadingSubscriptions": "Abonelikler yüklenemedi",
+  "undo": "Geri Al",
+
+  "autoRecorded": "Otomatik",
+  "autoRecordedExpenses": "{count} abonelik otomatik eklendi",
+  "@autoRecordedExpenses": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "autoRecordEnabled": "Otomatik kayıt açık",
+  "autoRecordDescription": "Harcama fatura tarihinde otomatik eklenecek",
+
+  "security": "Güvenlik",
+  "pinLock": "PIN Kilidi",
+  "pinLockDescription": "Uygulamayı açmak için PIN iste",
+  "biometricUnlock": "Biyometrik Kilit",
+  "biometricDescription": "Parmak izi veya Face ID kullan",
+  "enterPin": "PIN Gir",
+  "createPin": "PIN Oluştur",
+  "createPinDescription": "4 haneli bir PIN seç",
+  "confirmPin": "PIN'i Onayla",
+  "confirmPinDescription": "PIN'ini tekrar gir",
+  "wrongPin": "Yanlış PIN. Tekrar dene.",
+  "pinMismatch": "PIN'ler eşleşmiyor. Tekrar dene.",
+  "pinSet": "PIN başarıyla ayarlandı",
+  "useBiometric": "Biyometrik Kullan",
+  "unlockWithBiometric": "Vantag'ı Aç",
+  "reset": "Sıfırla",
+
+  "assistantSetupTitle": "Google Assistant Kurulumu",
+  "assistantSetupHeadline": "\"Vantag\" demeden harcama ekle",
+  "assistantSetupSubheadline": "Bu kurulumdan sonra sadece\n\"Hey Google, harcama ekle\" demen yeterli",
+  "assistantSetupComplete": "Harika! Artık \"Hey Google, harcama ekle\" diyebilirsin",
+
+  "assistantSetupStep1Title": "Google Assistant'ı Aç",
+  "assistantSetupStep1Desc": "\"Hey Google, ayarlar\" de veya Google Assistant uygulamasını aç.",
+  "assistantSetupStep1Tip": "Ana sayfada sağ alt köşedeki profil ikonuna tıkla.",
+
+  "assistantSetupStep2Title": "Rutinler'e Git",
+  "assistantSetupStep2Desc": "Ayarlar içinde \"Rutinler\" seçeneğini bul ve tıkla.",
+  "assistantSetupStep2Tip": "Bazı cihazlarda \"Kısayollar\" olarak da geçebilir.",
+
+  "assistantSetupStep3Title": "Yeni Rutin Oluştur",
+  "assistantSetupStep3Desc": "\"+\" veya \"Yeni rutin\" butonuna tıkla.",
+  "assistantSetupStep3Tip": "Sağ alt köşede olabilir.",
+
+  "assistantSetupStep4Title": "Sesli Komut Ekle",
+  "assistantSetupStep4Desc": "\"Başladığında\" kısmına tıkla ve \"Sesli komut ekle\" seç.\n\n\"Harcama ekle\" yaz.",
+  "assistantSetupStep4Tip": "İstersen \"Para ekle\" veya \"Masraf kaydet\" de yazabilirsin.",
+
+  "assistantSetupStep5Title": "Eylemi Ekle",
+  "assistantSetupStep5Desc": "\"Eylem ekle\" → \"Uygulama aç\" → \"Vantag\" seç.",
+  "assistantSetupStep5Tip": "Vantag listede yoksa arama kutusuna yaz.",
+
+  "assistantSetupStep6Title": "Kaydet",
+  "assistantSetupStep6Desc": "Sağ üstteki \"Kaydet\" butonuna tıkla.",
+  "assistantSetupStep6Tip": "Rutine bir isim vermeni isteyebilir.",
+
+  "step": "Adım",
+  "next": "Sonraki",
+  "back": "Geri",
+  "completed": "Tamamlandı!",
+  "laterButton": "Daha sonra yaparım",
+
+  "monthlySpendingBreakdown": "Bu Ay Harcama Dağılımı",
+  "mandatoryExpenses": "Zorunlu",
+  "discretionaryExpenses": "İsteğe Bağlı",
+  "remainingHoursToSpend": "{hours} saat daha harcayabilirsin",
+  "@remainingHoursToSpend": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "budgetExceeded": "Bütçeni {amount} aştın!",
+  "@budgetExceeded": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "activeInstallments": "Aktif Taksitler",
+  "installmentCount": "{count} taksit",
+  "@installmentCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "moreInstallments": "+{count} taksit daha",
+  "@moreInstallments": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "monthlyBurden": "Aylık Yük",
+  "remainingDebt": "Kalan Borç",
+  "totalInterestCost": "Toplam vade farkı: {amount} ({hours} saat)",
+  "@totalInterestCost": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "monthAbbreviation": "ay",
+  "installmentsLabel": "taksit",
+  "remaining": "Kalan",
+
+  "paywallTitle": "Premium'a Geç",
+  "paywallSubtitle": "Tüm özelliklerin kilidini aç ve finansal özgürlüğüne ulaş",
+  "subscribeToPro": "Pro'ya Abone Ol",
+  "startFreeTrial": "7 Gün Ücretsiz Dene",
+  "freeTrialBanner": "7 GÜN ÜCRETSİZ",
+  "freeTrialDescription": "İlk 7 gün tamamen ücretsiz, istediğin zaman iptal et",
+  "trialThenPrice": "Deneme sonrası {price}/ay",
+  "@trialThenPrice": {
+    "placeholders": {
+      "price": {"type": "String"}
+    }
+  },
+  "noPaymentNow": "Şimdi ödeme yapılmayacak",
+  "restorePurchases": "Satın alımları geri yükle",
+  "feature": "Özellik",
+  "featureAiChat": "AI Sohbet",
+  "featureAiChatFree": "4/gün",
+  "featureHistory": "Geçmiş",
+  "featureHistory30Days": "30 gün",
+  "featureExport": "Excel Dışa Aktarma",
+  "featureWidgets": "Widgetlar",
+  "featureAds": "Reklamlar",
+  "featureUnlimited": "Sınırsız",
+  "featureYes": "Evet",
+  "featureNo": "Hayır",
+  "weekly": "Haftalık",
+  "week": "hafta",
+  "year": "yıl",
+  "bestValue": "En İyi Değer",
+  "yearlySavings": "%50'ye varan tasarruf",
+  "cancelAnytime": "İstediğin zaman iptal et",
+  "retry": "Tekrar Dene",
+  "aiLimitReached": "Günlük AI limitine ulaştın",
+  "aiLimitMessage": "Bugün {used}/{limit} AI sohbet hakkını kullandın. Sınırsız erişim için Pro'ya yükselt.",
+  "@aiLimitMessage": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "limit": {"type": "int"}
+    }
+  },
+  "historyLimitReached": "Geçmiş sınırına ulaştın",
+  "historyLimitMessage": "Ücretsiz planda sadece son 30 günlük geçmişi görebilirsin. Tüm geçmişe erişmek için Pro'ya yükselt.",
+  "exportProOnly": "Excel dışa aktarma Pro özelliğidir",
+  "remainingAiUses": "{count} AI hakkın kaldı",
+  "@remainingAiUses": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "lifetime": "Ömür Boyu",
+  "lifetimeDescription": "Bir kere öde, sonsuza kadar kullan • Ayda 100 AI kredisi",
+  "oneTime": "tek seferlik",
+  "forever": "SONSUZA KADAR",
+  "mostPopular": "EN POPÜLER",
+  "monthlyCredits": "Ayda {count} AI kredisi",
+  "@monthlyCredits": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "proMonthlyCredits": "{remaining}/{limit} aylık kredi",
+  "@proMonthlyCredits": {
+    "placeholders": {
+      "remaining": {"type": "int"},
+      "limit": {"type": "int"}
+    }
+  },
+
+  "aiLimitFreeTitleEmoji": "🔒 Günlük AI Limitine Ulaştın!",
+  "aiLimitProTitleEmoji": "⏳ Aylık AI Limitine Ulaştın!",
+  "aiLimitFreeMessage": "Bugün 4 AI soru hakkını kullandın.",
+  "aiLimitProMessage": "Bu ay 500 AI soru hakkını kullandın.",
+  "aiLimitLifetimeMessage": "Bu ay 200 AI kredini kullandın.",
+  "aiLimitResetDate": "Limitin {day} {month}'ta yenilenir ({days} gün kaldı)",
+  "@aiLimitResetDate": {
+    "placeholders": {
+      "day": {"type": "String"},
+      "month": {"type": "String"},
+      "days": {"type": "int"}
+    }
+  },
+  "aiLimitUpgradeToPro": "🚀 Pro'ya Geç - Sınırsız AI",
+  "aiLimitBuyCredits": "🔋 Ek Kredi Paketi Al",
+  "aiLimitTryTomorrow": "veya yarın tekrar dene",
+  "aiLimitOrWaitDays": "veya {days} gün sonra yenilenir",
+  "@aiLimitOrWaitDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+
+  "creditPurchaseTitle": "Kredi Satın Al",
+  "creditPurchaseHeader": "AI Kredisi Yükle",
+  "creditPurchaseSubtitle": "Aylık limitin dışında ekstra AI sorguları için kredi satın al.",
+  "creditCurrentBalance": "Mevcut Bakiye",
+  "creditAmount": "{credits} Kredi",
+  "@creditAmount": {
+    "placeholders": {
+      "credits": {"type": "int"}
+    }
+  },
+  "creditPackTitle": "{credits} Kredi",
+  "@creditPackTitle": {
+    "placeholders": {
+      "credits": {"type": "int"}
+    }
+  },
+  "creditPackPricePerCredit": "Kredi başına ₺{price}",
+  "@creditPackPricePerCredit": {
+    "placeholders": {
+      "price": {"type": "String"}
+    }
+  },
+  "creditPackPopular": "EN POPÜLER",
+  "creditPackBestValue": "EN TASARRUFLU",
+  "creditNeverExpire": "Krediler asla sona ermez, istediğin zaman kullan",
+  "creditPurchaseSuccess": "{credits} kredi hesabına eklendi!",
+  "@creditPurchaseSuccess": {
+    "placeholders": {
+      "credits": {"type": "int"}
+    }
+  },
+
+  "pursuits": "Hayallerim",
+  "myPursuits": "Hayallerim",
+  "navPursuits": "Hayaller",
+  "createPursuit": "Yeni Hayal",
+  "pursuitName": "Ne için biriktiriyorsun?",
+  "pursuitNameHint": "ör: iPhone 16, Maldivler Tatili...",
+  "targetAmount": "Hedef Tutar",
+  "savedAmount": "Biriken",
+  "addSavings": "Para Ekle",
+  "pursuitProgress": "%{percent} tamamlandı",
+  "@pursuitProgress": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+  "remainingAmount": "{amount} kaldı",
+  "@remainingAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "daysToGoal": "≈ {days} iş günü",
+  "@daysToGoal": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "pursuitCompleted": "Hayalin Gerçek Oldu!",
+  "congratulations": "Tebrikler!",
+  "pursuitCompletedMessage": "{days} günde {amount} biriktirdin!",
+  "@pursuitCompletedMessage": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "amount": {"type": "String"}
+    }
+  },
+  "shareProgress": "İlerlemeyi Paylaş",
+  "activePursuits": "Aktif",
+  "completedPursuits": "Gerçekleşenler",
+  "archivePursuit": "Arşivle",
+  "deletePursuit": "Sil",
+  "editPursuit": "Düzenle",
+  "deletePursuitConfirm": "Bu hayali silmek istediğinize emin misiniz?",
+  "pursuitCategoryTech": "Teknoloji",
+  "pursuitCategoryTravel": "Seyahat",
+  "pursuitCategoryHome": "Ev",
+  "pursuitCategoryFashion": "Moda",
+  "pursuitCategoryVehicle": "Araç",
+  "pursuitCategoryEducation": "Eğitim",
+  "pursuitCategoryHealth": "Sağlık",
+  "pursuitCategoryOther": "Diğer",
+  "emptyPursuitsTitle": "Hayaline Bir Adım At",
+  "emptyPursuitsMessage": "İlk hayalini ekle ve biriktirmeye başla!",
+  "addFirstPursuit": "İlk Hayalini Ekle",
+  "pursuitLimitReached": "Sınırsız hayal için Pro'ya geç",
+  "quickAmounts": "Hızlı Tutarlar",
+  "addNote": "Not ekle (opsiyonel)",
+  "pursuitCreated": "Hayal oluşturuldu!",
+  "savingsAdded": "Eklendi!",
+  "workHoursRemaining": "{hours} saatlik emek kaldı",
+  "@workHoursRemaining": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "pursuitInitialSavings": "Başlangıç Birikimi",
+  "pursuitInitialSavingsHint": "Zaten biriktirdiğin tutar",
+  "pursuitSelectCategory": "Kategori Seç",
+  "redirectSavings": "Tasarrufu Hayale Aktar",
+  "redirectSavingsMessage": "Vazgeçtiğin {amount} tutarı hangi hayaline eklemek istersin?",
+  "@redirectSavingsMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "skipRedirect": "Şimdilik Atla",
+  "pursuitTransactionHistory": "İşlem Geçmişi",
+  "noTransactions": "Henüz işlem yok",
+  "transactionSourceManual": "Manuel Ekleme",
+  "transactionSourcePool": "Havuzdan Transfer",
+  "transactionSourceExpense": "Vazgeçilen Harcama",
+
+  "savingsPool": "Tasarruf Havuzu",
+  "savingsPoolAvailable": "kullanılabilir",
+  "savingsPoolDebt": "Borçlusun",
+  "shadowDebtMessage": "Gelecekteki kendinden {amount} borç aldın",
+  "@shadowDebtMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "budgetShiftQuestion": "Bu {amount} hangi bütçenden geldi?",
+  "@budgetShiftQuestion": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "jokerUsed": "Bu ayki joker hakkını kullandın",
+  "jokerAvailable": "Joker hakkın var!",
+  "allocatedToDreams": "{amount} hayallerine ayrıldı",
+  "@allocatedToDreams": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "extraIncome": "Ekstra gelir elde ettim",
+  "useJoker": "Joker Kullan (ayda 1)",
+  "budgetShiftFromFood": "Yemek bütçemden",
+  "budgetShiftFromEntertainment": "Eğlence bütçemden",
+  "budgetShiftFromClothing": "Giyim bütçemden",
+  "budgetShiftFromTransport": "Ulaşım bütçemden",
+  "budgetShiftFromShopping": "Alışveriş bütçemden",
+  "budgetShiftFromHealth": "Sağlık bütçemden",
+  "budgetShiftFromEducation": "Eğitim bütçemden",
+  "insufficientFunds": "Yetersiz bakiye",
+  "insufficientFundsMessage": "Havuzda {available} var, {requested} istiyorsun",
+  "@insufficientFundsMessage": {
+    "placeholders": {
+      "available": {"type": "String"},
+      "requested": {"type": "String"}
+    }
+  },
+  "createShadowDebt": "Yine de ekle (borç oluştur)",
+  "debtRepaidMessage": "Borcundan {amount} ödendi!",
+  "@debtRepaidMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "poolSummaryTotal": "Toplam Tasarruf",
+  "poolSummaryAllocated": "Hayallere Ayrılan",
+  "poolSummaryAvailable": "Kullanılabilir",
+
+  "overAllocationTitle": "Yetersiz Havuz Bakiyesi",
+  "overAllocationMessage": "Havuzda {available} var. {requested} eklemek istiyorsun.",
+  "@overAllocationMessage": {
+    "placeholders": {
+      "available": {"type": "String"},
+      "requested": {"type": "String"}
+    }
+  },
+  "fromMyPocket": "Cebimden ekle",
+  "fromMyPocketDesc": "Havuzu sıfırla + {difference} cebimden ekle",
+  "@fromMyPocketDesc": {
+    "placeholders": {
+      "difference": {"type": "String"}
+    }
+  },
+  "deductFromFuture": "İleriki tasarruflardan düş",
+  "deductFromFutureDesc": "Havuz {amount} eksiye düşer",
+  "@deductFromFutureDesc": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "transferAvailableOnly": "Sadece {amount} aktar",
+  "@transferAvailableOnly": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "transferAvailableOnlyDesc": "Havuzdaki kadarını ekle",
+  "oneTimeIncomeTitle": "Bu para nereden?",
+  "oneTimeIncomeDesc": "Havuzun ekside. Kaynağı seç:",
+  "oneTimeIncomeOption": "Tek seferlik gelir",
+  "oneTimeIncomeOptionDesc": "Havuzu etkilemez, direkt hedefe gider",
+  "fromSavingsOption": "Tasarruflarımdan",
+  "fromSavingsOptionDesc": "Havuz daha da eksiye düşer",
+  "debtWarningOnPurchase": "Hayallerine {amount} borcun var!",
+  "@debtWarningOnPurchase": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "debtReminderNotification": "Hayallerine olan borcunu ödemeyi unutma!",
+
+  "aiThinking": "Düşünüyor...",
+  "aiSuggestion1": "Bu ay nereye harcadım?",
+  "aiSuggestion2": "Nereden tasarruf edebilirim?",
+  "aiSuggestion3": "En pahalı alışkanlığım ne?",
+  "aiSuggestion4": "Hedefime ne kadar kaldı?",
+  "aiPremiumUpsell": "Detaylı analiz ve kişisel tasarruf planı için Premium'a geç",
+  "aiPremiumButton": "Premium'a Geç",
+  "aiInputPlaceholderFree": "Kendi sorunu sor 🔒",
+  "aiInputPlaceholder": "Bir şey sor...",
+
+  "onboardingTryTitle": "Haydi Deneyelim!",
+  "onboardingTrySubtitle": "Ne kadar çalıştığını merak ettiğin bir şey var mı?",
+  "onboardingTryButton": "Hesapla",
+  "onboardingTryDisclaimer": "Bu sadece paranın ne kadar soyut, zamanın ne kadar somut olduğunu göstermek içindi.",
+  "onboardingTryNotSaved": "Merak etme, bu harcamalara kaydedilmedi.",
+  "onboardingContinue": "Uygulamaya Geç",
+  "onboardingTryResult": "Bu harcama hayatından {hours} saat götürüyor",
+  "@onboardingTryResult": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+
+  "subscriptionNameHint": "Netflix, Spotify...",
+  "subscriptionPriceHint": "₺99.99",
+
+  "currencyUpdatePopup": "Kur güncelleniyor: {oldAmount} {oldCurrency} ≈ {newAmount} {newCurrency} olarak güncellendi",
+  "@currencyUpdatePopup": {
+    "placeholders": {
+      "oldAmount": {"type": "String"},
+      "oldCurrency": {"type": "String"},
+      "newAmount": {"type": "String"},
+      "newCurrency": {"type": "String"}
+    }
+  },
+
+  "currencyConverting": "Para birimi dönüştürülüyor...",
+  "currencyConversionFailed": "Döviz kuru alınamadı, değerler değiştirilmedi",
+
+  "requiredExpense": "Zorunlu Gider",
+  "installmentPurchase": "Taksitli Alım",
+  "installmentInfo": "Taksit Bilgileri",
+  "cashPrice": "Peşin Fiyat",
+  "cashPriceHint": "Ürünün peşin fiyatı",
+  "numberOfInstallments": "Taksit Sayısı",
+  "totalInstallmentPrice": "Taksitli Toplam Fiyat",
+  "totalWithInterestHint": "Vade farkı dahil toplam",
+  "installmentSummary": "TAKSİT ÖZETİ",
+  "willBeSavedAsRequired": "Zorunlu gider olarak kaydedilecek",
+  "creditCardOrStoreInstallment": "Kredi kartı veya mağaza taksiti",
+
+  "vantagAI": "Vantag AI",
+  "professionalMode": "Profesyonel mod",
+  "friendlyMode": "Samimi mod",
+  "errorTryAgain": "Bir hata oluştu, tekrar dener misin?",
+
+  "aiFallbackOverBudget": "Bütçe biraz zorlanıyor gibi.\nGel birlikte bakalım ne yapabiliriz?",
+  "aiFallbackHighUsage": "Ayın sonuna az kaldı, dikkatli olalım.\nNasıl yardımcı olabilirim?",
+  "aiFallbackMediumUsage": "Bütçe idare ediyor.\nBir şey sormak ister misin?",
+  "aiFallbackLowUsage": "Bütçen gayet iyi durumda!\nNeyi analiz edelim?",
+
+  "aiInsights": "AI Insights",
+  "mostSpendingDay": "En Çok Harcama Günü",
+  "biggestCategory": "En Büyük Kategori",
+  "thisMonthVsLast": "Bu Ay vs Geçen Ay",
+
+  "monday": "Pazartesi",
+  "tuesday": "Salı",
+  "wednesday": "Çarşamba",
+  "thursday": "Perşembe",
+  "friday": "Cuma",
+  "saturday": "Cumartesi",
+  "sunday": "Pazar",
+
+  "securePayment": "Güvenli Ödeme",
+  "encrypted": "Şifreli",
+
+  "syncing": "Veriler senkronize ediliyor...",
+  "pendingSync": "{count} değişiklik bekliyor",
+  "@pendingSync": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pendingLabel": "Bekliyor",
+
+  "insightMinutes": "Bu harcama hayatından {minutes} dakika aldı.",
+  "@insightMinutes": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "insightHours": "Bu harcama hayatından {hours} saat aldı.",
+  "@insightHours": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "insightAlmostDay": "Bu harcama için neredeyse bir gün çalıştın.",
+  "insightDays": "Bu harcama hayatından {days} gün aldı.",
+  "@insightDays": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "insightDaysWorked": "Bu harcama için {days} gün çalışman gerekti.",
+  "@insightDaysWorked": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "insightAlmostMonth": "Bu harcama neredeyse bir aylık emeğine mal oldu.",
+  "insightCategoryDays": "Bu ay {category} için {days} gün çalıştın.",
+  "@insightCategoryDays": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "days": {"type": "String"}
+    }
+  },
+  "insightCategoryHours": "Bu ay {category} için {hours} saat çalıştın.",
+  "@insightCategoryHours": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "insightMonthlyAlmost": "Bu ayki harcamalar için neredeyse tüm ay çalıştın.",
+  "insightMonthlyDays": "Bu ay harcamalar için {days} gün çalıştın.",
+  "@insightMonthlyDays": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+
+  "msgShort1": "Birkaç saatlik emeğin, bir anlık heves için mi?",
+  "msgShort2": "Bu kadar kısa sürede kazandığın parayı harcamak kolay, kazanmak zor.",
+  "msgShort3": "Sabah işe gittin, öğlene kalmadan bu para gidecek.",
+  "msgShort4": "Bir kahve molası kadar sürede kazandın, bir tıkla gidecek.",
+  "msgShort5": "Yarım günlük mesai, tam günlük pişmanlık olmasın.",
+  "msgShort6": "Bu ürün için çalıştığın saatleri düşün.",
+  "msgShort7": "Küçük görünüyor ama toplamda büyük fark yaratıyor.",
+  "msgShort8": "Şimdi değil dersen, yarın da olur.",
+
+  "msgMedium1": "Bir haftalık emeğin bu ürüne değer mi?",
+  "msgMedium2": "Bu parayı biriktirmek günler aldı, harcamak saniyeler alacak.",
+  "msgMedium3": "Bir haftanı buna yatırıyor olsaydın kabul eder miydin?",
+  "msgMedium4": "Günlerce emek, anlık bir karar.",
+  "msgMedium5": "Hafta sonu tatili mi, bu ürün mü?",
+  "msgMedium6": "Bu kadar gün boyunca ne için çalıştığını hatırla.",
+  "msgMedium7": "Pazartesiden cumaya kadar bunun için mi çalıştın?",
+  "msgMedium8": "Haftalık bütçeni tek seferde harcamak mantıklı mı?",
+
+  "msgLong1": "Haftalarca çalışman gerekiyor bunun için. Gerçekten değer mi?",
+  "msgLong2": "Bu parayı biriktirmek aylar alabilir.",
+  "msgLong3": "Uzun vadeli hedeflerinden birini erteliyor olabilirsin.",
+  "msgLong4": "Bu ürün için harcayacağın zaman, tatil planlarını etkiler mi?",
+  "msgLong5": "Bu yatırım mı, harcama mı?",
+  "msgLong6": "Gelecekteki sen bu kararı nasıl değerlendirir?",
+  "msgLong7": "Bu kadar uzun süre çalışmak, kalıcı bir şey için olmalı.",
+  "msgLong8": "Ay sonunda bu karara nasıl bakacaksın?",
+
+  "msgSim1": "Bu rakam artık bir harcama değil, ciddi bir yatırım kararı.",
+  "msgSim2": "Böyle büyük bir tutar için duygularınla değil, vizyonunla karar ver.",
+  "msgSim3": "Bu tutarın karşılığı olan zamanı hesaplamak bile güç.",
+  "msgSim4": "Hayallerini süsleyen o büyük adım bu olabilir mi?",
+  "msgSim5": "Bu kadar büyük bir rakamı yönetmek, sabır ve strateji ister.",
+  "msgSim6": "Cüzdanını değil, geleceğini etkileyecek bir noktadasın.",
+  "msgSim7": "Büyük rakamlar, büyük sorumluluklar getirir. Hazır mısın?",
+  "msgSim8": "Bu tutar senin için sadece bir sayı mı, yoksa bir dönüm noktası mı?",
+
+  "msgYes1": "Kaydettim. Umarım değer.",
+  "msgYes2": "Bakalım pişman olacak mısın.",
+  "msgYes3": "Tamam, senin paran.",
+  "msgYes4": "Aldın aldın, hayırlı olsun.",
+  "msgYes5": "Keyfin bilir.",
+  "msgYes6": "Peki, kayıtlara geçti.",
+  "msgYes7": "İhtiyaçsa sorun yok.",
+  "msgYes8": "Bazen harcamak da gerekir.",
+
+  "msgNo1": "Güzel karar. Bu parayı kurtardın.",
+  "msgNo2": "Zor olanı seçtin, gelecekte teşekkür edeceksin.",
+  "msgNo3": "İrade kazandı.",
+  "msgNo4": "Akıllıca. Bu para sana lazım olacak.",
+  "msgNo5": "Vazgeçmek de bir kazanım.",
+  "msgNo6": "Heves geçti, para kaldı.",
+  "msgNo7": "Kendine yatırım yaptın aslında.",
+  "msgNo8": "Zor karar, doğru karar.",
+
+  "msgThink1": "Düşünmek bedava, harcamak değil.",
+  "msgThink2": "Acele etmemek akıllıca.",
+  "msgThink3": "Bir gece uyu, yarın tekrar bak.",
+  "msgThink4": "24 saat bekle, hala istiyorsan gel.",
+  "msgThink5": "Tereddüt ediyorsan muhtemelen gerekli değil.",
+  "msgThink6": "Zaman en iyi danışman.",
+  "msgThink7": "Acil değilse, acele etme.",
+  "msgThink8": "Emin değilsen, cevap muhtemelen hayır.",
+
+  "savingMsg1": "Harika karar! 💪",
+  "savingMsg2": "Paranı korudun! 🛡️",
+  "savingMsg3": "Gelecekteki sen teşekkür edecek!",
+  "savingMsg4": "Akıllı tercih! 🧠",
+  "savingMsg5": "Biriktirmek güçtür!",
+  "savingMsg6": "Hedefine bir adım daha yaklaştın!",
+  "savingMsg7": "İrade gücü! 💎",
+  "savingMsg8": "Bu para artık senin!",
+  "savingMsg9": "Finansal disiplin! 🎯",
+  "savingMsg10": "Zenginlik inşa ediyorsun!",
+  "savingMsg11": "Güçlü karar! 💪",
+  "savingMsg12": "Cüzdanın teşekkür ediyor!",
+  "savingMsg13": "Şampiyonlar böyle biriktirir! 🏆",
+  "savingMsg14": "Biriken para = Kazanılan özgürlük!",
+  "savingMsg15": "Etkileyici öz kontrol! ⭐",
+
+  "spendingMsg1": "Kaydedildi! ✓",
+  "spendingMsg2": "Takip ediyorsun, bu önemli.",
+  "spendingMsg3": "Her kayıt bir farkındalık.",
+  "spendingMsg4": "Harcamalarını bilmek güç.",
+  "spendingMsg5": "Kaydedildi! Devam et.",
+  "spendingMsg6": "Takip etmek kontrol sağlar.",
+  "spendingMsg7": "Not alındı! Farkındalık anahtar.",
+  "spendingMsg8": "Takip ettiğin için aferin!",
+  "spendingMsg9": "Veri güçtür! 📊",
+  "spendingMsg10": "Farkında ol, kontrol sende.",
+
+  "tourAmountTitle": "Tutar Girişi",
+  "tourAmountDesc": "Harcama tutarını buraya gir. Fiş tarama butonu ile fişten otomatik okuyabilirsin.",
+  "tourDescriptionTitle": "Akıllı Eşleştirme",
+  "tourDescriptionDesc": "Mağaza veya ürün adını yaz. Migros, A101, Starbucks gibi... Uygulama otomatik olarak kategori önerecek!",
+  "tourCategoryTitle": "Kategori Seçimi",
+  "tourCategoryDesc": "Akıllı eşleştirme bulamazsa veya düzeltmek istersen buradan manuel seçim yapabilirsin.",
+  "tourDateTitle": "Geçmiş Tarih Seçimi",
+  "tourDateDesc": "Dün veya önceki günlerin harcamalarını da girebilirsin. Takvim ikonuna tıklayarak istediğin tarihi seç.",
+  "tourSnapshotTitle": "Finansal Özet",
+  "tourSnapshotDesc": "Aylık gelirin, harcamaların ve kurtardığın para burada. Tüm veriler anlık güncellenir.",
+  "tourCurrencyTitle": "Döviz Kurları",
+  "tourCurrencyDesc": "Güncel USD, EUR ve altın fiyatları. Tıklayarak detaylı bilgi alabilirsin.",
+  "tourStreakTitle": "Seri Takibi",
+  "tourStreakDesc": "Her gün harcama girdiğinde serin artar. Düzenli takip etmek bilinçli harcamanın anahtarı!",
+  "tourSubscriptionTitle": "Abonelikler",
+  "tourSubscriptionDesc": "Netflix, Spotify gibi düzenli aboneliklerini buradan takip et. Yaklaşan ödemeler için bildirim alırsın.",
+  "tourReportTitle": "Raporlar",
+  "tourReportDesc": "Aylık ve kategorilere göre harcama analizlerini buradan görüntüle.",
+  "tourAchievementsTitle": "Rozetler",
+  "tourAchievementsDesc": "Tasarruf hedeflerine ulaştıkça rozetler kazan. Motivasyonunu yüksek tut!",
+  "tourProfileTitle": "Profil & Ayarlar",
+  "tourProfileDesc": "Gelir bilgilerini düzenle, bildirim tercihlerini yönet ve uygulama ayarlarına eriş.",
+  "tourQuickAddTitle": "Hızlı Ekleme",
+  "tourQuickAddDesc": "Her yerden hızlıca harcama eklemek için bu butonu kullan. Pratik ve hızlı!",
+
+  "notifChannelName": "Vantag Bildirimleri",
+  "notifChannelDescription": "Finansal takip bildirimleri",
+  "notifTitleThinkAboutIt": "Bir düşün",
+  "notifTitleCongratulations": "Tebrikler",
+  "notifTitleStreakWaiting": "Serin bekliyor",
+  "notifTitleWeeklySummary": "Haftalık özet",
+  "notifTitleSubscriptionReminder": "Abonelik hatırlatma",
+
+  "aiGreeting": "Merhaba! Ben Vantag.\nFinansal sorularını yanıtlamaya hazırım.",
+  "aiServiceUnavailable": "AI asistan şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin.",
+
+  "onboardingHookTitle": "Bu kahve 47 dakikan",
+  "onboardingHookSubtitle": "Her harcamanın gerçek maliyetini gör",
+
+  "pursuitOnboardingTitle": "Hedefin ne?",
+  "pursuitOnboardingSubtitle": "Biriktirmek istediğin bir şey seç",
+  "pursuitOnboardingAirpods": "AirPods",
+  "pursuitOnboardingIphone": "iPhone",
+  "pursuitOnboardingVacation": "Tatil",
+  "pursuitOnboardingCustom": "Kendi hedefim",
+  "pursuitOnboardingCta": "Bunu istiyorum",
+  "pursuitOnboardingSkip": "Şimdilik geç",
+  "pursuitOnboardingHours": "{hours} saat",
+  "@pursuitOnboardingHours": {
+    "placeholders": {
+      "hours": {"type": "int"}
+    }
+  },
+
+  "celebrationTitle": "Tebrikler!",
+  "celebrationSubtitle": "{goalName} hedefine ulaştın!",
+  "@celebrationSubtitle": {
+    "placeholders": {
+      "goalName": {"type": "String"}
+    }
+  },
+  "celebrationTotalSaved": "Toplam biriktirdiğin: {hours} saat",
+  "@celebrationTotalSaved": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "celebrationDuration": "Süre: {days} gün",
+  "@celebrationDuration": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "celebrationShare": "Paylaş",
+  "celebrationNewGoal": "Yeni Hedef",
+  "celebrationDismiss": "Kapat",
+
+  "widgetTodayLabel": "Bugün",
+  "widgetHoursAbbrev": "s",
+  "widgetMinutesAbbrev": "dk",
+  "widgetSetGoal": "Hedef belirle",
+  "widgetNoData": "Başlamak için aç",
+  "widgetSmallTitle": "Günlük Harcama",
+  "widgetSmallDesc": "Bugünkü harcamanı saat olarak gör",
+  "widgetMediumTitle": "Harcama + Hedef",
+  "widgetMediumDesc": "Harcama ve hedef takibi",
+
+  "accessibilityTodaySpending": "Bugün {amount} harcadın, bu {hours} saat {minutes} dakika çalışmana eşit",
+  "@accessibilityTodaySpending": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "hours": {"type": "int"},
+      "minutes": {"type": "int"}
+    }
+  },
+  "accessibilitySpendingProgress": "Harcama ilerlemesi: bütçenin yüzde {percentage}'i kullanıldı",
+  "@accessibilitySpendingProgress": {
+    "placeholders": {
+      "percentage": {"type": "int"}
+    }
+  },
+  "accessibilityExpenseItem": "{category} harcaması {amount}, {hours} saat sürdü, durum: {decision}",
+  "@accessibilityExpenseItem": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "amount": {"type": "String"},
+      "hours": {"type": "String"},
+      "decision": {"type": "String"}
+    }
+  },
+  "accessibilityPursuitCard": "{name} hedefi, {target} hedeften {saved} biriktirildi, yüzde {percentage} tamamlandı",
+  "@accessibilityPursuitCard": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "saved": {"type": "String"},
+      "target": {"type": "String"},
+      "percentage": {"type": "int"}
+    }
+  },
+  "accessibilityAddExpense": "Yeni harcama ekle",
+  "accessibilityDecisionYes": "Satın alındı",
+  "accessibilityDecisionNo": "Vazgeçildi",
+  "accessibilityDecisionThinking": "Düşünülüyor",
+
+  "accessibilityDashboard": "Gelir, gider ve bakiyeyi gösteren finansal pano",
+  "accessibilityNetBalance": "Net bakiye: {amount}, {status}",
+  "@accessibilityNetBalance": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "status": {"type": "String"}
+    }
+  },
+  "accessibilityBalanceHealthy": "artıda",
+  "accessibilityBalanceNegative": "eksidə",
+  "accessibilityIncomeTotal": "Toplam gelir: {amount}",
+  "@accessibilityIncomeTotal": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "accessibilityExpenseTotal": "Toplam harcama: {amount}",
+  "@accessibilityExpenseTotal": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "accessibilityAddSavings": "Bu hedefe birikim ekle",
+  "accessibilityDeleteExpense": "Bu harcamayı sil",
+  "accessibilityEditExpense": "Bu harcamayı düzenle",
+  "accessibilityShareExpense": "Bu harcamayı paylaş",
+  "accessibilityStreakInfo": "Mevcut seri: {days} gün, en iyi seri: {best} gün",
+  "@accessibilityStreakInfo": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "best": {"type": "int"}
+    }
+  },
+  "accessibilityAiChatInput": "Finansal sorunuzu buraya yazın",
+  "accessibilityAiSendButton": "Yapay zeka asistanına mesaj gönder",
+  "accessibilitySuggestionButton": "Hızlı soru: {question}",
+  "@accessibilitySuggestionButton": {
+    "placeholders": {
+      "question": {"type": "String"}
+    }
+  },
+  "accessibilitySubscriptionCard": "{name} aboneliği, {cycle} başına {amount}, {day}. gün yenilenir",
+  "@accessibilitySubscriptionCard": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "amount": {"type": "String"},
+      "cycle": {"type": "String"},
+      "day": {"type": "int"}
+    }
+  },
+  "accessibilitySettingsItem": "{title}, mevcut değer: {value}",
+  "@accessibilitySettingsItem": {
+    "placeholders": {
+      "title": {"type": "String"},
+      "value": {"type": "String"}
+    }
+  },
+  "accessibilityToggleOn": "Açık",
+  "accessibilityToggleOff": "Kapalı",
+  "accessibilityCloseSheet": "Bu sayfayı kapat",
+  "accessibilityBackButton": "Geri dön",
+  "accessibilityProfileButton": "Profil menüsünü aç",
+  "accessibilityNotificationsButton": "Bildirimleri görüntüle",
+
+  "navHomeTooltip": "Ana sayfa, harcama özeti",
+  "navPursuitsTooltip": "Hedefler, birikim amaçları",
+  "navReportsTooltip": "Raporlar, harcama analizi",
+  "navSettingsTooltip": "Ayarlar ve tercihler",
+
+  "shareDefaultMessage": "Harcamalarımı saat olarak takip ediyorum! Sen de dene: {link}",
+  "@shareDefaultMessage": {
+    "placeholders": {
+      "link": {"type": "String"}
+    }
+  },
+  "shareInviteLink": "Davet Linkini Paylaş",
+  "inviteFriends": "Arkadaşlarını Davet Et",
+  "yourReferralCode": "Senin davet kodun",
+  "referralStats": "{count} arkadaşın katıldı",
+  "@referralStats": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "referralRewardInfo": "Her arkadaşın için 7 gün premium kazan!",
+  "codeCopied": "Kod kopyalandı!",
+  "haveReferralCode": "Davet kodun var mı?",
+  "referralCodeHint": "Kodu gir (opsiyonel)",
+  "referralCodePlaceholder": "VANTAG-XXXXX",
+  "referralSuccess": "{name} Vantag'a katıldı! +7 gün premium kazandın",
+  "@referralSuccess": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "welcomeReferred": "Hoş geldin! 7 gün premium denemen var",
+  "referralInvalidCode": "Geçersiz davet kodu",
+  "referralCodeApplied": "Davet kodu uygulandı!",
+  "referralSectionTitle": "Davetler",
+  "referralShareDescription": "Kodunu paylaş, premium gün kazan",
+
+  "trialMidpointTitle": "Yarı yoldasın! \u23f3",
+  "trialMidpointBody": "Deneme süren yarılandı. Şu ana kadar {hours} saat biriktirdin!",
+  "@trialMidpointBody": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "trialOneDayLeftTitle": "Denemen yarın bitiyor \u23f0",
+  "trialOneDayLeftBody": "Premium'a geç, biriktirmeye devam et!",
+  "trialEndsTodayTitle": "Denemenin son günü! \ud83c\udf81",
+  "trialEndsTodayBody": "Bugün geçersen %50 indirim!",
+  "trialExpiredTitle": "Seni özledik! \ud83d\udc9c",
+  "trialExpiredBody": "Geri dön, hedeflerine devam et",
+  "dailyReminderTitle": "Harcamalarını girmeyi unutma! \ud83d\udcdd",
+  "dailyReminderBody": "Bugünkü harcamalarını saniyeler içinde gir",
+  "notificationSettings": "Bildirimler",
+  "notificationSettingsDesc": "Hatırlatıcılar ve güncellemeler",
+  "firstExpenseTitle": "Harika başlangıç! \ud83c\udf89",
+  "firstExpenseBody": "Bugün {hours} saat biriktirdin!",
+  "@firstExpenseBody": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "trialReminderEnabled": "Deneme hatırlatmaları",
+  "trialReminderDesc": "Deneme süren bitmeden bildirim al",
+  "dailyReminderEnabled": "Günlük hatırlatmalar",
+  "dailyReminderDesc": "Akşam harcama girişi hatırlatması",
+  "dailyReminderTime": "Hatırlatma saati",
+  "trialDaysRemaining": "Denemede {days} gün kaldı",
+  "@trialDaysRemaining": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "subscriptionReminder": "Abonelik hatırlatmaları",
+  "subscriptionReminderDesc": "Abonelikler yenilenmeden önce bildirim al",
+
+  "thinkingReminder": "\"Düşünüyorum\" hatırlatmaları",
+  "thinkingReminderDesc": "Düşündüğün öğeler için 72 saat sonra hatırlatma al",
+  "thinkingReminderTitle": "Hala düşünüyor musun?",
+  "thinkingReminderBody": "Karar verdin mi? {item}",
+  "@thinkingReminderBody": {
+    "placeholders": {
+      "item": {"type": "String"}
+    }
+  },
+  "willRemindIn72h": "72 saat sonra hatırlatacağız",
+  "thinkingAbout": "Düşündüklerin",
+  "addedDaysAgo": "{days} gün önce eklendi",
+  "@addedDaysAgo": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "stillThinking": "Hala düşünüyor musun?",
+  "stillThinkingMessage": "72 saat oldu. Karar verdin mi?",
+  "decidedYes": "Aldım",
+  "decidedNo": "Vazgeçtim",
+
+  "aiChatLimitReached": "Günlük 4 AI sohbet hakkını kullandın. Sınırsız için premium'a geç!",
+  "aiChatsRemaining": "Bugün {count} mesaj hakkın kaldı",
+  "@aiChatsRemaining": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pursuitLimitReachedFree": "Ücretsiz hesaplarda 1 aktif hedef olabilir. Sınırsız hedef için premium'a geç!",
+  "pursuitNameRequired": "Lütfen bir isim girin",
+  "pursuitAmountRequired": "Lütfen bir tutar girin",
+  "pursuitAmountInvalid": "Geçerli bir tutar girin",
+  "exportPremiumOnly": "Dışa aktarma premium özelliği",
+  "multiCurrencyPremium": "Çoklu para birimi premium özelliği. Ücretsiz kullanıcılar sadece TRY kullanabilir.",
+  "reportsPremiumOnly": "Aylık ve yıllık raporlar premium özelliği",
+  "upgradeToPremium": "Premium'a Geç",
+  "premiumIncludes": "Premium içerir:",
+  "unlimitedAiChat": "Sınırsız AI sohbet",
+  "unlimitedPursuits": "Sınırsız hedef",
+  "exportFeature": "Verilerini dışa aktar",
+  "allCurrencies": "Tüm para birimleri",
+  "fullReports": "Detaylı raporlar",
+  "cleanShareCards": "Temiz paylaşım kartları (filigran yok)",
+  "maybeLater": "Belki sonra",
+  "seePremium": "Premium'u Gör",
+  "weeklyOnly": "Haftalık",
+  "monthlyPro": "Aylık (Pro)",
+  "yearlyPro": "Yıllık (Pro)",
+  "currencyLocked": "Sadece Premium",
+  "freeUserCurrencyNote": "Ücretsiz kullanıcılar sadece TRY kullanabilir. {currency} için premium'a geç.",
+  "@freeUserCurrencyNote": {
+    "placeholders": {
+      "currency": {"type": "String"}
+    }
+  },
+  "watermarkText": "vantag.app",
+
+  "incomeTypeSalary": "Maaş",
+  "incomeTypeBonus": "Prim",
+  "incomeTypeGift": "Hediye",
+  "incomeTypeRefund": "İade",
+  "incomeTypeFreelance": "Serbest Çalışma",
+  "incomeTypeRental": "Kira Geliri",
+  "incomeTypeInvestment": "Yatırım Getirisi",
+  "incomeTypeOther": "Diğer Gelir",
+
+  "salaryDay": "Maaş Günü",
+  "salaryDayTitle": "Maaşınız ne zaman yatıyor?",
+  "salaryDaySubtitle": "Maaş gününüzde size hatırlatacağız",
+  "salaryDayHint": "Ayın gününü seçin (1-31)",
+  "salaryDaySet": "Maaş günü {day} olarak ayarlandı",
+  "@salaryDaySet": {
+    "placeholders": {
+      "day": {"type": "int"}
+    }
+  },
+  "salaryDaySkip": "Şimdilik geç",
+  "salaryDayNotSet": "Belirlenmedi",
+  "dayOfMonth": "Ayın {day}. günü",
+  "@dayOfMonth": {
+    "placeholders": {
+      "day": {"type": "int"}
+    }
+  },
+
+  "currentBalance": "Güncel Bakiye",
+  "balanceTitle": "Güncel bakiyeniz ne kadar?",
+  "balanceSubtitle": "Harcamalarınızı daha doğru takip edin",
+  "balanceHint": "Banka bakiyenizi girin",
+  "balanceUpdated": "Bakiye güncellendi",
+  "balanceOptional": "Opsiyonel - daha sonra ekleyebilirsiniz",
+
+  "paydayTitle": "Maaş Günü!",
+  "paydayMessage": "Maaşınız yattı mı?",
+  "paydayConfirm": "Evet, yattı!",
+  "paydayNotYet": "Henüz değil",
+  "paydaySkip": "Geç",
+  "paydayCelebration": "Tebrikler! Maaş yattı",
+  "paydayUpdateBalance": "Bakiyenizi güncelleyin",
+  "paydayNewBalance": "Maaş sonrası yeni bakiye",
+  "daysUntilPayday": "Maaşa {days} gün var",
+  "@daysUntilPayday": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "paydayToday": "Bugün maaş günü!",
+  "paydayTomorrow": "Yarın maaş günü",
+
+  "addIncome": "Gelir Ekle",
+  "addIncomeTitle": "Gelir Kaydet",
+  "addIncomeSubtitle": "Prim, hediye, iade vb.",
+  "incomeAmount": "Gelen tutar",
+  "incomeType": "Gelir türü",
+  "incomeNotes": "Notlar (opsiyonel)",
+  "incomeNotesHint": "ör. Yıl sonu primi, doğum günü hediyesi...",
+  "incomeAdded": "Gelir eklendi!",
+  "incomeAddedBalance": "Bakiye güncellendi: {amount}",
+  "@incomeAddedBalance": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "thisMonthIncome": "Bu Ayın Geliri",
+  "totalMonthlyIncome": "Toplam Aylık Gelir",
+  "regularIncome": "Düzenli Gelir",
+  "additionalIncome": "Ek Gelirler",
+  "incomeBreakdown": "Gelir Dağılımı",
+
+  "paydayNotificationTitle": "Maaş Günü!",
+  "paydayNotificationBody": "Maaşınız bugün yatıyor olmalı. Hesabınızı kontrol edin!",
+  "paydayNotificationEnabled": "Maaş günü hatırlatması",
+  "paydayNotificationDesc": "Maaş gününüzde bildirim alın",
+
+  "onboardingSalaryDayTitle": "Maaş Günü Ne Zaman?",
+  "onboardingSalaryDayDesc": "Maaş gününüzü söyleyin, bütçenizi daha iyi planlamanıza yardımcı olalım",
+  "onboardingBalanceTitle": "Başlangıç Bakiyesi",
+  "onboardingBalanceDesc": "Finanslarınızı doğru takip etmek için güncel bakiyenizi girin",
+
+  "onboardingV2Step1Title": "Harcamalarına farklı bak",
+  "onboardingV2Step1Subtitle": "Her harcamanın sana kaç saat mal olduğunu gör",
+  "onboardingV2Step1Demo": "5.000₺'lik telefon = 20 saat çalışman",
+  "onboardingV2Step1Cta": "Hesapla",
+
+  "onboardingV2Step2Title": "Seni tanıyalım",
+  "onboardingV2Step2Income": "Aylık gelirin",
+  "onboardingV2Step2Hours": "Günlük çalışma saatin",
+  "onboardingV2Step2Days": "Haftalık çalışma günün",
+  "onboardingV2Step2Cta": "Devam",
+
+  "onboardingV2Step3Title": "İlk harcamanı gir",
+  "onboardingV2Step3Subtitle": "Değerini saat olarak gör",
+  "onboardingV2Step3Result": "= {hours} saat {minutes} dakika",
+  "@onboardingV2Step3Result": {
+    "placeholders": {
+      "hours": {"type": "int"},
+      "minutes": {"type": "int"}
+    }
+  },
+  "onboardingV2Step3Success": "Harika! Artık her harcamanın değerini bileceksin",
+  "onboardingV2Step3Cta": "Başla",
+
+  "onboardingV2SkipSetup": "Daha sonra",
+  "onboardingV2Progress": "Adım {current}/{total}",
+  "@onboardingV2Progress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+
+  "checklistTitle": "Başlangıç Rehberi",
+  "checklistProgress": "{completed}/{total} tamamlandı",
+  "@checklistProgress": {
+    "placeholders": {
+      "completed": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "checklistFirstExpenseTitle": "İlk harcamanı ekle",
+  "checklistFirstExpenseSubtitle": "Değerini saat olarak gör",
+  "checklistViewReportTitle": "Raporunu incele",
+  "checklistViewReportSubtitle": "Harcama alışkanlıklarını keşfet",
+  "checklistCreatePursuitTitle": "Tasarruf hedefi koy",
+  "checklistCreatePursuitSubtitle": "Bir şey için biriktirmeye başla",
+  "checklistNotificationsTitle": "Bildirimleri aç",
+  "checklistNotificationsSubtitle": "Günlük hatırlatmalar al",
+  "checklistCelebrationTitle": "Harika başlangıç!",
+  "checklistCelebrationSubtitle": "Artık Vantag'ı kullanmaya hazırsın",
+
+  "emptyStateExampleTitle": "Örnek",
+  "emptyStateExpensesMessage": "Harcamalarının sana kaç saat mal olduğunu gör",
+  "emptyStateExpensesCta": "Harcama Ekle",
+  "emptyStatePursuitsMessage": "Bir hedef koy, ne kadar yaklaştığını takip et",
+  "emptyStatePursuitsCta": "Hedef Oluştur",
+  "emptyStateReportsMessage": "Harcama alışkanlıklarını keşfet",
+  "emptyStateReportsCta": "Harcama Ekle",
+  "emptyStateSubscriptionsMessage": "Aboneliklerini takip et, unutma",
+  "emptyStateSubscriptionsCta": "Abonelik Ekle",
+  "emptyStateAchievementsMessage": "Rozetler kazanmak için harcama ekle",
+  "emptyStateSavingsPoolMessage": "Birikimlerini havuzda topla",
+
+  "milestone3DayStreakTitle": "3 Gün Serisi!",
+  "milestone3DayStreakMessage": "Harika başlangıç, devam et!",
+  "milestone7DayStreakTitle": "1 Hafta Serisi!",
+  "milestone7DayStreakMessage": "Bir hafta boyunca düzenli kullandın",
+  "milestone14DayStreakTitle": "2 Hafta Serisi!",
+  "milestone14DayStreakMessage": "Alışkanlık oluşturmaya başladın",
+  "milestone30DayStreakTitle": "1 Ay Serisi!",
+  "milestone30DayStreakMessage": "Bir ay boyunca her gün! İnanılmaz",
+  "milestone60DayStreakTitle": "2 Ay Serisi!",
+  "milestone60DayStreakMessage": "Finansal farkındalık uzmanı oldun",
+  "milestone100DayStreakTitle": "100 Gün Serisi!",
+  "milestone100DayStreakMessage": "Efsanevi başarı! Sen bir şampiyon",
+  "milestoneFirstSavedTitle": "İlk Tasarruf!",
+  "milestoneFirstSavedMessage": "İlk paranı kurtardın",
+  "milestoneSaved100Title": "100₺ Kurtardın!",
+  "milestoneSaved100Message": "Tasarruf alışkanlığın gelişiyor",
+  "milestoneSaved1000Title": "1.000₺ Kurtardın!",
+  "milestoneSaved1000Message": "Ciddi tasarruf yapıyorsun",
+  "milestoneSaved5000Title": "5.000₺ Kurtardın!",
+  "milestoneSaved5000Message": "Tasarruf ustası oldun!",
+  "milestoneFirstExpenseTitle": "İlk Adım!",
+  "milestoneFirstExpenseMessage": "İlk harcamanı girdin",
+  "milestone10ExpensesTitle": "10 Harcama!",
+  "milestone10ExpensesMessage": "Artık takip alışkanlığın var",
+  "milestone50ExpensesTitle": "50 Harcama!",
+  "milestone50ExpensesMessage": "Finansal farkındalık uzmanısın",
+  "milestoneFirstPursuitTitle": "İlk Hedef!",
+  "milestoneFirstPursuitMessage": "Biriktirme yolculuğun başladı",
+  "milestoneFirstPursuitCompletedTitle": "Hedef Tamamlandı!",
+  "milestoneFirstPursuitCompletedMessage": "İlk hedefine ulaştın!",
+  "milestoneUsedAiChatTitle": "AI Keşfi!",
+  "milestoneUsedAiChatMessage": "Finansal asistanınla tanıştın",
+
+  "selectTimeFilter": "Zaman filtresi seç: {filter}",
+  "@selectTimeFilter": {
+    "placeholders": {
+      "filter": {"type": "String"}
+    }
+  },
+  "lockedFilterPremium": "{filter}, premium özellik",
+  "@lockedFilterPremium": {
+    "placeholders": {
+      "filter": {"type": "String"}
+    }
+  },
+  "selectedFilter": "{filter}, seçili",
+  "@selectedFilter": {
+    "placeholders": {
+      "filter": {"type": "String"}
+    }
+  },
+  "selectHeatmapDay": "Gün seç: {date}",
+  "@selectHeatmapDay": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "heatmapDayWithSpending": "{date}, {amount} harcama",
+  "@heatmapDayWithSpending": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "heatmapDayNoSpending": "{date}, harcama yok",
+  "@heatmapDayNoSpending": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+
+  "loggedOutFromAnotherDevice": "Başka Cihazda Giriş Yapıldı",
+  "loggedOutFromAnotherDeviceMessage": "Hesabınıza başka bir cihazdan giriş yapıldı. Güvenlik nedeniyle bu cihazdan çıkış yapıldı.",
+  "understood": "Anladım",
+
+  "multiCurrencyProTitle": "Çoklu Para Birimi",
+  "multiCurrencyProDescription": "Farklı para birimlerinde gelir ve harcama girişi yapabilmek için Pro üyeliğe yükseltin. USD, EUR, GBP ve daha fazlasını kullanın.",
+  "multiCurrencyBenefit": "Tüm para birimlerinde işlem",
+  "upgradeToPro": "Pro'ya Yükselt",
+  "currencyLockedForFree": "Para birimi değişikliği Pro özelliğidir",
+
+  "excelSheetExpenses": "Harcamalar",
+  "excelSheetSummary": "Özet",
+  "excelSheetCategories": "Kategoriler",
+  "excelSheetTimeAnalysis": "Zaman Analizi",
+  "excelSheetDecisions": "Kararlar",
+  "excelSheetInstallments": "Taksitler",
+
+  "excelHeaderDay": "Gün",
+  "excelHeaderStore": "Mağaza/Yer",
+  "excelHeaderMinutes": "Dakika Karşılığı",
+  "excelHeaderMonthlyInstallment": "Aylık Ödeme",
+  "excelHeaderInstallmentCount": "Taksit",
+  "excelHeaderSimulation": "Simülasyon",
+  "excelHeaderHoursEquiv": "Saat Karşılığı",
+
+  "excelReportTitle": "Vantag Finansal Rapor",
+  "excelReportPeriod": "Rapor Dönemi",
+  "excelReportGeneratedAt": "Oluşturulma Tarihi",
+  "excelTotalExpenses": "Toplam Harcama",
+  "excelTotalTransactions": "Toplam İşlem",
+  "excelAvgPerTransaction": "İşlem Başına Ortalama",
+  "excelMonthlyAverage": "Aylık Ortalama",
+  "excelDailyAverage": "Günlük Ortalama",
+  "excelWeeklyAverage": "Haftalık Ortalama",
+  "excelSavingsRate": "Tasarruf Oranı",
+  "excelTotalWorkHours": "Toplam Çalışma Saati",
+  "excelTotalWorkDays": "Toplam Çalışma Günü",
+
+  "excelCategoryShare": "Pay %",
+  "excelCategoryRank": "Sıra",
+  "excelTopCategory": "En Çok Harcanan",
+  "excelCategoryCount": "İşlem Sayısı",
+  "excelCategoryAvg": "Kategori Ortalaması",
+  "excelCategoryTotal": "Kategori Toplamı",
+  "excelCategoryHours": "Çalışma Saati",
+
+  "excelTimeTitle": "Zaman Analizi",
+  "excelMostActiveDay": "En Aktif Gün",
+  "excelMostActiveHour": "En Aktif Saat",
+  "excelWeekdayAvg": "Hafta İçi Ortalama",
+  "excelWeekendAvg": "Hafta Sonu Ortalama",
+  "excelMorningSpend": "Sabah (06-12)",
+  "excelAfternoonSpend": "Öğleden Sonra (12-18)",
+  "excelEveningSpend": "Akşam (18-24)",
+  "excelNightSpend": "Gece (00-06)",
+  "excelByDayOfWeek": "Haftanın Günlerine Göre",
+  "excelByHour": "Saate Göre",
+  "excelByMonth": "Aya Göre",
+
+  "excelDecisionsBought": "Aldım",
+  "excelDecisionsThinking": "Düşünüyorum",
+  "excelDecisionsPassed": "Vazgeçtim",
+  "excelDecisionCount": "Adet",
+  "excelDecisionAmount": "Tutar",
+  "excelDecisionPercent": "Yüzde",
+  "excelDecisionAvg": "Ortalama",
+  "excelDecisionHours": "Çalışma Saati",
+  "excelImpulseRate": "Anlık Karar Oranı",
+  "excelSavingsFromPassed": "Vazgeçerek Tasarruf",
+  "excelPotentialSavings": "Potansiyel Tasarruf (Düşünülen)",
+
+  "excelInstallmentName": "Açıklama",
+  "excelInstallmentTotal": "Toplam Tutar",
+  "excelInstallmentMonthly": "Aylık Ödeme",
+  "excelInstallmentProgress": "İlerleme",
+  "excelInstallmentRemaining": "Kalan",
+  "excelInstallmentStartDate": "Başlangıç",
+  "excelInstallmentEndDate": "Bitiş",
+  "excelInstallmentInterest": "Vade Farkı",
+  "excelNoInstallments": "Taksitli ödeme bulunmuyor",
+  "excelTotalMonthlyPayments": "Toplam Aylık Ödemeler",
+  "excelTotalRemainingDebt": "Toplam Kalan Borç",
+
+  "excelDayMonday": "Pazartesi",
+  "excelDayTuesday": "Salı",
+  "excelDayWednesday": "Çarşamba",
+  "excelDayThursday": "Perşembe",
+  "excelDayFriday": "Cuma",
+  "excelDaySaturday": "Cumartesi",
+  "excelDaySunday": "Pazar",
+
+  "excelYes": "Evet",
+  "excelNo": "Hayır",
+  "excelReal": "Gerçek",
+  "excelSimulation": "Simülasyon",
+
+  "proFeaturesSheetTitle": "Pro Özellik",
+  "proFeaturesSheetSubtitle": "Bu özellik Pro üyelere özel",
+  "proFeaturesIncluded": "Pro üyelik şunları içerir:",
+  "proFeatureHeatmap": "Harcama Haritası",
+  "proFeatureHeatmapDesc": "Yıllık harcama düzenini görselleştir",
+  "proFeatureCategoryBreakdown": "Kategori Dağılımı",
+  "proFeatureCategoryBreakdownDesc": "Kategorilere göre detaylı pasta grafik analizi",
+  "proFeatureSpendingTrends": "Harcama Trendleri",
+  "proFeatureSpendingTrendsDesc": "Harcamalarının zaman içindeki değişimini takip et",
+  "proFeatureTimeAnalysis": "Zaman Analizi",
+  "proFeatureTimeAnalysisDesc": "Gün ve saate göre en çok ne zaman harcadığını gör",
+  "proFeatureBudgetBreakdown": "Bütçe Dağılımı",
+  "proFeatureBudgetBreakdownDesc": "Bütçe hedeflerine göre harcamalarını takip et",
+  "proFeatureAdvancedFilters": "Gelişmiş Filtreler",
+  "proFeatureAdvancedFiltersDesc": "Aylık, tüm zamanlar ve daha fazla filtre",
+  "proFeatureExcelExport": "Excel Dışa Aktarım",
+  "proFeatureExcelExportDesc": "Tüm finansal verilerini dışa aktar",
+  "proFeatureUnlimitedHistory": "Sınırsız Geçmiş",
+  "proFeatureUnlimitedHistoryDesc": "Tüm geçmiş harcamalarına eriş",
+  "goProButton": "Pro'ya Geç",
+  "lockedFeatureTapToUnlock": "Açmak için dokun",
+
+  "voiceUsageIndicator": "Bugün {used}/{total} sesli giriş",
+  "@voiceUsageIndicator": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "aiChatUsageIndicator": "Bugün {used}/{total} soru",
+  "@aiChatUsageIndicator": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "dailyLimitReached": "Günlük limit doldu",
+  "dailyLimitReachedDesc": "Günlük kullanım hakkın bitti. Sınırsız erişim için Pro'ya geç!",
+  "unlimitedWithPro": "Pro ile sınırsız",
+
+  "backupData": "Verileri Yedekle",
+  "backupDataDesc": "Verilerini JSON dosyası olarak dışa aktar",
+  "restoreData": "Yedeği Geri Yükle",
+  "restoreDataDesc": "Yedek dosyasından verileri içe aktar",
+  "backupCreating": "Yedek oluşturuluyor...",
+  "backupSuccess": "Yedek başarıyla oluşturuldu",
+  "backupError": "Yedek oluşturulamadı",
+  "restoreConfirmTitle": "Verileri Geri Yükle?",
+  "restoreConfirmMessage": "Yedek verileri mevcut verilerine eklenecek. Devam edilsin mi?",
+  "restoreSuccess": "Veriler geri yüklendi! {expenses} harcama, {pursuits} hedef, {subscriptions} abonelik içe aktarıldı.",
+  "@restoreSuccess": {
+    "placeholders": {
+      "expenses": {"type": "int"},
+      "pursuits": {"type": "int"},
+      "subscriptions": {"type": "int"}
+    }
+  },
+  "restoreError": "Veriler geri yüklenemedi",
+  "noFileSelected": "Dosya seçilmedi",
+  "invalidBackupFormat": "Geçersiz yedek dosyası formatı",
+
+  "shareApp": "Arkadaşına Öner",
+  "shareAppDesc": "Vantag'ı arkadaşlarına öner",
+  "shareAppMessage": "Vantag'a bak - Her harcamanın kaç saat çalışmana mal olduğunu gösteriyor! İndir: https://play.google.com/store/apps/details?id=com.vantag.app",
+
+  "sendFeedback": "Geri Bildirim Gönder",
+  "sendFeedbackDesc": "Vantag'ı geliştirmemize yardım et",
+  "feedbackEmailSubject": "Vantag Geri Bildirim",
+
+  "rateApp": "Uygulamayı Puanla",
+  "rateAppDesc": "Play Store'da puanla",
+
+  "whatsNew": "Yenilikler",
+  "whatsNewInVersion": "v{version} Yenilikleri",
+  "@whatsNewInVersion": {
+    "placeholders": {
+      "version": {"type": "String"}
+    }
+  },
+  "gotIt": "Anladım",
+
+  "updateRequired": "Güncelleme Gerekli",
+  "updateRequiredMessage": "Vantag'ın yeni bir sürümü mevcut. Devam etmek için lütfen güncelle.",
+  "updateNow": "Şimdi Güncelle",
+
+  "dailyLimits": "Günlük Limitler",
+  "aiChat": "AI Sohbet",
+  "voiceInput": "Sesli Giriş",
+  "statementImport": "Ekstre İçe Aktarma",
+
+  "subscriptionAutoRenewalNotice": "Abonelik, mevcut dönem sona ermeden en az 24 saat önce iptal edilmediği sürece otomatik olarak yenilenir. Abonelikleri Ayarlar'dan yönetin.",
+  "@subscriptionAutoRenewalNotice": {
+    "description": "Apple App Store required auto-renewal disclosure"
+  },
+
+  "welcomeBackTitle3Days": "Tekrar Hoş Geldin!",
+  "welcomeBackSubtitle3Days": "Seni özledik. Harcamalarını takip etmeye devam et.",
+  "welcomeBackCta3Days": "Harcama Ekle",
+
+  "welcomeBackTitle7Days": "Geri Döndün!",
+  "welcomeBackSubtitle7Days": "Bir hafta oldu. Finansal hedeflerine devam edelim.",
+  "welcomeBackCta7Days": "Nereden Kaldık?",
+
+  "welcomeBackTitle14Days": "Merhaba Yeniden!",
+  "welcomeBackSubtitle14Days": "Seni bekledik. Yeni bir başlangıç yapmaya hazır mısın?",
+  "welcomeBackCta14Days": "Yeniden Başla",
+
+  "welcomeBackTitle30Days": "Hoş Geldin Geri!",
+  "welcomeBackSubtitle30Days": "Uzun zaman oldu ama hedeflerine ulaşmak hâlâ mümkün!",
+  "welcomeBackCta30Days": "Hemen Başla",
+
+  "welcomeBackStreakLost": "Seriniz sıfırlandı",
+  "welcomeBackStreakRecovered": "Serinin %{percent}'i kurtarıldı!",
+  "@welcomeBackStreakRecovered": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+
+  "reengagementPushTitle3Days": "Harcamalarını takip etmeyi unutma!",
+  "reengagementPushBody3Days": "Bugün ne kadar tasarruf ettin? Hemen gir ve gör.",
+
+  "reengagementPushTitle5Days": "Seni özledik!",
+  "reengagementPushBody5Days": "Finansal hedeflerine ulaşmak için devam et.",
+
+  "reengagementPushTitle7Days": "Geri dön, serinin bozulmasın!",
+  "reengagementPushBody7Days": "Streak'ini kaybetme, hemen bir harcama ekle.",
+
+  "reengagementUrgentTitle": "Finansal kontrolün elden kaçmasın!",
+  "reengagementUrgentBody": "Harcamalarını güncelle ve yoluna devam et.",
+
+  "pushOnboardingDay1Title": "İlk harcamanı ekle!",
+  "pushOnboardingDay1Body": "Bir kahve veya yemek - küçük başla, farkı gör.",
+
+  "pushOnboardingDay3Title": "Kaç saat çalıştığını biliyor musun?",
+  "pushOnboardingDay3Body": "Harcamalarını saat olarak görmeye devam et.",
+
+  "pushOnboardingDay7Title": "7 gün oldu!",
+  "pushOnboardingDay7Body": "Streak başlatmak için her gün bir harcama ekle.",
+
+  "pushWeeklyInsightTitle": "Haftalık Özet Hazır",
+  "pushWeeklyInsightBody": "Bu hafta ne kadar tasarruf ettin? Hemen kontrol et.",
+
+  "pushStreakReminderNewTitle": "Yeni bir seri başlat!",
+  "pushStreakReminderNewBody": "Bugün ilk harcamanı ekle ve yolculuğa başla.",
+
+  "pushStreakReminderShortTitle": "{days} günlük serin var!",
+  "@pushStreakReminderShortTitle": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "pushStreakReminderShortBody": "Bugün de ekle, serini koru.",
+
+  "pushStreakReminderMediumTitle": "{days} gün! Harika gidiyorsun!",
+  "@pushStreakReminderMediumTitle": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "pushStreakReminderMediumBody": "Seriyi bozmamak için bugün de ekle.",
+
+  "pushStreakReminderLongTitle": "{days} günlük seri!",
+  "@pushStreakReminderLongTitle": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "pushStreakReminderLongBody": "İnanılmaz bir başarı! Devam et.",
+
+  "pushMorningMotivationTitle": "Günaydın!",
+  "pushMorningMotivationWithSavingsBody": "Bu ay {symbol}{amount} tasarruf ettin. Devam!",
+  "@pushMorningMotivationWithSavingsBody": {
+    "placeholders": {
+      "symbol": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "pushMorningMotivationDefaultBody": "Bugün bir harcama ekleyerek finansal farkındalığını artır.",
+
+  "notificationSettingsTitle": "Bildirim Ayarları",
+  "notificationSettingsQuietHours": "Sessiz Saatler",
+  "notificationSettingsQuietHoursDesc": "Bu saatler arasında bildirim gönderilmez",
+  "notificationSettingsPreferredTime": "Tercih Edilen Saat",
+  "notificationSettingsPreferredTimeDesc": "Bildirimlerin gönderileceği saat",
+  "notificationSettingsStreakReminders": "Seri Hatırlatıcıları",
+  "notificationSettingsStreakRemindersDesc": "Akşamları seri hatırlatması al",
+  "notificationSettingsMorningMotivation": "Sabah Motivasyonu",
+  "notificationSettingsMorningMotivationDesc": "Sabahları motivasyon mesajı al",
+  "notificationSettingsWeeklyInsights": "Haftalık Özetler",
+  "notificationSettingsWeeklyInsightsDesc": "Pazar sabahları haftalık özet al",
+
+  "loginPromptTitle": "Verilerini Kaydet",
+  "loginPromptSubtitle": "Hesabını bağla, verilerini kaybetme",
+  "loginPromptLater": "Daha sonra",
+
+  "additionalIncomePromptTitle": "Ek gelirin var mı?",
+  "additionalIncomePromptSubtitle": "Yan iş, kira, freelance...",
+  "additionalIncomeYes": "Evet, ekle",
+  "additionalIncomeNo": "Hayır, yok"
+}

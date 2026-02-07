@@ -41,11 +41,11 @@ class ShimmerEffect extends StatefulWidget {
     return ShimmerEffect(
       key: key,
       colors: const [
-        Color(0xFF2A2A40), // AppColors.surfaceLight hardcoded for const factory
+        Color(0xFF2A2A40), // VantColors.surfaceLight hardcoded for const factory
         Color(
           0xFF35354D,
-        ), // AppColors.surfaceLighter hardcoded for const factory
-        Color(0xFF2A2A40), // AppColors.surfaceLight hardcoded for const factory
+        ), // VantColors.surfaceLighter hardcoded for const factory
+        Color(0xFF2A2A40), // VantColors.surfaceLight hardcoded for const factory
       ],
       child: child,
     );
@@ -211,7 +211,7 @@ class _ShimmerBorderState extends State<ShimmerBorder>
             child: Container(
               margin: EdgeInsets.all(widget.borderWidth),
               decoration: BoxDecoration(
-                color: context.appColors.surface,
+                color: context.vantColors.surface,
                 borderRadius: BorderRadius.circular(
                   widget.borderRadius - widget.borderWidth,
                 ),

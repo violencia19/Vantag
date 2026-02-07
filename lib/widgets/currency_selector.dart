@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/currency.dart';
@@ -22,8 +22,8 @@ void showCurrencySelector(BuildContext context) {
 
   showModalBottomSheet(
     context: context,
-    barrierColor: Colors.black.withOpacity(0.85),
-    backgroundColor: context.appColors.surface,
+    barrierColor: Colors.black.withValues(alpha: 0.85),
+    backgroundColor: context.vantColors.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
@@ -39,7 +39,7 @@ void showCurrencySelector(BuildContext context) {
               height: 4,
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -51,7 +51,7 @@ void showCurrencySelector(BuildContext context) {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             ),
@@ -65,18 +65,18 @@ void showCurrencySelector(BuildContext context) {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: context.appColors.warning.withValues(alpha: 0.15),
+                    color: context.vantColors.warning.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: context.appColors.warning.withValues(alpha: 0.3),
+                      color: context.vantColors.warning.withValues(alpha: 0.3),
                     ),
                   ),
                   child: Row(
                     children: [
                       Icon(
-                        PhosphorIconsDuotone.info,
+                        CupertinoIcons.info_circle_fill,
                         size: 16,
-                        color: context.appColors.warning,
+                        color: context.vantColors.warning,
                       ),
                       const SizedBox(width: 8),
                       Expanded(
@@ -84,7 +84,7 @@ void showCurrencySelector(BuildContext context) {
                           l10n.freeUserCurrencyNote(l10n.allCurrencies),
                           style: TextStyle(
                             fontSize: 12,
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                         ),
                       ),
@@ -112,8 +112,8 @@ void showCurrencySelector(BuildContext context) {
                       currency.code,
                       style: TextStyle(
                         color: isLocked
-                            ? context.appColors.textTertiary
-                            : context.appColors.textPrimary,
+                            ? context.vantColors.textTertiary
+                            : context.vantColors.textPrimary,
                         fontWeight: isSelected
                             ? FontWeight.w600
                             : FontWeight.w500,
@@ -125,10 +125,10 @@ void showCurrencySelector(BuildContext context) {
                       currency.symbol,
                       style: TextStyle(
                         color: isLocked
-                            ? context.appColors.textTertiary.withValues(
+                            ? context.vantColors.textTertiary.withValues(
                                 alpha: 0.5,
                               )
-                            : context.appColors.textSecondary,
+                            : context.vantColors.textSecondary,
                         fontSize: 16,
                       ),
                     ),
@@ -138,21 +138,21 @@ void showCurrencySelector(BuildContext context) {
                   isLocked ? l10n.currencyLocked : currency.name,
                   style: TextStyle(
                     color: isLocked
-                        ? context.appColors.textTertiary.withValues(alpha: 0.7)
-                        : context.appColors.textTertiary,
+                        ? context.vantColors.textTertiary.withValues(alpha: 0.7)
+                        : context.vantColors.textTertiary,
                     fontSize: 13,
                   ),
                 ),
                 trailing: isLocked
                     ? Icon(
-                        PhosphorIconsRegular.lock,
+                        CupertinoIcons.lock,
                         size: 20,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       )
                     : isSelected
                     ? Icon(
-                        PhosphorIconsDuotone.checkCircle,
-                        color: context.appColors.primary,
+                        CupertinoIcons.checkmark_circle_fill,
+                        color: context.vantColors.primary,
                       )
                     : null,
                 onTap: () async {

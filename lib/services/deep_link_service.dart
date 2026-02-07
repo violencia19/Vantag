@@ -3,7 +3,8 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/l10n/app_localizations.dart';
+import 'package:vantag/theme/app_colors.dart';
 import '../models/models.dart';
 import 'voice_parser_service.dart';
 
@@ -303,6 +304,7 @@ class DeepLinkService {
     // Haptic success
     HapticFeedback.lightImpact();
 
+    final l10n = AppLocalizations.of(context);
     final displayText = expense.subCategory ?? expense.category;
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -313,18 +315,18 @@ class DeepLinkService {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                '${expense.amount.toStringAsFixed(0)}₺ $displayText eklendi',
+                l10n.expenseAddedMessage(expense.amount.toStringAsFixed(0), displayText),
                 style: const TextStyle(fontWeight: FontWeight.w500),
               ),
             ),
           ],
         ),
-        backgroundColor: AppColors.categoryHealth,
+        backgroundColor: VantColors.categoryHealth,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         duration: const Duration(seconds: 4),
         action: SnackBarAction(
-          label: 'Geri Al',
+          label: l10n.undoAction,
           textColor: Colors.white,
           onPressed: () async {
             // Undo by deleting the most recently added expense (index 0)
@@ -343,14 +345,16 @@ class DeepLinkService {
     final context = _navigatorKey?.currentContext;
     if (context == null || !context.mounted) return;
 
+    final l10n = AppLocalizations.of(context);
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.cardBackground,
+        backgroundColor: context.vantColors.cardBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text(
-          'Harcamayı Onayla',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          l10n.confirmExpenseTitle,
+          style: const TextStyle(color: Colors.white),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -365,19 +369,19 @@ class DeepLinkService {
             ),
             const SizedBox(height: 16),
             if (result.amount != null)
-              _buildDetailRow('Tutar', '${result.amount!.toStringAsFixed(0)}₺'),
+              _buildDetailRow(l10n.amountLabel, result.amount!.toStringAsFixed(0)),
             _buildDetailRow(
-              'Kategori',
+              l10n.categoryLabel,
               VoiceParserService.getCategoryDisplayName(result.category),
             ),
-            _buildDetailRow('Açıklama', result.description),
+            _buildDetailRow(l10n.descriptionLabel, result.description),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'İptal',
+              l10n.cancelAction,
               style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
             ),
           ),
@@ -394,8 +398,8 @@ class DeepLinkService {
                 );
               }
             },
-            style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
-            child: const Text('Ekle'),
+            style: ElevatedButton.styleFrom(backgroundColor: VantColors.primary),
+            child: Text(l10n.addAction),
           ),
         ],
       ),
@@ -563,6 +567,8 @@ class DeepLinkService {
     final context = _navigatorKey?.currentContext;
     if (context == null || !context.mounted) return;
 
+    final l10n = AppLocalizations.of(context);
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
@@ -571,13 +577,13 @@ class DeepLinkService {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                'Davet kodu uygulandı: $code',
+                l10n.referralAppliedMessage(code),
                 style: const TextStyle(fontWeight: FontWeight.w500),
               ),
             ),
           ],
         ),
-        backgroundColor: AppColors.primary,
+        backgroundColor: VantColors.primary,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         duration: const Duration(seconds: 3),

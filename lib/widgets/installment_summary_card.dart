@@ -1,12 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/expense.dart';
 import '../providers/currency_provider.dart';
 import '../services/budget_service.dart';
-import '../theme/theme.dart' hide GlassCard;
-import '../core/theme/premium_effects.dart';
+import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
 import '../utils/category_utils.dart';
 
@@ -74,7 +73,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => _AllInstallmentsSheet(
         installments: installments,
         currencyProvider: currencyProvider,
@@ -113,13 +112,11 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
           offset: Offset(0, _slideAnimation.value),
           child: Opacity(
             opacity: _fadeAnimation.value,
-            child: GlassCard(
+            child: VGlassCard(
               borderRadius: 20,
               padding: const EdgeInsets.all(20),
-              boxShadow: PremiumShadows.coloredGlow(
-                context.appColors.warning,
-                intensity: 0.2,
-              ),
+              glowColor: context.vantColors.warning,
+              glowIntensity: 0.2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -133,21 +130,21 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                             width: 36,
                             height: 36,
                             decoration: BoxDecoration(
-                              color: context.appColors.warning.withValues(
+                              color: context.vantColors.warning.withValues(
                                 alpha: 0.15,
                               ),
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: PremiumShadows.coloredGlow(
-                                context.appColors.warning,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: VantShadows.coloredGlow(
+                                context.vantColors.warning,
                                 intensity: 0.3,
                               ),
                             ),
                             child: Icon(
-                              PhosphorIconsDuotone.creditCard,
-                              color: context.appColors.warning,
+                              CupertinoIcons.creditcard,
+                              color: context.vantColors.warning,
                               size: 18,
-                              shadows: PremiumShadows.iconHalo(
-                                context.appColors.warning,
+                              shadows: VantShadows.iconHalo(
+                                context.vantColors.warning,
                               ),
                             ),
                           ),
@@ -155,7 +152,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                           Text(
                             l10n.activeInstallments,
                             style: TextStyle(
-                              color: context.appColors.textPrimary,
+                              color: context.vantColors.textPrimary,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -168,12 +165,12 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
-                          color: context.appColors.warning.withValues(
+                          color: context.vantColors.warning.withValues(
                             alpha: 0.2,
                           ),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: context.appColors.warning.withValues(
+                            color: context.vantColors.warning.withValues(
                               alpha: 0.3,
                             ),
                             width: 1,
@@ -182,7 +179,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                         child: Text(
                           l10n.installmentCount(installments.length),
                           style: TextStyle(
-                            color: context.appColors.warning,
+                            color: context.vantColors.warning,
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                           ),
@@ -225,7 +222,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                             Text(
                               l10n.moreInstallments(installments.length - 3),
                               style: TextStyle(
-                                color: context.appColors.textTertiary,
+                                color: context.vantColors.textTertiary,
                                 fontSize: 12,
                               ),
                             ),
@@ -236,12 +233,12 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                                 vertical: 6,
                               ),
                               decoration: BoxDecoration(
-                                color: context.appColors.warning.withValues(
+                                color: context.vantColors.warning.withValues(
                                   alpha: 0.15,
                                 ),
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
-                                  color: context.appColors.warning.withValues(
+                                  color: context.vantColors.warning.withValues(
                                     alpha: 0.3,
                                   ),
                                 ),
@@ -252,15 +249,15 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                                   Text(
                                     l10n.viewAll,
                                     style: TextStyle(
-                                      color: context.appColors.warning,
+                                      color: context.vantColors.warning,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                   const SizedBox(width: 4),
                                   Icon(
-                                    PhosphorIconsBold.caretRight,
-                                    color: context.appColors.warning,
+                                    CupertinoIcons.chevron_right,
+                                    color: context.vantColors.warning,
                                     size: 12,
                                   ),
                                 ],
@@ -271,7 +268,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                       ),
                     ),
 
-                  Divider(color: context.appColors.cardBorder, height: 24),
+                  Divider(color: context.vantColors.cardBorder, height: 24),
 
                   // Özet with count-up animations
                   Row(
@@ -281,7 +278,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                           index: 0,
                           label: l10n.monthlyBurden,
                           value: monthlyBurdenConverted,
-                          color: context.appColors.warning,
+                          color: context.vantColors.warning,
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -290,7 +287,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                           index: 1,
                           label: l10n.remainingDebt,
                           value: totalDebtConverted,
-                          color: context.appColors.primary,
+                          color: context.vantColors.primary,
                         ),
                       ),
                     ],
@@ -302,20 +299,20 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: context.appColors.error.withValues(alpha: 0.1),
+                        color: context.vantColors.error.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: context.appColors.error.withValues(alpha: 0.2),
+                          color: context.vantColors.error.withValues(alpha: 0.2),
                         ),
                       ),
                       child: Row(
                         children: [
                           Icon(
-                            PhosphorIconsDuotone.trendUp,
-                            color: context.appColors.error,
+                            CupertinoIcons.arrow_up_right,
+                            color: context.vantColors.error,
                             size: 16,
-                            shadows: PremiumShadows.iconHalo(
-                              context.appColors.error,
+                            shadows: VantShadows.iconHalo(
+                              context.vantColors.error,
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -330,7 +327,7 @@ class _InstallmentSummaryCardState extends State<InstallmentSummaryCard>
                                 interestHours.toStringAsFixed(0),
                               ),
                               style: TextStyle(
-                                color: context.appColors.error,
+                                color: context.vantColors.error,
                                 fontSize: 12,
                               ),
                             ),
@@ -449,7 +446,7 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                                   widget.expense.category,
                                 ),
                           style: TextStyle(
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -457,7 +454,7 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                       Text(
                         '${formatTurkishCurrency(installmentAmount, decimalDigits: 0, showDecimals: false)}/${widget.l10n.monthAbbreviation}',
                         style: TextStyle(
-                          color: context.appColors.warning,
+                          color: context.vantColors.warning,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -470,7 +467,7 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                         child: Container(
                           height: 6,
                           decoration: BoxDecoration(
-                            color: context.appColors.cardBorder,
+                            color: context.vantColors.cardBorder,
                             borderRadius: BorderRadius.circular(3),
                           ),
                           child: FractionallySizedBox(
@@ -481,14 +478,14 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                                 gradient: LinearGradient(
                                   colors: progress > 0.8
                                       ? [
-                                          context.appColors.success,
-                                          context.appColors.success.withValues(
+                                          context.vantColors.success,
+                                          context.vantColors.success.withValues(
                                             alpha: 0.8,
                                           ),
                                         ]
                                       : [
-                                          context.appColors.warning,
-                                          context.appColors.warning.withValues(
+                                          context.vantColors.warning,
+                                          context.vantColors.warning.withValues(
                                             alpha: 0.8,
                                           ),
                                         ],
@@ -498,8 +495,8 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                                   BoxShadow(
                                     color:
                                         (progress > 0.8
-                                                ? context.appColors.success
-                                                : context.appColors.warning)
+                                                ? context.vantColors.success
+                                                : context.vantColors.warning)
                                             .withValues(alpha: 0.4),
                                     blurRadius: 6,
                                     spreadRadius: 0,
@@ -514,7 +511,7 @@ class _AnimatedInstallmentRowState extends State<_AnimatedInstallmentRow>
                       Text(
                         '$currentInstallment/$totalInstallments',
                         style: TextStyle(
-                          color: context.appColors.textTertiary,
+                          color: context.vantColors.textTertiary,
                           fontSize: 11,
                         ),
                       ),
@@ -597,7 +594,7 @@ class _AnimatedSummaryItemState extends State<_AnimatedSummaryItem>
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: widget.color.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: widget.color.withValues(alpha: 0.2),
                   width: 1,
@@ -609,7 +606,7 @@ class _AnimatedSummaryItemState extends State<_AnimatedSummaryItem>
                   Text(
                     widget.label,
                     style: TextStyle(
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                       fontSize: 11,
                     ),
                   ),
@@ -665,9 +662,9 @@ class _AllInstallmentsSheet extends StatelessWidget {
       builder: (context, scrollController) {
         return Container(
           decoration: BoxDecoration(
-            color: context.appColors.background,
+            color: context.vantColors.background,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-            border: Border.all(color: context.appColors.cardBorder),
+            border: Border.all(color: context.vantColors.cardBorder),
           ),
           child: Column(
             children: [
@@ -678,7 +675,7 @@ class _AllInstallmentsSheet extends StatelessWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: context.appColors.cardBorder,
+                    color: context.vantColors.cardBorder,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -699,14 +696,14 @@ class _AllInstallmentsSheet extends StatelessWidget {
                           width: 36,
                           height: 36,
                           decoration: BoxDecoration(
-                            color: context.appColors.warning.withValues(
+                            color: context.vantColors.warning.withValues(
                               alpha: 0.15,
                             ),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: Icon(
-                            PhosphorIconsDuotone.creditCard,
-                            color: context.appColors.warning,
+                            CupertinoIcons.creditcard,
+                            color: context.vantColors.warning,
                             size: 18,
                           ),
                         ),
@@ -714,7 +711,7 @@ class _AllInstallmentsSheet extends StatelessWidget {
                         Text(
                           l10n.activeInstallments,
                           style: TextStyle(
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                           ),
@@ -727,13 +724,13 @@ class _AllInstallmentsSheet extends StatelessWidget {
                         vertical: 5,
                       ),
                       decoration: BoxDecoration(
-                        color: context.appColors.warning.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
+                        color: context.vantColors.warning.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
                         l10n.installmentCount(installments.length),
                         style: TextStyle(
-                          color: context.appColors.warning,
+                          color: context.vantColors.warning,
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                         ),
@@ -743,7 +740,7 @@ class _AllInstallmentsSheet extends StatelessWidget {
                 ),
               ),
 
-              Divider(color: context.appColors.cardBorder),
+              Divider(color: context.vantColors.cardBorder),
 
               // Installments list
               Expanded(
@@ -797,9 +794,9 @@ class _InstallmentListItem extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -817,7 +814,7 @@ class _InstallmentListItem extends StatelessWidget {
                           expense.category,
                         ),
                   style: TextStyle(
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -827,7 +824,7 @@ class _InstallmentListItem extends StatelessWidget {
               Text(
                 '${formatTurkishCurrency(installmentAmount, decimalDigits: 0, showDecimals: false)}/${l10n.monthAbbreviation}',
                 style: TextStyle(
-                  color: context.appColors.warning,
+                  color: context.vantColors.warning,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -841,7 +838,7 @@ class _InstallmentListItem extends StatelessWidget {
           Container(
             height: 8,
             decoration: BoxDecoration(
-              color: context.appColors.cardBorder,
+              color: context.vantColors.cardBorder,
               borderRadius: BorderRadius.circular(4),
             ),
             child: FractionallySizedBox(
@@ -852,12 +849,12 @@ class _InstallmentListItem extends StatelessWidget {
                   gradient: LinearGradient(
                     colors: progress > 0.8
                         ? [
-                            context.appColors.success,
-                            context.appColors.success.withValues(alpha: 0.8),
+                            context.vantColors.success,
+                            context.vantColors.success.withValues(alpha: 0.8),
                           ]
                         : [
-                            context.appColors.warning,
-                            context.appColors.warning.withValues(alpha: 0.8),
+                            context.vantColors.warning,
+                            context.vantColors.warning.withValues(alpha: 0.8),
                           ],
                   ),
                   borderRadius: BorderRadius.circular(4),
@@ -876,7 +873,7 @@ class _InstallmentListItem extends StatelessWidget {
               Text(
                 '$currentInstallment / $totalInstallments ${l10n.installmentsLabel}',
                 style: TextStyle(
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                   fontSize: 13,
                 ),
               ),
@@ -884,7 +881,7 @@ class _InstallmentListItem extends StatelessWidget {
               Text(
                 '${l10n.remaining}: ${formatTurkishCurrency(remainingAmount, decimalDigits: 0, showDecimals: false)}',
                 style: TextStyle(
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   fontSize: 12,
                 ),
               ),
@@ -897,7 +894,7 @@ class _InstallmentListItem extends StatelessWidget {
             Text(
               '${l10n.total}: ${formatTurkishCurrency(totalAmount, decimalDigits: 0, showDecimals: false)}',
               style: TextStyle(
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
                 fontSize: 12,
               ),
             ),

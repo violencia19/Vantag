@@ -267,6 +267,7 @@ class ExpenseHistoryService {
   }
 
   /// Simülasyon harcamalarını temizle (app kapatılırken çağrılır)
+  /// Uses batch delete to avoid N+1 individual Firestore calls.
   Future<void> clearSimulations() async {
     await _withLock(() async {
       final expenses = await getAllExpenses();
@@ -282,11 +283,25 @@ class ExpenseHistoryService {
       await _saveExpenses(realExpenses);
       debugPrint("✅ [Local] ${simulations.length} simülasyon silindi");
 
-      // Firestore'dan simülasyonları sil
-      for (final sim in simulations) {
-        await _deleteFromFirestore(sim);
+      // Firestore'dan simülasyonları batch delete (max 500 per batch)
+      final collection = _expensesCollection;
+      if (collection != null) {
+        try {
+          // Firestore batches limited to 500 operations
+          for (var i = 0; i < simulations.length; i += 500) {
+            final chunk = simulations.skip(i).take(500);
+            final batch = _firestore.batch();
+            for (final sim in chunk) {
+              final docId = _generateExpenseId(sim);
+              batch.delete(collection.doc(docId));
+            }
+            await batch.commit();
+          }
+          debugPrint("✅ [Firestore] ${simulations.length} simülasyon batch silindi");
+        } catch (e) {
+          debugPrint("❌ [Firestore] Batch silme hatası: $e");
+        }
       }
-      debugPrint("✅ [Firestore] Simülasyonlar temizlendi");
     });
   }
 
@@ -523,18 +538,36 @@ class ExpenseHistoryService {
   }
 
   /// Firestore'dan TÜM expense'leri getir (Pro export için)
-  Future<List<Expense>> fetchAllExpensesFromFirestore() async {
+  /// Fetches in batches of [batchSize] to prevent memory spikes on large datasets.
+  Future<List<Expense>> fetchAllExpensesFromFirestore({
+    int batchSize = 500,
+  }) async {
     final collection = _expensesCollection;
     if (collection == null) {
       return [];
     }
 
     try {
-      final snapshots = await collection
-          .orderBy('date', descending: true)
-          .get();
+      final allExpenses = <Expense>[];
+      QuerySnapshot<Map<String, dynamic>>? lastBatch;
 
-      return snapshots.docs.map((doc) => Expense.fromJson(doc.data())).toList();
+      // Paginate in batches to avoid unbounded memory usage
+      do {
+        Query<Map<String, dynamic>> query = collection
+            .orderBy('date', descending: true)
+            .limit(batchSize);
+
+        if (lastBatch != null && lastBatch.docs.isNotEmpty) {
+          query = query.startAfterDocument(lastBatch.docs.last);
+        }
+
+        lastBatch = await query.get();
+        allExpenses.addAll(
+          lastBatch.docs.map((doc) => Expense.fromJson(doc.data())),
+        );
+      } while (lastBatch.docs.length == batchSize);
+
+      return allExpenses;
     } catch (e) {
       return [];
     }

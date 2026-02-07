@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../services/lock_service.dart';
 import '../services/haptic_service.dart';
@@ -119,7 +119,7 @@ class _LockScreenState extends State<LockScreen>
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -132,13 +132,13 @@ class _LockScreenState extends State<LockScreen>
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                  color: context.appColors.primary.withValues(alpha: 0.15),
+                  color: context.vantColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Icon(
-                  PhosphorIconsFill.lock,
+                  CupertinoIcons.lock_fill,
                   size: 40,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ),
               const SizedBox(height: 24),
@@ -149,7 +149,7 @@ class _LockScreenState extends State<LockScreen>
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -157,7 +157,7 @@ class _LockScreenState extends State<LockScreen>
                 'Vantag',
                 style: TextStyle(
                   fontSize: 14,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
               ),
               const SizedBox(height: 32),
@@ -189,12 +189,12 @@ class _LockScreenState extends State<LockScreen>
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: isFilled
-                            ? context.appColors.primary
+                            ? context.vantColors.primary
                             : Colors.transparent,
                         border: Border.all(
                           color: _error != null
-                              ? context.appColors.error
-                              : context.appColors.primary,
+                              ? context.vantColors.error
+                              : context.vantColors.primary,
                           width: 2,
                         ),
                       ),
@@ -211,7 +211,7 @@ class _LockScreenState extends State<LockScreen>
                     ? Text(
                         _error!,
                         style: TextStyle(
-                          color: context.appColors.error,
+                          color: context.vantColors.error,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
@@ -235,16 +235,16 @@ class _LockScreenState extends State<LockScreen>
                     builder: (context, snapshot) {
                       return Icon(
                         snapshot.data == true
-                            ? PhosphorIconsRegular.scan
-                            : PhosphorIconsRegular.fingerprint,
-                        color: context.appColors.primary,
+                            ? CupertinoIcons.viewfinder
+                            : CupertinoIcons.hand_raised,
+                        color: context.vantColors.primary,
                       );
                     },
                   ),
                   label: Text(
                     l10n.useBiometric,
                     style: TextStyle(
-                      color: context.appColors.primary,
+                      color: context.vantColors.primary,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -298,8 +298,8 @@ class _LockScreenState extends State<LockScreen>
         height: 72,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: context.appColors.surface,
-          border: Border.all(color: context.appColors.cardBorder, width: 1),
+          color: context.vantColors.surface,
+          border: Border.all(color: context.vantColors.cardBorder, width: 1),
         ),
         child: Center(
           child: Text(
@@ -307,7 +307,7 @@ class _LockScreenState extends State<LockScreen>
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
         ),
@@ -323,9 +323,9 @@ class _LockScreenState extends State<LockScreen>
         height: 72,
         child: Center(
           child: Icon(
-            PhosphorIconsRegular.backspace,
+            CupertinoIcons.delete_left,
             size: 28,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
           ),
         ),
       ),

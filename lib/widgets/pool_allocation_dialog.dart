@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 
@@ -56,9 +56,9 @@ class PoolAllocationDialog extends StatelessWidget {
       insetPadding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
         decoration: BoxDecoration(
-          color: context.appColors.surface,
+          color: context.vantColors.surface,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: context.appColors.cardBorder),
+          border: Border.all(color: context.vantColors.cardBorder),
         ),
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -69,12 +69,12 @@ class PoolAllocationDialog extends StatelessWidget {
               width: 56,
               height: 56,
               decoration: BoxDecoration(
-                color: context.appColors.warning.withValues(alpha: 0.15),
+                color: context.vantColors.warning.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                PhosphorIconsDuotone.warning,
-                color: context.appColors.warning,
+                CupertinoIcons.exclamationmark_triangle_fill,
+                color: context.vantColors.warning,
                 size: 28,
               ),
             ),
@@ -86,7 +86,7 @@ class PoolAllocationDialog extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -100,7 +100,7 @@ class PoolAllocationDialog extends StatelessWidget {
               ),
               style: TextStyle(
                 fontSize: 14,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -108,8 +108,8 @@ class PoolAllocationDialog extends StatelessWidget {
 
             // Option 1: From pocket
             _OptionButton(
-              icon: PhosphorIconsDuotone.wallet,
-              iconColor: context.appColors.success,
+              icon: CupertinoIcons.creditcard_fill,
+              iconColor: context.vantColors.success,
               title: l10n.fromMyPocket,
               subtitle: l10n.fromMyPocketDesc(
                 '$currencySymbol${difference.toStringAsFixed(0)}',
@@ -123,8 +123,8 @@ class PoolAllocationDialog extends StatelessWidget {
 
             // Option 2: Create debt
             _OptionButton(
-              icon: PhosphorIconsDuotone.clock,
-              iconColor: context.appColors.warning,
+              icon: CupertinoIcons.clock_fill,
+              iconColor: context.vantColors.warning,
               title: l10n.deductFromFuture,
               subtitle: l10n.deductFromFutureDesc(
                 '$currencySymbol${difference.toStringAsFixed(0)}',
@@ -139,8 +139,8 @@ class PoolAllocationDialog extends StatelessWidget {
             // Option 3: Available only
             if (available > 0)
               _OptionButton(
-                icon: PhosphorIconsDuotone.coins,
-                iconColor: context.appColors.primary,
+                icon: CupertinoIcons.money_dollar_circle_fill,
+                iconColor: context.vantColors.primary,
                 title: l10n.transferAvailableOnly(
                   '$currencySymbol${available.toStringAsFixed(0)}',
                 ),
@@ -161,7 +161,7 @@ class PoolAllocationDialog extends StatelessWidget {
               },
               child: Text(
                 l10n.cancel,
-                style: TextStyle(color: context.appColors.textSecondary),
+                style: TextStyle(color: context.vantColors.textSecondary),
               ),
             ),
           ],
@@ -191,9 +191,9 @@ class DebtSourceDialog extends StatelessWidget {
       insetPadding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
         decoration: BoxDecoration(
-          color: context.appColors.surface,
+          color: context.vantColors.surface,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: context.appColors.cardBorder),
+          border: Border.all(color: context.vantColors.cardBorder),
         ),
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -204,12 +204,12 @@ class DebtSourceDialog extends StatelessWidget {
               width: 56,
               height: 56,
               decoration: BoxDecoration(
-                color: context.appColors.error.withValues(alpha: 0.15),
+                color: context.vantColors.error.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                PhosphorIconsDuotone.question,
-                color: context.appColors.error,
+                CupertinoIcons.question_circle_fill,
+                color: context.vantColors.error,
                 size: 28,
               ),
             ),
@@ -221,7 +221,7 @@ class DebtSourceDialog extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -232,7 +232,7 @@ class DebtSourceDialog extends StatelessWidget {
               l10n.oneTimeIncomeDesc,
               style: TextStyle(
                 fontSize: 14,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -240,8 +240,8 @@ class DebtSourceDialog extends StatelessWidget {
 
             // Option 1: One-time income
             _OptionButton(
-              icon: PhosphorIconsDuotone.sparkle,
-              iconColor: context.appColors.success,
+              icon: CupertinoIcons.sparkles,
+              iconColor: context.vantColors.success,
               title: l10n.oneTimeIncomeOption,
               subtitle: l10n.oneTimeIncomeOptionDesc,
               onTap: () {
@@ -253,8 +253,8 @@ class DebtSourceDialog extends StatelessWidget {
 
             // Option 2: From savings
             _OptionButton(
-              icon: PhosphorIconsDuotone.piggyBank,
-              iconColor: context.appColors.warning,
+              icon: CupertinoIcons.money_dollar_circle_fill,
+              iconColor: context.vantColors.warning,
               title: l10n.fromSavingsOption,
               subtitle: l10n.fromSavingsOptionDesc,
               onTap: () {
@@ -273,7 +273,7 @@ class DebtSourceDialog extends StatelessWidget {
               },
               child: Text(
                 l10n.cancel,
-                style: TextStyle(color: context.appColors.textSecondary),
+                style: TextStyle(color: context.vantColors.textSecondary),
               ),
             ),
           ],
@@ -308,9 +308,9 @@ class _OptionButton extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: context.appColors.cardBackground,
+            color: context.vantColors.cardBackground,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: context.appColors.cardBorder),
+            border: Border.all(color: context.vantColors.cardBorder),
           ),
           child: Row(
             children: [
@@ -319,7 +319,7 @@ class _OptionButton extends StatelessWidget {
                 height: 44,
                 decoration: BoxDecoration(
                   color: iconColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: Icon(icon, color: iconColor, size: 22),
               ),
@@ -333,7 +333,7 @@ class _OptionButton extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -341,15 +341,15 @@ class _OptionButton extends StatelessWidget {
                       subtitle,
                       style: TextStyle(
                         fontSize: 12,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                   ],
                 ),
               ),
               Icon(
-                PhosphorIconsRegular.caretRight,
-                color: context.appColors.textTertiary,
+                CupertinoIcons.chevron_right,
+                color: context.vantColors.textTertiary,
                 size: 18,
               ),
             ],
@@ -369,7 +369,7 @@ Future<PoolAllocationChoice?> showPoolAllocationDialog(
 }) {
   return showDialog<PoolAllocationChoice>(
     context: context,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     builder: (context) => PoolAllocationDialog(
       available: available,
       requested: requested,
@@ -386,7 +386,7 @@ Future<DebtSourceChoice?> showDebtSourceDialog(
 }) {
   return showDialog<DebtSourceChoice>(
     context: context,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     builder: (context) => DebtSourceDialog(
       debtAmount: debtAmount,
       currencySymbol: currencySymbol,

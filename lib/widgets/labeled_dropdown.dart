@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 
 class LabeledDropdown<T> extends StatelessWidget {
@@ -31,7 +31,7 @@ class LabeledDropdown<T> extends StatelessWidget {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
@@ -39,24 +39,24 @@ class LabeledDropdown<T> extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: context.appColors.surface,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: context.appColors.cardBorder),
+            color: context.vantColors.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: context.vantColors.cardBorder),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<T>(
               value: value,
               isExpanded: true,
               icon: Icon(
-                PhosphorIconsDuotone.caretDown,
-                color: context.appColors.textSecondary,
+                CupertinoIcons.chevron_down,
+                color: context.vantColors.textSecondary,
               ),
-              dropdownColor: context.appColors.surfaceLight,
-              borderRadius: BorderRadius.circular(12),
+              dropdownColor: context.vantColors.surfaceLight,
+              borderRadius: BorderRadius.circular(16),
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
               onChanged: onChanged,
               selectedItemBuilder: shortLabelBuilder != null
@@ -69,7 +69,7 @@ class LabeledDropdown<T> extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
-                                color: context.appColors.textPrimary,
+                                color: context.vantColors.textPrimary,
                               ),
                             ),
                           ),
@@ -85,7 +85,7 @@ class LabeledDropdown<T> extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                     ),

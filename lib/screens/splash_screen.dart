@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/app_colors.dart';
 import '../models/models.dart';
 import '../services/services.dart';
 import '../providers/providers.dart';
@@ -19,9 +19,6 @@ class VantagSplashScreen extends StatefulWidget {
 
 class _VantagSplashScreenState extends State<VantagSplashScreen>
     with SingleTickerProviderStateMixin {
-  // Background color
-  static const _bgColor = AppColors.cardBackground;
-
   // Video player
   VideoPlayerController? _videoController;
   bool _videoInitialized = false;
@@ -194,8 +191,9 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
     Widget nextScreen;
 
     if (!_onboardingCompleted) {
-      debugPrint('[Splash] → OnboardingScreen (onboarding not completed)');
-      nextScreen = const OnboardingScreen();
+      // Use new 3-step onboarding flow
+      debugPrint('[Splash] → OnboardingV2Screen (new 3-step flow)');
+      nextScreen = const OnboardingV2Screen();
     } else if (_profile != null) {
       debugPrint('[Splash] → MainScreen (profile exists)');
       nextScreen = MainScreen(userProfile: _profile!);
@@ -226,7 +224,7 @@ class _VantagSplashScreenState extends State<VantagSplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bgColor,
+      backgroundColor: context.vantColors.cardBackground,
       body: AnimatedBuilder(
         animation: _fadeController,
         builder: (context, child) {

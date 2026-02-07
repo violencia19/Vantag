@@ -381,8 +381,9 @@ class ExchangeRateService {
       debugPrint('   ❌ Rate missing! Returning null');
       return null;
     }
-    if (fromRate <= 0) {
-      debugPrint('   ❌ Invalid fromRate! Returning null');
+    // Input validation: both rates must be positive to avoid division by zero or wrong results
+    if (fromRate <= 0 || toRate <= 0) {
+      debugPrint('   ❌ Invalid rate! fromRate=$fromRate, toRate=$toRate. Returning null');
       return null;
     }
 

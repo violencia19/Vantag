@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../providers/finance_provider.dart';
@@ -11,7 +11,7 @@ import '../providers/pro_provider.dart';
 import '../services/auth_service.dart';
 import '../services/profile_service.dart';
 import '../theme/theme.dart';
-import '../theme/app_theme.dart';
+
 import '../utils/currency_utils.dart';
 import 'onboarding_screen.dart';
 import 'income_wizard_screen.dart';
@@ -26,7 +26,7 @@ class ProfileModal extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => const ProfileModal(),
     );
   }
@@ -41,6 +41,7 @@ class _ProfileModalState extends State<ProfileModal> {
   String? _localPhotoPath;
   bool _isPhotoLoading = false;
   bool _isLinkingGoogle = false;
+  bool _isLinkingApple = false;
 
   @override
   void initState() {
@@ -91,7 +92,7 @@ class _ProfileModalState extends State<ProfileModal> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppLocalizations.of(context).photoSelectError),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
           ),
         );
       }
@@ -109,7 +110,7 @@ class _ProfileModalState extends State<ProfileModal> {
   void _showPhotoOptions(AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: Colors.transparent,
       builder: (context) => _PhotoOptionsSheet(
         localPhotoPath: _localPhotoPath,
@@ -166,7 +167,7 @@ class _ProfileModalState extends State<ProfileModal> {
         Positioned.fill(
           child: GestureDetector(
             onTap: () => Navigator.of(context).pop(),
-            child: Container(color: Colors.black.withOpacity(0.85)),
+            child: Container(color: Colors.black.withValues(alpha: 0.85)),
           ),
         ),
         // The actual draggable sheet
@@ -177,12 +178,12 @@ class _ProfileModalState extends State<ProfileModal> {
           builder: (context, scrollController) {
             return Container(
               decoration: BoxDecoration(
-                color: context.appColors.surface,
+                color: context.vantColors.surface,
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(24),
                 ),
                 border: Border.all(
-                  color: context.appColors.cardBorder,
+                  color: context.vantColors.cardBorder,
                   width: 1,
                 ),
               ),
@@ -194,7 +195,7 @@ class _ProfileModalState extends State<ProfileModal> {
                     height: 4,
                     margin: const EdgeInsets.only(top: 12),
                     decoration: BoxDecoration(
-                      color: context.appColors.textTertiary.withValues(
+                      color: context.vantColors.textTertiary.withValues(
                         alpha: 0.3,
                       ),
                       borderRadius: BorderRadius.circular(2),
@@ -244,6 +245,11 @@ class _ProfileModalState extends State<ProfileModal> {
                           // Google Connection Status
                           _buildGoogleStatus(context, authService, l10n),
 
+                          const SizedBox(height: 12),
+
+                          // Apple Connection Status
+                          _buildAppleStatus(context, authService, l10n),
+
                           const SizedBox(height: 32),
 
                           // Sign Out Button
@@ -288,20 +294,20 @@ class _ProfileModalState extends State<ProfileModal> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      context.appColors.primary.withValues(alpha: 0.3),
-                      context.appColors.secondary.withValues(alpha: 0.3),
+                      context.vantColors.primary.withValues(alpha: 0.3),
+                      context.vantColors.secondary.withValues(alpha: 0.3),
                     ],
                   ),
                   border: Border.all(
                     color: isPro
-                        ? AppColors.medalGold
-                        : context.appColors.primary,
+                        ? VantColors.medalGold
+                        : context.vantColors.primary,
                     width: isPro ? 3 : 2,
                   ),
                   boxShadow: isPro
                       ? [
                           BoxShadow(
-                            color: AppColors.medalGold.withValues(alpha: 0.4),
+                            color: VantColors.medalGold.withValues(alpha: 0.4),
                             blurRadius: 20,
                             spreadRadius: 2,
                           ),
@@ -314,7 +320,7 @@ class _ProfileModalState extends State<ProfileModal> {
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
                             valueColor: AlwaysStoppedAnimation<Color>(
-                              context.appColors.primary,
+                              context.vantColors.primary,
                             ),
                           ),
                         )
@@ -338,17 +344,17 @@ class _ProfileModalState extends State<ProfileModal> {
                   width: 28,
                   height: 28,
                   decoration: BoxDecoration(
-                    color: context.appColors.primary,
+                    color: context.vantColors.primary,
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: context.appColors.surface,
+                      color: context.vantColors.surface,
                       width: 2,
                     ),
                   ),
                   child: Icon(
-                    PhosphorIconsDuotone.camera,
+                    CupertinoIcons.camera,
                     size: 14,
-                    color: context.appColors.background,
+                    color: context.vantColors.background,
                   ),
                 ),
               ),
@@ -364,12 +370,12 @@ class _ProfileModalState extends State<ProfileModal> {
                     ),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
-                        colors: [AppColors.medalGold, AppColors.orange],
+                        colors: [VantColors.medalGold, VantColors.orange],
                       ),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.medalGold.withValues(alpha: 0.5),
+                          color: VantColors.medalGold.withValues(alpha: 0.5),
                           blurRadius: 8,
                         ),
                       ],
@@ -379,7 +385,7 @@ class _ProfileModalState extends State<ProfileModal> {
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w800,
-                        color: context.appColors.background,
+                        color: context.vantColors.background,
                       ),
                     ),
                   ),
@@ -396,7 +402,7 @@ class _ProfileModalState extends State<ProfileModal> {
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w700,
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
           ),
         ),
 
@@ -406,7 +412,7 @@ class _ProfileModalState extends State<ProfileModal> {
             email,
             style: TextStyle(
               fontSize: 14,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
         ],
@@ -431,11 +437,11 @@ class _ProfileModalState extends State<ProfileModal> {
 
   Widget _defaultAvatar() {
     return Container(
-      color: context.appColors.surfaceLight,
+      color: context.vantColors.surfaceLight,
       child: Icon(
-        PhosphorIconsDuotone.user,
+        CupertinoIcons.person,
         size: 50,
-        color: context.appColors.textTertiary,
+        color: context.vantColors.textTertiary,
       ),
     );
   }
@@ -445,26 +451,32 @@ class _ProfileModalState extends State<ProfileModal> {
     AppLocalizations l10n,
     FinanceProvider financeProvider,
   ) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 12,
+      runSpacing: 12,
       children: [
         // Photo Button
         _buildActionButton(
-          icon: PhosphorIconsDuotone.camera,
+          icon: CupertinoIcons.camera,
           label: l10n.changePhoto,
           onTap: () => _showPhotoOptions(l10n),
         ),
-        const SizedBox(width: 12),
         // Salary Button
         _buildActionButton(
-          icon: PhosphorIconsDuotone.money,
+          icon: CupertinoIcons.money_dollar_circle,
           label: l10n.editSalary,
           onTap: () => _showEditSalarySheet(context, l10n, financeProvider),
         ),
-        const SizedBox(width: 12),
+        // Work Hours Button
+        _buildActionButton(
+          icon: CupertinoIcons.clock,
+          label: l10n.editWorkHours,
+          onTap: () => _showEditWorkHoursSheet(context, l10n, financeProvider),
+        ),
         // Add Income Button
         _buildActionButton(
-          icon: PhosphorIconsDuotone.plusCircle,
+          icon: CupertinoIcons.plus_circle,
           label: l10n.addIncome,
           onTap: () => _navigateToAddIncome(context, financeProvider),
         ),
@@ -485,21 +497,21 @@ class _ProfileModalState extends State<ProfileModal> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: context.appColors.surfaceLight,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: context.appColors.cardBorder),
+          color: context.vantColors.surfaceLight,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: context.vantColors.cardBorder),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 18, color: context.appColors.primary),
+            Icon(icon, size: 18, color: context.vantColors.textSecondary),
             const SizedBox(width: 6),
             Text(
               label,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textSecondary,
               ),
             ),
           ],
@@ -516,9 +528,29 @@ class _ProfileModalState extends State<ProfileModal> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: Colors.transparent,
       builder: (ctx) => _EditSalarySheet(
+        financeProvider: financeProvider,
+        l10n: l10n,
+        onSaved: () {
+          if (mounted) setState(() {});
+        },
+      ),
+    );
+  }
+
+  void _showEditWorkHoursSheet(
+    BuildContext context,
+    AppLocalizations l10n,
+    FinanceProvider financeProvider,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => _EditWorkHoursSheet(
         financeProvider: financeProvider,
         l10n: l10n,
         onSaved: () {
@@ -559,22 +591,22 @@ class _ProfileModalState extends State<ProfileModal> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            context.appColors.primary.withValues(alpha: 0.25),
-            context.appColors.secondary.withValues(alpha: 0.25),
+            context.vantColors.primary.withValues(alpha: 0.25),
+            context.vantColors.secondary.withValues(alpha: 0.25),
           ],
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: context.appColors.primary.withValues(alpha: 0.4),
+          color: context.vantColors.primary.withValues(alpha: 0.4),
           width: 1,
         ),
       ),
       child: Column(
         children: [
           Icon(
-            PhosphorIconsDuotone.clock,
+            CupertinoIcons.clock,
             size: 32,
-            color: context.appColors.primary,
+            color: context.vantColors.primary,
           ),
           const SizedBox(height: 12),
           Text(
@@ -582,7 +614,7 @@ class _ProfileModalState extends State<ProfileModal> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
@@ -591,8 +623,8 @@ class _ProfileModalState extends State<ProfileModal> {
             style: TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.w800,
-              color: context.appColors.textPrimary,
-              letterSpacing: -1,
+              color: context.vantColors.textPrimary,
+              letterSpacing: -1.5,
             ),
           ),
         ],
@@ -610,7 +642,7 @@ class _ProfileModalState extends State<ProfileModal> {
       children: [
         Expanded(
           child: _buildStatCard(
-            icon: PhosphorIconsDuotone.calendarCheck,
+            icon: CupertinoIcons.calendar_badge_plus,
             label: l10n.profileMemberSince,
             value: l10n.profileDays(memberDays > 0 ? memberDays : 1),
           ),
@@ -618,7 +650,7 @@ class _ProfileModalState extends State<ProfileModal> {
         const SizedBox(width: 16),
         Expanded(
           child: _buildStatCard(
-            icon: PhosphorIconsDuotone.trophy,
+            icon: CupertinoIcons.rosette,
             label: l10n.profileBadgesEarned,
             value: badgesEarned.toString(),
           ),
@@ -635,20 +667,20 @@ class _ProfileModalState extends State<ProfileModal> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.appColors.surfaceLight,
+        color: context.vantColors.surfaceLight,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Column(
         children: [
-          Icon(icon, size: 24, color: context.appColors.primary),
+          Icon(icon, size: 24, color: context.vantColors.primary),
           const SizedBox(height: 8),
           Text(
             value,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
           const SizedBox(height: 4),
@@ -656,7 +688,7 @@ class _ProfileModalState extends State<ProfileModal> {
             label,
             style: TextStyle(
               fontSize: 12,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -672,99 +704,126 @@ class _ProfileModalState extends State<ProfileModal> {
   ) {
     final isLinked = authService.isLinkedWithGoogle;
 
-    return GestureDetector(
-      onTap: isLinked || _isLinkingGoogle
-          ? null
-          : () => _linkGoogleAccount(authService, l10n),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: context.appColors.surfaceLight,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: !isLinked && !_isLinkingGoogle
-                ? context.appColors.warning.withValues(alpha: 0.5)
-                : context.appColors.cardBorder,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: context.vantColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.06),
+          width: 1,
         ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: isLinked
-                    ? context.appColors.success.withValues(alpha: 0.15)
-                    : context.appColors.warning.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: _isLinkingGoogle
-                  ? Center(
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: context.appColors.primary,
+        boxShadow: [VantShadows.subtle],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: isLinked || _isLinkingGoogle
+              ? null
+              : () => _linkGoogleAccount(authService, l10n),
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            child: Row(
+              children: [
+                // Google Logo Container - Revolut style
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: _isLinkingGoogle
+                      ? Center(
+                          child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation(
+                                context.vantColors.primary,
+                              ),
+                            ),
+                          ),
+                        )
+                      : const Center(
+                          child: Text(
+                            'G',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF4285F4),
+                            ),
+                          ),
+                        ),
+                ),
+                const SizedBox(width: 14),
+                // Text Content
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Google',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
-                    )
-                  : Icon(
-                      PhosphorIconsDuotone.googleLogo,
-                      size: 20,
-                      color: isLinked
-                          ? context.appColors.success
-                          : context.appColors.warning,
-                    ),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    isLinked
-                        ? l10n.profileGoogleConnected
-                        : l10n.profileGoogleNotConnected,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: isLinked
-                          ? context.appColors.success
-                          : context.appColors.textPrimary,
-                    ),
+                      const SizedBox(height: 2),
+                      Text(
+                        isLinked
+                            ? l10n.profileGoogleConnected
+                            : l10n.dataNotBackedUp,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: isLinked
+                              ? context.vantColors.success
+                              : context.vantColors.textTertiary,
+                        ),
+                      ),
+                    ],
                   ),
-                  if (!isLinked && !_isLinkingGoogle) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      l10n.dataNotBackedUp,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: context.appColors.warning,
+                ),
+                // Status / Action Button
+                if (_isLinkingGoogle)
+                  Text(
+                    l10n.linking,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: context.vantColors.textTertiary,
+                    ),
+                  )
+                else if (isLinked)
+                  Icon(
+                    CupertinoIcons.checkmark_circle_fill,
+                    size: 22,
+                    color: context.vantColors.success,
+                  )
+                else
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: context.vantColors.primary,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      l10n.linkWithGoogle,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
                       ),
                     ),
-                  ],
-                ],
-              ),
+                  ),
+              ],
             ),
-            if (_isLinkingGoogle)
-              Text(
-                '...',
-                style: TextStyle(color: context.appColors.textTertiary),
-              )
-            else if (isLinked)
-              Icon(
-                PhosphorIconsDuotone.checkCircle,
-                size: 20,
-                color: context.appColors.success,
-              )
-            else
-              Icon(
-                PhosphorIconsDuotone.caretRight,
-                size: 20,
-                color: context.appColors.warning,
-              ),
-          ],
+          ),
         ),
       ),
     );
@@ -793,10 +852,10 @@ class _ProfileModalState extends State<ProfileModal> {
                 Expanded(child: Text(l10n.googleLinkedSuccess)),
               ],
             ),
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
           ),
         );
@@ -814,10 +873,10 @@ class _ProfileModalState extends State<ProfileModal> {
                 ),
               ],
             ),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
           ),
         );
@@ -827,7 +886,7 @@ class _ProfileModalState extends State<ProfileModal> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.googleLinkFailed),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -835,6 +894,202 @@ class _ProfileModalState extends State<ProfileModal> {
     } finally {
       if (mounted) {
         setState(() => _isLinkingGoogle = false);
+      }
+    }
+  }
+
+  Widget _buildAppleStatus(
+    BuildContext context,
+    AuthService authService,
+    AppLocalizations l10n,
+  ) {
+    final isLinked = authService.isLinkedWithApple;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: context.vantColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.06),
+          width: 1,
+        ),
+        boxShadow: [VantShadows.subtle],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: isLinked || _isLinkingApple
+              ? null
+              : () => _linkAppleAccount(authService, l10n),
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            child: Row(
+              children: [
+                // Apple Logo Container - Revolut style
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: _isLinkingApple
+                      ? const Center(
+                          child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation(Colors.white),
+                            ),
+                          ),
+                        )
+                      : const Center(
+                          child: Icon(
+                            Icons.apple,
+                            size: 26,
+                            color: Colors.white,
+                          ),
+                        ),
+                ),
+                const SizedBox(width: 14),
+                // Text Content
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Apple',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: context.vantColors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            isLinked
+                                ? l10n.profileAppleConnected
+                                : l10n.profileAppleNotConnected,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: isLinked
+                                  ? context.vantColors.success
+                                  : context.vantColors.textTertiary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Status / Action Button - Revolut style
+                    if (_isLinkingApple)
+                      Text(
+                        l10n.linking,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: context.vantColors.textTertiary,
+                        ),
+                      )
+                    else if (isLinked)
+                      Icon(
+                        CupertinoIcons.checkmark_circle_fill,
+                        size: 22,
+                        color: context.vantColors.success,
+                      )
+                    else
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          l10n.linkWithApple,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+    );
+  }
+
+  Future<void> _linkAppleAccount(
+    AuthService authService,
+    AppLocalizations l10n,
+  ) async {
+    setState(() => _isLinkingApple = true);
+    HapticFeedback.mediumImpact();
+
+    try {
+      final result = await authService.signInWithApple();
+
+      if (!mounted) return;
+
+      if (result.success) {
+        HapticFeedback.heavyImpact();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle, color: Colors.white, size: 20),
+                const SizedBox(width: 12),
+                Expanded(child: Text(l10n.appleLinkedSuccess)),
+              ],
+            ),
+            backgroundColor: context.vantColors.success,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+        );
+        // Refresh UI to show linked status
+        setState(() {});
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.error_outline, color: Colors.white, size: 20),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(result.errorMessage ?? l10n.appleLinkFailed),
+                ),
+              ],
+            ),
+            backgroundColor: context.vantColors.error,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.appleLinkFailed),
+            backgroundColor: context.vantColors.error,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLinkingApple = false);
       }
     }
   }
@@ -851,23 +1106,23 @@ class _ProfileModalState extends State<ProfileModal> {
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16),
           side: BorderSide(
-            color: context.appColors.error.withValues(alpha: 0.5),
+            color: context.vantColors.error.withValues(alpha: 0.5),
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(16),
           ),
         ),
         icon: Icon(
-          PhosphorIconsDuotone.signOut,
+          CupertinoIcons.square_arrow_right,
           size: 20,
-          color: context.appColors.error,
+          color: context.vantColors.error,
         ),
         label: Text(
           l10n.profileSignOut,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: context.appColors.error,
+            color: context.vantColors.error,
           ),
         ),
       ),
@@ -881,34 +1136,34 @@ class _ProfileModalState extends State<ProfileModal> {
   ) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => AlertDialog(
-        backgroundColor: context.appColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: context.vantColors.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Text(
           l10n.profileSignOut,
           style: TextStyle(
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),
         content: Text(
           l10n.profileSignOutConfirm,
-          style: TextStyle(color: context.appColors.textSecondary),
+          style: TextStyle(color: context.vantColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
             child: Text(
               l10n.cancel,
-              style: TextStyle(color: context.appColors.textSecondary),
+              style: TextStyle(color: context.vantColors.textSecondary),
             ),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.error,
-              foregroundColor: context.appColors.textPrimary,
+              backgroundColor: context.vantColors.error,
+              foregroundColor: context.vantColors.textPrimary,
             ),
             child: Text(l10n.profileSignOut),
           ),
@@ -953,7 +1208,7 @@ class _PhotoOptionsSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: SafeArea(
@@ -966,7 +1221,7 @@ class _PhotoOptionsSheet extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -976,20 +1231,20 @@ class _PhotoOptionsSheet extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 20),
               _buildOption(
                 context: context,
-                icon: PhosphorIconsDuotone.camera,
+                icon: CupertinoIcons.camera,
                 label: l10n.takePhoto,
                 onTap: onCameraTap,
               ),
               const SizedBox(height: 12),
               _buildOption(
                 context: context,
-                icon: PhosphorIconsDuotone.image,
+                icon: CupertinoIcons.photo,
                 label: l10n.selectFromGallery,
                 onTap: onGalleryTap,
               ),
@@ -997,7 +1252,7 @@ class _PhotoOptionsSheet extends StatelessWidget {
                 const SizedBox(height: 12),
                 _buildOption(
                   context: context,
-                  icon: PhosphorIconsDuotone.trash,
+                  icon: CupertinoIcons.trash,
                   label: l10n.removePhoto,
                   onTap: onDeleteTap,
                   isDestructive: true,
@@ -1022,22 +1277,22 @@ class _PhotoOptionsSheet extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: isDestructive
-                ? context.appColors.error.withValues(alpha: 0.1)
-                : context.appColors.surfaceLight,
-            borderRadius: BorderRadius.circular(12),
+                ? context.vantColors.error.withValues(alpha: 0.1)
+                : context.vantColors.surfaceLight,
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
             children: [
               Icon(
                 icon,
                 color: isDestructive
-                    ? context.appColors.error
-                    : context.appColors.textSecondary,
+                    ? context.vantColors.error
+                    : context.vantColors.textSecondary,
                 size: 24,
               ),
               const SizedBox(width: 16),
@@ -1047,8 +1302,8 @@ class _PhotoOptionsSheet extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: isDestructive
-                      ? context.appColors.error
-                      : context.appColors.textPrimary,
+                      ? context.vantColors.error
+                      : context.vantColors.textPrimary,
                 ),
               ),
             ],
@@ -1134,7 +1389,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(widget.l10n.incomesUpdated),
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -1146,7 +1401,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error: $e'),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -1167,7 +1422,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
 
     return Container(
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: ClipRRect(
@@ -1187,7 +1442,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: context.appColors.textTertiary.withValues(
+                        color: context.vantColors.textTertiary.withValues(
                           alpha: 0.3,
                         ),
                         borderRadius: BorderRadius.circular(2),
@@ -1203,14 +1458,14 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: context.appColors.primary.withValues(
+                          color: context.vantColors.primary.withValues(
                             alpha: 0.15,
                           ),
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         child: Icon(
-                          PhosphorIconsDuotone.money,
-                          color: context.appColors.primary,
+                          CupertinoIcons.money_dollar_circle,
+                          color: context.vantColors.primary,
                           size: 24,
                         ),
                       ),
@@ -1224,14 +1479,14 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
-                                color: context.appColors.textPrimary,
+                                color: context.vantColors.textPrimary,
                               ),
                             ),
                             Text(
                               l10n.editSalarySubtitle,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: context.appColors.textSecondary,
+                                color: context.vantColors.textSecondary,
                               ),
                             ),
                           ],
@@ -1247,7 +1502,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -1262,7 +1517,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
@@ -1270,10 +1525,10 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                       hintStyle: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.w700,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                       filled: true,
-                      fillColor: context.appColors.surfaceLight,
+                      fillColor: context.vantColors.surfaceLight,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none,
@@ -1286,7 +1541,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                       prefixStyle: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                   ),
@@ -1301,13 +1556,13 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       decoration: BoxDecoration(
                         color: _canSave && !_isLoading
-                            ? context.appColors.primary
-                            : context.appColors.surfaceLight,
-                        borderRadius: BorderRadius.circular(14),
+                            ? context.vantColors.primary
+                            : context.vantColors.surfaceLight,
+                        borderRadius: BorderRadius.circular(16),
                         boxShadow: _canSave && !_isLoading
                             ? [
                                 BoxShadow(
-                                  color: context.appColors.primary.withValues(
+                                  color: context.vantColors.primary.withValues(
                                     alpha: 0.3,
                                   ),
                                   blurRadius: 16,
@@ -1324,7 +1579,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
                                   valueColor: AlwaysStoppedAnimation(
-                                    context.appColors.background,
+                                    context.vantColors.background,
                                   ),
                                 ),
                               ),
@@ -1333,11 +1588,11 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  PhosphorIconsBold.check,
+                                  CupertinoIcons.checkmark,
                                   size: 20,
                                   color: _canSave
-                                      ? context.appColors.background
-                                      : context.appColors.textTertiary,
+                                      ? context.vantColors.background
+                                      : context.vantColors.textTertiary,
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
@@ -1346,8 +1601,305 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                     color: _canSave
-                                        ? context.appColors.background
-                                        : context.appColors.textTertiary,
+                                        ? context.vantColors.background
+                                        : context.vantColors.textTertiary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ============================================================================
+// EDIT WORK HOURS SHEET
+// ============================================================================
+
+class _EditWorkHoursSheet extends StatefulWidget {
+  final FinanceProvider financeProvider;
+  final AppLocalizations l10n;
+  final VoidCallback onSaved;
+
+  const _EditWorkHoursSheet({
+    required this.financeProvider,
+    required this.l10n,
+    required this.onSaved,
+  });
+
+  @override
+  State<_EditWorkHoursSheet> createState() => _EditWorkHoursSheetState();
+}
+
+class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
+  final _profileService = ProfileService();
+  late double _selectedHours;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedHours = widget.financeProvider.userProfile?.dailyHours ?? 8;
+  }
+
+  Future<void> _saveWorkHours() async {
+    if (_isLoading) return;
+
+    setState(() => _isLoading = true);
+    HapticFeedback.mediumImpact();
+
+    try {
+      final profile = widget.financeProvider.userProfile;
+      if (profile == null) return;
+
+      final updatedProfile = profile.copyWith(dailyHours: _selectedHours);
+      await _profileService.saveProfile(updatedProfile);
+
+      if (mounted) {
+        widget.financeProvider.setUserProfile(updatedProfile);
+        widget.onSaved();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(widget.l10n.workHoursUpdated),
+            backgroundColor: context.vantColors.success,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: context.vantColors.error,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = widget.l10n;
+    final bottomPadding = MediaQuery.of(context).viewInsets.bottom;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: context.vantColors.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(20, 12, 20, 20 + bottomPadding),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Handle bar
+                  Center(
+                    child: Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: context.vantColors.textTertiary.withValues(
+                          alpha: 0.3,
+                        ),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Header
+                  Row(
+                    children: [
+                      Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: context.vantColors.primary.withValues(
+                            alpha: 0.15,
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Icon(
+                          CupertinoIcons.clock,
+                          color: context.vantColors.primary,
+                          size: 24,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.editWorkHours,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: context.vantColors.textPrimary,
+                              ),
+                            ),
+                            Text(
+                              l10n.editWorkHoursSubtitle,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: context.vantColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+
+                  // Hours Display
+                  Center(
+                    child: Text(
+                      l10n.hoursPerDay(_selectedHours.toStringAsFixed(1)),
+                      style: TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.w800,
+                        color: context.vantColors.textPrimary,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Slider
+                  SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      activeTrackColor: context.vantColors.primary,
+                      inactiveTrackColor: context.vantColors.surfaceLight,
+                      thumbColor: context.vantColors.primary,
+                      overlayColor: context.vantColors.primary.withValues(alpha: 0.2),
+                      trackHeight: 8,
+                      thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 14),
+                    ),
+                    child: Slider(
+                      value: _selectedHours,
+                      min: 1,
+                      max: 16,
+                      divisions: 30,
+                      onChanged: (value) {
+                        HapticFeedback.selectionClick();
+                        setState(() => _selectedHours = value);
+                      },
+                    ),
+                  ),
+
+                  // Quick select buttons
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [4.0, 6.0, 8.0, 10.0, 12.0].map((hours) {
+                      final isSelected = _selectedHours == hours;
+                      return GestureDetector(
+                        onTap: () {
+                          HapticFeedback.selectionClick();
+                          setState(() => _selectedHours = hours);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? context.vantColors.primary
+                                : context.vantColors.surfaceLight,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: isSelected
+                                  ? context.vantColors.primary
+                                  : context.vantColors.cardBorder,
+                            ),
+                          ),
+                          child: Text(
+                            '${hours.toInt()}h',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: isSelected
+                                  ? context.vantColors.background
+                                  : context.vantColors.textSecondary,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Save Button
+                  GestureDetector(
+                    onTap: _isLoading ? null : _saveWorkHours,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      decoration: BoxDecoration(
+                        color: context.vantColors.primary,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: context.vantColors.primary.withValues(
+                              alpha: 0.3,
+                            ),
+                            blurRadius: 16,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      child: _isLoading
+                          ? Center(
+                              child: SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation(
+                                    context.vantColors.background,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  CupertinoIcons.checkmark,
+                                  size: 20,
+                                  color: context.vantColors.background,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  l10n.save,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: context.vantColors.background,
                                   ),
                                 ),
                               ],

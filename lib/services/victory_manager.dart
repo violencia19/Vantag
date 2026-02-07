@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:confetti/confetti.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 
 /// Wealth Coach: Victory Manager
@@ -212,10 +212,10 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                 gravity: 0.2,
                 particleDrag: 0.05,
                 colors: const [
-                  AppColors.medalGold, // Altın
-                  AppColors.primary, // Mor
-                  AppColors.secondary, // Turkuaz
-                  AppColors.error, // Kırmızı
+                  VantColors.medalGold, // Altın
+                  VantColors.primary, // Mor
+                  VantColors.primaryLight, // Açık mor
+                  VantColors.error, // Kırmızı
                   Colors.white,
                 ],
               ),
@@ -236,14 +236,14 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        AppColors.primary, // Primary mor
-                        AppColors.secondary, // Turkuaz
+                        VantColors.primary, // Primary mor
+                        VantColors.primaryLight, // Açık mor
                       ],
                     ),
                     borderRadius: BorderRadius.circular(28),
                     boxShadow: [
                       BoxShadow(
-                        color: context.appColors.primary.withValues(alpha: 0.4),
+                        color: context.vantColors.primary.withValues(alpha: 0.4),
                         blurRadius: 30,
                         spreadRadius: 5,
                         offset: const Offset(0, 10),
@@ -262,9 +262,9 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
-                          PhosphorIconsFill.trophy,
+                          CupertinoIcons.rosette,
                           size: 48,
-                          color: AppColors.medalGold,
+                          color: VantColors.medalGold,
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -293,7 +293,7 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                           color: Colors.white70,
-                          letterSpacing: 1,
+                          letterSpacing: -0.3,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -319,8 +319,8 @@ class _VictoryCelebrationState extends State<_VictoryCelebration>
                               ),
                             ),
                             const SizedBox(width: 6),
-                            Icon(
-                              PhosphorIconsFill.handFist,
+                            const Icon(
+                              CupertinoIcons.hand_raised_fill,
                               size: 16,
                               color: Colors.white,
                             ),

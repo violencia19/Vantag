@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/subscription_manager.dart';
@@ -95,13 +95,13 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: (isUrgent ? AppColors.urgentOrange : AppColors.secondary)
+              color: (isUrgent ? VantColors.urgentOrange : VantColors.primary)
                   .withValues(alpha: 0.5 * _pulseAnimation.value),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: (isUrgent ? AppColors.urgentOrange : AppColors.secondary)
+                color: (isUrgent ? VantColors.urgentOrange : VantColors.primary)
                     .withValues(alpha: 0.2 * _pulseAnimation.value),
                 blurRadius: 16,
                 spreadRadius: 2,
@@ -113,7 +113,7 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
-                color: context.appColors.surface.withValues(alpha: 0.9),
+                color: context.vantColors.surface.withValues(alpha: 0.9),
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
@@ -133,15 +133,15 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: isUrgent
-                                    ? [AppColors.urgentOrange, AppColors.error]
-                                    : [AppColors.secondary, AppColors.primary],
+                                    ? [VantColors.urgentOrange, VantColors.error]
+                                    : [VantColors.primary, VantColors.primary],
                               ),
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(16),
                             ),
                             child: Icon(
                               isUrgent
-                                  ? PhosphorIconsDuotone.warningCircle
-                                  : PhosphorIconsDuotone.bellRinging,
+                                  ? CupertinoIcons.exclamationmark_circle
+                                  : CupertinoIcons.bell,
                               color: Colors.white,
                               size: 22,
                             ),
@@ -161,8 +161,8 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,
                                     color: isUrgent
-                                        ? AppColors.urgentOrange
-                                        : AppColors.secondary,
+                                        ? VantColors.urgentOrange
+                                        : VantColors.primary,
                                   ),
                                 ),
                                 const SizedBox(height: 2),
@@ -170,7 +170,7 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                                   _buildDescription(l10n),
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: context.appColors.textSecondary,
+                                    color: context.vantColors.textSecondary,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -188,8 +188,8 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                             decoration: BoxDecoration(
                               color:
                                   (isUrgent
-                                          ? AppColors.urgentOrange
-                                          : AppColors.secondary)
+                                          ? VantColors.urgentOrange
+                                          : VantColors.primary)
                                       .withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -199,8 +199,8 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: isUrgent
-                                    ? AppColors.urgentOrange
-                                    : AppColors.secondary,
+                                    ? VantColors.urgentOrange
+                                    : VantColors.primary,
                               ),
                             ),
                           ),
@@ -215,9 +215,9 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                                 widget.onDismiss?.call();
                               },
                               child: Icon(
-                                PhosphorIconsDuotone.x,
+                                CupertinoIcons.xmark,
                                 size: 18,
-                                color: context.appColors.textTertiary,
+                                color: context.vantColors.textTertiary,
                               ),
                             ),
                           ],
@@ -280,12 +280,12 @@ class CompactRenewalBadge extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [AppColors.secondary, AppColors.primary],
+            colors: [VantColors.primary, VantColors.primary],
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: AppColors.secondary.withValues(alpha: 0.3),
+              color: VantColors.primary.withValues(alpha: 0.3),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -295,7 +295,7 @@ class CompactRenewalBadge extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(
-              PhosphorIconsDuotone.bellRinging,
+              CupertinoIcons.bell,
               color: Colors.white,
               size: 14,
             ),
@@ -413,7 +413,7 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
-            color: context.appColors.surface.withValues(alpha: 0.8),
+            color: context.vantColors.surface.withValues(alpha: 0.8),
             child: Material(
               color: Colors.transparent,
               child: InkWell(
@@ -431,7 +431,7 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
                         height: 36,
                         decoration: BoxDecoration(
                           color: _stats!.statusColor.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
                           _stats!.statusIcon,
@@ -456,7 +456,7 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
                               _stats!.statusText,
                               style: TextStyle(
                                 fontSize: 11,
-                                color: context.appColors.textTertiary,
+                                color: context.vantColors.textTertiary,
                               ),
                             ),
                           ],
@@ -469,14 +469,14 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                       const SizedBox(width: 8),
                       Icon(
-                        PhosphorIconsDuotone.caretRight,
+                        CupertinoIcons.chevron_right,
                         size: 14,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                     ],
                   ),

@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../../providers/locale_provider.dart';
@@ -45,7 +45,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -57,7 +57,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             ),
@@ -69,8 +69,8 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
                 children: [
                   // Currency
                   _buildSettingTile(
-                    icon: PhosphorIconsDuotone.currencyCircleDollar,
-                    iconColor: AppColors.achievementStreak,
+                    icon: CupertinoIcons.money_dollar_circle,
+                    iconColor: VantColors.achievementStreak,
                     title: l10n.settingsCurrency,
                     trailing: _buildCurrencyTrailing(),
                     onTap: () => showCurrencySelector(context),
@@ -80,8 +80,8 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
 
                   // Language
                   _buildSettingTile(
-                    icon: PhosphorIconsDuotone.translate,
-                    iconColor: AppColors.categoryEntertainment,
+                    icon: CupertinoIcons.globe,
+                    iconColor: VantColors.categoryEntertainment,
                     title: l10n.settingsLanguage,
                     trailing: _buildLanguageTrailing(),
                     onTap: () => _showLanguageSelector(),
@@ -91,8 +91,8 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
 
                   // Theme
                   _buildSettingTile(
-                    icon: PhosphorIconsDuotone.moon,
-                    iconColor: AppColors.categoryShopping,
+                    icon: CupertinoIcons.moon_fill,
+                    iconColor: VantColors.categoryShopping,
                     title: l10n.settingsTheme,
                     trailing: _buildThemeTrailing(),
                     onTap: () => _showThemeSelector(),
@@ -102,14 +102,14 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
 
                   // Simple Mode Toggle
                   _buildSettingTile(
-                    icon: PhosphorIconsDuotone.leaf,
-                    iconColor: AppColors.premiumGreen,
+                    icon: CupertinoIcons.leaf_arrow_circlepath,
+                    iconColor: VantColors.premiumGreen,
                     title: l10n.simpleMode,
                     subtitle: l10n.simpleModeDescription,
                     trailing: Switch.adaptive(
                       value: _simpleModeEnabled,
                       onChanged: _toggleSimpleMode,
-                      activeTrackColor: context.appColors.primary,
+                      activeTrackColor: context.vantColors.primary,
                     ),
                   ),
 
@@ -122,7 +122,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
                       l10n.simpleModeHint,
                       style: TextStyle(
                         fontSize: 13,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -146,14 +146,14 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: context.appColors.surfaceLight,
-        borderRadius: BorderRadius.circular(12),
+        color: context.vantColors.surfaceLight,
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
@@ -163,7 +163,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
                   height: 36,
                   decoration: BoxDecoration(
                     color: iconColor.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(icon, size: 20, color: iconColor),
                 ),
@@ -177,7 +177,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                       if (subtitle != null) ...[
@@ -186,7 +186,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
                           subtitle,
                           style: TextStyle(
                             fontSize: 12,
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                         ),
                       ],
@@ -214,16 +214,16 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
         Text(
           currency.code,
           style: TextStyle(
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(width: 4),
         Icon(
-          PhosphorIconsDuotone.caretRight,
+          CupertinoIcons.chevron_right,
           size: 18,
-          color: context.appColors.textTertiary,
+          color: context.vantColors.textTertiary,
         ),
       ],
     );
@@ -240,16 +240,16 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
         Text(
           langName,
           style: TextStyle(
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(width: 4),
         Icon(
-          PhosphorIconsDuotone.caretRight,
+          CupertinoIcons.chevron_right,
           size: 18,
-          color: context.appColors.textTertiary,
+          color: context.vantColors.textTertiary,
         ),
       ],
     );
@@ -278,16 +278,16 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
         Text(
           themeName,
           style: TextStyle(
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(width: 4),
         Icon(
-          PhosphorIconsDuotone.caretRight,
+          CupertinoIcons.chevron_right,
           size: 18,
-          color: context.appColors.textTertiary,
+          color: context.vantColors.textTertiary,
         ),
       ],
     );
@@ -298,8 +298,8 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
-      backgroundColor: context.appColors.surface,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
+      backgroundColor: context.vantColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -312,7 +312,7 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
               height: 4,
               margin: const EdgeInsets.only(top: 12, bottom: 20),
               decoration: BoxDecoration(
-                color: context.appColors.textTertiary.withValues(alpha: 0.3),
+                color: context.vantColors.textTertiary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -321,8 +321,8 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
               title: const Text('Turkce'),
               trailing: localeProvider.locale?.languageCode == 'tr'
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
-                      color: context.appColors.primary,
+                      CupertinoIcons.checkmark_circle_fill,
+                      color: context.vantColors.primary,
                     )
                   : null,
               onTap: () {
@@ -336,8 +336,8 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
               title: const Text('English'),
               trailing: localeProvider.locale?.languageCode == 'en'
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
-                      color: context.appColors.primary,
+                      CupertinoIcons.checkmark_circle_fill,
+                      color: context.vantColors.primary,
                     )
                   : null,
               onTap: () {
@@ -359,8 +359,8 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
-      backgroundColor: context.appColors.surface,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
+      backgroundColor: context.vantColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -373,20 +373,20 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
               height: 4,
               margin: const EdgeInsets.only(top: 12, bottom: 20),
               decoration: BoxDecoration(
-                color: context.appColors.textTertiary.withValues(alpha: 0.3),
+                color: context.vantColors.textTertiary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
             ListTile(
               leading: Icon(
-                PhosphorIconsDuotone.moon,
-                color: context.appColors.textPrimary,
+                CupertinoIcons.moon_fill,
+                color: context.vantColors.textPrimary,
               ),
               title: Text(l10n.settingsThemeDark),
               trailing: themeProvider.themeMode == AppThemeMode.dark
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
-                      color: context.appColors.primary,
+                      CupertinoIcons.checkmark_circle_fill,
+                      color: context.vantColors.primary,
                     )
                   : null,
               onTap: () {
@@ -397,14 +397,14 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
             ),
             ListTile(
               leading: Icon(
-                PhosphorIconsDuotone.sun,
-                color: context.appColors.textPrimary,
+                CupertinoIcons.sun_max_fill,
+                color: context.vantColors.textPrimary,
               ),
               title: Text(l10n.settingsThemeLight),
               trailing: themeProvider.themeMode == AppThemeMode.light
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
-                      color: context.appColors.primary,
+                      CupertinoIcons.checkmark_circle_fill,
+                      color: context.vantColors.primary,
                     )
                   : null,
               onTap: () {
@@ -415,21 +415,21 @@ class _SimpleSettingsScreenState extends State<SimpleSettingsScreen> {
             ),
             ListTile(
               leading: Icon(
-                PhosphorIconsDuotone.clock,
-                color: context.appColors.textPrimary,
+                CupertinoIcons.clock_fill,
+                color: context.vantColors.textPrimary,
               ),
               title: Text(l10n.settingsThemeAutomatic),
               subtitle: Text(
                 '07:00-19:00 ☀️ / 19:00-07:00 🌙',
                 style: TextStyle(
                   fontSize: 12,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ),
               trailing: themeProvider.themeMode == AppThemeMode.automatic
                   ? Icon(
-                      PhosphorIconsDuotone.checkCircle,
-                      color: context.appColors.primary,
+                      CupertinoIcons.checkmark_circle_fill,
+                      color: context.vantColors.primary,
                     )
                   : null,
               onTap: () {

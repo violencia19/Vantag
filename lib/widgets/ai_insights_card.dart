@@ -1,9 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../theme/theme.dart';
-import '../core/theme/premium_effects.dart';
 
 /// AI Insights Card - Premium UI Element
 /// Shows AI-generated insights about spending patterns
@@ -19,7 +19,8 @@ class AIInsightsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final insights = _generateInsights();
+    final l10n = AppLocalizations.of(context);
+    final insights = _generateInsights(l10n);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +33,7 @@ class AIInsightsCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
             const SizedBox(width: 8),
@@ -48,49 +49,62 @@ class AIInsightsCard extends StatelessWidget {
             child: _InsightCard(insight: insight),
           ),
         ),
+
+        // AI disclaimer
+        if (insights.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
+              l10n.aiDisclaimer,
+              style: TextStyle(
+                fontSize: 11,
+                color: context.vantColors.textTertiary,
+              ),
+            ),
+          ),
       ],
     );
   }
 
-  List<_Insight> _generateInsights() {
+  List<_Insight> _generateInsights(AppLocalizations l10n) {
     final insights = <_Insight>[];
 
     // 1. Peak Spending Day
-    final peakDay = _findPeakSpendingDay();
+    final peakDay = _findPeakSpendingDay(l10n);
     if (peakDay != null) {
       insights.add(
         _Insight(
-          icon: PhosphorIconsBold.calendarBlank,
-          iconColor: AppColors.premiumPurple,
-          title: 'En Çok Harcama Günü',
+          icon: CupertinoIcons.calendar,
+          iconColor: VantColors.premiumPurple,
+          title: l10n.insightPeakDay,
           subtitle: peakDay,
         ),
       );
     }
 
     // 2. Top Category
-    final topCategory = _findTopCategory();
+    final topCategory = _findTopCategory(l10n);
     if (topCategory != null) {
       insights.add(
         _Insight(
-          icon: PhosphorIconsBold.target,
-          iconColor: AppColors.premiumCyan,
-          title: 'En Büyük Kategori',
+          icon: CupertinoIcons.scope,
+          iconColor: VantColors.premiumCyan,
+          title: l10n.insightTopCategory,
           subtitle: topCategory,
         ),
       );
     }
 
     // 3. Month Comparison
-    final comparison = _calculateMonthComparison();
+    final comparison = _calculateMonthComparison(l10n);
     if (comparison != null) {
       insights.add(
         _Insight(
           icon: comparison.isDown
-              ? PhosphorIconsBold.trendDown
-              : PhosphorIconsBold.trendUp,
-          iconColor: comparison.isDown ? AppColors.success : AppColors.error,
-          title: 'Bu Ay vs Geçen Ay',
+              ? CupertinoIcons.arrow_down_right
+              : CupertinoIcons.arrow_up_right,
+          iconColor: comparison.isDown ? VantColors.success : VantColors.error,
+          title: l10n.insightMonthComparison,
           subtitle: comparison.text,
         ),
       );
@@ -99,7 +113,7 @@ class AIInsightsCard extends StatelessWidget {
     return insights;
   }
 
-  String? _findPeakSpendingDay() {
+  String? _findPeakSpendingDay(AppLocalizations l10n) {
     if (expenses.isEmpty) return null;
 
     final dayTotals = <int, double>{};
@@ -117,19 +131,19 @@ class AIInsightsCard extends StatelessWidget {
     );
 
     final dayNames = {
-      1: 'Pazartesi',
-      2: 'Salı',
-      3: 'Çarşamba',
-      4: 'Perşembe',
-      5: 'Cuma',
-      6: 'Cumartesi',
-      7: 'Pazar',
+      1: l10n.dayMonday,
+      2: l10n.dayTuesday,
+      3: l10n.dayWednesday,
+      4: l10n.dayThursday,
+      5: l10n.dayFriday,
+      6: l10n.daySaturday,
+      7: l10n.daySunday,
     };
 
-    return '${dayNames[peakDay.key]} en çok harcadığın gün';
+    return l10n.insightPeakDaySubtitle(dayNames[peakDay.key]!);
   }
 
-  String? _findTopCategory() {
+  String? _findTopCategory(AppLocalizations l10n) {
     if (expenses.isEmpty) return null;
 
     final categoryTotals = <String, double>{};
@@ -146,10 +160,10 @@ class AIInsightsCard extends StatelessWidget {
       (a, b) => a.value > b.value ? a : b,
     );
 
-    return '${topCategory.key} en büyük kategorin';
+    return l10n.insightTopCategorySubtitle(topCategory.key);
   }
 
-  _MonthComparison? _calculateMonthComparison() {
+  _MonthComparison? _calculateMonthComparison(AppLocalizations l10n) {
     final thisMonthTotal = expenses
         .where((e) => e.decision == ExpenseDecision.yes)
         .fold(0.0, (sum, e) => sum + e.amount);
@@ -162,10 +176,10 @@ class AIInsightsCard extends StatelessWidget {
 
     final change = ((thisMonthTotal - lastMonthTotal) / lastMonthTotal) * 100;
     final isDown = change < 0;
+    final percent = change.abs().toStringAsFixed(0);
 
     return _MonthComparison(
-      text:
-          'Geçen aya göre %${change.abs().toStringAsFixed(0)} ${isDown ? 'düşüş' : 'artış'}',
+      text: isDown ? l10n.insightMonthDown(percent) : l10n.insightMonthUp(percent),
       isDown: isDown,
     );
   }
@@ -253,11 +267,11 @@ class _InsightCardState extends State<_InsightCard>
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: PremiumColors.cardBackground,
+                  color: context.vantColors.cardBackground,
                   borderRadius: BorderRadius.circular(14.5),
                   boxShadow: _isPressed
-                      ? PremiumShadows.glowPurple
-                      : PremiumShadows.shadowPremium,
+                      ? [VantShadows.glowPurple]
+                      : VantShadows.shadowPremium,
                 ),
                 child: Row(
                   children: [
@@ -267,7 +281,7 @@ class _InsightCardState extends State<_InsightCard>
                       height: 44,
                       decoration: BoxDecoration(
                         color: widget.insight.iconColor.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
                             color: widget.insight.iconColor.withValues(
@@ -282,7 +296,7 @@ class _InsightCardState extends State<_InsightCard>
                         widget.insight.icon,
                         color: widget.insight.iconColor,
                         size: 22,
-                        shadows: PremiumShadows.iconHalo(
+                        shadows: VantShadows.iconHalo(
                           widget.insight.iconColor,
                         ),
                       ),
@@ -298,7 +312,7 @@ class _InsightCardState extends State<_InsightCard>
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
-                              color: context.appColors.textSecondary,
+                              color: context.vantColors.textSecondary,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -307,7 +321,7 @@ class _InsightCardState extends State<_InsightCard>
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: context.appColors.textPrimary,
+                              color: context.vantColors.textPrimary,
                             ),
                           ),
                         ],

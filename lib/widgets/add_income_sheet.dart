@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -107,7 +107,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context).incomeAdded),
-          backgroundColor: context.appColors.success,
+          backgroundColor: context.vantColors.success,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -119,7 +119,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error: $e'),
-          backgroundColor: context.appColors.error,
+          backgroundColor: context.vantColors.error,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -137,8 +137,16 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
 
     return Container(
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            context.vantColors.surface.withValues(alpha: 0.95),
+            context.vantColors.background.withValues(alpha: 0.98),
+          ],
+        ),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        border: Border.all(color: context.isDarkMode ? const Color(0x15FFFFFF) : const Color(0x15000000), width: 1),
       ),
       child: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
@@ -157,7 +165,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: context.appColors.textTertiary.withValues(
+                        color: context.vantColors.textTertiary.withValues(
                           alpha: 0.3,
                         ),
                         borderRadius: BorderRadius.circular(2),
@@ -173,14 +181,14 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: context.appColors.success.withValues(
+                          color: context.vantColors.success.withValues(
                             alpha: 0.15,
                           ),
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         child: Icon(
-                          PhosphorIconsDuotone.arrowCircleDown,
-                          color: context.appColors.success,
+                          CupertinoIcons.arrow_down_circle_fill,
+                          color: context.vantColors.success,
                           size: 24,
                         ),
                       ),
@@ -194,14 +202,14 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
-                                color: context.appColors.textPrimary,
+                                color: context.vantColors.textPrimary,
                               ),
                             ),
                             Text(
                               l10n.addIncomeSubtitle,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: context.appColors.textSecondary,
+                                color: context.vantColors.textSecondary,
                               ),
                             ),
                           ],
@@ -217,7 +225,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -230,7 +238,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -245,7 +253,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
@@ -253,13 +261,17 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                       hintStyle: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.w700,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                       filled: true,
-                      fillColor: context.appColors.surfaceLight,
+                      fillColor: context.vantColors.surfaceInput,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.06), width: 1),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 20,
@@ -269,7 +281,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                       prefixStyle: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                   ),
@@ -281,7 +293,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -289,18 +301,22 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                     controller: _notesController,
                     style: TextStyle(
                       fontSize: 16,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                     decoration: InputDecoration(
                       hintText: l10n.incomeNotesHint,
                       hintStyle: TextStyle(
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                       filled: true,
-                      fillColor: context.appColors.surfaceLight,
+                      fillColor: context.vantColors.surfaceInput,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.06), width: 1),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -333,13 +349,13 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           decoration: BoxDecoration(
                             color: _canSave && !_isLoading
-                                ? context.appColors.success
-                                : context.appColors.surfaceLight,
-                            borderRadius: BorderRadius.circular(14),
+                                ? context.vantColors.success
+                                : context.vantColors.surfaceLight,
+                            borderRadius: BorderRadius.circular(16),
                             boxShadow: _canSave && !_isLoading
                                 ? [
                                     BoxShadow(
-                                      color: context.appColors.success
+                                      color: context.vantColors.success
                                           .withValues(alpha: 0.3),
                                       blurRadius: 16,
                                       offset: const Offset(0, 6),
@@ -355,7 +371,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                                     child: CircularProgressIndicator(
                                       strokeWidth: 2,
                                       valueColor: AlwaysStoppedAnimation(
-                                        context.appColors.background,
+                                        context.vantColors.background,
                                       ),
                                     ),
                                   ),
@@ -364,11 +380,11 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
-                                      PhosphorIconsBold.plus,
+                                      CupertinoIcons.add,
                                       size: 20,
                                       color: _canSave
-                                          ? context.appColors.background
-                                          : context.appColors.textTertiary,
+                                          ? context.vantColors.background
+                                          : context.vantColors.textTertiary,
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
@@ -377,8 +393,8 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                         color: _canSave
-                                            ? context.appColors.background
-                                            : context.appColors.textTertiary,
+                                            ? context.vantColors.background
+                                            : context.vantColors.textTertiary,
                                       ),
                                     ),
                                   ],
@@ -422,10 +438,10 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
             decoration: BoxDecoration(
               color: isSelected
                   ? type.color.withValues(alpha: 0.15)
-                  : context.appColors.surfaceLight,
-              borderRadius: BorderRadius.circular(12),
+                  : context.vantColors.surfaceLight,
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: isSelected ? type.color : context.appColors.cardBorder,
+                color: isSelected ? type.color : context.vantColors.cardBorder,
                 width: isSelected ? 2 : 1,
               ),
             ),
@@ -437,7 +453,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                   size: 18,
                   color: isSelected
                       ? type.color
-                      : context.appColors.textSecondary,
+                      : context.vantColors.textSecondary,
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -447,7 +463,7 @@ class _AddIncomeSheetState extends State<AddIncomeSheet>
                     fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                     color: isSelected
                         ? type.color
-                        : context.appColors.textPrimary,
+                        : context.vantColors.textPrimary,
                   ),
                 ),
               ],

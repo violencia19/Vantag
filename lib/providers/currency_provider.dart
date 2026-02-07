@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/foundation.dart';
 import '../models/currency.dart';
 import '../models/income_source.dart';
@@ -15,8 +17,11 @@ class CurrencyProvider extends ChangeNotifier {
   // Exchange rate service singleton
   final ExchangeRateService _exchangeService = ExchangeRateService();
 
-  // TCMB rates from CurrencyService (fallback when Firestore is empty)
+  // TCMB rates from CurrencyService (used only for Turkish locale)
   ExchangeRates? _tcmbRates;
+
+  // Locale-aware: only fetch TCMB for Turkish devices
+  bool get _isTurkishLocale => Platform.localeName.startsWith('tr');
 
   // Getters
   Currency get currency => _currency;
@@ -35,15 +40,17 @@ class CurrencyProvider extends ChangeNotifier {
     // Initialize exchange service from cache
     await _exchangeService.initialize();
 
-    // Also load TCMB rates (from cache first, then API)
-    try {
-      final currencyService = CurrencyService();
-      _tcmbRates = await currencyService.getRates();
-      debugPrint(
-        '💱 [CurrencyProvider] Initialized with TCMB rates: USD=${_tcmbRates?.usdRate}, EUR=${_tcmbRates?.eurRate}',
-      );
-    } catch (e) {
-      debugPrint('⚠️ [CurrencyProvider] Failed to load TCMB rates: $e');
+    // Load TCMB rates only for Turkish locale (non-TR uses Firestore pipeline)
+    if (_isTurkishLocale) {
+      try {
+        final currencyService = CurrencyService();
+        _tcmbRates = await currencyService.getRates();
+        debugPrint(
+          '💱 [CurrencyProvider] Initialized with TCMB rates: USD=${_tcmbRates?.usdRate}, EUR=${_tcmbRates?.eurRate}',
+        );
+      } catch (e) {
+        debugPrint('⚠️ [CurrencyProvider] Failed to load TCMB rates: $e');
+      }
     }
 
     notifyListeners();
@@ -70,13 +77,14 @@ class CurrencyProvider extends ChangeNotifier {
       // Try to fetch from Firestore first
       await _exchangeService.fetchAllRates(forceRefresh: forceRefresh);
 
-      // Also fetch TCMB rates as backup (these are always fresh from API)
-      final currencyService = CurrencyService();
-      _tcmbRates = await currencyService.getRates(forceRefresh: forceRefresh);
-
-      debugPrint(
-        '💱 [CurrencyProvider] TCMB rates loaded: USD=${_tcmbRates?.usdRate}, EUR=${_tcmbRates?.eurRate}',
-      );
+      // Fetch TCMB rates only for Turkish locale
+      if (_isTurkishLocale) {
+        final currencyService = CurrencyService();
+        _tcmbRates = await currencyService.getRates(forceRefresh: forceRefresh);
+        debugPrint(
+          '💱 [CurrencyProvider] TCMB rates loaded: USD=${_tcmbRates?.usdRate}, EUR=${_tcmbRates?.eurRate}',
+        );
+      }
 
       if (!_exchangeService.hasRates && _tcmbRates == null) {
         _rateError = 'Failed to fetch exchange rates';
@@ -187,7 +195,7 @@ class CurrencyProvider extends ChangeNotifier {
   double convertFromTRY(double amountTRY) {
     if (_currency.code == 'TRY') return amountTRY;
 
-    // Try TCMB rates first (direct from API, most accurate)
+    // Try TCMB rates first (TR locale only, USD/EUR only — no hardcoded multipliers)
     if (_tcmbRates != null) {
       double? rate;
       switch (_currency.code) {
@@ -196,14 +204,6 @@ class CurrencyProvider extends ChangeNotifier {
           break;
         case 'EUR':
           rate = _tcmbRates!.eurRate;
-          break;
-        case 'GBP':
-          // GBP not directly available, approximate via USD
-          rate = _tcmbRates!.usdRate * 1.27;
-          break;
-        case 'SAR':
-          // SAR pegged to USD at 3.75
-          rate = _tcmbRates!.usdRate / 3.75;
           break;
       }
 
@@ -239,7 +239,7 @@ class CurrencyProvider extends ChangeNotifier {
   double convertToTRY(double amount) {
     if (_currency.code == 'TRY') return amount;
 
-    // Try TCMB rates first
+    // Try TCMB rates first (TR locale only, USD/EUR only — no hardcoded multipliers)
     if (_tcmbRates != null) {
       double? rate;
       switch (_currency.code) {
@@ -248,12 +248,6 @@ class CurrencyProvider extends ChangeNotifier {
           break;
         case 'EUR':
           rate = _tcmbRates!.eurRate;
-          break;
-        case 'GBP':
-          rate = _tcmbRates!.usdRate * 1.27;
-          break;
-        case 'SAR':
-          rate = _tcmbRates!.usdRate / 3.75;
           break;
       }
 

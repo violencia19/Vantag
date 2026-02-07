@@ -1,11 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:vantag/providers/pro_provider.dart';
 import 'package:vantag/screens/paywall_screen.dart';
 import 'package:vantag/services/purchase_service.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/theme.dart';
 
 /// Types of Pro features that can be gated
 enum ProFeature { aiChat, fullHistory, export, widgets }
@@ -42,9 +42,9 @@ class ProFeatureGate extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: context.appColors.cardBackground,
+          color: context.vantColors.cardBackground,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: context.appColors.cardBorder),
+          border: Border.all(color: context.vantColors.cardBorder),
         ),
         child: Row(
           children: [
@@ -53,15 +53,15 @@ class ProFeatureGate extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    context.appColors.primary.withValues(alpha: 0.2),
-                    context.appColors.secondary.withValues(alpha: 0.2),
+                    context.vantColors.primary.withValues(alpha: 0.2),
+                    context.vantColors.secondary.withValues(alpha: 0.2),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
-                LucideIcons.crown,
-                color: context.appColors.gold,
+                CupertinoIcons.star_fill,
+                color: context.vantColors.gold,
                 size: 24,
               ),
             ),
@@ -78,15 +78,15 @@ class ProFeatureGate extends StatelessWidget {
                   Text(
                     l10n.paywallSubtitle,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                 ],
               ),
             ),
             Icon(
-              LucideIcons.chevronRight,
-              color: context.appColors.textSecondary,
+              CupertinoIcons.chevron_right,
+              color: context.vantColors.textSecondary,
             ),
           ],
         ),
@@ -162,11 +162,11 @@ class ProFeatureGate extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: context.appColors.cardBackground,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: context.vantColors.cardBackground,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Row(
           children: [
-            Icon(LucideIcons.sparkles, color: context.appColors.primary),
+            Icon(CupertinoIcons.sparkles, color: context.vantColors.primary),
             const SizedBox(width: 12),
             Text(l10n.aiLimitReached),
           ],
@@ -188,7 +188,7 @@ class ProFeatureGate extends StatelessWidget {
               showPaywall(context, feature: ProFeature.aiChat);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
             ),
             child: Text(l10n.subscribeToPro),
           ),
@@ -204,11 +204,11 @@ class ProFeatureGate extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: context.appColors.cardBackground,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: context.vantColors.cardBackground,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Row(
           children: [
-            Icon(LucideIcons.history, color: context.appColors.primary),
+            Icon(CupertinoIcons.clock, color: context.vantColors.primary),
             const SizedBox(width: 12),
             Text(l10n.historyLimitReached),
           ],
@@ -225,7 +225,7 @@ class ProFeatureGate extends StatelessWidget {
               showPaywall(context, feature: ProFeature.fullHistory);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
             ),
             child: Text(l10n.subscribeToPro),
           ),
@@ -241,11 +241,11 @@ class ProFeatureGate extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: context.appColors.cardBackground,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: context.vantColors.cardBackground,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Row(
           children: [
-            Icon(LucideIcons.fileSpreadsheet, color: context.appColors.primary),
+            Icon(CupertinoIcons.doc_text, color: context.vantColors.primary),
             const SizedBox(width: 12),
             Expanded(child: Text(l10n.exportProOnly)),
           ],
@@ -262,7 +262,7 @@ class ProFeatureGate extends StatelessWidget {
               showPaywall(context, feature: ProFeature.export);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
             ),
             child: Text(l10n.subscribeToPro),
           ),
@@ -294,32 +294,32 @@ class AiUsageIndicator extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             color: remaining <= 3
-                ? context.appColors.error.withValues(alpha: 0.2)
-                : context.appColors.surface,
-            borderRadius: BorderRadius.circular(20),
+                ? context.vantColors.error.withValues(alpha: 0.2)
+                : context.vantColors.surface,
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(
               color: remaining <= 3
-                  ? context.appColors.error.withValues(alpha: 0.5)
-                  : context.appColors.cardBorder,
+                  ? context.vantColors.error.withValues(alpha: 0.5)
+                  : context.vantColors.cardBorder,
             ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
-                LucideIcons.sparkles,
+                CupertinoIcons.sparkles,
                 size: 14,
                 color: remaining <= 3
-                    ? context.appColors.error
-                    : context.appColors.textSecondary,
+                    ? context.vantColors.error
+                    : context.vantColors.textSecondary,
               ),
               const SizedBox(width: 6),
               Text(
                 l10n.remainingAiUses(remaining),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: remaining <= 3
-                      ? context.appColors.error
-                      : context.appColors.textSecondary,
+                      ? context.vantColors.error
+                      : context.vantColors.textSecondary,
                 ),
               ),
             ],

@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
@@ -30,25 +30,26 @@ class PremiumNavBar extends StatelessWidget {
     final isDark = context.isDarkMode;
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 34),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(32),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: Container(
-            height: 72,
+            height: 64,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
-              color: isDark
-                  ? const Color(0xF20D0D1A) // Dark: rgba(13,13,26,0.95)
-                  : const Color(0xF2FFFFFF), // Light: rgba(255,255,255,0.95)
-              borderRadius: BorderRadius.circular(28),
-              border: Border.all(color: context.appColors.cardBorder, width: 1),
+              color: context.vantColors.surface.withValues(alpha: 0.95),
+              borderRadius: BorderRadius.circular(32),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.06),
+                width: 1,
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: context.appColors.cardShadow,
-                  blurRadius: 25,
-                  offset: const Offset(0, 8),
+                  color: Colors.black.withValues(alpha: 0.3),
+                  blurRadius: 30,
+                  offset: const Offset(0, 10),
                 ),
               ],
             ),
@@ -57,7 +58,7 @@ class PremiumNavBar extends StatelessWidget {
               children: [
                 // Home
                 _NavItem(
-                  icon: PhosphorIconsDuotone.house,
+                  icon: CupertinoIcons.house_fill,
                   label: l10n.homePage,
                   tooltip: l10n.navHomeTooltip,
                   isActive: currentIndex == 0,
@@ -65,7 +66,7 @@ class PremiumNavBar extends StatelessWidget {
                 ),
                 // Reports
                 _NavItem(
-                  icon: PhosphorIconsDuotone.chartBar,
+                  icon: CupertinoIcons.chart_bar_fill,
                   label: l10n.analysis,
                   tooltip: l10n.navReportsTooltip,
                   isActive: currentIndex == 1,
@@ -82,7 +83,7 @@ class PremiumNavBar extends StatelessWidget {
                 ),
                 // Pursuits (Dreams)
                 _NavItem(
-                  icon: PhosphorIconsDuotone.star,
+                  icon: CupertinoIcons.star_fill,
                   label: l10n.navPursuits,
                   tooltip: l10n.navPursuitsTooltip,
                   isActive: currentIndex == 2,
@@ -90,7 +91,7 @@ class PremiumNavBar extends StatelessWidget {
                 ),
                 // Settings
                 _NavItem(
-                  icon: PhosphorIconsDuotone.gear,
+                  icon: CupertinoIcons.gear_alt_fill,
                   label: l10n.navSettings,
                   tooltip: l10n.navSettingsTooltip,
                   isActive: currentIndex == 3,
@@ -122,7 +123,7 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.appColors;
+    final colors = context.vantColors;
 
     return Semantics(
       label: tooltip ?? label,
@@ -142,27 +143,25 @@ class _NavItem extends StatelessWidget {
             color: isActive
                 ? colors.primary.withValues(alpha: 0.15)
                 : Colors.transparent,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             boxShadow: isActive
-                ? [
-                    BoxShadow(
-                      color: colors.primary.withValues(alpha: 0.3),
-                      blurRadius: 12,
-                      spreadRadius: -2,
-                    ),
-                  ]
+                ? VantShadows.glow(VantColors.primary, intensity: 0.4, blur: 12)
                 : null,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              PhosphorIcon(
-                icon,
-                size: 24,
-                color: isActive ? colors.primary : colors.textTertiary,
-                duotoneSecondaryColor: isActive
-                    ? colors.primary.withValues(alpha: 0.4)
-                    : colors.textTertiary.withValues(alpha: 0.3),
+              Container(
+                decoration: isActive
+                    ? BoxDecoration(
+                        boxShadow: VantShadows.glow(VantColors.primary, intensity: 0.3, blur: 8),
+                      )
+                    : null,
+                child: Icon(
+                  icon,
+                  size: 24,
+                  color: isActive ? colors.primary : colors.textTertiary,
+                ),
               ),
               const SizedBox(height: 4),
               AnimatedDefaultTextStyle(
@@ -171,7 +170,7 @@ class _NavItem extends StatelessWidget {
                   fontSize: 11,
                   fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
                   color: isActive ? colors.primary : colors.textTertiary,
-                  letterSpacing: 0.3,
+                  letterSpacing: 0.8,
                 ),
                 child: Text(label),
               ),
@@ -262,7 +261,7 @@ class _CenterAddButtonState extends State<_CenterAddButton>
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: context.appColors.primary.withValues(
+                    color: context.vantColors.primary.withValues(
                       alpha: _isPressed ? 0.3 : 0.5,
                     ),
                     blurRadius: _isPressed ? 15 : 25,
@@ -272,15 +271,14 @@ class _CenterAddButtonState extends State<_CenterAddButton>
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: AppGradients.primaryButton,
+                  gradient: VantGradients.primaryButton,
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: PhosphorIcon(
-                    PhosphorIconsDuotone.plus,
+                  child: Icon(
+                    CupertinoIcons.plus,
                     size: 28,
                     color: Colors.white,
-                    duotoneSecondaryColor: Colors.white.withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -338,9 +336,9 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: widget.isActive
-              ? context.appColors.primary.withValues(alpha: 0.15)
+              ? context.vantColors.primary.withValues(alpha: 0.15)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -353,14 +351,14 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                       shape: BoxShape.circle,
                       border: Border.all(
                         color: widget.isActive
-                            ? context.appColors.primary
-                            : context.appColors.textTertiary,
+                            ? context.vantColors.primary
+                            : context.vantColors.textTertiary,
                         width: 2,
                       ),
                       boxShadow: widget.isActive
                           ? [
                               BoxShadow(
-                                color: context.appColors.primary.withValues(
+                                color: context.vantColors.primary.withValues(
                                   alpha: 0.3,
                                 ),
                                 blurRadius: 8,
@@ -375,26 +373,23 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                         width: 24,
                         height: 24,
                         errorBuilder: (context, error, stackTrace) {
-                          return PhosphorIcon(
-                            PhosphorIconsDuotone.user,
+                          return Icon(
+                            CupertinoIcons.person_fill,
                             size: 16,
                             color: widget.isActive
-                                ? context.appColors.primary
-                                : context.appColors.textTertiary,
+                                ? context.vantColors.primary
+                                : context.vantColors.textTertiary,
                           );
                         },
                       ),
                     ),
                   )
-                : PhosphorIcon(
-                    PhosphorIconsDuotone.user,
+                : Icon(
+                    CupertinoIcons.person_fill,
                     size: 24,
                     color: widget.isActive
-                        ? context.appColors.primary
-                        : context.appColors.textTertiary,
-                    duotoneSecondaryColor: widget.isActive
-                        ? context.appColors.primary.withValues(alpha: 0.4)
-                        : context.appColors.textTertiary.withValues(alpha: 0.3),
+                        ? context.vantColors.primary
+                        : context.vantColors.textTertiary,
                   ),
             const SizedBox(height: 4),
             AnimatedDefaultTextStyle(
@@ -403,8 +398,8 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                 fontSize: 11,
                 fontWeight: widget.isActive ? FontWeight.w600 : FontWeight.w500,
                 color: widget.isActive
-                    ? context.appColors.primary
-                    : context.appColors.textTertiary,
+                    ? context.vantColors.primary
+                    : context.vantColors.textTertiary,
               ),
               child: Text(widget.label),
             ),
@@ -416,7 +411,8 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
 }
 
 /// Premium Floating Navigation Bar with Showcase support
-class PremiumNavBarWithShowcase extends StatelessWidget {
+/// iOS 26 Liquid Glass Design
+class PremiumNavBarWithShowcase extends StatefulWidget {
   final int currentIndex;
   final Function(int) onTap;
   final VoidCallback onAddTap;
@@ -431,151 +427,229 @@ class PremiumNavBarWithShowcase extends StatelessWidget {
   });
 
   @override
+  State<PremiumNavBarWithShowcase> createState() =>
+      _PremiumNavBarWithShowcaseState();
+}
+
+class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
+    with SingleTickerProviderStateMixin {
+  // Breathing glow animation
+  late AnimationController _glowController;
+  late Animation<double> _glowAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _glowController = AnimationController(
+      vsync: this,
+      duration: VantAnimation.breathing,
+    )..repeat(reverse: true);
+
+    _glowAnimation = Tween<double>(
+      begin: VantAnimation.glowMin,
+      end: VantAnimation.glowMax,
+    ).animate(CurvedAnimation(
+      parent: _glowController,
+      curve: VantAnimation.curveSmooth,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _glowController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final isDark = context.isDarkMode;
 
-    return Container(
-      margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(28),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            height: 72,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            decoration: BoxDecoration(
-              color: isDark
-                  ? const Color(0xF20D0D1A) // Dark: rgba(13,13,26,0.95)
-                  : const Color(0xF2FFFFFF), // Light: rgba(255,255,255,0.95)
-              borderRadius: BorderRadius.circular(28),
-              border: Border.all(color: context.appColors.cardBorder, width: 1),
-              boxShadow: [
-                BoxShadow(
-                  color: context.appColors.cardShadow,
-                  blurRadius: 25,
-                  offset: const Offset(0, 8),
+    // Floating nav with breathing glow
+    return AnimatedBuilder(
+      animation: _glowAnimation,
+      builder: (context, child) {
+        return Container(
+          margin: const EdgeInsets.fromLTRB(20, 0, 20, 34),
+          // Glow shadow for premium feel
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(VantRadius.xxl),
+            boxShadow: [
+              // Animated breathing glow
+              BoxShadow(
+                color: VantColors.primary.withValues(
+                  alpha: _glowAnimation.value,
                 ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // Home
-                _NavItem(
-                  icon: PhosphorIconsDuotone.house,
-                  label: l10n.homePage,
-                  isActive: currentIndex == 0,
-                  onTap: () => onTap(0),
-                ),
-                // Reports - with Showcase
-                Showcase(
-                  key: TourKeys.navBarReport,
-                  title: l10n.reports,
-                  description: l10n.reportsDescription,
-                  titleTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
-                    fontSize: 16,
-                  ),
-                  descTextStyle: TextStyle(
-                    color: context.appColors.textSecondary,
-                    fontSize: 14,
-                  ),
-                  tooltipBackgroundColor: context.appColors.gradientMid,
-                  overlayColor: Colors.black,
-                  overlayOpacity: 0.95,
-                  targetBorderRadius: BorderRadius.circular(12),
-                  child: _NavItem(
-                    icon: PhosphorIconsDuotone.chartBar,
-                    label: l10n.analysis,
-                    isActive: currentIndex == 1,
-                    onTap: () => onTap(1),
-                  ),
-                ),
-                // FAB - Center with Showcase
-                Showcase(
-                  key: TourKeys.navBarAddButton,
-                  title: l10n.quickAdd,
-                  description: l10n.quickAddDescription,
-                  titleTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
-                    fontSize: 16,
-                  ),
-                  descTextStyle: TextStyle(
-                    color: context.appColors.textSecondary,
-                    fontSize: 14,
-                  ),
-                  tooltipBackgroundColor: context.appColors.gradientMid,
-                  overlayColor: Colors.black,
-                  overlayOpacity: 0.95,
-                  targetShapeBorder: const CircleBorder(),
-                  targetPadding: EdgeInsets.zero,
-                  child: Semantics(
-                    label: l10n.accessibilityAddExpense,
-                    button: true,
-                    child: _CenterAddButton(
-                      onTap: onAddTap,
-                      onLongPress: onAddLongPress,
+                blurRadius: 24,
+                spreadRadius: -4,
+                offset: const Offset(0, 6),
+              ),
+              // Deep shadow for depth
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.4),
+                blurRadius: 20,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(VantRadius.xxl),
+            child: BackdropFilter(
+              // Glass blur
+              filter: ImageFilter.blur(
+                sigmaX: VantBlur.medium,
+                sigmaY: VantBlur.medium,
+              ),
+              child: Container(
+                height: 68,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                decoration: BoxDecoration(
+                  // Glass gradient
+                  gradient: isDark
+                      ? LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            VantColors.primary.withValues(alpha: 0.15),
+                            context.vantColors.surface.withValues(alpha: 0.9),
+                          ],
+                        )
+                      : LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.white.withValues(alpha: 0.95),
+                            Colors.white.withValues(alpha: 0.85),
+                          ],
+                        ),
+                  borderRadius: BorderRadius.circular(VantRadius.xxl),
+                  border: Border.all(
+                    color: Colors.white.withValues(
+                      alpha: 0.08,
                     ),
+                    width: 1.5,
                   ),
                 ),
-                // Pursuits (Dreams) - with Showcase
-                Showcase(
-                  key: TourKeys.navBarAchievements,
-                  title: l10n.navPursuits,
-                  description: l10n.emptyPursuitsMessage,
-                  titleTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
-                    fontSize: 16,
-                  ),
-                  descTextStyle: TextStyle(
-                    color: context.appColors.textSecondary,
-                    fontSize: 14,
-                  ),
-                  tooltipBackgroundColor: context.appColors.gradientMid,
-                  overlayColor: Colors.black,
-                  overlayOpacity: 0.95,
-                  targetBorderRadius: BorderRadius.circular(12),
-                  child: _NavItem(
-                    icon: PhosphorIconsDuotone.star,
-                    label: l10n.navPursuits,
-                    isActive: currentIndex == 2,
-                    onTap: () => onTap(2),
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // Home
+                    _NavItem(
+                      icon: CupertinoIcons.house_fill,
+                      label: l10n.homePage,
+                      isActive: widget.currentIndex == 0,
+                      onTap: () => widget.onTap(0),
+                    ),
+                    // Reports - with Showcase
+                    Showcase(
+                      key: TourKeys.navBarReport,
+                      title: l10n.reports,
+                      description: l10n.reportsDescription,
+                      titleTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: context.vantColors.textPrimary,
+                        fontSize: 16,
+                      ),
+                      descTextStyle: TextStyle(
+                        color: context.vantColors.textSecondary,
+                        fontSize: 14,
+                      ),
+                      tooltipBackgroundColor: context.vantColors.gradientMid,
+                      overlayColor: Colors.black,
+                      overlayOpacity: 0.95,
+                      targetBorderRadius: BorderRadius.circular(16),
+                      child: _NavItem(
+                        icon: CupertinoIcons.chart_bar_fill,
+                        label: l10n.analysis,
+                        isActive: widget.currentIndex == 1,
+                        onTap: () => widget.onTap(1),
+                      ),
+                    ),
+                    // FAB - Center with Showcase
+                    Showcase(
+                      key: TourKeys.navBarAddButton,
+                      title: l10n.quickAdd,
+                      description: l10n.quickAddDescription,
+                      titleTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: context.vantColors.textPrimary,
+                        fontSize: 16,
+                      ),
+                      descTextStyle: TextStyle(
+                        color: context.vantColors.textSecondary,
+                        fontSize: 14,
+                      ),
+                      tooltipBackgroundColor: context.vantColors.gradientMid,
+                      overlayColor: Colors.black,
+                      overlayOpacity: 0.95,
+                      targetShapeBorder: const CircleBorder(),
+                      targetPadding: EdgeInsets.zero,
+                      child: Semantics(
+                        label: l10n.accessibilityAddExpense,
+                        button: true,
+                        child: _CenterAddButton(
+                          onTap: widget.onAddTap,
+                          onLongPress: widget.onAddLongPress,
+                        ),
+                      ),
+                    ),
+                    // Pursuits (Dreams) - with Showcase
+                    Showcase(
+                      key: TourKeys.navBarAchievements,
+                      title: l10n.navPursuits,
+                      description: l10n.emptyPursuitsMessage,
+                      titleTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: context.vantColors.textPrimary,
+                        fontSize: 16,
+                      ),
+                      descTextStyle: TextStyle(
+                        color: context.vantColors.textSecondary,
+                        fontSize: 14,
+                      ),
+                      tooltipBackgroundColor: context.vantColors.gradientMid,
+                      overlayColor: Colors.black,
+                      overlayOpacity: 0.95,
+                      targetBorderRadius: BorderRadius.circular(16),
+                      child: _NavItem(
+                        icon: CupertinoIcons.star_fill,
+                        label: l10n.navPursuits,
+                        isActive: widget.currentIndex == 2,
+                        onTap: () => widget.onTap(2),
+                      ),
+                    ),
+                    // Settings - with Showcase
+                    Showcase(
+                      key: TourKeys.navBarProfile,
+                      title: l10n.navSettings,
+                      description: l10n.profileAndSettingsDescription,
+                      titleTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: context.vantColors.textPrimary,
+                        fontSize: 16,
+                      ),
+                      descTextStyle: TextStyle(
+                        color: context.vantColors.textSecondary,
+                        fontSize: 14,
+                      ),
+                      tooltipBackgroundColor: context.vantColors.gradientMid,
+                      overlayColor: Colors.black,
+                      overlayOpacity: 0.95,
+                      targetBorderRadius: BorderRadius.circular(16),
+                      child: _NavItem(
+                        icon: CupertinoIcons.gear_alt_fill,
+                        label: l10n.navSettings,
+                        isActive: widget.currentIndex == 3,
+                        onTap: () => widget.onTap(3),
+                      ),
+                    ),
+                  ],
                 ),
-                // Settings - with Showcase
-                Showcase(
-                  key: TourKeys.navBarProfile,
-                  title: l10n.navSettings,
-                  description: l10n.profileAndSettingsDescription,
-                  titleTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: context.appColors.textPrimary,
-                    fontSize: 16,
-                  ),
-                  descTextStyle: TextStyle(
-                    color: context.appColors.textSecondary,
-                    fontSize: 14,
-                  ),
-                  tooltipBackgroundColor: context.appColors.gradientMid,
-                  overlayColor: Colors.black,
-                  overlayOpacity: 0.95,
-                  targetBorderRadius: BorderRadius.circular(12),
-                  child: _NavItem(
-                    icon: PhosphorIconsDuotone.gear,
-                    label: l10n.navSettings,
-                    isActive: currentIndex == 3,
-                    onTap: () => onTap(3),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

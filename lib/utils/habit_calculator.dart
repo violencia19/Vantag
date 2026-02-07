@@ -1,10 +1,10 @@
 // Viral Alışkanlık Hesaplayıcı
 // Kullanıcının alışkanlıkları için yılda kaç gün çalıştığını hesaplar
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/app_colors.dart';
 
 class HabitCategory {
   final String key; // Localization key
@@ -24,29 +24,29 @@ class HabitCategoryDef {
   const HabitCategoryDef(this.key, this.icon, this.color);
 }
 
-const List<HabitCategoryDef> _habitCategoryDefs = [
-  HabitCategoryDef('coffee', PhosphorIconsFill.coffee, AppColors.coffeeColor),
+final List<HabitCategoryDef> _habitCategoryDefs = [
+  HabitCategoryDef('coffee', CupertinoIcons.cart_fill, VantColors.coffeeColor),
   HabitCategoryDef(
     'smoking',
-    PhosphorIconsFill.cigarette,
-    AppColors.smokingGray,
+    CupertinoIcons.cloud_fill,
+    VantColors.smokingGray,
   ),
   HabitCategoryDef(
     'eatingOut',
-    PhosphorIconsFill.hamburger,
-    AppColors.categoryFood,
+    CupertinoIcons.cart_fill,
+    VantColors.categoryFood,
   ),
   HabitCategoryDef(
     'gaming',
-    PhosphorIconsFill.gameController,
-    AppColors.categoryBills,
+    CupertinoIcons.gamecontroller_fill,
+    VantColors.categoryBills,
   ),
   HabitCategoryDef(
     'clothing',
-    PhosphorIconsFill.tShirt,
-    AppColors.categoryShopping,
+    CupertinoIcons.tag_fill,
+    VantColors.categoryShopping,
   ),
-  HabitCategoryDef('taxi', PhosphorIconsFill.car, AppColors.secondary),
+  HabitCategoryDef('taxi', CupertinoIcons.car_fill, VantColors.secondary),
 ];
 
 /// Get localized category name from key
@@ -84,42 +84,42 @@ List<HabitCategory> getLocalizedHabitCategories(AppLocalizations l10n) {
 }
 
 /// Legacy: for backward compatibility (returns Turkish names)
-const List<HabitCategory> defaultHabitCategories = [
+final List<HabitCategory> defaultHabitCategories = [
   HabitCategory(
     'coffee',
     'Kahve',
-    PhosphorIconsFill.coffee,
-    AppColors.coffeeColor,
+    CupertinoIcons.cart_fill,
+    VantColors.coffeeColor,
   ),
   HabitCategory(
     'smoking',
     'Sigara',
-    PhosphorIconsFill.cigarette,
-    AppColors.smokingGray,
+    CupertinoIcons.cloud_fill,
+    VantColors.smokingGray,
   ),
   HabitCategory(
     'eatingOut',
     'Dışarıda Yemek',
-    PhosphorIconsFill.hamburger,
-    AppColors.categoryFood,
+    CupertinoIcons.cart_fill,
+    VantColors.categoryFood,
   ),
   HabitCategory(
     'gaming',
     'Oyun/Eğlence',
-    PhosphorIconsFill.gameController,
-    AppColors.categoryBills,
+    CupertinoIcons.gamecontroller_fill,
+    VantColors.categoryBills,
   ),
   HabitCategory(
     'clothing',
     'Kıyafet',
-    PhosphorIconsFill.tShirt,
-    AppColors.categoryShopping,
+    CupertinoIcons.tag_fill,
+    VantColors.categoryShopping,
   ),
   HabitCategory(
     'taxi',
     'Taksi/Uber',
-    PhosphorIconsFill.car,
-    AppColors.secondary,
+    CupertinoIcons.car_fill,
+    VantColors.secondary,
   ),
 ];
 

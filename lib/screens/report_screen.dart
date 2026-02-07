@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
 import '../services/services.dart';
@@ -179,7 +179,7 @@ class _ReportScreenState extends State<ReportScreen>
 
     if (isLoading) {
       return Scaffold(
-        backgroundColor: context.appColors.background,
+        backgroundColor: context.vantColors.background,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -191,7 +191,7 @@ class _ReportScreenState extends State<ReportScreen>
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -207,8 +207,12 @@ class _ReportScreenState extends State<ReportScreen>
     final hasData = expenses.isNotEmpty;
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
-      body: SafeArea(
+      backgroundColor: Colors.transparent,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: VantGradients.background,
+        ),
+        child: SafeArea(
         child: CustomScrollView(
           slivers: [
             // Header
@@ -223,7 +227,7 @@ class _ReportScreenState extends State<ReportScreen>
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w700,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -433,6 +437,7 @@ class _ReportScreenState extends State<ReportScreen>
           ],
         ),
       ),
+      ),
     );
   }
 
@@ -442,9 +447,15 @@ class _ReportScreenState extends State<ReportScreen>
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: context.appColors.cardBorder),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
       ),
       child: Row(
         children: [
@@ -499,9 +510,9 @@ class _ReportScreenState extends State<ReportScreen>
             padding: const EdgeInsets.symmetric(vertical: 12),
             decoration: BoxDecoration(
               color: isSelected
-                  ? context.appColors.primary
+                  ? context.vantColors.primary
                   : Colors.transparent,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -509,9 +520,9 @@ class _ReportScreenState extends State<ReportScreen>
               children: [
                 if (isLocked) ...[
                   Icon(
-                    PhosphorIconsRegular.lock,
+                    CupertinoIcons.lock,
                     size: 12,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                   const SizedBox(width: 4),
                 ],
@@ -524,10 +535,10 @@ class _ReportScreenState extends State<ReportScreen>
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
                       color: isLocked
-                          ? context.appColors.textTertiary
+                          ? context.vantColors.textTertiary
                           : isSelected
-                          ? context.appColors.background
-                          : context.appColors.textSecondary,
+                          ? context.vantColors.background
+                          : context.vantColors.textSecondary,
                     ),
                   ),
                 ),
@@ -563,8 +574,8 @@ class _ReportScreenState extends State<ReportScreen>
                 value: totalSpent,
                 suffix: ' TL',
                 subtitle: l10n.hoursEquivalent(spentHours.toStringAsFixed(1)),
-                color: context.appColors.decisionYes,
-                icon: PhosphorIconsDuotone.shoppingCart,
+                color: context.vantColors.decisionYes,
+                icon: CupertinoIcons.cart_fill,
               ),
             ),
             const SizedBox(width: 12),
@@ -577,8 +588,8 @@ class _ReportScreenState extends State<ReportScreen>
                 subtitle: l10n.hoursRequired(
                   stats.savedHours.toStringAsFixed(1),
                 ),
-                color: context.appColors.decisionNo,
-                icon: PhosphorIconsDuotone.shieldCheck,
+                color: context.vantColors.decisionNo,
+                icon: CupertinoIcons.shield_fill,
               ),
             ),
           ],
@@ -593,8 +604,8 @@ class _ReportScreenState extends State<ReportScreen>
                 value: totalCount.toDouble(),
                 isInteger: true,
                 subtitle: l10n.boughtPassed(stats.yesCount, stats.noCount),
-                color: context.appColors.info,
-                icon: PhosphorIconsDuotone.receipt,
+                color: context.vantColors.info,
+                icon: CupertinoIcons.doc_text_fill,
               ),
             ),
             const SizedBox(width: 12),
@@ -609,9 +620,9 @@ class _ReportScreenState extends State<ReportScreen>
                     ? l10n.doingGreat
                     : l10n.canDoBetter,
                 color: savingsRate >= 50
-                    ? context.appColors.success
-                    : context.appColors.warning,
-                icon: PhosphorIconsDuotone.trendUp,
+                    ? context.vantColors.success
+                    : context.vantColors.warning,
+                icon: CupertinoIcons.arrow_up_right,
               ),
             ),
           ],
@@ -624,8 +635,8 @@ class _ReportScreenState extends State<ReportScreen>
             value: _totalSubscriptionAmount,
             suffix: ' TL',
             subtitle: l10n.activeSubscriptions(_subscriptionCount),
-            color: context.appColors.primary,
-            icon: PhosphorIconsDuotone.calendar,
+            color: context.vantColors.primary,
+            icon: CupertinoIcons.calendar,
             isFullWidth: true,
           ),
         ],
@@ -663,15 +674,18 @@ class _ReportScreenState extends State<ReportScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
+        ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
         boxShadow: [
-          BoxShadow(
-            color: context.appColors.primary.withValues(alpha: 0.05),
-            blurRadius: 20,
-            offset: const Offset(0, 4),
-          ),
+          const BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
+          ...VantShadows.glow(VantColors.primary, intensity: 0.08, blur: 16),
         ],
       ),
       child: Column(
@@ -683,13 +697,22 @@ class _ReportScreenState extends State<ReportScreen>
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: context.appColors.primary.withValues(alpha: 0.15),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      context.vantColors.primary.withValues(alpha: 0.25),
+                      context.vantColors.primary.withValues(alpha: 0.10),
+                    ],
+                  ),
                   borderRadius: BorderRadius.circular(8),
+                  boxShadow: VantShadows.glow(VantColors.primary, intensity: 0.2, blur: 12),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.chartLineUp,
+                  CupertinoIcons.chart_bar_alt_fill,
                   size: 18,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
+                  shadows: VantShadows.iconHalo(VantColors.primary),
                 ),
               ),
               const SizedBox(width: 12),
@@ -698,7 +721,7 @@ class _ReportScreenState extends State<ReportScreen>
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             ],
@@ -715,7 +738,7 @@ class _ReportScreenState extends State<ReportScreen>
                       l10n.thisMonth,
                       style: TextStyle(
                         fontSize: 12,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -724,11 +747,11 @@ class _ReportScreenState extends State<ReportScreen>
                       duration: AppAnimations.counter,
                       builder: (context, value, child) {
                         return Text(
-                          '${formatTurkishCurrency(value, decimalDigits: 0)} TL',
+                          context.read<CurrencyProvider>().format(value),
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                           ),
                         );
                       },
@@ -744,10 +767,10 @@ class _ReportScreenState extends State<ReportScreen>
                 ),
                 decoration: BoxDecoration(
                   color: isNoChange
-                      ? context.appColors.surfaceLight
+                      ? context.vantColors.surfaceLight
                       : (isDecrease
-                            ? context.appColors.success.withValues(alpha: 0.15)
-                            : context.appColors.warning.withValues(
+                            ? context.vantColors.success.withValues(alpha: 0.15)
+                            : context.vantColors.warning.withValues(
                                 alpha: 0.15,
                               )),
                   borderRadius: BorderRadius.circular(8),
@@ -759,7 +782,7 @@ class _ReportScreenState extends State<ReportScreen>
                         l10n.noLastMonthData,
                         style: TextStyle(
                           fontSize: 10,
-                          color: context.appColors.textTertiary,
+                          color: context.vantColors.textTertiary,
                         ),
                         textAlign: TextAlign.center,
                       )
@@ -778,10 +801,10 @@ class _ReportScreenState extends State<ReportScreen>
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: isNoChange
-                              ? context.appColors.textSecondary
+                              ? context.vantColors.textSecondary
                               : (isDecrease
-                                    ? context.appColors.success
-                                    : context.appColors.warning),
+                                    ? context.vantColors.success
+                                    : context.vantColors.warning),
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -792,8 +815,8 @@ class _ReportScreenState extends State<ReportScreen>
                         style: TextStyle(
                           fontSize: 10,
                           color: isDecrease
-                              ? context.appColors.success
-                              : context.appColors.warning,
+                              ? context.vantColors.success
+                              : context.vantColors.warning,
                         ),
                       ),
                     ],
@@ -809,20 +832,20 @@ class _ReportScreenState extends State<ReportScreen>
                       l10n.lastMonth,
                       style: TextStyle(
                         fontSize: 12,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       hasLastMonthData
-                          ? '${formatTurkishCurrency(lastMonthTotal, decimalDigits: 0)} TL'
+                          ? context.read<CurrencyProvider>().format(lastMonthTotal)
                           : '-',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
                         color: hasLastMonthData
-                            ? context.appColors.textSecondary
-                            : context.appColors.textTertiary,
+                            ? context.vantColors.textSecondary
+                            : context.vantColors.textTertiary,
                       ),
                     ),
                   ],
@@ -867,23 +890,32 @@ class _ReportScreenState extends State<ReportScreen>
     final maxHours = sortedCategories.first.value;
 
     final colors = [
-      context.appColors.primary,
-      context.appColors.warning,
-      context.appColors.info,
-      context.appColors.error,
-      AppColors.categoryShopping,
-      AppColors.achievementStreak,
-      AppColors.achievementMystery,
-      AppColors.categoryEntertainment,
-      AppColors.categoryDefault,
+      context.vantColors.primary,
+      context.vantColors.warning,
+      context.vantColors.info,
+      context.vantColors.error,
+      VantColors.categoryShopping,
+      VantColors.achievementStreak,
+      VantColors.achievementMystery,
+      VantColors.categoryEntertainment,
+      VantColors.categoryDefault,
     ];
 
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
+        ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
+        boxShadow: const [
+          BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -894,13 +926,13 @@ class _ReportScreenState extends State<ReportScreen>
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: context.appColors.warning.withValues(alpha: 0.15),
+                  color: context.vantColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.clock,
+                  CupertinoIcons.clock_fill,
                   size: 18,
-                  color: context.appColors.warning,
+                  color: context.vantColors.primary,
                 ),
               ),
               const SizedBox(width: 12),
@@ -913,14 +945,14 @@ class _ReportScreenState extends State<ReportScreen>
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                     Text(
                       l10n.workHoursDistributionDesc,
                       style: TextStyle(
                         fontSize: 11,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                     ),
                   ],
@@ -960,7 +992,7 @@ class _ReportScreenState extends State<ReportScreen>
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                color: context.appColors.textPrimary,
+                                color: context.vantColors.textPrimary,
                               ),
                             ),
                           ),
@@ -998,7 +1030,7 @@ class _ReportScreenState extends State<ReportScreen>
                         height: 8,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: context.appColors.surfaceLight,
+                          color: context.vantColors.surfaceLight,
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: FractionallySizedBox(
@@ -1033,7 +1065,7 @@ class _ReportScreenState extends State<ReportScreen>
               l10n.moreCategories(sortedCategories.length - 6),
               style: TextStyle(
                 fontSize: 11,
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
               ),
             ),
           ],
@@ -1160,9 +1192,18 @@ class _ReportScreenState extends State<ReportScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
+        ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
+        boxShadow: const [
+          BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1173,13 +1214,13 @@ class _ReportScreenState extends State<ReportScreen>
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: context.appColors.secondary.withValues(alpha: 0.15),
+                  color: context.vantColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.lightbulb,
+                  CupertinoIcons.lightbulb_fill,
                   size: 18,
-                  color: context.appColors.secondary,
+                  color: context.vantColors.primary,
                 ),
               ),
               const SizedBox(width: 12),
@@ -1188,7 +1229,7 @@ class _ReportScreenState extends State<ReportScreen>
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             ],
@@ -1199,8 +1240,8 @@ class _ReportScreenState extends State<ReportScreen>
             children: [
               Expanded(
                 child: _InsightMiniCard(
-                  icon: PhosphorIconsDuotone.calendarBlank,
-                  iconColor: context.appColors.warning,
+                  icon: CupertinoIcons.calendar,
+                  iconColor: context.vantColors.warning,
                   title: l10n.mostExpensiveDay,
                   value: mostExpensiveDay != null
                       ? l10n.mostExpensiveDayValue(
@@ -1216,8 +1257,8 @@ class _ReportScreenState extends State<ReportScreen>
               const SizedBox(width: 12),
               Expanded(
                 child: _InsightMiniCard(
-                  icon: PhosphorIconsDuotone.prohibit,
-                  iconColor: context.appColors.success,
+                  icon: CupertinoIcons.nosign,
+                  iconColor: context.vantColors.success,
                   title: l10n.mostPassedCategory,
                   value: mostPassedCategory != null
                       ? l10n.mostPassedCategoryValue(
@@ -1237,8 +1278,8 @@ class _ReportScreenState extends State<ReportScreen>
             children: [
               Expanded(
                 child: _InsightMiniCard(
-                  icon: PhosphorIconsDuotone.piggyBank,
-                  iconColor: context.appColors.primary,
+                  icon: CupertinoIcons.money_dollar_circle_fill,
+                  iconColor: context.vantColors.primary,
                   title: l10n.savingsOpportunity,
                   value: highestCategory != null
                       ? l10n.savingsOpportunityValue(
@@ -1254,8 +1295,8 @@ class _ReportScreenState extends State<ReportScreen>
               const SizedBox(width: 12),
               Expanded(
                 child: _InsightMiniCard(
-                  icon: PhosphorIconsDuotone.chartLine,
-                  iconColor: context.appColors.info,
+                  icon: CupertinoIcons.chart_bar_alt_fill,
+                  iconColor: context.vantColors.info,
                   title: l10n.weeklyTrend,
                   value: trendArrows.isNotEmpty
                       ? l10n.weeklyTrendValue('$trendArrows $trendDescription')
@@ -1380,9 +1421,18 @@ class _ReportScreenState extends State<ReportScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
+        ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
+        boxShadow: const [
+          BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1394,13 +1444,13 @@ class _ReportScreenState extends State<ReportScreen>
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: context.appColors.primary.withValues(alpha: 0.15),
+                  color: context.vantColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.chartLineUp,
+                  CupertinoIcons.chart_bar_alt_fill,
                   size: 18,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ),
               const SizedBox(width: 12),
@@ -1415,7 +1465,7 @@ class _ReportScreenState extends State<ReportScreen>
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -1426,7 +1476,7 @@ class _ReportScreenState extends State<ReportScreen>
                       l10n.yearlyHeatmapDesc,
                       style: TextStyle(
                         fontSize: 11,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                     ),
                   ],
@@ -1447,7 +1497,7 @@ class _ReportScreenState extends State<ReportScreen>
                   horizontalInterval: safeMax / 4,
                   getDrawingHorizontalLine: (value) {
                     return FlLine(
-                      color: context.appColors.cardBorder,
+                      color: context.vantColors.cardBorder,
                       strokeWidth: 0.5,
                     );
                   },
@@ -1465,7 +1515,7 @@ class _ReportScreenState extends State<ReportScreen>
                             _formatAmount(value),
                             style: TextStyle(
                               fontSize: 10,
-                              color: context.appColors.textTertiary,
+                              color: context.vantColors.textTertiary,
                             ),
                           ),
                         );
@@ -1494,8 +1544,8 @@ class _ReportScreenState extends State<ReportScreen>
                             style: TextStyle(
                               fontSize: 10,
                               color: _selectedMonthIndex == index
-                                  ? context.appColors.primary
-                                  : context.appColors.textTertiary,
+                                  ? context.vantColors.primary
+                                  : context.vantColors.textTertiary,
                               fontWeight: _selectedMonthIndex == index
                                   ? FontWeight.w600
                                   : FontWeight.w400,
@@ -1521,9 +1571,9 @@ class _ReportScreenState extends State<ReportScreen>
                   enabled: true,
                   touchTooltipData: LineTouchTooltipData(
                     getTooltipColor: (touchedSpot) =>
-                        context.appColors.cardBackground,
+                        context.vantColors.cardBackground,
                     tooltipBorder: BorderSide(
-                      color: context.appColors.primary,
+                      color: context.vantColors.primary,
                       width: 1,
                     ),
                     getTooltipItems: (touchedSpots) {
@@ -1534,7 +1584,7 @@ class _ReportScreenState extends State<ReportScreen>
                         return LineTooltipItem(
                           '$monthName\n$symbol${formatTurkishCurrency(data.total, decimalDigits: 0)}',
                           TextStyle(
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                             fontWeight: FontWeight.w600,
                             fontSize: 12,
                           ),
@@ -1558,7 +1608,7 @@ class _ReportScreenState extends State<ReportScreen>
                     spots: spots,
                     isCurved: true,
                     curveSmoothness: 0.3,
-                    color: context.appColors.primary,
+                    color: context.vantColors.primary,
                     barWidth: 3,
                     isStrokeCapRound: true,
                     dotData: FlDotData(
@@ -1568,12 +1618,12 @@ class _ReportScreenState extends State<ReportScreen>
                         return FlDotCirclePainter(
                           radius: isSelected ? 6 : 4,
                           color: isSelected
-                              ? context.appColors.primary
-                              : context.appColors.primary.withValues(
+                              ? context.vantColors.primary
+                              : context.vantColors.primary.withValues(
                                   alpha: 0.8,
                                 ),
                           strokeWidth: isSelected ? 2 : 0,
-                          strokeColor: context.appColors.textPrimary,
+                          strokeColor: context.vantColors.textPrimary,
                         );
                       },
                     ),
@@ -1583,9 +1633,9 @@ class _ReportScreenState extends State<ReportScreen>
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          context.appColors.primary.withValues(alpha: 0.4),
-                          context.appColors.primary.withValues(alpha: 0.1),
-                          context.appColors.primary.withValues(alpha: 0.0),
+                          context.vantColors.primary.withValues(alpha: 0.4),
+                          context.vantColors.primary.withValues(alpha: 0.1),
+                          context.vantColors.primary.withValues(alpha: 0.0),
                         ],
                         stops: const [0.0, 0.5, 1.0],
                       ),
@@ -1603,10 +1653,10 @@ class _ReportScreenState extends State<ReportScreen>
               width: double.infinity,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: context.appColors.primary.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(10),
+                color: context.vantColors.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: context.appColors.primary.withValues(alpha: 0.3),
+                  color: context.vantColors.primary.withValues(alpha: 0.3),
                 ),
               ),
               child: Text(
@@ -1614,7 +1664,7 @@ class _ReportScreenState extends State<ReportScreen>
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -1626,7 +1676,7 @@ class _ReportScreenState extends State<ReportScreen>
                 l10n.tapMonthForDetails,
                 style: TextStyle(
                   fontSize: 11,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ),
             ),
@@ -1672,9 +1722,9 @@ class _ReportScreenState extends State<ReportScreen>
                   Row(
                     children: [
                       Icon(
-                        PhosphorIconsDuotone.wallet,
+                        CupertinoIcons.creditcard_fill,
                         size: 20,
-                        color: context.appColors.primary,
+                        color: context.vantColors.primary,
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -1682,7 +1732,7 @@ class _ReportScreenState extends State<ReportScreen>
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                         ),
                       ),
                     ],
@@ -1698,7 +1748,7 @@ class _ReportScreenState extends State<ReportScreen>
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: context.appColors.primary.withValues(
+                          color: context.vantColors.primary.withValues(
                             alpha: 0.1,
                           ),
                           borderRadius: BorderRadius.circular(8),
@@ -1707,9 +1757,9 @@ class _ReportScreenState extends State<ReportScreen>
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                              PhosphorIconsDuotone.plus,
+                              CupertinoIcons.plus,
                               size: 16,
-                              color: context.appColors.primary,
+                              color: context.vantColors.primary,
                             ),
                             const SizedBox(width: 4),
                             Text(
@@ -1717,7 +1767,7 @@ class _ReportScreenState extends State<ReportScreen>
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: context.appColors.primary,
+                                color: context.vantColors.primary,
                               ),
                             ),
                           ],
@@ -1796,14 +1846,23 @@ class _ReportScreenState extends State<ReportScreen>
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: context.appColors.surface,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: context.isDarkMode
+                  ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+                  : [const Color(0x0A000000), const Color(0x05000000)],
+            ),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: context.appColors.cardBorder),
+            border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
+            boxShadow: const [
+              BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
+            ],
           ),
           child: Center(
             child: Text(
               l10n.noExpenses,
-              style: TextStyle(color: context.appColors.textSecondary),
+              style: TextStyle(color: context.vantColors.textSecondary),
             ),
           ),
         ),
@@ -1816,15 +1875,15 @@ class _ReportScreenState extends State<ReportScreen>
     final total = categoryTotals.values.fold<double>(0, (a, b) => a + b);
 
     final colors = [
-      context.appColors.primary,
-      context.appColors.warning,
-      context.appColors.info,
-      context.appColors.error,
-      AppColors.categoryShopping,
-      AppColors.achievementStreak,
-      AppColors.achievementMystery,
-      AppColors.categoryEntertainment,
-      AppColors.categoryDefault,
+      context.vantColors.primary,
+      context.vantColors.warning,
+      context.vantColors.info,
+      context.vantColors.error,
+      VantColors.categoryShopping,
+      VantColors.achievementStreak,
+      VantColors.achievementMystery,
+      VantColors.categoryEntertainment,
+      VantColors.categoryDefault,
     ];
 
     return _AnimatedSlideIn(
@@ -1832,9 +1891,18 @@ class _ReportScreenState extends State<ReportScreen>
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: context.appColors.surface,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: context.isDarkMode
+                ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+                : [const Color(0x0A000000), const Color(0x05000000)],
+          ),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: context.appColors.cardBorder),
+          border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
+          boxShadow: const [
+            BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1844,7 +1912,7 @@ class _ReportScreenState extends State<ReportScreen>
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
             const SizedBox(height: 20),
@@ -1888,7 +1956,7 @@ class _ReportScreenState extends State<ReportScreen>
                                   PieChartSectionData(
                                     value: 1,
                                     title: '',
-                                    color: context.appColors.surfaceLight,
+                                    color: context.vantColors.surfaceLight,
                                     radius: 40,
                                   ),
                                 ],
@@ -1975,10 +2043,10 @@ class _ReportScreenState extends State<ReportScreen>
                                                     : FontWeight.w400,
                                                 color: isTop
                                                     ? context
-                                                          .appColors
+                                                          .vantColors
                                                           .textPrimary
                                                     : context
-                                                          .appColors
+                                                          .vantColors
                                                           .textSecondary,
                                               ),
                                               overflow: TextOverflow.ellipsis,
@@ -1993,7 +2061,7 @@ class _ReportScreenState extends State<ReportScreen>
                                                   ? colors[index %
                                                         colors.length]
                                                   : context
-                                                        .appColors
+                                                        .vantColors
                                                         .textTertiary,
                                             ),
                                           ),
@@ -2017,7 +2085,7 @@ class _ReportScreenState extends State<ReportScreen>
                 l10n.moreCategories(sortedCategories.length - 5),
                 style: TextStyle(
                   fontSize: 11,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ),
             ],
@@ -2109,8 +2177,8 @@ class _ReportScreenState extends State<ReportScreen>
 
     final changeText = insight.isIncrease ? l10n.increased : l10n.decreased;
     final accentColor = insight.isIncrease
-        ? context.appColors.warning
-        : context.appColors.success;
+        ? context.vantColors.warning
+        : context.vantColors.success;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -2123,7 +2191,7 @@ class _ReportScreenState extends State<ReportScreen>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: accentColor.withValues(alpha: 0.15)),
       ),
       child: Row(
@@ -2133,12 +2201,12 @@ class _ReportScreenState extends State<ReportScreen>
             height: 40,
             decoration: BoxDecoration(
               color: accentColor.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
               insight.isIncrease
-                  ? PhosphorIconsDuotone.trendUp
-                  : PhosphorIconsDuotone.trendDown,
+                  ? CupertinoIcons.arrow_up_right
+                  : CupertinoIcons.arrow_down_right,
               size: 20,
               color: accentColor,
             ),
@@ -2159,7 +2227,7 @@ class _ReportScreenState extends State<ReportScreen>
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                     height: 1.3,
                   ),
                 ),
@@ -2168,7 +2236,7 @@ class _ReportScreenState extends State<ReportScreen>
                   l10n.comparedToPrevious,
                   style: TextStyle(
                     fontSize: 12,
-                    color: context.appColors.textTertiary.withValues(
+                    color: context.vantColors.textTertiary.withValues(
                       alpha: 0.8,
                     ),
                   ),
@@ -2229,23 +2297,32 @@ class _ReportScreenState extends State<ReportScreen>
       });
 
     final colors = [
-      context.appColors.primary,
-      context.appColors.warning,
-      context.appColors.info,
-      context.appColors.error,
-      AppColors.categoryShopping,
-      AppColors.achievementStreak,
-      AppColors.achievementMystery,
-      AppColors.categoryEntertainment,
-      AppColors.categoryDefault,
+      context.vantColors.primary,
+      context.vantColors.warning,
+      context.vantColors.info,
+      context.vantColors.error,
+      VantColors.categoryShopping,
+      VantColors.achievementStreak,
+      VantColors.achievementMystery,
+      VantColors.categoryEntertainment,
+      VantColors.categoryDefault,
     ];
 
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
+        ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
+        boxShadow: const [
+          BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2256,13 +2333,13 @@ class _ReportScreenState extends State<ReportScreen>
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: context.appColors.primary.withValues(alpha: 0.15),
+                  color: context.vantColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.squaresFour,
+                  CupertinoIcons.square_grid_2x2_fill,
                   size: 18,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ),
               const SizedBox(width: 12),
@@ -2271,7 +2348,7 @@ class _ReportScreenState extends State<ReportScreen>
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             ],
@@ -2315,12 +2392,12 @@ class _ReportScreenState extends State<ReportScreen>
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                           ),
                         ),
                       ),
                       Text(
-                        '${formatTurkishCurrency(mainTotal, decimalDigits: 2)} TL',
+                        context.read<CurrencyProvider>().formatWithDecimals(mainTotal),
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -2353,16 +2430,16 @@ class _ReportScreenState extends State<ReportScreen>
                               subName,
                               style: TextStyle(
                                 fontSize: 13,
-                                color: context.appColors.textSecondary,
+                                color: context.vantColors.textSecondary,
                               ),
                             ),
                           ),
                           Text(
-                            '${formatTurkishCurrency(subAmount, decimalDigits: 2)} TL',
+                            context.read<CurrencyProvider>().formatWithDecimals(subAmount),
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
-                              color: context.appColors.textSecondary,
+                              color: context.vantColors.textSecondary,
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -2447,9 +2524,18 @@ class _ReportScreenState extends State<ReportScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: context.isDarkMode
+              ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+              : [const Color(0x0A000000), const Color(0x05000000)],
+        ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
+        boxShadow: const [
+          BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2459,32 +2545,32 @@ class _ReportScreenState extends State<ReportScreen>
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
           const SizedBox(height: 16),
           _buildStatRow(
-            icon: PhosphorIconsDuotone.calendar,
+            icon: CupertinoIcons.calendar,
             label: l10n.avgDailyExpense,
             value:
-                '${formatTurkishCurrency(dailyAverage, decimalDigits: 2)} TL',
+                context.read<CurrencyProvider>().formatWithDecimals(dailyAverage),
           ),
           const SizedBox(height: 12),
           _buildStatRow(
-            icon: PhosphorIconsDuotone.arrowUp,
+            icon: CupertinoIcons.arrow_up,
             label: l10n.highestSingleExpense,
             value: highestExpense != null
-                ? '${formatTurkishCurrency(highestExpense.amount, decimalDigits: 2)} TL (${CategoryUtils.getLocalizedName(context, highestExpense.category)})'
+                ? '${context.read<CurrencyProvider>().formatWithDecimals(highestExpense.amount)} (${CategoryUtils.getLocalizedName(context, highestExpense.category)})'
                 : '-',
           ),
           const SizedBox(height: 12),
           _buildStatRow(
-            icon: PhosphorIconsDuotone.prohibit,
+            icon: CupertinoIcons.nosign,
             label: l10n.mostDeclinedCategory,
             value: mostDeclinedCategory != null
                 ? '${CategoryUtils.getLocalizedName(context, mostDeclinedCategory)} (${l10n.times(mostDeclinedCount)})'
                 : '-',
-            valueColor: context.appColors.decisionNo,
+            valueColor: context.vantColors.decisionNo,
           ),
         ],
       ),
@@ -2499,14 +2585,14 @@ class _ReportScreenState extends State<ReportScreen>
   }) {
     return Row(
       children: [
-        Icon(icon, size: 18, color: context.appColors.textTertiary),
+        Icon(icon, size: 18, color: context.vantColors.textTertiary),
         const SizedBox(width: 12),
         Expanded(
           child: Text(
             label,
             style: TextStyle(
               fontSize: 13,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
         ),
@@ -2516,7 +2602,7 @@ class _ReportScreenState extends State<ReportScreen>
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: valueColor ?? context.appColors.textPrimary,
+              color: valueColor ?? context.vantColors.textPrimary,
             ),
             textAlign: TextAlign.end,
             overflow: TextOverflow.ellipsis,
@@ -2573,13 +2659,13 @@ class _ReportScreenState extends State<ReportScreen>
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isPositive
-            ? context.appColors.success.withValues(alpha: 0.1)
-            : context.appColors.warning.withValues(alpha: 0.1),
+            ? context.vantColors.success.withValues(alpha: 0.1)
+            : context.vantColors.warning.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isPositive
-              ? context.appColors.success.withValues(alpha: 0.3)
-              : context.appColors.warning.withValues(alpha: 0.3),
+              ? context.vantColors.success.withValues(alpha: 0.3)
+              : context.vantColors.warning.withValues(alpha: 0.3),
         ),
       ),
       child: Row(
@@ -2589,17 +2675,17 @@ class _ReportScreenState extends State<ReportScreen>
             height: 40,
             decoration: BoxDecoration(
               color: isPositive
-                  ? context.appColors.success.withValues(alpha: 0.2)
-                  : context.appColors.warning.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(10),
+                  ? context.vantColors.success.withValues(alpha: 0.2)
+                  : context.vantColors.warning.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
               isPositive
-                  ? PhosphorIconsDuotone.trendDown
-                  : PhosphorIconsDuotone.trendUp,
+                  ? CupertinoIcons.arrow_down_right
+                  : CupertinoIcons.arrow_up_right,
               color: isPositive
-                  ? context.appColors.success
-                  : context.appColors.warning,
+                  ? context.vantColors.success
+                  : context.vantColors.warning,
               size: 22,
             ),
           ),
@@ -2612,7 +2698,7 @@ class _ReportScreenState extends State<ReportScreen>
                   l10n.trend,
                   style: TextStyle(
                     fontSize: 12,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -2622,8 +2708,8 @@ class _ReportScreenState extends State<ReportScreen>
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: isPositive
-                        ? context.appColors.success
-                        : context.appColors.warning,
+                        ? context.vantColors.success
+                        : context.vantColors.warning,
                   ),
                 ),
               ],
@@ -2667,14 +2753,14 @@ class _ProBadge extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            context.appColors.gold.withValues(alpha: 0.9),
-            context.appColors.gold.withValues(alpha: 0.7),
+            context.vantColors.gold.withValues(alpha: 0.9),
+            context.vantColors.gold.withValues(alpha: 0.7),
           ],
         ),
         borderRadius: BorderRadius.circular(4),
         boxShadow: [
           BoxShadow(
-            color: context.appColors.gold.withValues(alpha: 0.3),
+            color: context.vantColors.gold.withValues(alpha: 0.3),
             blurRadius: 4,
             offset: const Offset(0, 1),
           ),
@@ -2685,8 +2771,8 @@ class _ProBadge extends StatelessWidget {
         style: TextStyle(
           fontSize: 8,
           fontWeight: FontWeight.w800,
-          color: context.appColors.background,
-          letterSpacing: 0.5,
+          color: context.vantColors.background,
+          letterSpacing: 1.0,
         ),
       ),
     );
@@ -2712,9 +2798,9 @@ class _InsightMiniCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: context.appColors.surfaceLight,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: context.appColors.cardBorder),
+        color: context.vantColors.surfaceLight,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2737,7 +2823,7 @@ class _InsightMiniCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -2750,7 +2836,7 @@ class _InsightMiniCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w500,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
               height: 1.3,
             ),
             maxLines: 2,
@@ -2884,9 +2970,18 @@ class _AnimatedSummaryCardState extends State<_AnimatedSummaryCard>
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: context.appColors.surface,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: context.isDarkMode
+                  ? [const Color(0x0AFFFFFF), const Color(0x05FFFFFF)]
+                  : [const Color(0x0A000000), const Color(0x05000000)],
+            ),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: context.appColors.cardBorder),
+            border: Border.all(color: context.isDarkMode ? const Color(0x0FFFFFFF) : const Color(0x0F000000), width: 0.5),
+            boxShadow: const [
+              BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
+            ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -2897,10 +2992,15 @@ class _AnimatedSummaryCardState extends State<_AnimatedSummaryCard>
                     width: 32,
                     height: 32,
                     decoration: BoxDecoration(
-                      color: widget.color.withValues(alpha: 0.15),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [widget.color.withValues(alpha: 0.25), widget.color.withValues(alpha: 0.10)],
+                      ),
                       borderRadius: BorderRadius.circular(8),
+                      boxShadow: VantShadows.glow(widget.color, intensity: 0.2, blur: 12),
                     ),
-                    child: Icon(widget.icon, size: 18, color: widget.color),
+                    child: Icon(widget.icon, size: 18, color: widget.color, shadows: VantShadows.iconHalo(widget.color)),
                   ),
                   const Spacer(),
                 ],
@@ -2910,7 +3010,7 @@ class _AnimatedSummaryCardState extends State<_AnimatedSummaryCard>
                 widget.title,
                 style: TextStyle(
                   fontSize: 12,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
               ),
               const SizedBox(height: 4),
@@ -2943,7 +3043,7 @@ class _AnimatedSummaryCardState extends State<_AnimatedSummaryCard>
                 widget.subtitle,
                 style: TextStyle(
                   fontSize: 11,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

@@ -23,6 +23,13 @@ class FinanceProvider extends ChangeNotifier {
   bool _isLoading = true;
   bool _isInitialized = false;
 
+  // Widget sync parameters (cached for auto-sync after expense changes)
+  String _widgetCurrencySymbol = '₺';
+  String _widgetLocale = 'tr';
+  String? _widgetPursuitName;
+  double? _widgetPursuitProgress;
+  double? _widgetPursuitTarget;
+
   // Getters - Genel
   UserProfile? get userProfile => _userProfile;
   List<Expense> get expenses => List.unmodifiable(_expenses);
@@ -163,6 +170,9 @@ class FinanceProvider extends ChangeNotifier {
     await _expenseService.addExpense(expense);
     if (expense.isReal) await _updateStreakAfterEntry();
 
+    // Sync widget data after expense is added
+    await _autoSyncWidget();
+
     // First expense celebration and referral reward
     if (isFirstExpense && expense.isReal) {
       _handleFirstExpense(expense);
@@ -194,6 +204,7 @@ class FinanceProvider extends ChangeNotifier {
     _calculateStats();
     notifyListeners();
     await _expenseService.updateExpense(index, expense);
+    await _autoSyncWidget();
   }
 
   Future<void> deleteExpense(int index) async {
@@ -202,6 +213,7 @@ class FinanceProvider extends ChangeNotifier {
     _calculateStats();
     notifyListeners();
     await _expenseService.deleteExpense(index);
+    await _autoSyncWidget();
   }
 
   Future<void> updateDecision(int index, ExpenseDecision decision) async {
@@ -399,13 +411,14 @@ class FinanceProvider extends ChangeNotifier {
   /// Maaşa kaç gün kaldı
   int get daysUntilPayday => _userProfile?.daysUntilPayday ?? -1;
 
-  /// Saatlik ücret (fallback ile)
+  /// Saatlik ücret (fallback ile) — always returns > 0 to prevent division-by-zero
   double get hourlyRate {
-    if (_userProfile == null) return 0;
+    if (_userProfile == null) return 1.0;
     final rate = _userProfile!.hourlyRate;
     if (rate <= 0) {
-      // Fallback: aylık gelir / 160 saat
-      return _userProfile!.monthlyIncome / 160;
+      // Fallback: aylık gelir / 160 saat, minimum 1.0 to avoid divide-by-zero
+      final fallback = _userProfile!.monthlyIncome / 160;
+      return fallback > 0 ? fallback : 1.0;
     }
     return rate;
   }
@@ -484,6 +497,40 @@ class FinanceProvider extends ChangeNotifier {
       );
     } catch (e) {
       debugPrint('[FinanceProvider] Widget sync error: $e');
+    }
+  }
+
+  /// Set widget sync parameters (call from main_screen on init and when params change)
+  void setWidgetParams({
+    required String currencySymbol,
+    required String locale,
+    String? pursuitName,
+    double? pursuitProgress,
+    double? pursuitTarget,
+  }) {
+    _widgetCurrencySymbol = currencySymbol;
+    _widgetLocale = locale;
+    _widgetPursuitName = pursuitName;
+    _widgetPursuitProgress = pursuitProgress;
+    _widgetPursuitTarget = pursuitTarget;
+  }
+
+  /// Auto-sync widget using cached parameters (called after expense changes)
+  Future<void> _autoSyncWidget() async {
+    try {
+      debugPrint('[FinanceProvider] _autoSyncWidget called - currency: $_widgetCurrencySymbol, locale: $_widgetLocale');
+      final todayData = getTodaySpendingData();
+      debugPrint('[FinanceProvider] Today data: ${todayData.hours}h ${todayData.minutes}m, ${todayData.amount} TL');
+      await syncWidgetData(
+        currencySymbol: _widgetCurrencySymbol,
+        locale: _widgetLocale,
+        pursuitName: _widgetPursuitName,
+        pursuitProgress: _widgetPursuitProgress,
+        pursuitTarget: _widgetPursuitTarget,
+      );
+      debugPrint('[FinanceProvider] Widget sync completed');
+    } catch (e) {
+      debugPrint('[FinanceProvider] Auto widget sync error: $e');
     }
   }
 

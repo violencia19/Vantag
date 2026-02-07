@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../services/sensory_feedback_service.dart';
 import '../theme/theme.dart';
@@ -91,13 +91,13 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
     switch (widget.riskLevel) {
       case RiskLevel.none:
       case RiskLevel.low:
-        return AppColors.medalGold; // Gold
+        return VantColors.medalGold; // Gold
       case RiskLevel.medium:
-        return AppColors.warning; // Orange
+        return VantColors.warning; // Orange
       case RiskLevel.high:
-        return AppColors.categoryBills; // Red
+        return VantColors.categoryBills; // Red
       case RiskLevel.extreme:
-        return AppColors.dangerRed; // Dark Red
+        return VantColors.dangerRed; // Dark Red
     }
   }
 
@@ -130,7 +130,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
           TextButton(
             onPressed: widget.onCancel,
             style: TextButton.styleFrom(
-              foregroundColor: context.appColors.textSecondary,
+              foregroundColor: context.vantColors.textSecondary,
             ),
             child: Text(l10n.giveUp),
           ),
@@ -163,7 +163,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
                   height: 44,
                   decoration: BoxDecoration(
                     color: _riskColor.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(_getWarningIcon(), color: _riskColor, size: 24),
                 ),
@@ -186,7 +186,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
                         widget.warningMessage!,
                         style: TextStyle(
                           fontSize: 12,
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                           height: 1.4,
                         ),
                       ),
@@ -219,15 +219,15 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
   IconData _getWarningIcon() {
     switch (widget.riskLevel) {
       case RiskLevel.none:
-        return PhosphorIconsDuotone.checkCircle;
+        return CupertinoIcons.checkmark_circle;
       case RiskLevel.low:
-        return PhosphorIconsDuotone.info;
+        return CupertinoIcons.info_circle;
       case RiskLevel.medium:
-        return PhosphorIconsDuotone.warningCircle;
+        return CupertinoIcons.exclamationmark_circle;
       case RiskLevel.high:
-        return PhosphorIconsDuotone.warningOctagon;
+        return CupertinoIcons.exclamationmark_octagon;
       case RiskLevel.extreme:
-        return PhosphorIconsDuotone.skull;
+        return CupertinoIcons.xmark_octagon;
     }
   }
 
@@ -256,7 +256,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
             l10n.thinkingTime,
             style: TextStyle(
               fontSize: 14,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
           ),
           const SizedBox(height: 12),
@@ -290,7 +290,7 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: widget.riskLevel == RiskLevel.none
-              ? context.appColors.primary
+              ? context.vantColors.primary
               : _riskColor,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
@@ -303,8 +303,8 @@ class _DecisionStressTimerState extends State<DecisionStressTimer>
           children: [
             Icon(
               widget.riskLevel == RiskLevel.none
-                  ? PhosphorIconsDuotone.check
-                  : PhosphorIconsDuotone.warningCircle,
+                  ? CupertinoIcons.checkmark
+                  : CupertinoIcons.exclamationmark_circle,
               size: 22,
             ),
             const SizedBox(width: 10),
@@ -329,15 +329,15 @@ class RiskBadge extends StatelessWidget {
   Color _getColor(BuildContext context) {
     switch (riskLevel) {
       case RiskLevel.none:
-        return context.appColors.success;
+        return context.vantColors.success;
       case RiskLevel.low:
-        return AppColors.medalGold;
+        return VantColors.medalGold;
       case RiskLevel.medium:
-        return AppColors.warning;
+        return VantColors.warning;
       case RiskLevel.high:
-        return AppColors.categoryBills;
+        return VantColors.categoryBills;
       case RiskLevel.extreme:
-        return AppColors.dangerRed;
+        return VantColors.dangerRed;
     }
   }
 

@@ -1,11 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/providers.dart';
-import '../theme/quiet_luxury.dart';
+import '../theme/theme.dart';
 import 'pursuit_progress_visual.dart';
 import 'budget_shift_dialog.dart';
 
@@ -39,9 +39,9 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
         '${currencyProvider.currency.symbol}${widget.amount.toStringAsFixed(0)}';
 
     return Container(
-      decoration: const BoxDecoration(
-        color: QuietLuxury.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: context.vantColors.background,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: SafeArea(
         child: Padding(
@@ -56,7 +56,7 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: QuietLuxury.cardBorder,
+                    color: context.vantColors.cardBorder,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -69,12 +69,12 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: QuietLuxury.positive.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(12),
+                      color: context.vantColors.success.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     child: Icon(
-                      PhosphorIconsDuotone.piggyBank,
-                      color: QuietLuxury.positive,
+                      CupertinoIcons.money_dollar_circle_fill,
+                      color: context.vantColors.success,
                       size: 24,
                     ),
                   ),
@@ -85,12 +85,21 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
                       children: [
                         Text(
                           l10n.redirectSavings,
-                          style: QuietLuxury.heading.copyWith(fontSize: 18),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: -0.5,
+                            color: Color(0xFFFAFAFA),
+                          ).copyWith(fontSize: 18),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           l10n.redirectSavingsMessage(formattedAmount),
-                          style: QuietLuxury.body,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFFA1A1AA),
+                          ),
                         ),
                       ],
                     ),
@@ -137,11 +146,11 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
                     child: OutlinedButton(
                       onPressed: () => Navigator.of(context).pop(false),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: QuietLuxury.textSecondary,
-                        side: BorderSide(color: QuietLuxury.cardBorder),
+                        foregroundColor: context.vantColors.textSecondary,
+                        side: BorderSide(color: context.vantColors.cardBorder),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                       ),
                       child: Text(l10n.skipRedirect),
@@ -158,13 +167,13 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
                             ? null
                             : _onAddSavings,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: QuietLuxury.positive,
+                          backgroundColor: context.vantColors.success,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                           ),
-                          disabledBackgroundColor: QuietLuxury.positive
+                          disabledBackgroundColor: context.vantColors.success
                               .withValues(alpha: 0.3),
                         ),
                         child: _isLoading
@@ -200,27 +209,35 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: QuietLuxury.cardBackground,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
+        color: context.vantColors.cardBackground,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.vantColors.cardBorder, width: 0.5),
       ),
       child: Column(
         children: [
           Icon(
-            PhosphorIconsDuotone.star,
+            CupertinoIcons.star_fill,
             size: 48,
-            color: QuietLuxury.textTertiary,
+            color: context.vantColors.textTertiary,
           ),
           const SizedBox(height: 12),
           Text(
             l10n.emptyPursuitsTitle,
-            style: QuietLuxury.body.copyWith(color: QuietLuxury.textPrimary),
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: Color(0xFFA1A1AA),
+            ).copyWith(color: context.vantColors.textPrimary),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 4),
           Text(
             l10n.emptyPursuitsMessage,
-            style: QuietLuxury.label,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: Color(0xFF71717A),
+            ),
             textAlign: TextAlign.center,
           ),
         ],
@@ -267,10 +284,10 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(l10n.savingsAdded),
-              backgroundColor: QuietLuxury.positive,
+              backgroundColor: context.vantColors.success,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
           );
@@ -307,7 +324,7 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(result.errorMessage ?? 'Error'),
-              backgroundColor: QuietLuxury.negative,
+              backgroundColor: context.vantColors.error,
               behavior: SnackBarBehavior.floating,
             ),
           );
@@ -321,7 +338,7 @@ class _RedirectSavingsSheetState extends State<RedirectSavingsSheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.somethingWentWrong),
-            backgroundColor: QuietLuxury.negative,
+            backgroundColor: context.vantColors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -361,19 +378,19 @@ class _PursuitSelectionTile extends StatelessWidget {
       button: true,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: isSelected
-                ? QuietLuxury.positive.withValues(alpha: 0.15)
-                : QuietLuxury.cardBackground,
-            borderRadius: BorderRadius.circular(12),
+                ? context.vantColors.success.withValues(alpha: 0.15)
+                : context.vantColors.cardBackground,
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: isSelected
-                  ? QuietLuxury.positive.withValues(alpha: 0.5)
-                  : QuietLuxury.cardBorder,
+                  ? context.vantColors.success.withValues(alpha: 0.5)
+                  : context.vantColors.cardBorder,
               width: isSelected ? 1.5 : 0.5,
             ),
           ),
@@ -386,8 +403,8 @@ class _PursuitSelectionTile extends StatelessWidget {
                 size: 44,
                 strokeWidth: 3,
                 progressColor: isSelected
-                    ? QuietLuxury.positive
-                    : QuietLuxury.textTertiary,
+                    ? context.vantColors.success
+                    : context.vantColors.textTertiary,
               ),
               const SizedBox(width: 12),
               // Info
@@ -397,8 +414,12 @@ class _PursuitSelectionTile extends StatelessWidget {
                   children: [
                     Text(
                       pursuit.name,
-                      style: QuietLuxury.body.copyWith(
-                        color: QuietLuxury.textPrimary,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFFA1A1AA),
+                      ).copyWith(
+                        color: context.vantColors.textPrimary,
                         fontWeight: isSelected
                             ? FontWeight.w600
                             : FontWeight.w400,
@@ -409,7 +430,11 @@ class _PursuitSelectionTile extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       '$currencySymbol${pursuit.savedAmount.toStringAsFixed(0)} / $currencySymbol${pursuit.targetAmount.toStringAsFixed(0)}',
-                      style: QuietLuxury.label,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFF71717A),
+                      ),
                     ),
                   ],
                 ),
@@ -419,16 +444,20 @@ class _PursuitSelectionTile extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? QuietLuxury.positive.withValues(alpha: 0.2)
-                      : QuietLuxury.cardBorder.withValues(alpha: 0.3),
+                      ? context.vantColors.success.withValues(alpha: 0.2)
+                      : context.vantColors.cardBorder.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   '${pursuit.progressPercentDisplay}%',
-                  style: QuietLuxury.label.copyWith(
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF71717A),
+                  ).copyWith(
                     color: isSelected
-                        ? QuietLuxury.positive
-                        : QuietLuxury.textTertiary,
+                        ? context.vantColors.success
+                        : context.vantColors.textTertiary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -449,7 +478,7 @@ Future<bool?> showRedirectSavingsSheet(
 }) {
   return showModalBottomSheet<bool>(
     context: context,
-    barrierColor: Colors.black.withOpacity(0.85),
+    barrierColor: Colors.black.withValues(alpha: 0.85),
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
     builder: (_) => RedirectSavingsSheet(amount: amount, currency: currency),

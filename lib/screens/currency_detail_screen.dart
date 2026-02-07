@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../services/services.dart';
 import '../theme/theme.dart';
 
@@ -36,7 +36,11 @@ class CurrencyDetailScreen extends StatelessWidget {
       final year = dateTime.year;
       final hour = dateTime.hour.toString().padLeft(2, '0');
       final minute = dateTime.minute.toString().padLeft(2, '0');
-      return '$day.$month.$year $hour:$minute';
+      final locale = Localizations.localeOf(context).languageCode;
+      if (locale == 'tr') {
+        return '$day.$month.$year $hour:$minute';
+      }
+      return '$month/$day/$year $hour:$minute';
     }
   }
 
@@ -44,13 +48,13 @@ class CurrencyDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       appBar: AppBar(
-        backgroundColor: context.appColors.background,
+        backgroundColor: context.vantColors.background,
         leading: IconButton(
           icon: Icon(
-            PhosphorIconsDuotone.arrowLeft,
-            color: context.appColors.textPrimary,
+            CupertinoIcons.arrow_left,
+            color: context.vantColors.textPrimary,
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -59,7 +63,7 @@ class CurrencyDetailScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
           ),
         ),
       ),
@@ -73,9 +77,9 @@ class CurrencyDetailScreen extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: context.appColors.surface,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: context.appColors.cardBorder),
+                color: context.vantColors.surface,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: context.vantColors.cardBorder),
               ),
               child: Row(
                 children: [
@@ -83,13 +87,13 @@ class CurrencyDetailScreen extends StatelessWidget {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: context.appColors.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(10),
+                      color: context.vantColors.primary.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
-                      PhosphorIconsDuotone.arrowsClockwise,
+                      CupertinoIcons.arrow_2_circlepath,
                       size: 20,
-                      color: context.appColors.primary,
+                      color: context.vantColors.primary,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -101,7 +105,7 @@ class CurrencyDetailScreen extends StatelessWidget {
                           l10n.lastUpdate,
                           style: TextStyle(
                             fontSize: 12,
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                         ),
                         const SizedBox(height: 2),
@@ -110,7 +114,7 @@ class CurrencyDetailScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: context.appColors.textPrimary,
+                            color: context.vantColors.textPrimary,
                           ),
                         ),
                       ],
@@ -122,7 +126,7 @@ class CurrencyDetailScreen extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: context.appColors.primary.withValues(alpha: 0.1),
+                      color: context.vantColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -130,7 +134,7 @@ class CurrencyDetailScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.primary,
+                        color: context.vantColors.primary,
                       ),
                     ),
                   ),
@@ -146,7 +150,7 @@ class CurrencyDetailScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
 
@@ -160,7 +164,7 @@ class CurrencyDetailScreen extends StatelessWidget {
               code: 'USD',
               buying: rates.usdBuying,
               selling: rates.usdSelling,
-              color: AppColors.currencyPositive,
+              color: VantColors.currencyPositive,
             ),
 
             const SizedBox(height: 12),
@@ -173,7 +177,7 @@ class CurrencyDetailScreen extends StatelessWidget {
               code: 'EUR',
               buying: rates.eurBuying,
               selling: rates.eurSelling,
-              color: AppColors.currencyNeutral,
+              color: VantColors.currencyNeutral,
             ),
 
             const SizedBox(height: 12),
@@ -186,7 +190,7 @@ class CurrencyDetailScreen extends StatelessWidget {
               code: 'XAU',
               buying: rates.goldBuying,
               selling: rates.goldSelling,
-              color: AppColors.currencyGold,
+              color: VantColors.currencyGold,
               isGold: true,
             ),
 
@@ -196,16 +200,16 @@ class CurrencyDetailScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: context.appColors.surfaceLight,
-                borderRadius: BorderRadius.circular(12),
+                color: context.vantColors.surfaceLight,
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(
-                    PhosphorIconsDuotone.info,
+                    CupertinoIcons.info_circle,
                     size: 18,
-                    color: context.appColors.textTertiary.withValues(
+                    color: context.vantColors.textTertiary.withValues(
                       alpha: 0.8,
                     ),
                   ),
@@ -215,7 +219,7 @@ class CurrencyDetailScreen extends StatelessWidget {
                       l10n.tcmbNotice,
                       style: TextStyle(
                         fontSize: 12,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                         height: 1.4,
                       ),
                     ),
@@ -243,9 +247,9 @@ class CurrencyDetailScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: context.appColors.cardBorder),
+        color: context.vantColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Column(
         children: [
@@ -257,7 +261,7 @@ class CurrencyDetailScreen extends StatelessWidget {
                 height: 44,
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
                   child: Text(
@@ -280,14 +284,14 @@ class CurrencyDetailScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                     Text(
                       code,
                       style: TextStyle(
                         fontSize: 12,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                     ),
                   ],
@@ -305,7 +309,7 @@ class CurrencyDetailScreen extends StatelessWidget {
               Container(
                 width: 1,
                 height: 40,
-                color: context.appColors.cardBorder,
+                color: context.vantColors.cardBorder,
               ),
               Expanded(child: _buildPriceColumn(context, l10n.sell, selling)),
             ],
@@ -320,7 +324,7 @@ class CurrencyDetailScreen extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: 11, color: context.appColors.textTertiary),
+          style: TextStyle(fontSize: 11, color: context.vantColors.textTertiary),
         ),
         const SizedBox(height: 4),
         Text(
@@ -328,7 +332,7 @@ class CurrencyDetailScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
           ),
         ),
       ],

@@ -1,7 +1,6 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import '../providers/currency_provider.dart';
 import '../theme/theme.dart';
@@ -100,21 +99,16 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
         margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [context.appColors.surfaceLight, context.appColors.surface],
-          ),
-          borderRadius: BorderRadius.circular(28),
+          color: context.vantColors.surface,
+          borderRadius: BorderRadius.circular(24),
           border: Border.all(
-            color: context.appColors.primary.withValues(alpha: 0.3),
-            width: 1.5,
+            color: Colors.white.withValues(alpha: 0.06),
+            width: 1,
           ),
           boxShadow: [
             BoxShadow(
-              color: context.appColors.primary.withValues(alpha: 0.2),
-              blurRadius: 30,
-              spreadRadius: 0,
+              color: Colors.black.withValues(alpha: 0.2),
+              blurRadius: 20,
               offset: const Offset(0, 10),
             ),
           ],
@@ -122,59 +116,20 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Üst kısım: Net Bakiye label + sources badge
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  l10n.netBalance,
-                  style: GoogleFonts.inter(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.5,
-                    color: context.appColors.textSecondary,
-                  ),
-                ),
-                // Sources badge
-                if (widget.incomeSourceCount > 0)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: context.appColors.primary.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: context.appColors.primary.withValues(alpha: 0.3),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        PhosphorIcon(
-                          PhosphorIconsDuotone.wallet,
-                          size: 14,
-                          color: context.appColors.primary,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          l10n.incomeSources(widget.incomeSourceCount),
-                          style: GoogleFonts.inter(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            color: context.appColors.primary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-              ],
+            // Üst kısım: Net Bakiye label - Revolut minimal style
+            Text(
+              l10n.netBalance.toUpperCase(),
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 1.0,
+                color: context.vantColors.textSecondary,
+              ),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
 
-            // BÜYÜK RAKAM - Counting animation ile
+            // BÜYÜK RAKAM - Counting animation ile (Revolut style)
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -184,10 +139,11 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
                     decimalDigits: 0,
                     showDecimals: false,
                   ),
-                  style: GoogleFonts.inter(
-                    fontSize: 44,
+                  style: TextStyle(
+                    fontSize: 48,
                     fontWeight: FontWeight.w700,
-                    color: isHealthy ? Colors.white : context.appColors.error,
+                    letterSpacing: -1.5,
+                    color: isHealthy ? Colors.white : context.vantColors.error,
                     height: 1,
                   ),
                 ),
@@ -195,10 +151,10 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
                   padding: const EdgeInsets.only(bottom: 6, left: 4),
                   child: Text(
                     currencyProvider.symbol,
-                    style: GoogleFonts.inter(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
-                      color: context.appColors.textTertiary,
+                      color: context.vantColors.textTertiary,
                     ),
                   ),
                 ),
@@ -211,7 +167,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
             Container(
               height: 4,
               decoration: BoxDecoration(
-                color: AppColors.cardBackground,
+                color: context.vantColors.cardBackground,
                 borderRadius: BorderRadius.circular(2),
               ),
               child: LayoutBuilder(
@@ -224,7 +180,7 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
                         width: constraints.maxWidth * spentPercent,
                         height: 4,
                         decoration: BoxDecoration(
-                          gradient: AppGradients.primaryButton,
+                          gradient: VantGradients.primaryButton,
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -242,18 +198,18 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
               children: [
                 Text(
                   l10n.budgetUsage,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 10,
-                    letterSpacing: 1,
+                    letterSpacing: 1.0,
                     fontWeight: FontWeight.w500,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                 ),
                 Text(
                   "${formatTurkishCurrency(_displayedSpent, decimalDigits: 0, showDecimals: false)} / ${formatTurkishCurrency(widget.totalIncome, decimalDigits: 0, showDecimals: false)}",
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 12,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
               ],
@@ -266,27 +222,27 @@ class _PremiumBalanceCardState extends State<PremiumBalanceCard>
               children: [
                 Expanded(
                   child: _StatCard(
-                    icon: PhosphorIconsDuotone.arrowDown,
+                    icon: CupertinoIcons.arrow_down,
                     label: l10n.income,
                     value: formatTurkishCurrency(
                       _displayedIncome,
                       decimalDigits: 0,
                       showDecimals: false,
                     ),
-                    color: context.appColors.success,
+                    color: context.vantColors.success,
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: _StatCard(
-                    icon: PhosphorIconsDuotone.arrowUp,
+                    icon: CupertinoIcons.arrow_up,
                     label: l10n.expense,
                     value: formatTurkishCurrency(
                       _displayedSpent,
                       decimalDigits: 0,
                       showDecimals: false,
                     ),
-                    color: context.appColors.error,
+                    color: context.vantColors.error,
                   ),
                 ),
               ],
@@ -330,25 +286,25 @@ class _StatCard extends StatelessWidget {
               color: color.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
-            child: PhosphorIcon(icon, size: 20, color: color),
+            child: Icon(icon, size: 20, color: color),
           ),
           const SizedBox(height: 8),
           Text(
             label,
-            style: GoogleFonts.inter(
+            style: TextStyle(
               fontSize: 10,
-              letterSpacing: 1,
+              letterSpacing: 1.0,
               fontWeight: FontWeight.w500,
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             value,
-            style: GoogleFonts.inter(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
           ),
         ],
@@ -382,9 +338,9 @@ class PremiumCurrencyBand extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -417,10 +373,10 @@ class _CurrencyItem extends StatelessWidget {
       children: [
         Text(
           symbol,
-          style: GoogleFonts.inter(
+          style: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.w500,
-            color: context.appColors.textTertiary,
+            color: context.vantColors.textTertiary,
           ),
         ),
         const SizedBox(height: 4),
@@ -428,10 +384,10 @@ class _CurrencyItem extends StatelessWidget {
           children: [
             Text(
               value,
-              style: GoogleFonts.inter(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
             const SizedBox(width: 4),
@@ -440,8 +396,8 @@ class _CurrencyItem extends StatelessWidget {
               style: TextStyle(
                 fontSize: 12,
                 color: isUp
-                    ? context.appColors.success
-                    : context.appColors.error,
+                    ? context.vantColors.success
+                    : context.vantColors.error,
               ),
             ),
           ],
@@ -454,7 +410,7 @@ class _CurrencyItem extends StatelessWidget {
 class _Divider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(width: 1, height: 30, color: context.appColors.cardBorder);
+    return Container(width: 1, height: 30, color: context.vantColors.cardBorder);
   }
 }
 
@@ -484,17 +440,17 @@ class PremiumSectionHeader extends StatelessWidget {
                 width: 4,
                 height: 20,
                 decoration: BoxDecoration(
-                  gradient: AppGradients.primaryButton,
+                  gradient: VantGradients.primaryButton,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
               const SizedBox(width: 10),
               Text(
                 title,
-                style: GoogleFonts.inter(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             ],
@@ -504,10 +460,10 @@ class PremiumSectionHeader extends StatelessWidget {
               onTap: onActionTap,
               child: Text(
                 actionText!,
-                style: GoogleFonts.inter(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ),
             ),
@@ -548,9 +504,9 @@ class PremiumTransactionItem extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: context.appColors.surface,
+          color: context.vantColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: context.appColors.cardBorder),
+          border: Border.all(color: context.vantColors.cardBorder),
         ),
         child: Row(
           children: [
@@ -560,9 +516,9 @@ class PremiumTransactionItem extends StatelessWidget {
               height: 48,
               decoration: BoxDecoration(
                 color: categoryColor.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(16),
               ),
-              child: PhosphorIcon(categoryIcon, size: 24, color: categoryColor),
+              child: Icon(categoryIcon, size: 24, color: categoryColor),
             ),
             const SizedBox(width: 14),
             // İsim ve kategori
@@ -572,18 +528,18 @@ class PremiumTransactionItem extends StatelessWidget {
                 children: [
                   Text(
                     storeName,
-                    style: GoogleFonts.inter(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     category,
-                    style: GoogleFonts.inter(
+                    style: TextStyle(
                       fontSize: 12,
-                      color: context.appColors.textTertiary,
+                      color: context.vantColors.textTertiary,
                     ),
                   ),
                 ],
@@ -595,20 +551,20 @@ class PremiumTransactionItem extends StatelessWidget {
               children: [
                 Text(
                   "${isExpense ? '-' : '+'}${formatTurkishCurrency(amount, decimalDigits: 0, showDecimals: false)}",
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: isExpense
-                        ? context.appColors.error
-                        : context.appColors.success,
+                        ? context.vantColors.error
+                        : context.vantColors.success,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   time,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 11,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                 ),
               ],
@@ -649,10 +605,10 @@ class PremiumHeader extends StatelessWidget {
             height: 48,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: context.appColors.primary, width: 2),
+              border: Border.all(color: context.vantColors.primary, width: 2),
               boxShadow: [
                 BoxShadow(
-                  color: context.appColors.primary.withValues(alpha: 0.3),
+                  color: context.vantColors.primary.withValues(alpha: 0.3),
                   blurRadius: 12,
                   spreadRadius: 2,
                 ),
@@ -662,11 +618,11 @@ class PremiumHeader extends StatelessWidget {
               child: photoPath != null
                   ? Image.asset(photoPath!, fit: BoxFit.cover)
                   : Container(
-                      color: context.appColors.surfaceLight,
-                      child: PhosphorIcon(
-                        PhosphorIconsDuotone.user,
+                      color: context.vantColors.surfaceLight,
+                      child: Icon(
+                        CupertinoIcons.person,
                         size: 24,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
             ),
@@ -679,17 +635,17 @@ class PremiumHeader extends StatelessWidget {
               children: [
                 Text(
                   "$greeting 👋",
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 14,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
                 Text(
                   title,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
               ],
@@ -700,7 +656,7 @@ class PremiumHeader extends StatelessWidget {
           // Ayarlar butonu
           if (onSettingsTap != null)
             _GlassButton(
-              icon: PhosphorIconsDuotone.gear,
+              icon: CupertinoIcons.settings,
               onTap: onSettingsTap!,
             ),
         ],
@@ -713,65 +669,29 @@ class PremiumHeader extends StatelessWidget {
 class _GlassButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
-  final int? badge;
 
-  const _GlassButton({required this.icon, required this.onTap, this.badge});
+  const _GlassButton({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: context.appColors.surfaceLight.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: context.appColors.cardBorder),
+              color: context.vantColors.surfaceLight.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: context.vantColors.cardBorder),
             ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                PhosphorIcon(
-                  icon,
-                  size: 20,
-                  color: context.appColors.textSecondary,
-                ),
-                if (badge != null)
-                  Positioned(
-                    top: 6,
-                    right: 6,
-                    child: Container(
-                      width: 16,
-                      height: 16,
-                      decoration: BoxDecoration(
-                        color: context.appColors.primary.withValues(
-                          alpha: 0.15,
-                        ),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: context.appColors.primary.withValues(
-                            alpha: 0.3,
-                          ),
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '$badge',
-                          style: GoogleFonts.inter(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w700,
-                            color: context.appColors.primary,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
+            child: Icon(
+              icon,
+              size: 20,
+              color: context.vantColors.textSecondary,
             ),
           ),
         ),
@@ -808,14 +728,14 @@ class PremiumFloatingNavBar extends StatelessWidget {
           child: Container(
             height: 72,
             decoration: BoxDecoration(
-              color: context.appColors.surface.withValues(alpha: 0.9),
+              color: context.vantColors.surface.withValues(alpha: 0.9),
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: context.appColors.primary.withValues(alpha: 0.2),
+                color: context.vantColors.primary.withValues(alpha: 0.2),
               ),
               boxShadow: [
                 BoxShadow(
-                  color: context.appColors.primary.withValues(alpha: 0.15),
+                  color: context.vantColors.primary.withValues(alpha: 0.15),
                   blurRadius: 30,
                   offset: const Offset(0, -5),
                 ),
@@ -825,13 +745,13 @@ class PremiumFloatingNavBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _NavItem(
-                  icon: PhosphorIconsDuotone.house,
+                  icon: CupertinoIcons.house,
                   label: l10n.dashboard,
                   isSelected: selectedIndex == 0,
                   onTap: () => onItemSelected(0),
                 ),
                 _NavItem(
-                  icon: PhosphorIconsDuotone.chartBar,
+                  icon: CupertinoIcons.chart_bar,
                   label: l10n.navReports,
                   isSelected: selectedIndex == 1,
                   onTap: () => onItemSelected(1),
@@ -843,11 +763,11 @@ class PremiumFloatingNavBar extends StatelessWidget {
                     width: 56,
                     height: 56,
                     decoration: BoxDecoration(
-                      gradient: AppGradients.primaryButton,
+                      gradient: VantGradients.primaryButton,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: context.appColors.primary.withValues(
+                          color: context.vantColors.primary.withValues(
                             alpha: 0.4,
                           ),
                           blurRadius: 20,
@@ -856,20 +776,20 @@ class PremiumFloatingNavBar extends StatelessWidget {
                       ],
                     ),
                     child: const Icon(
-                      PhosphorIconsDuotone.plus,
+                      CupertinoIcons.plus,
                       color: Colors.white,
                       size: 28,
                     ),
                   ),
                 ),
                 _NavItem(
-                  icon: PhosphorIconsDuotone.trophy,
+                  icon: CupertinoIcons.rosette,
                   label: l10n.navAchievements,
                   isSelected: selectedIndex == 2,
                   onTap: () => onItemSelected(2),
                 ),
                 _NavItem(
-                  icon: PhosphorIconsDuotone.user,
+                  icon: CupertinoIcons.person,
                   label: l10n.navProfile,
                   isSelected: selectedIndex == 3,
                   onTap: () => onItemSelected(3),
@@ -906,22 +826,22 @@ class _NavItem extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            PhosphorIcon(
+            Icon(
               icon,
               size: 24,
               color: isSelected
-                  ? context.appColors.primary
-                  : context.appColors.textTertiary,
+                  ? context.vantColors.primary
+                  : context.vantColors.textTertiary,
             ),
             const SizedBox(height: 4),
             Text(
               label,
-              style: GoogleFonts.inter(
+              style: TextStyle(
                 fontSize: 10,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                 color: isSelected
-                    ? context.appColors.primary
-                    : context.appColors.textTertiary,
+                    ? context.vantColors.primary
+                    : context.vantColors.textTertiary,
               ),
             ),
             if (isSelected)
@@ -930,11 +850,11 @@ class _NavItem extends StatelessWidget {
                 width: 4,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: context.appColors.primary.withValues(alpha: 0.5),
+                      color: context.vantColors.primary.withValues(alpha: 0.5),
                       blurRadius: 6,
                     ),
                   ],

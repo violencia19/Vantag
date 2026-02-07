@@ -1,8 +1,8 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:vantag/theme/app_theme.dart';
+import 'package:vantag/theme/app_colors.dart';
 
 /// One-time income types
 enum IncomeType {
@@ -18,42 +18,42 @@ enum IncomeType {
   IconData get icon {
     switch (this) {
       case IncomeType.salary:
-        return PhosphorIconsFill.briefcase;
+        return CupertinoIcons.briefcase_fill;
       case IncomeType.bonus:
-        return PhosphorIconsFill.trophy;
+        return CupertinoIcons.rosette;
       case IncomeType.gift:
-        return PhosphorIconsFill.gift;
+        return CupertinoIcons.gift_fill;
       case IncomeType.refund:
-        return PhosphorIconsFill.arrowUUpLeft;
+        return CupertinoIcons.arrow_counterclockwise;
       case IncomeType.freelance:
-        return PhosphorIconsFill.laptop;
+        return CupertinoIcons.desktopcomputer;
       case IncomeType.rental:
-        return PhosphorIconsFill.house;
+        return CupertinoIcons.house_fill;
       case IncomeType.investment:
-        return PhosphorIconsFill.chartLineUp;
+        return CupertinoIcons.chart_bar_fill;
       case IncomeType.other:
-        return PhosphorIconsFill.coins;
+        return CupertinoIcons.money_dollar_circle_fill;
     }
   }
 
   Color get color {
     switch (this) {
       case IncomeType.salary:
-        return AppColors.incomeSalary;
+        return VantColors.incomeSalary;
       case IncomeType.bonus:
-        return AppColors.incomeBonus;
+        return VantColors.incomeBonus;
       case IncomeType.gift:
-        return AppColors.incomeFreelance;
+        return VantColors.incomeFreelance;
       case IncomeType.refund:
-        return AppColors.incomePassive;
+        return VantColors.incomePassive;
       case IncomeType.freelance:
-        return AppColors.incomeRental;
+        return VantColors.incomeRental;
       case IncomeType.rental:
-        return AppColors.incomeSideJob;
+        return VantColors.incomeSideJob;
       case IncomeType.investment:
-        return AppColors.incomeOther;
+        return VantColors.incomeOther;
       case IncomeType.other:
-        return AppColors.incomeDefault;
+        return VantColors.incomeDefault;
     }
   }
 

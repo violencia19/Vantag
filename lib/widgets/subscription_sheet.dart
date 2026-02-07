@@ -1,6 +1,7 @@
+import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -53,9 +54,9 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
   void _showAddEditDialog({Subscription? existing}) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       isScrollControlled: true,
-      backgroundColor: QuietLuxury.background,
+      backgroundColor: context.vantColors.background,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -77,46 +78,53 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
       minChildSize: 0.5,
       maxChildSize: 0.95,
       expand: false,
-      builder: (context, scrollController) => Container(
-        decoration: BoxDecoration(
-          color: QuietLuxury.background,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-          border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
-        ),
-        child: Column(
-          children: [
-            // Handle - Quiet Luxury
-            Padding(
-              padding: const EdgeInsets.only(top: 12),
-              child: Container(
-                width: 36,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: QuietLuxury.textTertiary.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(2),
-                ),
+      builder: (context, scrollController) => ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: VantBlur.heavy, sigmaY: VantBlur.heavy),
+          child: Container(
+            decoration: BoxDecoration(
+              color: context.vantColors.surface.withValues(alpha: 0.95),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+              border: Border.all(
+                color: const Color(0x15FFFFFF),
+                width: 1,
               ),
             ),
+            child: Column(
+              children: [
+                // Handle
+                Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: VantColors.textTertiary.withValues(alpha: 0.3),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
 
-            // Header - Quiet Luxury
+            // Header
             Padding(
-              padding: QuietLuxury.pagePadding,
+              padding: const EdgeInsets.all(20),
               child: Row(
                 children: [
                   Container(
                     width: 44,
                     height: 44,
                     decoration: BoxDecoration(
-                      color: QuietLuxury.textSecondary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12),
+                      color: context.vantColors.textSecondary.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: QuietLuxury.cardBorder,
+                        color: context.vantColors.cardBorder,
                         width: 0.5,
                       ),
                     ),
                     child: Icon(
-                      PhosphorIconsDuotone.calendar,
-                      color: QuietLuxury.textSecondary,
+                      CupertinoIcons.calendar,
+                      color: context.vantColors.textSecondary,
                       size: 20,
                     ),
                   ),
@@ -125,7 +133,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(l10n.subscriptions, style: QuietLuxury.heading),
+                        Text(l10n.subscriptions, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: -0.5, color: Color(0xFFFAFAFA))),
                         const SizedBox(height: 2),
                         Text(
                           l10n.monthlyTotalAmount(
@@ -134,28 +142,28 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                               decimalDigits: 2,
                             ),
                           ),
-                          style: QuietLuxury.label,
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)),
                         ),
                       ],
                     ),
                   ),
-                  // Add button - Quiet Luxury subtle
-                  Pressable(
+                  // Add button
+                  VPressable(
                     onTap: () => _showAddEditDialog(),
                     child: Container(
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: QuietLuxury.positive.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(12),
+                        color: context.vantColors.success.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: QuietLuxury.positive.withValues(alpha: 0.2),
+                          color: context.vantColors.success.withValues(alpha: 0.2),
                           width: 0.5,
                         ),
                       ),
                       child: Icon(
-                        PhosphorIconsDuotone.plus,
-                        color: QuietLuxury.positive,
+                        CupertinoIcons.plus,
+                        color: context.vantColors.success,
                         size: 22,
                       ),
                     ),
@@ -188,7 +196,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
               child: _isLoading
                   ? Center(
                       child: CircularProgressIndicator(
-                        color: QuietLuxury.textSecondary,
+                        color: context.vantColors.textSecondary,
                         strokeWidth: 2,
                       ),
                     )
@@ -196,7 +204,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                   ? _buildEmptyState(l10n)
                   : ListView.builder(
                       controller: scrollController,
-                      padding: QuietLuxury.pagePadding,
+                      padding: const EdgeInsets.all(20),
                       itemCount: _subscriptions.length,
                       itemBuilder: (context, index) {
                         final sub = _subscriptions[index];
@@ -211,6 +219,8 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
           ],
         ),
       ),
+        ),
+      ),
     );
   }
 
@@ -223,33 +233,33 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
             width: 64,
             height: 64,
             decoration: BoxDecoration(
-              color: QuietLuxury.cardBackground,
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
+              color: context.vantColors.cardBackground,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: context.vantColors.cardBorder, width: 0.5),
             ),
             child: Icon(
-              PhosphorIconsDuotone.repeat,
+              CupertinoIcons.repeat,
               size: 26,
-              color: QuietLuxury.textTertiary,
+              color: context.vantColors.textTertiary,
             ),
           ),
           const SizedBox(height: 20),
           Text(
             l10n.noSubscriptionsYet,
-            style: QuietLuxury.heading.copyWith(fontSize: 18),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, letterSpacing: -0.3, color: context.vantColors.textPrimary),
           ),
           const SizedBox(height: 8),
-          Text(l10n.addSubscriptionsLikeNetflix, style: QuietLuxury.subheading),
+          Text(l10n.addSubscriptionsLikeNetflix, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: context.vantColors.textSecondary)),
           const SizedBox(height: 24),
-          Pressable(
+          VPressable(
             onTap: () => _showAddEditDialog(),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
               decoration: BoxDecoration(
-                color: QuietLuxury.positive.withValues(alpha: 0.1),
-                borderRadius: QuietLuxury.buttonRadius,
+                color: context.vantColors.success.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: QuietLuxury.positive.withValues(alpha: 0.2),
+                  color: context.vantColors.success.withValues(alpha: 0.2),
                   width: 0.5,
                 ),
               ),
@@ -257,9 +267,9 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    PhosphorIconsDuotone.plus,
+                    CupertinoIcons.plus,
                     size: 18,
-                    color: QuietLuxury.positive,
+                    color: context.vantColors.success,
                   ),
                   const SizedBox(width: 8),
                   Text(
@@ -267,7 +277,7 @@ class _SubscriptionSheetState extends State<SubscriptionSheet> {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: QuietLuxury.positive,
+                      color: context.vantColors.success,
                     ),
                   ),
                 ],
@@ -299,15 +309,15 @@ class _SubscriptionCard extends StatelessWidget {
     return '${subscription.nextRenewalDate.day}/${subscription.nextRenewalDate.month}';
   }
 
-  Color _getRenewalColor() {
+  Color _getRenewalColor(BuildContext context) {
     final days = subscription.daysUntilRenewal;
-    if (days <= 1) return QuietLuxury.warning;
+    if (days <= 1) return context.vantColors.warning;
     if (days <= 3) {
-      return AppColors.categoryEntertainment.withValues(
+      return VantColors.categoryEntertainment.withValues(
         alpha: 0.7,
       ); // Subtle blue
     }
-    return QuietLuxury.textTertiary;
+    return context.vantColors.textTertiary;
   }
 
   @override
@@ -321,26 +331,23 @@ class _SubscriptionCard extends StatelessWidget {
         return false;
       },
       background: Container(
-        margin: const EdgeInsets.only(bottom: QuietLuxury.cardSpacing),
+        margin: const EdgeInsets.only(bottom: 16.0),
         decoration: BoxDecoration(
-          color: QuietLuxury.negative.withValues(alpha: 0.15),
-          borderRadius: QuietLuxury.cardRadius,
+          color: context.vantColors.error.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(16),
         ),
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 24),
-        child: Icon(PhosphorIconsDuotone.trash, color: QuietLuxury.negative),
+        child: Icon(CupertinoIcons.trash, color: context.vantColors.error),
       ),
-      child: Pressable(
+      child: VPressable(
         onTap: onEdit,
-        child: Container(
-          margin: const EdgeInsets.only(bottom: QuietLuxury.cardSpacing),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: QuietLuxury.cardBackground,
-            borderRadius: QuietLuxury.cardRadius,
-            border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
-          ),
-          child: Row(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: VGlassStyledContainer(
+            padding: const EdgeInsets.all(16),
+            borderRadius: 16,
+            child: Row(
             children: [
               // Icon - Gradient background
               Container(
@@ -351,12 +358,12 @@ class _SubscriptionCard extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      QuietLuxury.textSecondary.withValues(alpha: 0.15),
-                      QuietLuxury.textSecondary.withValues(alpha: 0.05),
+                      context.vantColors.textSecondary.withValues(alpha: 0.15),
+                      context.vantColors.textSecondary.withValues(alpha: 0.05),
                     ],
                   ),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: context.vantColors.cardBorder, width: 0.5),
                 ),
                 child: Center(
                   child: Text(
@@ -377,8 +384,8 @@ class _SubscriptionCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
-                        color: QuietLuxury.textPrimary,
-                        letterSpacing: 0.2,
+                        color: context.vantColors.textPrimary,
+                        letterSpacing: 0,
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -390,28 +397,28 @@ class _SubscriptionCard extends StatelessWidget {
                             vertical: 3,
                           ),
                           decoration: BoxDecoration(
-                            color: QuietLuxury.textTertiary.withValues(
+                            color: context.vantColors.textTertiary.withValues(
                               alpha: 0.1,
                             ),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
                             subscription.category,
-                            style: QuietLuxury.label.copyWith(fontSize: 10),
+                            style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: context.vantColors.textTertiary),
                           ),
                         ),
                         const SizedBox(width: 8),
                         Icon(
-                          PhosphorIconsDuotone.clock,
+                          CupertinoIcons.clock,
                           size: 11,
-                          color: _getRenewalColor(),
+                          color: _getRenewalColor(context),
                         ),
                         const SizedBox(width: 4),
                         Text(
                           _formatNextRenewal(l10n),
                           style: TextStyle(
                             fontSize: 11,
-                            color: _getRenewalColor(),
+                            color: _getRenewalColor(context),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -426,19 +433,20 @@ class _SubscriptionCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '${formatTurkishCurrency(subscription.amount, decimalDigits: 2)} ₺',
+                    context.read<CurrencyProvider>().formatWithDecimals(subscription.amount),
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      letterSpacing: 0.3,
-                      color: QuietLuxury.textPrimary,
+                      letterSpacing: 0,
+                      color: context.vantColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 2),
-                  Text(l10n.perMonth, style: QuietLuxury.label),
+                  Text(l10n.perMonth, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: context.vantColors.textTertiary)),
                 ],
               ),
             ],
+          ),
           ),
         ),
       ),
@@ -464,14 +472,14 @@ class _SubscriptionCard extends StatelessWidget {
   void _showOptionsMenu(BuildContext context, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
-      backgroundColor: QuietLuxury.background,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
+      backgroundColor: context.vantColors.background,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (context) => SafeArea(
         child: Padding(
-          padding: QuietLuxury.pagePadding,
+          padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -479,16 +487,16 @@ class _SubscriptionCard extends StatelessWidget {
                 width: 36,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: QuietLuxury.textTertiary.withValues(alpha: 0.3),
+                  color: context.vantColors.textTertiary.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
               const SizedBox(height: 24),
               _buildMenuTile(
                 context: context,
-                icon: PhosphorIconsDuotone.pencilSimple,
+                icon: CupertinoIcons.pencil,
                 label: l10n.edit,
-                color: AppColors.categoryEntertainment.withValues(
+                color: VantColors.categoryEntertainment.withValues(
                   alpha: 0.7,
                 ), // Subtle blue
                 onTap: () {
@@ -499,9 +507,9 @@ class _SubscriptionCard extends StatelessWidget {
               const SizedBox(height: 12),
               _buildMenuTile(
                 context: context,
-                icon: PhosphorIconsDuotone.trash,
+                icon: CupertinoIcons.trash,
                 label: l10n.delete,
-                color: QuietLuxury.negative,
+                color: context.vantColors.error,
                 onTap: () {
                   Navigator.pop(context);
                   onDelete();
@@ -522,13 +530,13 @@ class _SubscriptionCard extends StatelessWidget {
     required Color color,
     required VoidCallback onTap,
   }) {
-    return Pressable(
+    return VPressable(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: color.withValues(alpha: 0.2), width: 0.5),
         ),
         child: Row(
@@ -644,7 +652,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: context.appColors.error,
+        backgroundColor: context.vantColors.error,
       ),
     );
   }
@@ -671,7 +679,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -684,7 +692,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
             const SizedBox(height: 24),
@@ -695,7 +703,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
             ),
             const SizedBox(height: 8),
@@ -704,13 +712,13 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
               decoration: InputDecoration(
                 hintText: l10n.subscriptionNameHint,
                 filled: true,
-                fillColor: context.appColors.surfaceLight,
+                fillColor: context.vantColors.surfaceLight,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                   borderSide: BorderSide.none,
                 ),
               ),
-              style: TextStyle(color: context.appColors.textPrimary),
+              style: TextStyle(color: context.vantColors.textPrimary),
             ),
             const SizedBox(height: 16),
 
@@ -726,7 +734,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -737,13 +745,13 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                           hintText: '0',
                           suffixText: currencyProvider.code,
                           filled: true,
-                          fillColor: context.appColors.surfaceLight,
+                          fillColor: context.vantColors.surfaceLight,
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                             borderSide: BorderSide.none,
                           ),
                         ),
-                        style: TextStyle(color: context.appColors.textPrimary),
+                        style: TextStyle(color: context.vantColors.textPrimary),
                       ),
                     ],
                   ),
@@ -758,21 +766,21 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 8),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         decoration: BoxDecoration(
-                          color: context.appColors.surfaceLight,
-                          borderRadius: BorderRadius.circular(12),
+                          color: context.vantColors.surfaceLight,
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<int>(
                             value: _renewalDay,
                             isExpanded: true,
-                            dropdownColor: context.appColors.surface,
+                            dropdownColor: context.vantColors.surface,
                             items: List.generate(31, (i) => i + 1)
                                 .map(
                                   (day) => DropdownMenuItem(
@@ -780,7 +788,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                                     child: Text(
                                       l10n.dayOfMonth(day),
                                       style: TextStyle(
-                                        color: context.appColors.textPrimary,
+                                        color: context.vantColors.textPrimary,
                                         fontSize: 14,
                                       ),
                                     ),
@@ -808,21 +816,21 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
             ),
             const SizedBox(height: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                color: context.appColors.surfaceLight,
-                borderRadius: BorderRadius.circular(12),
+                color: context.vantColors.surfaceLight,
+                borderRadius: BorderRadius.circular(16),
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   value: _category,
                   isExpanded: true,
-                  dropdownColor: context.appColors.surface,
+                  dropdownColor: context.vantColors.surface,
                   items: ExpenseCategory.all
                       .map(
                         (cat) => DropdownMenuItem(
@@ -830,7 +838,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                           child: Text(
                             ExpenseCategory.getLocalizedName(cat, l10n),
                             style: TextStyle(
-                              color: context.appColors.textPrimary,
+                              color: context.vantColors.textPrimary,
                             ),
                           ),
                         ),
@@ -866,14 +874,14 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
               child: ElevatedButton(
                 onPressed: _isSaving ? null : _save,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: context.appColors.primary,
-                  foregroundColor: context.appColors.background,
-                  disabledBackgroundColor: context.appColors.primary.withValues(
+                  backgroundColor: context.vantColors.primary,
+                  foregroundColor: context.vantColors.background,
+                  disabledBackgroundColor: context.vantColors.primary.withValues(
                     alpha: 0.5,
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: _isSaving
@@ -883,7 +891,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            context.appColors.background,
+                            context.vantColors.background,
                           ),
                         ),
                       )
@@ -911,8 +919,8 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: context.appColors.surfaceLight,
-        borderRadius: BorderRadius.circular(12),
+        color: context.vantColors.surfaceLight,
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
@@ -925,7 +933,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -933,7 +941,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
                   subtitle,
                   style: TextStyle(
                     fontSize: 12,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                 ),
               ],
@@ -942,8 +950,8 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeTrackColor: context.appColors.primary,
-            activeThumbColor: context.appColors.textPrimary,
+            activeTrackColor: context.vantColors.primary,
+            activeThumbColor: context.vantColors.textPrimary,
           ),
         ],
       ),
@@ -951,7 +959,7 @@ class _AddEditSubscriptionSheetState extends State<_AddEditSubscriptionSheet> {
   }
 }
 
-/// Abonelik Yönetimi Butonu - Quiet Luxury
+/// Abonelik Yönetimi Butonu
 /// Tüm abonelikleri yönetmek için ana ekrana yönlendirir
 class _SubscriptionManageButton extends StatefulWidget {
   final VoidCallback onTap;
@@ -993,27 +1001,22 @@ class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final accentColor = _stats?.statusColor ?? QuietLuxury.textSecondary;
+    final accentColor = _stats?.statusColor ?? context.vantColors.textSecondary;
 
-    return Pressable(
+    return VPressable(
       onTap: () {
         HapticFeedback.lightImpact();
         widget.onTap();
       },
-      child: Container(
+      child: VGlassStyledContainer(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        decoration: BoxDecoration(
-          color: accentColor.withValues(alpha: 0.08),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: accentColor.withValues(alpha: 0.2),
-            width: 0.5,
-          ),
-        ),
+        borderRadius: 16,
+        glowColor: accentColor,
+        glowIntensity: 0.1,
         child: Row(
           children: [
             // Icon
-            Icon(PhosphorIconsDuotone.calendar, size: 20, color: accentColor),
+            Icon(CupertinoIcons.calendar, size: 20, color: accentColor),
             const SizedBox(width: 12),
 
             // Text
@@ -1027,7 +1030,7 @@ class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: accentColor,
-                      letterSpacing: 0.2,
+                      letterSpacing: 0,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -1040,7 +1043,7 @@ class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
                             _stats!.totalMonthlyCost.toStringAsFixed(0),
                           )
                         : l10n.viewSubscriptionsInCalendar,
-                    style: QuietLuxury.label,
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: context.vantColors.textTertiary),
                   ),
                 ],
               ),
@@ -1048,7 +1051,7 @@ class _SubscriptionManageButtonState extends State<_SubscriptionManageButton> {
 
             // Arrow
             Icon(
-              PhosphorIconsDuotone.caretRight,
+              CupertinoIcons.chevron_right,
               size: 12,
               color: accentColor.withValues(alpha: 0.5),
             ),

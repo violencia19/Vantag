@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:file_picker/file_picker.dart';
@@ -17,7 +17,6 @@ import '../providers/pro_provider.dart';
 import '../services/achievements_service.dart';
 import '../services/tour_service.dart';
 import '../services/export_service.dart';
-import '../services/import_service.dart';
 import '../services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../theme/theme.dart';
@@ -113,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SnackBar(
             content: Text(l10n.exportSuccess),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
           ),
         );
       }
@@ -123,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SnackBar(
             content: Text('${l10n.exportError}: $e'),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
           ),
         );
       }
@@ -144,8 +143,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
-      backgroundColor: context.appColors.cardBackground,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
+      backgroundColor: context.vantColors.cardBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -160,16 +159,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      context.appColors.primary.withValues(alpha: 0.2),
-                      context.appColors.secondary.withValues(alpha: 0.2),
+                      context.vantColors.primary.withValues(alpha: 0.2),
+                      context.vantColors.primaryLight.withValues(alpha: 0.2),
                     ],
                   ),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
-                  PhosphorIconsDuotone.crown,
+                  CupertinoIcons.star_fill,
                   size: 48,
-                  color: context.appColors.warning,
+                  color: context.vantColors.warning,
                 ),
               ),
               const SizedBox(height: 16),
@@ -178,7 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -187,7 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 subtitle,
                 style: TextStyle(
                   fontSize: 14,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -205,11 +204,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: context.appColors.primary,
-                    foregroundColor: context.appColors.textPrimary,
+                    backgroundColor: context.vantColors.primary,
+                    foregroundColor: context.vantColors.textPrimary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
                   child: Text(l10n.upgradeToPro),
@@ -220,7 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onPressed: () => Navigator.pop(context),
                 child: Text(
                   l10n.cancel,
-                  style: TextStyle(color: context.appColors.textSecondary),
+                  style: TextStyle(color: context.vantColors.textSecondary),
                 ),
               ),
             ],
@@ -247,7 +246,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         SnackBar(
           content: Text(l10n.importError),
           behavior: SnackBarBehavior.floating,
-          backgroundColor: context.appColors.error,
+          backgroundColor: context.vantColors.error,
         ),
       );
       return;
@@ -280,7 +279,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SnackBar(
             content: Text(parseResult.error!),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
           ),
         );
         return;
@@ -291,7 +290,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SnackBar(
             content: Text(l10n.importNoTransactions),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: context.appColors.warning,
+            backgroundColor: context.vantColors.warning,
           ),
         );
         return;
@@ -305,7 +304,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SnackBar(
             content: Text('${l10n.importError}: $e'),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
           ),
         );
       }
@@ -323,8 +322,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
-      backgroundColor: context.appColors.surface,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
+      backgroundColor: context.vantColors.surface,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -349,7 +348,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 4,
                   margin: const EdgeInsets.only(top: 12, bottom: 16),
                   decoration: BoxDecoration(
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -363,9 +362,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           Icon(
                             isPDF
-                                ? PhosphorIconsDuotone.filePdf
-                                : PhosphorIconsDuotone.fileText,
-                            color: context.appColors.primary,
+                                ? CupertinoIcons.doc_fill
+                                : CupertinoIcons.doc_text_fill,
+                            color: context.vantColors.primary,
                             size: 28,
                           ),
                           const SizedBox(width: 12),
@@ -378,7 +377,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w700,
-                                    color: context.appColors.textPrimary,
+                                    color: context.vantColors.textPrimary,
                                   ),
                                 ),
                                 if (result.bankName != null)
@@ -386,7 +385,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     result.bankName!,
                                     style: TextStyle(
                                       fontSize: 13,
-                                      color: context.appColors.textSecondary,
+                                      color: context.vantColors.textSecondary,
                                     ),
                                   ),
                               ],
@@ -398,7 +397,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: context.appColors.success.withValues(
+                              color: context.vantColors.success.withValues(
                                 alpha: 0.15,
                               ),
                               borderRadius: BorderRadius.circular(8),
@@ -408,7 +407,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
-                                color: context.appColors.success,
+                                color: context.vantColors.success,
                               ),
                             ),
                           ),
@@ -443,7 +442,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               '${selected.length} ${l10n.selected}',
                               style: TextStyle(
                                 fontSize: 13,
-                                color: context.appColors.textSecondary,
+                                color: context.vantColors.textSecondary,
                               ),
                             ),
                           ],
@@ -453,7 +452,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
 
-                Divider(color: context.appColors.cardBorder),
+                Divider(color: context.vantColors.cardBorder),
 
                 // Transaction list
                 Expanded(
@@ -482,14 +481,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? context.appColors.primary.withValues(
+                                  ? context.vantColors.primary.withValues(
                                       alpha: 0.1,
                                     )
-                                  : context.appColors.surfaceLight,
-                              borderRadius: BorderRadius.circular(10),
+                                  : context.vantColors.surfaceLight,
+                              borderRadius: BorderRadius.circular(8),
                               border: Border.all(
                                 color: isSelected
-                                    ? context.appColors.primary
+                                    ? context.vantColors.primary
                                     : Colors.transparent,
                                 width: 1.5,
                               ),
@@ -499,11 +498,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 // Checkbox
                                 Icon(
                                   isSelected
-                                      ? PhosphorIconsFill.checkCircle
-                                      : PhosphorIconsRegular.circle,
+                                      ? CupertinoIcons.checkmark_circle_fill
+                                      : CupertinoIcons.circle,
                                   color: isSelected
-                                      ? context.appColors.primary
-                                      : context.appColors.textTertiary,
+                                      ? context.vantColors.primary
+                                      : context.vantColors.textTertiary,
                                   size: 22,
                                 ),
                                 const SizedBox(width: 12),
@@ -519,7 +518,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
-                                          color: context.appColors.textPrimary,
+                                          color: context.vantColors.textPrimary,
                                         ),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -532,7 +531,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: context
-                                                  .appColors
+                                                  .vantColors
                                                   .textSecondary,
                                             ),
                                           ),
@@ -540,7 +539,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             ' • ',
                                             style: TextStyle(
                                               color: context
-                                                  .appColors
+                                                  .vantColors
                                                   .textTertiary,
                                             ),
                                           ),
@@ -549,7 +548,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: context
-                                                  .appColors
+                                                  .vantColors
                                                   .textTertiary,
                                             ),
                                           ),
@@ -561,11 +560,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                                 // Amount
                                 Text(
-                                  '₺${t.amount.toStringAsFixed(2)}',
+                                  context.read<CurrencyProvider>().formatWithDecimals(t.amount),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w700,
-                                    color: context.appColors.error,
+                                    color: context.vantColors.error,
                                   ),
                                 ),
                               ],
@@ -609,7 +608,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             ),
                                             behavior: SnackBarBehavior.floating,
                                             backgroundColor:
-                                                context.appColors.success,
+                                                context.vantColors.success,
                                           ),
                                         );
                                       }
@@ -624,7 +623,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                     )
                                   : const Icon(
-                                      PhosphorIconsRegular.floppyDisk,
+                                      CupertinoIcons.floppy_disk,
                                       size: 20,
                                     ),
                               label: Text(
@@ -633,13 +632,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     : l10n.importSelected(selected.length),
                               ),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: context.appColors.primary,
+                                backgroundColor: context.vantColors.primary,
                                 foregroundColor: Colors.white,
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 14,
                                 ),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                               ),
                             ),
@@ -686,299 +685,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  void _showImportSummary(
-    AppLocalizations l10n,
-    ImportResult result,
-    String userId,
-  ) {
-    showModalBottomSheet(
-      context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
-      backgroundColor: context.appColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        final ValueNotifier<bool> isSaving = ValueNotifier(false);
-
-        return StatefulBuilder(
-          builder: (context, setSheetState) => SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Handle
-                  Container(
-                    width: 40,
-                    height: 4,
-                    margin: const EdgeInsets.only(bottom: 20),
-                    decoration: BoxDecoration(
-                      color: context.appColors.textTertiary,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-
-                  // Title
-                  Text(
-                    l10n.importSummary,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: context.appColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Stats
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildImportStat(
-                        icon: PhosphorIconsDuotone.checkCircle,
-                        color: context.appColors.success,
-                        count: result.recognized.length,
-                        label: l10n.autoMatched,
-                      ),
-                      _buildImportStat(
-                        icon: PhosphorIconsDuotone.warningCircle,
-                        color: context.appColors.warning,
-                        count: result.needsReviewCount,
-                        label: l10n.needsReview,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Errors (if any)
-                  if (result.errors.isNotEmpty) ...[
-                    Text(
-                      '${result.errors.length} errors during import',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: context.appColors.error,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-
-                  // Save All Recognized button (if there are recognized items)
-                  if (result.recognized.isNotEmpty) ...[
-                    ValueListenableBuilder<bool>(
-                      valueListenable: isSaving,
-                      builder: (context, saving, _) => SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton.icon(
-                          onPressed: saving
-                              ? null
-                              : () async {
-                                  isSaving.value = true;
-                                  await _saveRecognizedExpenses(
-                                    result.recognized,
-                                  );
-                                  if (context.mounted) {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          l10n.saveAllRecognizedSuccess(
-                                            result.recognized.length,
-                                          ),
-                                        ),
-                                        behavior: SnackBarBehavior.floating,
-                                        backgroundColor:
-                                            context.appColors.success,
-                                      ),
-                                    );
-                                    // If there are pending items, open review sheet
-                                    if (result.needsReviewCount > 0) {
-                                      final allPending = [
-                                        ...result.suggestions,
-                                        ...result.pending,
-                                      ];
-                                      PendingReviewSheet.show(
-                                        context,
-                                        expenses: allPending,
-                                        userId: userId,
-                                      );
-                                    }
-                                  }
-                                },
-                          icon: saving
-                              ? SizedBox(
-                                  width: 18,
-                                  height: 18,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : PhosphorIcon(
-                                  PhosphorIconsRegular.floppyDisk,
-                                  size: 18,
-                                ),
-                          label: Text(
-                            l10n.saveAllRecognized(result.recognized.length),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: context.appColors.success,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                  ],
-
-                  // Action buttons
-                  Row(
-                    children: [
-                      // Close button
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () => Navigator.pop(context),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            side: BorderSide(
-                              color: context.appColors.cardBorder,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: Text(
-                            l10n.close,
-                            style: TextStyle(
-                              color: context.appColors.textSecondary,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      // Review button (if there are pending items and no recognized)
-                      if (result.needsReviewCount > 0 &&
-                          result.recognized.isEmpty) ...[
-                        const SizedBox(width: 12),
-                        Expanded(
-                          flex: 2,
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              // Open review sheet
-                              final allPending = [
-                                ...result.suggestions,
-                                ...result.pending,
-                              ];
-                              PendingReviewSheet.show(
-                                context,
-                                expenses: allPending,
-                                userId: userId,
-                              );
-                            },
-                            icon: PhosphorIcon(
-                              PhosphorIconsRegular.magnifyingGlass,
-                              size: 18,
-                            ),
-                            label: Text(l10n.startReview),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: context.appColors.primary,
-                              foregroundColor: context.appColors.textPrimary,
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildImportStat({
-    required IconData icon,
-    required Color color,
-    required int count,
-    required String label,
-  }) {
-    return Column(
-      children: [
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.1),
-            shape: BoxShape.circle,
-          ),
-          child: Center(child: PhosphorIcon(icon, size: 28, color: color)),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          count.toString(),
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: color,
-          ),
-        ),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: context.appColors.textSecondary,
-          ),
-        ),
-      ],
-    );
-  }
-
-  /// Save all auto-matched expenses from import
-  Future<void> _saveRecognizedExpenses(List<ParsedExpense> recognized) async {
-    final financeProvider = context.read<FinanceProvider>();
-
-    // Simplified hourly rate calculation
-    final userProfile = financeProvider.userProfile;
-    final hourlyRate = userProfile != null
-        ? (userProfile.monthlyIncome /
-              (userProfile.dailyHours * userProfile.workDaysPerWeek * 4))
-        : 50.0;
-
-    for (final expense in recognized) {
-      final hoursRequired = expense.amount / hourlyRate;
-      final daysRequired = hoursRequired / 8.0;
-
-      final newExpense = Expense(
-        amount: expense.amount,
-        category: expense.effectiveCategory ?? 'Diğer',
-        subCategory: expense.effectiveDisplayName ?? expense.rawDescription,
-        date: expense.date,
-        hoursRequired: hoursRequired,
-        daysRequired: daysRequired,
-        decision: ExpenseDecision.yes,
-      );
-      await financeProvider.addExpense(newExpense);
-    }
-  }
-
   void _showLanguageSelector() {
     final localeProvider = context.read<LocaleProvider>();
     final currentLocale = Localizations.localeOf(context);
 
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
-      backgroundColor: context.appColors.surface,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
+      backgroundColor: context.vantColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -993,7 +707,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 4,
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -1033,14 +747,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       title: Text(
         name,
         style: TextStyle(
-          color: context.appColors.textPrimary,
+          color: context.vantColors.textPrimary,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
         ),
       ),
       trailing: isSelected
           ? Icon(
-              PhosphorIconsDuotone.checkCircle,
-              color: context.appColors.primary,
+              CupertinoIcons.checkmark_circle_fill,
+              color: context.vantColors.primary,
             )
           : null,
       onTap: () async {
@@ -1057,7 +771,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     final confirmed = await showDialog<bool>(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       barrierDismissible: false,
       builder: (context) =>
           _DeleteAccountDialog(confirmWord: confirmWord, l10n: l10n),
@@ -1070,9 +784,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: Colors.black.withOpacity(0.85),
+        barrierColor: Colors.black.withValues(alpha: 0.85),
         builder: (ctx) => Center(
-          child: CircularProgressIndicator(color: ctx.appColors.primary),
+          child: CircularProgressIndicator(color: ctx.vantColors.primary),
         ),
       );
 
@@ -1087,7 +801,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(result.errorMessage ?? l10n.deleteAccountError),
-                backgroundColor: context.appColors.error,
+                backgroundColor: context.vantColors.error,
               ),
             );
           }
@@ -1112,7 +826,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.deleteAccountSuccess),
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
           ),
         );
 
@@ -1127,7 +841,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(l10n.deleteAccountError),
-              backgroundColor: context.appColors.error,
+              backgroundColor: context.vantColors.error,
             ),
           );
         }
@@ -1171,10 +885,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // Show achievement unlocked dialog
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       builder: (context) => AlertDialog(
-        backgroundColor: context.appColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: context.vantColors.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1185,27 +899,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    context.appColors.warning.withValues(alpha: 0.3),
-                    context.appColors.primary.withValues(alpha: 0.3),
+                    context.vantColors.warning.withValues(alpha: 0.3),
+                    context.vantColors.primary.withValues(alpha: 0.3),
                   ],
                 ),
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: context.appColors.warning.withValues(alpha: 0.4),
+                    color: context.vantColors.warning.withValues(alpha: 0.4),
                     blurRadius: 20,
                     spreadRadius: -5,
                   ),
                 ],
               ),
               child: Center(
-                child: PhosphorIcon(
-                  PhosphorIconsDuotone.smileyWink,
+                child: Icon(
+                  CupertinoIcons.smiley,
                   size: 40,
-                  color: context.appColors.warning,
-                  duotoneSecondaryColor: context.appColors.warning.withValues(
-                    alpha: 0.4,
-                  ),
+                  color: context.vantColors.warning,
                 ),
               ),
             ),
@@ -1214,7 +925,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               l10n.achievementUnlocked,
               style: TextStyle(
                 fontSize: 14,
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -1224,7 +935,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
             const SizedBox(height: 8),
@@ -1233,7 +944,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
             ),
             const SizedBox(height: 24),
@@ -1242,11 +953,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: context.appColors.primary,
-                  foregroundColor: context.appColors.textPrimary,
+                  backgroundColor: context.vantColors.primary,
+                  foregroundColor: context.vantColors.textPrimary,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: Text(l10n.great),
@@ -1263,15 +974,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: context.appColors.background,
+      backgroundColor: context.vantColors.background,
       appBar: AppBar(
-        backgroundColor: context.appColors.background,
+        backgroundColor: context.vantColors.background,
         title: Text(
           l10n.profile,
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.w700,
-            color: context.appColors.textPrimary,
+            color: context.vantColors.textPrimary,
           ),
         ),
       ),
@@ -1322,7 +1033,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         const SizedBox(height: 8),
         Text(
           l10n.tapToAddPhoto,
-          style: TextStyle(fontSize: 12, color: context.appColors.textTertiary),
+          style: TextStyle(fontSize: 12, color: context.vantColors.textTertiary),
         ),
         const SizedBox(height: 20),
 
@@ -1331,7 +1042,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Expanded(
               child: _buildCompactInfoCard(
-                icon: PhosphorIconsDuotone.wallet,
+                icon: CupertinoIcons.creditcard_fill,
                 title: l10n.monthlyIncome,
                 value: formatTurkishCurrency(
                   _userProfile.monthlyIncome,
@@ -1342,7 +1053,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: _buildCompactInfoCard(
-                icon: PhosphorIconsDuotone.clock,
+                icon: CupertinoIcons.clock_fill,
                 title: l10n.dailyWork,
                 value:
                     '${_userProfile.dailyHours.toStringAsFixed(0)} ${l10n.hours}',
@@ -1355,7 +1066,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Expanded(
               child: _buildCompactInfoCard(
-                icon: PhosphorIconsDuotone.calendarBlank,
+                icon: CupertinoIcons.calendar,
                 title: l10n.weeklyWorkingDays,
                 value: '${_userProfile.workDaysPerWeek} ${l10n.days}',
               ),
@@ -1363,7 +1074,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: _buildCompactInfoCard(
-                icon: PhosphorIconsDuotone.trendUp,
+                icon: CupertinoIcons.arrow_up_right,
                 title: l10n.hourlyEarnings,
                 value:
                     '${formatTurkishCurrency(_calculateHourlyWage(), decimalDigits: 2)}/${l10n.hourAbbreviation}',
@@ -1380,7 +1091,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Edit Photo button
             Expanded(
               child: _buildQuickActionButton(
-                icon: PhosphorIconsDuotone.camera,
+                icon: CupertinoIcons.camera_fill,
                 label: l10n.changePhoto,
                 onTap: () => _showPhotoOptions(l10n),
               ),
@@ -1389,7 +1100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Edit Income button
             Expanded(
               child: _buildQuickActionButton(
-                icon: PhosphorIconsDuotone.wallet,
+                icon: CupertinoIcons.creditcard_fill,
                 label: l10n.editIncome,
                 onTap: _editProfile,
               ),
@@ -1398,7 +1109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Add Income Source button
             Expanded(
               child: _buildQuickActionButton(
-                icon: PhosphorIconsDuotone.plusCircle,
+                icon: CupertinoIcons.plus_circle_fill,
                 label: l10n.addIncome,
                 onTap: _editProfile,
                 highlight: true,
@@ -1421,27 +1132,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       button: true,
       child: GestureDetector(
         onTap: onTap,
-        child: Container(
+        child: VGlassStyledContainer(
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-          decoration: BoxDecoration(
-            color: highlight
-                ? context.appColors.primary.withValues(alpha: 0.15)
-                : context.appColors.surface,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: highlight
-                  ? context.appColors.primary.withValues(alpha: 0.3)
-                  : context.appColors.cardBorder,
-            ),
-          ),
+          borderRadius: 16,
+          glowColor: highlight ? context.vantColors.primary : null,
+          glowIntensity: highlight ? 0.15 : 0.0,
           child: Column(
             children: [
               Icon(
                 icon,
                 size: 22,
                 color: highlight
-                    ? context.appColors.primary
-                    : context.appColors.textSecondary,
+                    ? context.vantColors.primary
+                    : context.vantColors.textSecondary,
               ),
               const SizedBox(height: 6),
               Text(
@@ -1450,8 +1153,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                   color: highlight
-                      ? context.appColors.primary
-                      : context.appColors.textSecondary,
+                      ? context.vantColors.primary
+                      : context.vantColors.textSecondary,
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 1,
@@ -1467,8 +1170,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _showPhotoOptions(AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
-      backgroundColor: context.appColors.cardBackground,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
+      backgroundColor: context.vantColors.cardBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -1480,8 +1183,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               ListTile(
                 leading: Icon(
-                  PhosphorIconsDuotone.camera,
-                  color: context.appColors.primary,
+                  CupertinoIcons.camera_fill,
+                  color: context.vantColors.primary,
                 ),
                 title: Text(l10n.takePhoto),
                 onTap: () {
@@ -1491,8 +1194,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               ListTile(
                 leading: Icon(
-                  PhosphorIconsDuotone.image,
-                  color: context.appColors.primary,
+                  CupertinoIcons.photo_fill,
+                  color: context.vantColors.primary,
                 ),
                 title: Text(l10n.chooseFromGallery),
                 onTap: () {
@@ -1516,17 +1219,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Localizations.localeOf(context).languageCode;
     final currentLangName = currentLangCode == 'tr' ? 'Türkçe' : 'English';
 
-    return Container(
-      decoration: BoxDecoration(
-        color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
-      ),
+    return VGlassStyledContainer(
+      padding: EdgeInsets.zero,
+      borderRadius: 16,
       child: Column(
         children: [
           _buildListTile(
-            icon: PhosphorIconsDuotone.bell,
-            iconColor: AppColors.categoryEntertainment,
+            icon: CupertinoIcons.bell_fill,
+            iconColor: VantColors.categoryEntertainment,
             title: l10n.notificationSettings,
             onTap: () {
               Navigator.push(
@@ -1539,8 +1239,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           _buildDivider(),
           _buildListTile(
-            icon: PhosphorIconsDuotone.compass,
-            iconColor: AppColors.categoryShopping,
+            icon: CupertinoIcons.compass_fill,
+            iconColor: VantColors.categoryShopping,
             title: l10n.repeatTour,
             onTap: () async {
               await TourService.resetTour();
@@ -1551,8 +1251,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           _buildDivider(),
           _buildListTile(
-            icon: PhosphorIconsDuotone.globe,
-            iconColor: AppColors.categoryHealth,
+            icon: CupertinoIcons.globe,
+            iconColor: VantColors.categoryHealth,
             title: l10n.language,
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -1560,16 +1260,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Text(
                   currentLangName,
                   style: TextStyle(
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(width: 4),
                 Icon(
-                  PhosphorIconsDuotone.caretRight,
+                  CupertinoIcons.chevron_right,
                   size: 18,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ],
             ),
@@ -1592,8 +1292,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final currency = currencyProvider.currency;
 
     return _buildListTile(
-      icon: PhosphorIconsDuotone.currencyCircleDollar,
-      iconColor: AppColors.achievementStreak,
+      icon: CupertinoIcons.money_dollar_circle_fill,
+      iconColor: VantColors.achievementStreak,
       title: l10n.currency,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -1603,16 +1303,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Text(
             currency.code,
             style: TextStyle(
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
           ),
           const SizedBox(width: 4),
           Icon(
-            PhosphorIconsDuotone.caretRight,
+            CupertinoIcons.chevron_right,
             size: 18,
-            color: context.appColors.textTertiary,
+            color: context.vantColors.textTertiary,
           ),
         ],
       ),
@@ -1626,8 +1326,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final isPro = proProvider.isPro;
 
     return _buildListTile(
-      icon: PhosphorIconsDuotone.fileXls,
-      iconColor: AppColors.premiumGreen,
+      icon: CupertinoIcons.doc_chart_fill,
+      iconColor: VantColors.premiumGreen,
       title: l10n.exportToExcel,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -1638,7 +1338,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 18,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
               ),
             )
           else if (!isPro)
@@ -1647,8 +1347,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    context.appColors.primary.withValues(alpha: 0.2),
-                    context.appColors.secondary.withValues(alpha: 0.2),
+                    context.vantColors.primary.withValues(alpha: 0.2),
+                    context.vantColors.primaryLight.withValues(alpha: 0.2),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(6),
@@ -1658,15 +1358,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ),
             )
           else
             Icon(
-              PhosphorIconsDuotone.caretRight,
+              CupertinoIcons.chevron_right,
               size: 18,
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
             ),
         ],
       ),
@@ -1680,8 +1380,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final isPro = proProvider.isPro;
 
     return _buildListTile(
-      icon: PhosphorIconsDuotone.downloadSimple,
-      iconColor: AppColors.categoryEntertainment,
+      icon: CupertinoIcons.arrow_down_circle_fill,
+      iconColor: VantColors.categoryEntertainment,
       title: l10n.importStatement,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -1692,7 +1392,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 18,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
               ),
             )
           else if (!isPro)
@@ -1701,8 +1401,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    context.appColors.primary.withValues(alpha: 0.2),
-                    context.appColors.secondary.withValues(alpha: 0.2),
+                    context.vantColors.primary.withValues(alpha: 0.2),
+                    context.vantColors.primaryLight.withValues(alpha: 0.2),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(6),
@@ -1712,15 +1412,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.primary,
+                  color: context.vantColors.primary,
                 ),
               ),
             )
           else
             Icon(
-              PhosphorIconsDuotone.caretRight,
+              CupertinoIcons.chevron_right,
               size: 18,
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
             ),
         ],
       ),
@@ -1744,36 +1444,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ? 'https://violencia19.github.io/Vantag/terms-tr'
         : 'https://violencia19.github.io/Vantag/terms-en';
 
-    return Container(
-      decoration: BoxDecoration(
-        color: context.appColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appColors.cardBorder),
-      ),
+    return VGlassStyledContainer(
+      padding: EdgeInsets.zero,
+      borderRadius: 16,
       child: Column(
         children: [
           _buildListTile(
-            icon: PhosphorIconsDuotone.shieldCheck,
-            iconColor: AppColors.secondary,
+            icon: CupertinoIcons.shield_fill,
+            iconColor: VantColors.primary,
             title: l10n.privacyPolicy,
             onTap: () => launchUrl(Uri.parse(privacyUrl)),
           ),
           _buildDivider(),
           _buildListTile(
-            icon: PhosphorIconsDuotone.fileText,
-            iconColor: AppColors.categoryEducation,
+            icon: CupertinoIcons.doc_text_fill,
+            iconColor: VantColors.categoryEducation,
             title: l10n.termsOfService,
             onTap: () => launchUrl(Uri.parse(termsUrl)),
           ),
           _buildDivider(),
           _buildListTile(
-            icon: PhosphorIconsDuotone.info,
-            iconColor: AppColors.categoryOther,
+            icon: CupertinoIcons.info_circle_fill,
+            iconColor: VantColors.categoryOther,
             title: l10n.appVersion,
             trailing: Text(
               '1.0.0',
               style: TextStyle(
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
@@ -1788,19 +1485,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   // ==================== DANGER ZONE ====================
   Widget _buildDangerSection(AppLocalizations l10n) {
-    return Container(
-      decoration: BoxDecoration(
-        color: context.appColors.error.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: context.appColors.error.withValues(alpha: 0.4),
-        ),
-      ),
+    return VGlassStyledContainer(
+      padding: EdgeInsets.zero,
+      borderRadius: 16,
+      glowColor: context.vantColors.error,
+      glowIntensity: 0.15,
       child: _buildListTile(
-        icon: PhosphorIconsDuotone.userMinus,
-        iconColor: context.appColors.error,
+        icon: CupertinoIcons.person_badge_minus_fill,
+        iconColor: context.vantColors.error,
         title: l10n.deleteAccount,
-        titleColor: context.appColors.error,
+        titleColor: context.vantColors.error,
         showArrow: false,
         onTap: _deleteAccount,
       ),
@@ -1816,10 +1510,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          letterSpacing: 1.2,
+          letterSpacing: 1.0,
           color: isDestructive
-              ? context.appColors.error
-              : context.appColors.textTertiary,
+              ? context.vantColors.error
+              : context.vantColors.textTertiary,
         ),
       ),
     );
@@ -1831,19 +1525,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required String value,
     bool highlight = false,
   }) {
-    return Container(
+    return VGlassStyledContainer(
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: highlight
-            ? context.appColors.primary.withValues(alpha: 0.1)
-            : context.appColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: highlight
-              ? context.appColors.primary.withValues(alpha: 0.3)
-              : context.appColors.cardBorder,
-        ),
-      ),
+      borderRadius: 16,
+      glowColor: highlight ? context.vantColors.primary : null,
+      glowIntensity: highlight ? 0.15 : 0.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1853,8 +1539,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 icon,
                 size: 18,
                 color: highlight
-                    ? context.appColors.primary
-                    : context.appColors.textTertiary,
+                    ? context.vantColors.primary
+                    : context.vantColors.textTertiary,
               ),
               const SizedBox(width: 6),
               Expanded(
@@ -1862,7 +1548,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   title,
                   style: TextStyle(
                     fontSize: 11,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -1876,8 +1562,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               fontSize: 15,
               fontWeight: FontWeight.w600,
               color: highlight
-                  ? context.appColors.primary
-                  : context.appColors.textPrimary,
+                  ? context.vantColors.primary
+                  : context.vantColors.textPrimary,
             ),
           ),
         ],
@@ -1902,7 +1588,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
@@ -1912,7 +1598,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 36,
                   decoration: BoxDecoration(
                     color: iconColor.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(icon, size: 20, color: iconColor),
                 ),
@@ -1923,16 +1609,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: titleColor ?? context.appColors.textPrimary,
+                      color: titleColor ?? context.vantColors.textPrimary,
                     ),
                   ),
                 ),
                 if (trailing != null) trailing,
                 if (showArrow && trailing == null)
                   Icon(
-                    PhosphorIconsDuotone.caretRight,
+                    CupertinoIcons.chevron_right,
                     size: 18,
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                   ),
               ],
             ),
@@ -1945,7 +1631,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildDivider() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Divider(height: 1, color: context.appColors.cardBorder),
+      child: Divider(height: 1, color: context.vantColors.cardBorder),
     );
   }
 }
@@ -1989,8 +1675,8 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
     final l10n = widget.l10n;
 
     return AlertDialog(
-      backgroundColor: context.appColors.surface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      backgroundColor: context.vantColors.surface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -2000,12 +1686,12 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             width: 64,
             height: 64,
             decoration: BoxDecoration(
-              color: context.appColors.error.withValues(alpha: 0.15),
+              color: context.vantColors.error.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
-              PhosphorIconsDuotone.warning,
-              color: context.appColors.error,
+              CupertinoIcons.exclamationmark_triangle_fill,
+              color: context.vantColors.error,
               size: 32,
             ),
           ),
@@ -2017,7 +1703,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -2028,7 +1714,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             l10n.deleteAccountWarningMessage,
             style: TextStyle(
               fontSize: 14,
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
               height: 1.5,
             ),
             textAlign: TextAlign.center,
@@ -2041,23 +1727,23 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             decoration: InputDecoration(
               hintText: l10n.deleteAccountConfirmPlaceholder,
               hintStyle: TextStyle(
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
                 fontSize: 14,
               ),
               filled: true,
-              fillColor: context.appColors.background,
+              fillColor: context.vantColors.background,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.appColors.cardBorder),
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(color: context.vantColors.cardBorder),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.appColors.cardBorder),
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(color: context.vantColors.cardBorder),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 borderSide: BorderSide(
-                  color: context.appColors.error,
+                  color: context.vantColors.error,
                   width: 2,
                 ),
               ),
@@ -2067,7 +1753,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
               ),
             ),
             style: TextStyle(
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
               fontSize: 14,
             ),
             textAlign: TextAlign.center,
@@ -2079,7 +1765,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
             '"${widget.confirmWord}"',
             style: TextStyle(
               fontSize: 12,
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
               fontStyle: FontStyle.italic,
             ),
           ),
@@ -2094,13 +1780,13 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                   style: TextButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
                   child: Text(
                     l10n.cancel,
                     style: TextStyle(
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
@@ -2114,16 +1800,16 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
                       ? () => Navigator.pop(context, true)
                       : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: context.appColors.error,
-                    foregroundColor: context.appColors.textPrimary,
-                    disabledBackgroundColor: context.appColors.error.withValues(
+                    backgroundColor: context.vantColors.error,
+                    foregroundColor: context.vantColors.textPrimary,
+                    disabledBackgroundColor: context.vantColors.error.withValues(
                       alpha: 0.3,
                     ),
-                    disabledForegroundColor: context.appColors.textPrimary
+                    disabledForegroundColor: context.vantColors.textPrimary
                         .withValues(alpha: 0.5),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     elevation: 0,
                   ),

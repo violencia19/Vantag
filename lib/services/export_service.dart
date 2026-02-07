@@ -4,16 +4,18 @@ import 'package:flutter/services.dart';
 import 'package:excel/excel.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
+import '../providers/currency_provider.dart';
 import 'services.dart';
 
 /// Premium Excel Export Service
 /// 6 sheet'li detaylı profesyonel finansal rapor oluşturur
 class ExportService {
   // Styling constants
-  static const _headerColor = '#8B5CF6'; // Mor
+  static const _headerColor = '#5F4A8B'; // Deep Purple
   static const _headerTextColor = '#FFFFFF';
   static const _positiveColor = '#10B981'; // Yeşil
   static const _negativeColor = '#EF4444'; // Kırmızı
@@ -21,9 +23,15 @@ class ExportService {
   static const _alternateRowColor = '#F8FAFC';
   static const _titleColor = '#6366F1'; // Indigo
 
+  // Currency provider for locale-aware formatting
+  late CurrencyProvider _currencyProvider;
+  late String _locale;
+
   /// Excel dosyası oluştur ve paylaş
   Future<File?> exportToExcel(BuildContext context) async {
     final l10n = AppLocalizations.of(context);
+    _currencyProvider = context.read<CurrencyProvider>();
+    _locale = Localizations.localeOf(context).languageCode;
 
     try {
       // Verileri topla
@@ -220,7 +228,7 @@ class ExportService {
       _setCell(
         sheet,
         'A$row',
-        DateFormat('dd/MM/yyyy').format(expense.date),
+        _formatDate(expense.date),
         bgColor: isAlternate ? _alternateRowColor : null,
       );
 
@@ -405,7 +413,7 @@ class ExportService {
     _setCell(
       sheet,
       'A4',
-      '${l10n.excelReportGeneratedAt}: ${DateFormat('dd.MM.yyyy HH:mm').format(DateTime.now())}',
+      '${l10n.excelReportGeneratedAt}: ${_formatDateTime(DateTime.now())}',
     );
 
     // Calculate period
@@ -421,8 +429,8 @@ class ExportService {
     }
 
     if (firstDate != null && lastDate != null) {
-      final periodStart = DateFormat('dd.MM.yyyy').format(firstDate);
-      final periodEnd = DateFormat('dd.MM.yyyy').format(lastDate);
+      final periodStart = _formatDate(firstDate);
+      final periodEnd = _formatDate(lastDate);
       _setCell(
         sheet,
         'A5',
@@ -1214,9 +1222,7 @@ class ExportService {
       _setCell(
         sheet,
         'G$row',
-        DateFormat(
-          'dd.MM.yyyy',
-        ).format(expense.installmentStartDate ?? expense.date),
+        _formatDate(expense.installmentStartDate ?? expense.date),
         bgColor: isAlternate ? _alternateRowColor : null,
       );
 
@@ -1362,8 +1368,23 @@ class ExportService {
   }
 
   String _formatCurrency(double value) {
-    final formatter = NumberFormat('#,##0.00', 'tr');
-    return '${formatter.format(value)} ₺';
+    return _currencyProvider.formatWithDecimals(value, decimalDigits: 2);
+  }
+
+  /// Locale-aware date format: US = MM/dd/yyyy, TR = dd.MM.yyyy
+  String _formatDate(DateTime date) {
+    if (_locale == 'tr') {
+      return DateFormat('dd.MM.yyyy').format(date);
+    }
+    return DateFormat('MM/dd/yyyy').format(date);
+  }
+
+  /// Locale-aware datetime format
+  String _formatDateTime(DateTime date) {
+    if (_locale == 'tr') {
+      return DateFormat('dd.MM.yyyy HH:mm').format(date);
+    }
+    return DateFormat('MM/dd/yyyy HH:mm').format(date);
   }
 
   ExcelColor _hexToExcelColor(String hex) {

@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 
@@ -14,7 +14,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
     HapticFeedback.mediumImpact();
     showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withValues(alpha: 0.85),
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (_) => const MultiCurrencyProSheet(),
@@ -27,7 +27,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: SafeArea(
@@ -41,7 +41,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -56,8 +56,8 @@ class MultiCurrencyProSheet extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      context.appColors.gold.withValues(alpha: 0.2),
-                      context.appColors.gold.withValues(alpha: 0.1),
+                      context.vantColors.gold.withValues(alpha: 0.2),
+                      context.vantColors.gold.withValues(alpha: 0.1),
                     ],
                   ),
                   shape: BoxShape.circle,
@@ -66,9 +66,9 @@ class MultiCurrencyProSheet extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     Icon(
-                      PhosphorIconsDuotone.lock,
+                      CupertinoIcons.lock_fill,
                       size: 36,
-                      color: context.appColors.gold,
+                      color: context.vantColors.gold,
                     ),
                     Positioned(
                       top: 8,
@@ -76,13 +76,13 @@ class MultiCurrencyProSheet extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                          color: context.appColors.gold,
+                          color: context.vantColors.gold,
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          PhosphorIconsFill.crown,
+                          CupertinoIcons.star_fill,
                           size: 14,
-                          color: context.appColors.background,
+                          color: context.vantColors.background,
                         ),
                       ),
                     ),
@@ -97,7 +97,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -108,7 +108,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
                 l10n.multiCurrencyProDescription,
                 style: TextStyle(
                   fontSize: 14,
-                  color: context.appColors.textSecondary,
+                  color: context.vantColors.textSecondary,
                   height: 1.5,
                 ),
                 textAlign: TextAlign.center,
@@ -116,7 +116,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
               const SizedBox(height: 24),
 
               // Divider
-              Divider(color: context.appColors.cardBorder),
+              Divider(color: context.vantColors.cardBorder),
               const SizedBox(height: 16),
 
               // PRO benefits title
@@ -127,7 +127,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
               ),
@@ -136,32 +136,32 @@ class MultiCurrencyProSheet extends StatelessWidget {
               // Benefits list
               _buildBenefitRow(
                 context,
-                PhosphorIconsDuotone.currencyCircleDollar,
+                CupertinoIcons.money_dollar_circle,
                 l10n.multiCurrencyBenefit,
               ),
               _buildBenefitRow(
                 context,
-                PhosphorIconsDuotone.chatCircle,
+                CupertinoIcons.chat_bubble_2,
                 l10n.unlimitedAiChat,
               ),
               _buildBenefitRow(
                 context,
-                PhosphorIconsDuotone.target,
+                CupertinoIcons.scope,
                 l10n.unlimitedPursuits,
               ),
               _buildBenefitRow(
                 context,
-                PhosphorIconsDuotone.export,
+                CupertinoIcons.square_arrow_up,
                 l10n.exportFeature,
               ),
               _buildBenefitRow(
                 context,
-                PhosphorIconsDuotone.chartBar,
+                CupertinoIcons.chart_bar,
                 l10n.fullReports,
               ),
               _buildBenefitRow(
                 context,
-                PhosphorIconsDuotone.shareFat,
+                CupertinoIcons.share,
                 l10n.cleanShareCards,
               ),
 
@@ -174,14 +174,14 @@ class MultiCurrencyProSheet extends StatelessWidget {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        context.appColors.primary,
-                        context.appColors.primaryDark,
+                        context.vantColors.primary,
+                        context.vantColors.primaryDark,
                       ],
                     ),
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: context.appColors.primary.withValues(alpha: 0.3),
+                        color: context.vantColors.primary.withValues(alpha: 0.3),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -205,9 +205,9 @@ class MultiCurrencyProSheet extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          PhosphorIconsDuotone.crown,
+                          CupertinoIcons.star_fill,
                           size: 20,
-                          color: context.appColors.gold,
+                          color: context.vantColors.gold,
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -230,7 +230,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
                 child: Text(
                   l10n.maybeLater,
                   style: TextStyle(
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -250,10 +250,10 @@ class MultiCurrencyProSheet extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: context.appColors.success.withValues(alpha: 0.15),
+              color: context.vantColors.success.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, size: 18, color: context.appColors.success),
+            child: Icon(icon, size: 18, color: context.vantColors.success),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -261,7 +261,7 @@ class MultiCurrencyProSheet extends StatelessWidget {
               text,
               style: TextStyle(
                 fontSize: 14,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
             ),
           ),

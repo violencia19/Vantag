@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
@@ -124,7 +124,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context).paydayCelebration),
-          backgroundColor: context.appColors.success,
+          backgroundColor: context.vantColors.success,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -135,7 +135,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error: $e'),
-          backgroundColor: context.appColors.error,
+          backgroundColor: context.vantColors.error,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -164,9 +164,9 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
           child: Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: context.appColors.surface,
+              color: context.vantColors.surface,
               borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: context.appColors.cardBorder),
+              border: Border.all(color: context.vantColors.cardBorder),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -181,13 +181,13 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                     width: 80,
                     height: 80,
                     decoration: BoxDecoration(
-                      color: context.appColors.success.withValues(alpha: 0.15),
+                      color: context.vantColors.success.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(24),
                     ),
                     child: Icon(
-                      PhosphorIconsDuotone.confetti,
+                      CupertinoIcons.gift_fill,
                       size: 40,
-                      color: context.appColors.success,
+                      color: context.vantColors.success,
                     ),
                   ),
                 ),
@@ -199,7 +199,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -210,7 +210,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -222,7 +222,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -236,7 +236,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
@@ -244,12 +244,12 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                       hintStyle: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
-                        color: context.appColors.textTertiary,
+                        color: context.vantColors.textTertiary,
                       ),
                       filled: true,
-                      fillColor: context.appColors.surfaceLight,
+                      fillColor: context.vantColors.surfaceLight,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: const EdgeInsets.symmetric(
@@ -260,7 +260,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                       prefixStyle: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                   ),
@@ -278,16 +278,16 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                         vertical: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: context.appColors.surfaceLight,
-                        borderRadius: BorderRadius.circular(12),
+                        color: context.vantColors.surfaceLight,
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            PhosphorIconsFill.pencilSimple,
+                            CupertinoIcons.pencil,
                             size: 18,
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                           const SizedBox(width: 8),
                           Text(
@@ -295,7 +295,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: context.appColors.textSecondary,
+                              color: context.vantColors.textSecondary,
                             ),
                           ),
                         ],
@@ -311,11 +311,11 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : _confirmSalary,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: context.appColors.success,
+                      backgroundColor: context.vantColors.success,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                     child: _isLoading
@@ -330,7 +330,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(PhosphorIconsBold.check, size: 20),
+                              const Icon(CupertinoIcons.checkmark_alt, size: 20),
                               const SizedBox(width: 8),
                               Text(
                                 l10n.paydayConfirm,
@@ -353,7 +353,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: context.appColors.textTertiary,
+                      color: context.vantColors.textTertiary,
                     ),
                   ),
                 ),

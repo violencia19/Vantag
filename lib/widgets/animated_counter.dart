@@ -239,7 +239,7 @@ class AnimatedTimeCounter extends StatelessWidget {
                     TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
               ),
               TextSpan(
@@ -249,7 +249,7 @@ class AnimatedTimeCounter extends StatelessWidget {
                     TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                     ),
               ),
             ],
@@ -601,7 +601,7 @@ class _FlipNumberTickerState extends State<FlipNumberTicker> {
         Theme.of(
           context,
         ).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold);
-    final bgColor = widget.backgroundColor ?? context.appColors.cardBackground;
+    final bgColor = widget.backgroundColor ?? context.vantColors.cardBackground;
 
     // Pad to same length
     final maxLen = math.max(_currentValue.length, _oldValue.length);

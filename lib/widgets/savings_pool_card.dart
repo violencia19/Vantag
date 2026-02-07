@@ -34,7 +34,7 @@ class SavingsPoolCard extends StatelessWidget {
     return Container(
       height: 80,
       decoration: BoxDecoration(
-        color: context.appColors.surface,
+        color: context.vantColors.surface,
         borderRadius: BorderRadius.circular(16),
       ),
       child: const Center(
@@ -64,19 +64,19 @@ class SavingsPoolCard extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: hasDebt
               ? [
-                  context.appColors.error.withValues(alpha: 0.15),
-                  context.appColors.error.withValues(alpha: 0.05),
+                  context.vantColors.error.withValues(alpha: 0.15),
+                  context.vantColors.error.withValues(alpha: 0.05),
                 ]
               : [
-                  context.appColors.primary.withValues(alpha: 0.15),
-                  context.appColors.primary.withValues(alpha: 0.05),
+                  context.vantColors.primary.withValues(alpha: 0.15),
+                  context.vantColors.primary.withValues(alpha: 0.05),
                 ],
         ),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: hasDebt
-              ? context.appColors.error.withValues(alpha: 0.3)
-              : context.appColors.primary.withValues(alpha: 0.3),
+              ? context.vantColors.error.withValues(alpha: 0.3)
+              : context.vantColors.primary.withValues(alpha: 0.3),
         ),
       ),
       child: Row(
@@ -87,9 +87,9 @@ class SavingsPoolCard extends StatelessWidget {
             height: 36,
             decoration: BoxDecoration(
               color: hasDebt
-                  ? context.appColors.error.withValues(alpha: 0.15)
-                  : context.appColors.primary.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(10),
+                  ? context.vantColors.error.withValues(alpha: 0.15)
+                  : context.vantColors.primary.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Center(
               child: Text(
@@ -110,7 +110,7 @@ class SavingsPoolCard extends StatelessWidget {
                   l10n.savingsPool,
                   style: TextStyle(
                     fontSize: 12,
-                    color: context.appColors.textSecondary,
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -124,8 +124,8 @@ class SavingsPoolCard extends StatelessWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: hasDebt
-                            ? context.appColors.error
-                            : context.appColors.textPrimary,
+                            ? context.vantColors.error
+                            : context.vantColors.textPrimary,
                       ),
                     ),
                     const SizedBox(width: 6),
@@ -136,8 +136,8 @@ class SavingsPoolCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 13,
                         color: hasDebt
-                            ? context.appColors.error
-                            : context.appColors.textSecondary,
+                            ? context.vantColors.error
+                            : context.vantColors.textSecondary,
                       ),
                     ),
                   ],
@@ -166,19 +166,19 @@ class SavingsPoolCard extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: hasDebt
               ? [
-                  context.appColors.error.withValues(alpha: 0.1),
-                  context.appColors.surface,
+                  context.vantColors.error.withValues(alpha: 0.1),
+                  context.vantColors.surface,
                 ]
               : [
-                  context.appColors.primary.withValues(alpha: 0.1),
-                  context.appColors.surface,
+                  context.vantColors.primary.withValues(alpha: 0.1),
+                  context.vantColors.surface,
                 ],
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: hasDebt
-              ? context.appColors.error.withValues(alpha: 0.2)
-              : context.appColors.cardBorder,
+              ? context.vantColors.error.withValues(alpha: 0.2)
+              : context.vantColors.cardBorder,
         ),
       ),
       child: Column(
@@ -194,7 +194,7 @@ class SavingsPoolCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
             ],
@@ -208,7 +208,7 @@ class SavingsPoolCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w800,
-                color: context.appColors.error,
+                color: context.vantColors.error,
               ),
             ),
             const SizedBox(height: 4),
@@ -218,7 +218,7 @@ class SavingsPoolCard extends StatelessWidget {
               ),
               style: TextStyle(
                 fontSize: 13,
-                color: context.appColors.error.withValues(alpha: 0.8),
+                color: context.vantColors.error.withValues(alpha: 0.8),
               ),
             ),
           ] else ...[
@@ -227,7 +227,7 @@ class SavingsPoolCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w800,
-                color: context.appColors.textPrimary,
+                color: context.vantColors.textPrimary,
               ),
             ),
             const SizedBox(height: 4),
@@ -235,7 +235,7 @@ class SavingsPoolCard extends StatelessWidget {
               l10n.savingsPoolAvailable,
               style: TextStyle(
                 fontSize: 13,
-                color: context.appColors.textSecondary,
+                color: context.vantColors.textSecondary,
               ),
             ),
           ],
@@ -246,8 +246,8 @@ class SavingsPoolCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: context.appColors.surfaceLight.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(12),
+              color: context.vantColors.surfaceLight.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
               children: [
@@ -255,14 +255,14 @@ class SavingsPoolCard extends StatelessWidget {
                   context,
                   l10n.poolSummaryTotal,
                   '$symbol${formatTurkishCurrency(pool.totalSaved, decimalDigits: 0, showDecimals: false)}',
-                  context.appColors.textPrimary,
+                  context.vantColors.textPrimary,
                 ),
                 const SizedBox(height: 8),
                 _buildBreakdownRow(
                   context,
                   l10n.poolSummaryAllocated,
                   '-$symbol${formatTurkishCurrency(pool.allocatedToDreams, decimalDigits: 0, showDecimals: false)}',
-                  context.appColors.primary,
+                  context.vantColors.primary,
                 ),
                 if (hasDebt) ...[
                   const SizedBox(height: 8),
@@ -270,17 +270,17 @@ class SavingsPoolCard extends StatelessWidget {
                     context,
                     'Borç',
                     '-$symbol${formatTurkishCurrency(pool.shadowDebt, decimalDigits: 0, showDecimals: false)}',
-                    context.appColors.error,
+                    context.vantColors.error,
                   ),
                 ],
-                Divider(height: 16, color: context.appColors.cardBorder),
+                Divider(height: 16, color: context.vantColors.cardBorder),
                 _buildBreakdownRow(
                   context,
                   l10n.poolSummaryAvailable,
                   hasDebt
                       ? '-$symbol${formatTurkishCurrency(pool.shadowDebt, decimalDigits: 0, showDecimals: false)}'
                       : '$symbol${formatTurkishCurrency(pool.available, decimalDigits: 0, showDecimals: false)}',
-                  hasDebt ? context.appColors.error : context.appColors.success,
+                  hasDebt ? context.vantColors.error : context.vantColors.success,
                   isBold: true,
                 ),
               ],
@@ -305,7 +305,7 @@ class SavingsPoolCard extends StatelessWidget {
           label,
           style: TextStyle(
             fontSize: 13,
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
             fontWeight: isBold ? FontWeight.w600 : FontWeight.w400,
           ),
         ),

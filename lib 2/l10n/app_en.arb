@@ -1,0 +1,3280 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Vantag",
+  "appSlogan": "Your Financial Edge",
+
+  "navExpenses": "Expenses",
+  "navReports": "Reports",
+  "navAchievements": "Achievements",
+  "navProfile": "Profile",
+  "navSettings": "Settings",
+
+  "profile": "Profile",
+  "profileSavedTime": "Time Saved with Vantag",
+  "profileHours": "{hours} Hours",
+  "@profileHours": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "profileMemberSince": "Member Since",
+  "profileDays": "{days} Days",
+  "@profileDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "profileBadgesEarned": "Badges Earned",
+  "profileGoogleConnected": "Google Account Connected",
+  "profileGoogleNotConnected": "Google Account Not Connected",
+  "profileSignOut": "Sign Out",
+  "profileSignOutConfirm": "Are you sure you want to sign out?",
+  "proMember": "Pro Member",
+  "proMemberToast": "You are a Pro Member ✓",
+
+  "settingsGeneral": "General",
+  "settingsCurrency": "Currency",
+  "settingsLanguage": "Language",
+  "settingsTheme": "Theme",
+  "settingsThemeDark": "Dark",
+  "settingsThemeLight": "Light",
+  "settingsThemeAutomatic": "Automatic",
+
+  "simpleMode": "Simple Mode",
+  "simpleModeDescription": "Streamlined experience with essential features only",
+  "simpleModeEnabled": "Simple mode is enabled",
+  "simpleModeDisabled": "Simple mode is disabled",
+  "simpleModeHint": "Turn off Simple Mode to access all features like AI chat, achievements, and pursuits",
+
+  "simpleTransactions": "Transactions",
+  "simpleStatistics": "Statistics",
+  "simpleSettings": "Settings",
+  "simpleIncome": "Income",
+  "simpleExpense": "Expense",
+  "simpleExpenses": "Expenses",
+  "simpleBalance": "Balance",
+  "simpleTotal": "Total",
+  "simpleTotalIncome": "Total Income",
+  "simpleIncomeTab": "Income",
+  "simpleIncomeSources": "Income Sources",
+  "simpleNoTransactions": "No transactions this month",
+  "simpleNoData": "No data for this month",
+
+  "settingsNotifications": "Notifications",
+  "settingsReminders": "Reminders",
+
+  "settingsSoundEffects": "Sound Effects",
+  "settingsSoundVolume": "Volume",
+
+  "settingsProPurchases": "Pro & Purchases",
+  "settingsVantagPro": "Vantag Pro",
+  "settingsRestorePurchases": "Restore Purchases",
+  "settingsRestoreSuccess": "Purchases restored",
+  "settingsRestoreNone": "No purchases to restore",
+
+  "settingsDataPrivacy": "Data & Privacy",
+  "settingsExportData": "Export Data",
+  "settingsImportStatement": "Import Statement",
+  "settingsImportStatementDesc": "Upload your bank statement (PDF/CSV)",
+
+  "importStatementTitle": "Import Statement",
+  "importStatementSelectFile": "Select File",
+  "importStatementSupportedFormats": "Supported formats: PDF, CSV",
+  "importStatementDragDrop": "Tap to select your bank statement",
+  "importStatementProcessing": "Processing statement...",
+  "importStatementSuccess": "Successfully imported {count} transactions",
+  "@importStatementSuccess": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importStatementError": "Error importing statement",
+  "importStatementNoTransactions": "No transactions found in statement",
+  "importStatementUnsupportedFormat": "Unsupported file format",
+  "importStatementMonthlyLimit": "{remaining} imports remaining this month",
+  "@importStatementMonthlyLimit": {
+    "placeholders": {
+      "remaining": {"type": "int"}
+    }
+  },
+  "importStatementLimitReached": "Monthly import limit reached",
+  "importStatementLimitReachedDesc": "You've used all your imports for this month. Upgrade to Pro for more imports.",
+  "importStatementProLimit": "10 imports/month",
+  "importStatementFreeLimit": "1 import/month",
+  "importStatementReviewTitle": "Review Transactions",
+  "importStatementReviewDesc": "Select transactions to import",
+  "importStatementImportSelected": "Import Selected ({count})",
+  "@importStatementImportSelected": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importStatementSelectAll": "Select All",
+  "importStatementDeselectAll": "Deselect All",
+
+  "settingsPrivacyPolicy": "Privacy Policy",
+
+  "settingsAbout": "About",
+  "settingsVersion": "Version",
+  "settingsContactUs": "Contact Us",
+
+  "settingsGrowth": "Invite & get 3 days Premium free!",
+  "settingsInviteFriends": "Invite Friends",
+  "settingsInviteMessage": "I'm tracking my expenses with Vantag! You should try it too:",
+
+  "dashboard": "Dashboard",
+  "totalBalance": "Total Balance",
+  "monthlyIncome": "Monthly Income",
+  "totalIncome": "Total Income",
+  "totalSpent": "Total Spent",
+  "totalSaved": "Total Saved",
+  "workHours": "Work Hours",
+  "workDays": "Work Days",
+
+  "expenses": "Expenses",
+  "addExpense": "Add Expense",
+  "amount": "Amount",
+  "amountTL": "Amount (₺)",
+  "category": "Category",
+  "description": "Description",
+  "descriptionHint": "e.g: Migros, Spotify, Shell...",
+  "descriptionLabel": "Description (Store/Product)",
+  "date": "Date",
+  "today": "Today",
+
+  "weekdayMon": "Mon",
+  "weekdayTue": "Tue",
+  "weekdayWed": "Wed",
+  "weekdayThu": "Thu",
+  "weekdayFri": "Fri",
+  "weekdaySat": "Sat",
+  "weekdaySun": "Sun",
+
+  "monthJan": "January",
+  "monthFeb": "February",
+  "monthMar": "March",
+  "monthApr": "April",
+  "monthMay": "May",
+  "monthJun": "June",
+  "monthJul": "July",
+  "monthAug": "August",
+  "monthSep": "September",
+  "monthOct": "October",
+  "monthNov": "November",
+  "monthDec": "December",
+  "yesterday": "Yesterday",
+  "twoDaysAgo": "2 Days Ago",
+  "daysAgo": "{count} Days Ago",
+  "@daysAgo": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "bought": "Bought",
+  "thinking": "Thinking",
+  "passed": "Passed",
+  "cancel": "Cancel",
+  "ok": "OK",
+  "save": "Save",
+  "delete": "Delete",
+  "edit": "Edit",
+  "change": "Change",
+  "close": "Close",
+  "update": "Update",
+  "calculate": "Calculate",
+  "giveUp": "Give Up",
+  "select": "Select",
+  "decision": "Decision",
+
+  "hoursRequired": "{hours} hours",
+  "@hoursRequired": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "daysRequired": "{days} days",
+  "@daysRequired": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "minutesRequired": "{minutes} minutes",
+  "@minutesRequired": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "hoursEquivalent": "{hours} hours equivalent",
+  "@hoursEquivalent": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+
+  "profile": "Profile",
+  "editProfile": "Edit Profile",
+  "settings": "Settings",
+  "language": "Language",
+  "selectLanguage": "Select Language",
+  "selectCurrency": "Select Currency",
+  "currency": "Currency",
+  "turkish": "Turkish",
+  "english": "English",
+
+  "incomeInfo": "Income Information",
+  "dailyWorkHours": "Daily Work Hours",
+  "weeklyWorkDays": "Weekly Work Days",
+  "workingDaysPerWeek": "Working {count} days per week",
+  "@workingDaysPerWeek": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "hours": "hours",
+  "incomeSources": "{count} sources",
+  "@incomeSources": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "detailedEntry": "Detailed Entry",
+
+  "googleAccount": "Google Account",
+  "googleLinked": "Google Linked",
+  "googleNotLinked": "Google Not Linked",
+  "linkWithGoogle": "Link with Google",
+  "linking": "Linking...",
+  "backupAndSecure": "Backup and secure your data",
+  "dataNotBackedUp": "Your data is not backed up",
+  "googleLinkedSuccess": "Google account linked successfully!",
+  "googleLinkFailed": "Failed to link Google account",
+
+  "appleAccount": "Apple Account",
+  "appleLinked": "Apple Linked",
+  "appleNotLinked": "Apple Not Linked",
+  "linkWithApple": "Link with Apple",
+  "profileAppleConnected": "Apple Account Connected",
+  "profileAppleNotConnected": "Apple Account Not Connected",
+  "appleLinkedSuccess": "Apple account linked successfully!",
+  "appleLinkFailed": "Failed to link Apple account",
+  "appleSignInNotAvailable": "Apple Sign In is not available on this device",
+
+  "editWorkHours": "Work Hours",
+  "editWorkHoursSubtitle": "Your daily work hours for time calculations",
+  "hoursPerDay": "{hours} hours/day",
+  "@hoursPerDay": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "workHoursUpdated": "Work hours updated",
+
+  "freeCurrencyNote": "Free users can only use TRY. Upgrade to Pro for all currencies.",
+  "currencyLockNote": "Selected currency will be locked. Pro users can change anytime.",
+
+  "welcome": "Welcome",
+  "welcomeSubtitle": "Enter your information to measure expenses in time",
+  "getStarted": "Get Started",
+
+  "offlineMode": "Offline mode - Data will be synced",
+  "noInternet": "No Internet Connection",
+  "offline": "Offline",
+  "offlineMessage": "Data will sync when connection is restored",
+  "backOnline": "Back Online",
+  "dataSynced": "Data synced successfully",
+
+  "reports": "Reports",
+  "monthlyReport": "Monthly Report",
+  "categoryReport": "Category Report",
+  "thisMonth": "This Month",
+  "lastMonth": "Last Month",
+  "thisWeek": "This Week",
+  "allTime": "All Time",
+
+  "achievements": "Achievements",
+  "badges": "Badges",
+  "progress": "Progress",
+  "unlocked": "Unlocked",
+  "locked": "Locked",
+
+  "streak": "Streak",
+  "currentStreak": "Current Streak",
+  "bestStreak": "Best Streak",
+  "streakDays": "{count} days",
+  "@streakDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "subscriptions": "Subscriptions",
+  "subscriptionsDescription": "Track your recurring subscriptions like Netflix, Spotify here.",
+  "addSubscription": "Add Subscription",
+  "monthlyTotal": "Monthly Total",
+  "yearlyTotal": "Yearly Total",
+  "nextPayment": "Next Payment",
+  "renewalWarning": "Renewal in {days} days",
+  "@renewalWarning": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "activeSubscriptions": "{count} active subscriptions",
+  "@activeSubscriptions": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "monthlySubscriptions": "Monthly Subscriptions",
+
+  "habitCalculator": "Habit Calculator",
+  "selectHabit": "Select a Habit",
+  "enterAmount": "Enter Amount",
+  "dailyAmount": "Daily Amount",
+  "yearlyCost": "Yearly Cost",
+  "workDaysEquivalent": "Work Days Equivalent",
+  "shareResult": "Share Result",
+  "habitQuestion": "How many days does your habit cost?",
+  "calculateAndShock": "Calculate and be shocked →",
+
+  "appTour": "App Tour",
+  "repeatTour": "Repeat App Tour",
+  "tourCompleted": "Tour Completed",
+
+  "notifications": "Notifications",
+  "notificationSettings": "Notification Settings",
+  "streakReminder": "Streak Reminder",
+  "weeklyInsights": "Weekly Insights",
+
+  "error": "Error",
+  "success": "Success",
+  "warning": "Warning",
+  "info": "Info",
+  "retry": "Retry",
+  "loading": "Loading...",
+
+  "noData": "No data available",
+  "noExpenses": "No expenses yet",
+  "noExpensesHint": "Enter an amount above to start",
+  "noAchievements": "No achievements yet",
+  "recordToEarnBadge": "Record expenses to earn badges",
+  "notEnoughDataForReports": "Not enough data for reports",
+
+  "confirmDelete": "Are you sure you want to delete?",
+  "deleteConfirmation": "This action cannot be undone.",
+
+  "categoryFood": "Food",
+  "categoryTransport": "Transport",
+  "categoryEntertainment": "Entertainment",
+  "categoryShopping": "Shopping",
+  "categoryBills": "Bills",
+  "categoryHealth": "Health",
+  "categoryEducation": "Education",
+  "categoryDigital": "Digital",
+  "categoryOther": "Other",
+  "categoryClothing": "Clothing",
+  "categoryElectronics": "Electronics",
+  "categorySubscription": "Subscription",
+
+  "weekdayMonday": "Monday",
+  "weekdayTuesday": "Tuesday",
+  "weekdayWednesday": "Wednesday",
+  "weekdayThursday": "Thursday",
+  "weekdayFriday": "Friday",
+  "weekdaySaturday": "Saturday",
+  "weekdaySunday": "Sunday",
+
+  "shareTitle": "Check out my savings with Vantag!",
+  "shareMessage": "I saved {amount} TL this month with Vantag!",
+  "@shareMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "currencyRates": "Currency Rates",
+  "currencyRatesDescription": "Current USD, EUR and gold prices. Tap for details.",
+  "gold": "Gold",
+  "dollar": "Dollar",
+  "euro": "Euro",
+
+  "moneySavedInPocket": "Money stayed in your pocket!",
+  "greatDecision": "Great decision!",
+  "freedomCloser": "Money stayed in pocket, you're {hours} closer to freedom!",
+  "@freedomCloser": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+
+  "version": "Version",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service",
+  "about": "About",
+  "dangerZone": "Danger Zone",
+  "appVersion": "App Version",
+  "signOut": "Sign Out",
+  "deleteAccount": "Delete Account",
+
+  "greetingMorning": "Good morning",
+  "greetingAfternoon": "Good afternoon",
+  "greetingEvening": "Good evening",
+
+  "financialStatus": "Financial Status",
+  "financialSummary": "Financial Summary",
+  "financialSummaryDescription": "Your monthly income, expenses and saved money here. All data updates in real-time.",
+
+  "newExpense": "New Expense",
+  "editExpense": "Edit Expense",
+  "deleteExpense": "Delete Expense",
+  "deleteExpenseConfirm": "Are you sure you want to delete this expense?",
+  "updateExpense": "Update",
+  "expenseHistory": "History",
+  "recordCount": "{count} records",
+  "@recordCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "recordCountLimited": "{shown} of {total} records",
+  "@recordCountLimited": {
+    "placeholders": {
+      "shown": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "unlockFullHistory": "Unlock Full History",
+  "proHistoryDescription": "Access all {count} expenses with Pro. Filter, search, and export your complete financial history.",
+  "@proHistoryDescription": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "upgradeToPro": "Upgrade to Pro",
+
+  "streakTracking": "Streak Tracking",
+  "streakTrackingDescription": "Your streak increases with daily entries. Regular tracking is key to mindful spending!",
+
+  "pastDateSelection": "Past Date Selection",
+  "pastDateSelectionDescription": "You can also enter expenses from yesterday or previous days. Tap the calendar icon to select any date.",
+
+  "amountEntry": "Amount Entry",
+  "amountEntryDescription": "Enter the expense amount here. Use the receipt scan button to read from receipt automatically.",
+
+  "smartMatching": "Smart Matching",
+  "smartMatchingDescription": "Type the store or product name. Migros, A101, Starbucks... The app will automatically suggest a category!",
+
+  "categorySelection": "Category Selection",
+  "categorySelectionDescription": "If smart matching doesn't find it or you want to change, you can manually select here.",
+
+  "selectCategory": "Select category",
+  "autoSelected": "Auto-selected: {category}",
+  "@autoSelected": {
+    "placeholders": {
+      "category": {"type": "String"}
+    }
+  },
+  "pleaseSelectCategory": "Please select a category for this expense",
+
+  "subCategoryOptional": "Sub-category (optional)",
+  "recentlyUsed": "Recently used",
+  "suggestions": "Suggestions",
+
+  "scanReceipt": "Scan receipt",
+  "cameraCapture": "Capture with camera",
+  "selectFromGallery": "Select from gallery",
+  "amountFound": "Amount found: {amount} ₺",
+  "@amountFound": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "amountNotFound": "Amount not found. Enter manually.",
+  "scanError": "Scan error. Try again.",
+
+  "selectExpenseDate": "Select Expense Date",
+
+  "decisionUpdatedBought": "Decision updated: Bought",
+  "decisionSaved": "You passed, saved {amount} TL!",
+  "@decisionSaved": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "keepThinking": "Keep thinking",
+
+  "expenseUpdated": "Expense updated",
+
+  "validationEnterAmount": "Please enter a valid amount",
+  "validationAmountPositive": "Amount must be greater than 0",
+  "validationAmountTooHigh": "Amount seems too high",
+
+  "simulationSaved": "Saved as Simulation",
+  "simulationDescription": "This amount was saved as simulation because it's large.",
+  "simulationInfo": "Does not affect your statistics, just for reference.",
+  "understood": "Got it",
+  "largeAmountTitle": "Large Amount",
+  "largeAmountMessage": "Is this a real expense or a simulation?",
+  "realExpenseButton": "Real Expense",
+  "simulationButton": "Simulation",
+
+  "monthJanuary": "January",
+  "monthFebruary": "February",
+  "monthMarch": "March",
+  "monthApril": "April",
+  "monthMay": "May",
+  "monthJune": "June",
+  "monthJuly": "July",
+  "monthAugust": "August",
+  "monthSeptember": "September",
+  "monthOctober": "October",
+  "monthNovember": "November",
+  "monthDecember": "December",
+
+  "categoryDistribution": "Category Distribution",
+  "moreCategories": "+{count} more categories",
+  "@moreCategories": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "expenseCount": "Expense Count",
+  "boughtPassed": "{bought} bought, {passed} passed",
+  "@boughtPassed": {
+    "placeholders": {
+      "bought": {"type": "int"},
+      "passed": {"type": "int"}
+    }
+  },
+
+  "passRate": "Pass Rate",
+  "doingGreat": "You're doing great!",
+  "canDoBetter": "You can do better",
+
+  "statistics": "Statistics",
+  "avgDailyExpense": "Average Daily Expense",
+  "highestSingleExpense": "Highest Single Expense",
+  "mostDeclinedCategory": "Most Declined Category",
+  "times": "{count} times",
+  "@times": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "trend": "Trend",
+  "trendSpentThisPeriod": "You spent {amount} TL this {period}",
+  "@trendSpentThisPeriod": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "period": {"type": "String"}
+    }
+  },
+  "trendSameAsPrevious": "Same spending as last {period}",
+  "@trendSameAsPrevious": {
+    "placeholders": {
+      "period": {"type": "String"}
+    }
+  },
+  "trendSpentLess": "You spent {percent}% less than last {period}",
+  "@trendSpentLess": {
+    "placeholders": {
+      "percent": {"type": "String"},
+      "period": {"type": "String"}
+    }
+  },
+  "trendSpentMore": "You spent {percent}% more than last {period}",
+  "@trendSpentMore": {
+    "placeholders": {
+      "percent": {"type": "String"},
+      "period": {"type": "String"}
+    }
+  },
+  "periodWeek": "week",
+  "periodMonth": "month",
+
+  "subCategoryDetail": "Sub-Category Detail",
+  "comparedToPrevious": "Compared to previous period",
+  "increased": "increased",
+  "decreased": "decreased",
+  "subCategoryChange": "This {period} your {subCategory} spending {changeText} by {percent}% compared to last {previousPeriod}.",
+  "@subCategoryChange": {
+    "placeholders": {
+      "period": {"type": "String"},
+      "subCategory": {"type": "String"},
+      "changeText": {"type": "String"},
+      "percent": {"type": "String"},
+      "previousPeriod": {"type": "String"}
+    }
+  },
+
+  "listView": "List View",
+  "calendarView": "Calendar View",
+  "subscription": "subscription",
+  "workDaysPerMonth": "work days/month",
+  "everyMonthDay": "Every {day}th of month",
+  "@everyMonthDay": {
+    "placeholders": {
+      "day": {"type": "int"}
+    }
+  },
+  "noSubscriptionsYet": "No subscriptions yet",
+  "addSubscriptionsLikeNetflix": "Add your subscriptions like Netflix, Spotify",
+  "monthlyTotalAmount": "Monthly total: {amount} TL",
+  "@monthlyTotalAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "dayOfMonth": "Every {day}th",
+  "@dayOfMonth": {
+    "placeholders": {
+      "day": {"type": "int"}
+    }
+  },
+  "addSubscriptionHint": "Press + button to add a new subscription",
+  "tomorrow": "Tomorrow",
+  "daysLater": "in {days} days",
+  "@daysLater": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "perMonth": "/month",
+  "enterSubscriptionName": "Enter subscription name",
+  "enterValidAmount": "Enter a valid amount",
+  "editSubscription": "Edit Subscription",
+  "newSubscription": "New Subscription",
+  "subscriptionName": "Subscription Name",
+  "subscriptionNameHint": "Netflix, Spotify...",
+  "monthlyAmount": "Monthly Amount",
+  "renewalDay": "Renewal Day",
+  "active": "Active",
+  "passivesNotIncluded": "Passive subscriptions not included in notifications",
+  "autoRecord": "Auto Record",
+  "autoRecordDescription": "Create expense record on renewal",
+  "add": "Add",
+  "subscriptionCount": "{count} subscriptions, {amount} ₺/month",
+  "@subscriptionCount": {
+    "placeholders": {
+      "count": {"type": "int"},
+      "amount": {"type": "String"}
+    }
+  },
+  "viewSubscriptionsInCalendar": "View your subscriptions in calendar",
+
+  "urgentRenewalWarning": "Urgent Renewal Warning!",
+  "upcomingRenewals": "Upcoming Renewals",
+  "renewsWithinOneHour": "{name} - renews within 1 hour",
+  "@renewsWithinOneHour": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "renewsWithinHours": "{name} - in {hours} hours",
+  "@renewsWithinHours": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "hours": {"type": "int"}
+    }
+  },
+  "renewsToday": "{name} - renews today",
+  "@renewsToday": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "renewsTomorrow": "{name} - renews tomorrow",
+  "@renewsTomorrow": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "subscriptionsRenewingSoon": "{count} subscriptions renewing soon",
+  "@subscriptionsRenewingSoon": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "amountPerMonth": "{amount} ₺/month",
+  "@amountPerMonth": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "hiddenBadges": "Hidden Badges",
+  "badgesEarned": "{unlocked} / {total} badges earned",
+  "@badgesEarned": {
+    "placeholders": {
+      "unlocked": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "percentComplete": "{percent}% complete",
+  "@percentComplete": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "completed": "Completed!",
+  "startRecordingForFirstBadge": "Record an expense to earn your first badge!",
+  "greatStartKeepGoing": "Great start, keep going!",
+  "halfwayThere": "Halfway there, keep it up!",
+  "doingVeryWell": "You're doing very well!",
+  "almostDone": "Almost there!",
+  "allBadgesEarned": "All badges earned, congratulations!",
+  "hiddenBadge": "Hidden Badge",
+  "discoverHowToUnlock": "Discover how to unlock!",
+  "difficultyEasy": "Easy",
+  "difficultyMedium": "Medium",
+  "difficultyHard": "Hard",
+  "difficultyLegendary": "Legendary",
+  "earnedToday": "Earned today!",
+  "earnedYesterday": "Earned yesterday",
+  "daysAgoEarned": "{count} days ago",
+  "@daysAgoEarned": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "weeksAgoEarned": "{count} weeks ago",
+  "@weeksAgoEarned": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "tapToAddPhoto": "Tap to add photo",
+  "dailyWork": "Daily Work",
+  "weeklyWorkingDays": "Weekly Working Days",
+  "hourlyEarnings": "Hourly Earnings",
+  "hourAbbreviation": "h",
+  "days": "days",
+  "resetData": "Reset Data",
+  "resetDataDebug": "Reset Data (DEBUG)",
+  "resetDataTitle": "Reset Data",
+  "resetDataMessage": "All app data will be deleted. This action cannot be undone.",
+
+  "deleteAccount": "Delete My Account",
+  "deleteAccountWarningTitle": "You Are About to Delete Your Account",
+  "deleteAccountWarningMessage": "This action cannot be undone! All your data will be permanently deleted:\n\n• Expenses\n• Income\n• Installments\n• Achievements\n• Settings",
+  "deleteAccountConfirmPlaceholder": "Type 'I confirm' to confirm",
+  "deleteAccountConfirmWord": "I confirm",
+  "deleteAccountButton": "Delete Account",
+  "deleteAccountSuccess": "Your account has been successfully deleted",
+  "deleteAccountError": "An error occurred while deleting your account",
+
+  "notificationTypes": "Notification Types",
+  "awarenessReminder": "Awareness Reminder",
+  "awarenessReminderDesc": "6-12 hours after high-value purchases",
+  "giveUpCongrats": "Pass Congratulation",
+  "giveUpCongratsDesc": "Same day motivation when you pass",
+  "streakReminderDesc": "Evening, before streak breaks",
+  "weeklySummary": "Weekly Summary",
+  "weeklySummaryDesc": "Sunday weekly insight",
+  "nightModeNotice": "No notifications during night hours (22:00-08:00). We won't disturb your sleep.",
+  "on": "On",
+  "off": "Off",
+
+  "lastUpdate": "Last Update",
+  "rates": "Rates",
+  "usDollar": "US Dollar",
+  "gramGold": "Gram Gold",
+  "tcmbNotice": "Rates are from TCMB (Central Bank of the Republic of Turkey). Gold prices reflect real-time market data.",
+  "buy": "Buy",
+  "sell": "Sell",
+
+  "createOwnCategory": "Create Your Own Category",
+  "selectEmoji": "Select Emoji",
+  "categoryName": "Category Name",
+  "categoryNameHint": "e.g: Starbucks",
+  "continueButton": "Continue",
+  "howManyDaysForHabit": "How many days do you work for what?",
+  "selectHabitShock": "Select a habit, be shocked",
+  "addMyOwnCategory": "Add my own category",
+  "whatIsYourSalary": "What's Your Monthly Salary?",
+  "enterNetAmount": "Enter net take-home amount",
+  "howMuchPerTime": "How much TL do you spend per time?",
+  "tl": "TL",
+  "howOften": "How often?",
+  "whatIsYourIncome": "What's your monthly income?",
+  "exampleAmount": "e.g: 20,000",
+  "dontWantToSay": "I don't want to say",
+  "resultDays": "{value} DAYS",
+  "@resultDays": {
+    "placeholders": {
+      "value": {"type": "String"}
+    }
+  },
+  "yearlyHabitCost": "You work this many days\njust for {habit} yearly",
+  "@yearlyHabitCost": {
+    "placeholders": {
+      "habit": {"type": "String"}
+    }
+  },
+  "monthlyYearlyCost": "Monthly: {monthly} • Yearly: {yearly}",
+  "@monthlyYearlyCost": {
+    "placeholders": {
+      "monthly": {"type": "String"},
+      "yearly": {"type": "String"}
+    }
+  },
+  "shareOnStory": "Share on Story",
+  "tryAnotherHabit": "Try another habit",
+  "trackAllExpenses": "Track all my expenses",
+
+  "habitCatCoffee": "Coffee",
+  "habitCatSmoking": "Smoking",
+  "habitCatEatingOut": "Eating Out",
+  "habitCatGaming": "Gaming",
+  "habitCatClothing": "Clothing",
+  "habitCatTaxi": "Taxi/Uber",
+
+  "freqOnceDaily": "Once daily",
+  "freqTwiceDaily": "Twice daily",
+  "freqEveryTwoDays": "Every 2 days",
+  "freqOnceWeekly": "Once weekly",
+  "freqTwoThreeWeekly": "2-3x weekly",
+  "freqFewMonthly": "Few per month",
+
+  "habitSharePreText": "This habit takes",
+  "habitShareWorkDays": "WORK DAYS",
+  "habitSharePostText": "of work per year",
+  "habitSharePerYear": "/year",
+  "habitShareCTA": "How many days are your habits?",
+  "habitShareText": "How many days are your habits? 👀 vantag.app",
+  "habitShareTextWithLink": "How many days are your habits? 👀 {link}",
+  "@habitShareTextWithLink": {
+    "placeholders": {
+      "link": {"type": "String"}
+    }
+  },
+  "habitMonthlyDetail": "{days} days {hours} hours",
+  "@habitMonthlyDetail": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "hours": {"type": "int"}
+    }
+  },
+
+  "editIncomes": "Edit Incomes",
+  "editIncome": "Edit Income",
+  "addIncome": "Add Income",
+  "changePhoto": "Photo",
+  "takePhoto": "Take Photo",
+  "chooseFromGallery": "Choose from Gallery",
+  "removePhoto": "Remove Photo",
+  "photoSelectError": "Could not select photo",
+  "editSalary": "Salary",
+  "editSalarySubtitle": "Update your monthly salary",
+  "daysPerWeek": "days/week",
+  "doYouHaveOtherIncome": "Do You Have\nOther Income?",
+  "otherIncomeDescription": "You can add additional incomes like\nfreelance, rental, investment income",
+  "yesAddIncome": "Yes, I Want to Add",
+  "noOnlySalary": "No, Only My Salary",
+  "addAdditionalIncome": "+ Add Additional Income",
+  "additionalIncomeQuestion": "Do you have additional income?",
+
+  "budgetSettings": "Budget Settings",
+  "budgetSettingsHint": "Optional. If not set, it will be calculated based on your income.",
+  "monthlySpendingLimit": "Monthly Spending Limit",
+  "monthlySpendingLimitHint": "How much do you want to spend this month?",
+  "monthlySavingsGoal": "Monthly Savings Goal",
+  "monthlySavingsGoalHint": "How much do you want to save each month?",
+  "budgetInfoMessage": "The progress bar is calculated based on your remaining budget after mandatory expenses.",
+
+  "linkWithGoogleTitle": "Link with Google",
+  "linkWithGoogleDescription": "Securely access your data from all devices",
+  "skipForNow": "Skip for now",
+  "incomeType": "Income Type",
+  "incomeCategorySalary": "Salary",
+  "incomeCategoryFreelance": "Freelance",
+  "incomeCategoryRental": "Rental Income",
+  "incomeCategoryPassive": "Passive Income",
+  "incomeCategoryOther": "Other",
+  "incomeCategorySalaryDesc": "Monthly regular salary",
+  "incomeCategoryFreelanceDesc": "Self-employment income",
+  "incomeCategoryRentalDesc": "Property, vehicle rental income",
+  "incomeCategoryPassiveDesc": "Investment, dividends, interest etc.",
+  "incomeCategoryOtherDesc": "Other income sources",
+  "mainSalary": "Main Salary",
+  "descriptionOptional": "Description (Optional)",
+  "descriptionOptionalHint": "e.g: Upwork Project",
+  "addedIncomes": "Added Incomes",
+  "incomeSummary": "Income Summary",
+  "totalMonthlyIncome": "Total Monthly Income",
+  "incomeSource": "income source",
+  "complete": "Complete",
+  "editMyIncomes": "Edit My Incomes",
+  "goBack": "Go Back",
+
+  "notBudgetApp": "This is not a budget app",
+  "showRealCost": "Show the real cost of expenses: your time.",
+  "everyExpenseDecision": "Every expense is a decision",
+  "youDecide": "Bought, thinking, or passed. You decide.",
+  "oneExpenseEnough": "One expense today is enough",
+  "startSmall": "Start small, awareness grows.",
+  "skip": "Skip",
+  "start": "Start",
+
+  "whatIsYourDecision": "What's your decision?",
+
+  "netBalance": "NET BALANCE",
+  "sources": "{count} sources",
+  "@sources": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "income": "INCOME",
+  "expense": "SPENT",
+  "saved": "SAVED",
+  "budgetUsage": "BUDGET USAGE",
+
+  "startToday": "Start today!",
+  "dayStreak": "{count} Day Streak!",
+  "@dayStreak": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "startStreak": "Start Your Streak!",
+  "keepStreakMessage": "Keep your streak by recording expenses daily!",
+  "startStreakMessage": "Record at least 1 expense daily and build a streak!",
+  "longestStreak": "Longest streak: {count} days",
+  "@longestStreak": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "newRecord": "New Record!",
+
+  "withThisAmount": "With this {amount} TL you could have bought:",
+  "@withThisAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "goldGrams": "{grams}g gold",
+  "@goldGrams": {
+    "placeholders": {
+      "grams": {"type": "String"}
+    }
+  },
+
+  "ratesLoading": "Loading rates...",
+  "ratesLoadFailed": "Failed to load rates",
+  "goldPriceNotUpdated": "Gold price could not be updated",
+
+  "monthAbbreviations": "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec",
+  "updateYourDecision": "Update your decision",
+  "simulation": "Simulation",
+  "tapToUpdate": "Tap to update",
+  "swipeToEditOrDelete": "Swipe to edit or delete",
+
+  "pleaseEnterValidAmount": "Please enter a valid amount",
+  "amountTooHigh": "Amount seems too high",
+  "pleaseSelectExpenseGroup": "Please select expense group first",
+  "categorySelectionRequired": "Category selection is required",
+  "expenseGroup": "Expense Group",
+  "required": "Required",
+  "detail": "Detail",
+  "optional": "Optional",
+
+  "editYourCard": "Edit Your Card",
+  "share": "Share",
+  "sharing": "Sharing...",
+  "frequency": "Frequency",
+  "daysAbbrev": "days",
+
+  "youSaved": "saved!",
+  "noSavingsYet": "No savings yet",
+
+  "categorySports": "Sports",
+  "categoryCommunication": "Communication",
+  "subscriptionNameExample": "e.g: Netflix, Spotify",
+  "monthlyAmountExample": "e.g: 99.99",
+  "color": "Color",
+  "autoRecordOnRenewal": "Record as expense on renewal day",
+
+  "deleteSubscription": "Delete Subscription",
+  "deleteSubscriptionConfirm": "Are you sure you want to delete {name} subscription?",
+  "@deleteSubscriptionConfirm": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "subscriptionDuration": "Subscription Duration",
+  "subscriptionDurationDays": "{days} days",
+  "@subscriptionDurationDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "totalPaid": "Total Paid",
+  "workHoursAmount": "{hours} hours",
+  "@workHoursAmount": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "workDaysAmount": "{days} days",
+  "@workDaysAmount": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "autoRecordEnabled": "Auto expense recording enabled",
+  "autoRecordDisabled": "Auto expense recording disabled",
+  "saveChanges": "Save Changes",
+
+  "weekdayAbbreviations": "Mon,Tue,Wed,Thu,Fri,Sat,Sun",
+
+  "homePage": "Home",
+  "analysis": "Analysis",
+  "reportsDescription": "View monthly and category-based expense analysis here.",
+  "quickAdd": "Quick Add",
+  "quickAddDescription": "Use this button to quickly add expenses from anywhere. Practical and fast!",
+  "badgesDescription": "Earn badges as you reach your savings goals. Keep your motivation high!",
+  "profileAndSettings": "Profile & Settings",
+  "profileAndSettingsDescription": "Edit income info, manage notification preferences and access app settings.",
+
+  "addSubscriptionButton": "Add subscriptions like Netflix, Spotify",
+  "shareError": "An error occurred while sharing",
+  "shareVia": "Share via",
+  "saveToGallery": "Save to Gallery",
+  "savedToGallery": "Saved to gallery",
+  "otherApps": "Other Apps",
+  "expenseDeleted": "Expense deleted",
+  "undo": "Undo",
+  "choosePlatform": "Choose Platform",
+  "savingToGallery": "Saving...",
+
+  "pleaseEnterValidSalary": "Please enter a valid salary",
+  "pleaseEnterValidIncomeAmount": "Please enter a valid amount",
+  "pleaseSelectCategory": "Please select a category",
+  "atLeastOneIncomeRequired": "You must add at least one income source",
+  "incomesUpdated": "Incomes updated",
+  "incomesSaved": "Incomes saved",
+  "saveError": "An error occurred while saving",
+  "incomeSourceCount": "{count} income sources",
+  "@incomeSourceCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "freedTime": "Freed",
+  "savedAmountLabel": "Saved",
+  "dayLabel": "Day",
+  "zeroMinutes": "0 Minutes",
+  "zeroAmount": "0 ₺",
+
+  "shareCardDays": "{days} DAYS",
+  "@shareCardDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "shareCardDescription": "I work this many days yearly\njust for {category}",
+  "@shareCardDescription": {
+    "placeholders": {
+      "category": {"type": "String"}
+    }
+  },
+  "shareCardQuestion": "How many days for you?",
+
+  "shareCardDuration": "Duration ({days} days)",
+  "@shareCardDuration": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "shareCardAmountLabel": "Amount (₺{amount})",
+  "@shareCardAmountLabel": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "shareCardFrequency": "Frequency ({frequency})",
+  "@shareCardFrequency": {
+    "placeholders": {
+      "frequency": {"type": "String"}
+    }
+  },
+
+  "unsavedChanges": "Unsaved Changes",
+  "unsavedChangesConfirm": "Are you sure you want to exit without saving?",
+  "discardChanges": "Discard",
+
+  "thinkingTime": "Thinking time...",
+  "confirm": "Confirm",
+  "riskLevelNone": "Safe",
+  "riskLevelLow": "Low Risk",
+  "riskLevelMedium": "Medium Risk",
+  "riskLevelHigh": "High Risk",
+  "riskLevelExtreme": "Critical Risk",
+
+  "savedTimeHoursDays": "{hours} hours = {days} days saved",
+  "@savedTimeHoursDays": {
+    "placeholders": {
+      "hours": {"type": "String"},
+      "days": {"type": "String"}
+    }
+  },
+  "savedTimeHours": "{hours} hours saved",
+  "@savedTimeHours": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "savedTimeMinutes": "{minutes} minutes saved",
+  "@savedTimeMinutes": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "couldBuyGoldGrams": "With this money you could buy {grams} grams of gold",
+  "@couldBuyGoldGrams": {
+    "placeholders": {
+      "grams": {"type": "String"}
+    }
+  },
+  "equivalentWorkDays": "This equals {days} days of work",
+  "@equivalentWorkDays": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "equivalentWorkHours": "This equals {hours} hours of work",
+  "@equivalentWorkHours": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "savedDollars": "You saved exactly {amount} dollars",
+  "@savedDollars": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "or": "OR",
+  "goldGramsShort": "{grams}g gold",
+  "@goldGramsShort": {
+    "placeholders": {
+      "grams": {"type": "String"}
+    }
+  },
+
+  "amountRequired": "Amount is required",
+  "everyMonth": "Every month",
+  "daysCount": "{count} days",
+  "@daysCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "hoursCount": "{count} hours",
+  "@hoursCount": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "daysCountDecimal": "{count} days",
+  "@daysCountDecimal": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "autoRecordOn": "Auto record enabled",
+  "autoRecordOff": "Auto record disabled",
+  "monthlyAmountTl": "{amount} TL/month",
+  "@monthlyAmountTl": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "shareError": "An error occurred while sharing",
+
+  "nameRequired": "Name is required",
+  "amountHint": "e.g: 99.99",
+  "updateDecision": "Update your decision",
+  "categoryRequired": "Category is required",
+  "monthlyAmountLabel": "Monthly Amount (TL)",
+  "withThisAmountYouCouldBuy": "With {amount} TL you could buy:",
+  "@withThisAmountYouCouldBuy": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "workHoursDistribution": "Work Hours Distribution",
+  "workHoursDistributionDesc": "See how many hours you work for each category",
+  "hoursShort": "{hours}h",
+  "@hoursShort": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "categoryHoursBar": "{hours} hours ({percent}%)",
+  "@categoryHoursBar": {
+    "placeholders": {
+      "hours": {"type": "String"},
+      "percent": {"type": "String"}
+    }
+  },
+
+  "monthComparison": "Month Comparison",
+  "vsLastMonth": "vs Last Month",
+  "noLastMonthData": "No last month data",
+  "decreasedBy": "↓ {percent}% decreased",
+  "@decreasedBy": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "increasedBy": "↑ {percent}% increased",
+  "@increasedBy": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "noChange": "No change",
+  "greatProgress": "Great progress!",
+  "watchOut": "Watch out!",
+
+  "smartInsights": "Smart Insights",
+  "mostExpensiveDay": "Most Expensive Day",
+  "mostExpensiveDayValue": "{day} (avg. {amount} TL)",
+  "@mostExpensiveDayValue": {
+    "placeholders": {
+      "day": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "mostPassedCategory": "Most Passed Category",
+  "mostPassedCategoryValue": "{category} ({count} times)",
+  "@mostPassedCategoryValue": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "savingsOpportunity": "Savings Opportunity",
+  "savingsOpportunityValue": "Cut {category} by 20% = {hours}h saved/month",
+  "@savingsOpportunityValue": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "weeklyTrend": "Weekly Trend",
+  "weeklyTrendValue": "Last 4 weeks: {trend}",
+  "@weeklyTrendValue": {
+    "placeholders": {
+      "trend": {"type": "String"}
+    }
+  },
+  "overallDecreasing": "Overall decreasing",
+  "overallIncreasing": "Overall increasing",
+  "stableTrend": "Stable",
+  "noTrendData": "Not enough data",
+
+  "yearlyView": "Yearly View",
+  "yearlyHeatmap": "Spending Trend",
+  "yearlyHeatmapDesc": "Your monthly spending over the last 12 months",
+  "lowSpending": "Low",
+  "highSpending": "High",
+  "noSpending": "No spending",
+  "tapDayForDetails": "Tap a day for details",
+  "tapMonthForDetails": "Tap a month for details",
+  "selectedDayExpenses": "{date}: {amount} TL ({count} expenses)",
+  "@selectedDayExpenses": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "amount": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "selectedMonthExpenses": "{month}: {amount} ({count} expenses)",
+  "@selectedMonthExpenses": {
+    "placeholders": {
+      "month": {"type": "String"},
+      "amount": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "monthJan": "Jan",
+  "monthFeb": "Feb",
+  "monthMar": "Mar",
+  "monthApr": "Apr",
+  "monthMay": "May",
+  "monthJun": "Jun",
+  "monthJul": "Jul",
+  "monthAug": "Aug",
+  "monthSep": "Sep",
+  "monthOct": "Oct",
+  "monthNov": "Nov",
+  "monthDec": "Dec",
+
+  "proBadge": "PRO",
+  "proFeature": "Pro Feature",
+  "comingSoon": "Coming Soon",
+
+  "mindfulChoice": "Mindful Choice",
+  "mindfulChoiceExpandedDesc": "What were you originally planning to buy?",
+  "mindfulChoiceCollapsedDesc": "Were you going to buy something more expensive?",
+  "mindfulChoiceAmountLabel": "Amount in Mind (₺)",
+  "mindfulChoiceAmountHint": "e.g: {amount}",
+  "@mindfulChoiceAmountHint": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "mindfulChoiceSavings": "{amount} TL savings",
+  "@mindfulChoiceSavings": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "mindfulChoiceSavingsDesc": "Stays in your pocket with mindful choice",
+
+  "tierBronze": "Bronze",
+  "tierSilver": "Silver",
+  "tierGold": "Gold",
+  "tierPlatinum": "Platinum",
+
+  "achievementCategoryStreak": "Streak",
+  "achievementCategorySavings": "Savings",
+  "achievementCategoryDecision": "Decision",
+  "achievementCategoryRecord": "Record",
+  "achievementCategoryHidden": "Hidden",
+
+  "achievementStreakB1Title": "Getting Started",
+  "achievementStreakB1Desc": "Record for 3 days in a row",
+  "achievementStreakB2Title": "Keeping Going",
+  "achievementStreakB2Desc": "Record for 7 days in a row",
+  "achievementStreakB3Title": "Building Routine",
+  "achievementStreakB3Desc": "Record for 14 days in a row",
+  "achievementStreakS1Title": "Determination",
+  "achievementStreakS1Desc": "Record for 30 days in a row",
+  "achievementStreakS2Title": "Habit",
+  "achievementStreakS2Desc": "Record for 60 days in a row",
+  "achievementStreakS3Title": "Discipline",
+  "achievementStreakS3Desc": "Record for 90 days in a row",
+  "achievementStreakG1Title": "Strong Will",
+  "achievementStreakG1Desc": "Record for 150 days in a row",
+  "achievementStreakG2Title": "Unshakeable",
+  "achievementStreakG2Desc": "Record for 250 days in a row",
+  "achievementStreakG3Title": "Consistency",
+  "achievementStreakG3Desc": "Record for 365 days in a row",
+  "achievementStreakPTitle": "Persistence",
+  "achievementStreakPDesc": "Record for 730 days in a row",
+
+  "achievementSavingsB1Title": "First Savings",
+  "achievementSavingsB1Desc": "Saved 250 TL",
+  "achievementSavingsB2Title": "Starting to Save",
+  "achievementSavingsB2Desc": "Saved 500 TL",
+  "achievementSavingsB3Title": "On the Right Path",
+  "achievementSavingsB3Desc": "Saved 1,000 TL",
+  "achievementSavingsS1Title": "Mindful Spending",
+  "achievementSavingsS1Desc": "Saved 2,500 TL",
+  "achievementSavingsS2Title": "In Control",
+  "achievementSavingsS2Desc": "Saved 5,000 TL",
+  "achievementSavingsS3Title": "Consistent",
+  "achievementSavingsS3Desc": "Saved 10,000 TL",
+  "achievementSavingsG1Title": "Strong Savings",
+  "achievementSavingsG1Desc": "Saved 25,000 TL",
+  "achievementSavingsG2Title": "Financial Awareness",
+  "achievementSavingsG2Desc": "Saved 50,000 TL",
+  "achievementSavingsG3Title": "Solid Foundation",
+  "achievementSavingsG3Desc": "Saved 100,000 TL",
+  "achievementSavingsP1Title": "Long-term Thinking",
+  "achievementSavingsP1Desc": "Saved 250,000 TL",
+  "achievementSavingsP2Title": "Financial Clarity",
+  "achievementSavingsP2Desc": "Saved 500,000 TL",
+  "achievementSavingsP3Title": "Big Picture",
+  "achievementSavingsP3Desc": "Saved 1,000,000 TL",
+
+  "achievementDecisionB1Title": "First Decision",
+  "achievementDecisionB1Desc": "Passed 3 times",
+  "achievementDecisionB2Title": "Resistance",
+  "achievementDecisionB2Desc": "Passed 7 times",
+  "achievementDecisionB3Title": "Control",
+  "achievementDecisionB3Desc": "Passed 15 times",
+  "achievementDecisionS1Title": "Determination",
+  "achievementDecisionS1Desc": "Passed 30 times",
+  "achievementDecisionS2Title": "Clarity",
+  "achievementDecisionS2Desc": "Passed 60 times",
+  "achievementDecisionS3Title": "Strong Choices",
+  "achievementDecisionS3Desc": "Passed 100 times",
+  "achievementDecisionG1Title": "Willpower",
+  "achievementDecisionG1Desc": "Passed 200 times",
+  "achievementDecisionG2Title": "Composure",
+  "achievementDecisionG2Desc": "Passed 400 times",
+  "achievementDecisionG3Title": "Top Level Control",
+  "achievementDecisionG3Desc": "Passed 700 times",
+  "achievementDecisionPTitle": "Total Mastery",
+  "achievementDecisionPDesc": "Passed 1,000 times",
+
+  "achievementRecordB1Title": "Started",
+  "achievementRecordB1Desc": "5 expense records",
+  "achievementRecordB2Title": "Tracking",
+  "achievementRecordB2Desc": "15 expense records",
+  "achievementRecordB3Title": "Organized",
+  "achievementRecordB3Desc": "30 expense records",
+  "achievementRecordS1Title": "Detailed Tracking",
+  "achievementRecordS1Desc": "60 expense records",
+  "achievementRecordS2Title": "Analytical",
+  "achievementRecordS2Desc": "120 expense records",
+  "achievementRecordS3Title": "Systematic",
+  "achievementRecordS3Desc": "200 expense records",
+  "achievementRecordG1Title": "Depth",
+  "achievementRecordG1Desc": "350 expense records",
+  "achievementRecordG2Title": "Mastery",
+  "achievementRecordG2Desc": "600 expense records",
+  "achievementRecordG3Title": "Archive",
+  "achievementRecordG3Desc": "1,000 expense records",
+  "achievementRecordPTitle": "Long-term Record",
+  "achievementRecordPDesc": "2,000 expense records",
+
+  "achievementHiddenNightTitle": "Night Record",
+  "achievementHiddenNightDesc": "Record between 00:00-05:00",
+  "achievementHiddenEarlyTitle": "Early Bird",
+  "achievementHiddenEarlyDesc": "Record between 05:00-07:00",
+  "achievementHiddenWeekendTitle": "Weekend Routine",
+  "achievementHiddenWeekendDesc": "5 records on Saturday-Sunday",
+  "achievementHiddenOcrTitle": "First Scan",
+  "achievementHiddenOcrDesc": "First receipt OCR usage",
+  "achievementHiddenBalancedTitle": "Balanced Week",
+  "achievementHiddenBalancedDesc": "7 days in a row with 0 \"Bought\"",
+  "achievementHiddenCategoriesTitle": "Category Completion",
+  "achievementHiddenCategoriesDesc": "Record in all 6 categories",
+  "achievementHiddenGoldTitle": "Gold Equivalent",
+  "achievementHiddenGoldDesc": "Saved money equals 1 gram of gold",
+  "achievementHiddenUsdTitle": "Currency Equivalent",
+  "achievementHiddenUsdDesc": "Saved money equals $100",
+  "achievementHiddenSubsTitle": "Subscription Control",
+  "achievementHiddenSubsDesc": "Track 5 subscriptions",
+  "achievementHiddenNoSpendTitle": "No-Spend Month",
+  "achievementHiddenNoSpendDesc": "0 \"Bought\" for 1 month",
+  "achievementHiddenGoldKgTitle": "High Value Savings",
+  "achievementHiddenGoldKgDesc": "Saved money equals 1 kg of gold",
+  "achievementHiddenUsd10kTitle": "Major Currency Equivalent",
+  "achievementHiddenUsd10kDesc": "Saved money equals $10,000",
+  "achievementHiddenAnniversaryTitle": "Usage Anniversary",
+  "achievementHiddenAnniversaryDesc": "365 days of usage",
+  "achievementHiddenEarlyAdopterTitle": "Early Adopter",
+  "achievementHiddenEarlyAdopterDesc": "Installed the app 2 years ago",
+  "achievementHiddenUltimateTitle": "Long-term Discipline",
+  "achievementHiddenUltimateDesc": "1,000,000 TL + 365 day streak at once",
+  "achievementHiddenCollectorTitle": "Collector",
+  "achievementHiddenCollectorDesc": "Collected all badges except Platinum",
+
+  "easterEgg5Left": "5 more...",
+  "easterEggAlmost": "Almost...",
+  "achievementUnlocked": "Achievement Unlocked!",
+  "curiousCatTitle": "Too Curious",
+  "curiousCatDescription": "You found the hidden Easter Egg!",
+  "great": "Great!",
+
+  "achievementHiddenCuriousCatTitle": "Too Curious",
+  "achievementHiddenCuriousCatDesc": "You found the hidden Easter Egg!",
+
+  "recentExpenses": "Recent Expenses",
+  "seeMore": "See More",
+  "tapPlusToAdd": "Tap + to add your first expense",
+  "unlockFullHistory": "Unlock Full History",
+  "proHistoryDescription": "Free users can view last 30 days. Upgrade to Pro for unlimited history.",
+  "upgradeToPro": "Upgrade to Pro",
+  "expenseAdded": "Expense added successfully",
+
+  "duplicateExpenseWarning": "This expense already seems to exist",
+  "duplicateExpenseDetails": "{amount} {category}",
+  "@duplicateExpenseDetails": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "category": {"type": "String"}
+    }
+  },
+  "addAnyway": "Do you still want to add it?",
+  "yes": "Yes",
+  "no": "No",
+  "timeAgoNow": "just now",
+  "timeAgoMinutes": "{count} minutes ago",
+  "@timeAgoMinutes": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "timeAgoHours": "{count} hours ago",
+  "@timeAgoHours": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "timeAgoDays": "{count} days ago",
+  "@timeAgoDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "exportToExcel": "Export to Excel",
+  "exportReport": "Export Report",
+  "exporting": "Exporting...",
+  "exportSuccess": "Report exported successfully",
+  "exportError": "Export failed",
+  "exportComplete": "Export Complete",
+  "exportShareOption": "Share",
+  "exportSaveOption": "Save to Files",
+  "exportSavedToDownloads": "Saved to Downloads/Vantag",
+  "exportChooseAction": "What would you like to do with the file?",
+  "csvHeaderDate": "Date",
+  "csvHeaderTime": "Time",
+  "csvHeaderAmount": "Amount",
+  "csvHeaderCurrency": "Currency",
+  "csvHeaderCategory": "Category",
+  "csvHeaderSubcategory": "Subcategory",
+  "csvHeaderDescription": "Description",
+  "csvHeaderProduct": "Product",
+  "csvHeaderDecision": "Decision",
+  "csvHeaderWorkHours": "Work Hours",
+  "csvHeaderInstallment": "Installment",
+  "csvHeaderMandatory": "Mandatory",
+  "csvSummarySection": "SUMMARY",
+  "csvTotalExpense": "Total Expense",
+  "csvCategoryTotals": "Category Totals",
+  "csvDailyAverage": "Daily Average",
+  "csvWeeklyAverage": "Weekly Average",
+  "csvTopCategory": "Top Category",
+  "csvLargestExpense": "Largest Expense",
+  "csvTotalWorkHours": "Total Work Hours",
+  "csvPeriod": "Period",
+  "csvYes": "Yes",
+  "csvNo": "No",
+  "financialReport": "Financial Summary Report",
+  "createdAt": "Created",
+  "savingsRate": "Savings Rate",
+  "hourlyRate": "Hourly Rate",
+  "workHoursEquivalent": "Work Hours Equivalent",
+  "transactionCount": "Transaction Count",
+  "average": "Average",
+  "percentage": "Percentage",
+  "total": "Total",
+  "monthly": "Monthly",
+  "yearly": "Yearly",
+  "changePercent": "Change %",
+  "month": "Month",
+  "originalAmount": "Original Amount",
+  "nextRenewal": "Next Renewal",
+  "yearlyAmount": "Yearly Amount",
+  "badge": "Badge",
+  "status": "Status",
+  "earnedDate": "Earned Date",
+  "totalBadges": "Total Badges",
+  "proFeatureExport": "Excel Export is a Pro feature",
+  "upgradeForExport": "Upgrade to Pro to export your financial data",
+  "importPremiumOnly": "Import is a Pro feature",
+  "upgradeForImport": "Upgrade to Pro to import your bank statements",
+  "receiptScanned": "Receipt scanned successfully",
+  "noAmountFound": "No amount found in the image",
+  "saveAllRecognized": "Save All ({count})",
+  "@saveAllRecognized": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "saveAllRecognizedSuccess": "{count} expenses saved successfully",
+  "@saveAllRecognizedSuccess": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "budgets": "Budgets",
+  "budget": "Budget",
+  "addBudget": "Add Budget",
+  "editBudget": "Edit Budget",
+  "deleteBudget": "Delete Budget",
+  "deleteBudgetConfirm": "Are you sure you want to delete this budget?",
+  "monthlyLimit": "Monthly Limit",
+  "budgetProgress": "Budget Progress",
+  "totalBudget": "Total Budget",
+  "remainingAmount": "{amount} remaining",
+  "@remainingAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "overBudgetAmount": "{amount} over!",
+  "@overBudgetAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "ofBudget": "{spent} of {total}",
+  "@ofBudget": {
+    "placeholders": {
+      "spent": {"type": "String"},
+      "total": {"type": "String"}
+    }
+  },
+  "onTrack": "On track",
+  "nearLimit": "Near limit",
+  "overLimit": "Over limit",
+  "noBudgetsYet": "No budgets yet",
+  "noBudgetsDescription": "Set budgets to track your spending by category",
+  "budgetHelperText": "Set a monthly spending limit for this category",
+  "budgetExceededTitle": "Budget Exceeded!",
+  "budgetExceededMessage": "You've exceeded your {category} budget by {amount}",
+  "@budgetExceededMessage": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "budgetNearLimit": "Approaching budget limit",
+  "budgetNearLimitMessage": "You've used {percent}% of your {category} budget",
+  "@budgetNearLimitMessage": {
+    "placeholders": {
+      "percent": {"type": "String"},
+      "category": {"type": "String"}
+    }
+  },
+  "categoriesOnTrack": "{count} on track",
+  "@categoriesOnTrack": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "categoriesOverBudget": "{count} over budget",
+  "@categoriesOverBudget": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "categoriesNearLimit": "{count} near limit",
+  "@categoriesNearLimit": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pleaseSelectCategory": "Please select a category",
+  "categories": "categories",
+  "viewAll": "View All",
+  "viewBudgetsInReports": "View budget details in Reports tab",
+
+  "pendingCategorization": "{count} expenses pending categorization",
+  "@pendingCategorization": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "suggestionsAvailable": "{count} suggestions available",
+  "@suggestionsAvailable": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "reviewExpenses": "Review Expenses",
+  "swipeToCategorizeTip": "Tap a category to categorize",
+  "selectCategory": "Select Category",
+  "rememberMerchant": "Remember this merchant",
+  "suggestionLabel": "Suggestion: {name}",
+  "@suggestionLabel": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "suggested": "Suggested",
+  "allCategorized": "All Done!",
+  "categorizedCount": "{processed} categorized, {skipped} skipped",
+  "@categorizedCount": {
+    "placeholders": {
+      "processed": {"type": "int"},
+      "skipped": {"type": "int"}
+    }
+  },
+  "importStatement": "Import Statement",
+  "importCSV": "Import CSV",
+  "importFromBank": "Import from Bank",
+  "selectCSVFile": "Select CSV file",
+  "importingExpenses": "Importing expenses...",
+  "importSuccess": "{count} expenses imported successfully",
+  "@importSuccess": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importError": "Import failed",
+  "recognizedExpenses": "{count} recognized",
+  "@recognizedExpenses": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pendingExpenses": "{count} pending review",
+  "@pendingExpenses": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "importSummary": "Import Summary",
+  "autoMatched": "Auto-matched",
+  "needsReview": "Needs Review",
+  "startReview": "Start Review",
+  "importAIParsed": "AI Parsed Transactions",
+  "importNoTransactions": "No transactions found in this file",
+  "importSelected": "Save {count} Selected",
+  "@importSelected": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "transactions": "transactions",
+  "selectAll": "Select All",
+  "selectNone": "Select None",
+  "selected": "selected",
+  "saving": "Saving...",
+  "learnedMerchants": "Learned Merchants",
+  "noLearnedMerchants": "No learned merchants yet",
+  "learnedMerchantsDescription": "Merchants you categorize will appear here",
+  "merchantCount": "{count} merchants learned",
+  "@merchantCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "deleteMerchant": "Delete Merchant",
+  "deleteMerchantConfirm": "Are you sure you want to delete this merchant?",
+
+  "voiceInput": "Voice Input",
+  "listening": "Listening...",
+  "voiceNotAvailable": "Voice input is not available on this device",
+  "microphonePermissionDenied": "Microphone permission denied",
+  "microphonePermissionRequired": "Microphone permission required",
+  "networkRequired": "Internet connection required",
+  "understanding": "Understanding...",
+  "couldNotUnderstandTryAgain": "Could not understand, try again",
+  "couldNotUnderstandSayAgain": "Could not understand, say again",
+  "sayAgain": "Say again",
+  "yesSave": "Yes, save",
+  "voiceExpenseAdded": "{amount}₺ {description} added",
+  "@voiceExpenseAdded": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "description": {"type": "String"}
+    }
+  },
+  "voiceConfirmExpense": "Confirm Expense",
+  "voiceDetectedAmount": "Detected: {amount}₺",
+  "@voiceDetectedAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "tapToSpeak": "Tap to speak",
+  "speakExpense": "Say your expense (e.g. \"50 lira coffee\")",
+  "voiceParsingFailed": "Could not understand. Please try again.",
+  "voiceHighConfidence": "Auto-saved",
+  "voiceMediumConfidence": "Tap to edit",
+  "voiceLowConfidence": "Please confirm",
+  "speakYourExpense": "Speak your expense",
+  "longPressForVoice": "Long-press for voice input",
+  "didYouKnow": "Did you know?",
+  "voiceTipMessage": "Add expenses faster! Long-press + button and say: \"50 lira coffee\"",
+  "gotIt": "Got it",
+  "tryNow": "Try Now",
+  "voiceAndShortcuts": "Voice & Shortcuts",
+  "newBadge": "NEW",
+  "voiceInputHint": "Long-press + button for voice",
+  "howToUseVoice": "How to Use Voice",
+  "voiceLimitReachedTitle": "Daily Limit Reached",
+  "voiceLimitReachedFree": "You've used your daily voice input. Upgrade to Pro for unlimited access or try again tomorrow.",
+  "voiceServerBusyTitle": "Servers Busy",
+  "voiceServerBusyMessage": "Voice servers are busy right now. Please try again shortly.",
+  "longPressFab": "Long-Press + Button",
+  "longPressFabHint": "Hold for 1 second",
+  "micButton": "Microphone Button",
+  "micButtonHint": "Tap mic when adding expense",
+  "exampleCommands": "Example Commands",
+  "voiceExample1": "\"50 dollars for coffee\"",
+  "voiceExample2": "\"Spent 200 on groceries\"",
+  "voiceExample3": "\"Taxi was 150\"",
+  "voiceExamplesMultiline": "\"50 dollars coffee\"\n\"spent 200 on groceries\"\n\"taxi was 150\"",
+  "somethingWentWrong": "Something went wrong. Please try again.",
+  "errorLoadingData": "Error loading data",
+  "errorSaving": "Error saving. Please try again.",
+  "networkError": "Network error. Check your connection.",
+  "errorLoadingRates": "Could not load exchange rates",
+  "errorLoadingSubscriptions": "Could not load subscriptions",
+  "undo": "Undo",
+
+  "autoRecorded": "Auto",
+  "autoRecordedExpenses": "{count} subscription(s) auto-recorded",
+  "@autoRecordedExpenses": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "autoRecordEnabled": "Auto-record enabled",
+  "autoRecordDescription": "Expense will be automatically added on billing date",
+
+  "security": "Security",
+  "pinLock": "PIN Lock",
+  "pinLockDescription": "Require PIN to open app",
+  "biometricUnlock": "Biometric Unlock",
+  "biometricDescription": "Use fingerprint or Face ID",
+  "enterPin": "Enter PIN",
+  "createPin": "Create PIN",
+  "createPinDescription": "Choose a 4-digit PIN",
+  "confirmPin": "Confirm PIN",
+  "confirmPinDescription": "Enter your PIN again",
+  "wrongPin": "Wrong PIN. Try again.",
+  "pinMismatch": "PINs don't match. Try again.",
+  "pinSet": "PIN set successfully",
+  "useBiometric": "Use Biometric",
+  "unlockWithBiometric": "Unlock Vantag",
+  "reset": "Reset",
+
+  "assistantSetupTitle": "Google Assistant Setup",
+  "assistantSetupHeadline": "Add expenses without saying \"Vantag\"",
+  "assistantSetupSubheadline": "After this setup, just say\n\"Hey Google, add expense\"",
+  "assistantSetupComplete": "Great! Now you can say \"Hey Google, add expense\"",
+
+  "assistantSetupStep1Title": "Open Google Assistant",
+  "assistantSetupStep1Desc": "Say \"Hey Google, settings\" or open the Google Assistant app.",
+  "assistantSetupStep1Tip": "Tap the profile icon in the bottom right corner.",
+
+  "assistantSetupStep2Title": "Go to Routines",
+  "assistantSetupStep2Desc": "Find and tap \"Routines\" in the settings.",
+  "assistantSetupStep2Tip": "May also appear as \"Shortcuts\" on some devices.",
+
+  "assistantSetupStep3Title": "Create New Routine",
+  "assistantSetupStep3Desc": "Tap the \"+\" or \"New routine\" button.",
+  "assistantSetupStep3Tip": "Usually in the bottom right corner.",
+
+  "assistantSetupStep4Title": "Add Voice Command",
+  "assistantSetupStep4Desc": "Tap \"When I say\" and add a voice command.\n\nType \"add expense\".",
+  "assistantSetupStep4Tip": "You can also use \"log expense\" or \"record spending\".",
+
+  "assistantSetupStep5Title": "Add Action",
+  "assistantSetupStep5Desc": "\"Add action\" → \"Open app\" → Select \"Vantag\".",
+  "assistantSetupStep5Tip": "Search for Vantag if not visible in the list.",
+
+  "assistantSetupStep6Title": "Save",
+  "assistantSetupStep6Desc": "Tap \"Save\" in the top right corner.",
+  "assistantSetupStep6Tip": "You may be asked to name the routine.",
+
+  "step": "Step",
+  "next": "Next",
+  "back": "Back",
+  "completed": "Completed!",
+  "laterButton": "I'll do it later",
+
+  "monthlySpendingBreakdown": "Monthly Spending Breakdown",
+  "mandatoryExpenses": "Mandatory",
+  "discretionaryExpenses": "Discretionary",
+  "remainingHoursToSpend": "{hours} hours left to spend",
+  "@remainingHoursToSpend": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "budgetExceeded": "You exceeded your budget by {amount}!",
+  "@budgetExceeded": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "activeInstallments": "Active Installments",
+  "installmentCount": "{count} installments",
+  "@installmentCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "moreInstallments": "+{count} more installments",
+  "@moreInstallments": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "monthlyBurden": "Monthly Burden",
+  "remainingDebt": "Remaining Debt",
+  "totalInterestCost": "Total interest: {amount} ({hours} hours)",
+  "@totalInterestCost": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "monthAbbreviation": "mo",
+  "installmentsLabel": "installments",
+  "remaining": "Remaining",
+
+  "paywallTitle": "Upgrade to Premium",
+  "paywallSubtitle": "Unlock all features and achieve your financial freedom",
+  "subscribeToPro": "Subscribe to Pro",
+  "startFreeTrial": "Start 7-Day Free Trial",
+  "freeTrialBanner": "7 DAYS FREE",
+  "freeTrialDescription": "First 7 days completely free, cancel anytime",
+  "trialThenPrice": "Then {price}/month after trial",
+  "@trialThenPrice": {
+    "placeholders": {
+      "price": {"type": "String"}
+    }
+  },
+  "noPaymentNow": "No payment required now",
+  "restorePurchases": "Restore purchases",
+  "feature": "Feature",
+  "featureAiChat": "AI Chat",
+  "featureAiChatFree": "4/day",
+  "featureHistory": "History",
+  "featureHistory30Days": "30 days",
+  "featureExport": "Excel Export",
+  "featureWidgets": "Widgets",
+  "featureAds": "Ads",
+  "featureUnlimited": "Unlimited",
+  "featureYes": "Yes",
+  "featureNo": "No",
+  "weekly": "Weekly",
+  "week": "week",
+  "year": "year",
+  "bestValue": "Best Value",
+  "yearlySavings": "Save up to 50%",
+  "cancelAnytime": "Cancel anytime",
+  "retry": "Retry",
+  "aiLimitReached": "Daily AI limit reached",
+  "aiLimitMessage": "You've used {used}/{limit} AI chats today. Upgrade to Pro for unlimited access.",
+  "@aiLimitMessage": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "limit": {"type": "int"}
+    }
+  },
+  "historyLimitReached": "History limit reached",
+  "historyLimitMessage": "Free plan only shows last 30 days. Upgrade to Pro for full history access.",
+  "exportProOnly": "Excel export is a Pro feature",
+  "remainingAiUses": "{count} AI uses left",
+  "@remainingAiUses": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "lifetime": "Lifetime",
+  "lifetimeDescription": "Pay once, use forever • 100 AI credits/month",
+  "oneTime": "one-time",
+  "forever": "FOREVER",
+  "mostPopular": "MOST POPULAR",
+  "monthlyCredits": "{count} AI credits/month",
+  "@monthlyCredits": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "proMonthlyCredits": "{remaining}/{limit} monthly credits",
+  "@proMonthlyCredits": {
+    "placeholders": {
+      "remaining": {"type": "int"},
+      "limit": {"type": "int"}
+    }
+  },
+
+  "aiLimitFreeTitleEmoji": "🔒 Daily AI Limit Reached!",
+  "aiLimitProTitleEmoji": "⏳ Monthly AI Limit Reached!",
+  "aiLimitFreeMessage": "You've used all 4 AI questions for today.",
+  "aiLimitProMessage": "You've used all 500 AI questions this month.",
+  "aiLimitLifetimeMessage": "You've used all 200 AI credits this month.",
+  "aiLimitResetDate": "Limit resets on {month} {day} ({days} days left)",
+  "@aiLimitResetDate": {
+    "placeholders": {
+      "day": {"type": "String"},
+      "month": {"type": "String"},
+      "days": {"type": "int"}
+    }
+  },
+  "aiLimitUpgradeToPro": "🚀 Upgrade to Pro - Unlimited AI",
+  "aiLimitBuyCredits": "🔋 Buy Extra Credit Pack",
+  "aiLimitTryTomorrow": "or try again tomorrow",
+  "aiLimitOrWaitDays": "or wait {days} days for reset",
+  "@aiLimitOrWaitDays": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+
+  "creditPurchaseTitle": "Buy Credits",
+  "creditPurchaseHeader": "Top Up AI Credits",
+  "creditPurchaseSubtitle": "Purchase extra credits for AI queries beyond your monthly limit.",
+  "creditCurrentBalance": "Current Balance",
+  "creditAmount": "{credits} Credits",
+  "@creditAmount": {
+    "placeholders": {
+      "credits": {"type": "int"}
+    }
+  },
+  "creditPackTitle": "{credits} Credits",
+  "@creditPackTitle": {
+    "placeholders": {
+      "credits": {"type": "int"}
+    }
+  },
+  "creditPackPricePerCredit": "₺{price} per credit",
+  "@creditPackPricePerCredit": {
+    "placeholders": {
+      "price": {"type": "String"}
+    }
+  },
+  "creditPackPopular": "MOST POPULAR",
+  "creditPackBestValue": "BEST VALUE",
+  "creditNeverExpire": "Credits never expire, use them anytime",
+  "creditPurchaseSuccess": "{credits} credits added to your account!",
+  "@creditPurchaseSuccess": {
+    "placeholders": {
+      "credits": {"type": "int"}
+    }
+  },
+
+  "pursuits": "My Dreams",
+  "myPursuits": "My Dreams",
+  "navPursuits": "Dreams",
+  "createPursuit": "New Dream",
+  "pursuitName": "What are you saving for?",
+  "pursuitNameHint": "e.g: iPhone 16, Maldives Vacation...",
+  "targetAmount": "Target Amount",
+  "savedAmount": "Saved",
+  "addSavings": "Add Money",
+  "pursuitProgress": "{percent}% complete",
+  "@pursuitProgress": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+  "remainingAmount": "{amount} remaining",
+  "@remainingAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "daysToGoal": "≈ {days} work days",
+  "@daysToGoal": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "pursuitCompleted": "Your Dream Came True!",
+  "congratulations": "Congratulations!",
+  "pursuitCompletedMessage": "You saved {amount} in {days} days!",
+  "@pursuitCompletedMessage": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "amount": {"type": "String"}
+    }
+  },
+  "shareProgress": "Share Progress",
+  "activePursuits": "Active",
+  "completedPursuits": "Completed",
+  "archivePursuit": "Archive",
+  "deletePursuit": "Delete",
+  "editPursuit": "Edit",
+  "deletePursuitConfirm": "Are you sure you want to delete this dream?",
+  "pursuitCategoryTech": "Tech",
+  "pursuitCategoryTravel": "Travel",
+  "pursuitCategoryHome": "Home",
+  "pursuitCategoryFashion": "Fashion",
+  "pursuitCategoryVehicle": "Vehicle",
+  "pursuitCategoryEducation": "Education",
+  "pursuitCategoryHealth": "Health",
+  "pursuitCategoryOther": "Other",
+  "emptyPursuitsTitle": "Take a Step Toward Your Dream",
+  "emptyPursuitsMessage": "Add your first dream and start saving!",
+  "addFirstPursuit": "Add Your First Dream",
+  "pursuitLimitReached": "Upgrade to Pro for unlimited dreams",
+  "quickAmounts": "Quick Amounts",
+  "addNote": "Add note (optional)",
+  "pursuitCreated": "Dream created!",
+  "savingsAdded": "Added!",
+  "workHoursRemaining": "{hours} work hours remaining",
+  "@workHoursRemaining": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "pursuitInitialSavings": "Initial Savings",
+  "pursuitInitialSavingsHint": "Amount you've already saved",
+  "pursuitSelectCategory": "Select Category",
+  "redirectSavings": "Redirect Savings to Dream",
+  "redirectSavingsMessage": "Which dream would you like to add the {amount} you saved?",
+  "@redirectSavingsMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "skipRedirect": "Skip for Now",
+  "pursuitTransactionHistory": "Transaction History",
+  "noTransactions": "No transactions yet",
+  "transactionSourceManual": "Manual Entry",
+  "transactionSourcePool": "Pool Transfer",
+  "transactionSourceExpense": "Cancelled Expense",
+
+  "savingsPool": "Savings Pool",
+  "savingsPoolAvailable": "available",
+  "savingsPoolDebt": "You owe",
+  "shadowDebtMessage": "You borrowed {amount} from your future self",
+  "@shadowDebtMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "budgetShiftQuestion": "Where did this {amount} come from?",
+  "@budgetShiftQuestion": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "jokerUsed": "You used this month's joker",
+  "jokerAvailable": "You have a joker available!",
+  "allocatedToDreams": "{amount} allocated to dreams",
+  "@allocatedToDreams": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "extraIncome": "I earned extra income",
+  "useJoker": "Use Joker (1/month)",
+  "budgetShiftFromFood": "From my food budget",
+  "budgetShiftFromEntertainment": "From my entertainment budget",
+  "budgetShiftFromClothing": "From my clothing budget",
+  "budgetShiftFromTransport": "From my transport budget",
+  "budgetShiftFromShopping": "From my shopping budget",
+  "budgetShiftFromHealth": "From my health budget",
+  "budgetShiftFromEducation": "From my education budget",
+  "insufficientFunds": "Insufficient funds",
+  "insufficientFundsMessage": "Pool has {available}, you want {requested}",
+  "@insufficientFundsMessage": {
+    "placeholders": {
+      "available": {"type": "String"},
+      "requested": {"type": "String"}
+    }
+  },
+  "createShadowDebt": "Add anyway (create debt)",
+  "debtRepaidMessage": "{amount} paid towards your debt!",
+  "@debtRepaidMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "poolSummaryTotal": "Total Savings",
+  "poolSummaryAllocated": "Allocated to Dreams",
+  "poolSummaryAvailable": "Available",
+
+  "overAllocationTitle": "Insufficient Pool Balance",
+  "overAllocationMessage": "Pool has {available}. You want to add {requested}.",
+  "@overAllocationMessage": {
+    "placeholders": {
+      "available": {"type": "String"},
+      "requested": {"type": "String"}
+    }
+  },
+  "fromMyPocket": "Add from my pocket",
+  "fromMyPocketDesc": "Zero out pool + add {difference} from pocket",
+  "@fromMyPocketDesc": {
+    "placeholders": {
+      "difference": {"type": "String"}
+    }
+  },
+  "deductFromFuture": "Deduct from future savings",
+  "deductFromFutureDesc": "Pool will go negative by {amount}",
+  "@deductFromFutureDesc": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "transferAvailableOnly": "Transfer only {amount}",
+  "@transferAvailableOnly": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "transferAvailableOnlyDesc": "Add only what's available in the pool",
+  "oneTimeIncomeTitle": "Where is this money from?",
+  "oneTimeIncomeDesc": "Your pool is in debt. Choose the source:",
+  "oneTimeIncomeOption": "One-time income",
+  "oneTimeIncomeOptionDesc": "Doesn't affect the pool, goes directly to goal",
+  "fromSavingsOption": "From my savings",
+  "fromSavingsOptionDesc": "Pool will go further negative",
+  "debtWarningOnPurchase": "You owe {amount} to your dreams!",
+  "@debtWarningOnPurchase": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "debtReminderNotification": "Don't forget to pay off your debt to your dreams!",
+
+  "aiThinking": "Thinking...",
+  "aiSuggestion1": "Where did I spend this month?",
+  "aiSuggestion2": "Where can I save money?",
+  "aiSuggestion3": "What's my most expensive habit?",
+  "aiSuggestion4": "How far am I from my goal?",
+  "aiPremiumUpsell": "Get detailed analysis and personal savings plan with Premium",
+  "aiPremiumButton": "Go Premium",
+  "aiInputPlaceholderFree": "Ask your own question 🔒",
+  "aiInputPlaceholder": "Ask something...",
+
+  "onboardingTryTitle": "Let's Try!",
+  "onboardingTrySubtitle": "Curious how long you'd work for something?",
+  "onboardingTryButton": "Calculate",
+  "onboardingTryDisclaimer": "This was just to show how abstract money is and how concrete time is.",
+  "onboardingTryNotSaved": "Don't worry, this wasn't saved to your expenses.",
+  "onboardingContinue": "Continue to App",
+  "onboardingTryResult": "This expense takes {hours} hours from your life",
+  "@onboardingTryResult": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+
+  "subscriptionNameHint": "Netflix, Spotify...",
+  "subscriptionPriceHint": "$9.99",
+
+  "currencyUpdatePopup": "Currency updating: {oldAmount} {oldCurrency} ≈ {newAmount} {newCurrency}",
+  "@currencyUpdatePopup": {
+    "placeholders": {
+      "oldAmount": {"type": "String"},
+      "oldCurrency": {"type": "String"},
+      "newAmount": {"type": "String"},
+      "newCurrency": {"type": "String"}
+    }
+  },
+
+  "currencyConverting": "Converting currency...",
+  "currencyConversionFailed": "Could not fetch exchange rate, values unchanged",
+
+  "requiredExpense": "Required Expense",
+  "installmentPurchase": "Installment Purchase",
+  "installmentInfo": "Installment Information",
+  "cashPrice": "Cash Price",
+  "cashPriceHint": "Original cash price",
+  "numberOfInstallments": "Number of Installments",
+  "totalInstallmentPrice": "Total Installment Price",
+  "totalWithInterestHint": "Total with interest",
+  "installmentSummary": "INSTALLMENT SUMMARY",
+  "willBeSavedAsRequired": "Will be saved as required expense",
+  "creditCardOrStoreInstallment": "Credit card or store installment",
+
+  "vantagAI": "Vantag AI",
+  "professionalMode": "Professional mode",
+  "friendlyMode": "Friendly mode",
+  "errorTryAgain": "An error occurred, try again?",
+
+  "aiFallbackOverBudget": "Budget seems a bit tight.\nLet's see what we can do together?",
+  "aiFallbackHighUsage": "End of month approaching, let's be careful.\nHow can I help?",
+  "aiFallbackMediumUsage": "Budget is holding up.\nWant to ask something?",
+  "aiFallbackLowUsage": "Your budget is looking great!\nWhat should we analyze?",
+
+  "aiInsights": "AI Insights",
+  "mostSpendingDay": "Busiest Spending Day",
+  "biggestCategory": "Biggest Category",
+  "thisMonthVsLast": "This Month vs Last Month",
+
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday": "Sunday",
+
+  "securePayment": "Secure Payment",
+  "encrypted": "Encrypted",
+
+  "syncing": "Syncing data...",
+  "pendingSync": "{count} changes pending sync",
+  "@pendingSync": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pendingLabel": "Pending",
+
+  "insightMinutes": "This expense took {minutes} minutes of your life.",
+  "@insightMinutes": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "insightHours": "This expense took {hours} hours of your life.",
+  "@insightHours": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "insightAlmostDay": "You worked almost a full day for this expense.",
+  "insightDays": "This expense took {days} days of your life.",
+  "@insightDays": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "insightDaysWorked": "You had to work {days} days for this expense.",
+  "@insightDaysWorked": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "insightAlmostMonth": "This expense cost you almost a month of work.",
+  "insightCategoryDays": "This month you worked {days} days for {category}.",
+  "@insightCategoryDays": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "days": {"type": "String"}
+    }
+  },
+  "insightCategoryHours": "This month you worked {hours} hours for {category}.",
+  "@insightCategoryHours": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "insightMonthlyAlmost": "You worked almost the entire month for this month's expenses.",
+  "insightMonthlyDays": "You worked {days} days for this month's expenses.",
+  "@insightMonthlyDays": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+
+  "msgShort1": "A few hours of work, for a fleeting desire?",
+  "msgShort2": "Easy to spend what you earned in such short time, hard to earn it back.",
+  "msgShort3": "You went to work this morning, this money will be gone before lunch.",
+  "msgShort4": "You earned it in a coffee break, it'll be gone with one click.",
+  "msgShort5": "Half a day's work, don't let it become a full day of regret.",
+  "msgShort6": "Think about the hours you worked for this item.",
+  "msgShort7": "Looks small but makes a big difference in total.",
+  "msgShort8": "If not now, tomorrow works too.",
+
+  "msgMedium1": "Is your week's work worth this item?",
+  "msgMedium2": "It took days to save this money, seconds to spend it.",
+  "msgMedium3": "Would you accept if you were investing a week into this?",
+  "msgMedium4": "Days of effort, a split-second decision.",
+  "msgMedium5": "A weekend getaway or this item?",
+  "msgMedium6": "Remember what you worked for all those days.",
+  "msgMedium7": "Did you work Monday to Friday for this?",
+  "msgMedium8": "Does it make sense to spend your weekly budget in one go?",
+
+  "msgLong1": "You need to work for weeks for this. Is it really worth it?",
+  "msgLong2": "Saving this money could take months.",
+  "msgLong3": "You might be delaying one of your long-term goals.",
+  "msgLong4": "Does the time you'll spend on this affect your vacation plans?",
+  "msgLong5": "Is this an investment or an expense?",
+  "msgLong6": "How would future you evaluate this decision?",
+  "msgLong7": "Working this long should be for something lasting.",
+  "msgLong8": "How will you view this decision at month's end?",
+
+  "msgSim1": "This amount isn't just spending anymore, it's a serious investment decision.",
+  "msgSim2": "For such a large sum, decide with your vision, not your emotions.",
+  "msgSim3": "It's hard to even calculate the time equivalent of this amount.",
+  "msgSim4": "Could this be that big step you've been dreaming of?",
+  "msgSim5": "Managing such a large amount requires patience and strategy.",
+  "msgSim6": "You're at a point that will affect your future, not just your wallet.",
+  "msgSim7": "Big numbers bring big responsibilities. Are you ready?",
+  "msgSim8": "Is this amount just a number to you, or a turning point?",
+
+  "msgYes1": "Recorded. Hope it's worth it.",
+  "msgYes2": "Let's see if you'll regret it.",
+  "msgYes3": "Okay, it's your money.",
+  "msgYes4": "You bought it, congratulations.",
+  "msgYes5": "As you wish.",
+  "msgYes6": "Alright, it's on the record.",
+  "msgYes7": "If it's a need, no problem.",
+  "msgYes8": "Sometimes spending is necessary too.",
+
+  "msgNo1": "Great decision. You saved this money.",
+  "msgNo2": "You chose the hard path, your future self will thank you.",
+  "msgNo3": "Willpower won.",
+  "msgNo4": "Smart move. You'll need this money.",
+  "msgNo5": "Passing is also a win.",
+  "msgNo6": "The urge passed, the money stayed.",
+  "msgNo7": "You actually invested in yourself.",
+  "msgNo8": "Hard decision, right decision.",
+
+  "msgThink1": "Thinking is free, spending isn't.",
+  "msgThink2": "Not rushing is smart.",
+  "msgThink3": "Sleep on it, look again tomorrow.",
+  "msgThink4": "Wait 24 hours, come back if you still want it.",
+  "msgThink5": "If you're hesitating, it's probably not necessary.",
+  "msgThink6": "Time is the best advisor.",
+  "msgThink7": "If it's not urgent, don't rush.",
+  "msgThink8": "If you're not sure, the answer is probably no.",
+
+  "savingMsg1": "Great decision! 💪",
+  "savingMsg2": "You protected your money! 🛡️",
+  "savingMsg3": "Future you will thank you!",
+  "savingMsg4": "Smart choice! 🧠",
+  "savingMsg5": "Saving is power!",
+  "savingMsg6": "One step closer to your goal!",
+  "savingMsg7": "Willpower! 💎",
+  "savingMsg8": "This money is now yours!",
+  "savingMsg9": "Financial discipline! 🎯",
+  "savingMsg10": "You're building wealth!",
+  "savingMsg11": "Strong decision! 💪",
+  "savingMsg12": "Your wallet thanks you!",
+  "savingMsg13": "That's how champions save! 🏆",
+  "savingMsg14": "Money saved = Freedom earned!",
+  "savingMsg15": "Impressive self-control! ⭐",
+
+  "spendingMsg1": "Recorded! ✓",
+  "spendingMsg2": "You're tracking, that's important.",
+  "spendingMsg3": "Every record is awareness.",
+  "spendingMsg4": "Knowing your spending is power.",
+  "spendingMsg5": "Logged! Keep going.",
+  "spendingMsg6": "Tracking builds control.",
+  "spendingMsg7": "Noted! Awareness is key.",
+  "spendingMsg8": "Good job tracking!",
+  "spendingMsg9": "Data is power! 📊",
+  "spendingMsg10": "Stay aware, stay in control.",
+
+  "tourAmountTitle": "Amount Entry",
+  "tourAmountDesc": "Enter the expense amount here. You can automatically scan it from a receipt using the scan button.",
+  "tourDescriptionTitle": "Smart Matching",
+  "tourDescriptionDesc": "Enter the store or product name. Like Migros, A101, Starbucks... The app will automatically suggest a category!",
+  "tourCategoryTitle": "Category Selection",
+  "tourCategoryDesc": "If smart matching doesn't find it or you want to change it, you can manually select from here.",
+  "tourDateTitle": "Past Date Selection",
+  "tourDateDesc": "You can also enter expenses from yesterday or previous days. Click the calendar icon to select any date.",
+  "tourSnapshotTitle": "Financial Summary",
+  "tourSnapshotDesc": "Your monthly income, expenses, and saved money are here. All data updates in real-time.",
+  "tourCurrencyTitle": "Exchange Rates",
+  "tourCurrencyDesc": "Current USD, EUR, and gold prices. Tap for detailed information.",
+  "tourStreakTitle": "Streak Tracking",
+  "tourStreakDesc": "Your streak increases every day you record an expense. Regular tracking is the key to mindful spending!",
+  "tourSubscriptionTitle": "Subscriptions",
+  "tourSubscriptionDesc": "Track your regular subscriptions like Netflix, Spotify here. You'll get notifications for upcoming payments.",
+  "tourReportTitle": "Reports",
+  "tourReportDesc": "View monthly and category-based spending analysis here.",
+  "tourAchievementsTitle": "Badges",
+  "tourAchievementsDesc": "Earn badges as you reach savings goals. Keep your motivation high!",
+  "tourProfileTitle": "Profile & Settings",
+  "tourProfileDesc": "Edit income info, manage notification preferences, and access app settings.",
+  "tourQuickAddTitle": "Quick Add",
+  "tourQuickAddDesc": "Use this button to quickly add expenses from anywhere. Practical and fast!",
+
+  "notifChannelName": "Vantag Notifications",
+  "notifChannelDescription": "Financial tracking notifications",
+  "notifTitleThinkAboutIt": "Think about it",
+  "notifTitleCongratulations": "Congratulations",
+  "notifTitleStreakWaiting": "Your streak is waiting",
+  "notifTitleWeeklySummary": "Weekly summary",
+  "notifTitleSubscriptionReminder": "Subscription reminder",
+
+  "aiGreeting": "Hello! I'm Vantag.\nReady to answer your financial questions.",
+  "aiServiceUnavailable": "AI assistant is currently unavailable. Please try again later.",
+
+  "onboardingHookTitle": "This coffee is 47 minutes",
+  "onboardingHookSubtitle": "See the real cost of every purchase",
+
+  "pursuitOnboardingTitle": "What's your goal?",
+  "pursuitOnboardingSubtitle": "Pick something to save for",
+  "pursuitOnboardingAirpods": "AirPods",
+  "pursuitOnboardingIphone": "iPhone",
+  "pursuitOnboardingVacation": "Vacation",
+  "pursuitOnboardingCustom": "My own goal",
+  "pursuitOnboardingCta": "I want this",
+  "pursuitOnboardingSkip": "Skip for now",
+  "pursuitOnboardingHours": "{hours} hours",
+  "@pursuitOnboardingHours": {
+    "placeholders": {
+      "hours": {"type": "int"}
+    }
+  },
+
+  "celebrationTitle": "Congratulations!",
+  "celebrationSubtitle": "You reached your {goalName} goal!",
+  "@celebrationSubtitle": {
+    "placeholders": {
+      "goalName": {"type": "String"}
+    }
+  },
+  "celebrationTotalSaved": "Total saved: {hours} hours",
+  "@celebrationTotalSaved": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "celebrationDuration": "Duration: {days} days",
+  "@celebrationDuration": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "celebrationShare": "Share",
+  "celebrationNewGoal": "New Goal",
+  "celebrationDismiss": "Close",
+
+  "widgetTodayLabel": "Today",
+  "widgetHoursAbbrev": "h",
+  "widgetMinutesAbbrev": "m",
+  "widgetSetGoal": "Set a goal",
+  "widgetNoData": "Open app to start",
+  "widgetSmallTitle": "Daily Spending",
+  "widgetSmallDesc": "See today's spending in hours",
+  "widgetMediumTitle": "Spending + Goal",
+  "widgetMediumDesc": "Track spending and goal progress",
+
+  "accessibilityTodaySpending": "Today you spent {amount}, equal to {hours} hours {minutes} minutes of work",
+  "@accessibilityTodaySpending": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "hours": {"type": "int"},
+      "minutes": {"type": "int"}
+    }
+  },
+  "accessibilitySpendingProgress": "Spending progress: {percentage} percent of budget used",
+  "@accessibilitySpendingProgress": {
+    "placeholders": {
+      "percentage": {"type": "int"}
+    }
+  },
+  "accessibilityExpenseItem": "{category} expense of {amount}, took {hours} hours, status: {decision}",
+  "@accessibilityExpenseItem": {
+    "placeholders": {
+      "category": {"type": "String"},
+      "amount": {"type": "String"},
+      "hours": {"type": "String"},
+      "decision": {"type": "String"}
+    }
+  },
+  "accessibilityPursuitCard": "{name} goal, {saved} of {target} saved, {percentage} percent complete",
+  "@accessibilityPursuitCard": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "saved": {"type": "String"},
+      "target": {"type": "String"},
+      "percentage": {"type": "int"}
+    }
+  },
+  "accessibilityAddExpense": "Add new expense",
+  "accessibilityDecisionYes": "Purchased",
+  "accessibilityDecisionNo": "Passed",
+  "accessibilityDecisionThinking": "Thinking",
+
+  "accessibilityDashboard": "Financial dashboard showing income, expenses and balance",
+  "accessibilityNetBalance": "Net balance: {amount}, {status}",
+  "@accessibilityNetBalance": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "status": {"type": "String"}
+    }
+  },
+  "accessibilityBalanceHealthy": "in the green",
+  "accessibilityBalanceNegative": "in the red",
+  "accessibilityIncomeTotal": "Total income: {amount}",
+  "@accessibilityIncomeTotal": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "accessibilityExpenseTotal": "Total expenses: {amount}",
+  "@accessibilityExpenseTotal": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "accessibilityAddSavings": "Add savings to this goal",
+  "accessibilityDeleteExpense": "Delete this expense",
+  "accessibilityEditExpense": "Edit this expense",
+  "accessibilityShareExpense": "Share this expense",
+  "accessibilityStreakInfo": "Current streak: {days} days, best streak: {best} days",
+  "@accessibilityStreakInfo": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "best": {"type": "int"}
+    }
+  },
+  "accessibilityAiChatInput": "Type your financial question here",
+  "accessibilityAiSendButton": "Send message to AI assistant",
+  "accessibilitySuggestionButton": "Quick question: {question}",
+  "@accessibilitySuggestionButton": {
+    "placeholders": {
+      "question": {"type": "String"}
+    }
+  },
+  "accessibilitySubscriptionCard": "{name} subscription, {amount} per {cycle}, renews on day {day}",
+  "@accessibilitySubscriptionCard": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "amount": {"type": "String"},
+      "cycle": {"type": "String"},
+      "day": {"type": "int"}
+    }
+  },
+  "accessibilitySettingsItem": "{title}, current value: {value}",
+  "@accessibilitySettingsItem": {
+    "placeholders": {
+      "title": {"type": "String"},
+      "value": {"type": "String"}
+    }
+  },
+  "accessibilityToggleOn": "Enabled",
+  "accessibilityToggleOff": "Disabled",
+  "accessibilityCloseSheet": "Close this sheet",
+  "accessibilityBackButton": "Go back",
+  "accessibilityProfileButton": "Open profile menu",
+  "accessibilityNotificationsButton": "View notifications",
+
+  "navHomeTooltip": "Home, spending overview",
+  "navPursuitsTooltip": "Goals, savings targets",
+  "navReportsTooltip": "Reports, spending analysis",
+  "navSettingsTooltip": "Settings and preferences",
+
+  "shareDefaultMessage": "I track my expenses in hours! Try it: {link}",
+  "@shareDefaultMessage": {
+    "placeholders": {
+      "link": {"type": "String"}
+    }
+  },
+  "shareInviteLink": "Share Invite Link",
+  "inviteFriends": "Invite Friends",
+  "yourReferralCode": "Your referral code",
+  "referralStats": "{count} friends joined",
+  "@referralStats": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "referralRewardInfo": "Earn 7 days premium for each friend!",
+  "codeCopied": "Code copied!",
+  "haveReferralCode": "Have a referral code?",
+  "referralCodeHint": "Enter code (optional)",
+  "referralCodePlaceholder": "VANTAG-XXXXX",
+  "referralSuccess": "{name} joined Vantag! +7 days premium",
+  "@referralSuccess": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "welcomeReferred": "Welcome! You have 7 days premium trial",
+  "referralInvalidCode": "Invalid referral code",
+  "referralCodeApplied": "Referral code applied!",
+  "referralSectionTitle": "Referrals",
+  "referralShareDescription": "Share your code and earn premium days",
+
+  "trialMidpointTitle": "Halfway there! \u23f3",
+  "trialMidpointBody": "Your trial is halfway done. You've saved {hours} hours so far!",
+  "@trialMidpointBody": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "trialOneDayLeftTitle": "Trial ends tomorrow \u23f0",
+  "trialOneDayLeftBody": "Go premium to keep tracking your savings!",
+  "trialEndsTodayTitle": "Last day of trial! \ud83c\udf81",
+  "trialEndsTodayBody": "Get 50% off if you upgrade today!",
+  "trialExpiredTitle": "We miss you! \ud83d\udc9c",
+  "trialExpiredBody": "Come back and continue reaching your goals",
+  "dailyReminderTitle": "Don't forget to log! \ud83d\udcdd",
+  "dailyReminderBody": "Track today's spending in just seconds",
+  "notificationSettings": "Notifications",
+  "notificationSettingsDesc": "Reminders and updates",
+  "firstExpenseTitle": "Great start! \ud83c\udf89",
+  "firstExpenseBody": "You saved {hours} hours today!",
+  "@firstExpenseBody": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "trialReminderEnabled": "Trial reminders",
+  "trialReminderDesc": "Get notified before your trial ends",
+  "dailyReminderEnabled": "Daily reminders",
+  "dailyReminderDesc": "Evening reminder to log expenses",
+  "dailyReminderTime": "Reminder time",
+  "trialDaysRemaining": "{days} days left in trial",
+  "@trialDaysRemaining": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "subscriptionReminder": "Subscription reminders",
+  "subscriptionReminderDesc": "Get notified before subscriptions renew",
+
+  "thinkingReminder": "\"Thinking\" reminders",
+  "thinkingReminderDesc": "Get reminded after 72 hours about items you're still thinking about",
+  "thinkingReminderTitle": "Still thinking?",
+  "thinkingReminderBody": "Did you decide? {item}",
+  "@thinkingReminderBody": {
+    "placeholders": {
+      "item": {"type": "String"}
+    }
+  },
+  "willRemindIn72h": "We'll remind you in 72 hours",
+  "thinkingAbout": "Thinking about",
+  "addedDaysAgo": "Added {days} days ago",
+  "@addedDaysAgo": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "stillThinking": "Still thinking?",
+  "stillThinkingMessage": "It's been 72 hours. Did you decide?",
+  "decidedYes": "I bought it",
+  "decidedNo": "I passed",
+
+  "aiChatLimitReached": "You've used your 4 daily AI chats. Go premium for unlimited!",
+  "aiChatsRemaining": "{count} chats left today",
+  "@aiChatsRemaining": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "pursuitLimitReachedFree": "Free accounts can have 1 active goal. Go premium for unlimited goals!",
+  "pursuitNameRequired": "Please enter a name",
+  "pursuitAmountRequired": "Please enter an amount",
+  "pursuitAmountInvalid": "Please enter a valid amount",
+  "exportPremiumOnly": "Export is a premium feature",
+  "multiCurrencyPremium": "Multiple currencies is a premium feature. Free users can only use TRY.",
+  "reportsPremiumOnly": "Monthly and yearly reports are premium features",
+  "upgradeToPremium": "Upgrade to Premium",
+  "premiumIncludes": "Premium includes:",
+  "unlimitedAiChat": "Unlimited AI chat",
+  "unlimitedPursuits": "Unlimited goals",
+  "exportFeature": "Export your data",
+  "allCurrencies": "All currencies",
+  "fullReports": "Full reports",
+  "cleanShareCards": "Clean share cards (no watermark)",
+  "maybeLater": "Maybe later",
+  "seePremium": "See Premium",
+  "weeklyOnly": "Weekly",
+  "monthlyPro": "Monthly (Pro)",
+  "yearlyPro": "Yearly (Pro)",
+  "currencyLocked": "Premium only",
+  "freeUserCurrencyNote": "Free users can only use TRY. Upgrade to use {currency}.",
+  "@freeUserCurrencyNote": {
+    "placeholders": {
+      "currency": {"type": "String"}
+    }
+  },
+  "watermarkText": "vantag.app",
+
+  "incomeTypeSalary": "Salary",
+  "incomeTypeBonus": "Bonus",
+  "incomeTypeGift": "Gift",
+  "incomeTypeRefund": "Refund",
+  "incomeTypeFreelance": "Freelance",
+  "incomeTypeRental": "Rental",
+  "incomeTypeInvestment": "Investment",
+  "incomeTypeOther": "Other Income",
+
+  "salaryDay": "Salary Day",
+  "salaryDayTitle": "When do you get paid?",
+  "salaryDaySubtitle": "We'll remind you on payday",
+  "salaryDayHint": "Select day of month (1-31)",
+  "salaryDaySet": "Salary day set to {day}",
+  "@salaryDaySet": {
+    "placeholders": {
+      "day": {"type": "int"}
+    }
+  },
+  "salaryDaySkip": "Skip for now",
+  "salaryDayNotSet": "Not set",
+  "dayOfMonth": "Day {day}",
+  "@dayOfMonth": {
+    "placeholders": {
+      "day": {"type": "int"}
+    }
+  },
+
+  "currentBalance": "Current Balance",
+  "balanceTitle": "What's your current balance?",
+  "balanceSubtitle": "Track your spending more accurately",
+  "balanceHint": "Enter your bank balance",
+  "balanceUpdated": "Balance updated",
+  "balanceOptional": "Optional - you can add this later",
+
+  "paydayTitle": "Payday!",
+  "paydayMessage": "Did you receive your salary?",
+  "paydayConfirm": "Yes, received!",
+  "paydayNotYet": "Not yet",
+  "paydaySkip": "Skip",
+  "paydayCelebration": "Congratulations! Salary received",
+  "paydayUpdateBalance": "Update your balance",
+  "paydayNewBalance": "New balance after salary",
+  "daysUntilPayday": "{days} days until payday",
+  "@daysUntilPayday": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "paydayToday": "Payday is today!",
+  "paydayTomorrow": "Payday is tomorrow",
+
+  "addIncome": "Add Income",
+  "addIncomeTitle": "Record Income",
+  "addIncomeSubtitle": "Bonus, gift, refund, etc.",
+  "incomeAmount": "Amount received",
+  "incomeType": "Income type",
+  "incomeNotes": "Notes (optional)",
+  "incomeNotesHint": "e.g. Year-end bonus, birthday gift...",
+  "incomeAdded": "Income added!",
+  "incomeAddedBalance": "Balance updated: {amount}",
+  "@incomeAddedBalance": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+
+  "thisMonthIncome": "This Month's Income",
+  "totalMonthlyIncome": "Total Monthly Income",
+  "regularIncome": "Regular Income",
+  "additionalIncome": "Additional Income",
+  "incomeBreakdown": "Income Breakdown",
+
+  "paydayNotificationTitle": "Payday!",
+  "paydayNotificationBody": "Your salary should be arriving today. Check your account!",
+  "paydayNotificationEnabled": "Payday reminders",
+  "paydayNotificationDesc": "Get notified on your salary day",
+
+  "onboardingSalaryDayTitle": "When's Payday?",
+  "onboardingSalaryDayDesc": "Tell us when you receive your salary so we can help you budget better",
+  "onboardingBalanceTitle": "Starting Balance",
+  "onboardingBalanceDesc": "Enter your current balance to track your finances accurately",
+
+  "onboardingV2Step1Title": "See expenses differently",
+  "onboardingV2Step1Subtitle": "See how many hours each purchase costs you",
+  "onboardingV2Step1Demo": "$500 phone = 20 hours of work",
+  "onboardingV2Step1Cta": "Calculate",
+
+  "onboardingV2Step2Title": "Let's get to know you",
+  "onboardingV2Step2Income": "Monthly income",
+  "onboardingV2Step2Hours": "Daily work hours",
+  "onboardingV2Step2Days": "Work days per week",
+  "onboardingV2Step2Cta": "Continue",
+
+  "onboardingV2Step3Title": "Add your first expense",
+  "onboardingV2Step3Subtitle": "See its value in hours",
+  "onboardingV2Step3Result": "= {hours}h {minutes}m",
+  "@onboardingV2Step3Result": {
+    "placeholders": {
+      "hours": {"type": "int"},
+      "minutes": {"type": "int"}
+    }
+  },
+  "onboardingV2Step3Success": "Great! Now you'll know the true cost of every purchase",
+  "onboardingV2Step3Cta": "Start",
+
+  "onboardingV2SkipSetup": "Later",
+  "onboardingV2Progress": "Step {current}/{total}",
+  "@onboardingV2Progress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+
+  "checklistTitle": "Getting Started",
+  "checklistProgress": "{completed}/{total} completed",
+  "@checklistProgress": {
+    "placeholders": {
+      "completed": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "checklistFirstExpenseTitle": "Add your first expense",
+  "checklistFirstExpenseSubtitle": "See its value in hours",
+  "checklistViewReportTitle": "View your report",
+  "checklistViewReportSubtitle": "Discover spending patterns",
+  "checklistCreatePursuitTitle": "Set a savings goal",
+  "checklistCreatePursuitSubtitle": "Start saving for something",
+  "checklistNotificationsTitle": "Enable notifications",
+  "checklistNotificationsSubtitle": "Get daily reminders",
+  "checklistCelebrationTitle": "Great start!",
+  "checklistCelebrationSubtitle": "You're ready to use Vantag",
+
+  "emptyStateExampleTitle": "Example",
+  "emptyStateExpensesMessage": "See how many hours each purchase costs you",
+  "emptyStateExpensesCta": "Add Expense",
+  "emptyStatePursuitsMessage": "Set a goal and track your progress",
+  "emptyStatePursuitsCta": "Create Goal",
+  "emptyStateReportsMessage": "Discover your spending patterns",
+  "emptyStateReportsCta": "Add Expense",
+  "emptyStateSubscriptionsMessage": "Track your subscriptions, never forget",
+  "emptyStateSubscriptionsCta": "Add Subscription",
+  "emptyStateAchievementsMessage": "Add expenses to earn badges",
+  "emptyStateSavingsPoolMessage": "Pool your savings together",
+
+  "milestone3DayStreakTitle": "3 Day Streak!",
+  "milestone3DayStreakMessage": "Great start, keep going!",
+  "milestone7DayStreakTitle": "1 Week Streak!",
+  "milestone7DayStreakMessage": "A whole week of tracking",
+  "milestone14DayStreakTitle": "2 Week Streak!",
+  "milestone14DayStreakMessage": "You're building a habit",
+  "milestone30DayStreakTitle": "1 Month Streak!",
+  "milestone30DayStreakMessage": "A full month! Incredible",
+  "milestone60DayStreakTitle": "2 Month Streak!",
+  "milestone60DayStreakMessage": "You're a financial awareness pro",
+  "milestone100DayStreakTitle": "100 Day Streak!",
+  "milestone100DayStreakMessage": "Legendary achievement! You're a champion",
+  "milestoneFirstSavedTitle": "First Savings!",
+  "milestoneFirstSavedMessage": "You saved your first money",
+  "milestoneSaved100Title": "Saved $100!",
+  "milestoneSaved100Message": "Your savings habit is growing",
+  "milestoneSaved1000Title": "Saved $1,000!",
+  "milestoneSaved1000Message": "You're saving seriously",
+  "milestoneSaved5000Title": "Saved $5,000!",
+  "milestoneSaved5000Message": "You're a savings master!",
+  "milestoneFirstExpenseTitle": "First Step!",
+  "milestoneFirstExpenseMessage": "You logged your first expense",
+  "milestone10ExpensesTitle": "10 Expenses!",
+  "milestone10ExpensesMessage": "You have a tracking habit now",
+  "milestone50ExpensesTitle": "50 Expenses!",
+  "milestone50ExpensesMessage": "You're a financial awareness pro",
+  "milestoneFirstPursuitTitle": "First Goal!",
+  "milestoneFirstPursuitMessage": "Your savings journey has begun",
+  "milestoneFirstPursuitCompletedTitle": "Goal Completed!",
+  "milestoneFirstPursuitCompletedMessage": "You reached your first goal!",
+  "milestoneUsedAiChatTitle": "AI Discovery!",
+  "milestoneUsedAiChatMessage": "You met your financial assistant",
+
+  "selectTimeFilter": "Select time filter: {filter}",
+  "@selectTimeFilter": {
+    "placeholders": {
+      "filter": {"type": "String"}
+    }
+  },
+  "lockedFilterPremium": "{filter}, premium feature",
+  "@lockedFilterPremium": {
+    "placeholders": {
+      "filter": {"type": "String"}
+    }
+  },
+  "selectedFilter": "{filter}, selected",
+  "@selectedFilter": {
+    "placeholders": {
+      "filter": {"type": "String"}
+    }
+  },
+  "selectHeatmapDay": "Select day: {date}",
+  "@selectHeatmapDay": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "heatmapDayWithSpending": "{date}, {amount} spent",
+  "@heatmapDayWithSpending": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "heatmapDayNoSpending": "{date}, no spending",
+  "@heatmapDayNoSpending": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+
+  "loggedOutFromAnotherDevice": "Logged In From Another Device",
+  "loggedOutFromAnotherDeviceMessage": "Your account was accessed from another device. For security reasons, you have been signed out from this device.",
+  "understood": "Understood",
+
+  "multiCurrencyProTitle": "Multi-Currency",
+  "multiCurrencyProDescription": "Upgrade to Pro to enter income and expenses in different currencies. Use USD, EUR, GBP and more.",
+  "multiCurrencyBenefit": "All currencies available",
+  "upgradeToPro": "Upgrade to Pro",
+  "currencyLockedForFree": "Currency change is a Pro feature",
+
+  "excelSheetExpenses": "Expenses",
+  "excelSheetSummary": "Summary",
+  "excelSheetCategories": "Categories",
+  "excelSheetTimeAnalysis": "Time Analysis",
+  "excelSheetDecisions": "Decisions",
+  "excelSheetInstallments": "Installments",
+
+  "excelHeaderDay": "Day",
+  "excelHeaderStore": "Store/Location",
+  "excelHeaderMinutes": "Minutes Equiv.",
+  "excelHeaderMonthlyInstallment": "Monthly Payment",
+  "excelHeaderInstallmentCount": "Installment",
+  "excelHeaderSimulation": "Simulation",
+  "excelHeaderHoursEquiv": "Hours Equiv.",
+
+  "excelReportTitle": "Vantag Financial Report",
+  "excelReportPeriod": "Report Period",
+  "excelReportGeneratedAt": "Generated",
+  "excelTotalExpenses": "Total Expenses",
+  "excelTotalTransactions": "Total Transactions",
+  "excelAvgPerTransaction": "Average per Transaction",
+  "excelMonthlyAverage": "Monthly Average",
+  "excelDailyAverage": "Daily Average",
+  "excelWeeklyAverage": "Weekly Average",
+  "excelSavingsRate": "Savings Rate",
+  "excelTotalWorkHours": "Total Work Hours",
+  "excelTotalWorkDays": "Total Work Days",
+
+  "excelCategoryShare": "Share %",
+  "excelCategoryRank": "Rank",
+  "excelTopCategory": "Top Category",
+  "excelCategoryCount": "Transaction Count",
+  "excelCategoryAvg": "Category Average",
+  "excelCategoryTotal": "Category Total",
+  "excelCategoryHours": "Work Hours",
+
+  "excelTimeTitle": "Time Analysis",
+  "excelMostActiveDay": "Most Active Day",
+  "excelMostActiveHour": "Most Active Hour",
+  "excelWeekdayAvg": "Weekday Average",
+  "excelWeekendAvg": "Weekend Average",
+  "excelMorningSpend": "Morning (06-12)",
+  "excelAfternoonSpend": "Afternoon (12-18)",
+  "excelEveningSpend": "Evening (18-24)",
+  "excelNightSpend": "Night (00-06)",
+  "excelByDayOfWeek": "By Day of Week",
+  "excelByHour": "By Hour",
+  "excelByMonth": "By Month",
+
+  "excelDecisionsBought": "Bought",
+  "excelDecisionsThinking": "Thinking",
+  "excelDecisionsPassed": "Passed",
+  "excelDecisionCount": "Count",
+  "excelDecisionAmount": "Amount",
+  "excelDecisionPercent": "Percentage",
+  "excelDecisionAvg": "Average",
+  "excelDecisionHours": "Work Hours",
+  "excelImpulseRate": "Impulse Rate",
+  "excelSavingsFromPassed": "Savings from Passed",
+  "excelPotentialSavings": "Potential Savings (Thinking)",
+
+  "excelInstallmentName": "Description",
+  "excelInstallmentTotal": "Total Amount",
+  "excelInstallmentMonthly": "Monthly Payment",
+  "excelInstallmentProgress": "Progress",
+  "excelInstallmentRemaining": "Remaining",
+  "excelInstallmentStartDate": "Start Date",
+  "excelInstallmentEndDate": "End Date",
+  "excelInstallmentInterest": "Interest",
+  "excelNoInstallments": "No installment payments",
+  "excelTotalMonthlyPayments": "Total Monthly Payments",
+  "excelTotalRemainingDebt": "Total Remaining Debt",
+
+  "excelDayMonday": "Monday",
+  "excelDayTuesday": "Tuesday",
+  "excelDayWednesday": "Wednesday",
+  "excelDayThursday": "Thursday",
+  "excelDayFriday": "Friday",
+  "excelDaySaturday": "Saturday",
+  "excelDaySunday": "Sunday",
+
+  "excelYes": "Yes",
+  "excelNo": "No",
+  "excelReal": "Real",
+  "excelSimulation": "Simulation",
+
+  "proFeaturesSheetTitle": "Pro Feature",
+  "proFeaturesSheetSubtitle": "This feature is exclusive to Pro members",
+  "proFeaturesIncluded": "Pro membership includes:",
+  "proFeatureHeatmap": "Expense Heatmap",
+  "proFeatureHeatmapDesc": "Visualize your spending patterns over the year",
+  "proFeatureCategoryBreakdown": "Category Breakdown",
+  "proFeatureCategoryBreakdownDesc": "Detailed pie chart analysis by category",
+  "proFeatureSpendingTrends": "Spending Trends",
+  "proFeatureSpendingTrendsDesc": "Track your spending changes over time",
+  "proFeatureTimeAnalysis": "Time Analysis",
+  "proFeatureTimeAnalysisDesc": "See when you spend most by day and hour",
+  "proFeatureBudgetBreakdown": "Budget Breakdown",
+  "proFeatureBudgetBreakdownDesc": "Track spending against your budget goals",
+  "proFeatureAdvancedFilters": "Advanced Filters",
+  "proFeatureAdvancedFiltersDesc": "Filter by month, all-time, and more",
+  "proFeatureExcelExport": "Excel Export",
+  "proFeatureExcelExportDesc": "Export your complete financial data",
+  "proFeatureUnlimitedHistory": "Unlimited History",
+  "proFeatureUnlimitedHistoryDesc": "Access all your past expenses",
+  "goProButton": "Go Pro",
+  "lockedFeatureTapToUnlock": "Tap to unlock",
+
+  "voiceUsageIndicator": "{used}/{total} voice inputs today",
+  "@voiceUsageIndicator": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "aiChatUsageIndicator": "{used}/{total} questions today",
+  "@aiChatUsageIndicator": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "dailyLimitReached": "Daily limit reached",
+  "dailyLimitReachedDesc": "You've used all your daily quota. Upgrade to Pro for unlimited access!",
+  "unlimitedWithPro": "Unlimited with Pro",
+
+  "backupData": "Backup Data",
+  "backupDataDesc": "Export your data as a JSON file",
+  "restoreData": "Restore Data",
+  "restoreDataDesc": "Import data from a backup file",
+  "backupCreating": "Creating backup...",
+  "backupSuccess": "Backup created successfully",
+  "backupError": "Failed to create backup",
+  "restoreConfirmTitle": "Restore Data?",
+  "restoreConfirmMessage": "This will add the backup data to your existing data. Continue?",
+  "restoreSuccess": "Data restored! {expenses} expenses, {pursuits} goals, {subscriptions} subscriptions imported.",
+  "@restoreSuccess": {
+    "placeholders": {
+      "expenses": {"type": "int"},
+      "pursuits": {"type": "int"},
+      "subscriptions": {"type": "int"}
+    }
+  },
+  "restoreError": "Failed to restore data",
+  "noFileSelected": "No file selected",
+  "invalidBackupFormat": "Invalid backup file format",
+
+  "shareApp": "Share App",
+  "shareAppDesc": "Recommend Vantag to friends",
+  "shareAppMessage": "Check out Vantag - It shows you how many work hours each expense costs! Download: https://play.google.com/store/apps/details?id=com.vantag.app",
+
+  "sendFeedback": "Send Feedback",
+  "sendFeedbackDesc": "Help us improve Vantag",
+  "feedbackEmailSubject": "Vantag Feedback",
+
+  "rateApp": "Rate App",
+  "rateAppDesc": "Rate us on Play Store",
+
+  "whatsNew": "What's New",
+  "whatsNewInVersion": "What's New in v{version}",
+  "@whatsNewInVersion": {
+    "placeholders": {
+      "version": {"type": "String"}
+    }
+  },
+  "gotIt": "Got It",
+
+  "updateRequired": "Update Required",
+  "updateRequiredMessage": "A new version of Vantag is available. Please update to continue.",
+  "updateNow": "Update Now",
+
+  "dailyLimits": "Daily Limits",
+  "aiChat": "AI Chat",
+  "voiceInput": "Voice Input",
+  "statementImport": "Statement Import",
+
+  "subscriptionAutoRenewalNotice": "Subscription automatically renews unless canceled at least 24 hours before the end of the current period. Manage subscriptions in Settings.",
+  "@subscriptionAutoRenewalNotice": {
+    "description": "Apple App Store required auto-renewal disclosure"
+  },
+
+  "welcomeBackTitle3Days": "Welcome Back!",
+  "welcomeBackSubtitle3Days": "We missed you. Keep tracking your expenses.",
+  "welcomeBackCta3Days": "Add Expense",
+
+  "welcomeBackTitle7Days": "You're Back!",
+  "welcomeBackSubtitle7Days": "It's been a week. Let's continue towards your financial goals.",
+  "welcomeBackCta7Days": "Where Did We Leave Off?",
+
+  "welcomeBackTitle14Days": "Hello Again!",
+  "welcomeBackSubtitle14Days": "We've been waiting. Ready for a fresh start?",
+  "welcomeBackCta14Days": "Start Fresh",
+
+  "welcomeBackTitle30Days": "Welcome Back!",
+  "welcomeBackSubtitle30Days": "It's been a while, but reaching your goals is still possible!",
+  "welcomeBackCta30Days": "Get Started",
+
+  "welcomeBackStreakLost": "Your streak was reset",
+  "welcomeBackStreakRecovered": "{percent}% of your streak recovered!",
+  "@welcomeBackStreakRecovered": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+
+  "reengagementPushTitle3Days": "Don't forget to track your expenses!",
+  "reengagementPushBody3Days": "How much did you save today? Check now.",
+
+  "reengagementPushTitle5Days": "We miss you!",
+  "reengagementPushBody5Days": "Keep going to reach your financial goals.",
+
+  "reengagementPushTitle7Days": "Come back before you lose your streak!",
+  "reengagementPushBody7Days": "Don't lose your streak, add an expense now.",
+
+  "reengagementUrgentTitle": "Don't lose control of your finances!",
+  "reengagementUrgentBody": "Update your expenses and stay on track.",
+
+  "pushOnboardingDay1Title": "Add your first expense!",
+  "pushOnboardingDay1Body": "A coffee or meal - start small, see the difference.",
+
+  "pushOnboardingDay3Title": "Do you know how many hours you worked?",
+  "pushOnboardingDay3Body": "Keep seeing your expenses as hours worked.",
+
+  "pushOnboardingDay7Title": "It's been 7 days!",
+  "pushOnboardingDay7Body": "Add an expense daily to start a streak.",
+
+  "pushWeeklyInsightTitle": "Weekly Summary Ready",
+  "pushWeeklyInsightBody": "How much did you save this week? Check now.",
+
+  "pushStreakReminderNewTitle": "Start a new streak!",
+  "pushStreakReminderNewBody": "Add your first expense today and begin your journey.",
+
+  "pushStreakReminderShortTitle": "You have a {days} day streak!",
+  "@pushStreakReminderShortTitle": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "pushStreakReminderShortBody": "Add one today to keep it going.",
+
+  "pushStreakReminderMediumTitle": "{days} days! You're doing great!",
+  "@pushStreakReminderMediumTitle": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "pushStreakReminderMediumBody": "Add today to keep your streak alive.",
+
+  "pushStreakReminderLongTitle": "{days} day streak!",
+  "@pushStreakReminderLongTitle": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "pushStreakReminderLongBody": "Incredible achievement! Keep it up.",
+
+  "pushMorningMotivationTitle": "Good morning!",
+  "pushMorningMotivationWithSavingsBody": "You saved {symbol}{amount} this month. Keep going!",
+  "@pushMorningMotivationWithSavingsBody": {
+    "placeholders": {
+      "symbol": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "pushMorningMotivationDefaultBody": "Add an expense today to boost your financial awareness.",
+
+  "notificationSettingsTitle": "Notification Settings",
+  "notificationSettingsQuietHours": "Quiet Hours",
+  "notificationSettingsQuietHoursDesc": "No notifications during these hours",
+  "notificationSettingsPreferredTime": "Preferred Time",
+  "notificationSettingsPreferredTimeDesc": "Time to receive notifications",
+  "notificationSettingsStreakReminders": "Streak Reminders",
+  "notificationSettingsStreakRemindersDesc": "Get evening reminders about your streak",
+  "notificationSettingsMorningMotivation": "Morning Motivation",
+  "notificationSettingsMorningMotivationDesc": "Get motivation messages in the morning",
+  "notificationSettingsWeeklyInsights": "Weekly Insights",
+  "notificationSettingsWeeklyInsightsDesc": "Get weekly summary on Sunday mornings",
+
+  "loginPromptTitle": "Save Your Data",
+  "loginPromptSubtitle": "Link your account so you don't lose your data",
+  "loginPromptLater": "Maybe later",
+
+  "additionalIncomePromptTitle": "Do you have additional income?",
+  "additionalIncomePromptSubtitle": "Side job, rent, freelance...",
+  "additionalIncomeYes": "Yes, add",
+  "additionalIncomeNo": "No, I don't"
+}

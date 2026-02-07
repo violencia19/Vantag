@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../theme/theme.dart';
 import '../utils/currency_utils.dart';
 
@@ -41,10 +41,10 @@ class IncomeSummaryWidget extends StatelessWidget {
           vertical: containerPadding * 0.75,
         ),
         decoration: BoxDecoration(
-          color: context.appColors.surface,
-          borderRadius: BorderRadius.circular(12),
+          color: context.vantColors.surface,
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: context.appColors.cardBorder.withValues(
+            color: context.vantColors.cardBorder.withValues(
               alpha: 0.5 + (0.3 * expandRatio),
             ),
           ),
@@ -57,13 +57,13 @@ class IncomeSummaryWidget extends StatelessWidget {
               width: iconSize * 1.8,
               height: iconSize * 1.8,
               decoration: BoxDecoration(
-                color: context.appColors.success.withValues(alpha: 0.1),
+                color: context.vantColors.success.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
-                PhosphorIconsDuotone.wallet,
+                CupertinoIcons.creditcard_fill,
                 size: iconSize,
-                color: context.appColors.success,
+                color: context.vantColors.success,
               ),
             ),
             SizedBox(width: 8 + (4 * expandRatio)),
@@ -86,7 +86,7 @@ class IncomeSummaryWidget extends StatelessWidget {
                       style: TextStyle(
                         fontSize: mainFontSize,
                         fontWeight: FontWeight.w700,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                       ),
                     ),
                     Text(
@@ -94,7 +94,7 @@ class IncomeSummaryWidget extends StatelessWidget {
                       style: TextStyle(
                         fontSize: subFontSize,
                         fontWeight: FontWeight.w500,
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                       ),
                     ),
                     if (incomeSourceCount > 1) ...[
@@ -105,7 +105,7 @@ class IncomeSummaryWidget extends StatelessWidget {
                           vertical: 1 + expandRatio,
                         ),
                         decoration: BoxDecoration(
-                          color: context.appColors.success.withValues(
+                          color: context.vantColors.success.withValues(
                             alpha: 0.1,
                           ),
                           borderRadius: BorderRadius.circular(4),
@@ -115,7 +115,7 @@ class IncomeSummaryWidget extends StatelessWidget {
                           style: TextStyle(
                             fontSize: subFontSize - 2,
                             fontWeight: FontWeight.w600,
-                            color: context.appColors.success,
+                            color: context.vantColors.success,
                           ),
                         ),
                       ),
@@ -129,12 +129,12 @@ class IncomeSummaryWidget extends StatelessWidget {
                   children: [
                     Icon(
                       isPositive
-                          ? PhosphorIconsDuotone.trendUp
-                          : PhosphorIconsDuotone.trendDown,
+                          ? CupertinoIcons.arrow_up_right
+                          : CupertinoIcons.arrow_down_right,
                       size: subFontSize + 2,
                       color: isPositive
-                          ? context.appColors.success
-                          : context.appColors.error,
+                          ? context.vantColors.success
+                          : context.vantColors.error,
                     ),
                     const SizedBox(width: 4),
                     Text(
@@ -143,8 +143,8 @@ class IncomeSummaryWidget extends StatelessWidget {
                         fontSize: subFontSize,
                         fontWeight: FontWeight.w600,
                         color: isPositive
-                            ? context.appColors.success
-                            : context.appColors.error,
+                            ? context.vantColors.success
+                            : context.vantColors.error,
                       ),
                     ),
                   ],
@@ -156,9 +156,9 @@ class IncomeSummaryWidget extends StatelessWidget {
             if (expandRatio > 0.5 && onTap != null) ...[
               SizedBox(width: 8 + (4 * expandRatio)),
               Icon(
-                PhosphorIconsDuotone.caretRight,
+                CupertinoIcons.chevron_right,
                 size: iconSize,
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
               ),
             ],
           ],
@@ -193,9 +193,9 @@ class CompactIncomeIndicator extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: context.appColors.surface,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: context.appColors.cardBorder),
+          color: context.vantColors.surface,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: context.vantColors.cardBorder),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -206,8 +206,8 @@ class CompactIncomeIndicator extends StatelessWidget {
               height: 6,
               decoration: BoxDecoration(
                 color: isPositive
-                    ? context.appColors.success
-                    : context.appColors.error,
+                    ? context.vantColors.success
+                    : context.vantColors.error,
                 shape: BoxShape.circle,
               ),
             ),
@@ -227,10 +227,10 @@ class CompactIncomeIndicator extends StatelessWidget {
   }
 
   Color _getSpendingColor(BuildContext context) {
-    if (spendingRate < 50) return context.appColors.success;
-    if (spendingRate < 75) return context.appColors.warning;
-    if (spendingRate < 100) return context.appColors.error;
-    return context.appColors.error;
+    if (spendingRate < 50) return context.vantColors.success;
+    if (spendingRate < 75) return context.vantColors.warning;
+    if (spendingRate < 100) return context.vantColors.error;
+    return context.vantColors.error;
   }
 }
 
@@ -255,7 +255,7 @@ class IncomeProgressBar extends StatelessWidget {
     return Container(
       height: height,
       decoration: BoxDecoration(
-        color: context.appColors.surfaceLight,
+        color: context.vantColors.surfaceLight,
         borderRadius: BorderRadius.circular(height / 2),
       ),
       child: LayoutBuilder(
@@ -281,11 +281,11 @@ class IncomeProgressBar extends StatelessWidget {
                     width: height * 1.5,
                     height: height,
                     decoration: BoxDecoration(
-                      color: context.appColors.error,
+                      color: context.vantColors.error,
                       borderRadius: BorderRadius.circular(height / 2),
                     ),
                     child: Icon(
-                      PhosphorIconsDuotone.warningCircle,
+                      CupertinoIcons.exclamationmark_circle_fill,
                       size: height - 2,
                       color: Colors.white,
                     ),
@@ -301,17 +301,17 @@ class IncomeProgressBar extends StatelessWidget {
   List<Color> _getGradientColors(BuildContext context) {
     if (progress < 0.5) {
       return [
-        context.appColors.success,
-        context.appColors.success.withValues(alpha: 0.8),
+        context.vantColors.success,
+        context.vantColors.success.withValues(alpha: 0.8),
       ];
     } else if (progress < 0.75) {
-      return [context.appColors.success, context.appColors.warning];
+      return [context.vantColors.success, context.vantColors.warning];
     } else if (progress < 1.0) {
-      return [context.appColors.warning, context.appColors.error];
+      return [context.vantColors.warning, context.vantColors.error];
     } else {
       return [
-        context.appColors.error,
-        context.appColors.error.withValues(alpha: 0.8),
+        context.vantColors.error,
+        context.vantColors.error.withValues(alpha: 0.8),
       ];
     }
   }
