@@ -286,7 +286,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           SnackBar(
             content: Text(l10n.receiptScanned),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
           ),
         );
       } else {
@@ -294,7 +294,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           SnackBar(
             content: Text(l10n.noAmountFound),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: context.appColors.warning,
+            backgroundColor: context.vantColors.warning,
           ),
         );
       }
@@ -305,7 +305,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           SnackBar(
             content: Text(l10n.scanError),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
           ),
         );
       }
@@ -323,7 +323,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     showModalBottomSheet(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.85),
-      backgroundColor: context.appColors.cardBackground,
+      backgroundColor: context.vantColors.cardBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -338,7 +338,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 height: 4,
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -347,7 +347,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 20),
@@ -355,17 +355,17 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 leading: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: context.appColors.primary.withValues(alpha: 0.1),
+                    color: context.vantColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
                     CupertinoIcons.camera,
-                    color: context.appColors.primary,
+                    color: context.vantColors.primary,
                   ),
                 ),
                 title: Text(
                   l10n.takePhoto,
-                  style: TextStyle(color: context.appColors.textPrimary),
+                  style: TextStyle(color: context.vantColors.textPrimary),
                 ),
                 onTap: () {
                   Navigator.pop(context);
@@ -377,17 +377,17 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 leading: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: context.appColors.secondary.withValues(alpha: 0.1),
+                    color: context.vantColors.secondary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
                     CupertinoIcons.photo,
-                    color: context.appColors.secondary,
+                    color: context.vantColors.secondary,
                   ),
                 ),
                 title: Text(
                   l10n.chooseFromGallery,
-                  style: TextStyle(color: context.appColors.textPrimary),
+                  style: TextStyle(color: context.vantColors.textPrimary),
                 ),
                 onTap: () {
                   Navigator.pop(context);
@@ -508,10 +508,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.dark(
-              primary: context.appColors.primary,
-              onPrimary: context.appColors.background,
-              surface: context.appColors.surface,
-              onSurface: context.appColors.textPrimary,
+              primary: context.vantColors.primary,
+              onPrimary: context.vantColors.background,
+              surface: context.vantColors.surface,
+              onSurface: context.vantColors.textPrimary,
             ),
           ),
           child: child!,
@@ -539,7 +539,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: context.appColors.error,
+        backgroundColor: context.vantColors.error,
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -628,12 +628,12 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       installmentTotal = parseTurkishCurrency(_installmentTotalController.text);
 
       if (installmentCount == null || installmentCount <= 0) {
-        _showError('Lütfen taksit sayısını seçin');
+        _showError(l10n.errorSelectInstallmentCount);
         return;
       }
 
       if (installmentTotal == null || installmentTotal <= 0) {
-        _showError('Lütfen taksitli toplam fiyatı girin');
+        _showError(l10n.errorEnterInstallmentTotal);
         return;
       }
     }
@@ -677,16 +677,18 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
     // Determine record type with new fixed thresholds
     RecordType recordType;
-    if (Expense.needsSimulationDialog(amountInIncomeCurrency)) {
-      // Middle range (250k-750k): ask user
+    final currencyCode = _expenseCurrency.code;
+    if (Expense.needsSimulationDialog(amountInIncomeCurrency, currencyCode: currencyCode)) {
+      // Middle range: ask user
       final isSimulation = await _showLargeAmountDialog();
       if (!mounted) return;
       recordType = isSimulation ? RecordType.simulation : RecordType.real;
     } else {
-      // Auto-determine based on fixed thresholds
+      // Auto-determine based on currency-calibrated thresholds
       recordType = Expense.detectRecordType(
         amountInIncomeCurrency,
         result.hoursRequired,
+        currencyCode: currencyCode,
       );
     }
 
@@ -799,8 +801,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
       // Calculate hours for display
       final userProfile = financeProvider.userProfile;
-      final hoursRequired = userProfile != null && userProfile.hourlyRate > 0
-          ? amount / userProfile.hourlyRate
+      // Input validation: only divide when hourlyRate is positive and finite
+      final rate = userProfile?.hourlyRate ?? 0;
+      final hoursRequired = rate > 0 && rate.isFinite
+          ? amount / rate
           : 0.0;
 
       // Play victory sound and show celebration
@@ -850,7 +854,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             ),
             duration: const Duration(seconds: 3),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -935,7 +939,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 ),
                 duration: const Duration(seconds: 4),
                 behavior: SnackBarBehavior.floating,
-                backgroundColor: context.appColors.warning,
+                backgroundColor: context.vantColors.warning,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -987,8 +991,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         duration: const Duration(seconds: 3),
         behavior: SnackBarBehavior.floating,
         backgroundColor: decision == ExpenseDecision.thinking
-            ? context.appColors.warning
-            : context.appColors.primary,
+            ? context.vantColors.warning
+            : context.vantColors.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );
@@ -1033,20 +1037,20 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        backgroundColor: context.appColors.surface,
+        backgroundColor: context.vantColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         icon: Icon(
           CupertinoIcons.mic_fill,
           size: 48,
-          color: context.appColors.primary,
+          color: context.vantColors.primary,
         ),
         title: Text(
           l10n.didYouKnow,
-          style: TextStyle(color: context.appColors.textPrimary),
+          style: TextStyle(color: context.vantColors.textPrimary),
         ),
         content: Text(
           l10n.voiceTipMessage,
-          style: TextStyle(color: context.appColors.textSecondary),
+          style: TextStyle(color: context.vantColors.textSecondary),
           textAlign: TextAlign.center,
         ),
         actions: [
@@ -1054,12 +1058,12 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             onPressed: () => Navigator.pop(dialogContext),
             child: Text(
               l10n.gotIt,
-              style: TextStyle(color: context.appColors.textSecondary),
+              style: TextStyle(color: context.vantColors.textSecondary),
             ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -1099,13 +1103,13 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        backgroundColor: context.appColors.cardBackground,
+        backgroundColor: context.vantColors.cardBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
             Icon(
               CupertinoIcons.money_dollar_circle_fill,
-              color: context.appColors.primary,
+              color: context.vantColors.primary,
               size: 24,
             ),
             const SizedBox(width: 8),
@@ -1124,7 +1128,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         content: Text(
           l10n.largeAmountMessage,
           style: TextStyle(
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
             fontSize: 14,
           ),
         ),
@@ -1134,14 +1138,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             onPressed: () => Navigator.pop(context, false), // false = real
             child: Text(
               l10n.realExpenseButton,
-              style: TextStyle(color: context.appColors.textSecondary),
+              style: TextStyle(color: context.vantColors.textSecondary),
             ),
           ),
           // Simulation button
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true), // true = simulation
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
               foregroundColor: Colors.white,
             ),
             child: Text(l10n.simulationButton),
@@ -1161,7 +1165,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: context.appColors.cardBackground,
+        backgroundColor: context.vantColors.cardBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
@@ -1185,7 +1189,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           '($timeAgoText)\n\n'
           '${l10n.addAnyway}',
           style: TextStyle(
-            color: context.appColors.textSecondary,
+            color: context.vantColors.textSecondary,
             fontSize: 14,
           ),
         ),
@@ -1194,13 +1198,13 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             onPressed: () => Navigator.pop(context, false),
             child: Text(
               l10n.no,
-              style: TextStyle(color: context.appColors.textSecondary),
+              style: TextStyle(color: context.vantColors.textSecondary),
             ),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.primary,
+              backgroundColor: context.vantColors.primary,
               foregroundColor: Colors.white,
             ),
             child: Text(l10n.yes),
@@ -1263,7 +1267,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               ),
             ],
           ),
-          backgroundColor: context.appColors.error,
+          backgroundColor: context.vantColors.error,
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 4),
           action: SnackBarAction(
@@ -1298,7 +1302,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               ),
             ],
           ),
-          backgroundColor: context.appColors.warning,
+          backgroundColor: context.vantColors.warning,
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 3),
         ),
@@ -1318,15 +1322,22 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         return ClipRRect(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            filter: ImageFilter.blur(sigmaX: VantBlur.medium, sigmaY: VantBlur.medium),
             child: Container(
               decoration: BoxDecoration(
-                color: context.appColors.gradientMid,
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    VantColors.gradientMid.withValues(alpha: 0.95),
+                    VantColors.gradientEnd.withValues(alpha: 0.98),
+                  ],
+                ),
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(24),
                 ),
                 border: Border.all(
-                  color: context.appColors.cardBorder,
+                  color: const Color(0x15FFFFFF),
                   width: 1,
                 ),
               ),
@@ -1339,7 +1350,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: context.appColors.textTertiary.withValues(
+                        color: context.vantColors.textTertiary.withValues(
                           alpha: 0.5,
                         ),
                         borderRadius: BorderRadius.circular(2),
@@ -1363,7 +1374,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
-                                color: context.appColors.textPrimary,
+                                color: context.vantColors.textPrimary,
                                 letterSpacing: -0.5,
                               ),
                             ),
@@ -1373,7 +1384,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                                 Icon(
                                   CupertinoIcons.calendar,
                                   size: 14,
-                                  color: context.appColors.textTertiary,
+                                  color: context.vantColors.textTertiary,
                                 ),
                                 const SizedBox(width: 6),
                                 Text(
@@ -1381,7 +1392,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
-                                    color: context.appColors.textTertiary,
+                                    color: context.vantColors.textTertiary,
                                   ),
                                 ),
                               ],
@@ -1395,13 +1406,13 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                             width: 36,
                             height: 36,
                             decoration: BoxDecoration(
-                              color: context.appColors.surfaceLight,
+                              color: context.vantColors.surfaceLight,
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
                               CupertinoIcons.xmark,
                               size: 20,
-                              color: context.appColors.textSecondary,
+                              color: context.vantColors.textSecondary,
                             ),
                           ),
                         ),
@@ -1522,7 +1533,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               l10n.today,
               style: TextStyle(
                 fontSize: 12,
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -1536,9 +1547,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       decoration: BoxDecoration(
-        color: context.appColors.surfaceLight,
+        color: context.vantColors.surfaceLight,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: context.vantColors.cardBorder),
       ),
       child: Column(
         children: [
@@ -1551,7 +1562,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             style: TextStyle(
               fontSize: 40,
               fontWeight: FontWeight.w700,
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
               letterSpacing: -1,
             ),
             textAlign: TextAlign.center,
@@ -1560,7 +1571,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               hintStyle: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.w700,
-                color: context.appColors.textTertiary.withValues(alpha: 0.5),
+                color: context.vantColors.textTertiary.withValues(alpha: 0.5),
               ),
               border: InputBorder.none,
               contentPadding: EdgeInsets.zero,
@@ -1600,16 +1611,16 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           width: 44,
           height: 44,
           decoration: BoxDecoration(
-            color: context.appColors.primary.withValues(alpha: 0.15),
+            color: context.vantColors.primary.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: context.appColors.primary.withValues(alpha: 0.3),
+              color: context.vantColors.primary.withValues(alpha: 0.3),
             ),
           ),
           child: Icon(
             CupertinoIcons.mic_fill,
             size: 22,
-            color: context.appColors.primary,
+            color: context.vantColors.primary,
           ),
         ),
       ),
@@ -1657,10 +1668,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           width: 44,
           height: 44,
           decoration: BoxDecoration(
-            color: context.appColors.secondary.withValues(alpha: 0.15),
+            color: context.vantColors.secondary.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: context.appColors.secondary.withValues(alpha: 0.3),
+              color: context.vantColors.secondary.withValues(alpha: 0.3),
             ),
           ),
           child: _isScanning
@@ -1670,14 +1681,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     height: 20,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: context.appColors.secondary,
+                      color: context.vantColors.secondary,
                     ),
                   ),
                 )
               : Icon(
                   CupertinoIcons.camera,
                   size: 22,
-                  color: context.appColors.secondary,
+                  color: context.vantColors.secondary,
                 ),
         ),
       ),
@@ -1694,10 +1705,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
-            color: context.appColors.textTertiary.withValues(alpha: 0.1),
+            color: context.vantColors.textTertiary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: context.appColors.textTertiary.withValues(alpha: 0.3),
+              color: context.vantColors.textTertiary.withValues(alpha: 0.3),
               width: 1,
             ),
           ),
@@ -1709,14 +1720,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                 ),
               ),
               const SizedBox(width: 6),
               Icon(
                 CupertinoIcons.lock,
                 size: 14,
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
               ),
             ],
           ),
@@ -1728,10 +1739,10 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        color: context.appColors.primary.withValues(alpha: 0.1),
+        color: context.vantColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: context.appColors.primary.withValues(alpha: 0.3),
+          color: context.vantColors.primary.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -1741,14 +1752,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           icon: Icon(
             CupertinoIcons.chevron_down,
             size: 16,
-            color: context.appColors.primary,
+            color: context.vantColors.primary,
           ),
-          dropdownColor: context.appColors.cardBackground,
+          dropdownColor: context.vantColors.cardBackground,
           borderRadius: BorderRadius.circular(16),
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: context.appColors.primary,
+            color: context.vantColors.primary,
           ),
           items: _availableCurrencies.map((code) {
             return DropdownMenuItem<String>(
@@ -1761,8 +1772,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       ? FontWeight.w600
                       : FontWeight.w400,
                   color: _expenseCurrency.code == code
-                      ? context.appColors.primary
-                      : context.appColors.textPrimary,
+                      ? context.vantColors.primary
+                      : context.vantColors.textPrimary,
                 ),
               ),
             );
@@ -1785,35 +1796,35 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       enableSuggestions: true,
       autocorrect: false,
       enableIMEPersonalizedLearning: true,
-      style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
+      style: TextStyle(color: context.vantColors.textPrimary, fontSize: 14),
       decoration: InputDecoration(
         labelText: l10n.descriptionLabel,
         labelStyle: TextStyle(
-          color: context.appColors.textSecondary,
+          color: context.vantColors.textSecondary,
           fontSize: 14,
         ),
         hintText: l10n.descriptionHint,
         hintStyle: TextStyle(
-          color: context.appColors.textTertiary,
+          color: context.vantColors.textTertiary,
           fontSize: 14,
         ),
         filled: true,
-        fillColor: context.appColors.surface,
+        fillColor: VantColors.surfaceInput,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 14,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: context.appColors.cardBorder),
+          borderSide: BorderSide(color: context.vantColors.cardBorder),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: context.appColors.cardBorder),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.06), width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: context.appColors.primary, width: 1.5),
+          borderSide: BorderSide(color: context.vantColors.primary, width: 1.5),
         ),
         suffixIcon: _smartMatchActive
             ? Padding(
@@ -1821,7 +1832,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 child: Icon(
                   CupertinoIcons.sparkles,
                   size: 18,
-                  color: context.appColors.success,
+                  color: context.vantColors.success,
                 ),
               )
             : null,
@@ -1848,7 +1859,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               boxShadow: _smartMatchActive
                   ? [
                       BoxShadow(
-                        color: context.appColors.success.withValues(alpha: 0.3),
+                        color: context.vantColors.success.withValues(alpha: 0.3),
                         blurRadius: 8,
                         spreadRadius: 1,
                       ),
@@ -1856,7 +1867,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   : _categoryValidationError
                   ? [
                       BoxShadow(
-                        color: context.appColors.error.withValues(alpha: 0.3),
+                        color: context.vantColors.error.withValues(alpha: 0.3),
                         blurRadius: 8,
                         spreadRadius: 1,
                       ),
@@ -1871,7 +1882,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   hint: Text(
                     l10n.selectCategory,
                     style: TextStyle(
-                      color: context.appColors.textTertiary,
+                      color: context.vantColors.textTertiary,
                       fontSize: 14,
                     ),
                   ),
@@ -1888,12 +1899,12 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     labelText: l10n.category,
                     labelStyle: TextStyle(
                       color: _categoryValidationError
-                          ? context.appColors.error
-                          : context.appColors.textSecondary,
+                          ? context.vantColors.error
+                          : context.vantColors.textSecondary,
                       fontSize: 14,
                     ),
                     filled: true,
-                    fillColor: context.appColors.surface,
+                    fillColor: VantColors.surfaceInput,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 14,
@@ -1902,18 +1913,18 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
                         color: _categoryValidationError
-                            ? context.appColors.error
-                            : context.appColors.cardBorder,
+                            ? context.vantColors.error
+                            : context.vantColors.cardBorder,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
                         color: _categoryValidationError
-                            ? context.appColors.error
+                            ? context.vantColors.error
                             : (_smartMatchActive
-                                  ? context.appColors.success
-                                  : context.appColors.cardBorder),
+                                  ? context.vantColors.success
+                                  : Colors.white.withValues(alpha: 0.06)),
                         width: _smartMatchActive || _categoryValidationError
                             ? 1.5
                             : 1,
@@ -1922,14 +1933,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
-                        color: context.appColors.primary,
+                        color: context.vantColors.primary,
                         width: 1.5,
                       ),
                     ),
                   ),
-                  dropdownColor: context.appColors.surface,
+                  dropdownColor: context.vantColors.surface,
                   style: TextStyle(
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                     fontSize: 14,
                   ),
                 ),
@@ -1940,7 +1951,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       l10n.pleaseSelectCategory,
                       style: TextStyle(
                         fontSize: 12,
-                        color: context.appColors.error,
+                        color: context.vantColors.error,
                       ),
                     ),
                   ),
@@ -1952,7 +1963,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                         Icon(
                           CupertinoIcons.sparkles,
                           size: 14,
-                          color: context.appColors.success,
+                          color: context.vantColors.success,
                         ),
                         const SizedBox(width: 4),
                         Text(
@@ -1964,7 +1975,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                           ),
                           style: TextStyle(
                             fontSize: 12,
-                            color: context.appColors.success,
+                            color: context.vantColors.success,
                           ),
                         ),
                       ],
@@ -1990,38 +2001,38 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           autocorrect: false,
           enableIMEPersonalizedLearning: true,
           textCapitalization: TextCapitalization.words,
-          style: TextStyle(color: context.appColors.textPrimary, fontSize: 14),
+          style: TextStyle(color: context.vantColors.textPrimary, fontSize: 14),
           decoration: InputDecoration(
             hintText: l10n.subCategoryOptional,
             hintStyle: TextStyle(
-              color: context.appColors.textTertiary,
+              color: context.vantColors.textTertiary,
               fontSize: 14,
             ),
             filled: true,
-            fillColor: context.appColors.surface,
+            fillColor: VantColors.surfaceInput,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 14,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: context.appColors.cardBorder),
+              borderSide: BorderSide(color: context.vantColors.cardBorder),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: context.appColors.cardBorder),
+              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.06), width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(
-                color: context.appColors.primary,
+                color: context.vantColors.primary,
                 width: 1.5,
               ),
             ),
             suffixIcon: _subCategoryController.text.isNotEmpty
                 ? IconButton(
                     icon: const Icon(CupertinoIcons.xmark, size: 18),
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                     onPressed: () {
                       _subCategoryController.clear();
                       setState(() {});
@@ -2054,7 +2065,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 l10n.recentlyUsed,
                 style: TextStyle(
                   fontSize: 11,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -2079,7 +2090,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 l10n.suggestions,
                 style: TextStyle(
                   fontSize: 11,
-                  color: context.appColors.textTertiary,
+                  color: context.vantColors.textTertiary,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -2107,11 +2118,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       height: 56,
       child: Container(
         decoration: BoxDecoration(
-          gradient: AppGradients.primaryButton,
+          gradient: VantGradients.primaryButton,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: context.appColors.primary.withValues(alpha: 0.3),
+              color: context.vantColors.primary.withValues(alpha: 0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -2158,22 +2169,22 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: _isMandatory
-                ? context.appColors.info.withValues(alpha: 0.5)
-                : context.appColors.cardBorder,
+                ? context.vantColors.info.withValues(alpha: 0.5)
+                : context.vantColors.cardBorder,
           ),
         ),
         child: SwitchListTile(
           title: Text(
             'Zorunlu Gider',
             style: TextStyle(
-              color: context.appColors.textPrimary,
+              color: context.vantColors.textPrimary,
               fontWeight: _isMandatory ? FontWeight.w600 : FontWeight.normal,
             ),
           ),
           subtitle: Text(
             'Kira, fatura, kredi ödemesi gibi sabit giderler',
             style: TextStyle(
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
               fontSize: 12,
             ),
           ),
@@ -2182,12 +2193,12 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 ? CupertinoIcons.lock_fill
                 : CupertinoIcons.lock_open,
             color: _isMandatory
-                ? context.appColors.info
-                : context.appColors.textTertiary,
+                ? context.vantColors.info
+                : context.vantColors.textTertiary,
           ),
           value: _isMandatory,
           onChanged: (value) => setState(() => _isMandatory = value),
-          activeTrackColor: context.appColors.info,
+          activeTrackColor: context.vantColors.info,
         ),
       ),
     );
@@ -2195,6 +2206,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
   /// Taksit bölümü widget'ı
   Widget _buildInstallmentSection() {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -2212,32 +2224,32 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: _expenseType == ExpenseType.installment
-                        ? context.appColors.warning.withValues(alpha: 0.5)
-                        : context.appColors.cardBorder,
+                        ? context.vantColors.warning.withValues(alpha: 0.5)
+                        : context.vantColors.cardBorder,
                   ),
                 ),
                 child: SwitchListTile(
                   title: Text(
-                    'Taksitli Alım',
+                    l10n.installmentPurchase,
                     style: TextStyle(
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                       fontWeight: _expenseType == ExpenseType.installment
                           ? FontWeight.w600
                           : FontWeight.normal,
                     ),
                   ),
                   subtitle: Text(
-                    'Kredi kartı veya mağaza taksiti',
+                    l10n.creditCardOrStoreInstallment,
                     style: TextStyle(
-                      color: context.appColors.textSecondary,
+                      color: context.vantColors.textSecondary,
                       fontSize: 12,
                     ),
                   ),
                   secondary: Icon(
                     CupertinoIcons.creditcard,
                     color: _expenseType == ExpenseType.installment
-                        ? context.appColors.warning
-                        : context.appColors.textTertiary,
+                        ? context.vantColors.warning
+                        : context.vantColors.textTertiary,
                   ),
                   value: _expenseType == ExpenseType.installment,
                   onChanged: (value) {
@@ -2255,7 +2267,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                       }
                     });
                   },
-                  activeTrackColor: context.appColors.warning,
+                  activeTrackColor: context.vantColors.warning,
                 ),
               );
             },
@@ -2277,14 +2289,15 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
   /// Taksit detayları formu
   Widget _buildInstallmentDetails() {
+    final l10n = AppLocalizations.of(context);
     return Container(
       margin: const EdgeInsets.only(top: 8, bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.appColors.warning.withValues(alpha: 0.1),
+        color: context.vantColors.warning.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: context.appColors.warning.withValues(alpha: 0.3),
+          color: context.vantColors.warning.withValues(alpha: 0.3),
         ),
       ),
       child: Column(
@@ -2295,14 +2308,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             children: [
               Icon(
                 CupertinoIcons.info,
-                color: context.appColors.warning,
+                color: context.vantColors.warning,
                 size: 18,
               ),
               const SizedBox(width: 8),
               Text(
-                'Taksit Bilgileri',
+                l10n.installmentInfo,
                 style: TextStyle(
-                  color: context.appColors.warning,
+                  color: context.vantColors.warning,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -2315,24 +2328,24 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             controller: _cashPriceController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [TurkishCurrencyInputFormatter()],
-            style: TextStyle(color: context.appColors.textPrimary),
+            style: TextStyle(color: context.vantColors.textPrimary),
             decoration: InputDecoration(
-              labelText: 'Peşin Fiyat',
-              labelStyle: TextStyle(color: context.appColors.textSecondary),
-              hintText: 'Ürünün peşin fiyatı',
-              hintStyle: TextStyle(color: context.appColors.textTertiary),
+              labelText: l10n.cashPrice,
+              labelStyle: TextStyle(color: context.vantColors.textSecondary),
+              hintText: l10n.cashPriceHint,
+              hintStyle: TextStyle(color: context.vantColors.textTertiary),
               prefixText: '${_expenseCurrency.symbol} ',
-              prefixStyle: TextStyle(color: context.appColors.textPrimary),
+              prefixStyle: TextStyle(color: context.vantColors.textPrimary),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: context.appColors.cardBorder),
+                borderSide: BorderSide(color: context.vantColors.cardBorder),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: context.appColors.warning),
+                borderSide: BorderSide(color: context.vantColors.warning),
               ),
               filled: true,
-              fillColor: context.appColors.surface,
+              fillColor: context.vantColors.surface,
             ),
             onChanged: (_) => _updateInstallmentSummary(),
           ),
@@ -2341,25 +2354,25 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           // Taksit sayısı
           DropdownButtonFormField<int>(
             initialValue: int.tryParse(_installmentCountController.text),
-            dropdownColor: context.appColors.cardBackground,
-            style: TextStyle(color: context.appColors.textPrimary),
+            dropdownColor: context.vantColors.cardBackground,
+            style: TextStyle(color: context.vantColors.textPrimary),
             decoration: InputDecoration(
-              labelText: 'Taksit Sayısı',
-              labelStyle: TextStyle(color: context.appColors.textSecondary),
+              labelText: l10n.numberOfInstallments,
+              labelStyle: TextStyle(color: context.vantColors.textSecondary),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: context.appColors.cardBorder),
+                borderSide: BorderSide(color: context.vantColors.cardBorder),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: context.appColors.warning),
+                borderSide: BorderSide(color: context.vantColors.warning),
               ),
               filled: true,
-              fillColor: context.appColors.surface,
+              fillColor: context.vantColors.surface,
             ),
             items: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 18, 24, 36]
                 .map(
-                  (n) => DropdownMenuItem(value: n, child: Text('$n taksit')),
+                  (n) => DropdownMenuItem(value: n, child: Text(l10n.installmentCount(n))),
                 )
                 .toList(),
             onChanged: (value) {
@@ -2374,24 +2387,24 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             controller: _installmentTotalController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [TurkishCurrencyInputFormatter()],
-            style: TextStyle(color: context.appColors.textPrimary),
+            style: TextStyle(color: context.vantColors.textPrimary),
             decoration: InputDecoration(
-              labelText: 'Taksitli Toplam Fiyat',
-              labelStyle: TextStyle(color: context.appColors.textSecondary),
-              hintText: 'Vade farkı dahil toplam',
-              hintStyle: TextStyle(color: context.appColors.textTertiary),
+              labelText: l10n.totalInstallmentPrice,
+              labelStyle: TextStyle(color: context.vantColors.textSecondary),
+              hintText: l10n.totalWithInterestHint,
+              hintStyle: TextStyle(color: context.vantColors.textTertiary),
               prefixText: '${_expenseCurrency.symbol} ',
-              prefixStyle: TextStyle(color: context.appColors.textPrimary),
+              prefixStyle: TextStyle(color: context.vantColors.textPrimary),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: context.appColors.cardBorder),
+                borderSide: BorderSide(color: context.vantColors.cardBorder),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: context.appColors.warning),
+                borderSide: BorderSide(color: context.vantColors.warning),
               ),
               filled: true,
-              fillColor: context.appColors.surface,
+              fillColor: context.vantColors.surface,
             ),
             onChanged: (_) => _updateInstallmentSummary(),
           ),
@@ -2405,6 +2418,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
   /// Taksit özet kartı
   Widget _buildInstallmentSummary() {
+    final l10n = AppLocalizations.of(context);
     final cashPrice = parseTurkishCurrency(_cashPriceController.text);
     final installmentTotal = parseTurkishCurrency(
       _installmentTotalController.text,
@@ -2444,9 +2458,9 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'TAKSİT ÖZETİ',
+            l10n.installmentSummary,
             style: TextStyle(
-              color: context.appColors.warning,
+              color: context.vantColors.warning,
               fontSize: 12,
               fontWeight: FontWeight.w600,
               letterSpacing: 1,
@@ -2455,20 +2469,20 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           const SizedBox(height: 12),
 
           _summaryRow(
-            'Aylık taksit:',
+            l10n.monthlyPaymentLabel,
             '${_expenseCurrency.symbol}${formatTurkishCurrency(monthlyPayment, decimalDigits: 0)}',
           ),
-          _summaryRow('Taksit sayısı:', '$installmentCount ay'),
-          Divider(color: context.appColors.cardBorder, height: 16),
+          _summaryRow(l10n.numberOfInstallments, l10n.installmentCountLabel(installmentCount)),
+          Divider(color: context.vantColors.cardBorder, height: 16),
           _summaryRow(
-            'Vade farkı:',
+            l10n.interestAmountLabel,
             '${_expenseCurrency.symbol}${formatTurkishCurrency(interestAmount, decimalDigits: 0)} (%${interestRate.toStringAsFixed(1)})',
             isHighlight: true,
           ),
           if (hourlyRate > 0)
             _summaryRow(
-              'Vade farkı saat olarak:',
-              '${interestHours.toStringAsFixed(1)} saat',
+              l10n.interestAsHoursLabel,
+              '${interestHours.toStringAsFixed(1)} ${l10n.hoursUnit}',
               isHighlight: true,
             ),
 
@@ -2478,22 +2492,22 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: context.appColors.error.withValues(alpha: 0.15),
+                color: context.vantColors.error.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Row(
                 children: [
                   Icon(
                     CupertinoIcons.exclamationmark_triangle_fill,
-                    color: context.appColors.error,
+                    color: context.vantColors.error,
                     size: 18,
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Peşin alsaydın ${interestHours.toStringAsFixed(0)} saat kazanırdın!',
+                      l10n.installmentSavingsWarning(interestHours.toStringAsFixed(0)),
                       style: TextStyle(
-                        color: context.appColors.error,
+                        color: context.vantColors.error,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
@@ -2517,7 +2531,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
           Text(
             label,
             style: TextStyle(
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
               fontSize: 13,
             ),
           ),
@@ -2525,8 +2539,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             value,
             style: TextStyle(
               color: isHighlight
-                  ? context.appColors.warning
-                  : context.appColors.textPrimary,
+                  ? context.vantColors.warning
+                  : context.vantColors.textPrimary,
               fontSize: 13,
               fontWeight: isHighlight ? FontWeight.w600 : FontWeight.normal,
             ),
@@ -2551,17 +2565,17 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             padding: const EdgeInsets.all(12),
             margin: const EdgeInsets.only(bottom: 16),
             decoration: BoxDecoration(
-              color: context.appColors.info.withValues(alpha: 0.1),
+              color: context.vantColors.info.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: context.appColors.info.withValues(alpha: 0.3),
+                color: context.vantColors.info.withValues(alpha: 0.3),
               ),
             ),
             child: Row(
               children: [
                 Icon(
                   CupertinoIcons.info,
-                  color: context.appColors.info,
+                  color: context.vantColors.info,
                   size: 20,
                 ),
                 const SizedBox(width: 8),
@@ -2569,7 +2583,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   child: Text(
                     'Zorunlu gider olarak kaydedilecek',
                     style: TextStyle(
-                      color: context.appColors.info,
+                      color: context.vantColors.info,
                       fontSize: 13,
                     ),
                   ),
@@ -2585,8 +2599,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    context.appColors.info,
-                    context.appColors.info.withValues(alpha: 0.8),
+                    context.vantColors.info,
+                    context.vantColors.info.withValues(alpha: 0.8),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -2594,7 +2608,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: context.appColors.info.withValues(alpha: 0.3),
+                    color: context.vantColors.info.withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -2624,7 +2638,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             onPressed: _cancelDecision,
             child: Text(
               l10n.cancel,
-              style: TextStyle(color: context.appColors.textSecondary),
+              style: TextStyle(color: context.vantColors.textSecondary),
             ),
           ),
         ],
@@ -2650,7 +2664,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.updateExpense),
-          backgroundColor: context.appColors.success,
+          backgroundColor: context.vantColors.success,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -2688,7 +2702,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('Zorunlu gider kaydedildi'),
-          backgroundColor: context.appColors.info,
+          backgroundColor: context.vantColors.info,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -2733,7 +2747,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             child: TextButton(
               onPressed: _cancelDecision,
               style: TextButton.styleFrom(
-                foregroundColor: context.appColors.textSecondary,
+                foregroundColor: context.vantColors.textSecondary,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                   vertical: 12,
@@ -2766,11 +2780,11 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             width: double.infinity,
             child: Container(
               decoration: BoxDecoration(
-                gradient: AppGradients.primaryButton,
+                gradient: VantGradients.primaryButton,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: context.appColors.primary.withValues(alpha: 0.3),
+                    color: context.vantColors.primary.withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -2800,7 +2814,7 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
             onPressed: _cancelDecision,
             child: Text(
               l10n.cancel,
-              style: TextStyle(color: context.appColors.textSecondary),
+              style: TextStyle(color: context.vantColors.textSecondary),
             ),
           ),
         ],

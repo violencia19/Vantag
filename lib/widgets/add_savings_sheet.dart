@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/providers.dart';
-import '../theme/quiet_luxury.dart';
+import '../theme/theme.dart';
 import 'pursuit_progress_visual.dart';
 import 'pool_allocation_dialog.dart';
 
@@ -46,19 +47,35 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
     super.dispose();
   }
 
+  List<double> _getQuickAmounts(String currencyCode) {
+    switch (currencyCode) {
+      case 'TRY': return [100.0, 500.0, 1000.0, 5000.0];
+      case 'USD': return [5.0, 25.0, 50.0, 200.0];
+      case 'EUR': return [5.0, 20.0, 50.0, 200.0];
+      case 'GBP': return [5.0, 20.0, 50.0, 150.0];
+      case 'SAR': return [20.0, 100.0, 200.0, 1000.0];
+      default: return [5.0, 25.0, 50.0, 200.0];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final currencyProvider = context.watch<CurrencyProvider>();
     final currencySymbol = currencyProvider.currency.symbol;
 
-    // Quick amount chips
-    final quickAmounts = [100.0, 500.0, 1000.0, 5000.0];
+    // Currency-aware quick amount chips
+    final quickAmounts = _getQuickAmounts(currencyProvider.code);
 
-    return Container(
-      decoration: const BoxDecoration(
-        color: QuietLuxury.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    return ClipRRect(
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: VantBlur.medium, sigmaY: VantBlur.medium),
+        child: Container(
+      decoration: BoxDecoration(
+        color: VantColors.surface.withValues(alpha: 0.95),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        border: Border.all(color: const Color(0x15FFFFFF), width: 1),
       ),
       child: SafeArea(
         child: Padding(
@@ -79,7 +96,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: QuietLuxury.cardBorder,
+                      color: context.vantColors.cardBorder,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -91,38 +108,38 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                 const SizedBox(height: 24),
 
                 // Title
-                Text(l10n.addSavings, style: QuietLuxury.heading),
+                Text(l10n.addSavings, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: 0.5, color: Color(0xFFFAFAFA))),
                 const SizedBox(height: 16),
 
                 // Amount input
                 TextField(
                   controller: _amountController,
-                  style: QuietLuxury.body.copyWith(
-                    color: QuietLuxury.textPrimary,
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(
+                    color: context.vantColors.textPrimary,
                   ),
                   decoration: InputDecoration(
                     hintText: '0',
                     prefixText: currencySymbol,
-                    hintStyle: QuietLuxury.body.copyWith(
-                      color: QuietLuxury.textTertiary,
+                    hintStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(
+                      color: context.vantColors.textTertiary,
                     ),
-                    prefixStyle: QuietLuxury.body.copyWith(
-                      color: QuietLuxury.textSecondary,
+                    prefixStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(
+                      color: context.vantColors.textSecondary,
                     ),
                     filled: true,
-                    fillColor: QuietLuxury.cardBackground,
+                    fillColor: VantColors.surfaceInput,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(color: QuietLuxury.cardBorder),
+                      borderSide: BorderSide(color: context.vantColors.cardBorder),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(color: QuietLuxury.cardBorder),
+                      borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.06), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
-                        color: QuietLuxury.positive.withValues(alpha: 0.5),
+                        color: context.vantColors.success.withValues(alpha: 0.5),
                       ),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
@@ -139,8 +156,8 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                 // Quick amount chips
                 Text(
                   l10n.quickAmounts,
-                  style: QuietLuxury.label.copyWith(
-                    color: QuietLuxury.textSecondary,
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)).copyWith(
+                    color: context.vantColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -168,28 +185,28 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                   autocorrect: false,
                   enableIMEPersonalizedLearning: true,
                   textCapitalization: TextCapitalization.sentences,
-                  style: QuietLuxury.body.copyWith(
-                    color: QuietLuxury.textPrimary,
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(
+                    color: context.vantColors.textPrimary,
                   ),
                   decoration: InputDecoration(
                     hintText: l10n.addNote,
-                    hintStyle: QuietLuxury.body.copyWith(
-                      color: QuietLuxury.textTertiary,
+                    hintStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(
+                      color: context.vantColors.textTertiary,
                     ),
                     filled: true,
-                    fillColor: QuietLuxury.cardBackground,
+                    fillColor: VantColors.surfaceInput,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(color: QuietLuxury.cardBorder),
+                      borderSide: BorderSide(color: context.vantColors.cardBorder),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(color: QuietLuxury.cardBorder),
+                      borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.06), width: 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide(
-                        color: QuietLuxury.positive.withValues(alpha: 0.5),
+                        color: context.vantColors.success.withValues(alpha: 0.5),
                       ),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
@@ -198,7 +215,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                     ),
                     prefixIcon: Icon(
                       CupertinoIcons.doc_text,
-                      color: QuietLuxury.textTertiary,
+                      color: context.vantColors.textTertiary,
                       size: 20,
                     ),
                   ),
@@ -215,13 +232,13 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                     child: ElevatedButton(
                       onPressed: _isLoading ? null : _onSubmit,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: QuietLuxury.positive,
+                        backgroundColor: context.vantColors.success,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        disabledBackgroundColor: QuietLuxury.positive
+                        disabledBackgroundColor: context.vantColors.success
                             .withValues(alpha: 0.5),
                       ),
                       child: _isLoading
@@ -258,13 +275,15 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
           ),
         ),
       ),
+    ),
+    ),
     );
   }
 
   Widget _buildPursuitHeader() {
     final currencyProvider = context.watch<CurrencyProvider>();
 
-    return GlassCard(
+    return VGlassCard(
       padding: const EdgeInsets.all(12),
       child: Row(
         children: [
@@ -281,8 +300,8 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
               children: [
                 Text(
                   widget.pursuit.name,
-                  style: QuietLuxury.body.copyWith(
-                    color: QuietLuxury.textPrimary,
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFFA1A1AA)).copyWith(
+                    color: context.vantColors.textPrimary,
                     fontWeight: FontWeight.w500,
                   ),
                   maxLines: 1,
@@ -293,13 +312,13 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
                   children: [
                     Text(
                       '${currencyProvider.currency.symbol}${widget.pursuit.savedAmount.toStringAsFixed(0)}',
-                      style: QuietLuxury.label.copyWith(
-                        color: QuietLuxury.positive,
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)).copyWith(
+                        color: context.vantColors.success,
                       ),
                     ),
                     Text(
                       ' / ${currencyProvider.currency.symbol}${widget.pursuit.targetAmount.toStringAsFixed(0)}',
-                      style: QuietLuxury.label,
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)),
                     ),
                   ],
                 ),
@@ -309,13 +328,13 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: QuietLuxury.positive.withValues(alpha: 0.2),
+              color: context.vantColors.success.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
               '${widget.pursuit.progressPercentDisplay}%',
-              style: QuietLuxury.label.copyWith(
-                color: QuietLuxury.positive,
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)).copyWith(
+                color: context.vantColors.success,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -442,7 +461,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.savingsAdded),
-            backgroundColor: QuietLuxury.positive,
+            backgroundColor: context.vantColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
@@ -457,7 +476,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Hata: $e'),
-            backgroundColor: QuietLuxury.negative,
+            backgroundColor: context.vantColors.error,
           ),
         );
       }
@@ -492,14 +511,14 @@ class _QuickAmountChip extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
-            color: QuietLuxury.cardBackground,
+            color: context.vantColors.cardBackground,
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: QuietLuxury.cardBorder, width: 0.5),
+            border: Border.all(color: context.vantColors.cardBorder, width: 0.5),
           ),
           child: Text(
             formattedAmount,
-            style: QuietLuxury.label.copyWith(
-              color: QuietLuxury.positive,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF71717A)).copyWith(
+              color: context.vantColors.success,
               fontWeight: FontWeight.w600,
             ),
           ),

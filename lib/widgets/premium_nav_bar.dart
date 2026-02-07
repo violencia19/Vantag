@@ -40,7 +40,7 @@ class PremiumNavBar extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
               color: isDark
-                  ? AppColors.surface.withValues(alpha: 0.95)
+                  ? VantColors.surface.withValues(alpha: 0.95)
                   : const Color(0xF2FFFFFF),
               borderRadius: BorderRadius.circular(32),
               border: Border.all(
@@ -125,7 +125,7 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.appColors;
+    final colors = context.vantColors;
 
     return Semantics(
       label: tooltip ?? label,
@@ -147,22 +147,23 @@ class _NavItem extends StatelessWidget {
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(16),
             boxShadow: isActive
-                ? [
-                    BoxShadow(
-                      color: colors.primary.withValues(alpha: 0.4),
-                      blurRadius: 12,
-                      spreadRadius: -2,
-                    ),
-                  ]
+                ? VantShadows.glow(VantColors.primary, intensity: 0.4, blur: 12)
                 : null,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                icon,
-                size: 24,
-                color: isActive ? colors.primary : colors.textTertiary,
+              Container(
+                decoration: isActive
+                    ? BoxDecoration(
+                        boxShadow: VantShadows.glow(VantColors.primary, intensity: 0.3, blur: 8),
+                      )
+                    : null,
+                child: Icon(
+                  icon,
+                  size: 24,
+                  color: isActive ? colors.primary : colors.textTertiary,
+                ),
               ),
               const SizedBox(height: 4),
               AnimatedDefaultTextStyle(
@@ -262,7 +263,7 @@ class _CenterAddButtonState extends State<_CenterAddButton>
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: context.appColors.primary.withValues(
+                    color: context.vantColors.primary.withValues(
                       alpha: _isPressed ? 0.3 : 0.5,
                     ),
                     blurRadius: _isPressed ? 15 : 25,
@@ -272,7 +273,7 @@ class _CenterAddButtonState extends State<_CenterAddButton>
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: AppGradients.primaryButton,
+                  gradient: VantGradients.primaryButton,
                   shape: BoxShape.circle,
                 ),
                 child: Center(
@@ -337,7 +338,7 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: widget.isActive
-              ? context.appColors.primary.withValues(alpha: 0.15)
+              ? context.vantColors.primary.withValues(alpha: 0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(16),
         ),
@@ -352,14 +353,14 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                       shape: BoxShape.circle,
                       border: Border.all(
                         color: widget.isActive
-                            ? context.appColors.primary
-                            : context.appColors.textTertiary,
+                            ? context.vantColors.primary
+                            : context.vantColors.textTertiary,
                         width: 2,
                       ),
                       boxShadow: widget.isActive
                           ? [
                               BoxShadow(
-                                color: context.appColors.primary.withValues(
+                                color: context.vantColors.primary.withValues(
                                   alpha: 0.3,
                                 ),
                                 blurRadius: 8,
@@ -378,8 +379,8 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                             CupertinoIcons.person_fill,
                             size: 16,
                             color: widget.isActive
-                                ? context.appColors.primary
-                                : context.appColors.textTertiary,
+                                ? context.vantColors.primary
+                                : context.vantColors.textTertiary,
                           );
                         },
                       ),
@@ -389,8 +390,8 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                     CupertinoIcons.person_fill,
                     size: 24,
                     color: widget.isActive
-                        ? context.appColors.primary
-                        : context.appColors.textTertiary,
+                        ? context.vantColors.primary
+                        : context.vantColors.textTertiary,
                   ),
             const SizedBox(height: 4),
             AnimatedDefaultTextStyle(
@@ -399,8 +400,8 @@ class _ProfileNavItemState extends State<_ProfileNavItem> {
                 fontSize: 11,
                 fontWeight: widget.isActive ? FontWeight.w600 : FontWeight.w500,
                 color: widget.isActive
-                    ? context.appColors.primary
-                    : context.appColors.textTertiary,
+                    ? context.vantColors.primary
+                    : context.vantColors.textTertiary,
               ),
               child: Text(widget.label),
             ),
@@ -434,7 +435,7 @@ class PremiumNavBarWithShowcase extends StatefulWidget {
 
 class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
     with SingleTickerProviderStateMixin {
-  // iOS 26 Liquid Glass: Animated breathing glow
+  // Breathing glow animation
   late AnimationController _glowController;
   late Animation<double> _glowAnimation;
 
@@ -443,12 +444,16 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
     super.initState();
     _glowController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 3000),
+      duration: VantAnimation.breathing,
     )..repeat(reverse: true);
 
-    _glowAnimation = Tween<double>(begin: 0.2, end: 0.5).animate(
-      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
-    );
+    _glowAnimation = Tween<double>(
+      begin: VantAnimation.glowMin,
+      end: VantAnimation.glowMax,
+    ).animate(CurvedAnimation(
+      parent: _glowController,
+      curve: VantAnimation.curveSmooth,
+    ));
   }
 
   @override
@@ -462,23 +467,23 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
     final l10n = AppLocalizations.of(context);
     final isDark = context.isDarkMode;
 
-    // iOS 26 Liquid Glass: Animated container with breathing glow
+    // Floating nav with breathing glow
     return AnimatedBuilder(
       animation: _glowAnimation,
       builder: (context, child) {
         return Container(
           margin: const EdgeInsets.fromLTRB(20, 0, 20, 34),
-          // iOS 26: Outer glow container
+          // Glow shadow for premium feel
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(32),
+            borderRadius: BorderRadius.circular(VantRadius.xxl),
             boxShadow: [
               // Animated breathing glow
               BoxShadow(
-                color: const Color(0xFF8B5CF6).withValues(
+                color: VantColors.primary.withValues(
                   alpha: _glowAnimation.value,
                 ),
                 blurRadius: 24,
-                spreadRadius: 0,
+                spreadRadius: -4,
                 offset: const Offset(0, 6),
               ),
               // Deep shadow for depth
@@ -490,22 +495,25 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(32),
+            borderRadius: BorderRadius.circular(VantRadius.xxl),
             child: BackdropFilter(
-              // iOS 26: Enhanced 24σ blur
-              filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+              // Glass blur
+              filter: ImageFilter.blur(
+                sigmaX: VantBlur.mediumHeavy,
+                sigmaY: VantBlur.mediumHeavy,
+              ),
               child: Container(
                 height: 68,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
-                  // iOS 26 Liquid Glass: Premium gradient
+                  // Glass gradient
                   gradient: isDark
                       ? LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            const Color(0xFF8B5CF6).withValues(alpha: 0.15),
-                            AppColors.surface.withValues(alpha: 0.9),
+                            VantColors.primary.withValues(alpha: 0.15),
+                            VantColors.surface.withValues(alpha: 0.9),
                           ],
                         )
                       : LinearGradient(
@@ -516,9 +524,11 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
                             Colors.white.withValues(alpha: 0.85),
                           ],
                         ),
-                  borderRadius: BorderRadius.circular(32),
+                  borderRadius: BorderRadius.circular(VantRadius.xxl),
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.15),
+                    color: Colors.white.withValues(
+                      alpha: 0.08,
+                    ),
                     width: 1.5,
                   ),
                 ),
@@ -539,14 +549,14 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
                       description: l10n.reportsDescription,
                       titleTextStyle: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                         fontSize: 16,
                       ),
                       descTextStyle: TextStyle(
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                         fontSize: 14,
                       ),
-                      tooltipBackgroundColor: context.appColors.gradientMid,
+                      tooltipBackgroundColor: context.vantColors.gradientMid,
                       overlayColor: Colors.black,
                       overlayOpacity: 0.95,
                       targetBorderRadius: BorderRadius.circular(16),
@@ -564,14 +574,14 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
                       description: l10n.quickAddDescription,
                       titleTextStyle: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                         fontSize: 16,
                       ),
                       descTextStyle: TextStyle(
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                         fontSize: 14,
                       ),
-                      tooltipBackgroundColor: context.appColors.gradientMid,
+                      tooltipBackgroundColor: context.vantColors.gradientMid,
                       overlayColor: Colors.black,
                       overlayOpacity: 0.95,
                       targetShapeBorder: const CircleBorder(),
@@ -592,14 +602,14 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
                       description: l10n.emptyPursuitsMessage,
                       titleTextStyle: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                         fontSize: 16,
                       ),
                       descTextStyle: TextStyle(
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                         fontSize: 14,
                       ),
-                      tooltipBackgroundColor: context.appColors.gradientMid,
+                      tooltipBackgroundColor: context.vantColors.gradientMid,
                       overlayColor: Colors.black,
                       overlayOpacity: 0.95,
                       targetBorderRadius: BorderRadius.circular(16),
@@ -617,14 +627,14 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
                       description: l10n.profileAndSettingsDescription,
                       titleTextStyle: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: context.appColors.textPrimary,
+                        color: context.vantColors.textPrimary,
                         fontSize: 16,
                       ),
                       descTextStyle: TextStyle(
-                        color: context.appColors.textSecondary,
+                        color: context.vantColors.textSecondary,
                         fontSize: 14,
                       ),
-                      tooltipBackgroundColor: context.appColors.gradientMid,
+                      tooltipBackgroundColor: context.vantColors.gradientMid,
                       overlayColor: Colors.black,
                       overlayOpacity: 0.95,
                       targetBorderRadius: BorderRadius.circular(16),

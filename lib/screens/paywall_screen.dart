@@ -9,7 +9,7 @@ import 'package:vantag/l10n/app_localizations.dart';
 import 'package:vantag/providers/locale_provider.dart';
 import 'package:vantag/services/analytics_service.dart';
 import 'package:vantag/services/purchase_service.dart';
-import 'package:vantag/theme/app_theme.dart';
+import '../theme/theme.dart';
 
 /// Premium paywall screen with subscription options
 class PaywallScreen extends StatefulWidget {
@@ -126,14 +126,14 @@ class _PaywallScreenState extends State<PaywallScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(result.message),
-            backgroundColor: context.appColors.success,
+            backgroundColor: context.vantColors.success,
           ),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(result.message),
-            backgroundColor: context.appColors.error,
+            backgroundColor: context.vantColors.error,
           ),
         );
       }
@@ -152,8 +152,8 @@ class _PaywallScreenState extends State<PaywallScreen>
         SnackBar(
           content: Text(result.message),
           backgroundColor: result.isPro == true
-              ? context.appColors.success
-              : context.appColors.textSecondary,
+              ? context.vantColors.success
+              : context.vantColors.textSecondary,
         ),
       );
 
@@ -169,7 +169,7 @@ class _PaywallScreenState extends State<PaywallScreen>
 
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(gradient: AppGradients.background),
+        decoration: const BoxDecoration(gradient: VantGradients.background),
         child: SafeArea(
           child: Column(
             children: [
@@ -184,8 +184,8 @@ class _PaywallScreenState extends State<PaywallScreen>
                       icon: const Icon(CupertinoIcons.xmark),
                       tooltip: l10n.close,
                       style: IconButton.styleFrom(
-                        backgroundColor: context.appColors.surface,
-                        foregroundColor: context.appColors.textSecondary,
+                        backgroundColor: context.vantColors.surface,
+                        foregroundColor: context.vantColors.textSecondary,
                       ),
                     ),
                   ],
@@ -218,7 +218,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                       Text(
                         l10n.paywallSubtitle,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: context.appColors.textSecondary,
+                          color: context.vantColors.textSecondary,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -258,7 +258,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                         child: Text(
                           l10n.subscriptionAutoRenewalNotice,
                           style: TextStyle(
-                            color: context.appColors.textTertiary,
+                            color: context.vantColors.textTertiary,
                             fontSize: 10,
                             height: 1.4,
                           ),
@@ -273,7 +273,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                         child: Text(
                           l10n.restorePurchases,
                           style: TextStyle(
-                            color: context.appColors.textSecondary,
+                            color: context.vantColors.textSecondary,
                           ),
                         ),
                       ),
@@ -295,7 +295,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                             child: Text(
                               l10n.privacyPolicy,
                               style: TextStyle(
-                                color: context.appColors.textTertiary,
+                                color: context.vantColors.textTertiary,
                                 fontSize: 12,
                               ),
                             ),
@@ -303,7 +303,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                           Text(
                             ' • ',
                             style: TextStyle(
-                              color: context.appColors.textTertiary,
+                              color: context.vantColors.textTertiary,
                             ),
                           ),
                           TextButton(
@@ -318,7 +318,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                             child: Text(
                               l10n.termsOfService,
                               style: TextStyle(
-                                color: context.appColors.textTertiary,
+                                color: context.vantColors.textTertiary,
                                 fontSize: 12,
                               ),
                             ),
@@ -426,7 +426,7 @@ class _PaywallScreenState extends State<PaywallScreen>
         boxShadow: [
           // Success glow
           BoxShadow(
-            color: context.appColors.success.withValues(alpha: 0.4),
+            color: context.vantColors.success.withValues(alpha: 0.4),
             blurRadius: 24,
             spreadRadius: 0,
             offset: const Offset(0, 8),
@@ -446,15 +446,15 @@ class _PaywallScreenState extends State<PaywallScreen>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  context.appColors.success.withValues(alpha: 0.3),
-                  context.appColors.success.withValues(alpha: 0.15),
+                  context.vantColors.success.withValues(alpha: 0.3),
+                  context.vantColors.success.withValues(alpha: 0.15),
                   const Color(0xFF1E1B4B).withValues(alpha: 0.25),
                 ],
                 stops: const [0.0, 0.5, 1.0],
               ),
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: context.appColors.success.withValues(alpha: 0.5),
+                color: context.vantColors.success.withValues(alpha: 0.5),
                 width: 2,
               ),
             ),
@@ -464,7 +464,7 @@ class _PaywallScreenState extends State<PaywallScreen>
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: context.appColors.success,
+              color: context.vantColors.success,
               borderRadius: BorderRadius.circular(24),
             ),
             child: Row(
@@ -472,14 +472,14 @@ class _PaywallScreenState extends State<PaywallScreen>
               children: [
                 Icon(
                   CupertinoIcons.gift_fill,
-                  color: context.appColors.textPrimary,
+                  color: context.vantColors.textPrimary,
                   size: 18,
                 ),
                 const SizedBox(width: 8),
                 Text(
                   l10n.freeTrialBanner,
                   style: TextStyle(
-                    color: context.appColors.textPrimary,
+                    color: context.vantColors.textPrimary,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1,
@@ -495,7 +495,7 @@ class _PaywallScreenState extends State<PaywallScreen>
             l10n.startFreeTrial,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
-              color: context.appColors.success,
+              color: context.vantColors.success,
             ),
             textAlign: TextAlign.center,
           ),
@@ -505,7 +505,7 @@ class _PaywallScreenState extends State<PaywallScreen>
           Text(
             l10n.freeTrialDescription,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: context.appColors.textSecondary,
+              color: context.vantColors.textSecondary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -517,14 +517,14 @@ class _PaywallScreenState extends State<PaywallScreen>
             children: [
               Icon(
                 CupertinoIcons.checkmark_shield_fill,
-                color: context.appColors.success.withValues(alpha: 0.8),
+                color: context.vantColors.success.withValues(alpha: 0.8),
                 size: 16,
               ),
               const SizedBox(width: 6),
               Text(
                 l10n.noPaymentNow,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: context.appColors.success,
+                  color: context.vantColors.success,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -558,9 +558,16 @@ class _PaywallScreenState extends State<PaywallScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: context.appColors.cardBackground,
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0x0AFFFFFF), Color(0x05FFFFFF)],
+        ),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: context.appColors.cardBorder),
+        border: Border.all(color: const Color(0x0FFFFFFF), width: 0.5),
+        boxShadow: const [
+          BoxShadow(color: Color(0x33000000), blurRadius: 16, offset: Offset(0, 6)),
+        ],
       ),
       child: Column(
         children: [
@@ -585,14 +592,14 @@ class _PaywallScreenState extends State<PaywallScreen>
                 child: ShaderMask(
                   shaderCallback: (bounds) => LinearGradient(
                     colors: [
-                      context.appColors.primary,
-                      context.appColors.secondary,
+                      context.vantColors.primary,
+                      context.vantColors.secondary,
                     ],
                   ).createShader(bounds),
                   child: Text(
                     'Pro',
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -601,7 +608,7 @@ class _PaywallScreenState extends State<PaywallScreen>
             ],
           ),
           const SizedBox(height: 16),
-          Divider(color: context.appColors.cardBorder),
+          Divider(color: context.vantColors.cardBorder),
           const SizedBox(height: 8),
           // Features
           ...features.map((f) => _buildFeatureRow(f)),
@@ -626,7 +633,7 @@ class _PaywallScreenState extends State<PaywallScreen>
             child: Text(
               feature.free,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: context.appColors.textTertiary,
+                color: context.vantColors.textTertiary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -638,16 +645,16 @@ class _PaywallScreenState extends State<PaywallScreen>
                     feature.pro == AppLocalizations.of(context).featureUnlimited
                 ? Icon(
                     CupertinoIcons.checkmark,
-                    color: context.appColors.success,
+                    color: context.vantColors.success,
                     size: 20,
                   )
                 : feature.pro.toLowerCase() == 'no' ||
                       feature.pro.toLowerCase() == 'hayır'
-                ? Icon(CupertinoIcons.xmark, color: context.appColors.error, size: 20)
+                ? Icon(CupertinoIcons.xmark, color: context.vantColors.error, size: 20)
                 : Text(
                     feature.pro,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: context.appColors.success,
+                      color: context.vantColors.success,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -686,29 +693,22 @@ class _PaywallScreenState extends State<PaywallScreen>
                 gradient: isSelected
                     ? LinearGradient(
                         colors: [
-                          AppColors.surfaceElevated,
-                          AppColors.cardBackground,
+                          VantColors.primary.withValues(alpha: 0.12),
+                          VantColors.primary.withValues(alpha: 0.04),
                         ],
                       )
-                    : null,
-                color: isSelected ? null : context.appColors.cardBackground,
+                    : const LinearGradient(
+                        colors: [Color(0x08FFFFFF), Color(0x04FFFFFF)],
+                      ),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: isSelected
-                      ? context.appColors.primary
-                      : context.appColors.cardBorder,
-                  width: isSelected ? 2 : 1,
+                      ? context.vantColors.primary
+                      : const Color(0x0FFFFFFF),
+                  width: isSelected ? 2 : 0.5,
                 ),
                 boxShadow: isSelected
-                    ? [
-                        BoxShadow(
-                          color: context.appColors.primary.withValues(
-                            alpha: 0.2,
-                          ),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ]
+                    ? VantShadows.glow(VantColors.primary, intensity: 0.25, blur: 16)
                     : null,
               ),
               child: Stack(
@@ -724,8 +724,8 @@ class _PaywallScreenState extends State<PaywallScreen>
                           shape: BoxShape.circle,
                           border: Border.all(
                             color: isSelected
-                                ? context.appColors.primary
-                                : context.appColors.textTertiary,
+                                ? context.vantColors.primary
+                                : context.vantColors.textTertiary,
                             width: 2,
                           ),
                         ),
@@ -738,8 +738,8 @@ class _PaywallScreenState extends State<PaywallScreen>
                                     shape: BoxShape.circle,
                                     gradient: LinearGradient(
                                       colors: [
-                                        context.appColors.primary,
-                                        context.appColors.secondary,
+                                        context.vantColors.primary,
+                                        context.vantColors.secondary,
                                       ],
                                     ),
                                   ),
@@ -764,7 +764,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                               _getPackageSubtitle(package),
                               style: Theme.of(context).textTheme.bodySmall
                                   ?.copyWith(
-                                    color: context.appColors.textSecondary,
+                                    color: context.vantColors.textSecondary,
                                   ),
                             ),
                           ],
@@ -784,7 +784,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                             _getPricePeriod(package),
                             style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(
-                                  color: context.appColors.textTertiary,
+                                  color: context.vantColors.textTertiary,
                                 ),
                           ),
                         ],
@@ -805,14 +805,14 @@ class _PaywallScreenState extends State<PaywallScreen>
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              AppColors.premiumPurple,
-                              AppColors.premiumPurple.withValues(alpha: 0.8),
+                              VantColors.premiumPurple,
+                              VantColors.premiumPurple.withValues(alpha: 0.8),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.premiumPurple.withValues(
+                              color: VantColors.premiumPurple.withValues(
                                 alpha: 0.4,
                               ),
                               blurRadius: 8,
@@ -826,13 +826,13 @@ class _PaywallScreenState extends State<PaywallScreen>
                             Icon(
                               CupertinoIcons.infinite,
                               size: 10,
-                              color: context.appColors.textPrimary,
+                              color: context.vantColors.textPrimary,
                             ),
                             const SizedBox(width: 4),
                             Text(
                               l10n.forever,
                               style: TextStyle(
-                                color: context.appColors.textPrimary,
+                                color: context.vantColors.textPrimary,
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -855,14 +855,14 @@ class _PaywallScreenState extends State<PaywallScreen>
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              context.appColors.gold,
-                              AppColors.currencyGold,
+                              context.vantColors.gold,
+                              VantColors.currencyGold,
                             ],
                           ),
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
-                              color: context.appColors.gold.withValues(
+                              color: context.vantColors.gold.withValues(
                                 alpha: 0.4,
                               ),
                               blurRadius: 8,
@@ -873,7 +873,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                         child: Text(
                           l10n.mostPopular,
                           style: TextStyle(
-                            color: context.appColors.background,
+                            color: context.vantColors.background,
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
                           ),
@@ -930,11 +930,11 @@ class _PaywallScreenState extends State<PaywallScreen>
         ? l10n.startFreeTrial
         : l10n.subscribeToPro;
     final buttonColor = isMonthlyWithTrial
-        ? context.appColors.success
-        : context.appColors.primary;
+        ? context.vantColors.success
+        : context.vantColors.primary;
     final buttonColorEnd = isMonthlyWithTrial
-        ? AppColors.premiumGreen
-        : context.appColors.secondary;
+        ? VantColors.premiumGreen
+        : context.vantColors.secondary;
 
     return SizedBox(
       width: double.infinity,
@@ -957,6 +957,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
+              ...VantShadows.coloredGlow(buttonColor, intensity: 0.6),
             ],
           ),
           child: Container(
@@ -966,7 +967,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                     width: 24,
                     height: 24,
                     child: CircularProgressIndicator(
-                      color: context.appColors.textPrimary,
+                      color: context.vantColors.textPrimary,
                       strokeWidth: 2,
                     ),
                   )
@@ -976,7 +977,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                       if (isMonthlyWithTrial) ...[
                         Icon(
                           CupertinoIcons.gift_fill,
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                           size: 20,
                         ),
                         const SizedBox(width: 8),
@@ -984,7 +985,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                       Text(
                         buttonText,
                         style: TextStyle(
-                          color: context.appColors.textPrimary,
+                          color: context.vantColors.textPrimary,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -1014,12 +1015,12 @@ class _PaywallScreenState extends State<PaywallScreen>
   Widget _buildTrustItem(IconData icon, String label) {
     return Column(
       children: [
-        Icon(icon, color: context.appColors.textTertiary, size: 20),
+        Icon(icon, color: context.vantColors.textTertiary, size: 20),
         const SizedBox(height: 6),
         Text(
           label,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: context.appColors.textTertiary,
+            color: context.vantColors.textTertiary,
             fontSize: 10,
           ),
         ),
@@ -1031,14 +1032,14 @@ class _PaywallScreenState extends State<PaywallScreen>
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: context.appColors.cardBackground,
+        color: context.vantColors.cardBackground,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         children: [
           Icon(
             CupertinoIcons.exclamationmark_circle_fill,
-            color: context.appColors.error,
+            color: context.vantColors.error,
             size: 48,
           ),
           const SizedBox(height: 16),
@@ -1066,9 +1067,9 @@ class _PaywallScreenState extends State<PaywallScreen>
           margin: const EdgeInsets.only(bottom: 12),
           height: 80,
           decoration: BoxDecoration(
-            color: context.appColors.cardBackground,
+            color: context.vantColors.cardBackground,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: context.appColors.cardBorder),
+            border: Border.all(color: context.vantColors.cardBorder),
           ),
           child: Row(
             children: [
@@ -1080,7 +1081,7 @@ class _PaywallScreenState extends State<PaywallScreen>
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: context.appColors.textTertiary,
+                    color: context.vantColors.textTertiary,
                     width: 2,
                   ),
                 ),
@@ -1163,7 +1164,7 @@ class _ShimmerBoxState extends State<_ShimmerBox>
           width: widget.width,
           height: widget.height,
           decoration: BoxDecoration(
-            color: context.appColors.textTertiary.withValues(
+            color: context.vantColors.textTertiary.withValues(
               alpha: _animation.value,
             ),
             borderRadius: BorderRadius.circular(4),
