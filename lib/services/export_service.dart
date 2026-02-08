@@ -94,9 +94,10 @@ class ExportService {
 
   /// Dosyayı paylaş
   Future<void> shareFile(File file) async {
-    await Share.shareXFiles([
-      XFile(file.path),
-    ], subject: 'Vantag Finansal Rapor');
+    await SharePlus.instance.share(ShareParams(
+      files: [XFile(file.path)],
+      subject: 'Vantag Finansal Rapor',
+    ));
   }
 
   /// Alias for backwards compatibility

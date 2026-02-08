@@ -63,11 +63,11 @@ class BackupService {
       await file.writeAsString(jsonString);
 
       // Share file
-      await Share.shareXFiles(
-        [XFile(filePath)],
+      await SharePlus.instance.share(ShareParams(
+        files: [XFile(filePath)],
         subject: 'Vantag Backup',
         text: 'Vantag verilerim yedegi',
-      );
+      ));
 
       return filePath;
     } catch (e) {

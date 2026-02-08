@@ -1049,7 +1049,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
 
       if (await canLaunchUrl(whatsappUrl)) {
         // Share with image and text
-        await Share.shareXFiles([XFile(filePath)], text: shareText);
+        await SharePlus.instance.share(ShareParams(files: [XFile(filePath)], text: shareText));
         haptics.success();
         if (mounted) Navigator.pop(context);
       } else {
@@ -1078,7 +1078,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
       final shareText = await _getShareText();
 
       // Use share_plus to share to Twitter
-      await Share.shareXFiles([XFile(filePath)], text: shareText);
+      await SharePlus.instance.share(ShareParams(files: [XFile(filePath)], text: shareText));
       haptics.success();
       if (mounted) Navigator.pop(context);
     } catch (_) {
@@ -1151,7 +1151,7 @@ class _ShareCardPreviewSheetState extends State<_ShareCardPreviewSheet> {
       }
 
       final shareText = await _getShareText();
-      await Share.shareXFiles([XFile(filePath)], text: shareText);
+      await SharePlus.instance.share(ShareParams(files: [XFile(filePath)], text: shareText));
       haptics.success();
       if (mounted) Navigator.pop(context);
     } catch (_) {
@@ -2339,7 +2339,7 @@ class _HabitShareCardPreviewSheetState
         // Use default text if referral fails
       }
 
-      await Share.shareXFiles([XFile(filePath)], text: shareText);
+      await SharePlus.instance.share(ShareParams(files: [XFile(filePath)], text: shareText));
 
       // Cleanup after 5 minutes
       Future.delayed(const Duration(minutes: 5), () {

@@ -2,7 +2,6 @@
 // Kullanıcının alışkanlıkları için yılda kaç gün çalıştığını hesaplar
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:vantag/theme/app_colors.dart';
 

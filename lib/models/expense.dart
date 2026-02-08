@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:vantag/theme/app_colors.dart';
 

@@ -652,7 +652,7 @@ class PremiumHeader extends StatelessWidget {
             ),
           ),
           // Trailing widgets
-          if (trailing != null) trailing!,
+          ?trailing,
           // Ayarlar butonu
           if (onSettingsTap != null)
             _GlassButton(

@@ -27,8 +27,6 @@ class PremiumNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final isDark = context.isDarkMode;
-
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 34),
       child: ClipRRect(

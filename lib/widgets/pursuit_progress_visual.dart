@@ -96,7 +96,7 @@ class PursuitProgressVisual extends StatelessWidget {
               fit: BoxFit.cover,
               cacheWidth: 150,
               cacheHeight: 150,
-              errorBuilder: (_, __, ___) => _buildEmoji(),
+              errorBuilder: (_, _, _) => _buildEmoji(),
             ),
           )
         else

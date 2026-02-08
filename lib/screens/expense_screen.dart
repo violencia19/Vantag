@@ -329,7 +329,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     fit: BoxFit.cover,
                     cacheWidth: 100,
                     cacheHeight: 100,
-                    errorBuilder: (_, __, ___) => _buildDefaultAvatarIcon(),
+                    errorBuilder: (_, _, _) => _buildDefaultAvatarIcon(),
                   )
                 : _buildDefaultAvatarIcon(),
           ),

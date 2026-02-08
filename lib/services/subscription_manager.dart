@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:vantag/theme/app_colors.dart';
 import '../models/models.dart';
 import 'subscription_service.dart';

@@ -805,8 +805,6 @@ class _AchievementsScreenState extends State<AchievementsScreen>
   Widget _buildHiddenAchievementCard(Achievement achievement) {
     final isUnlocked = achievement.isUnlocked;
     final hasCelebration = _pulseControllers.containsKey(achievement.id);
-    final isPlatinum = achievement.tier == AchievementTier.platinum;
-
     // Difficulty color
     final l10n = AppLocalizations.of(context);
     Color difficultyColor;

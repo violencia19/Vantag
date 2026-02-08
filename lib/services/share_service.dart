@@ -64,7 +64,7 @@ class ShareService {
       final finalShareText = shareText ?? await getShareTextWithReferral();
 
       // Paylaş
-      await Share.shareXFiles([XFile(filePath)], text: finalShareText);
+      await SharePlus.instance.share(ShareParams(files: [XFile(filePath)], text: finalShareText));
 
       // Temp dosyayı 5 dakika sonra sil
       Future.delayed(const Duration(minutes: 5), () {
@@ -85,7 +85,7 @@ class ShareService {
 
   /// Sadece metin paylaş
   static Future<void> shareText(String text) async {
-    await Share.share(text);
+    await SharePlus.instance.share(ShareParams(text: text));
   }
 
   // ============================================
@@ -108,7 +108,7 @@ class ShareService {
       customText: '$pursuitName hedefim için %$progressPercent tamamladım! '
           '($saved / $target $currency)',
     );
-    await Share.share(text);
+    await SharePlus.instance.share(ShareParams(text: text));
   }
 
   /// Share completed pursuit
@@ -123,7 +123,7 @@ class ShareService {
           '${targetAmount.toStringAsFixed(0)} $currency biriktirdim. '
           '($daysToComplete günde başardım!)',
     );
-    await Share.share(text);
+    await SharePlus.instance.share(ShareParams(text: text));
   }
 
   // ============================================
@@ -148,7 +148,7 @@ class ShareService {
       customText: '$tierEmoji $achievementTitle başarısını kazandım! '
           '$achievementDescription',
     );
-    await Share.share(text);
+    await SharePlus.instance.share(ShareParams(text: text));
   }
 
   /// Share streak milestone
@@ -161,7 +161,7 @@ class ShareService {
       customText: '$emoji $streakDays gün kesintisiz finansal takip! '
           'Disiplin = Özgürlük',
     );
-    await Share.share(text);
+    await SharePlus.instance.share(ShareParams(text: text));
   }
 
   /// Share savings milestone
@@ -179,6 +179,6 @@ class ShareService {
       customText: '💰 Toplamda $formatted $currency biriktirdim! '
           'Küçük kararlar, büyük sonuçlar.',
     );
-    await Share.share(text);
+    await SharePlus.instance.share(ShareParams(text: text));
   }
 }
