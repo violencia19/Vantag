@@ -903,53 +903,6 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
 
     if (!mounted) return;
 
-    // Budget warning check (only for actual purchases)
-    if (decision == ExpenseDecision.yes && !isSimulation) {
-      await _checkBudgetWarning(expenseWithDecision, financeProvider.expenses);
-
-      // Debt warning - show if pool has debt
-      final savingsPoolProvider = context.read<SavingsPoolProvider>();
-      if (savingsPoolProvider.hasDebt && mounted) {
-        final l10n = AppLocalizations.of(context);
-        final currencyProvider = context.read<CurrencyProvider>();
-        final debtAmount = savingsPoolProvider.shadowDebt;
-        final symbol = currencyProvider.currency.symbol;
-
-        // Show debt warning after a short delay
-        Future.delayed(const Duration(milliseconds: 500), () {
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Row(
-                  children: [
-                    Icon(
-                      CupertinoIcons.exclamationmark_triangle_fill,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        l10n.debtWarningOnPurchase(
-                          '$symbol${debtAmount.toStringAsFixed(0)}',
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                duration: const Duration(seconds: 4),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: context.vantColors.warning,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-            );
-          }
-        });
-      }
-    }
-
     // Smart Choice savings (when user bought but spent less than intended)
     // Example: Intended to spend 520₺, actually spent 500₺ = 20₺ savings
     if (decision == ExpenseDecision.yes &&
@@ -962,6 +915,8 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
         '💰 [AddExpenseSheet] Smart Choice savings added: ${expenseWithDecision.savedAmount}',
       );
     }
+
+    if (!mounted) return;
 
     final l10n = AppLocalizations.of(context);
     final message = isSimulation
@@ -997,13 +952,17 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       ),
     );
 
-    // Check if we should show voice tip (after 2nd expense)
-    if (!isSimulation) {
-      await _checkVoiceTip();
-    }
-
+    // Close sheet and notify parent before non-critical post-save tasks
     widget.onExpenseAdded?.call();
     if (mounted) Navigator.pop(context);
+
+    // Non-critical post-save tasks (fire-and-forget after sheet is dismissed)
+    if (!isSimulation) {
+      _checkVoiceTip();
+    }
+    if (decision == ExpenseDecision.yes && !isSimulation) {
+      _checkBudgetWarning(expenseWithDecision, financeProvider.expenses);
+    }
   }
 
   /// Check if voice tip should be shown (after 2nd expense)

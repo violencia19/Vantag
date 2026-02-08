@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1320, height=2868">
+<style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+    width: 1320px; height: 2868px;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+                 'SF Pro Text', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+body {
+    background: linear-gradient(175deg, #3D2E5C 0%, #2A1D47 30%, #1A1128 100%);
+    position: relative;
+    color: #F5F5F7;
+}
+
+/* ── Background effects ── */
+.bg-glow {
+    position: absolute;
+    top: -300px; left: 50%;
+    transform: translateX(-50%);
+    width: 1000px; height: 1000px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(95,74,139,0.5) 0%,
+        rgba(95,74,139,0.2) 40%,
+        transparent 70%);
+    pointer-events: none;
+}
+.bg-glow-bottom {
+    position: absolute;
+    bottom: -400px; left: 50%;
+    transform: translateX(-50%);
+    width: 1200px; height: 800px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(34,211,238,0.08) 0%,
+        transparent 60%);
+    pointer-events: none;
+}
+
+/* ── Headlines ── */
+.headline-section {
+    position: absolute;
+    top: 130px; left: 0; right: 0;
+    text-align: center;
+    z-index: 5;
+    padding: 0 60px;
+}
+.headline {
+    font-size: 74px;
+    font-weight: 800;
+    color: #FEFACD;
+    line-height: 1.12;
+    letter-spacing: -1.5px;
+    text-shadow: 0 2px 40px rgba(254,250,205,0.15);
+}
+.subtitle {
+    font-size: 36px;
+    font-weight: 400;
+    color: rgba(245,245,247,0.55);
+    margin-top: 22px;
+    letter-spacing: -0.3px;
+}
+
+/* ── Phone Mockup ── */
+.phone-container {
+    position: absolute;
+    top: 540px; left: 50%;
+    transform: translateX(-50%);
+    width: 1080px;
+    height: 2278px;
+    z-index: 3;
+}
+.phone-frame {
+    width: 100%;  height: 100%;
+    border-radius: 62px;
+    border: 5px solid rgba(120,90,180,0.35);
+    overflow: hidden;
+    position: relative;
+    background: #08060E;
+    box-shadow:
+        0 60px 120px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.04),
+        0 0 160px rgba(95,74,139,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.notch {
+    position: absolute;
+    top: 16px; left: 50%;
+    transform: translateX(-50%);
+    width: 190px; height: 50px;
+    border-radius: 25px;
+    background: #000;
+    z-index: 20;
+    box-shadow: 0 0 0 2px rgba(30,20,40,0.8);
+}
+.screen {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #0A0A0F;
+    overflow: hidden;
+}
+.home-bar {
+    position: absolute;
+    bottom: 14px; left: 50%;
+    transform: translateX(-50%);
+    width: 180px; height: 7px;
+    border-radius: 4px;
+    background: rgba(245,245,247,0.25);
+    z-index: 25;
+}
+
+/* ── Status bar ── */
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 30px 0;
+    height: 82px;
+    font-size: 26px;
+    font-weight: 600;
+    color: #F5F5F7;
+    position: relative;
+    z-index: 15;
+}
+.status-icons {
+    display: flex; gap: 8px; align-items: center;
+    font-size: 22px;
+}
+.status-icons .signal { letter-spacing: -2px; font-size: 14px; }
+.status-icons .battery {
+    width: 40px; height: 18px;
+    border: 2px solid rgba(245,245,247,0.8);
+    border-radius: 4px;
+    position: relative;
+    display: inline-block;
+}
+.status-icons .battery::after {
+    content: '';
+    position: absolute;
+    right: -5px; top: 4px;
+    width: 3px; height: 8px;
+    border-radius: 0 2px 2px 0;
+    background: rgba(245,245,247,0.8);
+}
+.status-icons .battery-fill {
+    position: absolute;
+    top: 2px; left: 2px; bottom: 2px;
+    width: 70%;
+    background: #4ADE80;
+    border-radius: 2px;
+}
+
+/* ── Tab bar ── */
+.tab-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 110px;
+    background: linear-gradient(180deg,
+        rgba(10,10,15,0.0) 0%,
+        rgba(10,10,15,0.95) 30%,
+        #0A0A0F 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 16px 30px;
+    z-index: 15;
+}
+.tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.45;
+    font-size: 18px;
+}
+.tab.active { opacity: 1; }
+.tab-icon { font-size: 28px; }
+.tab-label { font-size: 17px; font-weight: 500; }
+.tab-add {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5F4A8B, #7B62A8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 300;
+    color: white;
+    box-shadow: 0 4px 20px rgba(95,74,139,0.5);
+    margin-top: -20px;
+}
+
+
+    .report-content { padding: 88px 24px 120px; }
+    .report-header {
+        font-size: 42px;
+        font-weight: 800;
+        color: #F5F5F7;
+        margin-bottom: 20px;
+    }
+    .filter-row {
+        display: flex; gap: 10px;
+        margin-bottom: 28px;
+    }
+    .filter-chip {
+        padding: 10px 22px;
+        border-radius: 14px;
+        font-size: 22px;
+        font-weight: 600;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.06);
+        color: #6B6B7E;
+    }
+    .filter-chip.active {
+        background: rgba(95,74,139,0.2);
+        border-color: rgba(95,74,139,0.4);
+        color: #FEFACD;
+    }
+    /* Stats grid */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 28px;
+    }
+    .stat-card {
+        background: rgba(19,19,26,0.6);
+        border: 1px solid rgba(255,255,255,0.04);
+        border-radius: 22px;
+        padding: 22px;
+    }
+    .stat-icon-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+    .stat-icon {
+        width: 40px; height: 40px;
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 20px;
+    }
+    .stat-title {
+        font-size: 20px;
+        color: #8B8B9E;
+        font-weight: 500;
+    }
+    .stat-value {
+        font-size: 38px;
+        font-weight: 800;
+        color: #F5F5F7;
+        margin-bottom: 4px;
+    }
+    .stat-sub {
+        font-size: 19px;
+        color: #6B6B7E;
+    }
+    /* Pie chart */
+    .chart-section {
+        background: rgba(19,19,26,0.6);
+        border: 1px solid rgba(255,255,255,0.04);
+        border-radius: 22px;
+        padding: 24px;
+        margin-bottom: 20px;
+    }
+    .chart-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #F5F5F7;
+        margin-bottom: 20px;
+    }
+    .pie-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+    .pie-chart {
+        width: 180px; height: 180px;
+        border-radius: 50%;
+        background: conic-gradient(
+            #FF6B6B 0deg 120deg,
+            #4ECDC4 120deg 210deg,
+            #9B59B6 210deg 275deg,
+            #3498DB 275deg 320deg,
+            #6B6B7E 320deg 360deg
+        );
+        position: relative;
+        flex-shrink: 0;
+    }
+    .pie-hole {
+        position: absolute;
+        top: 35px; left: 35px; right: 35px; bottom: 35px;
+        border-radius: 50%;
+        background: rgba(19,19,26,0.95);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .pie-total { font-size: 28px; font-weight: 800; color: #F5F5F7; }
+    .pie-total-label { font-size: 16px; color: #6B6B7E; }
+    .pie-legend { flex: 1; }
+    .legend-item {
+        display: flex; align-items: center; gap: 10px;
+        margin-bottom: 12px;
+        font-size: 20px;
+        color: #8B8B9E;
+    }
+    .legend-dot {
+        width: 14px; height: 14px;
+        border-radius: 4px;
+        flex-shrink: 0;
+    }
+    .legend-value {
+        margin-left: auto;
+        font-weight: 600;
+        color: #F5F5F7;
+    }
+    
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="bg-glow-bottom"></div>
+
+    <div class="headline-section">
+        <h1 class="headline">Paran nereye gidiyor?</h1>
+        <p class="subtitle">Detaylı analiz ve raporlar</p>
+    </div>
+    <div class="phone-container">
+        <div class="phone-frame">
+            <div class="notch"></div>
+            <div class="screen">
+    
+<div class="status-bar">
+    <span>16:10</span>
+    <div class="status-icons">
+        <span class="signal">●●●●</span>
+        <svg width="24" height="20" viewBox="0 0 24 20" fill="none">
+            <path d="M12 17.5l-8.5-8.5C5.5 6.5 8.5 5 12 5s6.5 1.5 8.5 4l-8.5 8.5z"
+                  fill="rgba(245,245,247,0.85)"/>
+        </svg>
+        <span class="battery">
+            <span class="battery-fill"></span>
+        </span>
+    </div>
+</div>
+
+    <div class="report-content">
+        <div class="report-header">Analiz</div>
+        <div class="filter-row">
+            <div class="filter-chip">Bu Hafta</div>
+            <div class="filter-chip active">Bu Ay</div>
+            <div class="filter-chip">Tümü</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon-row">
+                    <div class="stat-icon" style="background:rgba(248,113,113,0.12);"><span style="color:#F87171;">🛒</span></div>
+                    <div class="stat-title">Toplam Harcama</div>
+                </div>
+                <div class="stat-value">5.240 ₺</div>
+                <div class="stat-sub">15.3 saat karşılığı</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon-row">
+                    <div class="stat-icon" style="background:rgba(34,211,238,0.12);"><span style="color:#22D3EE;">🛡️</span></div>
+                    <div class="stat-title">Toplam Tasarruf</div>
+                </div>
+                <div class="stat-value" style="color:#22D3EE;">2.100 ₺</div>
+                <div class="stat-sub">6.1 saat kurtarıldı</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon-row">
+                    <div class="stat-icon" style="background:rgba(59,130,246,0.12);"><span style="color:#3B82F6;">📋</span></div>
+                    <div class="stat-title">Harcama Sayısı</div>
+                </div>
+                <div class="stat-value">24</div>
+                <div class="stat-sub">12 aldım · 12 vazgeçtim</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon-row">
+                    <div class="stat-icon" style="background:rgba(74,222,128,0.12);"><span style="color:#4ADE80;">📈</span></div>
+                    <div class="stat-title">Vazgeçme Oranı</div>
+                </div>
+                <div class="stat-value" style="color:#4ADE80;">%38</div>
+                <div class="stat-sub">Daha iyi olabilir</div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <div class="chart-title">Kategori Dağılımı</div>
+            <div class="pie-wrapper">
+                <div class="pie-chart">
+                    <div class="pie-hole">
+                        <div class="pie-total">5.2K</div>
+                        <div class="pie-total-label">Toplam</div>
+                    </div>
+                </div>
+                <div class="pie-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#FF6B6B;"></div>
+                        Yeme-İçme
+                        <span class="legend-value">2.100 ₺</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#4ECDC4;"></div>
+                        Ulaşım
+                        <span class="legend-value">1.500 ₺</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#9B59B6;"></div>
+                        Giyim
+                        <span class="legend-value">890 ₺</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#3498DB;"></div>
+                        Eğlence
+                        <span class="legend-value">450 ₺</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#6B6B7E;"></div>
+                        Diğer
+                        <span class="legend-value">300 ₺</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<div class="tab-bar">
+    <div class="tab active">
+        <div class="tab-icon">🏠</div>
+        <div class="tab-label">Ana Sayfa</div>
+    </div>
+    <div class="tab">
+        <div class="tab-icon">📊</div>
+        <div class="tab-label">Analiz</div>
+    </div>
+    <div class="tab-add">+</div>
+    <div class="tab">
+        <div class="tab-icon">⭐</div>
+        <div class="tab-label">Hayaller</div>
+    </div>
+    <div class="tab">
+        <div class="tab-icon">⚙️</div>
+        <div class="tab-label">Ayarlar</div>
+    </div>
+</div>
+
+    </div>
+            <div class="home-bar"></div>
+        </div>
+    </div>
+    
+</body>
+</html>

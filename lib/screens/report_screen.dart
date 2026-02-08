@@ -553,7 +553,7 @@ class _ReportScreenState extends State<ReportScreen>
   Widget _buildSummaryCards(List<Expense> expenses, AppLocalizations l10n) {
     final stats = DecisionStats.fromExpenses(expenses);
     final totalSpent = stats.yesTotal;
-    final totalSaved = stats.savedAmount;
+    final totalSaved = stats.totalSaved;
     final totalCount = expenses.length;
     final savingsRate = totalCount > 0
         ? (stats.noCount / totalCount * 100)
@@ -562,6 +562,13 @@ class _ReportScreenState extends State<ReportScreen>
     final spentHours = expenses
         .where((e) => e.decision == ExpenseDecision.yes)
         .fold<double>(0, (sum, e) => sum + e.hoursRequired);
+
+    // Include smart choice saved hours in total saved hours
+    final hourlyRate = _calculateHourlyRate();
+    final smartChoiceSavedHours = hourlyRate > 0
+        ? stats.smartChoiceSaved / hourlyRate
+        : 0.0;
+    final totalSavedHours = stats.savedHours + smartChoiceSavedHours;
 
     return Column(
       children: [
@@ -586,7 +593,7 @@ class _ReportScreenState extends State<ReportScreen>
                 value: totalSaved,
                 suffix: ' TL',
                 subtitle: l10n.hoursRequired(
-                  stats.savedHours.toStringAsFixed(1),
+                  totalSavedHours.toStringAsFixed(1),
                 ),
                 color: context.vantColors.decisionNo,
                 icon: CupertinoIcons.shield_fill,
