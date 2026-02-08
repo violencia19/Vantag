@@ -761,7 +761,7 @@
 
   "deleteAccount": "Delete My Account",
   "deleteAccountWarningTitle": "You Are About to Delete Your Account",
-  "deleteAccountWarningMessage": "This action cannot be undone! All your data will be permanently deleted:\n\n• Expenses\n• Income\n• Installments\n• Achievements\n• Settings",
+  "deleteAccountWarningMessage": "This action cannot be undone! All your data will be permanently deleted:\n\n• Expenses\n• Income\n• Installments\n• Savings Goals\n• Achievements\n• Settings",
   "deleteAccountConfirmPlaceholder": "Type 'I confirm' to confirm",
   "deleteAccountConfirmWord": "I confirm",
   "deleteAccountButton": "Delete Account",
@@ -3459,5 +3459,31 @@
   "pleaseEnterIncome": "Please enter your income",
   "mainIncome": "Main Income",
   "ofYourWork": "of your work",
-  "expensePlaceholder": "Coffee, food, grocery..."
+  "expensePlaceholder": "Coffee, food, grocery...",
+
+  "tourProfileTitle": "Profile",
+  "tourProfileDesc": "Manage your account settings and premium features here",
+  "tourHeroCardTitle": "Work Equivalent",
+  "tourHeroCardDesc": "See how many hours of work your spending equals here",
+  "tourHabitCalcTitle": "Habit Calculator",
+  "tourHabitCalcDesc": "Calculate the yearly cost of your daily habits",
+  "tourFabTitle": "Add Expense",
+  "tourFabDesc": "Tap or long-press for voice input",
+  "tourReportsTabTitle": "Reports",
+  "tourReportsTabDesc": "Weekly, monthly detailed spending analysis here",
+  "tourPursuitsTabTitle": "Savings Goals",
+  "tourPursuitsTabDesc": "Add a dream, declined money auto-saves",
+  "tourSettingsTabTitle": "Settings",
+  "tourSettingsTabDesc": "Salary, currency, notifications and more",
+  "tourSkip": "Skip",
+  "tourNext": "Next",
+  "tourDone": "Done",
+
+  "onboardingCurrencyHint": "Tap to change currency",
+  "onboardingCurrencyProInfo": "Different currencies are a Pro feature. Free version only uses {currency}.",
+  "@onboardingCurrencyProInfo": {
+    "placeholders": {
+      "currency": {"type": "String"}
+    }
+  }
 }

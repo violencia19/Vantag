@@ -108,6 +108,11 @@ Currency getDefaultCurrencyForLocale(String languageCode) {
       .firstOrNull;
   if (match != null) return match;
 
+  // European locales default to EUR
+  if (['fr', 'es', 'it', 'nl', 'pt'].contains(languageCode)) {
+    return getCurrencyByCode('EUR');
+  }
+
   // Fallback to USD
   return getCurrencyByCode('USD');
 }

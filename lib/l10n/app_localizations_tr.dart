@@ -1456,7 +1456,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get deleteAccountWarningMessage =>
-      'Bu işlem geri alınamaz! Tüm verileriniz kalıcı olarak silinecektir:\n\n• Harcamalar\n• Gelirler\n• Taksitler\n• Başarımlar\n• Ayarlar';
+      'Bu işlem geri alınamaz! Tüm verileriniz kalıcı olarak silinecektir:\n\n• Harcamalar\n• Gelirler\n• Taksitler\n• Birikim Hedefleri\n• Başarımlar\n• Ayarlar';
 
   @override
   String get deleteAccountConfirmPlaceholder =>
@@ -4734,11 +4734,11 @@ class AppLocalizationsTr extends AppLocalizations {
       'Tasarruf hedeflerine ulaştıkça rozetler kazan. Motivasyonunu yüksek tut!';
 
   @override
-  String get tourProfileTitle => 'Profil & Ayarlar';
+  String get tourProfileTitle => 'Profil';
 
   @override
   String get tourProfileDesc =>
-      'Gelir bilgilerini düzenle, bildirim tercihlerini yönet ve uygulama ayarlarına eriş.';
+      'Hesap ayarlarını ve premium özelliklerini burada yönet';
 
   @override
   String get tourQuickAddTitle => 'Hızlı Ekleme';
@@ -6689,4 +6689,62 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get expensePlaceholder => 'Kahve, yemek, market...';
+
+  @override
+  String get tourHeroCardTitle => 'Çalışma Karşılığı';
+
+  @override
+  String get tourHeroCardDesc =>
+      'Harcamaların kaç saat çalışmana denk geldiğini burada gör';
+
+  @override
+  String get tourHabitCalcTitle => 'Alışkanlık Hesaplayıcı';
+
+  @override
+  String get tourHabitCalcDesc =>
+      'Günlük alışkanlıklarının yıllık maliyetini hesapla';
+
+  @override
+  String get tourFabTitle => 'Harcama Ekle';
+
+  @override
+  String get tourFabDesc => 'Dokun veya uzun bas ile sesli giriş yap 🎤';
+
+  @override
+  String get tourReportsTabTitle => 'Raporlar';
+
+  @override
+  String get tourReportsTabDesc =>
+      'Haftalık, aylık detaylı harcama analizlerin burada 📊';
+
+  @override
+  String get tourPursuitsTabTitle => 'Tasarruf Hedefleri';
+
+  @override
+  String get tourPursuitsTabDesc =>
+      'Bir hayal ekle, vazgeçtiğin paralar otomatik biriksin ⭐';
+
+  @override
+  String get tourSettingsTabTitle => 'Ayarlar';
+
+  @override
+  String get tourSettingsTabDesc =>
+      'Maaş, para birimi, bildirimler ve daha fazlası ⚙️';
+
+  @override
+  String get tourSkip => 'Atla';
+
+  @override
+  String get tourNext => 'İleri';
+
+  @override
+  String get tourDone => 'Tamamla';
+
+  @override
+  String get onboardingCurrencyHint => 'Para birimini değiştirmek için dokun';
+
+  @override
+  String onboardingCurrencyProInfo(String currency) {
+    return 'Farklı para birimleri Pro özelliğidir. Ücretsiz sürümde yalnızca $currency kullanılır.';
+  }
 }

@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +32,11 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
   double _dailyHours = 8;
   int _workDaysPerWeek = 5;
 
+  // Currency selection for onboarding
+  late Currency _selectedCurrency;
+  late Currency _defaultCurrency;
+  bool _currencyInitialized = false;
+
   // Step 3: First expense data
   final _expenseAmountController = TextEditingController();
   final _expenseDescController = TextEditingController();
@@ -59,6 +63,18 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
     super.initState();
     _initAnimations();
     _trackOnboardingStarted();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_currencyInitialized) {
+      _defaultCurrency = getDefaultCurrencyForLocale(
+        Localizations.localeOf(context).languageCode,
+      );
+      _selectedCurrency = _defaultCurrency;
+      _currencyInitialized = true;
+    }
   }
 
   void _trackOnboardingStarted() {
@@ -151,6 +167,9 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
 
     HapticFeedback.mediumImpact();
 
+    // Set currency provider to selected currency
+    await context.read<CurrencyProvider>().setCurrency(_selectedCurrency);
+
     // Create profile with income source
     final profile = UserProfile(
       dailyHours: _dailyHours,
@@ -159,6 +178,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
         IncomeSource.salary(
           amount: income,
           title: AppLocalizations.of(context).mainIncome,
+          currencyCode: _selectedCurrency.code,
         ),
       ],
     );
@@ -272,8 +292,10 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
 
     // If on step 2 or later, still need to create a default profile
     if (_currentStep >= 1) {
-      final currencyCode = context.read<CurrencyProvider>().code;
-      final defaultIncome = _getDefaultIncome(currencyCode);
+      // Set currency provider to selected currency
+      await context.read<CurrencyProvider>().setCurrency(_selectedCurrency);
+
+      final defaultIncome = _getDefaultIncome(_selectedCurrency.code);
       final profile = UserProfile(
         dailyHours: 8,
         workDaysPerWeek: 5,
@@ -281,6 +303,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
           IncomeSource.salary(
             amount: defaultIncome,
             title: AppLocalizations.of(context).mainIncome,
+            currencyCode: _selectedCurrency.code,
           ),
         ],
       );
@@ -343,6 +366,119 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
       case 'SAR': return '50';
       default: return '15';
     }
+  }
+
+  void _onCurrencyChanged(Currency newCurrency) {
+    final oldValue = parseTurkishCurrency(_incomeController.text);
+    setState(() => _selectedCurrency = newCurrency);
+    if (oldValue != null && oldValue > 0) {
+      _incomeController.text = formatForCurrency(oldValue, newCurrency);
+    }
+  }
+
+  void _showCurrencyPicker() {
+    final l10n = AppLocalizations.of(context);
+
+    showModalBottomSheet(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.85),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => Container(
+        decoration: BoxDecoration(
+          color: context.vantColors.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Handle
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: context.vantColors.textTertiary.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Header
+            Text(
+              l10n.settingsCurrency,
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: context.vantColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Currency list
+            ...supportedCurrencies.map((currency) {
+              final isSelected = currency.code == _selectedCurrency.code;
+              return GestureDetector(
+                onTap: () {
+                  HapticFeedback.selectionClick();
+                  Navigator.pop(context);
+                  _onCurrencyChanged(currency);
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                  margin: const EdgeInsets.only(bottom: 4),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? context.vantColors.primary.withValues(alpha: 0.1)
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Text(currency.flag, style: const TextStyle(fontSize: 24)),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              currency.name,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: context.vantColors.textPrimary,
+                              ),
+                            ),
+                            Text(
+                              currency.code,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: context.vantColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (isSelected)
+                        Icon(
+                          CupertinoIcons.checkmark_circle_fill,
+                          color: context.vantColors.primary,
+                          size: 22,
+                        ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+
+            SizedBox(height: MediaQuery.of(context).padding.bottom + 8),
+          ],
+        ),
+      ),
+    );
   }
 
   void _showError(String message) {
@@ -625,8 +761,6 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
   // ═══════════════════════════════════════════════════════════════════════════
 
   Widget _buildStep2Setup(AppLocalizations l10n) {
-    final currencyProvider = context.watch<CurrencyProvider>();
-
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -659,13 +793,13 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                 color: context.vantColors.textPrimary,
               ),
               decoration: InputDecoration(
-                hintText: _getIncomeHint(currencyProvider.code),
+                hintText: _getIncomeHint(_selectedCurrency.code),
                 hintStyle: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w600,
                   color: context.vantColors.textTertiary,
                 ),
-                prefixText: '${currencyProvider.symbol} ',
+                prefixText: '${_selectedCurrency.symbol} ',
                 prefixStyle: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w600,
@@ -674,7 +808,76 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                 border: InputBorder.none,
               ),
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
+                CurrencyAwareInputFormatter(currency: _selectedCurrency),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          // Currency selector row
+          GestureDetector(
+            onTap: () {
+              HapticFeedback.selectionClick();
+              _showCurrencyPicker();
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: context.vantColors.surfaceLight,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: context.vantColors.cardBorder),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        _selectedCurrency.flag,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        _selectedCurrency.code,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: context.vantColors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(
+                        CupertinoIcons.chevron_down,
+                        size: 14,
+                        color: context.vantColors.textSecondary,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: Text(
+                    l10n.onboardingCurrencyHint,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.vantColors.textTertiary,
+                    ),
+                  ),
+                ),
+                if (_selectedCurrency.code != _defaultCurrency.code)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4, top: 4),
+                    child: Text(
+                      l10n.onboardingCurrencyProInfo(_defaultCurrency.code),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.vantColors.warning,
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -930,7 +1133,7 @@ class _OnboardingV2ScreenState extends State<OnboardingV2Screen>
                 border: InputBorder.none,
               ),
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'[\d.,]')),
+                CurrencyAwareInputFormatter(currency: currencyProvider.currency),
               ],
               onSubmitted: (_) => _calculateFirstExpense(),
             ),

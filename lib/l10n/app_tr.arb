@@ -544,7 +544,7 @@
 
   "deleteAccount": "Hesabımı Sil",
   "deleteAccountWarningTitle": "Hesabınızı Silmek Üzeresiniz",
-  "deleteAccountWarningMessage": "Bu işlem geri alınamaz! Tüm verileriniz kalıcı olarak silinecektir:\n\n• Harcamalar\n• Gelirler\n• Taksitler\n• Başarımlar\n• Ayarlar",
+  "deleteAccountWarningMessage": "Bu işlem geri alınamaz! Tüm verileriniz kalıcı olarak silinecektir:\n\n• Harcamalar\n• Gelirler\n• Taksitler\n• Birikim Hedefleri\n• Başarımlar\n• Ayarlar",
   "deleteAccountConfirmPlaceholder": "Onaylamak için 'Onaylıyorum' yazın",
   "deleteAccountConfirmWord": "Onaylıyorum",
   "deleteAccountButton": "Hesabı Sil",
@@ -3084,5 +3084,26 @@
   "pleaseEnterIncome": "Lütfen gelirinizi girin",
   "mainIncome": "Ana Gelir",
   "ofYourWork": "çalışman",
-  "expensePlaceholder": "Kahve, yemek, market..."
+  "expensePlaceholder": "Kahve, yemek, market...",
+
+  "tourProfileTitle": "Profil",
+  "tourProfileDesc": "Hesap ayarlarını ve premium özelliklerini burada yönet",
+  "tourHeroCardTitle": "Çalışma Karşılığı",
+  "tourHeroCardDesc": "Harcamaların kaç saat çalışmana denk geldiğini burada gör",
+  "tourHabitCalcTitle": "Alışkanlık Hesaplayıcı",
+  "tourHabitCalcDesc": "Günlük alışkanlıklarının yıllık maliyetini hesapla",
+  "tourFabTitle": "Harcama Ekle",
+  "tourFabDesc": "Dokun veya uzun bas ile sesli giriş yap 🎤",
+  "tourReportsTabTitle": "Raporlar",
+  "tourReportsTabDesc": "Haftalık, aylık detaylı harcama analizlerin burada 📊",
+  "tourPursuitsTabTitle": "Tasarruf Hedefleri",
+  "tourPursuitsTabDesc": "Bir hayal ekle, vazgeçtiğin paralar otomatik biriksin ⭐",
+  "tourSettingsTabTitle": "Ayarlar",
+  "tourSettingsTabDesc": "Maaş, para birimi, bildirimler ve daha fazlası ⚙️",
+  "tourSkip": "Atla",
+  "tourNext": "İleri",
+  "tourDone": "Tamamla",
+
+  "onboardingCurrencyHint": "Para birimini değiştirmek için dokun",
+  "onboardingCurrencyProInfo": "Farklı para birimleri Pro özelliğidir. Ücretsiz sürümde yalnızca {currency} kullanılır."
 }

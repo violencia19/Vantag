@@ -1456,7 +1456,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteAccountWarningMessage =>
-      'This action cannot be undone! All your data will be permanently deleted:\n\n• Expenses\n• Income\n• Installments\n• Achievements\n• Settings';
+      'This action cannot be undone! All your data will be permanently deleted:\n\n• Expenses\n• Income\n• Installments\n• Savings Goals\n• Achievements\n• Settings';
 
   @override
   String get deleteAccountConfirmPlaceholder => 'Type \'I confirm\' to confirm';
@@ -4743,11 +4743,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Earn badges as you reach savings goals. Keep your motivation high!';
 
   @override
-  String get tourProfileTitle => 'Profile & Settings';
+  String get tourProfileTitle => 'Profile';
 
   @override
   String get tourProfileDesc =>
-      'Edit income info, manage notification preferences, and access app settings.';
+      'Manage your account settings and premium features here';
 
   @override
   String get tourQuickAddTitle => 'Quick Add';
@@ -6702,4 +6702,60 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expensePlaceholder => 'Coffee, food, grocery...';
+
+  @override
+  String get tourHeroCardTitle => 'Work Equivalent';
+
+  @override
+  String get tourHeroCardDesc =>
+      'See how many hours of work your spending equals here';
+
+  @override
+  String get tourHabitCalcTitle => 'Habit Calculator';
+
+  @override
+  String get tourHabitCalcDesc =>
+      'Calculate the yearly cost of your daily habits';
+
+  @override
+  String get tourFabTitle => 'Add Expense';
+
+  @override
+  String get tourFabDesc => 'Tap or long-press for voice input';
+
+  @override
+  String get tourReportsTabTitle => 'Reports';
+
+  @override
+  String get tourReportsTabDesc =>
+      'Weekly, monthly detailed spending analysis here';
+
+  @override
+  String get tourPursuitsTabTitle => 'Savings Goals';
+
+  @override
+  String get tourPursuitsTabDesc => 'Add a dream, declined money auto-saves';
+
+  @override
+  String get tourSettingsTabTitle => 'Settings';
+
+  @override
+  String get tourSettingsTabDesc => 'Salary, currency, notifications and more';
+
+  @override
+  String get tourSkip => 'Skip';
+
+  @override
+  String get tourNext => 'Next';
+
+  @override
+  String get tourDone => 'Done';
+
+  @override
+  String get onboardingCurrencyHint => 'Tap to change currency';
+
+  @override
+  String onboardingCurrencyProInfo(String currency) {
+    return 'Different currencies are a Pro feature. Free version only uses $currency.';
+  }
 }

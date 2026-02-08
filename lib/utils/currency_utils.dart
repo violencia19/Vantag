@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 import 'dart:math';
 import 'package:flutter/services.dart';
+import '../models/currency.dart';
 
 /// Premium Türkçe Para Formatı Utilities
 /// - Sınırsız tutar desteği (milyarlara kadar)
@@ -409,6 +410,95 @@ class TurkishCurrencyInputFormatter extends TextInputFormatter {
       selection: TextSelection.collapsed(offset: finalString.length),
     );
   }
+}
+
+// ============================================
+// CURRENCY-AWARE INPUT FORMATTER
+// ============================================
+
+/// Currency-aware input formatter that uses Currency model's separators
+/// TRY/EUR: thousand='.', decimal=',' → 62.500,00
+/// USD/GBP/SAR: thousand=',', decimal='.' → 62,500.00
+class CurrencyAwareInputFormatter extends TextInputFormatter {
+  final Currency currency;
+
+  CurrencyAwareInputFormatter({required this.currency});
+
+  String get _thousandSep => currency.thousandSeparator;
+  String get _decimalSep => currency.decimalSeparator;
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    if (newValue.text.isEmpty) return newValue;
+
+    // 1. Remove existing thousand separators
+    String cleanText = newValue.text.replaceAll(_thousandSep, '');
+
+    // 2. Normalize: convert any separator input to the currency's decimal separator
+    // For TRY/EUR (decimalSep=','), user typing '.' should become ','
+    // For USD/GBP (decimalSep='.'), user typing ',' should become '.'
+    if (_decimalSep == ',') {
+      cleanText = cleanText.replaceAll('.', ',');
+    } else {
+      cleanText = cleanText.replaceAll(',', '.');
+    }
+
+    // 3. Prevent multiple decimal separators
+    List<String> parts = cleanText.split(_decimalSep);
+    if (parts.length > 2) return oldValue;
+
+    String beforeDecimal = parts[0].replaceAll(RegExp(r'[^0-9]'), '');
+    String? afterDecimal = parts.length > 1 ? parts[1] : null;
+
+    // Max 2 decimal digits
+    if (afterDecimal != null && afterDecimal.length > 2) {
+      afterDecimal = afterDecimal.substring(0, 2);
+    }
+
+    if (beforeDecimal.isEmpty) return newValue;
+
+    // 4. Add thousand separators
+    final formatter = NumberFormat('#,###', 'en_US');
+    int? parsedBefore = int.tryParse(beforeDecimal);
+    if (parsedBefore == null) return oldValue;
+
+    String formattedBefore = formatter
+        .format(parsedBefore)
+        .replaceAll(',', _thousandSep);
+
+    // 5. Combine with decimal separator
+    String finalString =
+        formattedBefore + (afterDecimal != null ? '$_decimalSep$afterDecimal' : '');
+
+    return TextEditingValue(
+      text: finalString,
+      selection: TextSelection.collapsed(offset: finalString.length),
+    );
+  }
+}
+
+/// Format a numeric value using the currency's thousand/decimal separators
+/// Used when switching currencies to reformat existing input
+String formatForCurrency(double value, Currency currency) {
+  if (value <= 0) return '';
+
+  final isWholeNumber = value == value.truncateToDouble();
+
+  // Format integer part with thousand separators
+  final intPart = value.truncate();
+  final formatter = NumberFormat('#,###', 'en_US');
+  final formattedInt = formatter.format(intPart).replaceAll(',', currency.thousandSeparator);
+
+  if (isWholeNumber) {
+    return formattedInt;
+  }
+
+  // Add decimal part
+  final decimalPart = ((value - intPart) * 100).round().toString().padLeft(2, '0');
+  return '$formattedInt${currency.decimalSeparator}$decimalPart';
 }
 
 /// Simülasyon zamanı için iki bloklu sonuç

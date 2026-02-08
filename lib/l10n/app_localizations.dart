@@ -2741,7 +2741,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteAccountWarningMessage.
   ///
   /// In en, this message translates to:
-  /// **'This action cannot be undone! All your data will be permanently deleted:\n\n• Expenses\n• Income\n• Installments\n• Achievements\n• Settings'**
+  /// **'This action cannot be undone! All your data will be permanently deleted:\n\n• Expenses\n• Income\n• Installments\n• Savings Goals\n• Achievements\n• Settings'**
   String get deleteAccountWarningMessage;
 
   /// No description provided for @deleteAccountConfirmPlaceholder.
@@ -8656,13 +8656,13 @@ abstract class AppLocalizations {
   /// No description provided for @tourProfileTitle.
   ///
   /// In en, this message translates to:
-  /// **'Profile & Settings'**
+  /// **'Profile'**
   String get tourProfileTitle;
 
   /// No description provided for @tourProfileDesc.
   ///
   /// In en, this message translates to:
-  /// **'Edit income info, manage notification preferences, and access app settings.'**
+  /// **'Manage your account settings and premium features here'**
   String get tourProfileDesc;
 
   /// No description provided for @tourQuickAddTitle.
@@ -12189,6 +12189,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Coffee, food, grocery...'**
   String get expensePlaceholder;
+
+  /// No description provided for @tourHeroCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Work Equivalent'**
+  String get tourHeroCardTitle;
+
+  /// No description provided for @tourHeroCardDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'See how many hours of work your spending equals here'**
+  String get tourHeroCardDesc;
+
+  /// No description provided for @tourHabitCalcTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit Calculator'**
+  String get tourHabitCalcTitle;
+
+  /// No description provided for @tourHabitCalcDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate the yearly cost of your daily habits'**
+  String get tourHabitCalcDesc;
+
+  /// No description provided for @tourFabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Expense'**
+  String get tourFabTitle;
+
+  /// No description provided for @tourFabDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap or long-press for voice input'**
+  String get tourFabDesc;
+
+  /// No description provided for @tourReportsTabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports'**
+  String get tourReportsTabTitle;
+
+  /// No description provided for @tourReportsTabDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly, monthly detailed spending analysis here'**
+  String get tourReportsTabDesc;
+
+  /// No description provided for @tourPursuitsTabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings Goals'**
+  String get tourPursuitsTabTitle;
+
+  /// No description provided for @tourPursuitsTabDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a dream, declined money auto-saves'**
+  String get tourPursuitsTabDesc;
+
+  /// No description provided for @tourSettingsTabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get tourSettingsTabTitle;
+
+  /// No description provided for @tourSettingsTabDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary, currency, notifications and more'**
+  String get tourSettingsTabDesc;
+
+  /// No description provided for @tourSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get tourSkip;
+
+  /// No description provided for @tourNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get tourNext;
+
+  /// No description provided for @tourDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get tourDone;
+
+  /// No description provided for @onboardingCurrencyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to change currency'**
+  String get onboardingCurrencyHint;
+
+  /// No description provided for @onboardingCurrencyProInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Different currencies are a Pro feature. Free version only uses {currency}.'**
+  String onboardingCurrencyProInfo(String currency);
 }
 
 class _AppLocalizationsDelegate
