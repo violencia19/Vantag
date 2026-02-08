@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vantag - Support</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0A0A0F;
+    color: #FEFACD;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  a { color: #9B7FCC; }
+  .container { max-width: 640px; margin: 0 auto; padding: 48px 20px; }
+
+  /* Header */
+  .header { text-align: center; margin-bottom: 48px; }
+  .logo {
+    font-size: 32px;
+    font-weight: 700;
+    color: #FEFACD;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: #5F4A8B; }
+  .header p {
+    margin-top: 8px;
+    font-size: 15px;
+    color: rgba(254, 250, 205, 0.5);
+  }
+
+  /* Section */
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #FEFACD;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #5F4A8B;
+    display: inline-block;
+  }
+
+  /* FAQ */
+  .faq-item {
+    background: rgba(95, 74, 139, 0.1);
+    border: 1px solid rgba(95, 74, 139, 0.25);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .faq-item summary {
+    padding: 16px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 15px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: '+';
+    font-size: 20px;
+    color: #5F4A8B;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  .faq-item[open] summary::after { content: '\2212'; }
+  .faq-item .answer {
+    padding: 0 20px 16px;
+    font-size: 14px;
+    color: rgba(254, 250, 205, 0.7);
+  }
+
+  /* Contact */
+  .contact-section { margin-top: 48px; }
+  .contact-card {
+    background: rgba(95, 74, 139, 0.1);
+    border: 1px solid rgba(95, 74, 139, 0.25);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+  .contact-card p {
+    font-size: 14px;
+    color: rgba(254, 250, 205, 0.6);
+    margin-bottom: 16px;
+  }
+  .email-link {
+    display: inline-block;
+    background: #5F4A8B;
+    color: #FEFACD;
+    text-decoration: none;
+    padding: 10px 28px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 56px;
+    text-align: center;
+    font-size: 13px;
+    color: rgba(254, 250, 205, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="logo">Van<span>tag</span></div>
+    <p>Support Center</p>
+  </div>
+
+  <section>
+    <h2>Frequently Asked Questions</h2>
+
+    <details class="faq-item">
+      <summary>How do I add an expense?</summary>
+      <div class="answer">
+        Tap the <strong>+</strong> button on the home screen. Enter the amount, select a category, and add an optional note. Vantag will automatically convert the cost into work hours based on your salary settings.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do subscriptions work?</summary>
+      <div class="answer">
+        Go to the subscriptions section from the home screen. You can add recurring expenses (Netflix, Spotify, etc.) with their billing cycle. Vantag tracks them separately and shows you the total monthly cost in work hours.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do I set my salary?</summary>
+      <div class="answer">
+        Open <strong>Settings</strong> and tap <strong>Salary</strong>. Enter your monthly or yearly salary. This is used to calculate how many hours you need to work to cover each expense.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do I delete my account?</summary>
+      <div class="answer">
+        Open <strong>Settings &gt; Delete Account</strong>. This will permanently remove all your data from the app. Since Vantag stores data locally on your device, uninstalling the app also removes all data.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Is my data private?</summary>
+      <div class="answer">
+        Yes. All your financial data is stored locally on your device. We do not collect or transmit your expense or salary information to any server.
+      </div>
+    </details>
+  </section>
+
+  <section class="contact-section">
+    <h2>Contact Us</h2>
+    <div class="contact-card">
+      <p>Can't find what you're looking for? Reach out and we'll get back to you as soon as possible.</p>
+      <a href="mailto:vantagfinance@gmail.com" class="email-link">vantagfinance@gmail.com</a>
+    </div>
+  </section>
+
+  <div class="footer">&copy; 2025 Vantag. All rights reserved.</div>
+
+</div>
+</body>
+</html>
