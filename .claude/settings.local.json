@@ -176,7 +176,8 @@
       "Bash(git -C /Users/gencayalla/development/vantag add lib/utils/currency_utils.dart lib/models/currency.dart lib/l10n/app_en.arb lib/l10n/app_tr.arb lib/l10n/app_localizations.dart lib/l10n/app_localizations_en.dart lib/l10n/app_localizations_tr.dart lib/screens/onboarding_v2_screen.dart)",
       "Bash(git -C /Users/gencayalla/development/vantag commit -m \"$\\(cat <<''EOF''\nAdd locale-aware currency formatting and selector to onboarding\n\n- Add CurrencyAwareInputFormatter that uses Currency model''s thousand/decimal\n  separators \\(TRY/EUR use dots, USD/GBP/SAR use commas\\)\n- Add tappable currency selector with picker sheet on onboarding Step 2\n- Auto-detect default currency from device locale \\(including European fallback to EUR\\)\n- Reformat salary input value when switching currencies\n- Pass selected currency to CurrencyProvider and IncomeSource on setup completion\n- Add onboardingCurrencyHint and onboardingCurrencyProInfo l10n keys \\(EN + TR\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(git -C /Users/gencayalla/development/vantag status --short lib/utils/currency_utils.dart lib/models/currency.dart lib/l10n/ lib/screens/onboarding_v2_screen.dart)",
-      "Bash(git -C /Users/gencayalla/development/vantag push)"
+      "Bash(git -C /Users/gencayalla/development/vantag push)",
+      "Bash(git submodule:*)"
     ]
   }
 }
