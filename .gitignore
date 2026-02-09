@@ -1,3 +1,6 @@
+# Embedded git repos (skills with their own .git)
+.claude/skills/marketing/
+
 # Miscellaneous
 *.class
 *.log
