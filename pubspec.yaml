@@ -166,6 +166,7 @@ flutter:
   # Assets
   assets:
     - assets/icon/
+    - assets/images/
     - assets/sounds/
     - assets/animations/
     - lib/assets/videos/

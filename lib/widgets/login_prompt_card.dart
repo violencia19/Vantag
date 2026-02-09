@@ -7,37 +7,6 @@ import 'package:vantag/l10n/app_localizations.dart';
 import '../services/auth_service.dart';
 import '../theme/theme.dart';
 
-/// Google "G" icon using a styled Text widget with Google brand colors
-class _GoogleGIcon extends StatelessWidget {
-  final double size;
-  const _GoogleGIcon({required this.size});
-
-  @override
-  Widget build(BuildContext context) {
-    return ShaderMask(
-      shaderCallback: (bounds) => const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Color(0xFFEA4335), // Red
-          Color(0xFFFBBC05), // Yellow
-          Color(0xFF34A853), // Green
-          Color(0xFF4285F4), // Blue
-        ],
-        stops: [0.0, 0.33, 0.66, 1.0],
-      ).createShader(bounds),
-      blendMode: BlendMode.srcIn,
-      child: Text(
-        'G',
-        style: TextStyle(
-          fontSize: size,
-          fontWeight: FontWeight.w700,
-          height: 1.0,
-        ),
-      ),
-    );
-  }
-}
 
 /// Login prompt card shown to users who haven't linked their account
 /// Glassmorphism design with Google + Apple sign-in options
@@ -175,8 +144,12 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                         color: context.vantColors.surfaceLight,
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: const Center(
-                        child: _GoogleGIcon(size: 24),
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/google_logo.png',
+                          width: 24,
+                          height: 24,
+                        ),
                       ),
                     ),
                     if (showApple) ...[
@@ -235,7 +208,11 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                       child: _buildLoginButton(
                         onTap: _signInWithGoogle,
                         isLoading: _isLoadingGoogle,
-                        iconWidget: const _GoogleGIcon(size: 18),
+                        iconWidget: Image.asset(
+                          'assets/images/google_logo.png',
+                          width: 18,
+                          height: 18,
+                        ),
                         label: l10n.linkWithGoogle,
                         isPrimary: true,
                       ),
