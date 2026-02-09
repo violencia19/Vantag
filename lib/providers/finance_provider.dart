@@ -173,13 +173,21 @@ class FinanceProvider extends ChangeNotifier {
     // Sync widget data after expense is added
     await _autoSyncWidget();
 
-    // First expense celebration and referral reward
+    // First expense celebration
     if (isFirstExpense && expense.isReal) {
       _handleFirstExpense(expense);
     }
+
+    // Check referral eligibility on each real expense (up to threshold)
+    if (expense.isReal) {
+      final realCount = _expenses.where((e) => e.isReal).length;
+      if (realCount <= ReferralService.minExpensesForReferral) {
+        _checkReferralEligibility(realCount);
+      }
+    }
   }
 
-  /// Handle first expense - schedule celebration notification and reward referrer
+  /// Handle first expense - schedule celebration notification
   Future<void> _handleFirstExpense(Expense expense) async {
     try {
       // Schedule first expense celebration notification
@@ -188,13 +196,20 @@ class FinanceProvider extends ChangeNotifier {
         savedHours: savedHours,
       );
       debugPrint('[FinanceProvider] First expense celebration scheduled');
-
-      // Reward referrer if this user was referred
-      await ReferralService().rewardReferrerOnFirstExpense(
-        FirebaseAuth.instance.currentUser?.uid ?? '',
-      );
     } catch (e) {
       debugPrint('[FinanceProvider] Error handling first expense: $e');
+    }
+  }
+
+  /// Check if referred user is eligible for referrer reward
+  Future<void> _checkReferralEligibility(int expenseCount) async {
+    try {
+      await ReferralService().rewardReferrerIfEligible(
+        FirebaseAuth.instance.currentUser?.uid ?? '',
+        expenseCount,
+      );
+    } catch (e) {
+      debugPrint('[FinanceProvider] Error checking referral eligibility: $e');
     }
   }
 

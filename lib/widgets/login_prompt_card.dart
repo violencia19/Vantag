@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,66 +7,65 @@ import 'package:vantag/l10n/app_localizations.dart';
 import '../services/auth_service.dart';
 import '../theme/theme.dart';
 
-/// Paints the official Google "G" logo using brand colors
+/// Paints the official Google "G" logo using SVG paths with brand colors
 class _GoogleLogoPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final double s = size.width;
-    final double cx = s / 2;
-    final double cy = s / 2;
-    final double r = s * 0.45;
-    final double strokeWidth = s * 0.18;
+    // Scale to fit the canvas (paths are based on 48x48 viewBox)
+    final scale = size.width / 48.0;
+    canvas.scale(scale, scale);
 
-    // Blue arc (top-right to bottom-right, ~270°)
-    final bluePaint = Paint()
-      ..color = const Color(0xFF4285F4)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth
-      ..strokeCap = StrokeCap.butt;
+    // Blue section (right side + crossbar)
+    final bluePath = Path()
+      ..moveTo(43.611, 20.083)
+      ..lineTo(43.611, 20.083)
+      ..cubicTo(43.611, 18.683, 43.492, 17.329, 43.265, 16.025)
+      ..lineTo(24.0, 16.025)
+      ..lineTo(24.0, 23.648)
+      ..lineTo(35.012, 23.648)
+      ..cubicTo(34.504, 26.357, 32.914, 28.657, 30.565, 30.168)
+      ..lineTo(30.565, 35.568)
+      ..cubicTo(37.392, 32.768, 43.611, 27.168, 43.611, 20.083)
+      ..close();
+    canvas.drawPath(bluePath, Paint()..color = const Color(0xFF4285F4));
 
-    // Green arc (bottom-right)
-    final greenPaint = Paint()
-      ..color = const Color(0xFF34A853)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth
-      ..strokeCap = StrokeCap.butt;
+    // Green section (bottom-right)
+    final greenPath = Path()
+      ..moveTo(24.0, 44.0)
+      ..cubicTo(30.48, 44.0, 35.944, 41.843, 30.565, 35.568)
+      ..lineTo(30.565, 35.568)
+      ..cubicTo(28.216, 37.079, 26.316, 37.925, 24.0, 37.925)
+      ..cubicTo(17.836, 37.925, 12.62, 33.527, 10.906, 27.735)
+      ..lineTo(4.0, 27.735)
+      ..lineTo(4.0, 33.335)
+      ..cubicTo(8.443, 40.182, 15.664, 44.0, 24.0, 44.0)
+      ..close();
+    canvas.drawPath(greenPath, Paint()..color = const Color(0xFF34A853));
 
-    // Yellow arc (bottom-left)
-    final yellowPaint = Paint()
-      ..color = const Color(0xFFFBBC05)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth
-      ..strokeCap = StrokeCap.butt;
+    // Yellow section (bottom-left)
+    final yellowPath = Path()
+      ..moveTo(10.906, 27.735)
+      ..cubicTo(10.406, 26.235, 10.125, 24.644, 10.125, 23.0)
+      ..cubicTo(10.125, 21.356, 10.406, 19.765, 10.906, 18.265)
+      ..lineTo(10.906, 18.265)
+      ..lineTo(4.0, 12.665)
+      ..cubicTo(2.328, 16.0, 1.375, 19.394, 1.375, 23.0)
+      ..cubicTo(1.375, 26.606, 2.328, 30.0, 4.0, 33.335)
+      ..lineTo(10.906, 27.735)
+      ..close();
+    canvas.drawPath(yellowPath, Paint()..color = const Color(0xFFFBBC05));
 
-    // Red arc (top-left)
-    final redPaint = Paint()
-      ..color = const Color(0xFFEA4335)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth
-      ..strokeCap = StrokeCap.butt;
-
-    final rect = Rect.fromCircle(center: Offset(cx, cy), radius: r);
-
-    // Draw arcs (angles in radians, 0 = 3 o'clock, clockwise)
-    // Red: top-left quadrant (210° to 330° → -150° to -30°)
-    canvas.drawArc(rect, -math.pi * 150 / 180, math.pi * 60 / 180, false, redPaint);
-    // Yellow: bottom-left quadrant (150° to 210°)
-    canvas.drawArc(rect, math.pi * 150 / 180, -math.pi * 60 / 180, false, yellowPaint);
-    // Green: bottom-right quadrant (30° to 150°)
-    canvas.drawArc(rect, math.pi * 30 / 180, math.pi * 60 / 180, false, greenPaint);
-    // Blue: top-right quadrant (-30° to 30°) — extends with horizontal bar
-    canvas.drawArc(rect, -math.pi * 30 / 180, math.pi * 60 / 180, false, bluePaint);
-
-    // Blue horizontal bar (the distinctive G crossbar)
-    final barPaint = Paint()
-      ..color = const Color(0xFF4285F4)
-      ..style = PaintingStyle.fill;
-    final barTop = cy - strokeWidth / 2;
-    final barBottom = cy + strokeWidth / 2;
-    canvas.drawRect(
-      Rect.fromLTRB(cx, barTop, cx + r + strokeWidth / 2, barBottom),
-      barPaint,
-    );
+    // Red section (top)
+    final redPath = Path()
+      ..moveTo(24.0, 8.075)
+      ..cubicTo(27.444, 8.075, 30.08, 9.231, 32.485, 11.219)
+      ..lineTo(37.564, 6.14)
+      ..cubicTo(34.744, 3.533, 30.48, 2.0, 24.0, 2.0)
+      ..cubicTo(15.664, 2.0, 8.443, 5.818, 4.0, 12.665)
+      ..lineTo(10.906, 18.265)
+      ..cubicTo(12.62, 12.473, 17.836, 8.075, 24.0, 8.075)
+      ..close();
+    canvas.drawPath(redPath, Paint()..color = const Color(0xFFEA4335));
   }
 
   @override

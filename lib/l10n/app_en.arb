@@ -2659,22 +2659,24 @@
       "count": {"type": "int"}
     }
   },
-  "referralRewardInfo": "Earn 7 days premium for each friend!",
+  "referralRewardInfo": "Earn 3 days premium for each friend! (max 10)",
   "codeCopied": "Code copied!",
   "haveReferralCode": "Have a referral code?",
   "referralCodeHint": "Enter code (optional)",
   "referralCodePlaceholder": "VANTAG-XXXXX",
-  "referralSuccess": "{name} joined Vantag! +7 days premium",
+  "referralSuccess": "{name} joined Vantag! +3 days premium",
   "@referralSuccess": {
     "placeholders": {
       "name": {"type": "String"}
     }
   },
-  "welcomeReferred": "Welcome! You have 7 days premium trial",
+  "welcomeReferred": "Welcome! You have 3 days premium trial",
   "referralInvalidCode": "Invalid referral code",
   "referralCodeApplied": "Referral code applied!",
   "referralSectionTitle": "Referrals",
   "referralShareDescription": "Share your code and earn premium days",
+  "referralMaxReached": "You've reached the maximum of 10 referrals",
+  "referralRequirement": "Your friend must use the app for 3 days and add 3 expenses",
 
   "trialMidpointTitle": "Halfway there! \u23f3",
   "trialMidpointBody": "Your trial is halfway done. You've saved {hours} hours so far!",

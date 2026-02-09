@@ -9163,7 +9163,7 @@ abstract class AppLocalizations {
   /// No description provided for @referralRewardInfo.
   ///
   /// In en, this message translates to:
-  /// **'Earn 7 days premium for each friend!'**
+  /// **'Earn 3 days premium for each friend! (max 10)'**
   String get referralRewardInfo;
 
   /// No description provided for @codeCopied.
@@ -9193,13 +9193,13 @@ abstract class AppLocalizations {
   /// No description provided for @referralSuccess.
   ///
   /// In en, this message translates to:
-  /// **'{name} joined Vantag! +7 days premium'**
+  /// **'{name} joined Vantag! +3 days premium'**
   String referralSuccess(String name);
 
   /// No description provided for @welcomeReferred.
   ///
   /// In en, this message translates to:
-  /// **'Welcome! You have 7 days premium trial'**
+  /// **'Welcome! You have 3 days premium trial'**
   String get welcomeReferred;
 
   /// No description provided for @referralInvalidCode.
@@ -9225,6 +9225,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share your code and earn premium days'**
   String get referralShareDescription;
+
+  /// No description provided for @referralMaxReached.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve reached the maximum of 10 referrals'**
+  String get referralMaxReached;
+
+  /// No description provided for @referralRequirement.
+  ///
+  /// In en, this message translates to:
+  /// **'Your friend must use the app for 3 days and add 3 expenses'**
+  String get referralRequirement;
 
   /// No description provided for @trialMidpointTitle.
   ///

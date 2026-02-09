@@ -2293,22 +2293,24 @@
       "count": {"type": "int"}
     }
   },
-  "referralRewardInfo": "Her arkadaşın için 7 gün premium kazan!",
+  "referralRewardInfo": "Her arkadaşın için 3 gün premium kazan! (maks 10)",
   "codeCopied": "Kod kopyalandı!",
   "haveReferralCode": "Davet kodun var mı?",
   "referralCodeHint": "Kodu gir (opsiyonel)",
   "referralCodePlaceholder": "VANTAG-XXXXX",
-  "referralSuccess": "{name} Vantag'a katıldı! +7 gün premium kazandın",
+  "referralSuccess": "{name} Vantag'a katıldı! +3 gün premium kazandın",
   "@referralSuccess": {
     "placeholders": {
       "name": {"type": "String"}
     }
   },
-  "welcomeReferred": "Hoş geldin! 7 gün premium denemen var",
+  "welcomeReferred": "Hoş geldin! 3 gün premium denemen var",
   "referralInvalidCode": "Geçersiz davet kodu",
   "referralCodeApplied": "Davet kodu uygulandı!",
   "referralSectionTitle": "Davetler",
   "referralShareDescription": "Kodunu paylaş, premium gün kazan",
+  "referralMaxReached": "Maksimum 10 davet limitine ulaştın",
+  "referralRequirement": "Arkadaşın uygulamayı 3 gün kullanıp 3 harcama eklemeli",
 
   "trialMidpointTitle": "Yarı yoldasın! \u23f3",
   "trialMidpointBody": "Deneme süren yarılandı. Şu ana kadar {hours} saat biriktirdin!",

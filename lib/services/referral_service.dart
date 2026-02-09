@@ -17,6 +17,9 @@ class ReferralService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   static const int _maxAccountsPerIP = 3;
+  static const int maxReferralsPerUser = 10;
+  static const int referralBonusDays = 3;
+  static const int minExpensesForReferral = 3;
   static const String _ipHashCollection = 'ip_hashes';
   static const String _referralsCollection = 'referrals';
 
@@ -155,6 +158,18 @@ class ReferralService {
       );
     }
 
+    // Check if referrer has reached max referral limit
+    final referrerReferrals = await _firestore
+        .collection(_referralsCollection)
+        .where('referrerId', isEqualTo: referrerId)
+        .get();
+    if (referrerReferrals.docs.length >= maxReferralsPerUser) {
+      return ReferralResult(
+        success: false,
+        message: 'Referrer has reached maximum referral limit',
+      );
+    }
+
     try {
       // Record the referral
       await _firestore.collection(_referralsCollection).add({
@@ -176,15 +191,15 @@ class ReferralService {
         'referralCount': FieldValue.increment(1),
       }, SetOptions(merge: true));
 
-      // Grant 7 days trial to new user (referee)
+      // Grant trial days to new user (referee)
       // Schedule trial reminder notifications
       try {
         await NotificationService().scheduleTrialNotifications(
           trialStartDate: DateTime.now(),
-          trialDays: 7,
+          trialDays: referralBonusDays,
         );
         debugPrint(
-          '[ReferralService] Trial notifications scheduled for 7 days',
+          '[ReferralService] Trial notifications scheduled for $referralBonusDays days',
         );
       } catch (e) {
         debugPrint(
@@ -192,11 +207,11 @@ class ReferralService {
         );
       }
 
-      // Referrer gets bonus when referee adds first expense
+      // Referrer gets bonus when referee meets requirements
       return ReferralResult(
         success: true,
         message: 'Referral bonus applied!',
-        bonusDays: 7,
+        bonusDays: referralBonusDays,
         referrerId: referrerId,
       );
     } catch (e) {
@@ -258,9 +273,13 @@ class ReferralService {
     }
   }
 
-  /// Reward referrer when referee adds first expense
-  Future<void> rewardReferrerOnFirstExpense(String refereeId) async {
+  /// Reward referrer when referee has added enough expenses
+  /// Requires [minExpensesForReferral] expenses and [referralBonusDays] days of app usage
+  Future<void> rewardReferrerIfEligible(String refereeId, int expenseCount) async {
     try {
+      // Must have at least minExpensesForReferral expenses
+      if (expenseCount < minExpensesForReferral) return;
+
       // Check if referee was referred by someone
       final refereeDoc = await _firestore
           .collection('users')
@@ -284,21 +303,44 @@ class ReferralService {
         return;
       }
 
-      // Grant 7-day bonus to referrer
-      await _firestore.collection(_referralsCollection).doc().set({
-        'referrerId': referrerId,
-        'refereeId': refereeId,
-        'referrerBonusGranted': true,
-        'bonusDays': 7,
-        'grantedAt': FieldValue.serverTimestamp(),
-      }, SetOptions(merge: true));
+      // Check if referrer has reached max referral limit
+      final referrerReferrals = await _firestore
+          .collection(_referralsCollection)
+          .where('referrerId', isEqualTo: referrerId)
+          .where('referrerBonusGranted', isEqualTo: true)
+          .get();
+      if (referrerReferrals.docs.length >= maxReferralsPerUser) {
+        debugPrint('[ReferralService] Referrer has reached max referral limit');
+        return;
+      }
 
-      // Update referral document to mark bonus granted
+      // Check if referee has been using the app for at least referralBonusDays
       final referralDocs = await _firestore
           .collection(_referralsCollection)
           .where('refereeId', isEqualTo: refereeId)
           .get();
 
+      if (referralDocs.docs.isNotEmpty) {
+        final createdAt = referralDocs.docs.first.data()['createdAt'] as Timestamp?;
+        if (createdAt != null) {
+          final daysSinceReferral = DateTime.now().difference(createdAt.toDate()).inDays;
+          if (daysSinceReferral < referralBonusDays) {
+            debugPrint('[ReferralService] Referee has not used app long enough ($daysSinceReferral/$referralBonusDays days)');
+            return;
+          }
+        }
+      }
+
+      // Grant bonus to referrer
+      await _firestore.collection(_referralsCollection).doc().set({
+        'referrerId': referrerId,
+        'refereeId': refereeId,
+        'referrerBonusGranted': true,
+        'bonusDays': referralBonusDays,
+        'grantedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      // Update referral document to mark bonus granted
       for (final doc in referralDocs.docs) {
         await doc.reference.update({'referrerBonusGranted': true});
       }
@@ -339,7 +381,7 @@ class ReferralService {
 
       return ReferralStats(
         totalReferrals: referrals.docs.length,
-        bonusDaysEarned: referrals.docs.length * 7, // 7 days per referral
+        bonusDaysEarned: referrals.docs.length * referralBonusDays,
       );
     } catch (e) {
       debugPrint('[ReferralService] Error getting stats: $e');

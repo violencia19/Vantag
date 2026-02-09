@@ -350,6 +350,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                         ),
                       ),
+                      const SizedBox(height: 2),
+                      Text(
+                        l10n.referralRequirement,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: context.vantColors.textPrimary.withValues(
+                            alpha: 0.6,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

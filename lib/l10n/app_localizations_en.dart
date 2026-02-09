@@ -5046,7 +5046,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get referralRewardInfo => 'Earn 7 days premium for each friend!';
+  String get referralRewardInfo =>
+      'Earn 3 days premium for each friend! (max 10)';
 
   @override
   String get codeCopied => 'Code copied!';
@@ -5062,11 +5063,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String referralSuccess(String name) {
-    return '$name joined Vantag! +7 days premium';
+    return '$name joined Vantag! +3 days premium';
   }
 
   @override
-  String get welcomeReferred => 'Welcome! You have 7 days premium trial';
+  String get welcomeReferred => 'Welcome! You have 3 days premium trial';
 
   @override
   String get referralInvalidCode => 'Invalid referral code';
@@ -5080,6 +5081,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get referralShareDescription =>
       'Share your code and earn premium days';
+
+  @override
+  String get referralMaxReached =>
+      'You\'ve reached the maximum of 10 referrals';
+
+  @override
+  String get referralRequirement =>
+      'Your friend must use the app for 3 days and add 3 expenses';
 
   @override
   String get trialMidpointTitle => 'Halfway there! ⏳';

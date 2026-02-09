@@ -5036,7 +5036,8 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get referralRewardInfo => 'Her arkadaşın için 7 gün premium kazan!';
+  String get referralRewardInfo =>
+      'Her arkadaşın için 3 gün premium kazan! (maks 10)';
 
   @override
   String get codeCopied => 'Kod kopyalandı!';
@@ -5052,11 +5053,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String referralSuccess(String name) {
-    return '$name Vantag\'a katıldı! +7 gün premium kazandın';
+    return '$name Vantag\'a katıldı! +3 gün premium kazandın';
   }
 
   @override
-  String get welcomeReferred => 'Hoş geldin! 7 gün premium denemen var';
+  String get welcomeReferred => 'Hoş geldin! 3 gün premium denemen var';
 
   @override
   String get referralInvalidCode => 'Geçersiz davet kodu';
@@ -5069,6 +5070,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get referralShareDescription => 'Kodunu paylaş, premium gün kazan';
+
+  @override
+  String get referralMaxReached => 'Maksimum 10 davet limitine ulaştın';
+
+  @override
+  String get referralRequirement =>
+      'Arkadaşın uygulamayı 3 gün kullanıp 3 harcama eklemeli';
 
   @override
   String get trialMidpointTitle => 'Yarı yoldasın! ⏳';
