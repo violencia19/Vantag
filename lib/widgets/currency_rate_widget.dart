@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -182,15 +182,10 @@ class CurrencyRateWidget extends StatelessWidget {
             );
           }
         },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-            child: Container(
+        child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                // Glass effect: semi-transparent with blur
-                color: context.vantColors.surface.withValues(alpha: 0.6),
+                color: context.vantColors.surface.withValues(alpha: 0.85),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: Colors.white.withValues(alpha: 0.15),
@@ -207,8 +202,6 @@ class CurrencyRateWidget extends StatelessWidget {
               ),
               child: _buildContent(context, l10n, selectedCurrency),
             ),
-          ),
-        ),
       ),
     );
   }

@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -201,11 +201,7 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
         color: context.vantColors.gradientMid,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: SingleChildScrollView(
+      child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -229,8 +225,6 @@ class _SubscriptionDetailSheetState extends State<SubscriptionDetailSheet> {
               ],
             ),
           ),
-        ),
-      ),
     );
   }
 

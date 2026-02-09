@@ -14,6 +14,7 @@ import '../providers/finance_provider.dart';
 import '../providers/locale_provider.dart';
 import '../providers/currency_provider.dart';
 import '../providers/pro_provider.dart';
+import '../providers/pursuit_provider.dart';
 import '../services/achievements_service.dart';
 import '../services/tour_service.dart';
 import '../services/export_service.dart';
@@ -23,7 +24,7 @@ import '../theme/theme.dart';
 import '../widgets/widgets.dart';
 import 'user_profile_screen.dart';
 import 'notification_settings_screen.dart';
-import 'onboarding_screen.dart';
+import 'splash_screen.dart';
 import 'paywall_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -808,19 +809,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return;
         }
 
-        // 2. Clear SharedPreferences
+        // 2. Clear ALL local state
         final prefs = await SharedPreferences.getInstance();
         await prefs.clear();
 
-        // 3. Reset local provider data
+        // 3. Reset all providers
         if (mounted) {
-          final provider = context.read<FinanceProvider>();
-          await provider.resetAllData();
+          await context.read<FinanceProvider>().resetAllData();
+          await context.read<PursuitProvider>().resetAllData();
         }
 
         if (!mounted) return;
 
-        // Close loading dialog and navigate
+        // Close loading dialog
         Navigator.pop(context);
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -830,9 +831,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         );
 
+        // Navigate to splash — same entry point as fresh install
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+          MaterialPageRoute(builder: (context) => const VantagSplashScreen()),
           (route) => false,
         );
       } catch (e) {

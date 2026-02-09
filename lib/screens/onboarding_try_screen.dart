@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -178,11 +177,7 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
           const SizedBox(height: 48),
 
           // Amount Input Card
-          ClipRRect(
-            borderRadius: BorderRadius.circular(24),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
+          Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   color: context.vantColors.surfaceLight,
@@ -235,8 +230,6 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
                   ],
                 ),
               ),
-            ),
-          ),
           const Spacer(),
 
           // Calculate Button
@@ -462,19 +455,15 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
     AppLocalizations l10n,
     CurrencyProvider currencyProvider,
   ) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-        child: Container(
+    return Container(
           padding: const EdgeInsets.all(32),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                context.vantColors.primary.withValues(alpha: 0.2),
-                context.vantColors.secondary.withValues(alpha: 0.1),
+                context.vantColors.primary.withValues(alpha: 0.4),
+                context.vantColors.secondary.withValues(alpha: 0.25),
               ],
             ),
             borderRadius: BorderRadius.circular(24),
@@ -535,8 +524,6 @@ class _OnboardingTryScreenState extends State<OnboardingTryScreen>
               ),
             ],
           ),
-        ),
-      ),
-    );
+        );
   }
 }

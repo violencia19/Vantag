@@ -12,9 +12,11 @@ import '../providers/pro_provider.dart';
 import '../services/ai_service.dart';
 import '../services/analytics_service.dart';
 import '../services/free_tier_service.dart';
+import '../services/purchase_service.dart';
 import '../theme/theme.dart';
 import '../constants/app_limits.dart';
-import 'upgrade_dialog.dart';
+import 'ai_limit_dialog.dart';
+
 
 class AIChatSheet extends StatefulWidget {
   const AIChatSheet({super.key});
@@ -1096,16 +1098,20 @@ SADECE karşılama cümlesini yaz:
       return;
     }
 
-    // Check free tier limit before sending
-    if (!isPremium) {
-      final canUse = await _freeTierService.canUseAiChat(isPremium);
-      if (!canUse) {
-        HapticFeedback.heavyImpact();
-        if (mounted) {
-          UpgradeDialog.show(context, l10n.aiChatLimitReached);
-        }
-        return;
+    // Check AI usage limits (all users: hourly rate + tier-specific)
+    final checkResult = await PurchaseService().canUserUseAi(isPremium);
+    if (!checkResult.canUse) {
+      HapticFeedback.heavyImpact();
+      if (mounted) {
+        AILimitDialog.show(
+          context,
+          type: _mapLimitReason(checkResult.limitType!),
+          daysUntilReset: checkResult.daysUntilReset,
+          resetDate: checkResult.resetDate,
+          minutesUntilReset: checkResult.minutesUntilReset,
+        );
       }
+      return;
     }
 
     HapticFeedback.lightImpact();
@@ -1134,11 +1140,9 @@ SADECE karşılama cümlesini yaz:
       if (mounted) {
         HapticFeedback.lightImpact();
 
-        // Increment free tier counter after successful response
-        if (!isPremium) {
-          await _freeTierService.incrementAiChatCount();
-          _loadChatUsage(); // Refresh the usage count
-        }
+        // Consume AI credit for all users
+        await PurchaseService().consumeAiCredit(isPremium);
+        if (!isPremium) _loadChatUsage();
 
         // Add message with typing effect for free users
         if (!isPremium) {
@@ -1247,6 +1251,19 @@ SADECE karşılama cümlesini yaz:
           isTyping: false,
         );
       });
+    }
+  }
+
+  AILimitType _mapLimitReason(AiLimitReason reason) {
+    switch (reason) {
+      case AiLimitReason.hourlyRateLimit:
+        return AILimitType.rateLimit;
+      case AiLimitReason.freeDailyLimit:
+        return AILimitType.free;
+      case AiLimitReason.proMonthlyLimit:
+        return AILimitType.proSubscription;
+      case AiLimitReason.lifetimeMonthlyLimit:
+        return AILimitType.lifetime;
     }
   }
 

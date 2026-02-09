@@ -154,7 +154,29 @@
       "Bash(xargs:*)",
       "Bash(du:*)",
       "Bash(git -C /Users/gencayalla/development/vantag status --short)",
-      "Bash(gh pr create --title \"UI Liquid Glass Overhaul + App Store Readiness Fixes\" --body \"$\\(cat <<''EOF''\n## Summary\n- Complete visual overhaul with Cream & Purple palette and violet glass identity\n- Liquid Glass visual polish across 11 high-traffic surfaces\n- iOS 26 Liquid Glass UI migration across 6 components\n- App Store readiness fixes: remove `.env` from bundled assets, replace `print\\(\\)` with `debugPrint\\(\\)`, fix VantagWidget deployment target \\(26.2→15.5\\), pin `uuid` dependency, update force update version to 1.0.4\n\n## Test plan\n- [ ] `flutter analyze` passes with no errors\n- [ ] `flutter build ios --release` builds successfully\n- [ ] App launches on simulator — `.env` loading works in debug\n- [ ] Verify no `print\\(\\)` calls in live_activity_service.dart\n- [ ] Verify VantagWidget deployment target is 15.5\n- [ ] Visual QA across all updated screens and widgets\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\nEOF\n\\)\")"
+      "Bash(gh pr create --title \"UI Liquid Glass Overhaul + App Store Readiness Fixes\" --body \"$\\(cat <<''EOF''\n## Summary\n- Complete visual overhaul with Cream & Purple palette and violet glass identity\n- Liquid Glass visual polish across 11 high-traffic surfaces\n- iOS 26 Liquid Glass UI migration across 6 components\n- App Store readiness fixes: remove `.env` from bundled assets, replace `print\\(\\)` with `debugPrint\\(\\)`, fix VantagWidget deployment target \\(26.2→15.5\\), pin `uuid` dependency, update force update version to 1.0.4\n\n## Test plan\n- [ ] `flutter analyze` passes with no errors\n- [ ] `flutter build ios --release` builds successfully\n- [ ] App launches on simulator — `.env` loading works in debug\n- [ ] Verify no `print\\(\\)` calls in live_activity_service.dart\n- [ ] Verify VantagWidget deployment target is 15.5\n- [ ] Visual QA across all updated screens and widgets\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\nEOF\n\\)\")",
+      "Bash(npx @anthropic-ai/skills add:*)",
+      "Bash(gh repo view:*)",
+      "Bash(git clone:*)",
+      "Bash(pip3 install:*)",
+      "Bash(xcrun simctl io:*)",
+      "Bash(xcrun simctl openurl:*)",
+      "Bash(/Users/gencayalla/Library/Python/3.9/bin/python3:*)",
+      "Bash(osascript:*)",
+      "Bash(kill:*)",
+      "Bash(xcrun simctl ui:*)",
+      "Bash(gh api:*)",
+      "Bash(git -C /Users/gencayalla/development/vantag add docs/.nojekyll)",
+      "Bash(git -C /Users/gencayalla/development/vantag commit -m \"$\\(cat <<''EOF''\nAdd .nojekyll to skip Jekyll processing on GitHub Pages\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C /Users/gencayalla/development/vantag push origin main)",
+      "Bash(xcrun simctl uninstall:*)",
+      "Bash(git -C /Users/gencayalla/development/vantag status)",
+      "Bash(git -C /Users/gencayalla/development/vantag diff lib/utils/currency_utils.dart lib/models/currency.dart lib/l10n/app_en.arb lib/l10n/app_tr.arb lib/screens/onboarding_v2_screen.dart lib/l10n/app_localizations.dart lib/l10n/app_localizations_en.dart lib/l10n/app_localizations_tr.dart)",
+      "Bash(git -C /Users/gencayalla/development/vantag log --oneline -10)",
+      "Bash(git -C /Users/gencayalla/development/vantag add lib/utils/currency_utils.dart lib/models/currency.dart lib/l10n/app_en.arb lib/l10n/app_tr.arb lib/l10n/app_localizations.dart lib/l10n/app_localizations_en.dart lib/l10n/app_localizations_tr.dart lib/screens/onboarding_v2_screen.dart)",
+      "Bash(git -C /Users/gencayalla/development/vantag commit -m \"$\\(cat <<''EOF''\nAdd locale-aware currency formatting and selector to onboarding\n\n- Add CurrencyAwareInputFormatter that uses Currency model''s thousand/decimal\n  separators \\(TRY/EUR use dots, USD/GBP/SAR use commas\\)\n- Add tappable currency selector with picker sheet on onboarding Step 2\n- Auto-detect default currency from device locale \\(including European fallback to EUR\\)\n- Reformat salary input value when switching currencies\n- Pass selected currency to CurrencyProvider and IncomeSource on setup completion\n- Add onboardingCurrencyHint and onboardingCurrencyProInfo l10n keys \\(EN + TR\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C /Users/gencayalla/development/vantag status --short lib/utils/currency_utils.dart lib/models/currency.dart lib/l10n/ lib/screens/onboarding_v2_screen.dart)",
+      "Bash(git -C /Users/gencayalla/development/vantag push)"
     ]
   }
 }

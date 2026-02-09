@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../theme/theme.dart';
@@ -107,7 +107,6 @@ class _AnimatedBottomSheetWrapperState
   late AnimationController _controller;
   late Animation<double> _slideAnimation;
   late Animation<double> _scaleAnimation;
-  late Animation<double> _blurAnimation;
   late Animation<double> _backdropAnimation;
 
   @override
@@ -125,14 +124,6 @@ class _AnimatedBottomSheetWrapperState
     _scaleAnimation = Tween<double>(begin: 0.98, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: AppAnimations.standardCurve),
     );
-
-    _blurAnimation = Tween<double>(begin: 0.0, end: AppAnimations.backdropBlur)
-        .animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: AppAnimations.standardCurve,
-          ),
-        );
 
     _backdropAnimation =
         Tween<double>(begin: 0.0, end: AppAnimations.backdropOpacity).animate(
@@ -162,17 +153,11 @@ class _AnimatedBottomSheetWrapperState
             Positioned.fill(
               child: GestureDetector(
                 onTap: () => Navigator.of(context).pop(),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: _blurAnimation.value,
-                    sigmaY: _blurAnimation.value,
-                  ),
-                  child: Container(
+                child: Container(
                     color: Colors.black.withValues(
                       alpha: _backdropAnimation.value,
                     ),
                   ),
-                ),
               ),
             ),
 
@@ -309,18 +294,12 @@ class _AnimatedModalWrapper extends StatelessWidget {
             Positioned.fill(
               child: GestureDetector(
                 onTap: () => Navigator.of(context).pop(),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: curvedAnimation.value * AppAnimations.backdropBlur,
-                    sigmaY: curvedAnimation.value * AppAnimations.backdropBlur,
-                  ),
-                  child: Container(
+                child: Container(
                     color: Colors.black.withValues(
                       alpha:
                           curvedAnimation.value * AppAnimations.backdropOpacity,
                     ),
                   ),
-                ),
               ),
             ),
 

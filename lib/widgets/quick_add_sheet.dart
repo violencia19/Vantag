@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -193,11 +192,7 @@ class _QuickAddSheetState extends State<QuickAddSheet>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: VantBlur.medium, sigmaY: VantBlur.medium),
-        child: Container(
+    return Container(
       padding: EdgeInsets.only(
         left: 24,
         right: 24,
@@ -313,8 +308,6 @@ class _QuickAddSheetState extends State<QuickAddSheet>
           ],
         ),
       ),
-    ),
-    ),
     );
   }
 
@@ -947,11 +940,7 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: VantBlur.medium, sigmaY: VantBlur.medium),
-          child: AnimatedContainer(
+      child: AnimatedContainer(
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeInOut,
             decoration: BoxDecoration(
@@ -1068,8 +1057,6 @@ class _PremiumQuickAddModalState extends State<_PremiumQuickAddModal>
                 ),
               ],
             ),
-          ),
-        ),
       ),
     );
   }

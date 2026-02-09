@@ -66,6 +66,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     _initializeServices();
     _checkTour();
     _checkLockStatus();
+    _tryShowAppTour();
 
     // Status bar stilini ayarla
     SystemChrome.setSystemUIOverlayStyle(
@@ -81,17 +82,26 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _checkTour() async {
-    // Widget'tan gelen parametre ile kontrol et
+    // Only start tour when explicitly requested from settings (widget.startTour).
+    // Auto-start on first launch is disabled — it causes UI freezes due to
+    // ShowCaseWidget overlay conflicts with BackdropFilter widgets.
     if (widget.startTour) {
       setState(() => _shouldStartTour = true);
       return;
     }
 
-    // İlk kez açılış kontrolü
+    // Mark tour as seen so it never auto-triggers
     final hasSeenTour = await TourService.hasSeenTour();
-    if (!hasSeenTour && mounted) {
-      setState(() => _shouldStartTour = true);
+    if (!hasSeenTour) {
+      await TourService.markTourComplete();
     }
+  }
+
+  void _tryShowAppTour() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      AppTourService.showIfNeeded(context);
+    });
   }
 
   void _startTour(BuildContext context) {

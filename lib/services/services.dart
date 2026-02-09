@@ -19,6 +19,7 @@ export 'subscription_service.dart';
 export 'sub_category_service.dart';
 export 'category_learning_service.dart';
 export 'tour_service.dart';
+export 'app_tour_service.dart';
 // Wealth Coach
 export 'thinking_items_service.dart';
 export 'sensory_feedback_service.dart';

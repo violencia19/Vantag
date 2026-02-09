@@ -3836,6 +3836,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get aiRateLimitTitle => 'Slow down!';
+
+  @override
+  String get aiRateLimitMessage =>
+      'You\'ve sent too many requests. Please wait a moment before trying again.';
+
+  @override
+  String aiRateLimitWait(int minutes) {
+    return 'Wait $minutes min';
+  }
+
+  @override
   String get creditPurchaseTitle => 'Buy Credits';
 
   @override

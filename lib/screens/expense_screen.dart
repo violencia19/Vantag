@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -293,6 +292,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Semantics(
+      key: TourKeys.tourProfileAvatar,
       label: l10n.profile,
       button: true,
       child: GestureDetector(
@@ -352,6 +352,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   Widget _buildHabitCalculatorBanner() {
     final l10n = AppLocalizations.of(context);
     return Padding(
+      key: TourKeys.tourHabitCalc,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Semantics(
         label: l10n.habitCalculator,
@@ -543,18 +544,14 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
         minChildSize: 0.5,
         maxChildSize: 0.95,
         builder: (context, scrollController) {
-          return ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: VantBlur.medium, sigmaY: VantBlur.medium),
-              child: Container(
+          return Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      context.vantColors.surface.withValues(alpha: 0.95),
-                      context.vantColors.background.withValues(alpha: 0.98),
+                      context.vantColors.surface,
+                      context.vantColors.background,
                     ],
                   ),
                   borderRadius: const BorderRadius.vertical(
@@ -684,9 +681,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                     ),
                   ],
                 ),
-              ),
-            ),
-          );
+              );
         },
       ),
     );
@@ -937,6 +932,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   overlayOpacity: 0.95,
                   targetBorderRadius: BorderRadius.circular(24),
                   child: Builder(
+                    key: TourKeys.tourHeroCard,
                     builder: (context) {
                       // Calculate hours worked from spending
                       final dailyHours = widget.userProfile.dailyHours.toDouble();

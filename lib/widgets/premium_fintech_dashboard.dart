@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -676,15 +675,11 @@ class _GlassButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
+      child: Container(
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: context.vantColors.surfaceLight.withValues(alpha: 0.5),
+              color: context.vantColors.surfaceLight.withValues(alpha: 0.85),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: context.vantColors.cardBorder),
             ),
@@ -693,8 +688,6 @@ class _GlassButton extends StatelessWidget {
               size: 20,
               color: context.vantColors.textSecondary,
             ),
-          ),
-        ),
       ),
     );
   }
@@ -721,11 +714,7 @@ class PremiumFloatingNavBar extends StatelessWidget {
       left: 20,
       right: 20,
       bottom: 24,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(28),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Container(
+      child: Container(
             height: 72,
             decoration: BoxDecoration(
               color: context.vantColors.surface.withValues(alpha: 0.9),
@@ -796,8 +785,6 @@ class PremiumFloatingNavBar extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ),
       ),
     );
   }

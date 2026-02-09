@@ -7052,6 +7052,24 @@ abstract class AppLocalizations {
   /// **'or wait {days} days for reset'**
   String aiLimitOrWaitDays(int days);
 
+  /// No description provided for @aiRateLimitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow down!'**
+  String get aiRateLimitTitle;
+
+  /// No description provided for @aiRateLimitMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve sent too many requests. Please wait a moment before trying again.'**
+  String get aiRateLimitMessage;
+
+  /// No description provided for @aiRateLimitWait.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait {minutes} min'**
+  String aiRateLimitWait(int minutes);
+
   /// No description provided for @creditPurchaseTitle.
   ///
   /// In en, this message translates to:

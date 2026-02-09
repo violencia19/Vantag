@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -127,10 +126,7 @@ class _AIFloatingButtonState extends State<AIFloatingButton>
                               width: 1.5,
                             ),
                           ),
-                          child: ClipOval(
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                              child: Center(
+                          child: Center(
                                 child: Container(
                                   width: 36,
                                   height: 36,
@@ -151,8 +147,6 @@ class _AIFloatingButtonState extends State<AIFloatingButton>
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
                         ),
                       ),
                     ),

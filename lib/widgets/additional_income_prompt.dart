@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,11 +38,7 @@ class AdditionalIncomePrompt extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Container(
+      child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: context.vantColors.surface.withValues(alpha: 0.8),
@@ -185,8 +181,6 @@ class AdditionalIncomePrompt extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      ),
     );
   }
 }

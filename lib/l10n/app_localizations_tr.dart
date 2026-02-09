@@ -3834,6 +3834,17 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get aiRateLimitTitle => 'Biraz yavaşla!';
+
+  @override
+  String get aiRateLimitMessage => 'Çok fazla istek gönderdin, biraz bekle.';
+
+  @override
+  String aiRateLimitWait(int minutes) {
+    return '$minutes dk bekle';
+  }
+
+  @override
   String get creditPurchaseTitle => 'Kredi Satın Al';
 
   @override

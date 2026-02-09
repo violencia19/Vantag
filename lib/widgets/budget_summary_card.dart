@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -101,15 +101,10 @@ class _BudgetSummaryCardState extends State<BudgetSummaryCard>
               ),
             ],
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(24),
-            child: BackdropFilter(
-              // iOS 26: Enhanced 24σ blur
-              filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
-              child: Container(
+          child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
-                  // iOS 26 Liquid Glass: Premium gradient
+                  // Premium gradient
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -349,8 +344,6 @@ class _BudgetSummaryCardState extends State<BudgetSummaryCard>
                   ],
                 ),
               ),
-            ),
-          ),
         );
       },
     );

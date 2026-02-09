@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -376,15 +376,10 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
                   ),
                 ],
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: BackdropFilter(
-                  // iOS 26: Enhanced blur for list items (20σ)
-                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                  child: Container(
+              child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24),
-                      // iOS 26 Liquid Glass: Premium gradient
+                      // Premium gradient
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -546,8 +541,6 @@ class _ExpenseHistoryCardState extends State<ExpenseHistoryCard>
           ),
         ),
                   ),
-                ),
-              ),
             ),
           ),
         );

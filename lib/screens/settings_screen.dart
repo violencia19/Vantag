@@ -10,6 +10,7 @@ import '../providers/locale_provider.dart';
 import '../providers/currency_provider.dart';
 import '../providers/pro_provider.dart';
 import '../providers/finance_provider.dart';
+import '../providers/pursuit_provider.dart';
 import '../providers/theme_provider.dart';
 import '../services/auth_service.dart';
 import '../services/export_service.dart';
@@ -24,7 +25,7 @@ import 'dart:io' show Platform;
 import '../theme/theme.dart';
 import '../widgets/currency_selector.dart';
 import 'paywall_screen.dart';
-import 'onboarding_screen.dart';
+import 'splash_screen.dart';
 import 'achievements_screen.dart';
 import 'notification_settings_screen.dart';
 import 'voice_input_screen.dart';
@@ -2182,12 +2183,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
           return;
         }
 
+        // Clear ALL local state
         final prefs = await SharedPreferences.getInstance();
         await prefs.clear();
 
+        // Reset all providers
         if (mounted) {
-          final provider = context.read<FinanceProvider>();
-          await provider.resetAllData();
+          await context.read<FinanceProvider>().resetAllData();
+          await context.read<PursuitProvider>().resetAllData();
         }
 
         if (!mounted) return;
@@ -2201,9 +2204,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         );
 
+        // Navigate to splash — same entry point as fresh install
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+          MaterialPageRoute(builder: (context) => const VantagSplashScreen()),
           (route) => false,
         );
       } catch (e) {

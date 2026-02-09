@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,15 +29,11 @@ class PremiumNavBar extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 34),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(32),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Container(
+      child: Container(
             height: 64,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
-              color: context.vantColors.surface.withValues(alpha: 0.95),
+              color: context.vantColors.surface,
               borderRadius: BorderRadius.circular(32),
               border: Border.all(
                 color: Colors.white.withValues(alpha: 0.06),
@@ -98,8 +94,6 @@ class PremiumNavBar extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      ),
     );
   }
 }
@@ -112,6 +106,7 @@ class _NavItem extends StatelessWidget {
   final String? tooltip;
 
   const _NavItem({
+    super.key,
     required this.icon,
     required this.label,
     required this.isActive,
@@ -490,15 +485,7 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
               ),
             ],
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(VantRadius.xxl),
-            child: BackdropFilter(
-              // Glass blur
-              filter: ImageFilter.blur(
-                sigmaX: VantBlur.medium,
-                sigmaY: VantBlur.medium,
-              ),
-              child: Container(
+          child: Container(
                 height: 68,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
@@ -509,7 +496,7 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
                           end: Alignment.bottomCenter,
                           colors: [
                             VantColors.primary.withValues(alpha: 0.15),
-                            context.vantColors.surface.withValues(alpha: 0.9),
+                            context.vantColors.surface,
                           ],
                         )
                       : LinearGradient(
@@ -557,6 +544,7 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
                       overlayOpacity: 0.95,
                       targetBorderRadius: BorderRadius.circular(16),
                       child: _NavItem(
+                        key: TourKeys.tourReportsTab,
                         icon: CupertinoIcons.chart_bar_fill,
                         label: l10n.analysis,
                         isActive: widget.currentIndex == 1,
@@ -583,6 +571,7 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
                       targetShapeBorder: const CircleBorder(),
                       targetPadding: EdgeInsets.zero,
                       child: Semantics(
+                        key: TourKeys.tourFabButton,
                         label: l10n.accessibilityAddExpense,
                         button: true,
                         child: _CenterAddButton(
@@ -610,6 +599,7 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
                       overlayOpacity: 0.95,
                       targetBorderRadius: BorderRadius.circular(16),
                       child: _NavItem(
+                        key: TourKeys.tourPursuitsTab,
                         icon: CupertinoIcons.star_fill,
                         label: l10n.navPursuits,
                         isActive: widget.currentIndex == 2,
@@ -635,6 +625,7 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
                       overlayOpacity: 0.95,
                       targetBorderRadius: BorderRadius.circular(16),
                       child: _NavItem(
+                        key: TourKeys.tourSettingsTab,
                         icon: CupertinoIcons.gear_alt_fill,
                         label: l10n.navSettings,
                         isActive: widget.currentIndex == 3,
@@ -644,8 +635,6 @@ class _PremiumNavBarWithShowcaseState extends State<PremiumNavBarWithShowcase>
                   ],
                 ),
               ),
-            ),
-          ),
         );
       },
     );

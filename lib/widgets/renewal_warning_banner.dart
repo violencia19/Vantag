@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
@@ -108,12 +107,11 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
               ),
             ],
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
-                color: context.vantColors.surface.withValues(alpha: 0.9),
+          child: Container(
+            decoration: BoxDecoration(
+              color: context.vantColors.surface.withValues(alpha: 0.9),
+              borderRadius: BorderRadius.circular(16),
+            ),
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
@@ -226,9 +224,7 @@ class _RenewalWarningBannerState extends State<RenewalWarningBanner>
                     ),
                   ),
                 ),
-              ),
             ),
-          ),
         );
       },
     );
@@ -408,12 +404,11 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: _stats!.statusColor.withValues(alpha: 0.3)),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            color: context.vantColors.surface.withValues(alpha: 0.8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.vantColors.surface.withValues(alpha: 0.9),
+          borderRadius: BorderRadius.circular(16),
+        ),
             child: Material(
               color: Colors.transparent,
               child: InkWell(
@@ -484,8 +479,6 @@ class _SubscriptionSummaryCardState extends State<SubscriptionSummaryCard> {
               ),
             ),
           ),
-        ),
-      ),
     );
   }
 }

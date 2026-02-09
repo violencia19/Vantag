@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/app_limits.dart';
+import 'purchase_service.dart';
 
 /// Service to manage free tier limitations
 /// Centralizes all free tier logic for consistent enforcement
@@ -20,8 +21,6 @@ class FreeTierService {
   static String get freeCurrency => AppLimits.freeCurrency;
 
   // SharedPreferences keys
-  static const String _keyAiChatLastDate = 'free_ai_chat_last_date';
-  static const String _keyAiChatCount = 'free_ai_chat_count';
   static const String _keyVoiceInputLastDate = 'voice_input_last_date';
   static const String _keyVoiceInputCount = 'voice_input_count';
 
@@ -30,46 +29,26 @@ class FreeTierService {
   factory FreeTierService() => _instance;
   FreeTierService._internal();
 
+  final _purchaseService = PurchaseService();
+
   // ═══════════════════════════════════════════════════════════════════════════
-  // AI CHAT LIMITS (4/day for free users)
+  // AI CHAT LIMITS — delegates to PurchaseService as single source of truth
   // ═══════════════════════════════════════════════════════════════════════════
-
-  /// Get today's AI chat count for free users
-  Future<int> getTodayAiChatCount() async {
-    final prefs = await SharedPreferences.getInstance();
-    final today = DateTime.now().toIso8601String().substring(0, 10);
-    final lastDate = prefs.getString(_keyAiChatLastDate) ?? '';
-
-    // Reset counter if new day
-    if (lastDate != today) {
-      await prefs.setString(_keyAiChatLastDate, today);
-      await prefs.setInt(_keyAiChatCount, 0);
-      return 0;
-    }
-
-    return prefs.getInt(_keyAiChatCount) ?? 0;
-  }
 
   /// Check if free user can use AI chat
   Future<bool> canUseAiChat(bool isPremium) async {
-    if (isPremium) return true;
-    final count = await getTodayAiChatCount();
-    return count < maxFreeAiChats;
+    return _purchaseService.canUseAiChat(isPremium);
   }
 
   /// Get remaining AI chats for today
   /// Returns -1 for premium users (unlimited)
   Future<int> getRemainingAiChats(bool isPremium) async {
-    if (isPremium) return -1; // Unlimited
-    final count = await getTodayAiChatCount();
-    return max(0, maxFreeAiChats - count);
+    return _purchaseService.getRemainingAiUses(isPremium);
   }
 
   /// Increment AI chat count after successful message
   Future<void> incrementAiChatCount() async {
-    final prefs = await SharedPreferences.getInstance();
-    final count = await getTodayAiChatCount();
-    await prefs.setInt(_keyAiChatCount, count + 1);
+    await _purchaseService.incrementAiUsage();
   }
 
   /// Get reset time for AI chat limit (midnight)
@@ -156,8 +135,10 @@ class FreeTierService {
   /// Get remaining AI chats for today (free users)
   /// Returns (used, total) tuple
   Future<(int used, int total)> getAiChatUsage() async {
-    final count = await getTodayAiChatCount();
-    return (count, maxFreeAiChats);
+    final remaining = await _purchaseService.getRemainingAiUses(false);
+    final total = maxFreeAiChats;
+    final used = total - remaining;
+    return (used, total);
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -300,10 +281,8 @@ class FreeTierService {
 
   /// Reset AI chat count (for testing)
   Future<void> resetAiChatCount() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_keyAiChatLastDate);
-    await prefs.remove(_keyAiChatCount);
-    debugPrint('[FreeTierService] AI chat count reset');
+    await _purchaseService.resetDailyAiUsage();
+    debugPrint('[FreeTierService] AI chat count reset (via PurchaseService)');
   }
 }
 

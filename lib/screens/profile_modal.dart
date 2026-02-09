@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -1425,11 +1424,7 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
         color: context.vantColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: SafeArea(
+      child: SafeArea(
             child: Padding(
               padding: EdgeInsets.fromLTRB(20, 12, 20, 20 + bottomPadding),
               child: Column(
@@ -1613,8 +1608,6 @@ class _EditSalarySheetState extends State<_EditSalarySheet> {
               ),
             ),
           ),
-        ),
-      ),
     );
   }
 }
@@ -1703,11 +1696,7 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
         color: context.vantColors.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: SafeArea(
+      child: SafeArea(
             child: Padding(
               padding: EdgeInsets.fromLTRB(20, 12, 20, 20 + bottomPadding),
               child: Column(
@@ -1910,8 +1899,6 @@ class _EditWorkHoursSheetState extends State<_EditWorkHoursSheet> {
               ),
             ),
           ),
-        ),
-      ),
     );
   }
 }

@@ -57,6 +57,15 @@ class TourKeys {
 
   // Currency Rates
   static final currencyRates = GlobalKey();
+
+  // App Tour (tutorial_coach_mark)
+  static final tourProfileAvatar = GlobalKey();
+  static final tourHeroCard = GlobalKey();
+  static final tourHabitCalc = GlobalKey();
+  static final tourFabButton = GlobalKey();
+  static final tourReportsTab = GlobalKey();
+  static final tourPursuitsTab = GlobalKey();
+  static final tourSettingsTab = GlobalKey();
 }
 
 /// Tour step information

@@ -1,11 +1,78 @@
 import 'dart:io';
-import 'dart:ui';
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../services/auth_service.dart';
 import '../theme/theme.dart';
+
+/// Paints the official Google "G" logo using brand colors
+class _GoogleLogoPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final double s = size.width;
+    final double cx = s / 2;
+    final double cy = s / 2;
+    final double r = s * 0.45;
+    final double strokeWidth = s * 0.18;
+
+    // Blue arc (top-right to bottom-right, ~270°)
+    final bluePaint = Paint()
+      ..color = const Color(0xFF4285F4)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth
+      ..strokeCap = StrokeCap.butt;
+
+    // Green arc (bottom-right)
+    final greenPaint = Paint()
+      ..color = const Color(0xFF34A853)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth
+      ..strokeCap = StrokeCap.butt;
+
+    // Yellow arc (bottom-left)
+    final yellowPaint = Paint()
+      ..color = const Color(0xFFFBBC05)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth
+      ..strokeCap = StrokeCap.butt;
+
+    // Red arc (top-left)
+    final redPaint = Paint()
+      ..color = const Color(0xFFEA4335)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth
+      ..strokeCap = StrokeCap.butt;
+
+    final rect = Rect.fromCircle(center: Offset(cx, cy), radius: r);
+
+    // Draw arcs (angles in radians, 0 = 3 o'clock, clockwise)
+    // Red: top-left quadrant (210° to 330° → -150° to -30°)
+    canvas.drawArc(rect, -math.pi * 150 / 180, math.pi * 60 / 180, false, redPaint);
+    // Yellow: bottom-left quadrant (150° to 210°)
+    canvas.drawArc(rect, math.pi * 150 / 180, -math.pi * 60 / 180, false, yellowPaint);
+    // Green: bottom-right quadrant (30° to 150°)
+    canvas.drawArc(rect, math.pi * 30 / 180, math.pi * 60 / 180, false, greenPaint);
+    // Blue: top-right quadrant (-30° to 30°) — extends with horizontal bar
+    canvas.drawArc(rect, -math.pi * 30 / 180, math.pi * 60 / 180, false, bluePaint);
+
+    // Blue horizontal bar (the distinctive G crossbar)
+    final barPaint = Paint()
+      ..color = const Color(0xFF4285F4)
+      ..style = PaintingStyle.fill;
+    final barTop = cy - strokeWidth / 2;
+    final barBottom = cy + strokeWidth / 2;
+    canvas.drawRect(
+      Rect.fromLTRB(cx, barTop, cx + r + strokeWidth / 2, barBottom),
+      barPaint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
 
 /// Login prompt card shown to users who haven't linked their account
 /// Glassmorphism design with Google + Apple sign-in options
@@ -111,11 +178,7 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Container(
+      child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: context.vantColors.surface.withValues(alpha: 0.8),
@@ -148,15 +211,9 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Center(
-                        child: Image.asset(
-                          'assets/icons/google_icon.png',
-                          width: 24,
-                          height: 24,
-                          errorBuilder: (_, _, _) => Icon(
-                            CupertinoIcons.globe,
-                            size: 24,
-                            color: context.vantColors.textPrimary,
-                          ),
+                        child: CustomPaint(
+                          size: const Size(24, 24),
+                          painter: _GoogleLogoPainter(),
                         ),
                       ),
                     ),
@@ -216,7 +273,10 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                       child: _buildLoginButton(
                         onTap: _signInWithGoogle,
                         isLoading: _isLoadingGoogle,
-                        icon: CupertinoIcons.globe,
+                        iconWidget: CustomPaint(
+                          size: const Size(18, 18),
+                          painter: _GoogleLogoPainter(),
+                        ),
                         label: l10n.linkWithGoogle,
                         isPrimary: true,
                       ),
@@ -228,7 +288,11 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                         child: _buildLoginButton(
                           onTap: _signInWithApple,
                           isLoading: _isLoadingApple,
-                          icon: Icons.apple,
+                          iconWidget: Icon(
+                            Icons.apple,
+                            size: 18,
+                            color: context.vantColors.textPrimary,
+                          ),
                           label: l10n.linkWithApple,
                           isPrimary: false,
                         ),
@@ -260,15 +324,13 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
               ],
             ),
           ),
-        ),
-      ),
     );
   }
 
   Widget _buildLoginButton({
     required VoidCallback onTap,
     required bool isLoading,
-    required IconData icon,
+    required Widget iconWidget,
     required String label,
     required bool isPrimary,
   }) {
@@ -303,13 +365,7 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        icon,
-                        size: 18,
-                        color: isPrimary
-                            ? context.vantColors.textPrimary
-                            : context.vantColors.textPrimary,
-                      ),
+                      iconWidget,
                       const SizedBox(width: 8),
                       Flexible(
                         child: Text(

@@ -603,9 +603,20 @@ class AuthService {
           .collection('expenses')
           .get();
 
+      // Pursuits subcollection
+      final pursuits = await _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('pursuits')
+          .get();
+
       final batch = _firestore.batch();
 
       for (final doc in expenses.docs) {
+        batch.delete(doc.reference);
+      }
+
+      for (final doc in pursuits.docs) {
         batch.delete(doc.reference);
       }
 

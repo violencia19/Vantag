@@ -56,6 +56,11 @@ class PurchaseService {
   static const String _keyIsLifetime = 'is_lifetime_user';
   static const String _keyExtraCredits = 'extra_ai_credits';
 
+  // Hourly rate limit (applies to all users)
+  static const int hourlyRateLimit = 20;
+  static const String _keyHourlyAiUsage = 'hourly_ai_usage';
+  static const String _keyHourlyAiUsageTimestamp = 'hourly_ai_usage_timestamp';
+
   static final PurchaseService _instance = PurchaseService._internal();
   factory PurchaseService() => _instance;
   PurchaseService._internal();
@@ -338,6 +343,14 @@ class PurchaseService {
     return usage;
   }
 
+  /// Reset daily AI usage counter (for testing)
+  Future<void> resetDailyAiUsage() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_keyLastAiUsageDate);
+    await prefs.remove(_keyDailyAiUsage);
+    debugPrint('[PurchaseService] Daily AI usage reset');
+  }
+
   /// Get remaining AI chat uses for today (free users)
   Future<int> getRemainingAiUses(bool isPro) async {
     if (isPro) return -1; // Check monthly credits instead
@@ -564,10 +577,162 @@ class PurchaseService {
     return resetDate.difference(DateTime.now()).inDays;
   }
 
+  // ══════════════════════════════════════════════════════════════════════════
+  // HOURLY RATE LIMIT (All Users)
+  // ══════════════════════════════════════════════════════════════════════════
+
+  /// Check if hourly rate limit (20/hour) is exceeded
+  Future<bool> isHourlyRateLimited() async {
+    final prefs = await SharedPreferences.getInstance();
+    final timestamp = prefs.getInt(_keyHourlyAiUsageTimestamp) ?? 0;
+    final now = DateTime.now().millisecondsSinceEpoch;
+
+    // Reset if more than 1 hour has elapsed
+    if (now - timestamp > 3600000) {
+      await prefs.setInt(_keyHourlyAiUsage, 0);
+      await prefs.setInt(_keyHourlyAiUsageTimestamp, now);
+      return false;
+    }
+
+    final usage = prefs.getInt(_keyHourlyAiUsage) ?? 0;
+    return usage >= hourlyRateLimit;
+  }
+
+  /// Increment hourly usage counter
+  Future<void> incrementHourlyUsage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final timestamp = prefs.getInt(_keyHourlyAiUsageTimestamp) ?? 0;
+    final now = DateTime.now().millisecondsSinceEpoch;
+
+    // Reset if more than 1 hour has elapsed
+    if (now - timestamp > 3600000) {
+      await prefs.setInt(_keyHourlyAiUsage, 1);
+      await prefs.setInt(_keyHourlyAiUsageTimestamp, now);
+      return;
+    }
+
+    final usage = (prefs.getInt(_keyHourlyAiUsage) ?? 0) + 1;
+    await prefs.setInt(_keyHourlyAiUsage, usage);
+  }
+
+  /// Get minutes remaining until hourly rate limit resets
+  Future<int> getMinutesUntilHourlyReset() async {
+    final prefs = await SharedPreferences.getInstance();
+    final timestamp = prefs.getInt(_keyHourlyAiUsageTimestamp) ?? 0;
+    final now = DateTime.now().millisecondsSinceEpoch;
+    final elapsed = now - timestamp;
+    final remaining = 3600000 - elapsed;
+    if (remaining <= 0) return 0;
+    return (remaining / 60000).ceil();
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // UNIFIED AI CHECK & CONSUME
+  // ══════════════════════════════════════════════════════════════════════════
+
+  /// Unified check: can the user send an AI message right now?
+  Future<AiUsageCheckResult> canUserUseAi(bool isPro) async {
+    // 1. Hourly rate limit (all users)
+    if (await isHourlyRateLimited()) {
+      final minutes = await getMinutesUntilHourlyReset();
+      return AiUsageCheckResult(
+        canUse: false,
+        limitType: AiLimitReason.hourlyRateLimit,
+        minutesUntilReset: minutes,
+      );
+    }
+
+    // 2. Free user → daily limit
+    if (!isPro) {
+      final canUse = await canUseAiChat(false);
+      if (!canUse) {
+        return AiUsageCheckResult(
+          canUse: false,
+          limitType: AiLimitReason.freeDailyLimit,
+        );
+      }
+      return AiUsageCheckResult(canUse: true);
+    }
+
+    // 3. Pro lifetime → monthly limit
+    final isLifetime = await isLifetimeUser();
+    if (isLifetime) {
+      final canUse = await canLifetimeUserUseAi();
+      if (!canUse) {
+        return AiUsageCheckResult(
+          canUse: false,
+          limitType: AiLimitReason.lifetimeMonthlyLimit,
+          daysUntilReset: getDaysUntilMonthlyReset(),
+          resetDate: getNextMonthlyResetDate(),
+        );
+      }
+      return AiUsageCheckResult(canUse: true);
+    }
+
+    // 4. Pro subscriber → monthly limit
+    final canUse = await canProUserUseAi(false);
+    if (!canUse) {
+      return AiUsageCheckResult(
+        canUse: false,
+        limitType: AiLimitReason.proMonthlyLimit,
+        daysUntilReset: getDaysUntilMonthlyReset(),
+        resetDate: getNextMonthlyResetDate(),
+      );
+    }
+
+    return AiUsageCheckResult(canUse: true);
+  }
+
+  /// Unified consume: deduct one AI credit after a successful response
+  Future<void> consumeAiCredit(bool isPro) async {
+    // Always increment hourly usage
+    await incrementHourlyUsage();
+
+    if (!isPro) {
+      // Free user → daily counter
+      await incrementAiUsage();
+      return;
+    }
+
+    final isLifetime = await isLifetimeUser();
+    if (isLifetime) {
+      // Lifetime → monthly first, then extra credits
+      await useLifetimeAiCredit();
+    } else {
+      // Pro subscriber → monthly counter
+      await incrementMonthlyUsage();
+    }
+  }
+
   /// Dispose resources
   void dispose() {
     _proStatusController.close();
   }
+}
+
+/// Reason why AI usage was blocked
+enum AiLimitReason {
+  hourlyRateLimit,
+  freeDailyLimit,
+  proMonthlyLimit,
+  lifetimeMonthlyLimit,
+}
+
+/// Result of a unified AI usage check
+class AiUsageCheckResult {
+  final bool canUse;
+  final AiLimitReason? limitType;
+  final int? minutesUntilReset;
+  final int? daysUntilReset;
+  final DateTime? resetDate;
+
+  AiUsageCheckResult({
+    required this.canUse,
+    this.limitType,
+    this.minutesUntilReset,
+    this.daysUntilReset,
+    this.resetDate,
+  });
 }
 
 /// Result of a purchase operation

@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,6 +20,7 @@ import 'redirect_savings_sheet.dart';
 import 'multi_currency_pro_sheet.dart';
 import 'expense_form_chips.dart';
 import '../screens/voice_input_screen.dart';
+
 
 /// Full Expense Entry Bottom Sheet
 /// Contains: Date chips, Amount, Description (Smart Match), Category, Subcategory, Calculate button
@@ -1278,18 +1279,14 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
       minChildSize: 0.5,
       maxChildSize: 0.95,
       builder: (context, scrollController) {
-        return ClipRRect(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: VantBlur.medium, sigmaY: VantBlur.medium),
-            child: Container(
+        return Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    context.vantColors.surface.withValues(alpha: 0.95),
-                    context.vantColors.background.withValues(alpha: 0.98),
+                    context.vantColors.surface,
+                    context.vantColors.background,
                   ],
                 ),
                 borderRadius: const BorderRadius.vertical(
@@ -1397,8 +1394,6 @@ class _AddExpenseSheetState extends State<AddExpenseSheet>
                   ),
                 ],
               ),
-            ),
-          ),
         );
       },
     );

@@ -1,6 +1,4 @@
 import 'dart:math' as math;
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -63,6 +61,9 @@ class VantRadius {
 }
 
 // ── BLUR TIERS ──
+// NOTE: These constants are retained for reference but BackdropFilter is no
+// longer used in the app. Glass effects now rely on solid/semi-transparent
+// backgrounds and gradients instead of real-time blur.
 
 class VantBlur {
   VantBlur._();
@@ -312,11 +313,7 @@ class VGlassCard extends StatelessWidget {
             ),
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(borderRadius),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
-          child: Container(
+      child: Container(
             decoration: BoxDecoration(
               gradient: fill,
               borderRadius: BorderRadius.circular(borderRadius),
@@ -348,8 +345,6 @@ class VGlassCard extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      ),
     );
   }
 
@@ -426,13 +421,9 @@ class VGlassSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(topRadius)),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
-        child: Container(
+    return Container(
           decoration: BoxDecoration(
-            color: context.vantColors.surface.withValues(alpha: 0.95),
+            color: context.vantColors.surface,
             borderRadius: BorderRadius.vertical(top: Radius.circular(topRadius)),
             border: Border.all(
               color: const Color(0x15FFFFFF), // 8% white
@@ -455,8 +446,6 @@ class VGlassSheet extends StatelessWidget {
               Flexible(child: child),
             ],
           ),
-        ),
-      ),
     );
   }
 }
@@ -1375,22 +1364,15 @@ class _PremiumHeroCardState extends State<PremiumHeroCard>
                 ),
               ],
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(VantRadius.xxl),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: VantBlur.heavy,
-                  sigmaY: VantBlur.heavy,
-                ),
-                child: Container(
+            child: Container(
                   padding: VantSpacing.cardPaddingLarge,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        VantColors.primary.withValues(alpha: 0.25),
-                        VantColors.primary.withValues(alpha: 0.10),
+                        VantColors.primary.withValues(alpha: 0.45),
+                        VantColors.primary.withValues(alpha: 0.20),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(VantRadius.xxl),
@@ -1513,8 +1495,6 @@ class _PremiumHeroCardState extends State<PremiumHeroCard>
                     ],
                   ),
                 ),
-              ),
-            ),
           ),
         );
       },

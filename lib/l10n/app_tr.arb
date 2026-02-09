@@ -1644,6 +1644,14 @@
       "days": {"type": "int"}
     }
   },
+  "aiRateLimitTitle": "Biraz yavaşla!",
+  "aiRateLimitMessage": "Çok fazla istek gönderdin, biraz bekle.",
+  "aiRateLimitWait": "{minutes} dk bekle",
+  "@aiRateLimitWait": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
 
   "creditPurchaseTitle": "Kredi Satın Al",
   "creditPurchaseHeader": "AI Kredisi Yükle",

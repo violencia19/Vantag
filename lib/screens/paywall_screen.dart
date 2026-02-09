@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -357,20 +356,16 @@ class _PaywallScreenState extends State<PaywallScreen>
               ),
             ],
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(32),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-              child: Container(
+          child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 decoration: BoxDecoration(
-                  // iOS 26 Liquid Glass: Premium gradient
+                  // Solid gradient replacing glass blur
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      VantColors.primary.withValues(alpha: 0.5),
-                      VantColors.primaryLight.withValues(alpha: 0.3),
+                      VantColors.primary.withValues(alpha: 0.8),
+                      VantColors.primaryLight.withValues(alpha: 0.6),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(32),
@@ -411,8 +406,6 @@ class _PaywallScreenState extends State<PaywallScreen>
                   ],
                 ),
               ),
-            ),
-          ),
         );
       },
     );
@@ -433,22 +426,18 @@ class _PaywallScreenState extends State<PaywallScreen>
           ),
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(28),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Container(
+      child: Container(
             width: double.infinity,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              // iOS 26 Liquid Glass: Primary violet gradient
+              // Solid gradient replacing glass blur
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  VantColors.primary.withValues(alpha: 0.3),
-                  VantColors.primary.withValues(alpha: 0.15),
-                  const Color(0xFF1E1B4B).withValues(alpha: 0.25),
+                  VantColors.primary.withValues(alpha: 0.6),
+                  VantColors.primary.withValues(alpha: 0.35),
+                  const Color(0xFF1E1B4B).withValues(alpha: 0.5),
                 ],
                 stops: const [0.0, 0.5, 1.0],
               ),
@@ -533,8 +522,6 @@ class _PaywallScreenState extends State<PaywallScreen>
         ],
       ),
     ),
-  ),
-),
     );
   }
 

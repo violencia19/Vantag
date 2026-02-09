@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -102,18 +102,11 @@ class _ResultCardState extends State<ResultCard>
               ),
             ],
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(VantRadius.xxl + 4),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: VantBlur.heavy,
-                sigmaY: VantBlur.heavy,
-              ),
-              child: Container(
+          child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(VantRadius.xxl + 4),
-                  // Premium glass gradient
+                  // Premium gradient
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -189,8 +182,6 @@ class _ResultCardState extends State<ResultCard>
                   ],
                 ),
               ),
-            ),
-          ),
         );
       },
     );

@@ -4,13 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import '../theme/theme.dart';
 import '../screens/paywall_screen.dart';
-import '../screens/credit_purchase_screen.dart';
 
 /// AI Limit Dialog Types
 enum AILimitType {
   free, // 5/day limit reached
   proSubscription, // 500/month limit reached
-  lifetime, // 100/month limit reached (can buy credits)
+  lifetime, // 200/month limit reached
+  rateLimit, // 20/hour rate limit reached
 }
 
 /// Shows AI limit dialog based on user type
@@ -21,6 +21,7 @@ class AILimitDialog {
     required AILimitType type,
     int? daysUntilReset,
     DateTime? resetDate,
+    int? minutesUntilReset,
   }) {
     return showDialog(
       context: context,
@@ -30,6 +31,7 @@ class AILimitDialog {
         type: type,
         daysUntilReset: daysUntilReset,
         resetDate: resetDate,
+        minutesUntilReset: minutesUntilReset,
       ),
     );
   }
@@ -39,11 +41,13 @@ class _AILimitDialogContent extends StatelessWidget {
   final AILimitType type;
   final int? daysUntilReset;
   final DateTime? resetDate;
+  final int? minutesUntilReset;
 
   const _AILimitDialogContent({
     required this.type,
     this.daysUntilReset,
     this.resetDate,
+    this.minutesUntilReset,
   });
 
   @override
@@ -98,8 +102,8 @@ class _AILimitDialogContent extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
 
-              // Reset date info (for Pro/Lifetime)
-              if (type != AILimitType.free && resetDate != null) ...[
+              // Reset date info (for Pro/Lifetime, not for rateLimit)
+              if (type != AILimitType.free && type != AILimitType.rateLimit && resetDate != null) ...[
                 const SizedBox(height: 16),
                 _buildResetInfo(context, l10n),
               ],
@@ -110,10 +114,8 @@ class _AILimitDialogContent extends StatelessWidget {
               _buildPrimaryButton(context, l10n),
 
               // Secondary text/button
-              if (type != AILimitType.proSubscription) ...[
-                const SizedBox(height: 12),
-                _buildSecondaryAction(context, l10n),
-              ],
+              const SizedBox(height: 12),
+              _buildSecondaryAction(context, l10n),
             ],
           ),
         ),
@@ -133,6 +135,9 @@ class _AILimitDialogContent extends StatelessWidget {
       case AILimitType.lifetime:
         icon = CupertinoIcons.hourglass;
         color = context.vantColors.primary;
+      case AILimitType.rateLimit:
+        icon = CupertinoIcons.timer;
+        color = context.vantColors.warning;
     }
 
     return Container(
@@ -157,6 +162,8 @@ class _AILimitDialogContent extends StatelessWidget {
       case AILimitType.proSubscription:
       case AILimitType.lifetime:
         return l10n.aiLimitProTitleEmoji;
+      case AILimitType.rateLimit:
+        return l10n.aiRateLimitTitle;
     }
   }
 
@@ -168,6 +175,8 @@ class _AILimitDialogContent extends StatelessWidget {
         return l10n.aiLimitProMessage;
       case AILimitType.lifetime:
         return l10n.aiLimitLifetimeMessage;
+      case AILimitType.rateLimit:
+        return l10n.aiRateLimitMessage;
     }
   }
 
@@ -229,6 +238,8 @@ class _AILimitDialogContent extends StatelessWidget {
         );
 
       case AILimitType.proSubscription:
+      case AILimitType.lifetime:
+      case AILimitType.rateLimit:
         return SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -251,27 +262,20 @@ class _AILimitDialogContent extends StatelessWidget {
             ),
           ),
         );
-
-      case AILimitType.lifetime:
-        return _GradientButton(
-          onPressed: () {
-            HapticFeedback.mediumImpact();
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const CreditPurchaseScreen()),
-            );
-          },
-          icon: CupertinoIcons.battery_charging,
-          label: l10n.aiLimitBuyCredits,
-        );
     }
   }
 
   Widget _buildSecondaryAction(BuildContext context, AppLocalizations l10n) {
-    final text = type == AILimitType.free
-        ? l10n.aiLimitTryTomorrow
-        : l10n.aiLimitOrWaitDays(daysUntilReset ?? 0);
+    final String text;
+    switch (type) {
+      case AILimitType.free:
+        text = l10n.aiLimitTryTomorrow;
+      case AILimitType.proSubscription:
+      case AILimitType.lifetime:
+        text = l10n.aiLimitOrWaitDays(daysUntilReset ?? 0);
+      case AILimitType.rateLimit:
+        text = l10n.aiRateLimitWait(minutesUntilReset ?? 0);
+    }
 
     return TextButton(
       onPressed: () {

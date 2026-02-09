@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -197,12 +197,7 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                         ),
                       ],
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(28),
-                      child: BackdropFilter(
-                        // iOS 26: Enhanced 30σ blur
-                        filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-                        child: Container(
+                    child: Container(
                           padding: const EdgeInsets.all(24),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(VantRadius.xxl + 4),
@@ -503,8 +498,6 @@ class _FinancialSnapshotCardState extends State<FinancialSnapshotCard>
                           ],
                         ),
                       ),
-                    ),
-                  ),
                 );
               },
             ),
@@ -864,23 +857,10 @@ class CompactFinancialBadge extends StatelessWidget {
             ),
           ],
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(24),
-          child: BackdropFilter(
-            // iOS 26: Enhanced blur
-            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-            child: Container(
+        child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                // iOS 26 Liquid Glass gradient
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.white.withValues(alpha: 0.08),
-                    Colors.white.withValues(alpha: 0.04),
-                  ],
-                ),
+                color: Colors.black.withValues(alpha: 0.85),
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
                   color: (isHealthy
@@ -938,8 +918,6 @@ class CompactFinancialBadge extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      ),
       ),
     );
   }

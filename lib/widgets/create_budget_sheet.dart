@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -201,11 +200,7 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
       minChildSize: 0.4,
       maxChildSize: 0.85,
       builder: (context, scrollController) {
-        return ClipRRect(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
+        return Container(
               decoration: BoxDecoration(
                 color: context.vantColors.gradientMid,
                 borderRadius: const BorderRadius.vertical(
@@ -553,8 +548,6 @@ class _CreateBudgetSheetState extends State<CreateBudgetSheet> {
                   ),
                 ],
               ),
-            ),
-          ),
         );
       },
     );

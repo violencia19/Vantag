@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -223,11 +222,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           width: 0.5,
         ),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Row(
+      child: Row(
             children: [
               // Monthly total
               Expanded(
@@ -296,8 +291,6 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               ),
             ],
           ),
-        ),
-      ),
     );
   }
 

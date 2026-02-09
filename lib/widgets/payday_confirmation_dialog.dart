@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -157,11 +156,7 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
 
     return Dialog(
       backgroundColor: Colors.transparent,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Container(
+      child: Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               color: context.vantColors.surface,
@@ -360,8 +355,6 @@ class _PaydayConfirmationDialogState extends State<PaydayConfirmationDialog>
               ],
             ),
           ),
-        ),
-      ),
     );
   }
 }

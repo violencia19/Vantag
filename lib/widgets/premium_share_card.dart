@@ -411,14 +411,10 @@ class _PremiumShareCardState extends State<PremiumShareCard>
   }
 
   Widget _buildAmountCard(AppLocalizations l10n) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
+    return Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.08),
+            color: Colors.white.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: Colors.white.withValues(alpha: 0.1),
@@ -445,8 +441,6 @@ class _PremiumShareCardState extends State<PremiumShareCard>
               if (widget.decision != null) _buildDecisionIndicator(),
             ],
           ),
-        ),
-      ),
     );
   }
 
@@ -1848,14 +1842,10 @@ class _HabitShareCardState extends State<HabitShareCard>
   }
 
   Widget _buildInfoCards(AppLocalizations l10n) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
+    return Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.08),
+            color: Colors.white.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: Colors.white.withValues(alpha: 0.1),
@@ -1909,8 +1899,6 @@ class _HabitShareCardState extends State<HabitShareCard>
               ],
             ],
           ),
-        ),
-      ),
     );
   }
 

@@ -2010,6 +2010,14 @@
       "days": {"type": "int"}
     }
   },
+  "aiRateLimitTitle": "Slow down!",
+  "aiRateLimitMessage": "You've sent too many requests. Please wait a moment before trying again.",
+  "aiRateLimitWait": "Wait {minutes} min",
+  "@aiRateLimitWait": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
 
   "creditPurchaseTitle": "Buy Credits",
   "creditPurchaseHeader": "Top Up AI Credits",

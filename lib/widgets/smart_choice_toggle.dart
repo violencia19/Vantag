@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
@@ -154,15 +154,11 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                   ]
                 : null,
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
+          child: Container(
                 decoration: BoxDecoration(
                   color: _isExpanded
                       ? VantColors.medalGold.withValues(alpha: 0.1)
-                      : context.vantColors.surface.withValues(alpha: 0.8),
+                      : context.vantColors.surface,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: _isExpanded
@@ -335,8 +331,6 @@ class _SmartChoiceToggleState extends State<SmartChoiceToggle>
                   ],
                 ),
               ),
-            ),
-          ),
         );
       },
     );

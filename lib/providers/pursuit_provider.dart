@@ -253,6 +253,16 @@ class PursuitProvider extends ChangeNotifier {
     return await _service.canCreatePursuit(isPremium);
   }
 
+  /// Reset all data (for account deletion)
+  Future<void> resetAllData() async {
+    await _service.clearAll();
+    _pursuits = [];
+    _isInitialized = false;
+    _isLoading = false;
+    _error = null;
+    notifyListeners();
+  }
+
   /// Clear error state
   void clearError() {
     _error = null;

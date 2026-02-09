@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -67,11 +66,7 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
     // Currency-aware quick amount chips
     final quickAmounts = _getQuickAmounts(currencyProvider.code);
 
-    return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: VantBlur.medium, sigmaY: VantBlur.medium),
-        child: Container(
+    return Container(
       decoration: BoxDecoration(
         color: context.vantColors.surface.withValues(alpha: 0.95),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
@@ -275,8 +270,6 @@ class _AddSavingsSheetState extends State<AddSavingsSheet> {
           ),
         ),
       ),
-    ),
-    ),
     );
   }
 

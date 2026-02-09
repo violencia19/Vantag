@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vantag/l10n/app_localizations.dart';
 import 'package:vantag/providers/pro_provider.dart';
 import 'package:vantag/screens/paywall_screen.dart';
 import 'package:vantag/services/purchase_service.dart';
 import 'package:vantag/theme/theme.dart';
+import 'package:vantag/widgets/ai_limit_dialog.dart';
 
 /// Types of Pro features that can be gated
 enum ProFeature { aiChat, fullHistory, export, widgets }
@@ -121,80 +123,63 @@ class ProFeatureGate extends StatelessWidget {
     return result ?? false;
   }
 
-  /// Check if AI chat is available (with limit check for free users)
+  /// Check if AI chat is available (unified check for all users)
   static Future<bool> canUseAiChat(BuildContext context) async {
     final proProvider = context.read<ProProvider>();
+    final isPro = proProvider.isPro;
 
-    if (proProvider.isPro) return true;
+    final result = await PurchaseService().canUserUseAi(isPro);
 
-    final canUse = await PurchaseService().canUseAiChat(false);
-
-    if (!canUse && context.mounted) {
-      _showAiLimitDialog(context);
+    if (!result.canUse && context.mounted) {
+      HapticFeedback.heavyImpact();
+      AILimitDialog.show(
+        context,
+        type: _mapLimitReason(result.limitType!),
+        daysUntilReset: result.daysUntilReset,
+        resetDate: result.resetDate,
+        minutesUntilReset: result.minutesUntilReset,
+      );
       return false;
     }
 
     return true;
   }
 
-  /// Increment AI usage and check if limit reached
+  /// Check limit and consume one AI credit
   static Future<bool> useAiChat(BuildContext context) async {
     final proProvider = context.read<ProProvider>();
+    final isPro = proProvider.isPro;
 
-    if (proProvider.isPro) return true;
+    final result = await PurchaseService().canUserUseAi(isPro);
 
-    final canUse = await PurchaseService().canUseAiChat(false);
-
-    if (!canUse && context.mounted) {
-      _showAiLimitDialog(context);
+    if (!result.canUse && context.mounted) {
+      HapticFeedback.heavyImpact();
+      AILimitDialog.show(
+        context,
+        type: _mapLimitReason(result.limitType!),
+        daysUntilReset: result.daysUntilReset,
+        resetDate: result.resetDate,
+        minutesUntilReset: result.minutesUntilReset,
+      );
       return false;
     }
 
-    // Increment usage
-    await PurchaseService().incrementAiUsage();
+    await PurchaseService().consumeAiCredit(isPro);
     return true;
   }
 
-  /// Show AI limit reached dialog
-  static void _showAiLimitDialog(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: context.vantColors.cardBackground,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        title: Row(
-          children: [
-            Icon(CupertinoIcons.sparkles, color: context.vantColors.primary),
-            const SizedBox(width: 12),
-            Text(l10n.aiLimitReached),
-          ],
-        ),
-        content: Text(
-          l10n.aiLimitMessage(
-            PurchaseService.freeAiChatLimit,
-            PurchaseService.freeAiChatLimit,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(l10n.cancel),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              showPaywall(context, feature: ProFeature.aiChat);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: context.vantColors.primary,
-            ),
-            child: Text(l10n.subscribeToPro),
-          ),
-        ],
-      ),
-    );
+  /// Map AiLimitReason to AILimitType for the dialog
+  static AILimitType _mapLimitReason(AiLimitReason reason) {
+    switch (reason) {
+      case AiLimitReason.hourlyRateLimit:
+        return AILimitType.rateLimit;
+      case AiLimitReason.freeDailyLimit:
+        return AILimitType.free;
+      case AiLimitReason.proMonthlyLimit:
+        return AILimitType.proSubscription;
+      case AiLimitReason.lifetimeMonthlyLimit:
+        return AILimitType.lifetime;
+    }
   }
 
   /// Show history limit dialog

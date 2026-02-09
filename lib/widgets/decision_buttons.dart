@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:vantag/l10n/app_localizations.dart';
@@ -210,11 +210,7 @@ class _AnimatedDecisionButtonState extends State<_AnimatedDecisionButton>
                           ]
                         : null,
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(VantRadius.lg),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                      child: Container(
+                  child: Container(
                         constraints: const BoxConstraints(minHeight: 88),
                         padding: const EdgeInsets.symmetric(
                           vertical: 16,
@@ -285,8 +281,6 @@ class _AnimatedDecisionButtonState extends State<_AnimatedDecisionButton>
                           ],
                         ),
                       ),
-                    ),
-                  ),
                 ),
               ),
             ),
