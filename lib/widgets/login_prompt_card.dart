@@ -7,69 +7,36 @@ import 'package:vantag/l10n/app_localizations.dart';
 import '../services/auth_service.dart';
 import '../theme/theme.dart';
 
-/// Paints the official Google "G" logo using SVG paths with brand colors
-class _GoogleLogoPainter extends CustomPainter {
+/// Google "G" icon using a styled Text widget with Google brand colors
+class _GoogleGIcon extends StatelessWidget {
+  final double size;
+  const _GoogleGIcon({required this.size});
+
   @override
-  void paint(Canvas canvas, Size size) {
-    // Scale to fit the canvas (paths are based on 48x48 viewBox)
-    final scale = size.width / 48.0;
-    canvas.scale(scale, scale);
-
-    // Blue section (right side + crossbar)
-    final bluePath = Path()
-      ..moveTo(43.611, 20.083)
-      ..lineTo(43.611, 20.083)
-      ..cubicTo(43.611, 18.683, 43.492, 17.329, 43.265, 16.025)
-      ..lineTo(24.0, 16.025)
-      ..lineTo(24.0, 23.648)
-      ..lineTo(35.012, 23.648)
-      ..cubicTo(34.504, 26.357, 32.914, 28.657, 30.565, 30.168)
-      ..lineTo(30.565, 35.568)
-      ..cubicTo(37.392, 32.768, 43.611, 27.168, 43.611, 20.083)
-      ..close();
-    canvas.drawPath(bluePath, Paint()..color = const Color(0xFF4285F4));
-
-    // Green section (bottom-right)
-    final greenPath = Path()
-      ..moveTo(24.0, 44.0)
-      ..cubicTo(30.48, 44.0, 35.944, 41.843, 30.565, 35.568)
-      ..lineTo(30.565, 35.568)
-      ..cubicTo(28.216, 37.079, 26.316, 37.925, 24.0, 37.925)
-      ..cubicTo(17.836, 37.925, 12.62, 33.527, 10.906, 27.735)
-      ..lineTo(4.0, 27.735)
-      ..lineTo(4.0, 33.335)
-      ..cubicTo(8.443, 40.182, 15.664, 44.0, 24.0, 44.0)
-      ..close();
-    canvas.drawPath(greenPath, Paint()..color = const Color(0xFF34A853));
-
-    // Yellow section (bottom-left)
-    final yellowPath = Path()
-      ..moveTo(10.906, 27.735)
-      ..cubicTo(10.406, 26.235, 10.125, 24.644, 10.125, 23.0)
-      ..cubicTo(10.125, 21.356, 10.406, 19.765, 10.906, 18.265)
-      ..lineTo(10.906, 18.265)
-      ..lineTo(4.0, 12.665)
-      ..cubicTo(2.328, 16.0, 1.375, 19.394, 1.375, 23.0)
-      ..cubicTo(1.375, 26.606, 2.328, 30.0, 4.0, 33.335)
-      ..lineTo(10.906, 27.735)
-      ..close();
-    canvas.drawPath(yellowPath, Paint()..color = const Color(0xFFFBBC05));
-
-    // Red section (top)
-    final redPath = Path()
-      ..moveTo(24.0, 8.075)
-      ..cubicTo(27.444, 8.075, 30.08, 9.231, 32.485, 11.219)
-      ..lineTo(37.564, 6.14)
-      ..cubicTo(34.744, 3.533, 30.48, 2.0, 24.0, 2.0)
-      ..cubicTo(15.664, 2.0, 8.443, 5.818, 4.0, 12.665)
-      ..lineTo(10.906, 18.265)
-      ..cubicTo(12.62, 12.473, 17.836, 8.075, 24.0, 8.075)
-      ..close();
-    canvas.drawPath(redPath, Paint()..color = const Color(0xFFEA4335));
+  Widget build(BuildContext context) {
+    return ShaderMask(
+      shaderCallback: (bounds) => const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color(0xFFEA4335), // Red
+          Color(0xFFFBBC05), // Yellow
+          Color(0xFF34A853), // Green
+          Color(0xFF4285F4), // Blue
+        ],
+        stops: [0.0, 0.33, 0.66, 1.0],
+      ).createShader(bounds),
+      blendMode: BlendMode.srcIn,
+      child: Text(
+        'G',
+        style: TextStyle(
+          fontSize: size,
+          fontWeight: FontWeight.w700,
+          height: 1.0,
+        ),
+      ),
+    );
   }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 /// Login prompt card shown to users who haven't linked their account
@@ -208,11 +175,8 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                         color: context.vantColors.surfaceLight,
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: Center(
-                        child: CustomPaint(
-                          size: const Size(24, 24),
-                          painter: _GoogleLogoPainter(),
-                        ),
+                      child: const Center(
+                        child: _GoogleGIcon(size: 24),
                       ),
                     ),
                     if (showApple) ...[
@@ -271,10 +235,7 @@ class _LoginPromptCardState extends State<LoginPromptCard> {
                       child: _buildLoginButton(
                         onTap: _signInWithGoogle,
                         isLoading: _isLoadingGoogle,
-                        iconWidget: CustomPaint(
-                          size: const Size(18, 18),
-                          painter: _GoogleLogoPainter(),
-                        ),
+                        iconWidget: const _GoogleGIcon(size: 18),
                         label: l10n.linkWithGoogle,
                         isPrimary: true,
                       ),
